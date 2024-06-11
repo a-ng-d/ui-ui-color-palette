@@ -37,7 +37,7 @@ export default function App() {
       
       if (session && localStorage.getItem('passkey') !== null) {
         fetch(
-          `WORKER_URL`,
+          `REACT_APP_WORKER_URL`,
           {
             headers: {
               'type': 'SEND_TOKENS',
