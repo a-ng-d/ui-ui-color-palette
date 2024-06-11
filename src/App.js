@@ -61,7 +61,7 @@ export default function App() {
     return () => subscription.unsubscribe()
   }, [action])
 
-  const [theme, setTheme] = useState(
+  const [theme] = useState(
     window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
   )
 
