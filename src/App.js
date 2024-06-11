@@ -1,25 +1,193 @@
-import logo from './logo.svg';
-import './App.css';
+import './index.css'
+import { useState, useEffect } from 'react'
+import { createClient } from '@supabase/supabase-js'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
+import { tokens, uicpTheme } from './Themes'
+import { ReactComponent as Logo } from './logo.svg'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+const supabase = createClient('https://zclweepgvqkrelyfwhma.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjbHdlZXBndnFrcmVseWZ3aG1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3NDI0NjIsImV4cCI6MjAyMjMxODQ2Mn0.EqxJsGA3LcJEpBPUhMriiSDyaj6GeB5zjhchSWT6sgA')
+
+export default function App() {
+  let view = null
+  const [session, setSession] = useState(null)
+  const passkey =  new URLSearchParams(
+    window.location.search
+  ).get('passkey') ?? null
+
+  const action =  new URLSearchParams(
+    window.location.search
+  ).get('action') ?? null
+
+  if (passkey != null) localStorage.setItem('passkey', passkey)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      console.log(session)
+
+      if (session && action === 'sign_out') {
+        const { error } = supabase.auth.signOut({
+          scope: 'local'
+        })
+        if (!error) setSession(null)
+      }
+      
+      if (session && localStorage.getItem('passkey') !== null) {
+        fetch(
+          `https://hook.eu1.make.com/s02o2bjkknapgjidnp5bko7duc5w6t65`,
+          {
+            headers: {
+              'type': 'SEND_TOKENS',
+              'passkey': localStorage.getItem('passkey'),
+              'tokens': JSON.stringify(session)
+            }
+          }
+        )
+        .catch((error) => console.log(error))
+      }
+
+      setSession(session)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [action])
+
+  const [theme, setTheme] = useState(
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
+  )
+
+  if (!session) {
+    view = (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          maxWidth: '400px',
+          width: '100%',
+          gap: '32px',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+          <Logo
+            style={{
+              width: '64px',
+              height: '64px',
+              marginBottom: '16px',
+              fill: theme === 'default'
+                ? tokens.theme.colors.primary.light['900']
+                : tokens.theme.colors.primary.dark['source'],
+              margin: '0'
+            }}
+          />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}
+          >
+            <h1
+              style={{
+                color: theme === 'default'
+                  ? tokens.theme.colors.primary.light['900']
+                  : tokens.theme.colors.primary.dark['source'],
+                fontSize: '32px',
+                fontWeight: '700',
+                fontFamily: '"Red Hat Mono", monospace',
+                margin: '0',
+                lineHeight: '1.1',
+              }}
+            >
+              Start exploring palettes
+            </h1>
+            <p
+              style={{
+                color: theme === 'default'
+                  ? tokens.theme.colors.primary.light['900']
+                  : tokens.theme.colors.primary.dark['source'],
+                fontSize: '16px',
+                fontWeight: '600',
+                fontFamily: '"Lexend", sans-serif',
+                margin: '0',
+                lineHeight: '1.5',
+              }}
+            >
+              Sign in to UI Color Palette
+            </p>
+          </div>
+        </div>
+        <div
+          style={{
+            padding: '16px',
+            backgroundColor: theme === 'default'
+              ? tokens.theme.colors.primary.light['50']
+              : tokens.theme.colors.primary.dark['900'],
+            borderRadius: '8px',
+            border: `2px solid ${theme === 'default'
+              ? tokens.theme.colors.primary.light['900']
+              : tokens.theme.colors.primary.dark['source']}`,
+            width: '100%',
+            boxSizing: 'border-box',
+          }}
+        >
+          <Auth
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              variables: uicpTheme,
+            }}
+            theme={theme}
+            providers={['figma']}
+          />
+        </div>
+      </div>
+    )
+  }
+  else {
+    view = (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          maxWidth: '400px',
+          width: '100%',
+        }}
+      >
+        <div>Logged in!</div>
+      </div> 
+    )
+  }
 
-export default App;
+  return (
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme === 'default'
+          ? tokens.theme.colors.primary.light['50']
+          : tokens.theme.colors.primary.dark['900'],
+        padding: '16px',
+        boxSizing: 'border-box',
+      }}
+    >
+      {view}
+    </div>
+  )
+}
