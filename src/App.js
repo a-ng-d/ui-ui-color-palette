@@ -6,7 +6,10 @@ import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { tokens, uicpTheme } from './Themes'
 import { ReactComponent as Logo } from './logo.svg'
 
-const supabase = createClient('https://zclweepgvqkrelyfwhma.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjbHdlZXBndnFrcmVseWZ3aG1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3NDI0NjIsImV4cCI6MjAyMjMxODQ2Mn0.EqxJsGA3LcJEpBPUhMriiSDyaj6GeB5zjhchSWT6sgA')
+const supabase = createClient(
+  process.env.SUPABASE_ANON_KEY,
+  process.env.SUPABASE_URL
+)
 
 export default function App() {
   let view = null
@@ -34,7 +37,7 @@ export default function App() {
       
       if (session && localStorage.getItem('passkey') !== null) {
         fetch(
-          `https://hook.eu1.make.com/s02o2bjkknapgjidnp5bko7duc5w6t65`,
+          `WORKER_URL`,
           {
             headers: {
               'type': 'SEND_TOKENS',
