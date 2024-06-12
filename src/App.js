@@ -170,7 +170,52 @@ export default function App() {
           width: '100%',
         }}
       >
-        <div>Logged in!</div>
+        <div
+          style={{
+            padding: '16px',
+            backgroundColor: theme === 'default'
+              ? tokens.theme.colors.primary.light['50']
+              : tokens.theme.colors.primary.dark['900'],
+            borderRadius: '8px',
+            border: `2px solid ${theme === 'default'
+              ? tokens.theme.colors.primary.light['900']
+              : tokens.theme.colors.primary.dark['source']}`,
+            width: '100%',
+            boxSizing: 'border-box',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+          }}
+        >
+          <h1
+            style={{
+              color: theme === 'default'
+                ? tokens.theme.colors.primary.light['900']
+                : tokens.theme.colors.primary.dark['source'],
+              fontSize: '32px',
+              fontWeight: '700',
+              fontFamily: '"Red Hat Mono", monospace',
+              margin: '0',
+              lineHeight: '1.1',
+            }}
+          >
+            You are authenticated!
+          </h1>
+          <h2
+            style={{
+              color: theme === 'default'
+                ? tokens.theme.colors.primary.light['900']
+                : tokens.theme.colors.primary.dark['source'],
+              fontSize: '16px',
+              fontWeight: '500',
+              fontFamily: '"Lexend", monospace',
+              margin: '0',
+              lineHeight: '1.5',
+            }}
+          >
+            You can close the tab.
+          </h2>
+        </div>
       </div> 
     )
   }
