@@ -154,6 +154,7 @@ export default function App() {
             }}
             theme={theme}
             providers={['figma']}
+            isOnlySocial
           />
         </div>
       </div>
