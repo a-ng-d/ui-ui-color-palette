@@ -190,9 +190,16 @@ export default function App() {
               theme: ThemeSupa,
               variables: uicpTheme,
             }}
+            localization={{
+              variables: {
+                sign_in: {
+                  social_provider_text: 'Continue with {{provider}}',
+                },
+              },
+            }}
             theme={theme}
             providers={['figma']}
-            isOnlySocial
+            onlyThirdPartyProviders
           />
         </div>
         <p
