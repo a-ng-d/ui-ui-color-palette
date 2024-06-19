@@ -11,12 +11,71 @@ const supabase = createClient(
   process.env.REACT_APP_SUPABASE_ANON_KEY
 )
 
+const logoStyle = {
+  width: '64px',
+  height: '64px',
+  marginBottom: '16px',
+  margin: '0',
+}
+
+const titleStyle = {
+  fontSize: '32px',
+  fontWeight: '700',
+  fontFamily: '"Red Hat Mono", monospace',
+  margin: '0',
+  lineHeight: '1.1',
+}
+
+const subtitleStyle = {
+  fontSize: '16px',
+  fontWeight: '600',
+  fontFamily: '"Lexend", sans-serif',
+  margin: '0',
+  lineHeight: '1.5',
+}
+
+const paragraphStyle = {
+  fontSize: '16px',
+  fontWeight: '500',
+  fontFamily: '"Lexend", sans-serif',
+  margin: '0',
+  lineHeight: '1.5',
+}
+
+const linkStyle = {
+  textDecoration: 'underline',
+}
+
+const cardStyle = {
+  padding: '16px',
+  borderRadius: '8px',
+  width: '100%',
+  boxSizing: 'border-box',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+}
+
+const stackbarStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px',
+}
+
+const mainStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  maxWidth: '400px',
+  width: '100%',
+  gap: '32px',
+}
+
 export default function App() {
   let view = null
   const [session, setSession] = useState(null)
   const passkey =
     new URLSearchParams(window.location.search).get('passkey') ?? null
-
   const action =
     new URLSearchParams(window.location.search).get('action') ?? null
 
@@ -65,87 +124,64 @@ export default function App() {
     view = (
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          maxWidth: '400px',
-          width: '100%',
-          gap: '32px',
+          ...mainStyle,
         }}
       >
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
+            ...stackbarStyle,
           }}
         >
           <Logo
             style={{
-              width: '64px',
-              height: '64px',
-              marginBottom: '16px',
+              ...logoStyle,
               fill:
                 theme === 'default'
                   ? tokens.theme.colors.primary.light['900']
                   : tokens.theme.colors.primary.dark['source'],
-              margin: '0',
             }}
           />
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
+              ...stackbarStyle,
             }}
           >
             <h1
               style={{
+                ...titleStyle,
                 color:
                   theme === 'default'
                     ? tokens.theme.colors.primary.light['900']
                     : tokens.theme.colors.primary.dark['source'],
-                fontSize: '32px',
-                fontWeight: '700',
-                fontFamily: '"Red Hat Mono", monospace',
-                margin: '0',
-                lineHeight: '1.1',
               }}
             >
               Start exploring palettes
             </h1>
-            <p
+            <h2
               style={{
+                ...subtitleStyle,
                 color:
                   theme === 'default'
                     ? tokens.theme.colors.primary.light['900']
                     : tokens.theme.colors.primary.dark['source'],
-                fontSize: '16px',
-                fontWeight: '600',
-                fontFamily: '"Lexend", sans-serif',
-                margin: '0',
-                lineHeight: '1.5',
               }}
             >
               Sign in to UI Color Palette
-            </p>
+            </h2>
           </div>
         </div>
         <div
           style={{
-            padding: '16px',
+            ...cardStyle,
             backgroundColor:
               theme === 'default'
                 ? tokens.theme.colors.primary.light['50']
                 : tokens.theme.colors.primary.dark['900'],
-            borderRadius: '8px',
             border: `2px solid ${
               theme === 'default'
                 ? tokens.theme.colors.primary.light['900']
                 : tokens.theme.colors.primary.dark['source']
             }`,
-            width: '100%',
-            boxSizing: 'border-box',
           }}
         >
           <Auth
@@ -159,65 +195,99 @@ export default function App() {
             isOnlySocial
           />
         </div>
+        <p
+          style={{
+            ...paragraphStyle,
+            color:
+              theme === 'default'
+                ? tokens.theme.colors.primary.light['900']
+                : tokens.theme.colors.primary.dark['source'],
+          }}
+        >
+          By continuing, you agree with our{' '}
+          <a
+            href="https://uicp.link/terms"
+            style={{
+              ...linkStyle,
+              color:
+                theme === 'default'
+                  ? tokens.theme.colors.primary.light['300']
+                  : tokens.theme.colors.primary.dark['400'],
+            }}
+          >
+            Terms and Conditions
+          </a>{' '}
+          and our{' '}
+          <a
+            href="https://uicp.link/privacy"
+            style={{
+              ...linkStyle,
+              color:
+                theme === 'default'
+                  ? tokens.theme.colors.primary.light['300']
+                  : tokens.theme.colors.primary.dark['400'],
+            }}
+          >
+            Privacy Policy
+          </a>
+          .
+        </p>
       </div>
     )
   } else {
     view = (
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          maxWidth: '400px',
-          width: '100%',
+          ...mainStyle,
         }}
       >
         <div
           style={{
-            padding: '16px',
+            ...stackbarStyle,
+          }}
+        >
+          <Logo
+            style={{
+              ...logoStyle,
+              fill:
+                theme === 'default'
+                  ? tokens.theme.colors.primary.light['900']
+                  : tokens.theme.colors.primary.dark['source'],
+            }}
+          />
+        </div>
+        <div
+          style={{
+            ...cardStyle,
             backgroundColor:
               theme === 'default'
                 ? tokens.theme.colors.primary.light['50']
                 : tokens.theme.colors.primary.dark['900'],
-            borderRadius: '8px',
             border: `2px solid ${
               theme === 'default'
                 ? tokens.theme.colors.primary.light['900']
                 : tokens.theme.colors.primary.dark['source']
             }`,
-            width: '100%',
-            boxSizing: 'border-box',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
           }}
         >
           <h1
             style={{
+              ...titleStyle,
               color:
                 theme === 'default'
                   ? tokens.theme.colors.primary.light['900']
                   : tokens.theme.colors.primary.dark['source'],
-              fontSize: '32px',
-              fontWeight: '700',
-              fontFamily: '"Red Hat Mono", monospace',
-              margin: '0',
-              lineHeight: '1.1',
             }}
           >
             You are authenticated!
           </h1>
           <h2
             style={{
+              ...subtitleStyle,
               color:
                 theme === 'default'
                   ? tokens.theme.colors.primary.light['900']
                   : tokens.theme.colors.primary.dark['source'],
-              fontSize: '16px',
-              fontWeight: '500',
-              fontFamily: '"Lexend", monospace',
-              margin: '0',
-              lineHeight: '1.5',
             }}
           >
             You can close the tab.
