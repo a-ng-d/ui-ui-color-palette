@@ -1,4 +1,8 @@
 name = "oauth"
-main = "src/worker.js"
+main = "src/worker.ts"
 compatibility_date = "2024-08-27"
 workers_dev = true
+node_compat = true
+kv_namespaces = [
+    { binding = "YELBOLT_AUTH_KV", id = "29b4f175524147feb0ca8fa242ee374d" }
+]

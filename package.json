@@ -8,6 +8,11 @@
     "start": "wrangler dev"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "wrangler": "^3.60.3"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20240821.1",
+    "crypto-js": "^4.2.0"
   }
 }
