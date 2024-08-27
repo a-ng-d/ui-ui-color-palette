@@ -94,6 +94,7 @@ export default function App() {
 
       if (session && localStorage.getItem('passkey') !== null) {
         fetch(process.env.REACT_APP_WORKER_URL, {
+          method: 'POST',
           headers: {
             type: 'SEND_TOKENS',
             passkey: localStorage.getItem('passkey'),
