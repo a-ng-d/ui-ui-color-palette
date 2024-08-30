@@ -134,7 +134,7 @@ export default {
                 message: 'No token found',
               }) as BodyInit,
               {
-                status: 404,
+                status: 200,
                 headers: {
                   'Access-Control-Allow-Origin': '*',
                 },
