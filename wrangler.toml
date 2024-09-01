@@ -1,4 +1,6 @@
-name = "notion-announcements"
-main = "src/worker.js"
+name = "announcements"
+main = "src/worker.ts"
 compatibility_date = "2024-09-01"
 workers_dev = true
+node_compat = true
+[NOTION_API_KEY]

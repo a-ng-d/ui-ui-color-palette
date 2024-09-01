@@ -1,5 +1,5 @@
 {
-  "name": "notion-announcements",
+  "name": "announcements",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "wrangler": "^3.60.3"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15"
   }
 }
