@@ -83,13 +83,13 @@ export default function App() {
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      console.log(session)
+      //console.log(session)
 
       if (session && action === 'sign_out') {
-        const { error } = supabase.auth.signOut({
+        const { error } = await supabase.auth.signOut({
           scope: 'local',
         })
-        if (!error) setSession(null)
+        if (!error) return setSession(null)
       }
 
       if (session && localStorage.getItem('passkey') !== null) {
@@ -103,7 +103,7 @@ export default function App() {
         }).catch((error) => console.log(error))
       }
 
-      setSession(session)
+      return setSession(session)
     })
 
     const {
