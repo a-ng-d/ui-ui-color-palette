@@ -4,6 +4,12 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url)
 
+    if (url.pathname === '/favicon.ico') {
+      return new Response(null, {
+        status: 204, // No Content
+      })
+    }
+
     if (url.searchParams.get('action') === 'get_version') {
       try {
         const notion = new Client({
