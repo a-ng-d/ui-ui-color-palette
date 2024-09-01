@@ -4,6 +4,18 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url)
 
+    // Handle CORS preflight requests
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, baggage, sentry-trace',
+        },
+      })
+    }
+
     if (url.pathname === '/favicon.ico') {
       return new Response(null, {
         status: 204, // No Content
@@ -75,11 +87,17 @@ export default {
               equals: true,
             },
           },
+          sorts: [
+            {
+              property: 'Date de publication',
+              direction: 'ascending',
+            },
+          ],
         })
 
         return new Response(
           JSON.stringify({
-            anouncements: announcementsList,
+            announcements: announcementsList.results,
           }) as BodyInit,
           {
             status: 200,
