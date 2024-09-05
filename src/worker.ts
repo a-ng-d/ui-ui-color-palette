@@ -90,7 +90,7 @@ export default {
           sorts: [
             {
               property: 'Date de publication',
-              direction: 'ascending',
+              direction: 'descending',
             },
           ],
         })
