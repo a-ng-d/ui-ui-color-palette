@@ -1,4 +1,4 @@
-# Auth Yelbolt Worker
+# Announcements Yelbolt Worker
 
 This repository contains the Announcement Yelbolt Worker, a service responsible for providing information and messages to users for Yelbolt suite:
 
