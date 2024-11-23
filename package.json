@@ -9,7 +9,7 @@
     "start:8888": "wrangler dev --port 8888"
   },
   "devDependencies": {
-    "wrangler": "^3.60.3"
+    "wrangler": "^3.90.0"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15"
