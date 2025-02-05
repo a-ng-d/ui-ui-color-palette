@@ -15,6 +15,14 @@
     "patch:ui-color-palette": "cd ui-color-palette && npm version patch",
     "minor:ui-color-palette": "cd ui-color-palette && npm version minor",
     "major:ui-color-palette": "cd ui-color-palette && npm version major",
+    "ideas-spark-booth": "npm-run-all --parallel dev:ideas-spark-booth dev:auth-yelbolt-worker",
+    "dev:ideas-spark-booth": "cd ideas-spark-booth && npm run dev",
+    "build:ideas-spark-booth": "cd ideas-spark-booth && npm run build",
+    "start:ideas-spark-booth": "cd ideas-spark-booth && npm run start",
+    "lint:ideas-spark-booth": "cd ideas-spark-booth && npm run lint",
+    "patch:ideas-spark-booth": "cd ideas-spark-booth && npm version patch",
+    "minor:ideas-spark-booth": "cd ideas-spark-booth && npm version minor",
+    "major:ideas-spark-booth": "cd ideas-spark-booth && npm version major",
     "dev:auth-yelbolt-worker": "cd ../auth-yelbolt-worker && npm run start:8787"
   },
   "browserslist": {
