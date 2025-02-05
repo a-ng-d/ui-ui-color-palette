@@ -14,7 +14,7 @@ const martianMono = Martian_Mono({
 
 export const metadata: Metadata = {
   title: 'UI Color Palette',
-  description: 'Start exploring palettes',
+  description: 'Start exploring palettes!',
 }
 
 export default function RootLayout({

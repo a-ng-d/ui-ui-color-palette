@@ -178,7 +178,7 @@ export default function App() {
                     : colors.color.ISB['source'].value,
               }}
             >
-              Start exploring activities
+              Start exploring activities!
             </h1>
             <h2
               style={{

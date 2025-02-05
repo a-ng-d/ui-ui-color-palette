@@ -170,7 +170,7 @@ export default function App() {
                     : colors.color.UICP['source'].value,
               }}
             >
-              Start exploring palettes
+              Start exploring palettes!
             </h1>
             <h2
               style={{

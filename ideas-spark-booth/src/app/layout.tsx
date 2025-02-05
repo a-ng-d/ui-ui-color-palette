@@ -13,8 +13,8 @@ const martianMono = Martian_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'UI Color Palette',
-  description: 'Start exploring palettes',
+  title: 'Ideas Spark Booth',
+  description: 'Start exploring activities!',
 }
 
 export default function RootLayout({
