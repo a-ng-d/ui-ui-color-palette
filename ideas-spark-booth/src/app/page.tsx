@@ -221,7 +221,7 @@ export default function App() {
             }}
             theme={theme}
             providers={['figma']}
-            //onlyThirdPartyProviders
+            onlyThirdPartyProviders
           />
         </div>
         <p
