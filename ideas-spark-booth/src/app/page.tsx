@@ -89,7 +89,7 @@ export default function App() {
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       //console.log(session)
-      const passkey = localStorage.getItem('passkey-ui') || null
+      const passkey = localStorage.getItem('passkey') || null
 
       if (session && action === 'sign_out') {
         const { error } = await supabase.auth.signOut({
