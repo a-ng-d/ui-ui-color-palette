@@ -2,6 +2,8 @@
   "name": "auth-ui-color-palette",
   "version": "0.1.0",
   "private": true,
+  "author": "Aurélien Grimaud",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -14,7 +16,8 @@
     "@supabase/supabase-js": "^2.42.0",
     "next": "15.1.6",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "yelbolt-core": "file:../yelbolt-core"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
