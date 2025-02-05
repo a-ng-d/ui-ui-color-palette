@@ -13,6 +13,7 @@
     "patch": "npm-run-all --parallel patch:*",
     "minor": "npm-run-all --parallel minor:*",
     "major": "npm-run-all --parallel major:*",
+    "install": "npm-run-all --parallel install:*",
     "ui-color-palette": "npm-run-all --parallel dev:ui-color-palette dev:auth-yelbolt-worker",
     "dev:ui-color-palette": "cd ui-color-palette && npm run dev",
     "build:ui-color-palette": "cd ui-color-palette && npm run build",
@@ -22,6 +23,7 @@
     "minor:ui-color-palette": "cd ui-color-palette && npm version minor",
     "major:ui-color-palette": "cd ui-color-palette && npm version major",
     "format:ui-color-palette": "cd ui-color-palette && npm run format",
+    "install:ui-color-palette": "cd ui-color-palette && npm install",
     "ideas-spark-booth": "npm-run-all --parallel dev:ideas-spark-booth dev:auth-yelbolt-worker",
     "dev:ideas-spark-booth": "cd ideas-spark-booth && npm run dev",
     "build:ideas-spark-booth": "cd ideas-spark-booth && npm run build",
@@ -31,6 +33,7 @@
     "minor:ideas-spark-booth": "cd ideas-spark-booth && npm version minor",
     "major:ideas-spark-booth": "cd ideas-spark-booth && npm version major",
     "format:ideas-spark-booth": "cd ideas-spark-booth && npm run format",
+    "install:ideas-spark-booth": "cd ideas-spark-booth && npm install",
     "dev:auth-yelbolt-worker": "cd ../auth-yelbolt-worker && npm run start:8787"
   },
   "browserslist": {
