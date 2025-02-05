@@ -93,14 +93,19 @@ export default function App() {
       }
 
       if (session && localStorage.getItem('passkey') !== null) {
-        fetch(process.env.REACT_APP_WORKER_URL, {
-          method: 'POST',
-          headers: {
-            type: 'SEND_TOKENS',
-            passkey: localStorage.getItem('passkey'),
-            tokens: JSON.stringify(session),
-          },
-        }).catch((error) => console.log(error))
+        fetch(
+          process.env.NODE_ENV === 'development'
+            ? 'https://localhost:8787'
+            : process.env.REACT_APP_WORKER_URL,
+          {
+            method: 'POST',
+            headers: {
+              type: 'SEND_TOKENS',
+              passkey: localStorage.getItem('passkey'),
+              tokens: JSON.stringify(session),
+            },
+          }
+        ).catch((error) => console.log(error))
       }
 
       return setSession(session)
