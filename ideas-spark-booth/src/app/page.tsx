@@ -79,8 +79,7 @@ export default function App() {
       ? 'dark'
       : 'default'
 
-    if (passkey !== null)
-      localStorage.setItem('passkey-ideas-spark-booth', passkey)
+    if (passkey !== null) localStorage.setItem('passkey', passkey)
 
     setPasskey(passkey)
     setAction(action)
@@ -90,7 +89,7 @@ export default function App() {
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       //console.log(session)
-      const passkey = localStorage.getItem('passkey-ui-color-palette') || null
+      const passkey = localStorage.getItem('passkey-ui') || null
 
       if (session && action === 'sign_out') {
         const { error } = await supabase.auth.signOut({
@@ -102,7 +101,7 @@ export default function App() {
       if (session && passkey !== null) {
         fetch(
           process.env.NODE_ENV === 'development'
-            ? 'https://localhost:8787'
+            ? 'http://localhost:8787'
             : process.env.NEXT_PUBLIC_WORKER_URL || '',
           {
             method: 'POST',
