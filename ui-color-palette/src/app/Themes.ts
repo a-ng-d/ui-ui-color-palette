@@ -145,7 +145,7 @@ export const tokens = {
   },
 }
 
-export const uicpTheme = {
+export const UicpTheme = {
   default: {
     colors: {
       brand: tokens.theme.colors.primary.light['900'],
@@ -183,10 +183,10 @@ export const uicpTheme = {
       baseButtonSize: '16px',
     },
     fonts: {
-      bodyFontFamily: `"Lexend", sans-serif`,
-      buttonFontFamily: `"Lexend", sans-serif`,
-      inputFontFamily: `"Lexend", sans-serif`,
-      labelFontFamily: `"Lexend", sans-serif`,
+      bodyFontFamily: 'var(--font-sora)',
+      buttonFontFamily: 'var(--font-sora)',
+      inputFontFamily: 'var(--font-sora)',
+      labelFontFamily: 'var(--font-sora)',
     },
     borderWidths: {
       buttonBorderWidth: '2px',
@@ -235,10 +235,10 @@ export const uicpTheme = {
       baseButtonSize: '16px',
     },
     fonts: {
-      bodyFontFamily: `"Lexend", sans-serif`,
-      buttonFontFamily: `"Lexend", sans-serif`,
-      inputFontFamily: `"Lexend", sans-serif`,
-      labelFontFamily: `"Lexend", sans-serif`,
+      bodyFontFamily: 'var(--font-sora)',
+      buttonFontFamily: 'var(--font-sora)',
+      inputFontFamily: 'var(--font-sora)',
+      labelFontFamily: 'var(--font-sora)',
     },
     borderWidths: {
       buttonBorderWidth: '2px',

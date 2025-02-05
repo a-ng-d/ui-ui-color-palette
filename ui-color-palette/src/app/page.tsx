@@ -1,50 +1,44 @@
-import './index.css'
-import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
+'use client'
+
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
-import { tokens, uicpTheme } from './Themes'
-import { ReactComponent as Logo } from './logo.svg'
+import { createClient, Session } from '@supabase/supabase-js'
+import { useEffect, useState } from 'react'
+import { tokens, UicpTheme } from './Themes'
+import Icon from './icon'
 
 const supabase = createClient(
-  process.env.REACT_APP_SUPABASE_URL,
-  process.env.REACT_APP_SUPABASE_ANON_KEY
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 )
-
-const logoStyle = {
-  width: '64px',
-  height: '64px',
-  marginBottom: '16px',
-  margin: '0',
-}
 
 const titleStyle = {
   fontSize: '32px',
   fontWeight: '700',
-  fontFamily: '"Red Hat Mono", monospace',
+  fontFamily: 'var(--font-martian-mono)',
   margin: '0',
   lineHeight: '1.1',
-}
+} as React.CSSProperties
 
 const subtitleStyle = {
   fontSize: '16px',
   fontWeight: '600',
-  fontFamily: '"Lexend", sans-serif',
+  fontFamily: 'var(--font-sora)',
   margin: '0',
   lineHeight: '1.5',
-}
+} as React.CSSProperties
 
 const paragraphStyle = {
   fontSize: '16px',
   fontWeight: '500',
-  fontFamily: '"Lexend", sans-serif',
+  fontFamily: 'var(--font-sora)',
   margin: '0',
   lineHeight: '1.5',
-}
+} as React.CSSProperties
 
 const linkStyle = {
   textDecoration: 'underline',
-}
+} as React.CSSProperties
 
 const cardStyle = {
   padding: '16px',
@@ -54,13 +48,13 @@ const cardStyle = {
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-}
+} as React.CSSProperties
 
 const stackbarStyle = {
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
-}
+} as React.CSSProperties
 
 const mainStyle = {
   display: 'flex',
@@ -69,17 +63,29 @@ const mainStyle = {
   maxWidth: '400px',
   width: '100%',
   gap: '32px',
-}
+} as React.CSSProperties
 
 export default function App() {
   let view = null
-  const [session, setSession] = useState(null)
-  const passkey =
-    new URLSearchParams(window.location.search).get('passkey') ?? null
-  const action =
-    new URLSearchParams(window.location.search).get('action') ?? null
+  const [session, setSession] = useState<Session | null>(null)
+  const [passkey, setPasskey] = useState<string | null>(null)
+  const [action, setAction] = useState<string | null>(null)
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
 
-  if (passkey != null) localStorage.setItem('passkey', passkey)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const passkey = urlParams.get('passkey') ?? null
+    const action = urlParams.get('action') ?? null
+    const theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
+
+    if (passkey != null) localStorage.setItem('passkey', passkey)
+
+    setPasskey(passkey)
+    setAction(action)
+    setTheme(theme)
+  }, [])
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -92,16 +98,16 @@ export default function App() {
         if (!error) return setSession(null)
       }
 
-      if (session && localStorage.getItem('passkey') !== null) {
+      if (session && passkey !== null) {
         fetch(
           process.env.NODE_ENV === 'development'
             ? 'https://localhost:8787'
-            : process.env.REACT_APP_WORKER_URL,
+            : process.env.NEXT_PUBLIC_WORKER_URL || '',
           {
             method: 'POST',
             headers: {
               type: 'SEND_TOKENS',
-              passkey: localStorage.getItem('passkey'),
+              passkey: passkey || '',
               tokens: JSON.stringify(session),
             },
           }
@@ -118,13 +124,7 @@ export default function App() {
     })
 
     return () => subscription.unsubscribe()
-  }, [action])
-
-  const [theme] = useState(
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'default'
-  )
+  }, [action, passkey])
 
   if (!session) {
     view = (
@@ -138,14 +138,14 @@ export default function App() {
             ...stackbarStyle,
           }}
         >
-          <Logo
-            style={{
-              ...logoStyle,
-              fill:
-                theme === 'default'
-                  ? tokens.theme.colors.primary.light['900']
-                  : tokens.theme.colors.primary.dark['source'],
-            }}
+          <Icon
+            width={64}
+            height={64}
+            color={
+              theme === 'light'
+                ? tokens.theme.colors.primary.light['900']
+                : tokens.theme.colors.primary.dark['source']
+            }
           />
           <div
             style={{
@@ -156,7 +156,7 @@ export default function App() {
               style={{
                 ...titleStyle,
                 color:
-                  theme === 'default'
+                  theme === 'light'
                     ? tokens.theme.colors.primary.light['900']
                     : tokens.theme.colors.primary.dark['source'],
               }}
@@ -167,7 +167,7 @@ export default function App() {
               style={{
                 ...subtitleStyle,
                 color:
-                  theme === 'default'
+                  theme === 'light'
                     ? tokens.theme.colors.primary.light['900']
                     : tokens.theme.colors.primary.dark['source'],
               }}
@@ -180,11 +180,11 @@ export default function App() {
           style={{
             ...cardStyle,
             backgroundColor:
-              theme === 'default'
+              theme === 'light'
                 ? tokens.theme.colors.primary.light['50']
                 : tokens.theme.colors.primary.dark['900'],
             border: `2px solid ${
-              theme === 'default'
+              theme === 'light'
                 ? tokens.theme.colors.primary.light['900']
                 : tokens.theme.colors.primary.dark['source']
             }`,
@@ -194,7 +194,7 @@ export default function App() {
             supabaseClient={supabase}
             appearance={{
               theme: ThemeSupa,
-              variables: uicpTheme,
+              variables: UicpTheme,
             }}
             localization={{
               variables: {
@@ -212,7 +212,7 @@ export default function App() {
           style={{
             ...paragraphStyle,
             color:
-              theme === 'default'
+              theme === 'light'
                 ? tokens.theme.colors.primary.light['900']
                 : tokens.theme.colors.primary.dark['source'],
           }}
@@ -223,7 +223,7 @@ export default function App() {
             style={{
               ...linkStyle,
               color:
-                theme === 'default'
+                theme === 'light'
                   ? tokens.theme.colors.primary.light['300']
                   : tokens.theme.colors.primary.dark['400'],
             }}
@@ -236,7 +236,7 @@ export default function App() {
             style={{
               ...linkStyle,
               color:
-                theme === 'default'
+                theme === 'light'
                   ? tokens.theme.colors.primary.light['300']
                   : tokens.theme.colors.primary.dark['400'],
             }}
@@ -259,25 +259,25 @@ export default function App() {
             ...stackbarStyle,
           }}
         >
-          <Logo
-            style={{
-              ...logoStyle,
-              fill:
-                theme === 'default'
-                  ? tokens.theme.colors.primary.light['900']
-                  : tokens.theme.colors.primary.dark['source'],
-            }}
+          <Icon
+            width={64}
+            height={64}
+            color={
+              theme === 'light'
+                ? tokens.theme.colors.primary.light['900']
+                : tokens.theme.colors.primary.dark['source']
+            }
           />
         </div>
         <div
           style={{
             ...cardStyle,
             backgroundColor:
-              theme === 'default'
+              theme === 'light'
                 ? tokens.theme.colors.primary.light['50']
                 : tokens.theme.colors.primary.dark['900'],
             border: `2px solid ${
-              theme === 'default'
+              theme === 'light'
                 ? tokens.theme.colors.primary.light['900']
                 : tokens.theme.colors.primary.dark['source']
             }`,
@@ -287,7 +287,7 @@ export default function App() {
             style={{
               ...titleStyle,
               color:
-                theme === 'default'
+                theme === 'light'
                   ? tokens.theme.colors.primary.light['900']
                   : tokens.theme.colors.primary.dark['source'],
             }}
@@ -298,7 +298,7 @@ export default function App() {
             style={{
               ...subtitleStyle,
               color:
-                theme === 'default'
+                theme === 'light'
                   ? tokens.theme.colors.primary.light['900']
                   : tokens.theme.colors.primary.dark['source'],
             }}
@@ -319,7 +319,7 @@ export default function App() {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:
-          theme === 'default'
+          theme === 'light'
             ? tokens.theme.colors.primary.light['50']
             : tokens.theme.colors.primary.dark['900'],
         padding: '16px',
