@@ -4,7 +4,7 @@ import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { createClient, Session } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
-import { IsbTheme, colors } from './Themes'
+import { colors, IsbTheme } from './Themes'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
