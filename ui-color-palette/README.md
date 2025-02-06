@@ -1,42 +1,44 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/137adb01-156d-48f1-bc09-952de5f73a00/deploy-status)](https://app.netlify.com/sites/auth-ui-color-palette/deploys)
+
 # Auth UI Color Palette
 
-This repository contains a form built using React and Supabase Auth for authenticating users to access a UI color palette.
+This repository contains a form built using NextJS, React and Supabase Auth for authenticating users to access Yelbolt products.
 
 ## Features
 
 - User authentication with Supabase
 - React-based form for user login and registration
-- Access to a customizable UI color palette upon successful authentication
+- Access to a customizable UI Color Palette upon successful authentication
 
 ## Installation
 
 1. Clone the repository:
   ```bash
-  git clone https://github.com/a-ng-d/auth-ui-color-palette.git
+  git clone https://github.com/a-ng-d/auth-yelbolt.git
   ```
 2. Navigate to the project directory:
   ```bash
-  cd auth-ui-color-palette
+  cd auth-yelbolt
   ```
 3. Install the dependencies:
   ```bash
-  npm install
+  npm run install
   ```
 
 ## Configuration
 
-1. Create a `.env.development.local` file in the root directory and add your Supabase credentials:
+1. Create a `.env.development` file in the root directory and add your Supabase credentials:
   ```env
-  REACT_APP_SUPABASE_URL=your-supabase-url
-  REACT_APP_SUPABASE_ANON_KEY=your-supabase-anon-key
-  REACT_APP_WORKER_URL=http://localhost:8787
+  NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+  NEXT_PUBLIC_WORKER_URL=http://localhost:8787
   ```
 
 ## Usage
 
 1. Start the development server:
   ```bash
-  npm run dev
+  npm run dev:ui-color-palette
   ```
 2. Open your browser and navigate to `http://localhost:3000`.
 
