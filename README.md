@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/137adb01-156d-48f1-bc09-952de5f73a00/deploy-status)](https://app.netlify.com/sites/auth-ui-color-palette/deploys)[![Netlify Status](https://api.netlify.com/api/v1/badges/41f87c3f-262a-48ee-b5e6-94a4930a7af8/deploy-status)](https://app.netlify.com/sites/auth-ideas-spark-booth/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/137adb01-156d-48f1-bc09-952de5f73a00/deploy-status)](https://app.netlify.com/sites/auth-ui-color-palette/deploys) [![Netlify Status](https://api.netlify.com/api/v1/badges/41f87c3f-262a-48ee-b5e6-94a4930a7af8/deploy-status)](https://app.netlify.com/sites/auth-ideas-spark-booth/deploys)
 
 # Auth Yelbolt
 
