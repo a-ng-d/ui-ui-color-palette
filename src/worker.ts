@@ -145,6 +145,7 @@ export default {
 
             await env.YELBOLT_AUTH_KV.delete(`TOKENS_${passkey}`)
             await env.YELBOLT_AUTH_KV.delete(`PASSKEY_${distinctId}`)
+            
             return new Response(
               JSON.stringify({
                 tokens: json,
