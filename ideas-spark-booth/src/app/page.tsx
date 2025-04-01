@@ -59,7 +59,7 @@ const mainStyle = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
-  maxWidth: '400px',
+  maxWidth: '496px',
   width: '100%',
   gap: '32px',
 } as React.CSSProperties
@@ -335,7 +335,7 @@ export default function App() {
                   : colors.color.ISB['source'].value,
             }}
           >
-            You can close the tab.
+            You can close the tab
           </h2>
         </div>
       </div>

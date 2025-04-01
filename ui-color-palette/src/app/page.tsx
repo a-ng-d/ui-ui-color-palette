@@ -59,7 +59,7 @@ const mainStyle = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
-  maxWidth: '400px',
+  maxWidth: '496px',
   width: '100%',
   gap: '32px',
 } as React.CSSProperties
@@ -229,7 +229,7 @@ export default function App() {
         >
           By continuing, you agree with our{' '}
           <a
-            href="https://uicp.link/terms"
+            href="https://uicp.ylb.lt/terms"
             style={{
               ...linkStyle,
               color:
@@ -242,7 +242,7 @@ export default function App() {
           </a>{' '}
           and our{' '}
           <a
-            href="https://uicp.link/privacy"
+            href="https://uicp.ylb.lt/privacy"
             style={{
               ...linkStyle,
               color:
@@ -321,7 +321,7 @@ export default function App() {
                   : colors.color.UICP['source'].value,
             }}
           >
-            You can close the tab.
+            You can close the tab
           </h2>
         </div>
       </div>
