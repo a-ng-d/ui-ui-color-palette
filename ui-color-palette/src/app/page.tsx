@@ -310,7 +310,7 @@ export default function App() {
                   : colors.color.UICP['source'].value,
             }}
           >
-            You are authenticated on UI Color Palette!
+            You are authenticated on UI Color Palette!
           </h1>
           <h2
             style={{

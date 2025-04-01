@@ -13,7 +13,7 @@ const martianMono = Martian_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'UI Color Palette',
+  title: 'UI Color Palette',
   description: 'Start exploring palettes!',
 }
 

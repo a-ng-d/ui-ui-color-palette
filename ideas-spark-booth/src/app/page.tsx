@@ -324,7 +324,7 @@ export default function App() {
                   : colors.color.ISB['source'].value,
             }}
           >
-            You are authenticated on Ideas Spark Booth!
+            You are authenticated on Ideas Spark Booth!
           </h1>
           <h2
             style={{

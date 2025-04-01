@@ -13,7 +13,7 @@ const martianMono = Martian_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Ideas Spark Booth',
+  title: 'Ideas Spark Booth',
   description: 'Start exploring activities!',
 }
 
