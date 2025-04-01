@@ -22,7 +22,7 @@ const titleStyle = {
 const subtitleStyle = {
   fontSize: '16px',
   fontWeight: '600',
-  fontFamily: 'var(--font-sora)',
+  fontFamily: 'var(--font-lexend)',
   margin: '0',
   lineHeight: '1.5',
 } as React.CSSProperties
@@ -30,7 +30,7 @@ const subtitleStyle = {
 const paragraphStyle = {
   fontSize: '16px',
   fontWeight: '500',
-  fontFamily: 'var(--font-sora)',
+  fontFamily: 'var(--font-lexend)',
   margin: '0',
   lineHeight: '1.5',
 } as React.CSSProperties

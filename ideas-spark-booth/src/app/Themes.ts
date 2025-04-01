@@ -271,10 +271,10 @@ export const IsbTheme: Theme = {
       baseButtonSize: '16px',
     },
     fonts: {
-      bodyFontFamily: "'Sora', sans-serif",
-      buttonFontFamily: "'Sora', sans-serif",
-      inputFontFamily: "'Sora', sans-serif",
-      labelFontFamily: "'Sora', sans-serif",
+      bodyFontFamily: "'Lexend', sans-serif",
+      buttonFontFamily: "'Lexend', sans-serif",
+      inputFontFamily: "'Lexend', sans-serif",
+      labelFontFamily: "'Lexend', sans-serif",
     },
     borderWidths: {
       buttonBorderWidth: '2px',
@@ -323,10 +323,10 @@ export const IsbTheme: Theme = {
       baseButtonSize: '16px',
     },
     fonts: {
-      bodyFontFamily: 'var(--font-sora)',
-      buttonFontFamily: 'var(--font-sora)',
-      inputFontFamily: 'var(--font-sora)',
-      labelFontFamily: 'var(--font-sora)',
+      bodyFontFamily: 'var(--font-lexend)',
+      buttonFontFamily: 'var(--font-lexend)',
+      inputFontFamily: 'var(--font-lexend)',
+      labelFontFamily: 'var(--font-lexend)',
     },
     borderWidths: {
       buttonBorderWidth: '2px',

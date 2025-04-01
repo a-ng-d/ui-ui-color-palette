@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Martian_Mono, Sora } from 'next/font/google'
+import { Martian_Mono, Lexend } from 'next/font/google'
 import './globals.css'
 
-const sora = Sora({
-  variable: '--font-sora',
+const lexend = Lexend({
+  variable: '--font-lexend',
   subsets: ['latin'],
 })
 
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sora.variable} ${martianMono.variable}`}>
+      <body className={`${lexend.variable} ${martianMono.variable}`}>
         {children}
       </body>
     </html>
