@@ -45,7 +45,7 @@ import {
 } from '../types/configurations'
 import { ActionsList, TextColorsThemeHexModel } from '../types/models'
 import { UserSession } from '../types/user'
-import doScale from '../utils/doScale'
+import { doScale } from '@a_ng_d/figmug-utils'
 import {
   trackExportEvent,
   trackPurchaseEvent,

@@ -22,7 +22,7 @@ import {
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
-import doScale from '../../utils/doScale'
+import { doScale } from '@a_ng_d/figmug-utils'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'

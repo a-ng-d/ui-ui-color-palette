@@ -1,5 +1,5 @@
+import { doScale } from '@a_ng_d/figmug-utils'
 import { ThemeConfiguration } from '../types/configurations'
-import doScale from '../utils/doScale'
 import { presets } from './presets'
 
 const defaultTheme: ThemeConfiguration = {

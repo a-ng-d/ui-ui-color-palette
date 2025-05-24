@@ -40,7 +40,7 @@ import {
 import { SourceColorEvent } from '../../types/events'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
-import doScale from '../../utils/doScale'
+import { doScale } from '@a_ng_d/figmug-utils'
 import {
   trackActionEvent,
   trackSourceColorsManagementEvent,

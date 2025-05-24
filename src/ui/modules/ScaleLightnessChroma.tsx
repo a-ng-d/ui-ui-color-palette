@@ -33,7 +33,7 @@ import {
 } from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
-import doScale from '../../utils/doScale'
+import { doScale } from '@a_ng_d/figmug-utils'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
