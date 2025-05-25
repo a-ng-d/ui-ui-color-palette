@@ -3,8 +3,8 @@ import { doSpecificMode, featuresScheme } from './stores/features'
 export const isDev = import.meta.env.MODE === 'development'
 
 // Theme
-export const theme = 'penpot'
-export const mode = 'penpot-dark'
+export const theme = import.meta.env.UI_THEME
+export const mode = import.meta.env.COLOR_MODE
 
 // Limitations
 export const isTrialEnabled = false

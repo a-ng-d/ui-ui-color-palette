@@ -18,6 +18,15 @@ export default defineConfig(({ mode }) => {
       basicSsl(),
     ],
 
+    define: {
+      'import.meta.env.UI_THEME': JSON.stringify(
+        process.env.UI_THEME || 'penpot'
+      ),
+      'import.meta.env.COLOR_MODE': JSON.stringify(
+        process.env.COLOR_MODE || 'dark'
+      ),
+    },
+
     resolve: {
       alias: {
         react: 'preact/compat',
