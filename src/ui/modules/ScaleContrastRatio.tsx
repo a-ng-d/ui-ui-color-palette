@@ -65,7 +65,6 @@ export default class ScaleContrastRatio extends PureComponent<
 
   constructor(props: ScaleProps) {
     super(props)
-    console.log('ScaleContrastRatio', props)
     this.palette = $palette
     this.scaleMessage = {
       type: 'UPDATE_SCALE',
@@ -431,7 +430,7 @@ export default class ScaleContrastRatio extends PureComponent<
           type="EDIT"
           scale={this.state.ratioLightForeground}
           stops={{
-            list: this.props.preset.scale,
+            list: this.props.preset.stops,
             min: Infinity,
             max: Infinity,
           }}
@@ -461,7 +460,7 @@ export default class ScaleContrastRatio extends PureComponent<
           type="EDIT"
           scale={this.state.ratioDarkForeground}
           stops={{
-            list: this.props.preset.scale,
+            list: this.props.preset.stops,
             min: Infinity,
             max: Infinity,
           }}

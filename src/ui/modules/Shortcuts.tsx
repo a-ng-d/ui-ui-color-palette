@@ -1,4 +1,4 @@
-import { Bar, Button, layouts, Menu } from '@a_ng_d/figmug-ui'
+import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -111,6 +111,11 @@ export default class Shortcuts extends PureComponent<
       featureName: 'CONSENT',
       planStatus: planStatus,
     }),
+    RESIZE_UI: new FeatureStatus({
+      features: config.features,
+      featureName: 'RESIZE_UI',
+      planStatus: planStatus,
+    }),
   })
 
   constructor(props: ShortcutsProps) {
@@ -153,6 +158,7 @@ export default class Shortcuts extends PureComponent<
     else windowSize.w = 540
     if (scaleY > 432) windowSize.h = scaleY
     else windowSize.h = 432
+
     parent.postMessage(
       {
         pluginMessage: {
@@ -560,6 +566,22 @@ export default class Shortcuts extends PureComponent<
                   }
                 />
               </div>
+              <Feature
+                isActive={Shortcuts.features(
+                  this.props.planStatus,
+                  this.props.config
+                ).RESIZE_UI.isActive()}
+              >
+                <div
+                  className="box-resizer-grip"
+                  onMouseDown={this.onHold.bind(this)}
+                >
+                  <Icon
+                    type="PICTO"
+                    iconName="resize-grip"
+                  />
+                </div>
+              </Feature>
             </>
           }
           leftPartSlot={

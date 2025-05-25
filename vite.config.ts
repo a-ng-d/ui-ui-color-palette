@@ -27,16 +27,35 @@ export default defineConfig(({ mode }) => {
       },
     },
 
+    server: {
+      port: 4400,
+      https: {
+        cert: '',
+        key: '',
+      },
+      watch: {
+        usePolling: true,
+        interval: 1000,
+      },
+      hmr: {
+        protocol: 'wss',
+        host: 'localhost',
+        port: 4400,
+        overlay: true,
+      },
+    },
+
     build: {
       sourcemap: isDev,
       minify: !isDev,
       outDir: 'dist',
-      watch: {
-        include: ['**'],
-      },
-      emptyOutDir: false,
+      watch: isDev ? {} : null,
+      emptyOutDir: true,
       rollupOptions: {
-        input: 'index.html',
+        input: {
+          main: 'index.html',
+          iframe: 'iframe.html',
+        },
         output: {
           dir: 'dist',
           entryFileNames: '[name].js',

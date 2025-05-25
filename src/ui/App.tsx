@@ -14,9 +14,9 @@ import {
 } from '../stores/preferences'
 import { defaultPreset, presets } from '../stores/presets'
 import {
+  BaseProps,
   Easing,
   HighlightDigest,
-  Language,
   NamingConvention,
   PlanStatus,
   PriorityContext,
@@ -39,7 +39,6 @@ import {
   ShiftConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-  UserConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
@@ -63,7 +62,7 @@ import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 type AppProps = WithConfigProps
 
-export interface AppStates {
+export interface AppStates extends BaseProps {
   service: Service
   sourceColors: Array<SourceColorConfiguration>
   id: string
@@ -81,7 +80,7 @@ export interface AppStates {
   themes: Array<ThemeConfiguration>
   view: ViewConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   screenshot: Uint8Array | null
   dates: DatesConfiguration
   export: ExportConfiguration
@@ -94,11 +93,6 @@ export interface AppStates {
   creatorIdentity: CreatorConfiguration
   priorityContainerContext: PriorityContext
   mustUserConsent: boolean
-  userConsent: Array<ConsentConfiguration>
-  userIdentity: UserConfiguration
-  userSession: UserSession
-  locals: any
-  lang: Language
   highlight: HighlightDigest
   isLoaded: boolean
   onGoingStep: string
@@ -239,7 +233,7 @@ class App extends Component<AppProps, AppStates> {
 
     this.setState({
       scale: doScale(
-        this.state.preset.scale,
+        this.state.preset.stops,
         this.state.preset.min,
         this.state.preset.max,
         this.state.preset.easing
@@ -248,7 +242,7 @@ class App extends Component<AppProps, AppStates> {
     this.palette.setKey(
       'scale',
       doScale(
-        this.state.preset.scale,
+        this.state.preset.stops,
         this.state.preset.min,
         this.state.preset.max,
         this.state.preset.easing
@@ -783,7 +777,7 @@ class App extends Component<AppProps, AppStates> {
   onReset = () => {
     const preset =
       presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
-    const scale = doScale(preset.scale, preset.min, preset.max, preset.easing)
+    const scale = doScale(preset.stops, preset.min, preset.max, preset.easing)
 
     this.setState({
       service: 'BROWSE',

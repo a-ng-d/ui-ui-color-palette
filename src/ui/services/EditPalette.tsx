@@ -203,7 +203,7 @@ export default class EditPalette extends PureComponent<
     this.props.onChangeThemes({
       scale:
         this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ??
-        doScale(defaultPreset.scale, defaultPreset.min, defaultPreset.max),
+        doScale(defaultPreset.stops, defaultPreset.min, defaultPreset.max),
       themes: this.themesMessage.data,
       visionSimulationMode:
         this.themesMessage.data.find((theme) => theme.isEnabled)

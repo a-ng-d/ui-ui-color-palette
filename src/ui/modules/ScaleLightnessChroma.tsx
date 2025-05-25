@@ -164,7 +164,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
         this.palette.setKey('preset', {
           ...this.palette.get().preset,
-          scale: results.stops,
+          stops: results.stops,
           min: results.min,
           max: results.max,
         })
@@ -288,7 +288,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   presetsHandler = (e: Event) => {
     const scale = (preset: PresetConfiguration) =>
       doScale(
-        preset.scale ?? [],
+        preset.stops ?? [],
         preset.min ?? 0,
         preset.max ?? 100,
         preset.easing
@@ -520,14 +520,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const setCustomPreset = () => {
       const preset =
         presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
-      const newScale = preset?.scale.map((stop, index) => {
+      const newScale = preset?.stops.map((_, index) => {
         if (this.props.namingConvention === 'TENS') return (index + 1) * 10
         else if (this.props.namingConvention === 'HUNDREDS')
           return (index + 1) * 100
         return (index + 1) * 1
       })
 
-      preset.scale = newScale ?? []
+      preset.stops = newScale ?? []
       this.palette.setKey('preset', preset)
       this.palette.setKey('lightnessRange.min', preset.min)
       this.palette.setKey('lightnessRange.max', preset.max)
@@ -642,7 +642,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   }
 
   customHandler = (e: Event) => {
-    const stops = this.props.preset?.['scale'] ?? [1, 2]
+    const stops = this.props.preset?.['stops'] ?? [1, 2]
     const preset =
       presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
     const scale = (stps = stops) =>
@@ -656,7 +656,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const addStop = () => {
       if (stops.length < 24) {
         stops.push(stops.slice(-1)[0] + stops[0])
-        preset.scale = stops
+        preset.stops = stops
         this.palette.setKey('scale', scale())
 
         this.props.onAddStop?.({
@@ -669,7 +669,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const removeStop = () => {
       if (stops.length > 2) {
         stops.pop()
-        preset.scale = stops
+        preset.stops = stops
         this.palette.setKey('scale', scale())
 
         this.props.onRemoveStop?.({
@@ -690,7 +690,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         return (index + 1) * 1
       })
 
-      preset.scale = newStops
+      preset.stops = newStops
       this.palette.setKey('scale', scale(newStops))
       this.palette.setKey('preset', preset)
 
@@ -827,7 +827,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       >
                         <this.NamingConvention />
                       </Feature>
-                      {this.props.preset.scale.length > 2 && (
+                      {this.props.preset.stops.length > 2 && (
                         <Button
                           type="icon"
                           icon="minus"
@@ -847,19 +847,19 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                         <Button
                           type="icon"
                           icon="plus"
-                          isDisabled={this.props.preset.scale.length === 24}
+                          isDisabled={this.props.preset.stops.length === 24}
                           isBlocked={ScaleLightnessChroma.features(
                             this.props.planStatus,
                             this.props.config
                           ).PRESETS_CUSTOM_ADD.isReached(
-                            this.props.preset.scale.length
+                            this.props.preset.stops.length
                           )}
                           helper={{
                             label: this.props.locals.scale.actions.addStop,
                           }}
                           feature="ADD_STOP"
                           action={
-                            this.props.preset.scale.length >= 24
+                            this.props.preset.stops.length >= 24
                               ? () => null
                               : this.customHandler
                           }
@@ -898,7 +898,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           {ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config
-          ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.scale.length) &&
+          ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length) &&
             this.props.preset.id === 'CUSTOM' && (
               <div
                 style={{
@@ -940,7 +940,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             {...this.props}
             type="EDIT"
             stops={{
-              list: this.props.preset.scale,
+              list: this.props.preset.stops,
               min: Infinity,
               max: Infinity,
             }}
@@ -1053,7 +1053,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           {ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config
-          ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.scale.length) &&
+          ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length) &&
             this.props.preset.id === 'CUSTOM' && (
               <div
                 style={{
@@ -1096,7 +1096,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               {...this.props}
               type="FULLY_EDIT"
               stops={{
-                list: this.props.preset.scale,
+                list: this.props.preset.stops,
                 min: 2,
                 max: 24,
               }}
@@ -1127,7 +1127,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               {...this.props}
               type="EDIT"
               stops={{
-                list: this.props.preset.scale,
+                list: this.props.preset.stops,
                 min: Infinity,
                 max: Infinity,
               }}

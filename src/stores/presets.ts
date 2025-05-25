@@ -4,7 +4,7 @@ import { PresetConfiguration } from '../types/configurations'
 export const presets: Array<PresetConfiguration> = [
   {
     name: 'Material Design, 50-900',
-    scale: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+    stops: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
     min: 24,
     max: 96,
     easing: 'LINEAR',
@@ -13,7 +13,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'Material 3, 0-100',
-    scale: [100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0],
+    stops: [100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0],
     min: 0,
     max: 100,
     easing: 'NONE',
@@ -22,7 +22,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'Tailwind, 50-950',
-    scale: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+    stops: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
     min: 16,
     max: 96,
     easing: 'LINEAR',
@@ -30,7 +30,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'Ant Design, 1-10',
-    scale: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    stops: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     min: 24,
     max: 96,
     easing: 'LINEAR',
@@ -38,7 +38,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'ADS Foundations, 100-1000',
-    scale: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+    stops: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
     min: 24,
     max: 96,
     easing: 'LINEAR',
@@ -47,7 +47,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'ADS Foundations, Neutral 0-1100',
-    scale: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100],
+    stops: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100],
     min: 8,
     max: 100,
     easing: 'LINEAR',
@@ -56,7 +56,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'Carbon, 10-100 (IBM)',
-    scale: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    stops: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     min: 24,
     max: 96,
     easing: 'LINEAR',
@@ -65,7 +65,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'Base, 50-700 (Uber)',
-    scale: [50, 100, 200, 300, 400, 500, 600, 700],
+    stops: [50, 100, 200, 300, 400, 500, 600, 700],
     min: 24,
     max: 96,
     easing: 'LINEAR',
@@ -74,7 +74,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: 'Polaris, 1-16 (Shopify)',
-    scale: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    stops: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     min: 16,
     max: 100,
     easing: 'EASE_OUT',
@@ -84,7 +84,7 @@ export const presets: Array<PresetConfiguration> = [
 
   {
     name: 'Custom',
-    scale: [1, 2],
+    stops: [1, 2],
     min: 10,
     max: 90,
     easing: 'LINEAR',

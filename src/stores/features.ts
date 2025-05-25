@@ -41,6 +41,15 @@ export const featuresScheme: Array<
     service: ['CREATE', 'EDIT'],
   },
   {
+    name: 'RESIZE_UI',
+    description: 'Resizes the window',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['CREATE', 'EDIT', 'BROWSE'],
+  },
+  {
     name: 'CREATE_PALETTE',
     description: 'Generates a palette',
     isActive: true,

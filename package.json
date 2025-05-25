@@ -7,7 +7,7 @@
     "start": "npm-run-all -p start:announcements_worker start:auth_lobby start:dev",
     "start:announcements_worker": "cd ../announcements-yelbolt-worker && npm run start:8888",
     "start:auth_lobby": "cd ../auth-yelbolt && npm run ui-color-palette",
-    "start:dev": "IS_SANDBOX=true npm run build & vite preview",
+    "start:dev": "npm run build & vite preview",
     "build": "npx vite build --mode development",
     "build:prod": "npx vite build --mode production",
     "typecheck": "npx tsc --noEmit",

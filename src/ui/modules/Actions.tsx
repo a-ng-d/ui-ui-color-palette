@@ -24,7 +24,6 @@ import {
   SourceColorConfiguration,
   ViewConfiguration,
 } from '../../types/configurations'
-import { ActionsList } from '../../types/models'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
@@ -277,7 +276,7 @@ export default class Actions extends PureComponent<
       )
     }
 
-    const actions: ActionsList = {
+    const actions: { [action: string]: () => void } = {
       GENERATE_SHEET: () => generateSheet(),
       GENERATE_PALETTE_WITH_PROPERTIES: () => generatePaletteWithProperties(),
       GENERATE_PALETTE: () => generatePalette(),

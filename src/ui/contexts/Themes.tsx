@@ -98,7 +98,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         name: `${this.props.locals.themes.actions.new} ${hasAlreadyNewUITheme.length + 1}`,
         description: '',
         scale: doScale(
-          this.props.preset.scale,
+          this.props.preset.stops,
           this.props.preset.min === undefined ? 10 : this.props.preset.min,
           this.props.preset.max === undefined ? 90 : this.props.preset.max
         ),
@@ -306,7 +306,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       name: `${this.props.locals.themes.actions.new} ${hasAlreadyNewUITheme.length + 1}`,
       description: '',
       scale: doScale(
-        this.props.preset.scale,
+        this.props.preset.stops,
         this.props.preset.min === undefined ? 10 : this.props.preset.min,
         this.props.preset.max === undefined ? 90 : this.props.preset.max
       ),

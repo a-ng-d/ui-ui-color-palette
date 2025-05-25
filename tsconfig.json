@@ -23,7 +23,7 @@
       "./node_modules/@types",
       "./node_modules/@penpot"
     ],
-    "types": ["plugin-types"],
+    "types": [],
     "jsx": "react",
     "skipLibCheck": true,
     "baseUrl": "./",

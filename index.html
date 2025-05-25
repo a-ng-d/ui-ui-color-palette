@@ -2,18 +2,96 @@
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>UI Color Palette・WCAG-Compliant Color Palette Suite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Color Palette Sandbox</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #f5f5f5;
+      }
+      .sandbox-container {
+        position: absolute;
+        background: white;
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        cursor: move;
+      }
+      .sandbox-header {
+        padding: 8px;
+        margin: -16px -16px 16px -16px;
+        background: #f8f8f8;
+        border-radius: 12px 12px 0 0;
+        border-bottom: 1px solid #eaeaea;
+        user-select: none;
+      }
+      .sandbox-iframe {
+        min-width: 400px;
+        min-height: 300px;
+        border: 1px solid #eaeaea;
+        border-radius: 8px;
+        pointer-events: auto;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <div id="modal"></div>
+    <div class="sandbox-container" id="draggable-window">
+      <div class="sandbox-header" id="drag-handle">UI Color Palette</div>
+      <iframe
+        src="/iframe.html"
+        class="sandbox-iframe"
+        title="UI Color Palette・WCAG-Compliant Color Palette Suite"
+        id="ui-container"
+      ></iframe>
+    </div>
+    <script>
+      const draggableWindow = document.getElementById('draggable-window');
+      const dragHandle = document.getElementById('drag-handle');
+      let isDragging = false;
+      let currentX;
+      let currentY;
+      let initialX;
+      let initialY;
+      let xOffset = 20;
+      let yOffset = 20;
+
+      draggableWindow.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+
+      dragHandle.addEventListener('mousedown', dragStart);
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', dragEnd);
+
+      function dragStart(e) {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+
+        if (e.target === dragHandle) {
+          isDragging = true;
+        }
+      }
+
+      function drag(e) {
+        if (isDragging) {
+          e.preventDefault();
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+          xOffset = currentX;
+          yOffset = currentY;
+
+          draggableWindow.style.transform = 
+            `translate(${currentX}px, ${currentY}px)`;
+        }
+      }
+
+      function dragEnd() {
+        isDragging = false;
+      }
+    </script>
     <script
       type="module"
-      src="/src/index.tsx"
+      src="/src/bridges/loadUI"
     ></script>
   </body>
 </html>
