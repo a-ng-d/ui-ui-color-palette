@@ -2,8 +2,13 @@ import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 
-import { Chip, ColorChip, HexModel, Icon } from '@a_ng_d/figmug-ui'
-import { Color, Contrast } from '@a_ng_d/utils-ui-color-palette'
+import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
+import {
+  Color,
+  Contrast,
+  HexModel,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { BaseProps } from '../../types/app'
 import {
   ColorConfiguration,
@@ -11,7 +16,6 @@ import {
   SourceColorConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { TextColorsThemeHexModel } from '../../types/models'
 
 interface ShadeProps extends BaseProps {
   index: number
@@ -22,7 +26,7 @@ interface ShadeProps extends BaseProps {
   isAPCADisplayed: boolean
   areSourceColorsLocked: LockedSourceColorsConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
 }
 
 interface ShadeStates {

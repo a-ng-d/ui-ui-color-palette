@@ -4,14 +4,17 @@ import {
   Chip,
   Drawer,
   Dropdown,
-  HexModel,
   layouts,
   Menu,
   Select,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Color } from '@a_ng_d/utils-ui-color-palette'
+import {
+  Color,
+  HexModel,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -31,7 +34,6 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -50,7 +52,7 @@ interface PreviewProps extends BaseProps, WithConfigProps {
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onResetSourceColors?: () => void
   onChangeSettings: React.Dispatch<Partial<AppStates>>
@@ -339,7 +341,9 @@ export default class Preview extends PureComponent<
       )
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       LOCK_SOURCE_COLORS: () => lockSourceColors(),
       UPDATE_COLOR_SPACE: () => updateColorSpace(),
       UPDATE_COLOR_BLIND_MODE: () => updateColorBlindMode(),

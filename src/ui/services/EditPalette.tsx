@@ -39,7 +39,6 @@ import {
 } from '../../types/configurations'
 import { SourceColorEvent } from '../../types/events'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { doScale } from '@a_ng_d/figmug-utils'
 import {
   trackActionEvent,
@@ -56,6 +55,7 @@ import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
 import Actions from '../modules/Actions'
 import Preview from '../modules/Preview'
+import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface EditPaletteProps extends BaseProps, WithConfigProps {
   id: string
@@ -71,7 +71,7 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   themes: Array<ThemeConfiguration>
   view: ViewConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   export: ExportConfiguration
   document: DocumentConfiguration
   dates: DatesConfiguration
@@ -168,7 +168,9 @@ export default class EditPalette extends PureComponent<
 
   // Handlers
   handleMessage = (e: MessageEvent) => {
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       STOP_LOADER: () =>
         this.setState({
           isPrimaryLoading: false,
@@ -299,7 +301,9 @@ export default class EditPalette extends PureComponent<
       })
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       RELEASED: () => onReleaseStop(),
       SHIFTED: () => onChangeStop(),
       TYPED: () => onTypeStopValue(),

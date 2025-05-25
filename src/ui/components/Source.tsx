@@ -1,8 +1,9 @@
 import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { Chip, RgbModel } from '@a_ng_d/figmug-ui'
+import { Chip } from '@a_ng_d/figmug-ui'
 import chroma from 'chroma-js'
 import { BaseProps } from '../../types/app'
+import { RgbModel } from '@a_ng_d/utils-ui-color-palette'
 
 interface SourceProps extends BaseProps {
   name: string

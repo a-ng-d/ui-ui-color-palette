@@ -1,7 +1,6 @@
 import {
   Button,
   FormItem,
-  HexModel,
   Input,
   InputsBar,
   Layout,
@@ -24,11 +23,11 @@ import {
   ShiftConfiguration,
 } from '../../types/configurations'
 import { ColorsMessage } from '../../types/messages'
-import { ActionsList } from '../../types/models'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import { HexModel } from '@a_ng_d/utils-ui-color-palette'
 
 interface ColorsProps extends BaseProps, WithConfigProps {
   id: string
@@ -508,7 +507,9 @@ export default class Colors extends PureComponent<ColorsProps> {
       )
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       ADD_COLOR: () => addColor(),
       UPDATE_HEX: () => updateHexCode(),
       RENAME_COLOR: () => renameColor(),

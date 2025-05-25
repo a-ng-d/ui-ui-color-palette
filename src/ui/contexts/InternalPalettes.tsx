@@ -14,7 +14,6 @@ import { createPortal } from 'react-dom'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus } from '../../types/app'
 import { FullConfiguration } from '../../types/configurations'
-import { ActionsList } from '../../types/models'
 import setPaletteMeta from '../../utils/setPaletteMeta'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
@@ -75,7 +74,9 @@ export default class InternalPalettes extends PureComponent<
   handleMessage = (e: MessageEvent) => {
     const path = e.data
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       EXPOSE_PALETTES: () =>
         this.setState({
           paletteListsStatus: path.data.length > 0 ? 'LOADED' : 'EMPTY',
@@ -336,7 +337,11 @@ export default class InternalPalettes extends PureComponent<
                                         zIndex: '0',
                                         top: 0,
                                         left: 0,
-                                        backgroundColor: `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]})`,
+                                        backgroundColor: Array.isArray(
+                                          shade.backgroundColor
+                                        )
+                                          ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
+                                          : undefined,
                                       }}
                                     />
                                   )}

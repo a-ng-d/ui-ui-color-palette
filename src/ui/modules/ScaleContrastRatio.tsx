@@ -17,10 +17,12 @@ import {
   ScaleConfiguration,
 } from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import { Contrast } from '@a_ng_d/utils-ui-color-palette'
+import {
+  Contrast,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   service: Service
@@ -29,7 +31,7 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   scale: ScaleConfiguration
   ratioLightForeground: ScaleConfiguration
   ratioDarkForeground: ScaleConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   distributionEasing: Easing
   onChangeScale: () => void
   onChangeStop?: () => void
@@ -201,7 +203,9 @@ export default class ScaleContrastRatio extends PureComponent<
       this.props.onChangeScale()
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       RELEASED: () => onReleaseStop(),
       SHIFTED: () => onChangeStop(),
       TYPED: () => onTypeStopValue(),
@@ -336,7 +340,9 @@ export default class ScaleContrastRatio extends PureComponent<
       this.props.onChangeScale()
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       RELEASED: () => onReleaseStop(),
       SHIFTED: () => onChangeStop(),
       TYPED: () => onTypeStopValue(),

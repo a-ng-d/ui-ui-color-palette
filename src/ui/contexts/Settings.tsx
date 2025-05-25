@@ -1,5 +1,9 @@
-import { HexModel, Layout } from '@a_ng_d/figmug-ui'
+import { Layout } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import {
+  HexModel,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -13,7 +17,6 @@ import {
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
 import { SettingsMessage } from '../../types/messages'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -32,7 +35,7 @@ interface SettingsProps extends BaseProps, WithConfigProps {
   themes?: Array<ThemeConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   algorithmVersion?: AlgorithmVersionConfiguration
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onDeletePalette?: () => void
@@ -360,7 +363,9 @@ export default class Settings extends PureComponent<SettingsProps> {
         )
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       RENAME_PALETTE: () => renamePalette(),
       UPDATE_DESCRIPTION: () => updateDescription(),
       UPDATE_COLOR_SPACE: () => updateColorSpace(),

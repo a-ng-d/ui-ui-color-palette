@@ -5,7 +5,6 @@ import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
 import { DocumentConfiguration } from '../../types/configurations'
-import { ActionsList } from '../../types/models'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -79,7 +78,9 @@ export default class BrowsePalettes extends PureComponent<
 
   // Handlers
   handleMessage = (e: MessageEvent) => {
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       STOP_LOADER: () =>
         this.setState({
           isPrimaryLoading: false,

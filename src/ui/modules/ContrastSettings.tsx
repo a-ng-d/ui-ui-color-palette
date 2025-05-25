@@ -11,12 +11,12 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus } from '../../types/app'
-import { TextColorsThemeHexModel } from '../../types/models'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface ContrastSettingsProps extends BaseProps, WithConfigProps {
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   isLast?: boolean
   onChangeSettings: (
     e:

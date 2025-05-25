@@ -12,7 +12,10 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Contrast } from '@a_ng_d/utils-ui-color-palette'
+import {
+  Contrast,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -32,7 +35,6 @@ import {
   ShiftConfiguration,
 } from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { doScale } from '@a_ng_d/figmug-utils'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
@@ -47,7 +49,7 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   distributionEasing: Easing
   scale: ScaleConfiguration
   shift: ShiftConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onChangePreset?: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void
   onChangeStop?: () => void
@@ -270,7 +272,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.props.onChangeScale()
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       RELEASED: () => onReleaseStop(),
       SHIFTED: () => onChangeStop(),
       TYPED: () => onTypeStopValue(),
@@ -545,7 +549,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       MATERIAL: () => setMaterialDesignPreset(),
       MATERIAL_3: () => setMaterial3Preset(),
       TAILWIND: () => setTailwindPreset(),
@@ -704,7 +710,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       ADD_STOP: () => addStop(),
       REMOVE_STOP: () => removeStop(),
       UPDATE_NAMING_CONVENTION: () => changeNamingConvention(),

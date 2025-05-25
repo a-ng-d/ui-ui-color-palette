@@ -1,7 +1,10 @@
-import { HexModel, RgbModel } from '@a_ng_d/figmug-ui'
+import {
+  HexModel,
+  RgbModel,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { Easing, ThirdParty } from './app'
 import { PaletteData } from './data'
-import { TextColorsThemeHexModel } from './models'
 
 export interface SourceColorConfiguration {
   name: string
@@ -41,7 +44,7 @@ export interface ExchangeConfiguration {
   areSourceColorsLocked: LockedSourceColorsConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   algorithmVersion: AlgorithmVersionConfiguration
 }
 
@@ -98,7 +101,7 @@ export interface ThemeConfiguration {
   description: string
   scale: ScaleConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   paletteBackground: HexModel
   isEnabled: boolean
   type: 'default theme' | 'custom theme'

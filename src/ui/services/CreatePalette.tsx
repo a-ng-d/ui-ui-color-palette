@@ -1,5 +1,9 @@
-import { Bar, Button, HexModel, layouts, Tabs } from '@a_ng_d/figmug-ui'
+import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import {
+  HexModel,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import chroma from 'chroma-js'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
@@ -26,7 +30,6 @@ import {
   SourceColorConfiguration,
   VisionSimulationModeConfiguration,
 } from '../../types/configurations'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
@@ -52,7 +55,7 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>
   onChangeScale: React.Dispatch<Partial<AppStates>>
   onChangePreset: React.Dispatch<Partial<AppStates>>
@@ -122,7 +125,9 @@ export default class CreatePalette extends PureComponent<
 
   // Handlers
   handleMessage = (e: MessageEvent) => {
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       STOP_LOADER: () => {
         this.setState({
           isPrimaryLoading: false,

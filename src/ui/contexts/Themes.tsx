@@ -1,7 +1,6 @@
 import {
   Button,
   FormItem,
-  HexModel,
   Input,
   Layout,
   layouts,
@@ -21,19 +20,22 @@ import {
   ThemeConfiguration,
 } from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
-import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
 import { doScale } from '@a_ng_d/figmug-utils'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import {
+  HexModel,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 
 interface ThemesProps extends BaseProps, WithConfigProps {
   id: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
   themes: Array<ThemeConfiguration>
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onChangeThemes: React.Dispatch<Partial<AppStates>>
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
 }
@@ -277,7 +279,9 @@ export default class Themes extends PureComponent<ThemesProps> {
       )
     }
 
-    const actions: ActionsList = {
+    const actions: {
+      [action: string]: () => void
+    } = {
       ADD_THEME: () => addTheme(),
       RENAME_THEME: () => renameTheme(),
       UPDATE_PALETTE_BACKGROUND: () => updatePaletteBackgroundColor(),

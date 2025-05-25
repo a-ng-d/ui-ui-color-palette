@@ -43,7 +43,6 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '../types/configurations'
-import { ActionsList, TextColorsThemeHexModel } from '../types/models'
 import { UserSession } from '../types/user'
 import { doScale } from '@a_ng_d/figmug-utils'
 import {
@@ -60,6 +59,7 @@ import BrowsePalettes from './services/BrowsePalettes'
 import CreatePalette from './services/CreatePalette'
 import EditPalette from './services/EditPalette'
 import './stylesheets/app.css'
+import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 type AppProps = WithConfigProps
 
@@ -704,7 +704,9 @@ class App extends Component<AppProps, AppStates> {
             userSession: data,
           })
 
-        const actions: ActionsList = {
+        const actions: {
+          [action: string]: () => void
+        } = {
           SET_THEME: () => setTheme(),
           CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
           CHECK_USER_CONSENT: () => checkUserConsent(),

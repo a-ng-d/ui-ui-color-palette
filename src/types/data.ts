@@ -1,4 +1,5 @@
-import { Channel, HexModel } from '@a_ng_d/figmug-ui'
+import { HexModel } from '@a_ng_d/utils-ui-color-palette'
+import { Channel } from 'diagnostics_channel'
 import {
   ColorConfiguration,
   PresetConfiguration,

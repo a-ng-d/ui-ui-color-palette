@@ -30,13 +30,13 @@ import {
   SourceColorConfiguration,
   ThemeConfiguration,
 } from '../../types/configurations'
-import { TextColorsThemeHexModel } from '../../types/models'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import ScaleContrastRatio from '../modules/ScaleContrastRatio'
 import ScaleLightnessChroma from '../modules/ScaleLightnessChroma'
+import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   service: Service
@@ -48,7 +48,7 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   scale?: ScaleConfiguration
   shift: ShiftConfiguration
   themes: Array<ThemeConfiguration>
-  textColorsTheme: TextColorsThemeHexModel
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   actions?: string
   onChangePreset?: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void

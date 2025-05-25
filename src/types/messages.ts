@@ -1,12 +1,12 @@
+import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
+  ExchangeConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
-  ExchangeConfiguration,
 } from './configurations'
-import { TextColorsThemeHexModel } from './models'
 
 export interface ScaleMessage {
   type: 'UPDATE_SCALE'
@@ -36,7 +36,7 @@ export interface SettingsMessage {
     colorSpace: ColorSpaceConfiguration
     visionSimulationMode: VisionSimulationModeConfiguration
     algorithmVersion: AlgorithmVersionConfiguration
-    textColorsTheme: TextColorsThemeHexModel
+    textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   }
 }
 
