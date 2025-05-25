@@ -7,7 +7,7 @@
     "start": "npm-run-all -p start:announcements_worker start:auth_lobby start:dev",
     "start:announcements_worker": "cd ../announcements-yelbolt-worker && npm run start:8888",
     "start:auth_lobby": "cd ../auth-yelbolt && npm run ui-color-palette",
-    "start:dev": "npm run build & vite preview",
+    "start:dev": "IS_SANDBOX=true npm run build & vite preview",
     "build": "npx vite build --mode development",
     "build:prod": "npx vite build --mode production",
     "typecheck": "npx tsc --noEmit",
@@ -68,7 +68,7 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
-    "@a_ng_d/figmug-ui": "^1.8.10",
+    "@a_ng_d/figmug-ui": "^1.8.13",
     "@a_ng_d/figmug-utils": "^0.3.0",
     "@a_ng_d/utils-ui-color-palette": "^1.0.4",
     "@nanostores/preact": "^0.5.2",
