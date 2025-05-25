@@ -18,9 +18,9 @@ import {
 } from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
 import { ActionsList, TextColorsThemeHexModel } from '../../types/models'
-import Contrast from '../../utils/Contrast'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import { Contrast } from '@a_ng_d/utils-ui-color-palette'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   service: Service
