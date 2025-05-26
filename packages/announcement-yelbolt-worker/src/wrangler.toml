@@ -1,0 +1,3 @@
+name = "announcements"
+main = "worker.ts"
+compatibility_date = "2023-08-23"
