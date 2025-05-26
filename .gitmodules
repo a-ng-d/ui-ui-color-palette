@@ -1,0 +1,9 @@
+[submodule "packages/announcement-yelbolt-worker"]
+    path = packages/announcement-yelbolt-worker
+    url = https://github.com/a-ng-d/announcement-yelbolt-worker
+[submodule "packages/auth-yelbolt"]
+    path = packages/auth-yelbolt
+    url = https://github.com/a-ng-d/auth-yelbolt
+[submodule "packages/auth-yelbolt-worker"]
+    path = packages/auth-yelbolt-worker
+    url = https://github.com/a-ng-d/auth-yelbolt-worker
