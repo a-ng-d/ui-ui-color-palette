@@ -1,4 +1,4 @@
-import { userConsentVersion } from '../../config'
+import globalConfig from '../../global.config'
 import { userConsent } from '../../utils/userConsent'
 
 const checkUserConsent = async () => {
@@ -23,7 +23,8 @@ const checkUserConsent = async () => {
     type: 'CHECK_USER_CONSENT',
     data: {
       mustUserConsent:
-        currentUserConsentVersion !== userConsentVersion ||
+        currentUserConsentVersion !==
+          globalConfig.versions.userConsentVersion ||
         currentUserConsentVersion === undefined,
       userConsent: userConsentData,
     },

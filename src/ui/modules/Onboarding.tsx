@@ -39,7 +39,12 @@ export default class Onboarding extends PureComponent<
       .then((data) => {
         if (data.message !== 'The database could not be queried') {
           interface AnnouncementProperties {
-            Rôle: {
+            Plateformes: {
+              multi_select: Array<{
+                name: string
+              }>
+            }
+            Éditeurs: {
               multi_select: Array<{
                 name: string
               }>
@@ -50,21 +55,62 @@ export default class Onboarding extends PureComponent<
             properties: AnnouncementProperties
           }
 
-          const forDev: Announcement[] = data.announcements.filter(
-            (announcement: Announcement) =>
-              announcement.properties['Rôle'].multi_select.some(
-                (role: { name: string }) => role.name === 'Dev'
+          switch (this.props.config.env.platform) {
+            case 'figma':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Plateformes'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Figma'
+                  )
               )
-          )
-          const forDesigner: Announcement[] = data.announcements.filter(
-            (announcement: Announcement) =>
-              announcement.properties['Rôle'].multi_select.some(
-                (role: { name: string }) => role.name === 'Design'
+              break
+            case 'penpot':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Plateformes'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Penpot'
+                  )
               )
-          )
+              break
+          }
+
+          switch (this.props.config.env.editor) {
+            case 'figma':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Éditeurs'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Figma'
+                  )
+              )
+              break
+            case 'dev':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Éditeurs'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Dev'
+                  )
+              )
+              break
+            case 'figjam':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Éditeurs'].multi_select.some(
+                    (role: { name: string }) => role.name === 'FigJam'
+                  )
+              )
+              break
+            case 'penpot':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Éditeurs'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Penpot'
+                  )
+              )
+              break
+          }
 
           this.setState({
-            announcements: forDev,
+            announcements: data.announcements,
             status: 'LOADED',
           })
         } else this.setState({ status: 'ERROR' })

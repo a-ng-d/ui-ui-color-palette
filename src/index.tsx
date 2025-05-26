@@ -1,93 +1,65 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import features, {
-  algorithmVersion,
-  announcementsWorkerUrl,
-  authorUrl,
-  authUrl,
-  authWorkerUrl,
-  databaseUrl,
-  documentationUrl,
-  feedbackUrl,
-  isbUrl,
-  isProEnabled,
-  isTrialEnabled,
-  licenseUrl,
-  mode,
-  networkUrl,
-  oldTrialTime,
-  pageSize,
-  paletteDataVersion,
-  palettesDbTableName,
-  palettesStorageName,
-  privacyUrl,
-  repositoryUrl,
-  supportEmail,
-  theme,
-  trialFeedbackUrl,
-  trialTime,
-  trialVersion,
-  userConsentVersion,
-  vsCodeFigmaPluginUrl,
-} from './config'
 import { initializeAnalytics } from './config/analytics'
 import { ConfigProvider } from './config/ConfigContext'
 import { ThemeProvider } from './config/ThemeContext'
 import App from './ui/App'
+import globalConfig from './global.config'
 
 const container = document.getElementById('app'),
   root = createRoot(container)
-export const isDev = import.meta.env.MODE === 'development'
 
 initializeAnalytics()
 
 root.render(
   <ConfigProvider
     limits={{
-      pageSize: pageSize,
+      pageSize: globalConfig.limits.pageSize,
     }}
     env={{
-      isDev: isDev,
+      isDev: globalConfig.env.isDev,
+      platform: globalConfig.env.platform,
+      editor: globalConfig.env.editor,
     }}
     plan={{
-      isProEnabled: isProEnabled,
-      isTrialEnabled: isTrialEnabled,
-      trialTime: trialTime,
-      oldTrialTime: oldTrialTime,
+      isProEnabled: globalConfig.plan.isProEnabled,
+      isTrialEnabled: globalConfig.plan.isTrialEnabled,
+      trialTime: globalConfig.plan.trialTime,
+      oldTrialTime: globalConfig.plan.oldTrialTime,
     }}
     dbs={{
-      palettesDbTableName: palettesDbTableName,
-      palettesStorageName: palettesStorageName,
+      palettesDbTableName: globalConfig.dbs.palettesDbTableName,
+      palettesStorageName: globalConfig.dbs.palettesStorageName,
     }}
     urls={{
-      authWorkerUrl: authWorkerUrl,
-      announcementsWorkerUrl: announcementsWorkerUrl,
-      databaseUrl: databaseUrl,
-      authUrl: authUrl,
-      documentationUrl: documentationUrl,
-      repositoryUrl: repositoryUrl,
-      supportEmail: supportEmail,
-      feedbackUrl: feedbackUrl,
-      trialFeedbackUrl: trialFeedbackUrl,
-      requestsUrl: repositoryUrl,
-      networkUrl: networkUrl,
-      authorUrl: authorUrl,
-      licenseUrl: licenseUrl,
-      privacyUrl: privacyUrl,
-      vsCodeFigmaPluginUrl: vsCodeFigmaPluginUrl,
-      isbUrl: isbUrl,
+      authWorkerUrl: globalConfig.urls.authWorkerUrl,
+      announcementsWorkerUrl: globalConfig.urls.announcementsWorkerUrl,
+      databaseUrl: globalConfig.urls.databaseUrl,
+      authUrl: globalConfig.urls.authUrl,
+      documentationUrl: globalConfig.urls.documentationUrl,
+      repositoryUrl: globalConfig.urls.repositoryUrl,
+      supportEmail: globalConfig.urls.supportEmail,
+      feedbackUrl: globalConfig.urls.feedbackUrl,
+      trialFeedbackUrl: globalConfig.urls.trialFeedbackUrl,
+      requestsUrl: globalConfig.urls.requestsUrl,
+      networkUrl: globalConfig.urls.networkUrl,
+      authorUrl: globalConfig.urls.authorUrl,
+      licenseUrl: globalConfig.urls.licenseUrl,
+      privacyUrl: globalConfig.urls.privacyUrl,
+      vsCodeFigmaPluginUrl: globalConfig.urls.vsCodeFigmaPluginUrl,
+      isbUrl: globalConfig.urls.isbUrl,
     }}
     versions={{
-      userConsentVersion: userConsentVersion,
-      trialVersion: trialVersion,
-      paletteDataVersion: paletteDataVersion,
-      algorithmVersion: algorithmVersion,
+      userConsentVersion: globalConfig.versions.userConsentVersion,
+      trialVersion: globalConfig.versions.trialVersion,
+      algorithmVersion: globalConfig.versions.algorithmVersion,
+      paletteDataVersion: globalConfig.versions.paletteDataVersion,
     }}
-    features={features}
+    features={globalConfig.features}
   >
     <ThemeProvider
-      theme={theme}
-      mode={mode}
+      theme={globalConfig.env.ui}
+      mode={globalConfig.env.colorMode}
     >
       <App />
     </ThemeProvider>

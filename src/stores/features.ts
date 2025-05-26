@@ -1372,16 +1372,18 @@ export const featuresScheme: Array<
 ]
 
 export const doSpecificMode = (
+  unactiveFeature: Array<string>,
   proFeature?: Array<string>,
   newFeature?: Array<string>
 ) => {
   const features = featuresScheme.map((feature) => ({ ...feature }))
+  const unactiveFeatures = new Set(unactiveFeature)
   const proFeatures = new Set(proFeature)
   const newFeatures = new Set(newFeature)
 
   return features.map((feature) => {
+    if (unactiveFeatures.has(feature.name)) feature.isActive = false
     if (proFeatures.has(feature.name)) feature.isPro = true
-
     if (newFeatures.has(feature.name)) feature.isNew = true
 
     return feature

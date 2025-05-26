@@ -1,7 +1,7 @@
 import { Feature } from '@a_ng_d/figmug-utils'
-import React, { createContext, ReactNode, useContext } from 'react'
+import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
-export interface ConfigContextType {
+export interface Config {
   limits: {
     pageSize: number
   }
@@ -9,6 +9,8 @@ export interface ConfigContextType {
     isDev: boolean
     platform: 'figma' | 'penpot'
     editor: 'figma' | 'figjam' | 'dev' | 'penpot'
+    ui: 'figma-ui3' | 'penpot'
+    colorMode: 'figma-dark' | 'figma-light' | 'penpot-dark' | 'penpot-light'
   }
   plan: {
     isProEnabled: boolean
@@ -25,58 +27,24 @@ export interface ConfigContextType {
     announcementsWorkerUrl: string
     databaseUrl: string
     authUrl: string
-    networkUrl: string
     documentationUrl: string
     repositoryUrl: string
     supportEmail: string
     feedbackUrl: string
     trialFeedbackUrl: string
     requestsUrl: string
-    isbUrl: string
+    networkUrl: string
+    authorUrl: string
     licenseUrl: string
     privacyUrl: string
     vsCodeFigmaPluginUrl: string
-    authorUrl: string
+    isbUrl: string
   }
   versions: {
     userConsentVersion: string
     trialVersion: string
-    algorithmVersion: 'v1' | 'v2' | 'v3'
+    algorithmVersion: AlgorithmVersionConfiguration
     paletteDataVersion: string
   }
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
-}
-
-export const ConfigContext = createContext<ConfigContextType | undefined>(
-  undefined
-)
-
-interface ConfigProviderProps extends ConfigContextType {
-  children: ReactNode
-}
-
-export const ConfigProvider = ({
-  children,
-  limits,
-  env,
-  plan,
-  dbs,
-  urls,
-  versions,
-  features,
-}: ConfigProviderProps) => {
-  return (
-    <ConfigContext.Provider
-      value={{ limits, env, plan, dbs, urls, versions, features }}
-    >
-      {children}
-    </ConfigContext.Provider>
-  )
-}
-
-export const useConfig = () => {
-  const context = useContext(ConfigContext)
-  if (!context)
-    throw new Error('useConfig must be used within a ConfigProvider')
-  return context
 }

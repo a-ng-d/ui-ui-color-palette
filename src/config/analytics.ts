@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react'
 import mixpanel from 'mixpanel-figma'
-import { isDev } from '../config'
+import globalConfig from '../global.config'
 
 interface AnalyticsConfig {
   sentry?: {
@@ -15,7 +15,7 @@ interface AnalyticsConfig {
 export const initializeAnalytics = (config?: AnalyticsConfig) => {
   if (config?.mixpanel?.token)
     mixpanel.init(config.mixpanel.token, {
-      debug: isDev,
+      debug: globalConfig.env.isDev,
       disable_persistence: true,
       disable_cookie: true,
       opt_out_tracking_by_default: !config.mixpanel.token,

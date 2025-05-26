@@ -38,12 +38,43 @@ export default class Highlight extends PureComponent<
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.message !== 'The database could not be queried')
+        if (data.message !== 'The database could not be queried') {
+          interface AnnouncementProperties {
+            Plateformes: {
+              multi_select: Array<{
+                name: string
+              }>
+            }
+          }
+
+          interface Announcement {
+            properties: AnnouncementProperties
+          }
+
+          switch (this.props.config.env.platform) {
+            case 'figma':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Plateformes'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Figma'
+                  )
+              )
+              break
+            case 'penpot':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Plateformes'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Penpot'
+                  )
+              )
+              break
+          }
+
           this.setState({
             announcements: data.announcements,
             status: 'LOADED',
           })
-        else this.setState({ status: 'ERROR' })
+        } else this.setState({ status: 'ERROR' })
       })
       .catch(() => {
         this.setState({ status: 'ERROR' })

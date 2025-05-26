@@ -1,8 +1,9 @@
 import { deepMap } from 'nanostores'
 import { ExchangeConfiguration } from '../types/configurations'
-import { algorithmVersion } from '../config'
 import { locals } from '../content/locals'
 import { presets } from './presets'
+import globalConfig from '../global.config'
+import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 export const $palette = deepMap<ExchangeConfiguration>({
   id: '',
@@ -16,7 +17,8 @@ export const $palette = deepMap<ExchangeConfiguration>({
   areSourceColorsLocked: false,
   colorSpace: 'LCH',
   visionSimulationMode: 'NONE',
-  algorithmVersion: algorithmVersion,
+  algorithmVersion: globalConfig.versions
+    .algorithmVersion as AlgorithmVersionConfiguration,
   textColorsTheme: {
     lightColor: '#FFFFFF',
     darkColor: '#000000',

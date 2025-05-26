@@ -3,7 +3,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "vite.config.ts",
-    "env.d.ts",
+    "env.d.ts", "src/config/platform/figma.dark.dev.config.js",
   ],
   "compilerOptions": {
     "target": "ES2015",

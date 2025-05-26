@@ -3,7 +3,10 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import basicSsl from '@vitejs/plugin-basic-ssl'
 import { defineConfig, loadEnv } from 'vite'
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
+  const platform = process.env.PLATFORM || 'penpot'
+  const colorMode = process.env.COLOR_MODE || 'dark'
+  const editor = process.env.EDITOR || 'penpot'
   const env = loadEnv(mode, process.cwd(), '')
   const isDev = mode === 'development'
 
@@ -19,12 +22,9 @@ export default defineConfig(({ mode }) => {
     ],
 
     define: {
-      'import.meta.env.UI_THEME': JSON.stringify(
-        process.env.UI_THEME || 'penpot'
-      ),
-      'import.meta.env.COLOR_MODE': JSON.stringify(
-        process.env.COLOR_MODE || 'dark'
-      ),
+      __PLATFORM__: JSON.stringify(platform),
+      __COLOR_MODE__: JSON.stringify(colorMode),
+      __EDITOR__: JSON.stringify(editor),
     },
 
     resolve: {

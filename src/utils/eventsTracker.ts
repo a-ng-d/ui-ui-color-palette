@@ -1,6 +1,5 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import mixpanel from 'mixpanel-figma'
-import { isDev, userConsentVersion } from '../config'
 import {
   ActionEvent,
   ColorThemeEvent,
@@ -13,9 +12,10 @@ import {
   SourceColorEvent,
   TrialEvent,
 } from '../types/events'
+import globalConfig from '../global.config'
 
 const eventsRecurringProperties = {
-  Env: isDev ? 'Dev' : 'Prod',
+  Env: globalConfig.env.isDev ? 'Dev' : 'Prod',
 }
 
 export const trackRunningEvent = (id: string, consent: boolean) => {
@@ -26,7 +26,7 @@ export const trackRunningEvent = (id: string, consent: boolean) => {
 
 export const trackUserConsentEvent = (consent: Array<ConsentConfiguration>) => {
   mixpanel.track('Consent Proof Sent', {
-    'User Consent Version': userConsentVersion,
+    'User Consent Version': globalConfig.versions.userConsentVersion,
     Consent: consent.map((c) => {
       return { [c.name]: c.isConsented }
     }),
