@@ -1,15 +1,23 @@
 {
   "name": "ui-ui-color-palette",
   "version": "0.1.0",
+  "private": true,
   "description": "",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/announcements-yelbolt-worker",
+    "packages/auth-yelbolt-worker",
+    "packages/auth-yelbolt"
   ],
   "scripts": {
-    "start": "npm-run-all -p start:announcements_worker start:auth_lobby start:dev",
-    "start:announcements_worker": "cd ../announcements-yelbolt-worker && npm run start:8888",
-    "start:auth_lobby": "cd ../auth-yelbolt && npm run ui-color-palette",
+    "install:packages": "npm install --workspaces",
+    "update:packages": "git submodule update --remote --merge",
+    "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest",
+    "update:ui-color-palette": "npm i @a_ng_d/utils-ui-color-palette@latest",
+    "start:announcements_worker": "npm run start:8888 -w announcements-yelbolt-worker",
+    "start:auth_lobby": "npm run start:8787 -w auth-yelbolt-worker",
+    "start:auth_worker": "npm run start:ui-color-palette -w auth-yelbolt",
+    "start:packages": "npm run start:announcements_worker & npm run start:auth_worker & npm run start:auth_lobby",
     "start:figmaui3:dark": "UI_THEME=\"figma-ui3\" COLOR_MODE=\"figma-dark\" npm run build & vite preview",
     "start:figmaui3:light": "UI_THEME=\"figma-ui3\" COLOR_MODE=\"figma-light\" npm run build & vite preview",
     "start:figmaui2:dark": "UI_THEME=\"figma-ui2\" COLOR_MODE=\"figma-dark\" npm run build & vite preview",
@@ -22,9 +30,7 @@
     "typecheck:watch": "npx tsc --noEmit --watch",
     "lint": "npx eslint ./src/** --fix --ext .ts,.tsx .",
     "lint:watch": "esw ./src/** --fix --watch --ext .ts,.tsx .",
-    "format": "npx prettier './src' --write",
-    "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest",
-    "update:ui-color-palette": "npm i @a_ng_d/utils-ui-color-palette@latest"
+    "format": "npx prettier './src' --write"
   },
   "keywords": [
     "color",
