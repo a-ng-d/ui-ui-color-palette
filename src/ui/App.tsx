@@ -257,7 +257,7 @@ class App extends Component<AppProps, AppStates> {
 
     // Announcements
     fetch(
-      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_version&database_id=${process.env.VITE_NOTION_ANNOUNCEMENTS_ID}`
+      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_version&database_id=${import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID}`
     )
       .then((response) => response.json())
       .then((data) => {
