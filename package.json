@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "start": "npm-run-all -p start:announcements_worker start:auth_lobby start:dev",
     "start:announcements_worker": "cd ../announcements-yelbolt-worker && npm run start:8888",
