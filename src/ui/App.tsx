@@ -256,8 +256,8 @@ class App extends Component<AppProps, AppStates> {
     })
 
     // Announcements
-    /*fetch(
-      `${announcementsWorkerUrl}/?action=get_version&database_id=${process.env.REACT_APP_NOTION_ANNOUNCEMENTS_ID}`
+    fetch(
+      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_version&database_id=${process.env.VITE_NOTION_ANNOUNCEMENTS_ID}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -267,8 +267,8 @@ class App extends Component<AppProps, AppStates> {
               pluginMessage: {
                 type: 'CHECK_HIGHLIGHT_STATUS',
                 data: {
-                version: data.version,
-  }
+                  version: data.version,
+                },
               },
             },
             '*'
@@ -281,7 +281,7 @@ class App extends Component<AppProps, AppStates> {
           })
         }
       })
-      .catch((error) => console.error(error))*/
+      .catch((error) => console.error(error))
 
     // Listener
     window.addEventListener('message', (e: MessageEvent) => {
