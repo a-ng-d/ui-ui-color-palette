@@ -61,7 +61,7 @@ const exportXml = (id: string) => {
 
   resources.pop()
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_XML',
     data: {
       id: '',

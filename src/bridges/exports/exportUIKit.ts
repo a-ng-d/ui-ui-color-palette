@@ -63,7 +63,7 @@ const exportUIKit = (id: string) => {
     else swift.push(`${UIColors.join('\n  ')}`)
   })
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_UIKIT',
     data: {
       id: '',

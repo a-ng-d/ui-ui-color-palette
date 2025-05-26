@@ -172,7 +172,7 @@ const exportJson = (id: string) => {
   json['descrption'] = paletteData.description
   json['type'] = 'color palette'
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_JSON',
     data: {
       id: '',

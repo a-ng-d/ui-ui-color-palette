@@ -21,7 +21,10 @@ const updateThemes = async (msg: ThemesMessage) => {
 
   palette.data = new Data(palette).makePaletteData(palette.data)
 
-  window.localStorage.setItem(`palette_${msg.id}`, JSON.stringify(palette))
+  return window.localStorage.setItem(
+    `palette_${msg.id}`,
+    JSON.stringify(palette)
+  )
 }
 
 export default updateThemes

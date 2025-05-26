@@ -40,7 +40,10 @@ const updateScale = async (msg: ScaleMessage) => {
 
   palette.data = new Data(palette).makePaletteData(palette.data)
 
-  window.localStorage.setItem(`palette_${msg.data.id}`, JSON.stringify(palette))
+  return window.localStorage.setItem(
+    `palette_${msg.data.id}`,
+    JSON.stringify(palette)
+  )
 }
 
 export default updateScale

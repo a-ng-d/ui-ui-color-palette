@@ -70,7 +70,7 @@ const exportSwiftUI = (id: string) => {
 
   swift.pop()
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_SWIFTUI',
     data: {
       id: '',

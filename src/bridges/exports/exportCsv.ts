@@ -70,7 +70,7 @@ const exportCsv = (id: string) => {
     colorCsv.splice(0, colorCsv.length)
   })
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_CSV',
     data: {
       id: '',

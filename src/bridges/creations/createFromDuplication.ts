@@ -24,12 +24,10 @@ const createPaletteFromDuplication = async (id: string) => {
   palette.meta.creatorIdentity.creatorFullName = ''
   palette.meta.creatorIdentity.creatorAvatar = ''
 
-  window.localStorage.setItem(
+  return window.localStorage.setItem(
     `palette_${palette.meta.id}`,
     JSON.stringify(palette)
   )
-
-  return true
 }
 
 export default createPaletteFromDuplication

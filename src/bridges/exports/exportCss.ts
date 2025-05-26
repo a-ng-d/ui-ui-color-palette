@@ -111,7 +111,7 @@ const exportCss = (id: string, colorSpace: ColorSpaceConfiguration) => {
     )
   })
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_CSS',
     data: {
       id: '',

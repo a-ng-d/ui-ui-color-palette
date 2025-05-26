@@ -1,7 +1,5 @@
 const deletePalette = async (id: string) => {
-  window.localStorage.removeItem(`palette_${id}`)
-
-  return true
+  return window.localStorage.removeItem(`palette_${id}`)
 }
 
 export default deletePalette

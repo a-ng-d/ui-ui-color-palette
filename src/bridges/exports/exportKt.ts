@@ -61,7 +61,7 @@ const exportKt = (id: string) => {
 
   kotlin.pop()
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_KT',
     data: {
       id: '',

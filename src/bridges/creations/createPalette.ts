@@ -102,12 +102,10 @@ const createPalette = async (msg: Msg) => {
     JSON.stringify(palette)
   )
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'LOAD_PALETTE',
     data: palette,
   })
-
-  return true
 }
 
 export default createPalette
