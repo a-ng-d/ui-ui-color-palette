@@ -104,6 +104,9 @@ const globalConfig: Config = {
   env: {
     ...specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].env,
     isDev,
+    supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY as string,
+    announcementsDbId: import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID as string,
+    onboardingDbId: import.meta.env.VITE_NOTION_ONBOARDING_ID as string,
   },
   plan: {
     isProEnabled: false,

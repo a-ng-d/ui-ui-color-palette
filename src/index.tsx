@@ -20,6 +20,9 @@ root.render(
       isDev: globalConfig.env.isDev,
       platform: globalConfig.env.platform,
       editor: globalConfig.env.editor,
+      supabaseAnonKey: globalConfig.env.supabaseAnonKey,
+      announcementsDbId: globalConfig.env.announcementsDbId,
+      onboardingDbId: globalConfig.env.onboardingDbId,
     }}
     plan={{
       isProEnabled: globalConfig.plan.isProEnabled,

@@ -16,6 +16,7 @@ import { defaultPreset, presets } from '../stores/presets'
 import {
   BaseProps,
   Easing,
+  Editor,
   HighlightDigest,
   NamingConvention,
   PlanStatus,
@@ -45,6 +46,7 @@ import {
 import { UserSession } from '../types/user'
 import { doScale } from '@a_ng_d/figmug-utils'
 import {
+  trackEditorEvent,
   trackExportEvent,
   trackPurchaseEvent,
   trackUserConsentEvent,
@@ -89,6 +91,7 @@ export interface AppStates extends BaseProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
+  editor: Editor
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
   priorityContainerContext: PriorityContext
@@ -176,6 +179,7 @@ class App extends Component<AppProps, AppStates> {
       document: {},
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
+      editor: props.config.env.editor,
       trialRemainingTime: this.props.config.plan.trialTime,
       publicationStatus: {
         isPublished: false,
@@ -257,7 +261,7 @@ class App extends Component<AppProps, AppStates> {
 
     // Announcements
     fetch(
-      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_version&database_id=${import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID}`
+      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_version&database_id=${this.props.config.env.announcementsDbId}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -319,6 +323,23 @@ class App extends Component<AppProps, AppStates> {
           $canStylesDeepSync.set(path.data.canDeepSyncStyles)
           $isVsCodeMessageDisplayed.set(path.data.isVsCodeMessageDisplayed)
           $userLanguage.set(path.data.userLanguage)
+        }
+
+        const checkEditor = () => {
+          this.setState({ editor: path.data.editor })
+          setTimeout(
+            () =>
+              trackEditorEvent(
+                path.data.id,
+                this.state.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                {
+                  editor: path.data.editor,
+                }
+              ),
+            1000
+          )
         }
 
         const handleHighlight = () => {
@@ -705,6 +726,7 @@ class App extends Component<AppProps, AppStates> {
           CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
           CHECK_USER_CONSENT: () => checkUserConsent(),
           CHECK_USER_PREFERENCES: () => checkUserPreferences(),
+          CHECK_EDITOR: () => checkEditor(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),

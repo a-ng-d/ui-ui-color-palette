@@ -1,5 +1,9 @@
-import { Easing, NamingConvention } from './app'
+import { Easing, Editor, NamingConvention } from './app'
 import { ColorSpaceConfiguration } from './configurations'
+
+export interface EditorEvent {
+  editor: Editor
+}
 
 export interface TrialEvent {
   date: number
@@ -102,7 +106,7 @@ export interface SettingEvent {
 }
 
 export interface ActionEvent {
-  feature: 'CREATE_PALETTE' | 'SYNC_STYLES'
+  feature: 'CREATE_PALETTE' | 'SYNC_STYLES' | 'SYNC_VARIABLES'
   colors?: number
   stops?: number
 }

@@ -3,6 +3,7 @@ import mixpanel from 'mixpanel-figma'
 import {
   ActionEvent,
   ColorThemeEvent,
+  EditorEvent,
   ExportEvent,
   ImportEvent,
   PreviewEvent,
@@ -15,7 +16,7 @@ import {
 import globalConfig from '../global.config'
 
 const eventsRecurringProperties = {
-  Env: globalConfig.env.isDev ? 'Dev' : 'Prod',
+  Env: process.env.NODE_ENV === 'development' ? 'Dev' : 'Prod',
 }
 
 export const trackRunningEvent = (id: string, consent: boolean) => {
@@ -34,14 +35,16 @@ export const trackUserConsentEvent = (consent: Array<ConsentConfiguration>) => {
   })
 }
 
-export const trackEditorEvent = (id: string, consent: boolean) => {
+export const trackEditorEvent = (
+  id: string,
+  consent: boolean,
+  options: EditorEvent
+) => {
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Editor Run', {
-    Editor: {
-      Editor: 'penpot',
-      ...eventsRecurringProperties,
-    },
+    Editor: options.editor,
+    ...eventsRecurringProperties,
   })
 }
 

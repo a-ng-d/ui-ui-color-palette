@@ -31,6 +31,8 @@ export type PlanStatus = 'UNPAID' | 'PAID' | 'NOT_SUPPORTED'
 
 export type TrialStatus = 'UNUSED' | 'PENDING' | 'EXPIRED'
 
+export type Editor = 'figma' | 'figjam' | 'dev' | 'dev_vscode' | 'penpot'
+
 export type FetchStatus =
   | 'UNLOADED'
   | 'LOADING'
@@ -114,6 +116,7 @@ export interface BaseProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
+  editor: Editor
   locals: any
   lang: Language
 }

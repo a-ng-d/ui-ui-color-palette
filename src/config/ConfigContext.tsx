@@ -9,6 +9,9 @@ export interface ConfigContextType {
     isDev: boolean
     platform: 'figma' | 'penpot'
     editor: 'figma' | 'figjam' | 'dev' | 'penpot'
+    supabaseAnonKey: string
+    announcementsDbId: string
+    onboardingDbId: string
   }
   plan: {
     isProEnabled: boolean

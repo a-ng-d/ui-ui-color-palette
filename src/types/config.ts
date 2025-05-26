@@ -11,6 +11,9 @@ export interface Config {
     editor: 'figma' | 'figjam' | 'dev' | 'penpot'
     ui: 'figma-ui3' | 'penpot'
     colorMode: 'figma-dark' | 'figma-light' | 'penpot-dark' | 'penpot-light'
+    supabaseAnonKey: string
+    announcementsDbId: string
+    onboardingDbId: string
   }
   plan: {
     isProEnabled: boolean

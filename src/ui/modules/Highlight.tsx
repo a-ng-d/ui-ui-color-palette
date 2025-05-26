@@ -34,7 +34,7 @@ export default class Highlight extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     fetch(
-      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID}`
+      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.announcementsDbId}`
     )
       .then((response) => response.json())
       .then((data) => {
