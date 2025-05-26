@@ -1,0 +1,19 @@
+{
+  "name": "oauth",
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "start:8787": "wrangler dev --port 8787"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "wrangler": "^3.90.0"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20240821.1",
+    "crypto-js": "^4.2.0"
+  }
+}
