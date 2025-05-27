@@ -4,10 +4,10 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 import { defineConfig, loadEnv } from 'vite'
 
 export default defineConfig(({ mode }) => {
-  const platform = process.env.PLATFORM || 'penpot'
-  const colorMode = process.env.COLOR_MODE || 'dark'
-  const editor = process.env.EDITOR || 'penpot'
   const env = loadEnv(mode, process.cwd(), '')
+  const platform = env.PLATFORM || 'penpot'
+  const colorMode = env.COLOR_MODE || 'dark'
+  const editor = env.EDITOR || 'penpot'
   const isDev = mode === 'development'
 
   return {
