@@ -1,15 +1,48 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { initializeAnalytics } from './config/analytics'
 import { ConfigProvider } from './config/ConfigContext'
 import { ThemeProvider } from './config/ThemeContext'
 import App from './ui/App'
 import globalConfig from './global.config'
+import * as Sentry from '@sentry/react'
+import mixpanel from 'mixpanel-figma'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 const container = document.getElementById('app'),
   root = createRoot(container)
 
-initializeAnalytics()
+if (globalConfig.env.mixpanelToken)
+  mixpanel.init(globalConfig.env.mixpanelToken, {
+    debug: globalConfig.env.isDev,
+    disable_persistence: true,
+    disable_cookie: true,
+    opt_out_tracking_by_default: true,
+  })
+
+if (globalConfig.env.sentryToken)
+  Sentry.init({
+    dsn: globalConfig.urls.sentryDsn,
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration(),
+      Sentry.feedbackIntegration({
+        colorScheme: 'system',
+        autoInject: false,
+      }),
+    ],
+    tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+  })
+
+let supabase: SupabaseClient
+if (globalConfig.env.supabaseAnonKey)
+  supabase = createClient(
+    globalConfig.urls.databaseUrl,
+    globalConfig.env.supabaseAnonKey
+  )
+
+export { supabase }
 
 root.render(
   <ConfigProvider

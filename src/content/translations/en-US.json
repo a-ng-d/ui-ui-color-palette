@@ -98,24 +98,24 @@
     "themes": "Modes"
   },
   "error": {
-    "addToFile": "✕ The palette cannot be added",
+    "addToFile": "The palette cannot be added",
     "announcements": "The announcements cannot be loaded",
-    "authentication": "✕ The authentication has failed",
-    "badResponse": "✕ The response is not valid",
-    "corruption": "✕ Your UI Color Palette seems corrupted. Do not edit any layer within it.",
+    "authentication": "The authentication has failed",
+    "badResponse": "The response is not valid",
+    "corruption": "Your UI Color Palette seems corrupted. Do not edit any layer within it.",
     "export": "The code cannot be generated because the palette has not been found",
     "fetchPalette": "The palettes cannot be loaded",
-    "generic": "✕ Something went wrong",
-    "noInternetConnection": "✕ The connection with the remote palette is unlinked",
-    "nonPublication": "✕ The palette cannot be unpublished",
+    "generic": "Something went wrong",
+    "noInternetConnection": "The connection with the remote palette is unlinked",
+    "nonPublication": "The palette cannot be unpublished",
     "onboarding": "The onboarding cannot be loaded",
-    "palettesPicking": "✕ The palettes cannot be picked for now",
-    "publication": "✕ The palette cannot be published",
-    "share": "✕ The palette has not been shared with the community",
-    "styles": "✕ The styles cannot be generated",
-    "synchronization": "✕ The palette has not been synchronized",
-    "timeout": "✕ The authentication has been timed out",
-    "unshare": "✕ The palette has not been removed from the community"
+    "palettesPicking": "The palettes cannot be picked for now",
+    "publication": "The palette cannot be published",
+    "share": "The palette has not been shared with the community",
+    "styles": "The styles cannot be generated",
+    "synchronization": "The palette has not been synchronized",
+    "timeout": "The authentication has been timed out",
+    "unshare": "The palette has not been removed from the community"
   },
   "export": {
     "actions": {
@@ -607,13 +607,13 @@
     "title": "More products from Yelbolt"
   },
   "success": {
-    "detachment": "✓ The palette has been detached",
-    "nonPublication": "✓ The palette has been unpublished",
-    "publication": "✓ The palette has been published",
-    "report": "✓ Thanks for your report",
-    "share": "✓ The palette has been shared with the community",
-    "synchronization": "✓ The palette has been synchronized",
-    "unshare": "✓ The palette is no longer shared with the community"
+    "detachment": "The palette has been detached",
+    "nonPublication": "The palette has been unpublished",
+    "publication": "The palette has been published",
+    "report": "Thanks for your report",
+    "share": "The palette has been shared with the community",
+    "synchronization": "The palette has been synchronized",
+    "unshare": "The palette is no longer shared with the community"
   },
   "tagline": "WCAG-Compliant Color Palette Suite",
   "themes": {
@@ -652,7 +652,7 @@
     "signOut": "Sign out",
     "updateConsent": "Manage your cookies",
     "updatePreferences": "Update your preferences",
-    "welcomeMessage": "Hello $[]",
+    "welcomeMessage": "Hello {$1}",
     "preferences": {
       "sync": {
         "message": "A deep synchronization means that the local styles are synchronized with the palette (if a style is not in the palette, it will be removed).",

@@ -12,6 +12,8 @@ import {
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import PlanControls from './PlanControls'
+import { signIn, signOut } from '../../external/publication/authentication'
+import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 
 interface ShortcutsProps extends BaseProps, WithConfigProps {
   trialStatus: TrialStatus
@@ -31,10 +33,7 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER: new FeatureStatus({
       features: config.features,
@@ -119,6 +118,11 @@ export default class Shortcuts extends PureComponent<
     RESIZE_UI: new FeatureStatus({
       features: config.features,
       featureName: 'RESIZE_UI',
+      planStatus: planStatus,
+    }),
+    AUTHENTICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'AUTHENTICATION',
       planStatus: planStatus,
     }),
   })
@@ -257,7 +261,7 @@ export default class Shortcuts extends PureComponent<
                       options={[
                         {
                           label: this.props.locals.user.welcomeMessage.replace(
-                            '$[]',
+                            '{$1}',
                             this.props.userSession.userFullName
                           ),
                           type: 'TITLE',
@@ -265,6 +269,53 @@ export default class Shortcuts extends PureComponent<
                         },
                         {
                           type: 'SEPARATOR',
+                        },
+                        {
+                          label: this.props.locals.user.signOut,
+                          type: 'OPTION',
+                          action: async () => {
+                            this.setState({ isUserMenuLoading: true })
+                            signOut(this.props.config.urls.authUrl)
+                              .then(() => {
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'INFO',
+                                        message: this.props.locals.info.signOut,
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+
+                                trackSignOutEvent(
+                                  this.props.userIdentity.id,
+                                  this.props.userConsent.find(
+                                    (consent) => consent.id === 'mixpanel'
+                                  )?.isConsented ?? false
+                                )
+                              })
+                              .finally(() => {
+                                this.setState({ isUserMenuLoading: false })
+                              })
+                              .catch(() => {
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'ERROR',
+                                        message:
+                                          this.props.locals.error.generic,
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+                              })
+                          },
                         },
                         {
                           label: this.props.locals.user.updateConsent,
@@ -312,6 +363,60 @@ export default class Shortcuts extends PureComponent<
                       id="user-menu"
                       icon="user"
                       options={[
+                        {
+                          label: this.props.locals.user.signIn,
+                          type: 'OPTION',
+                          isActive: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).AUTHENTICATION.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).AUTHENTICATION.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).AUTHENTICATION.isNew(),
+                          action: async () => {
+                            this.setState({ isUserMenuLoading: true })
+                            signIn(
+                              this.props.userIdentity.id,
+                              this.props.config.urls.authWorkerUrl,
+                              this.props.config.urls.authUrl
+                            )
+                              .then(() => {
+                                trackSignInEvent(
+                                  this.props.userIdentity.id,
+                                  this.props.userConsent.find(
+                                    (consent) => consent.id === 'mixpanel'
+                                  )?.isConsented ?? false
+                                )
+                              })
+                              .finally(() => {
+                                this.setState({ isUserMenuLoading: false })
+                              })
+                              .catch((error) => {
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'ERROR',
+                                        message:
+                                          error.message ===
+                                          'Authentication timeout'
+                                            ? this.props.locals.error.timeout
+                                            : this.props.locals.error
+                                                .authentication,
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+                              })
+                          },
+                        },
                         {
                           label: this.props.locals.user.updateConsent,
                           type: 'OPTION',

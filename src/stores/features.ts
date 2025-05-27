@@ -80,6 +80,15 @@ export const featuresScheme: Array<
   },
   // Modules
   {
+    name: 'AUTHENTICATION',
+    description: 'User authentication module',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'DIVISION',
+    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+  },
+  {
     name: 'PUBLICATION',
     description: 'Palette publication pitch',
     isActive: true,

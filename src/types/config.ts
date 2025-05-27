@@ -12,6 +12,8 @@ export interface Config {
     ui: 'figma-ui3' | 'penpot'
     colorMode: 'figma-dark' | 'figma-light' | 'penpot-dark' | 'penpot-light'
     supabaseAnonKey: string
+    mixpanelToken: string
+    sentryToken: string
     announcementsDbId: string
     onboardingDbId: string
   }
@@ -30,6 +32,7 @@ export interface Config {
     announcementsWorkerUrl: string
     databaseUrl: string
     authUrl: string
+    sentryDsn: string
     documentationUrl: string
     repositoryUrl: string
     supportEmail: string

@@ -104,7 +104,9 @@ const globalConfig: Config = {
   env: {
     ...specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].env,
     isDev,
-    supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY as string,
+    supabaseAnonKey: import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY as string,
+    mixpanelToken: import.meta.env.VITE_MIXPANEL_TOKEN as string,
+    sentryToken: import.meta.env.VITE_SENTRY_AUTH_TOKEN as string,
     announcementsDbId: import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID as string,
     onboardingDbId: import.meta.env.VITE_NOTION_ONBOARDING_ID as string,
   },
@@ -126,6 +128,7 @@ const globalConfig: Config = {
       ? 'http://localhost:8888'
       : (import.meta.env.VITE_ANNOUNCEMENTS_WORKER_URL as string),
     databaseUrl: import.meta.env.VITE_SUPABASE_URL as string,
+    sentryDsn: import.meta.env.VITE_SENTRY_DSN as string,
     authUrl: isDev
       ? 'http://localhost:3000'
       : (import.meta.env.VITE_AUTH_URL as string),

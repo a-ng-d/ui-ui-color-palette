@@ -150,7 +150,15 @@ window.addEventListener('message', async (msg: any) => {
       path.export === 'CSV' && exportCsv(path.id)
     },
     //
-    SEND_MESSAGE: () => null, //figma.notify(path.message),
+    POST_MESSAGE: () => {
+      iframe?.contentWindow?.postMessage({
+        type: 'POST_MESSAGE',
+        data: {
+          type: path.data.type,
+          message: path.data.message,
+        },
+      })
+    },
     SET_ITEMS: () => {
       path.items.forEach((item: { key: string; value: unknown }) => {
         if (typeof item.value === 'object')
@@ -202,6 +210,18 @@ window.addEventListener('message', async (msg: any) => {
         }),
     //
     GET_PRO_PLAN: async () => await getProPlan(),
+    SIGN_OUT: () =>
+      iframe?.contentWindow?.postMessage({
+        type: 'SIGN_OUT',
+        data: {
+          connectionStatus: 'UNCONNECTED',
+          userFullName: '',
+          userAvatar: '',
+          userId: undefined,
+          accessToken: undefined,
+          refreshToken: undefined,
+        },
+      }),
     //
     DEFAULT: () => null,
   }

@@ -62,6 +62,7 @@ import EditPalette from './services/EditPalette'
 import './stylesheets/app.css'
 import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { NotificationMessage } from '../types/messages'
+import { supabase } from '../index'
 
 type AppProps = WithConfigProps
 
@@ -292,6 +293,71 @@ class App extends Component<AppProps, AppStates> {
         }
       })
       .catch((error) => console.error(error))
+
+    // Authentication
+    if (supabase !== undefined)
+      supabase.auth.onAuthStateChange((event, session) => {
+        const actions: {
+          [action: string]: () => void
+        } = {
+          SIGNED_IN: () => {
+            this.setState({
+              userSession: {
+                connectionStatus: 'CONNECTED',
+                userFullName: session?.user.user_metadata.full_name,
+                userAvatar: session?.user.user_metadata.avatar_url,
+                userId: session?.user.id,
+                accessToken: session?.access_token,
+                refreshToken: session?.refresh_token,
+              },
+            })
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: 'POST_MESSAGE',
+                  data: {
+                    type: 'SUCCESS',
+                    message: this.state.locals.user.welcomeMessage.replace(
+                      '{$1}',
+                      session?.user.user_metadata.full_name
+                    ),
+                  },
+                },
+              },
+              '*'
+            )
+          },
+          TOKEN_REFRESHED: () => {
+            this.setState({
+              userSession: {
+                connectionStatus: 'CONNECTED',
+                userFullName: session?.user.user_metadata.full_name,
+                userAvatar: session?.user.user_metadata.avatar_url,
+                userId: session?.user.id,
+                accessToken: session?.access_token,
+                refreshToken: session?.refresh_token,
+              },
+            })
+            parent.postMessage({
+              pluginMessage: {
+                type: 'SET_ITEMS',
+                items: [
+                  {
+                    key: 'supabase_access_token',
+                    value: session?.access_token,
+                  },
+                  {
+                    key: 'supabase_refresh_token',
+                    value: session?.refresh_token,
+                  },
+                ],
+              },
+            })
+          },
+        }
+        // console.log(event, session)
+        return actions[event]?.()
+      })
 
     // Listener
     window.addEventListener('message', (e: MessageEvent) => {
