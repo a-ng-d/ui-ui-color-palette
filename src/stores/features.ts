@@ -95,6 +95,15 @@ export const featuresScheme: Array<
     service: ['EDIT'],
   },
   {
+    name: 'SYNC_LOCAL_VARIABLES',
+    description: 'Synchronizes local variables',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['EDIT'],
+  },
+  {
     name: 'PUBLISH_PALETTE',
     description: 'Publishes the palette to the community and self',
     isActive: true,
@@ -1143,15 +1152,6 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     service: ['CREATE', 'EDIT'],
-  },
-  {
-    name: 'SETTINGS_SYNC',
-    description: 'Synchronize settings',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'ACTION',
-    service: ['EDIT'],
   },
   {
     name: 'ACTIONS',

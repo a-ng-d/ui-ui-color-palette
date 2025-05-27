@@ -339,6 +339,30 @@ export default class EditPalette extends PureComponent<
     )
   }
 
+  onSyncVariables = () => {
+    this.setState({
+      selectedElement: {
+        id: '',
+        position: null,
+      },
+      isPrimaryLoading: true,
+    })
+
+    parent.postMessage(
+      { pluginMessage: { type: 'SYNC_LOCAL_VARIABLES', id: this.props.id } },
+      '*'
+    )
+
+    trackActionEvent(
+      this.props.userIdentity.id,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'SYNC_VARIABLES',
+      }
+    )
+  }
+
   onChangeDocument = (view?: ViewConfiguration) => {
     this.setState({
       isSecondaryLoading: true,
@@ -594,6 +618,7 @@ export default class EditPalette extends PureComponent<
             {...this.state}
             service="EDIT"
             onSyncLocalStyles={this.onSyncStyles}
+            onSyncLocalVariables={this.onSyncVariables}
             onChangeDocument={this.onChangeDocument}
           />
         </Feature>

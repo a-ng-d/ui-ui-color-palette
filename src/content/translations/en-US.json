@@ -14,7 +14,8 @@
       "several": "{$1} color modes",
       "single": "{$1} color mode"
     },
-    "createLocalStyles": "Sync with the local styles",
+    "syncLocalStyles": "Sync with the local styles",
+    "syncLocalVariables": "Sync with the local variables",
     "createPalette": "Save the UI Color Palette",
     "duplicate": "Duplicate",
     "export": "Export the UI Color Palette to",

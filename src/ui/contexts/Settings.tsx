@@ -62,11 +62,6 @@ export default class Settings extends PureComponent<SettingsProps> {
       featureName: 'SETTINGS_CONTRAST_MANAGEMENT',
       planStatus: planStatus,
     }),
-    SETTINGS_SYNC: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_SYNC',
-      planStatus: planStatus,
-    }),
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',

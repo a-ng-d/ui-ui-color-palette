@@ -112,6 +112,10 @@ window.addEventListener('message', async (msg: any) => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
       console.log('Sync local styles', path)
     },
+    SYNC_LOCAL_VARIABLES: () => {
+      iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+      console.log('Sync local styles', path)
+    },
     CREATE_DOCUMENT: () => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
       console.log('Create document', path)

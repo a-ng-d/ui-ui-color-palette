@@ -45,6 +45,9 @@ interface ActionsProps extends BaseProps, WithConfigProps {
   onSyncLocalStyles?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
+  onSyncLocalVariables?: (
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+  ) => void
   onChangeDocument?: (view?: ViewConfiguration) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
@@ -56,10 +59,7 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -87,6 +87,11 @@ export default class Actions extends PureComponent<
     SYNC_LOCAL_STYLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_STYLES',
+      planStatus: planStatus,
+    }),
+    SYNC_LOCAL_VARIABLES: new FeatureStatus({
+      features: config.features,
+      featureName: 'SYNC_LOCAL_VARIABLES',
       planStatus: planStatus,
     }),
     DOCUMENT_SHEET: new FeatureStatus({
@@ -595,27 +600,53 @@ export default class Actions extends PureComponent<
               alignment="TOP_RIGHT"
               state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
             />
-            <Feature
-              isActive={Actions.features(
-                this.props.planStatus,
-                this.props.config
-              ).SYNC_LOCAL_STYLES.isActive()}
-            >
-              <Button
-                type="primary"
-                label={this.props.locals.actions.createLocalStyles}
-                isBlocked={Actions.features(
-                  this.props.planStatus,
-                  this.props.config
-                ).SYNC_LOCAL_STYLES.isBlocked()}
-                isNew={Actions.features(
-                  this.props.planStatus,
-                  this.props.config
-                ).SYNC_LOCAL_STYLES.isNew()}
-                action={this.props.onSyncLocalStyles}
-                isLoading={this.props.isPrimaryLoading}
-              />
-            </Feature>
+            <Menu
+              id="display-main-actions"
+              type="PRIMARY"
+              label={this.props.locals.actions.sync}
+              options={[
+                {
+                  label: this.props.locals.actions.syncLocalStyles,
+                  value: 'LOCAL_STYLES',
+                  feature: 'SYNC_LOCAL_STYLES',
+                  type: 'OPTION',
+                  isActive: Actions.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).SYNC_LOCAL_STYLES.isActive(),
+                  isBlocked: Actions.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).SYNC_LOCAL_STYLES.isBlocked(),
+                  isNew: Actions.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).SYNC_LOCAL_STYLES.isNew(),
+                  action: (e) => this.props.onSyncLocalStyles?.(e),
+                },
+                {
+                  label: this.props.locals.actions.syncLocalVariables,
+                  value: 'LOCAL_VARIABLES',
+                  feature: 'SYNC_LOCAL_VARIABLES',
+                  type: 'OPTION',
+                  isActive: Actions.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).SYNC_LOCAL_VARIABLES.isActive(),
+                  isBlocked: Actions.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).SYNC_LOCAL_VARIABLES.isBlocked(),
+                  isNew: Actions.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).SYNC_LOCAL_VARIABLES.isNew(),
+                  action: (e) => this.props.onSyncLocalVariables?.(e),
+                },
+              ]}
+              alignment="TOP_RIGHT"
+              state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
+            />
           </div>
         }
         padding="var(--size-xxsmall) var(--size-xsmall)"
