@@ -11,8 +11,8 @@
     "addToFile": "Add to file",
     "addToSource": "Add to source",
     "colorThemesNumber": {
-      "several": "$1 color modes",
-      "single": "$1 color mode"
+      "several": "{$1} color modes",
+      "single": "{$1} color mode"
     },
     "createLocalStyles": "Sync with the local styles",
     "createPalette": "Save the UI Color Palette",
@@ -28,12 +28,12 @@
     "publishPalette": "Publish palette",
     "pushUpdates": "Push updates to the document",
     "shadesNumber": {
-      "several": "$1 shades",
-      "single": "$1 shade"
+      "several": "{$1} shades",
+      "single": "{$1} shade"
     },
     "sourceColorsNumber": {
-      "several": "$1 source colors",
-      "single": "$1 source color"
+      "several": "{$1} source colors",
+      "single": "{$1} source color"
     },
     "sync": "Sync",
     "syncPalette": "Synchronize palette"
@@ -49,7 +49,7 @@
     "deletePaletteDialog": {
       "cancel": "Cancel",
       "delete": "Delete palette",
-      "message": "You're about to delete the \"$1\" palette. This action is irreversible.",
+      "message": "You're about to delete the \"{$1}\" palette. This action is irreversible.",
       "title": "Delete palette"
     },
     "document": {
@@ -80,7 +80,7 @@
     "lch": {
       "label": "LCH"
     },
-    "moreParameters": "$1 parameters",
+    "moreParameters": "{$1} parameters",
     "title": "Source colors",
     "alpha": {
       "label": "Alpha mode",
@@ -181,10 +181,10 @@
       "plural": "styles created",
       "single": "1 style created"
     },
-    "maxNumberOfSourceColors": "You cannot add more than $1 source colors",
-    "maxNumberOfStops": "You cannot add more than $1 stops",
+    "maxNumberOfSourceColors": "You cannot add more than {$1} source colors",
+    "maxNumberOfStops": "You cannot add more than {$1} stops",
     "noResult": "No palette matches your search",
-    "paletteCreated": "$1 palette created",
+    "paletteCreated": "{$1} palette created",
     "removedLocalStyles": {
       "none": "No style removed",
       "plural": "styles removed",
@@ -196,7 +196,40 @@
       "none": "No style updated",
       "plural": "styles updated",
       "single": "1 style updated"
-    }
+    },
+    "createdVariablesAndModes": {
+        "noneNone": "No variable and mode created",
+        "noneSingle": "1 mode created",
+        "singleNone": "1 variable created",
+        "nonePlural": "{$1} modes created",
+        "pluralNone": "{$1} variables created",
+        "singleSingle": "1 variable and mode created",
+        "singlePlural": "1 variable and {$1} modes created",
+        "pluralSingle": "{$1} variables and 1 mode created",
+        "pluralPlural": "{$1} variables and {$2} modes created"
+      },
+      "updatedVariablesAndModes": {
+        "noneNone": "No variable and mode updated",
+        "noneSingle": "1 mode updated",
+        "singleNone": "1 variable updated",
+        "nonePlural": "{$1} modes updated",
+        "pluralNone": "{$1} variables updated",
+        "singleSingle": "1 variable and mode updated",
+        "singlePlural": "1 variable and $1 modes updated",
+        "pluralSingle": "{$1} variables and 1 mode updated",
+        "pluralPlural": "{$1} variables and {$2} modes updated"
+      },
+      "removedVariablesAndModes": {
+        "noneNone": "No variable and mode removed",
+        "noneSingle": "1 mode removed",
+        "singleNone": "1 variable removed",
+        "nonePlural": "{$1} modes removed",
+        "pluralNone": "{$1} variables removed",
+        "singleSingle": "1 variable and mode removed",
+        "singlePlural": "1 variable and {$1} modes removed",
+        "pluralSingle": "{$1} variables and 1 mode removed",
+        "pluralPlural": "{$1} variables and {$2} modes removed"
+      }
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -277,11 +310,11 @@
     "trialEnded": "Your trial has ended",
     "trialFeedback": "How was it?",
     "trialTimeDays": {
-      "plural": "$1 days left in this trial",
+      "plural": "{$1} days left in this trial",
       "single": "1 day left in this trial"
     },
     "trialTimeHours": {
-      "plural": "$1 hours left in this trial",
+      "plural": "{$1} hours left in this trial",
       "single": "1 hour left in this trial"
     },
     "tryPro": "Try Pro"
@@ -311,16 +344,16 @@
   },
   "proPlan": {
     "trial": {
-      "cta": "Enable the $1-hour trial",
+      "cta": "Enable the {$1}-hour trial",
       "message": "Explore the potential of simulating a vision impairment, synchronizing your color palette with styles, exporting design tokens, and more.",
       "option": "Purchase",
-      "title": "Would you like to upgrade to the Pro plan within the next $1 hours?"
+      "title": "Would you like to upgrade to the Pro plan within the next {$1} hours?"
     },
     "welcome": {
       "cta": "Let's build",
       "message": "This upgrade will unlock a range of tools that enable you to deploy and transfer your color palette. We hope you will enjoy the benefits.",
       "title": "Welcome to UI Color Palette Pro!",
-      "trial": "This upgrade will unlock a range of tools that enable you to deploy and transfer your color palette. We hope you will enjoy the benefits for the next $1 hours."
+      "trial": "This upgrade will unlock a range of tools that enable you to deploy and transfer your color palette. We hope you will enjoy the benefits for the next {$1} hours."
     }
   },
   "publication": {
@@ -592,7 +625,7 @@
       "cta": "Create a color mode",
       "message": "Create color modes to manage multiple color palettes within one single (e.g. light and dark modes)"
     },
-    "moreParameters": "$1 parameters",
+    "moreParameters": "{$1} parameters",
     "paletteBackgroundColor": {
       "label": "Document background"
     },

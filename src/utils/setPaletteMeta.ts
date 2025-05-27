@@ -16,29 +16,29 @@ const getPaletteMeta = (
   if (colorsNumber > 1)
     colorLabel = locals
       .get()
-      .actions.sourceColorsNumber.several.replace('$1', colorsNumber)
+      .actions.sourceColorsNumber.several.replace('{$1}', colorsNumber)
   else
     colorLabel = locals
       .get()
-      .actions.sourceColorsNumber.single.replace('$1', colorsNumber)
+      .actions.sourceColorsNumber.single.replace('{$1}', colorsNumber)
 
   if (themesNumber > 1)
     themeLabel = locals
       .get()
-      .actions.colorThemesNumber.several.replace('$1', themesNumber)
+      .actions.colorThemesNumber.several.replace('{$1}', themesNumber)
   else
     themeLabel = locals
       .get()
-      .actions.colorThemesNumber.single.replace('$1', themesNumber)
+      .actions.colorThemesNumber.single.replace('{$1}', themesNumber)
 
   if (shadeNumber > 1)
     shadeLabel = locals
       .get()
-      .actions.shadesNumber.several.replace('$1', shadeNumber)
+      .actions.shadesNumber.several.replace('{$1}', shadeNumber)
   else
     shadeLabel = locals
       .get()
-      .actions.shadesNumber.single.replace('$1', shadeNumber)
+      .actions.shadesNumber.single.replace('{$1}', shadeNumber)
 
   return `${colorLabel}${locals.get().separator}${shadeLabel}${locals.get().separator}${themeLabel}`
 }

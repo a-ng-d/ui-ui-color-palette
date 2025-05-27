@@ -331,7 +331,7 @@ export default class Overview extends PureComponent<
             <SemanticMessage
               type="INFO"
               message={this.props.locals.info.maxNumberOfSourceColors.replace(
-                '$1',
+                '{$1}',
                 Overview.features(this.props.planStatus, this.props.config)
                   .SOURCE.limit
               )}

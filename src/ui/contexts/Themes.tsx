@@ -540,7 +540,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                         return {
                           title:
                             this.props.locals.themes.moreParameters.replace(
-                              '$1',
+                              '{$1}',
                               theme.name
                             ),
                           node: (() => (
