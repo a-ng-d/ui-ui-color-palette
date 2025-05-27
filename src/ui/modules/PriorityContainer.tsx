@@ -59,14 +59,14 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'GET_PRO_PLAN',
       planStatus: planStatus,
     }),
-    SHORTCUTS_HIGHLIGHT: new FeatureStatus({
+    HELP_HIGHLIGHT: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_HIGHLIGHT',
+      featureName: 'HELP_HIGHLIGHT',
       planStatus: planStatus,
     }),
-    SHORTCUTS_ONBOARDING: new FeatureStatus({
+    HELP_ONBOARDING: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_ONBOARDING',
+      featureName: 'HELP_ONBOARDING',
       planStatus: planStatus,
     }),
     PUBLICATION: new FeatureStatus({
@@ -74,19 +74,19 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'PUBLICATION',
       planStatus: planStatus,
     }),
-    REPORT: new FeatureStatus({
+    HELP_ISSUES: new FeatureStatus({
       features: config.features,
-      featureName: 'REPORT',
+      featureName: 'HELP_ISSUES',
       planStatus: planStatus,
     }),
-    SHORTCUTS_ABOUT: new FeatureStatus({
+    MORE_ABOUT: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_ABOUT',
+      featureName: 'MORE_ABOUT',
       planStatus: planStatus,
     }),
-    SHORTCUTS_STORE: new FeatureStatus({
+    MORE_STORE: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_STORE',
+      featureName: 'MORE_STORE',
       planStatus: planStatus,
     }),
   })
@@ -152,7 +152,7 @@ export default class PriorityContainer extends PureComponent<
         isActive={PriorityContainer.features(
           this.props.planStatus,
           this.props.config
-        ).SHORTCUTS_HIGHLIGHT.isActive()}
+        ).HELP_HIGHLIGHT.isActive()}
       >
         <Highlight
           {...this.props}
@@ -188,7 +188,7 @@ export default class PriorityContainer extends PureComponent<
         isActive={PriorityContainer.features(
           this.props.planStatus,
           this.props.config
-        ).SHORTCUTS_ONBOARDING.isActive()}
+        ).HELP_ONBOARDING.isActive()}
       >
         <Onboarding
           {...this.props}
@@ -340,7 +340,7 @@ export default class PriorityContainer extends PureComponent<
         isActive={PriorityContainer.features(
           this.props.planStatus,
           this.props.config
-        ).REPORT.isActive()}
+        ).HELP_ISSUES.isActive()}
       >
         <Dialog
           title={this.props.locals.report.title}
@@ -447,7 +447,7 @@ export default class PriorityContainer extends PureComponent<
         isActive={PriorityContainer.features(
           this.props.planStatus,
           this.props.config
-        ).SHORTCUTS_STORE.isActive()}
+        ).MORE_STORE.isActive()}
       >
         <Dialog
           title={this.props.locals.store.title}
@@ -483,7 +483,7 @@ export default class PriorityContainer extends PureComponent<
         isActive={PriorityContainer.features(
           this.props.planStatus,
           this.props.config
-        ).SHORTCUTS_ABOUT.isActive()}
+        ).MORE_ABOUT.isActive()}
       >
         <Dialog
           title={this.props.locals.about.title}
@@ -503,7 +503,7 @@ export default class PriorityContainer extends PureComponent<
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <List padding="var(--size-xsmall)">
+          <List>
             <SyncPreferences {...this.props} />
           </List>
         </Dialog>

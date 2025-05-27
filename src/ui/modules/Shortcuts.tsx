@@ -36,69 +36,74 @@ export default class Shortcuts extends PureComponent<
   ShortcutsStates
 > {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
-    SHORTCUTS_USER: new FeatureStatus({
+    USER: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_USER',
+      featureName: 'USER',
       planStatus: planStatus,
     }),
-    SHORTCUTS_HIGHLIGHT: new FeatureStatus({
+    USER_PREFERENCES: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_HIGHLIGHT',
+      featureName: 'USER_PREFERENCES',
       planStatus: planStatus,
     }),
-    SHORTCUTS_ONBOARDING: new FeatureStatus({
+    HELP_HIGHLIGHT: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_ONBOARDING',
+      featureName: 'HELP_HIGHLIGHT',
       planStatus: planStatus,
     }),
-    SHORTCUTS_REPOSITORY: new FeatureStatus({
+    HELP_ONBOARDING: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_REPOSITORY',
+      featureName: 'HELP_ONBOARDING',
       planStatus: planStatus,
     }),
-    SHORTCUTS_EMAIL: new FeatureStatus({
+    INVOLVE_REPOSITORY: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_EMAIL',
+      featureName: 'INVOLVE_REPOSITORY',
       planStatus: planStatus,
     }),
-    SHORTCUTS_FEEDBACK: new FeatureStatus({
+    HELP_EMAIL: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_FEEDBACK',
+      featureName: 'HELP_EMAIL',
       planStatus: planStatus,
     }),
-    SHORTCUTS_REPORTING: new FeatureStatus({
+    INVOLVE_FEEDBACK: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_REPORTING',
+      featureName: 'INVOLVE_FEEDBACK',
       planStatus: planStatus,
     }),
-    SHORTCUTS_REQUESTS: new FeatureStatus({
+    INVOLVE_ISSUES: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_REQUESTS',
+      featureName: 'INVOLVE_ISSUES',
       planStatus: planStatus,
     }),
-    SHORTCUTS_STORE: new FeatureStatus({
+    INVOLVE_REQUESTS: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_STORE',
+      featureName: 'INVOLVE_REQUESTS',
       planStatus: planStatus,
     }),
-    SHORTCUTS_ABOUT: new FeatureStatus({
+    MORE_STORE: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_ABOUT',
+      featureName: 'MORE_STORE',
       planStatus: planStatus,
     }),
-    SHORTCUTS_NETWORKING: new FeatureStatus({
+    MORE_ABOUT: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_NETWORKING',
+      featureName: 'MORE_ABOUT',
       planStatus: planStatus,
     }),
-    SHORTCUTS_AUTHOR: new FeatureStatus({
+    MORE_NETWORK: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_AUTHOR',
+      featureName: 'MORE_NETWORK',
       planStatus: planStatus,
     }),
-    SHORTCUTS_DOCUMENTATION: new FeatureStatus({
+    MORE_AUTHOR: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_DOCUMENTATION',
+      featureName: 'MORE_AUTHOR',
+      planStatus: planStatus,
+    }),
+    HELP_DOCUMENTATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_DOCUMENTATION',
       planStatus: planStatus,
     }),
     GET_PRO_PLAN: new FeatureStatus({
@@ -215,7 +220,7 @@ export default class Shortcuts extends PureComponent<
                   isActive={Shortcuts.features(
                     this.props.planStatus,
                     this.props.config
-                  ).SHORTCUTS_DOCUMENTATION.isActive()}
+                  ).HELP_DOCUMENTATION.isActive()}
                 >
                   <Button
                     type="icon"
@@ -227,11 +232,11 @@ export default class Shortcuts extends PureComponent<
                     isBlocked={Shortcuts.features(
                       this.props.planStatus,
                       this.props.config
-                    ).SHORTCUTS_DOCUMENTATION.isBlocked()}
+                    ).HELP_DOCUMENTATION.isBlocked()}
                     isNew={Shortcuts.features(
                       this.props.planStatus,
                       this.props.config
-                    ).SHORTCUTS_DOCUMENTATION.isNew()}
+                    ).HELP_DOCUMENTATION.isNew()}
                     action={() =>
                       window
                         .open(this.props.config.urls.documentationUrl, '_blank')
@@ -243,7 +248,7 @@ export default class Shortcuts extends PureComponent<
                   isActive={Shortcuts.features(
                     this.props.planStatus,
                     this.props.config
-                  ).SHORTCUTS_USER.isActive()}
+                  ).USER.isActive()}
                 >
                   {this.props.userSession.connectionStatus === 'CONNECTED' ? (
                     <Menu
@@ -279,11 +284,20 @@ export default class Shortcuts extends PureComponent<
                           action: this.props.onUpdateConsent,
                         },
                         {
-                          label: 'Change your preferences',
+                          label: this.props.locals.user.updatePreferences,
                           type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
+                          isActive: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_PREFERENCES.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_PREFERENCES.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_PREFERENCES.isNew(),
                           action: this.props.onOpenPreferences,
                         },
                       ]}
@@ -345,11 +359,11 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_HIGHLIGHT.isActive(),
+                      ).HELP_HIGHLIGHT.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_HIGHLIGHT.isBlocked(),
+                      ).HELP_HIGHLIGHT.isBlocked(),
                       isNew:
                         this.props.highlight.status ===
                         'DISPLAY_HIGHLIGHT_NOTIFICATION'
@@ -363,15 +377,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_ONBOARDING.isActive(),
+                      ).HELP_ONBOARDING.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_ONBOARDING.isBlocked(),
+                      ).HELP_ONBOARDING.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_ONBOARDING.isNew(),
+                      ).HELP_ONBOARDING.isNew(),
                       action: () => this.props.onReOpenOnboarding(),
                     },
                     {
@@ -380,15 +394,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REPOSITORY.isActive(),
+                      ).INVOLVE_REPOSITORY.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REPOSITORY.isBlocked(),
+                      ).INVOLVE_REPOSITORY.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REPOSITORY.isNew(),
+                      ).INVOLVE_REPOSITORY.isNew(),
                       action: () =>
                         window
                           .open(this.props.config.urls.repositoryUrl, '_blank')
@@ -403,15 +417,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REQUESTS.isActive(),
+                      ).INVOLVE_REQUESTS.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REQUESTS.isBlocked(),
+                      ).INVOLVE_REQUESTS.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REQUESTS.isNew(),
+                      ).INVOLVE_REQUESTS.isNew(),
                       action: () =>
                         window
                           .open(this.props.config.urls.requestsUrl, '_blank')
@@ -423,15 +437,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_FEEDBACK.isActive(),
+                      ).INVOLVE_FEEDBACK.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_FEEDBACK.isBlocked(),
+                      ).INVOLVE_FEEDBACK.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_FEEDBACK.isNew(),
+                      ).INVOLVE_FEEDBACK.isNew(),
                       action: () => {
                         window
                           .open(this.props.config.urls.feedbackUrl, '_blank')
@@ -444,15 +458,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REPORTING.isActive(),
+                      ).INVOLVE_ISSUES.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REPORTING.isBlocked(),
+                      ).INVOLVE_ISSUES.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_REPORTING.isNew(),
+                      ).INVOLVE_ISSUES.isNew(),
                       action: this.props.onReOpenReport,
                     },
                     {
@@ -461,15 +475,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_EMAIL.isActive(),
+                      ).HELP_EMAIL.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_EMAIL.isBlocked(),
+                      ).HELP_EMAIL.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_EMAIL.isNew(),
+                      ).HELP_EMAIL.isNew(),
                       action: () =>
                         window
                           .open(this.props.config.urls.supportEmail, '_blank')
@@ -484,15 +498,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_STORE.isActive(),
+                      ).MORE_STORE.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_STORE.isBlocked(),
+                      ).MORE_STORE.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_STORE.isNew(),
+                      ).MORE_STORE.isNew(),
                       action: this.props.onReOpenStore,
                     },
                     {
@@ -501,15 +515,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_ABOUT.isActive(),
+                      ).MORE_ABOUT.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_ABOUT.isBlocked(),
+                      ).MORE_ABOUT.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_ABOUT.isNew(),
+                      ).MORE_ABOUT.isNew(),
                       action: this.props.onReOpenAbout,
                     },
                     {
@@ -518,15 +532,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_NETWORKING.isActive(),
+                      ).MORE_NETWORK.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_NETWORKING.isBlocked(),
+                      ).MORE_NETWORK.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_NETWORKING.isNew(),
+                      ).MORE_NETWORK.isNew(),
                       action: () =>
                         window
                           .open(this.props.config.urls.networkUrl, '_blank')
@@ -538,15 +552,15 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_AUTHOR.isActive(),
+                      ).MORE_AUTHOR.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_AUTHOR.isBlocked(),
+                      ).MORE_AUTHOR.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).SHORTCUTS_AUTHOR.isNew(),
+                      ).MORE_AUTHOR.isNew(),
                       action: () =>
                         window
                           .open(this.props.config.urls.authorUrl, '_blank')

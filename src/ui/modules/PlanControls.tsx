@@ -19,9 +19,9 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
       featureName: 'ACTIVITIES_RUN',
       planStatus: planStatus,
     }),
-    SHORTCUTS_FEEDBACK: new FeatureStatus({
+    INVOLVE_FEEDBACK: new FeatureStatus({
       features: config.features,
-      featureName: 'SHORTCUTS_FEEDBACK',
+      featureName: 'INVOLVE_FEEDBACK',
       planStatus: planStatus,
     }),
   })
@@ -106,7 +106,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         isActive={PlanControls.features(
           this.props.planStatus,
           this.props.config
-        ).SHORTCUTS_FEEDBACK.isActive()}
+        ).INVOLVE_FEEDBACK.isActive()}
       >
         <span className={doClassnames([texts.type, texts['type--secondary']])}>
           {this.props.locals.separator}
@@ -117,11 +117,11 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
           isBlocked={PlanControls.features(
             this.props.planStatus,
             this.props.config
-          ).SHORTCUTS_FEEDBACK.isBlocked()}
+          ).INVOLVE_FEEDBACK.isBlocked()}
           isNew={PlanControls.features(
             this.props.planStatus,
             this.props.config
-          ).SHORTCUTS_FEEDBACK.isNew()}
+          ).INVOLVE_FEEDBACK.isNew()}
           action={() =>
             window
               .open(this.props.config.urls.trialFeedbackUrl, '_blank')

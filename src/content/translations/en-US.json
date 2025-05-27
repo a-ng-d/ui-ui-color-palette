@@ -629,6 +629,7 @@
     "signIn": "Sign in",
     "signOut": "Sign out",
     "updateConsent": "Manage your cookies",
+    "updatePreferences": "Update your preferences",
     "welcomeMessage": "Hello $[]"
   },
   "vendors": {

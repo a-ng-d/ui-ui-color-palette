@@ -29,14 +29,14 @@ export default class SyncPreferences extends PureComponent<
   private subscribeStyles: (() => void) | undefined
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
-    SETTINGS_SYNC_DEEP_PALETTE: new FeatureStatus({
+    USER_PREFERENCES_SYNC_DEEP_STYLES: new FeatureStatus({
       features: config.features,
-      featureName: 'SETTINGS_SYNC_DEEP_PALETTE',
+      featureName: 'USER_PREFERENCES_SYNC_DEEP_STYLES',
       planStatus: planStatus,
     }),
-    SETTINGS_SYNC_DEEP_STYLES: new FeatureStatus({
+    USER_PREFERENCES_SYNC_DEEP_VARIABLES: new FeatureStatus({
       features: config.features,
-      featureName: 'SETTINGS_SYNC_DEEP_STYLES',
+      featureName: 'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
       planStatus: planStatus,
     }),
   })
@@ -70,7 +70,7 @@ export default class SyncPreferences extends PureComponent<
         isActive={SyncPreferences.features(
           this.props.planStatus,
           this.props.config
-        ).SETTINGS_SYNC_DEEP_STYLES.isActive()}
+        ).USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()}
       >
         <Select
           id="update-styles-deep-sync"
@@ -81,11 +81,11 @@ export default class SyncPreferences extends PureComponent<
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
             this.props.config
-          ).SETTINGS_SYNC_DEEP_STYLES.isBlocked()}
+          ).USER_PREFERENCES_SYNC_DEEP_STYLES.isBlocked()}
           isNew={SyncPreferences.features(
             this.props.planStatus,
             this.props.config
-          ).SETTINGS_SYNC_DEEP_STYLES.isNew()}
+          ).USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
           action={() => {
             $canStylesDeepSync.set(!this.state.canStylesDeepSync)
