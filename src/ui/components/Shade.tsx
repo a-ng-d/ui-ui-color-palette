@@ -44,6 +44,33 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     this.theme = document.documentElement.getAttribute('data-theme')
   }
 
+  // Handlers
+  recommendationHandler = (
+    recommendation:
+      | 'UNKNOWN'
+      | 'AVOID'
+      | 'NON_TEXT'
+      | 'SPOT_TEXT'
+      | 'HEADLINES'
+      | 'BODY_TEXT'
+      | 'CONTENT_TEXT'
+      | 'FLUENT_TEXT'
+  ): string => {
+    const actions: { [key: string]: () => string } = {
+      AVOID: () => this.props.locals.paletteProperties.avoid,
+      NON_TEXT: () => this.props.locals.paletteProperties.nonText,
+      SPOT_TEXT: () => this.props.locals.paletteProperties.spotText,
+      HEADLINES: () => this.props.locals.paletteProperties.headlines,
+      BODY_TEXT: () => this.props.locals.paletteProperties.bodyText,
+      CONTENT_TEXT: () => this.props.locals.paletteProperties.contentText,
+      FLUENT_TEXT: () => this.props.locals.paletteProperties.fluentText,
+    }
+
+    return (
+      actions[recommendation]?.() ?? this.props.locals.paletteProperties.unknown
+    )
+  }
+
   // Templates
   wcagScoreTag = ({
     color,
@@ -242,7 +269,9 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           <this.apcaScoreTag
             color={lightText}
             score={lightTextContrast.getAPCAContrast()}
-            friendlyScore={lightTextContrast.getRecommendedUsage()}
+            friendlyScore={this.recommendationHandler(
+              lightTextContrast.getRecommendedUsage()
+            )}
             isCompact={this.state.isCompact}
           />
         )}
@@ -258,7 +287,9 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           <this.apcaScoreTag
             color={darkText}
             score={darkTextContrast.getAPCAContrast()}
-            friendlyScore={darkTextContrast.getRecommendedUsage()}
+            friendlyScore={this.recommendationHandler(
+              darkTextContrast.getRecommendedUsage()
+            )}
             isCompact={this.state.isCompact}
           />
         )}
