@@ -64,16 +64,17 @@ export interface HighlightDigest {
 
 export type PriorityContext =
   | 'EMPTY'
+  | 'NOTIFICATION'
+  | 'PREFERENCES'
   | 'PUBLICATION'
   | 'HIGHLIGHT'
   | 'ONBOARDING'
-  | 'TRY'
-  | 'WELCOME_TO_PRO'
-  | 'WELCOME_TO_TRIAL'
   | 'REPORT'
+  | 'TRY'
   | 'STORE'
   | 'ABOUT'
-  | 'PREFERENCES'
+  | 'WELCOME_TO_PRO'
+  | 'WELCOME_TO_TRIAL'
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 
