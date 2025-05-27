@@ -52,7 +52,7 @@ export type OnboardingStatus = 'NO_ONBOARDING' | 'DISPLAY_ONBOARDING_DIALOG'
 
 export type Language = 'en-US'
 
-export interface windowSize {
+export interface Window {
   width: number
   height: number
 }

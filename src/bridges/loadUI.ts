@@ -1,5 +1,5 @@
 import { locals } from '../content/locals'
-import { windowSize } from '../types/app'
+import { Window } from '../types/app'
 import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
@@ -29,7 +29,7 @@ import updateThemes from './updates/updateThemes'
 const iframe = document.querySelector(
   '#ui-container'
 ) as HTMLIFrameElement | null
-const windowSize: windowSize = {
+const windowSize: Window = {
   width: parseFloat(
     window.localStorage.getItem('plugin_window_width') ?? '640'
   ),
