@@ -5,6 +5,7 @@ import {
   FormItem,
   Input,
   List,
+  Notification,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -30,11 +31,11 @@ import About from './About'
 import Highlight from './Highlight'
 import Onboarding from './Onboarding'
 import SyncPreferences from './SyncPreferences'
+import { NotificationMessage } from '../../types/messages'
 
 interface PriorityContainerProps extends BaseProps, WithConfigProps {
   context: PriorityContext
-  rawData: AppStates
-  planStatus: PlanStatus
+  notification: NotificationMessage
   trialStatus: TrialStatus
   highlight: HighlightDigest
   onChangePublication: React.Dispatch<Partial<AppStates>>
@@ -59,6 +60,11 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'GET_PRO_PLAN',
       planStatus: planStatus,
     }),
+    NOTIFICATIONS: new FeatureStatus({
+      features: config.features,
+      featureName: 'NOTIFICATIONS',
+      planStatus: planStatus,
+    }),
     HELP_HIGHLIGHT: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_HIGHLIGHT',
@@ -79,14 +85,14 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'HELP_ISSUES',
       planStatus: planStatus,
     }),
-    MORE_ABOUT: new FeatureStatus({
-      features: config.features,
-      featureName: 'MORE_ABOUT',
-      planStatus: planStatus,
-    }),
     MORE_STORE: new FeatureStatus({
       features: config.features,
       featureName: 'MORE_STORE',
+      planStatus: planStatus,
+    }),
+    MORE_ABOUT: new FeatureStatus({
+      features: config.features,
+      featureName: 'MORE_ABOUT',
       planStatus: planStatus,
     }),
   })
@@ -146,6 +152,25 @@ export default class PriorityContainer extends PureComponent<
   }
 
   // Templates
+  Notification = () => {
+    setTimeout(() => this.props.onClose(), 5000)
+
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus,
+          this.props.config
+        ).NOTIFICATIONS.isActive()}
+      >
+        <Notification
+          type={this.props.notification.type || 'INFO'}
+          message={this.props.notification.message}
+          onClose={this.props.onClose}
+        />
+      </Feature>
+    )
+  }
+
   Highlight = () => {
     return (
       <Feature
@@ -214,121 +239,17 @@ export default class PriorityContainer extends PureComponent<
     )
   }
 
-  TryPro = () => {
+  Preference = () => {
     return (
-      <Feature
-        isActive={PriorityContainer.features(
-          this.props.planStatus,
-          this.props.config
-        ).GET_PRO_PLAN.isActive()}
-      >
+      <Feature isActive={true}>
         <Dialog
-          title={this.props.locals.proPlan.trial.title}
-          actions={{
-            primary: {
-              label: this.props.locals.proPlan.trial.cta,
-              action: () =>
-                parent.postMessage(
-                  { pluginMessage: { type: 'ENABLE_TRIAL' } },
-                  '*'
-                ),
-            },
-            secondary: {
-              label: this.props.locals.proPlan.trial.option,
-              action: () =>
-                parent.postMessage(
-                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                  '*'
-                ),
-            },
-          }}
+          title={this.props.locals.user.updatePreferences}
+          pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <div className="dialog__cover">
-            <img
-              src={cp}
-              style={{
-                width: '100%',
-              }}
-            />
-          </div>
-          <div className="dialog__text">
-            <p className={texts.type}>
-              {this.props.locals.proPlan.trial.message}
-            </p>
-          </div>
-        </Dialog>
-      </Feature>
-    )
-  }
-
-  WelcomeToTrial = () => {
-    return (
-      <Feature
-        isActive={PriorityContainer.features(
-          this.props.planStatus,
-          this.props.config
-        ).GET_PRO_PLAN.isActive()}
-      >
-        <Dialog
-          title={this.props.locals.proPlan.welcome.title}
-          actions={{
-            primary: {
-              label: this.props.locals.proPlan.welcome.cta,
-              action: this.props.onClose,
-            },
-          }}
-          onClose={this.props.onClose}
-        >
-          <div className="dialog__cover">
-            <img
-              src={t}
-              style={{
-                width: '100%',
-              }}
-            />
-          </div>
-          <div className="dialog__text">
-            <p className={texts.type}>
-              {this.props.locals.proPlan.welcome.trial}
-            </p>
-          </div>
-        </Dialog>
-      </Feature>
-    )
-  }
-
-  WelcomeToPro = () => {
-    return (
-      <Feature
-        isActive={PriorityContainer.features(
-          this.props.planStatus,
-          this.props.config
-        ).GET_PRO_PLAN.isActive()}
-      >
-        <Dialog
-          title={this.props.locals.proPlan.welcome.title}
-          actions={{
-            primary: {
-              label: this.props.locals.proPlan.welcome.cta,
-              action: this.props.onClose,
-            },
-          }}
-          onClose={this.props.onClose}
-        >
-          <div className="dialog__cover">
-            <img
-              src={pp}
-              style={{
-                width: '100%',
-              }}
-            />
-          </div>
-          <div className="dialog__text">
-            <p className={texts.type}>
-              {this.props.locals.proPlan.welcome.message}
-            </p>
-          </div>
+          <List>
+            <SyncPreferences {...this.props} />
+          </List>
         </Dialog>
       </Feature>
     )
@@ -495,17 +416,121 @@ export default class PriorityContainer extends PureComponent<
     )
   }
 
-  Preference = () => {
+  TryPro = () => {
     return (
-      <Feature isActive={true}>
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus,
+          this.props.config
+        ).GET_PRO_PLAN.isActive()}
+      >
         <Dialog
-          title={this.props.locals.user.updatePreferences}
-          pin="RIGHT"
+          title={this.props.locals.proPlan.trial.title}
+          actions={{
+            primary: {
+              label: this.props.locals.proPlan.trial.cta,
+              action: () =>
+                parent.postMessage(
+                  { pluginMessage: { type: 'ENABLE_TRIAL' } },
+                  '*'
+                ),
+            },
+            secondary: {
+              label: this.props.locals.proPlan.trial.option,
+              action: () =>
+                parent.postMessage(
+                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                  '*'
+                ),
+            },
+          }}
           onClose={this.props.onClose}
         >
-          <List>
-            <SyncPreferences {...this.props} />
-          </List>
+          <div className="dialog__cover">
+            <img
+              src={cp}
+              style={{
+                width: '100%',
+              }}
+            />
+          </div>
+          <div className="dialog__text">
+            <p className={texts.type}>
+              {this.props.locals.proPlan.trial.message}
+            </p>
+          </div>
+        </Dialog>
+      </Feature>
+    )
+  }
+
+  WelcomeToTrial = () => {
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus,
+          this.props.config
+        ).GET_PRO_PLAN.isActive()}
+      >
+        <Dialog
+          title={this.props.locals.proPlan.welcome.title}
+          actions={{
+            primary: {
+              label: this.props.locals.proPlan.welcome.cta,
+              action: this.props.onClose,
+            },
+          }}
+          onClose={this.props.onClose}
+        >
+          <div className="dialog__cover">
+            <img
+              src={t}
+              style={{
+                width: '100%',
+              }}
+            />
+          </div>
+          <div className="dialog__text">
+            <p className={texts.type}>
+              {this.props.locals.proPlan.welcome.trial}
+            </p>
+          </div>
+        </Dialog>
+      </Feature>
+    )
+  }
+
+  WelcomeToPro = () => {
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus,
+          this.props.config
+        ).GET_PRO_PLAN.isActive()}
+      >
+        <Dialog
+          title={this.props.locals.proPlan.welcome.title}
+          actions={{
+            primary: {
+              label: this.props.locals.proPlan.welcome.cta,
+              action: this.props.onClose,
+            },
+          }}
+          onClose={this.props.onClose}
+        >
+          <div className="dialog__cover">
+            <img
+              src={pp}
+              style={{
+                width: '100%',
+              }}
+            />
+          </div>
+          <div className="dialog__text">
+            <p className={texts.type}>
+              {this.props.locals.proPlan.welcome.message}
+            </p>
+          </div>
         </Dialog>
       </Feature>
     )
@@ -515,15 +540,16 @@ export default class PriorityContainer extends PureComponent<
   render() {
     return (
       <>
+        {this.props.context === 'NOTIFICATION' && <this.Notification />}
         {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
         {this.props.context === 'ONBOARDING' && <this.OnBoarding />}
-        {this.props.context === 'TRY' && <this.TryPro />}
-        {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
-        {this.props.context === 'WELCOME_TO_PRO' && <this.WelcomeToPro />}
+        {this.props.context === 'PREFERENCES' && <this.Preference />}
         {this.props.context === 'REPORT' && <this.Report />}
         {this.props.context === 'STORE' && <this.Store />}
         {this.props.context === 'ABOUT' && <this.About />}
-        {this.props.context === 'PREFERENCES' && <this.Preference />}
+        {this.props.context === 'TRY' && <this.TryPro />}
+        {this.props.context === 'WELCOME_TO_TRIAL' && <this.WelcomeToTrial />}
+        {this.props.context === 'WELCOME_TO_PRO' && <this.WelcomeToPro />}
       </>
     )
   }

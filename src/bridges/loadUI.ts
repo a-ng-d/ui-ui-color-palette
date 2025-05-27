@@ -110,10 +110,24 @@ window.addEventListener('message', async (msg: any) => {
       console.log('Create palette from document', path),
     SYNC_LOCAL_STYLES: () => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+      iframe?.contentWindow?.postMessage({
+        type: 'POST_MESSAGE',
+        data: {
+          type: 'INFO',
+          message: 'The local styles have been synced',
+        },
+      })
       console.log('Sync local styles', path)
     },
     SYNC_LOCAL_VARIABLES: () => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+      iframe?.contentWindow?.postMessage({
+        type: 'POST_MESSAGE',
+        data: {
+          type: 'INFO',
+          message: 'The local variables have been synced',
+        },
+      })
       console.log('Sync local styles', path)
     },
     CREATE_DOCUMENT: () => {

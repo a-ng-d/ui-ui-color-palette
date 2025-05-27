@@ -48,3 +48,8 @@ export interface PaletteMessage {
     value: boolean | object | string
   }>
 }
+
+export interface NotificationMessage {
+  type?: 'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR'
+  message: string
+}

@@ -61,6 +61,7 @@ import CreatePalette from './services/CreatePalette'
 import EditPalette from './services/EditPalette'
 import './stylesheets/app.css'
 import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { NotificationMessage } from '../types/messages'
 
 type AppProps = WithConfigProps
 
@@ -97,6 +98,7 @@ export interface AppStates extends BaseProps {
   priorityContainerContext: PriorityContext
   mustUserConsent: boolean
   highlight: HighlightDigest
+  notification: NotificationMessage
   isLoaded: boolean
   onGoingStep: string
 }
@@ -211,6 +213,10 @@ class App extends Component<AppProps, AppStates> {
       highlight: {
         version: '',
         status: 'NO_HIGHLIGHT',
+      },
+      notification: {
+        type: undefined,
+        message: '',
       },
       isLoaded: false,
       onGoingStep: '',
@@ -342,6 +348,22 @@ class App extends Component<AppProps, AppStates> {
           )
         }
 
+        const checkPlanStatus = () =>
+          this.setState({
+            planStatus: path.data.planStatus,
+            trialStatus: path.data.trialStatus,
+            trialRemainingTime: path.data.trialRemainingTime,
+          })
+
+        const postMessage = () =>
+          this.setState({
+            priorityContainerContext: 'NOTIFICATION',
+            notification: {
+              type: path.data.type,
+              message: path.data.message,
+            },
+          })
+
         const handleHighlight = () => {
           this.setState({
             priorityContainerContext:
@@ -363,13 +385,6 @@ class App extends Component<AppProps, AppStates> {
                 : 'ONBOARDING',
           })
         }
-
-        const checkPlanStatus = () =>
-          this.setState({
-            planStatus: path.data.planStatus,
-            trialStatus: path.data.trialStatus,
-            trialRemainingTime: path.data.trialRemainingTime,
-          })
 
         const updateWhileEmptySelection = () => {
           this.setState({
@@ -727,9 +742,10 @@ class App extends Component<AppProps, AppStates> {
           CHECK_USER_CONSENT: () => checkUserConsent(),
           CHECK_USER_PREFERENCES: () => checkUserPreferences(),
           CHECK_EDITOR: () => checkEditor(),
+          CHECK_PLAN_STATUS: () => checkPlanStatus(),
+          POST_MESSAGE: () => postMessage(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
-          CHECK_PLAN_STATUS: () => checkPlanStatus(),
           EMPTY_SELECTION: () => updateWhileEmptySelection(),
           COLOR_SELECTED: () => updateWhileColorSelected(),
           DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
@@ -930,9 +946,8 @@ class App extends Component<AppProps, AppStates> {
               createPortal(
                 <PriorityContainer
                   {...this.props}
-                  context={this.state.priorityContainerContext}
-                  rawData={this.state}
                   {...this.state}
+                  context={this.state.priorityContainerContext}
                   onChangePublication={(e) => this.setState({ ...e })}
                   onClose={() =>
                     this.setState({
@@ -940,6 +955,10 @@ class App extends Component<AppProps, AppStates> {
                       highlight: {
                         version: this.state.highlight.version,
                         status: 'NO_HIGHLIGHT',
+                      },
+                      notification: {
+                        type: undefined,
+                        message: '',
                       },
                     })
                   }

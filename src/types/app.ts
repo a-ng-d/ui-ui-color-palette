@@ -4,6 +4,23 @@ import { UserSession } from './user'
 
 export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'
 
+export interface ContextItem {
+  label: string
+  id: Context
+  isUpdated: boolean
+  isActive: boolean
+}
+
+export interface BaseProps {
+  userIdentity: UserConfiguration
+  userSession: UserSession
+  userConsent: Array<ConsentConfiguration>
+  planStatus: PlanStatus
+  editor: Editor
+  locals: any
+  lang: Language
+}
+
 export type Context =
   | 'LIBRARY_PAGE'
   | 'LIBRARY_FILE'
@@ -103,21 +120,4 @@ export interface ImportUrl {
         message: string
       }
     | undefined
-}
-
-export interface ContextItem {
-  label: string
-  id: Context
-  isUpdated: boolean
-  isActive: boolean
-}
-
-export interface BaseProps {
-  userIdentity: UserConfiguration
-  userSession: UserSession
-  userConsent: Array<ConsentConfiguration>
-  planStatus: PlanStatus
-  editor: Editor
-  locals: any
-  lang: Language
 }
