@@ -114,3 +114,14 @@ div.export-palette__preview textarea {
   width: var(--size-xxsmall);
   height: var(--size-xsmall);
 }
+
+/* Background */
+:root[data-theme='figma-ui2'] #app {
+  background-color: var(--figma-color-bg);
+}
+:root[data-theme='figma-ui3'] #app {
+  background-color: var(--figma-color-bg);
+}
+:root[data-theme='penpot'] #app {
+  background-color: var(--color-background-primary);
+}
