@@ -17,6 +17,7 @@ export interface BaseProps {
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   editor: Editor
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locals: any
   lang: Language
 }
