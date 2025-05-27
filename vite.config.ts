@@ -3,7 +3,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import basicSsl from '@vitejs/plugin-basic-ssl'
 import { defineConfig, loadEnv } from 'vite'
 
-export default defineConfig(async ({ mode }) => {
+export default defineConfig(({ mode }) => {
   const platform = process.env.PLATFORM || 'penpot'
   const colorMode = process.env.COLOR_MODE || 'dark'
   const editor = process.env.EDITOR || 'penpot'
@@ -38,19 +38,17 @@ export default defineConfig(async ({ mode }) => {
 
     server: {
       port: 4400,
-      https: {
-        cert: '',
-        key: '',
-      },
+      https: {},
       watch: {
-        usePolling: true,
-        interval: 1000,
+        usePolling: false,
       },
       hmr: {
-        protocol: 'wss',
+        protocol: 'ws',
         host: 'localhost',
         port: 4400,
-        overlay: true,
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
       },
     },
 
