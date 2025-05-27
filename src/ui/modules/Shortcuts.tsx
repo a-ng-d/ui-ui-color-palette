@@ -330,11 +330,20 @@ export default class Shortcuts extends PureComponent<
                           action: this.props.onUpdateConsent,
                         },
                         {
-                          label: 'Change your preferences',
+                          label: this.props.locals.user.updatePreferences,
                           type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
+                          isActive: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_PREFERENCES.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_PREFERENCES.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_PREFERENCES.isNew(),
                           action: this.props.onOpenPreferences,
                         },
                       ]}

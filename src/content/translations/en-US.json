@@ -493,18 +493,6 @@
         "sheet": "Color sheet",
         "simple": "Palette"
       }
-    },
-    "preferences": {
-      "sync": {
-        "message": "A deep synchronization means that the local styles are synchronized with the palette (if a style is not in the palette, it will be removed).",
-        "palette": {
-          "label": "Synchronize your changes in real time with the palette"
-        },
-        "styles": {
-          "label": "Deeply synchronize the local styles in the document with the palette"
-        },
-        "title": "Synchronization"
-      }
     }
   },
   "shortcuts": {
@@ -630,7 +618,23 @@
     "signOut": "Sign out",
     "updateConsent": "Manage your cookies",
     "updatePreferences": "Update your preferences",
-    "welcomeMessage": "Hello $[]"
+    "welcomeMessage": "Hello $[]",
+    "preferences": {
+      "sync": {
+        "message": "A deep synchronization means that the local styles are synchronized with the palette (if a style is not in the palette, it will be removed).",
+        "palette": {
+          "label": "Synchronize your changes in real time with the palette"
+        },
+        "styles": {
+          "label": "Deeply synchronize the local styles in the document with the palette"
+        },
+        "variables": {
+            "label":
+              "Deeply synchronize the local variables in the collection with the palette"
+          },
+        "title": "Synchronization"
+      }
+    }
   },
   "vendors": {
     "functional": {

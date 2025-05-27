@@ -9,7 +9,10 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { $canStylesDeepSync } from '../../stores/preferences'
+import {
+  $canStylesDeepSync,
+  $canVariablesDeepSync,
+} from '../../stores/preferences'
 import { BaseProps, PlanStatus } from '../../types/app'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
@@ -20,6 +23,7 @@ interface SyncPreferencesProps extends BaseProps, WithConfigProps {
 
 interface SyncPreferencesStates {
   canStylesDeepSync: boolean
+  canVariablesDeepSync: boolean
 }
 
 export default class SyncPreferences extends PureComponent<
@@ -27,6 +31,7 @@ export default class SyncPreferences extends PureComponent<
   SyncPreferencesStates
 > {
   private subscribeStyles: (() => void) | undefined
+  private subscribeVariables: (() => void) | undefined
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER_PREFERENCES_SYNC_DEEP_STYLES: new FeatureStatus({
@@ -49,6 +54,7 @@ export default class SyncPreferences extends PureComponent<
     super(props)
     this.state = {
       canStylesDeepSync: false,
+      canVariablesDeepSync: false,
     }
   }
 
@@ -57,10 +63,14 @@ export default class SyncPreferences extends PureComponent<
     this.subscribeStyles = $canStylesDeepSync.subscribe((value) => {
       this.setState({ canStylesDeepSync: value })
     })
+    this.subscribeVariables = $canVariablesDeepSync.subscribe((value) => {
+      this.setState({ canVariablesDeepSync: value })
+    })
   }
 
   componentWillUnmount = () => {
     if (this.subscribeStyles) this.subscribeStyles()
+    if (this.subscribeVariables) this.subscribeVariables()
   }
 
   // Templates
@@ -76,7 +86,7 @@ export default class SyncPreferences extends PureComponent<
           id="update-styles-deep-sync"
           type="SWITCH_BUTTON"
           name="update-styles-deep-sync"
-          label={this.props.locals.settings.preferences.sync.styles.label}
+          label={this.props.locals.user.preferences.sync.styles.label}
           isChecked={this.state.canStylesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
@@ -109,6 +119,51 @@ export default class SyncPreferences extends PureComponent<
     )
   }
 
+  VariablesDeepSync = () => {
+    return (
+      <Feature
+        isActive={SyncPreferences.features(
+          this.props.planStatus,
+          this.props.config
+        ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive()}
+      >
+        <Select
+          id="update-variables-deep-sync"
+          type="SWITCH_BUTTON"
+          name="update-variables-deep-sync"
+          label={this.props.locals.user.preferences.sync.variables.label}
+          isChecked={this.state.canVariablesDeepSync}
+          isBlocked={SyncPreferences.features(
+            this.props.planStatus,
+            this.props.config
+          ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isBlocked()}
+          isNew={SyncPreferences.features(
+            this.props.planStatus,
+            this.props.config
+          ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
+          feature="UPDATE_VARIABLES_DEEP_SYNC"
+          action={() => {
+            $canVariablesDeepSync.set(!this.state.canVariablesDeepSync)
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: 'SET_ITEMS',
+                  items: [
+                    {
+                      key: 'can_deep_sync_variables',
+                      value: !this.state.canVariablesDeepSync,
+                    },
+                  ],
+                },
+              },
+              '*'
+            )
+          }}
+        />
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     return (
@@ -117,7 +172,7 @@ export default class SyncPreferences extends PureComponent<
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={this.props.locals.settings.preferences.sync.title}
+                label={this.props.locals.user.preferences.sync.title}
               />
             }
             isListItem={false}
@@ -129,10 +184,13 @@ export default class SyncPreferences extends PureComponent<
             node: <this.StylesDeepSync />,
           },
           {
+            node: <this.VariablesDeepSync />,
+          },
+          {
             node: (
               <SemanticMessage
                 type="INFO"
-                message={this.props.locals.settings.preferences.sync.message}
+                message={this.props.locals.user.preferences.sync.message}
               />
             ),
           },

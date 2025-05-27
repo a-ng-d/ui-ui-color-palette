@@ -499,7 +499,7 @@ export default class PriorityContainer extends PureComponent<
     return (
       <Feature isActive={true}>
         <Dialog
-          title="Preferences"
+          title={this.props.locals.user.updatePreferences}
           pin="RIGHT"
           onClose={this.props.onClose}
         >
