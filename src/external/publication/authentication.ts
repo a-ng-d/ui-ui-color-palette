@@ -114,6 +114,6 @@ export const signOut = async (authUrl: string) => {
   )
 
   await supabase.auth.signOut({
-    scope: 'global',
+    scope: 'local',
   })
 }
