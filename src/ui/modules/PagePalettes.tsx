@@ -14,10 +14,10 @@ import React from 'react'
 import { createPortal } from 'react-dom'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus } from '../../types/app'
-import { FullConfiguration } from '../../types/configurations'
 import setPaletteMeta from '../../utils/setPaletteMeta'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface PagePalettesStates {
   paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
@@ -200,8 +200,8 @@ export default class PagePalettes extends PureComponent<
             {this.state.paletteLists
               .sort(
                 (a, b) =>
-                  new Date(b.meta.dates.updatedAt).getTime() -
-                  new Date(a.meta.dates.updatedAt).getTime()
+                  new Date(b.meta.dates.openedAt).getTime() -
+                  new Date(a.meta.dates.openedAt).getTime()
               )
               .map((palette, index) => {
                 const enabledThemeIndex = palette.themes.findIndex(

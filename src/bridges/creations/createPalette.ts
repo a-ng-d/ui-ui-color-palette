@@ -80,6 +80,7 @@ const createPalette = async (msg: Msg) => {
         createdAt: now,
         updatedAt: now,
         publishedAt: '',
+        openedAt: now,
       },
       creatorIdentity: {
         creatorId: '',

@@ -48,6 +48,7 @@ const createFromRemote = async (msg: Msg) => {
         createdAt: msg.data.meta.dates.createdAt,
         updatedAt: msg.data.meta.dates.updatedAt,
         publishedAt: msg.data.meta.dates.publishedAt,
+        openedAt: new Date().toISOString(),
       },
       creatorIdentity: {
         creatorId: msg.data.meta.creatorIdentity.creatorId,
