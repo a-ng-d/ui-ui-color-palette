@@ -1,76 +1,94 @@
-import { palettesDbTableName, palettesStorageName } from '../../config'
+import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { uid } from 'uid'
+import { supabase } from '../../index'
 import type { AppStates } from '../../ui/App'
-import { supabase } from './authentication'
 
 const unpublishPalette = async ({
   rawData,
+  palettesDbTableName,
   isRemote = false,
 }: {
   rawData: Partial<AppStates>
+  palettesDbTableName: string
   isRemote?: boolean
 }): Promise<Partial<AppStates>> => {
-  if (rawData.screenshot !== null || !isRemote) {
-    const { error } = await supabase.storage
-      .from(palettesStorageName)
-      .remove([`${rawData.userSession?.userId}/${rawData.id}.png`])
-
-    if (error) throw error
-  }
+  const id = rawData.id ?? uid()
 
   const { error } = await supabase
     .from(palettesDbTableName)
     .delete()
-    .match({ palette_id: rawData.id })
+    .match({ palette_id: id })
 
   if (!error) {
-    const palettePublicationDetails = {
-      id: '',
+    const meta: MetaConfiguration = {
+      id: id,
       dates: {
-        publishedAt: '',
         createdAt: rawData.dates?.createdAt ?? '',
         updatedAt: rawData.dates?.updatedAt ?? '',
+        publishedAt: '',
       },
       publicationStatus: {
         isPublished: false,
         isShared: false,
       },
       creatorIdentity: {
+        creatorId: '',
         creatorFullName: '',
         creatorAvatar: '',
-        creatorId: '',
       },
     }
 
-    if (!isRemote) {
+    if (!isRemote)
       parent.postMessage(
         {
           pluginMessage: {
-            type: 'SET_DATA',
+            type: 'UPDATE_PALETTE',
+            id: meta.id,
             items: [
               {
-                key: 'id',
-                value: palettePublicationDetails.id,
+                key: 'meta.id',
+                value: meta.id,
+              },
+              {
+                key: 'meta.dates.createdAt',
+                value: meta.dates.createdAt,
+              },
+              {
+                key: 'meta.dates.updatedAt',
+                value: meta.dates.updatedAt,
+              },
+              {
+                key: 'meta.dates.publishedAt',
+                value: meta.dates.publishedAt,
+              },
+              {
+                key: 'meta.publicationStatus.isPublished',
+                value: meta.publicationStatus.isPublished,
+              },
+              {
+                key: 'meta.publicationStatus.isShared',
+                value: meta.publicationStatus.isShared,
+              },
+              {
+                key: 'meta.creatorIdentity.creatorFullName',
+                value: meta.creatorIdentity.creatorFullName,
+              },
+              {
+                key: 'meta.creatorIdentity.creatorAvatar',
+                value: meta.creatorIdentity.creatorAvatar,
+              },
+              {
+                key: 'meta.creatorIdentity.creatorId',
+                value: meta.creatorIdentity.creatorId,
               },
             ],
+            isAlreatyUpdated: true,
           },
         },
         '*'
       )
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_GLOBAL',
-            data: {
-              ...rawData,
-              ...palettePublicationDetails,
-            },
-          },
-        },
-        '*'
-      )
-    }
 
-    return palettePublicationDetails
+    return meta
   } else throw error
 }
 

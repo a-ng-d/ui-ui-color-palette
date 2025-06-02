@@ -54,7 +54,6 @@ export interface ExtractOfBaseConfiguration {
   preset: string
   colors: Array<ColorConfiguration>
   themes: Array<ThemeConfiguration>
-  screenshot: Uint8Array | null
   devStatus: string | null
 }
 
@@ -173,9 +172,9 @@ export interface PublicationConfiguration {
 }
 
 export interface CreatorConfiguration {
+  creatorId: string
   creatorFullName: string
   creatorAvatar: string
-  creatorId: string
 }
 
 export interface UserConfiguration {

@@ -1,7 +1,7 @@
 import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { PaletteMessage } from '../../types/messages'
 
-const updatePalette = async (msg: PaletteMessage) => {
+const updatePalette = async (msg: PaletteMessage, isAlreadyUpdated = false) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
@@ -25,13 +25,20 @@ const updatePalette = async (msg: PaletteMessage) => {
     }
   })
 
-  palette.meta.dates.updatedAt = now
-  iframe?.contentWindow?.postMessage({
-    type: 'UPDATE_PALETTE_DATE',
-    data: now,
-  })
+  if (!isAlreadyUpdated) {
+    palette.meta.dates.updatedAt = now
+    iframe?.contentWindow?.postMessage({
+      type: 'UPDATE_PALETTE_DATE',
+      data: now,
+    })
+  }
 
   palette.data = new Data(palette).makePaletteData(palette.data)
+
+  iframe?.contentWindow?.postMessage({
+    type: 'LOAD_PALETTE',
+    data: palette,
+  })
 
   return window.localStorage.setItem(
     `palette_${msg.id}`,

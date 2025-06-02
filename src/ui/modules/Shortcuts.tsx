@@ -12,7 +12,7 @@ import {
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import PlanControls from './PlanControls'
-import { signIn, signOut } from '../../external/publication/authentication'
+import { signIn, signOut } from '../../external/auth/authentication'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 
 interface ShortcutsProps extends BaseProps, WithConfigProps {

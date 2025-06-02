@@ -48,6 +48,9 @@ interface ActionsProps extends BaseProps, WithConfigProps {
   onSyncLocalVariables?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
+  onPublishPalette?: (
+    e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void
   onChangeDocument?: (view?: ViewConfiguration) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
@@ -59,7 +62,10 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
+export default class Actions extends PureComponent<
+  ActionsProps,
+  ActionsStates
+> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -142,6 +148,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
     VIEWS_SHEET: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_SHEET',
+      planStatus: planStatus,
+    }),
+    PUBLISH_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLISH_PALETTE',
       planStatus: planStatus,
     }),
   })
@@ -294,6 +305,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
   optionsHandler = () => {
     const options = [
       {
+        label: this.publicationLabel(),
+        feature: 'PUBLISH_PALETTE',
+        type: 'OPTION',
+        isActive: Actions.features(
+          this.props.planStatus,
+          this.props.config
+        ).PUBLISH_PALETTE.isActive(),
+        isBlocked: Actions.features(
+          this.props.planStatus,
+          this.props.config
+        ).PUBLISH_PALETTE.isBlocked(),
+        isNew: Actions.features(
+          this.props.planStatus,
+          this.props.config
+        ).PUBLISH_PALETTE.isNew(),
+        action: this.props.onPublishPalette,
+      },
+      {
         label: this.props.locals.actions.generateDocument.label,
         value: 'DOCUMENT',
         type: 'OPTION',
@@ -378,6 +407,56 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       })
 
     return options
+  }
+
+  // Direct Actions
+  publicationAction = (): Partial<DropdownOption> => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return {
+        label: this.props.locals.actions.publishOrSyncPalette,
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_SYNC_PALETTE',
+      }
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return {
+        label: this.props.locals.actions.publishPalette,
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_PALETTE',
+      }
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return {
+        label: this.props.locals.actions.syncPalette,
+        value: 'PALETTE_PUBLICATION',
+        feature: 'SYNC_PALETTE',
+      }
+    else
+      return {
+        label: this.props.locals.actions.publishPalette,
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_PALETTE',
+      }
+  }
+
+  publicationLabel = (): string => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return this.props.locals.actions.publishOrSyncPalette
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return this.props.locals.actions.publishPalette
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return this.props.locals.actions.syncPalette
+    else return this.props.locals.actions.publishPalette
   }
 
   // Templates

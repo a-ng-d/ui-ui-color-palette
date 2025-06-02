@@ -1,33 +1,27 @@
-import { palettesDbTableName, palettesStorageName } from '../../config'
+import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { supabase } from '../../index'
 import type { AppStates } from '../../ui/App'
-import { supabase } from './authentication'
 
 const pushPalette = async ({
   rawData,
+  palettesDbTableName,
   isShared = false,
+  locals,
 }: {
   rawData: AppStates
+  palettesDbTableName: string
   isShared?: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  locals: any
 }): Promise<Partial<AppStates>> => {
   const now = new Date().toISOString()
   const name =
-    rawData.name === '' || rawData.name === 'Untitled'
-      ? `${rawData.userSession.userFullName}'s UI COLOR PALETTE`
+    rawData.name === '' || rawData.name === locals.settings.global.name.default
+      ? locals.settings.global.name.self.replace(
+          '$1',
+          rawData.userSession.userFullName
+        )
       : rawData.name
-
-  if (rawData.screenshot !== null) {
-    const { error } = await supabase.storage
-      .from(palettesStorageName)
-      .update(
-        `${rawData.userSession.userId}/${rawData.id}.png`,
-        rawData.screenshot.buffer,
-        {
-          contentType: 'image/png',
-        }
-      )
-
-    if (error) throw error
-  }
 
   const { error } = await supabase
     .from(palettesDbTableName)
@@ -36,15 +30,11 @@ const pushPalette = async ({
         name: name,
         description: rawData.description,
         preset: rawData.preset,
-        scale: rawData.scale,
         shift: rawData.shift,
         are_source_colors_locked: rawData.areSourceColorsLocked,
         colors: rawData.colors,
         color_space: rawData.colorSpace,
-        vision_simulation_mode: rawData.visionSimulationMode,
         themes: rawData.themes,
-        view: rawData.view,
-        text_colors_theme: rawData.textColorsTheme,
         algorithm_version: rawData.algorithmVersion,
         is_shared: isShared,
         creator_full_name: rawData.userSession.userFullName,
@@ -57,8 +47,63 @@ const pushPalette = async ({
     .match({ palette_id: rawData.id })
 
   if (!error) {
-    const palettePublicationDetails = {
+    const palette: FullConfiguration = new Data({
+      base: {
+        name: name,
+        description: rawData.description,
+        preset: rawData.preset,
+        shift: rawData.shift,
+        areSourceColorsLocked: rawData.areSourceColorsLocked,
+        colors: rawData.colors,
+        colorSpace: rawData.colorSpace,
+        algorithmVersion: rawData.algorithmVersion,
+      },
+      themes: rawData.themes,
+      meta: {
+        id: rawData.id,
+        dates: {
+          createdAt: rawData.dates.createdAt,
+          updatedAt: now,
+          publishedAt: now,
+        },
+        publicationStatus: {
+          isPublished: true,
+          isShared: isShared,
+        },
+        creatorIdentity: {
+          creatorFullName: rawData.userSession.userFullName,
+          creatorAvatar: rawData.userSession.userAvatar,
+          creatorId: rawData.userSession.userId,
+        },
+      },
+    }).makePaletteFullData()
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'SET_DATA',
+          items: [
+            {
+              key: `palette_${rawData.id}`,
+              value: palette,
+            },
+          ],
+        },
+      },
+      '*'
+    )
+
+    return {
+      id: rawData.id,
       name: name,
+      description: rawData.description,
+      preset: rawData.preset,
+      shift: rawData.shift,
+      areSourceColorsLocked: rawData.areSourceColorsLocked,
+      colors: rawData.colors,
+      colorSpace: rawData.colorSpace,
+      algorithmVersion: rawData.algorithmVersion,
+      themes: rawData.themes,
       dates: {
         publishedAt: now,
         createdAt: rawData.dates.createdAt,
@@ -71,24 +116,9 @@ const pushPalette = async ({
       creatorIdentity: {
         creatorFullName: rawData.userSession.userFullName,
         creatorAvatar: rawData.userSession.userAvatar,
-        creatorId: rawData.userSession.userId ?? '',
+        creatorId: rawData.userSession.userId,
       },
     }
-
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'UPDATE_GLOBAL',
-          data: {
-            ...rawData,
-            ...palettePublicationDetails,
-          },
-        },
-      },
-      '*'
-    )
-
-    return palettePublicationDetails
   } else throw error
 }
 

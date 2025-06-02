@@ -85,7 +85,6 @@ export interface AppStates extends BaseProps {
   view: ViewConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  screenshot: Uint8Array | null
   dates: DatesConfiguration
   export: ExportConfiguration
   palettesList: Array<ExtractOfBaseConfiguration>
@@ -164,7 +163,6 @@ class App extends Component<AppProps, AppStates> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      screenshot: null,
       dates: {
         createdAt: '',
         updatedAt: '',
@@ -189,18 +187,18 @@ class App extends Component<AppProps, AppStates> {
         isShared: false,
       },
       creatorIdentity: {
+        creatorId: '',
         creatorFullName: '',
         creatorAvatar: '',
-        creatorId: '',
       },
       priorityContainerContext: 'EMPTY',
       locals: {},
       lang: $userLanguage.get(),
       userSession: {
         connectionStatus: 'UNCONNECTED',
+        userId: '',
         userFullName: '',
         userAvatar: '',
-        userId: undefined,
         accessToken: undefined,
         refreshToken: undefined,
       },
@@ -304,9 +302,9 @@ class App extends Component<AppProps, AppStates> {
             this.setState({
               userSession: {
                 connectionStatus: 'CONNECTED',
+                userId: session?.user.id || '',
                 userFullName: session?.user.user_metadata.full_name,
                 userAvatar: session?.user.user_metadata.avatar_url,
-                userId: session?.user.id,
                 accessToken: session?.access_token,
                 refreshToken: session?.refresh_token,
               },
@@ -331,9 +329,9 @@ class App extends Component<AppProps, AppStates> {
             this.setState({
               userSession: {
                 connectionStatus: 'CONNECTED',
+                userId: session?.user.id || '',
                 userFullName: session?.user.user_metadata.full_name,
                 userAvatar: session?.user.user_metadata.avatar_url,
-                userId: session?.user.id,
                 accessToken: session?.access_token,
                 refreshToken: session?.refresh_token,
               },
@@ -551,7 +549,6 @@ class App extends Component<AppProps, AppStates> {
               lightColor: '#FFFFFF',
               darkColor: '#000000',
             },
-            screenshot: null,
             dates: {
               createdAt: path.data.meta.dates.createdAt,
               updatedAt: path.data.meta.dates.updatedAt,
@@ -562,9 +559,9 @@ class App extends Component<AppProps, AppStates> {
               isShared: path.data.meta.publicationStatus.isShared,
             },
             creatorIdentity: {
+              creatorId: path.data.meta.creatorIdentity.creatorId,
               creatorFullName: path.data.meta.creatorIdentity.creatorFullName,
               creatorAvatar: path.data.meta.creatorIdentity.creatorAvatar,
-              creatorId: path.data.meta.creatorIdentity.creatorId,
             },
             onGoingStep: 'palette loaded',
           })
@@ -769,11 +766,6 @@ class App extends Component<AppProps, AppStates> {
           )
         }
 
-        const updateScreenshot = (bytes: Uint8Array) =>
-          this.setState({
-            screenshot: bytes,
-          })
-
         const updatePaletteDate = (date: Date) =>
           this.setState({
             dates: {
@@ -824,7 +816,6 @@ class App extends Component<AppProps, AppStates> {
           EXPORT_PALETTE_KT: () => exportPaletteToKt(),
           EXPORT_PALETTE_XML: () => exportPaletteToXml(),
           EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
-          UPDATE_SCREENSHOT: () => updateScreenshot(path?.data),
           UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
           GET_PRO_PLAN: () => getProPlan(),
           SIGN_OUT: () => signOut(path?.data),
@@ -902,7 +893,6 @@ class App extends Component<AppProps, AppStates> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      screenshot: null,
       dates: {
         createdAt: '',
         updatedAt: '',
@@ -913,9 +903,9 @@ class App extends Component<AppProps, AppStates> {
         isShared: false,
       },
       creatorIdentity: {
+        creatorId: '',
         creatorFullName: '',
         creatorAvatar: '',
-        creatorId: '',
       },
     })
 
@@ -1013,6 +1003,7 @@ class App extends Component<AppProps, AppStates> {
                 <PriorityContainer
                   {...this.props}
                   {...this.state}
+                  rawData={this.state}
                   context={this.state.priorityContainerContext}
                   onChangePublication={(e) => this.setState({ ...e })}
                   onClose={() =>

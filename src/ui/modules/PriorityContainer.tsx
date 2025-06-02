@@ -10,13 +10,14 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import * as Sentry from '@sentry/browser'
-import { PureComponent } from 'preact/compat'
+import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import cp from '../../content/images/choose_plan.webp'
 import isb from '../../content/images/isb_product_thumbnail.webp'
 import pp from '../../content/images/pro_plan.webp'
 import t from '../../content/images/trial.webp'
+import p from '../../content/images/publication.webp'
 import {
   BaseProps,
   HighlightDigest,
@@ -32,8 +33,12 @@ import Highlight from './Highlight'
 import Onboarding from './Onboarding'
 import SyncPreferences from './SyncPreferences'
 import { NotificationMessage } from '../../types/messages'
+import { signIn } from '../../external/auth/authentication'
+import { trackSignInEvent } from '../../utils/eventsTracker'
+import Publication from './Publication'
 
 interface PriorityContainerProps extends BaseProps, WithConfigProps {
+  rawData: AppStates
   context: PriorityContext
   notification: NotificationMessage
   trialStatus: TrialStatus
@@ -130,8 +135,11 @@ export default class PriorityContainer extends PureComponent<
         parent.postMessage(
           {
             pluginMessage: {
-              type: 'SEND_MESSAGE',
-              message: this.props.locals.success.report,
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'SUCCESS',
+                message: this.props.locals.success.report,
+              },
             },
           },
           '*'
@@ -142,8 +150,11 @@ export default class PriorityContainer extends PureComponent<
         parent.postMessage(
           {
             pluginMessage: {
-              type: 'SEND_MESSAGE',
-              message: this.props.locals.error.generic,
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.locals.error.generic,
+              },
             },
           },
           '*'
@@ -152,6 +163,99 @@ export default class PriorityContainer extends PureComponent<
   }
 
   // Templates
+  Publication = () => {
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus,
+          this.props.config
+        ).PUBLICATION.isActive()}
+      >
+        {this.props.userSession.connectionStatus === 'UNCONNECTED'
+          ? createPortal(
+              <Dialog
+                title={this.props.locals.publication.titleSignIn}
+                actions={{
+                  primary: {
+                    label: this.props.locals.publication.signIn,
+                    state: this.state.isPrimaryActionLoading
+                      ? 'LOADING'
+                      : 'DEFAULT',
+                    action: async () => {
+                      this.setState({ isPrimaryActionLoading: true })
+                      signIn(
+                        this.props.userIdentity.id,
+                        this.props.config.urls.authWorkerUrl,
+                        this.props.config.urls.authUrl
+                      )
+                        .then(() => {
+                          trackSignInEvent(
+                            this.props.userIdentity.id,
+                            this.props.userConsent.find(
+                              (consent) => consent.id === 'mixpanel'
+                            )?.isConsented ?? false
+                          )
+                        })
+                        .finally(() => {
+                          this.setState({ isPrimaryActionLoading: false })
+                        })
+                        .catch((error) => {
+                          parent.postMessage(
+                            {
+                              pluginMessage: {
+                                type: 'POST_MESSAGE',
+                                data: {
+                                  type: 'ERROR',
+                                  message:
+                                    error.message === 'Authentication timeout'
+                                      ? this.props.locals.error.timeout
+                                      : this.props.locals.error.authentication,
+                                },
+                              },
+                            },
+                            '*'
+                          )
+                        })
+                    },
+                  },
+                }}
+                onClose={this.props.onClose}
+              >
+                <div className="dialog__cover">
+                  <img
+                    src={p}
+                    style={{
+                      width: '100%',
+                    }}
+                  />
+                </div>
+                <div className="dialog__text">
+                  <p className={texts.type}>
+                    {this.props.locals.publication.message}
+                  </p>
+                </div>
+              </Dialog>,
+              document.getElementById('modal') ?? document.createElement('app')
+            )
+          : createPortal(
+              <Publication
+                {...this.props}
+                isPrimaryActionLoading={this.state.isPrimaryActionLoading}
+                isSecondaryActionLoading={this.state.isSecondaryActionLoading}
+                onLoadPrimaryAction={(e) =>
+                  this.setState({ isPrimaryActionLoading: e })
+                }
+                onLoadSecondaryAction={(e) =>
+                  this.setState({ isSecondaryActionLoading: e })
+                }
+                onClosePublication={this.props.onClose}
+              />,
+              document.getElementById('modal') ?? document.createElement('app')
+            )}
+      </Feature>
+    )
+  }
+
   Notification = () => {
     setTimeout(() => this.props.onClose(), 5000)
 
@@ -540,6 +644,7 @@ export default class PriorityContainer extends PureComponent<
   render() {
     return (
       <>
+        {this.props.context === 'PUBLICATION' && <this.Publication />}
         {this.props.context === 'NOTIFICATION' && <this.Notification />}
         {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
         {this.props.context === 'ONBOARDING' && <this.OnBoarding />}

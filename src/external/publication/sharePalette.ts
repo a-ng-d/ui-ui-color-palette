@@ -1,11 +1,12 @@
-import { palettesDbTableName } from '../../config'
-import { supabase } from './authentication'
+import { supabase } from '../../index'
 
 const sharePalette = async ({
   id,
+  palettesDbTableName,
   isShared,
 }: {
   id: string
+  palettesDbTableName: string
   isShared: boolean
 }): Promise<void> => {
   const now = new Date().toISOString()

@@ -88,11 +88,7 @@ window.addEventListener('message', async (msg: any) => {
     UPDATE_COLORS: () => updateColors(path),
     UPDATE_THEMES: () => updateThemes(path),
     UPDATE_SETTINGS: () => updateSettings(path),
-    UPDATE_PALETTE: () => updatePalette(path),
-    UPDATE_SCREENSHOT: async () => {
-      iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
-      console.log('Update screenshot', path)
-    },
+    UPDATE_PALETTE: () => updatePalette(path, path.isAlreadyUpdated),
     UPDATE_DOCUMENT: () => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
       console.log('Update document', path)
@@ -167,7 +163,7 @@ window.addEventListener('message', async (msg: any) => {
           typeof item.value === 'boolean' ||
           typeof item.value === 'number'
         )
-          window.localStorage.setItem(item.key, item.value.toString())
+          window.localStorage.setItem(item.key, String(item.value))
         else window.localStorage.setItem(item.key, item.value as string)
       })
     },
@@ -180,11 +176,29 @@ window.addEventListener('message', async (msg: any) => {
       ),
     DELETE_ITEMS: () =>
       path.items.forEach(async (item: string) =>
-        window.localStorage.setItem(item, '')
+        window.localStorage.removeItem(item)
       ),
     SET_DATA: () =>
-      path.items.forEach((item: { key: string; value: string }) =>
-        window.localStorage.setItem(item.key, JSON.stringify(item.value))
+      path.items.forEach((item: { key: string; value: string }) => {
+        if (typeof item.value === 'object')
+          window.localStorage.setItem(item.key, JSON.stringify(item.value))
+        else if (
+          typeof item.value === 'boolean' ||
+          typeof item.value === 'number'
+        )
+          window.localStorage.setItem(item.key, String(item.value))
+        else window.localStorage.setItem(item.key, item.value as string)
+      }),
+    GET_DATA: () =>
+      path.items.map((item: string) =>
+        iframe?.contentWindow?.postMessage({
+          type: `GET_DATA_${item.toUpperCase()}`,
+          value: window.localStorage.getItem(item),
+        })
+      ),
+    DELETE_DATA: () =>
+      path.items.forEach((item: string) =>
+        window.localStorage.removeItem(item)
       ),
     //
     GET_PALETTES: async () => await getPalettesOnCurrentPage(),

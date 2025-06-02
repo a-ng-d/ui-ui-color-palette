@@ -518,6 +518,7 @@
       },
       "name": {
         "default": "Untitled",
+        "self": "{$1}'s UI Color Palette",
         "label": "Name"
       },
       "title": "Global",
@@ -684,9 +685,9 @@
     "emptySourceColors": "There is no source color. Add them manually in the Colors section.",
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
-    "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create.",
-    "noPaletteOnCurrrentPage": "There is no UI Color Palette on the current page.",
-    "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents.",
+    "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
+    "noPaletteOnCurrrentPage": "There is no UI Color Palette on the current page",
+    "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "paletteNameRecommendation": "64 characters max is recommended",
     "unselectedColor": "Select a layer that is filled with at least one solid color"
   }

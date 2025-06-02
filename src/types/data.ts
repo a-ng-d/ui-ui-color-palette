@@ -74,7 +74,6 @@ export interface ColourLovers {
 
 export interface ExternalPalettes {
   palette_id: string
-  screenshot: string
   name: string
   preset: PresetConfiguration
   colors: Array<ColorConfiguration>

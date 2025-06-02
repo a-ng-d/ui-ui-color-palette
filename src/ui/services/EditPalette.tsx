@@ -81,7 +81,7 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   onChangeColors: React.Dispatch<Partial<AppStates>>
   onChangeThemes: React.Dispatch<Partial<AppStates>>
   onChangeSettings: React.Dispatch<Partial<AppStates>>
-  onPublishPalette: () => void
+  onPublishPalette: React.Dispatch<Partial<AppStates>>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
   onUnloadPalette: () => void
@@ -99,10 +99,7 @@ interface EditPaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
@@ -363,6 +360,10 @@ export default class EditPalette extends PureComponent<
     )
   }
 
+  onPublishPalette = () => {
+    this.props.onPublishPalette({ priorityContainerContext: 'PUBLICATION' })
+  }
+
   onChangeDocument = (view?: ViewConfiguration) => {
     this.setState({
       isSecondaryLoading: true,
@@ -619,6 +620,7 @@ export default class EditPalette extends PureComponent<
             service="EDIT"
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
+            onPublishPalette={this.onPublishPalette}
             onChangeDocument={this.onChangeDocument}
           />
         </Feature>

@@ -1,65 +1,43 @@
-import { uid } from 'uid'
-
-import {
-  databaseUrl,
-  palettesDbTableName,
-  palettesStorageName,
-} from '../../config'
-import type { AppStates } from '../../ui/App'
-import { supabase } from './authentication'
+import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { supabase } from '../../index'
+import { AppStates } from '../../ui/App'
 
 const publishPalette = async ({
   rawData,
+  palettesDbTableName,
   isShared = false,
+  locals,
 }: {
   rawData: AppStates
+  palettesDbTableName: string
   isShared?: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  locals: any
 }): Promise<Partial<AppStates>> => {
-  let imageUrl = null
-  const now = new Date().toISOString(),
-    name =
-      rawData.name === '' || rawData.name === 'Untitled'
-        ? `${rawData.userSession.userFullName}'s UI COLOR PALETTE`
-        : rawData.name,
-    id = uid()
-
-  if (rawData.screenshot !== null) {
-    const { error } = await supabase.storage
-      .from(palettesStorageName)
-      .upload(
-        `${rawData.userSession.userId}/${id}.png`,
-        rawData.screenshot.buffer,
-        {
-          contentType: 'image/png',
-          upsert: true,
-        }
-      )
-
-    if (!error)
-      imageUrl = `${databaseUrl}/storage/v1/object/public/${palettesStorageName}/${rawData.userSession.userId}/${id}.png`
-    else throw error
-  }
+  const now = new Date().toISOString()
+  const name =
+    rawData.name === '' || rawData.name === locals.settings.global.name.default
+      ? locals.settings.global.name.self.replace(
+          '$1',
+          rawData.userSession.userFullName
+        )
+      : rawData.name
 
   const { error } = await supabase
     .from(palettesDbTableName)
     .insert([
       {
-        palette_id: id,
+        palette_id: rawData.id,
         name: name,
         description: rawData.description,
         preset: rawData.preset,
-        scale: rawData.scale,
         shift: rawData.shift,
         are_source_colors_locked: rawData.areSourceColorsLocked,
         colors: rawData.colors,
         color_space: rawData.colorSpace,
-        vision_simulation_mode: rawData.visionSimulationMode,
         themes: rawData.themes,
-        view: rawData.view,
-        text_colors_theme: rawData.textColorsTheme,
         algorithm_version: rawData.algorithmVersion,
         is_shared: isShared,
-        screenshot: imageUrl,
         creator_full_name: rawData.userSession.userFullName,
         creator_avatar: rawData.userSession.userAvatar,
         creator_id: rawData.userSession.userId,
@@ -70,55 +48,69 @@ const publishPalette = async ({
     ])
     .select()
 
+  console.log(error)
+
   if (!error) {
-    const palettePublicationDetails = {
-      id: id,
-      name: name,
+    const meta: MetaConfiguration = {
+      id: rawData.id,
       dates: {
-        publishedAt: now,
         createdAt: rawData.dates.createdAt,
         updatedAt: now,
+        publishedAt: now,
       },
       publicationStatus: {
         isPublished: true,
         isShared: isShared,
       },
       creatorIdentity: {
+        creatorId: rawData.userSession.userId,
         creatorFullName: rawData.userSession.userFullName,
         creatorAvatar: rawData.userSession.userAvatar,
-        creatorId: rawData.userSession.userId ?? '',
       },
     }
 
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'SET_DATA',
+          type: 'UPDATE_PALETTE',
+          id: meta.id,
           items: [
             {
-              key: 'id',
-              value: palettePublicationDetails.id,
+              key: 'meta.dates.updatedAt',
+              value: meta.dates.updatedAt,
+            },
+            {
+              key: 'meta.dates.publishedAt',
+              value: meta.dates.publishedAt,
+            },
+            {
+              key: 'meta.publicationStatus.isPublished',
+              value: meta.publicationStatus.isPublished,
+            },
+            {
+              key: 'meta.publicationStatus.isShared',
+              value: meta.publicationStatus.isShared,
+            },
+            {
+              key: 'meta.creatorIdentity.creatorFullName',
+              value: meta.creatorIdentity.creatorFullName,
+            },
+            {
+              key: 'meta.creatorIdentity.creatorAvatar',
+              value: meta.creatorIdentity.creatorAvatar,
+            },
+            {
+              key: 'meta.creatorIdentity.creatorId',
+              value: meta.creatorIdentity.creatorId,
             },
           ],
+          isAlreatyUpdated: true,
         },
       },
       '*'
     )
 
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'UPDATE_GLOBAL',
-          data: {
-            ...rawData,
-            ...palettePublicationDetails,
-          },
-        },
-      },
-      '*'
-    )
-
-    return palettePublicationDetails
+    return meta
   } else throw error
 }
 
