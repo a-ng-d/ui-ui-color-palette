@@ -57,6 +57,7 @@ const publishPalette = async ({
         createdAt: rawData.dates.createdAt,
         updatedAt: now,
         publishedAt: now,
+        openedAt: rawData.dates.openedAt,
       },
       publicationStatus: {
         isPublished: true,

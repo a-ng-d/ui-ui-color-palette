@@ -18,6 +18,7 @@ const detachPalette = async ({
       createdAt: rawData.dates?.createdAt ?? now,
       updatedAt: rawData.dates?.updatedAt ?? now,
       publishedAt: '',
+      openedAt: rawData.dates?.openedAt ?? now,
     },
     publicationStatus: {
       isPublished: false,

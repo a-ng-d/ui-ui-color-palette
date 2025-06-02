@@ -65,6 +65,7 @@ const pushPalette = async ({
           createdAt: rawData.dates.createdAt,
           updatedAt: now,
           publishedAt: now,
+          openedAt: rawData.dates.openedAt,
         },
         publicationStatus: {
           isPublished: true,
@@ -108,6 +109,7 @@ const pushPalette = async ({
         publishedAt: now,
         createdAt: rawData.dates.createdAt,
         updatedAt: now,
+        openedAt: rawData.dates.openedAt,
       },
       publicationStatus: {
         isPublished: true,

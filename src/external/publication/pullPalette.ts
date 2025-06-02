@@ -33,6 +33,7 @@ const pullPalette = async ({
           createdAt: data[0].created_at,
           updatedAt: data[0].updated_at,
           publishedAt: data[0].published_at,
+          openedAt: rawData.dates.openedAt,
         },
         publicationStatus: {
           isPublished: true,
@@ -76,6 +77,7 @@ const pullPalette = async ({
         publishedAt: data[0].published_at,
         createdAt: data[0].created_at,
         updatedAt: data[0].updated_at,
+        openedAt: rawData.dates.openedAt,
       },
       publicationStatus: {
         isPublished: true,

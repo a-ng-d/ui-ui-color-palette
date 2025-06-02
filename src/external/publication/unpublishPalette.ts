@@ -13,6 +13,7 @@ const unpublishPalette = async ({
   isRemote?: boolean
 }): Promise<Partial<AppStates>> => {
   const id = rawData.id ?? uid()
+  const now = new Date().toISOString()
 
   const { error } = await supabase
     .from(palettesDbTableName)
@@ -23,9 +24,10 @@ const unpublishPalette = async ({
     const meta: MetaConfiguration = {
       id: id,
       dates: {
-        createdAt: rawData.dates?.createdAt ?? '',
-        updatedAt: rawData.dates?.updatedAt ?? '',
+        createdAt: rawData.dates?.createdAt ?? now,
+        updatedAt: rawData.dates?.updatedAt ?? now,
         publishedAt: '',
+        openedAt: rawData.dates?.openedAt ?? now,
       },
       publicationStatus: {
         isPublished: false,
