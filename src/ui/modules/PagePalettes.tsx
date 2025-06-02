@@ -1,5 +1,6 @@
 import {
   ActionsItem,
+  Bar,
   Button,
   Dialog,
   List,
@@ -7,7 +8,7 @@ import {
   SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { createPortal } from 'react-dom'
@@ -18,7 +19,7 @@ import setPaletteMeta from '../../utils/setPaletteMeta'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 
-interface InternalPalettesStates {
+interface PagePalettesStates {
   paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   paletteLists: Array<FullConfiguration>
   isDeleteDialogOpen: boolean
@@ -26,9 +27,9 @@ interface InternalPalettesStates {
   targetedPaletteName: string
 }
 
-export default class InternalPalettes extends PureComponent<
+export default class PagePalettes extends PureComponent<
   BaseProps & WithConfigProps,
-  InternalPalettesStates
+  PagePalettesStates
 > {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     OPEN_PALETTE: new FeatureStatus({
@@ -89,6 +90,7 @@ export default class InternalPalettes extends PureComponent<
     return actions[path.type ?? 'DEFAULT']?.()
   }
 
+  // Direct Actions
   onEditPalette = (id: string) => {
     parent.postMessage(
       {
@@ -137,7 +139,7 @@ export default class InternalPalettes extends PureComponent<
       <>
         <Feature
           isActive={
-            InternalPalettes.features(
+            PagePalettes.features(
               this.props.planStatus,
               this.props.config
             ).DELETE_PALETTE.isActive() && this.state.isDeleteDialogOpen
@@ -187,7 +189,7 @@ export default class InternalPalettes extends PureComponent<
     )
   }
 
-  InternalPalettesList = () => {
+  PagePalettesList = () => {
     return (
       <List
         isLoading={this.state.paletteListsStatus === 'LOADING'}
@@ -231,15 +233,15 @@ export default class InternalPalettes extends PureComponent<
                                 this.props.locals.browse.actions
                                   .duplicatePalette,
                               type: 'OPTION',
-                              isActive: InternalPalettes.features(
+                              isActive: PagePalettes.features(
                                 this.props.planStatus,
                                 this.props.config
                               ).DUPLICATE_PALETTE.isActive(),
-                              isBlocked: InternalPalettes.features(
+                              isBlocked: PagePalettes.features(
                                 this.props.planStatus,
                                 this.props.config
                               ).DUPLICATE_PALETTE.isBlocked(),
-                              isNew: InternalPalettes.features(
+                              isNew: PagePalettes.features(
                                 this.props.planStatus,
                                 this.props.config
                               ).DUPLICATE_PALETTE.isNew(),
@@ -250,15 +252,15 @@ export default class InternalPalettes extends PureComponent<
                               label:
                                 this.props.locals.browse.actions.deletePalette,
                               type: 'OPTION',
-                              isActive: InternalPalettes.features(
+                              isActive: PagePalettes.features(
                                 this.props.planStatus,
                                 this.props.config
                               ).DELETE_PALETTE.isActive(),
-                              isBlocked: InternalPalettes.features(
+                              isBlocked: PagePalettes.features(
                                 this.props.planStatus,
                                 this.props.config
                               ).DELETE_PALETTE.isBlocked(),
-                              isNew: InternalPalettes.features(
+                              isNew: PagePalettes.features(
                                 this.props.planStatus,
                                 this.props.config
                               ).DELETE_PALETTE.isNew(),
@@ -277,7 +279,7 @@ export default class InternalPalettes extends PureComponent<
                           }}
                         />
                         <Feature
-                          isActive={InternalPalettes.features(
+                          isActive={PagePalettes.features(
                             this.props.planStatus,
                             this.props.config
                           ).OPEN_PALETTE.isActive()}
@@ -285,11 +287,11 @@ export default class InternalPalettes extends PureComponent<
                           <Button
                             type="secondary"
                             label={this.props.locals.browse.actions.editPalette}
-                            isBlocked={InternalPalettes.features(
+                            isBlocked={PagePalettes.features(
                               this.props.planStatus,
                               this.props.config
                             ).OPEN_PALETTE.isBlocked()}
-                            isNew={InternalPalettes.features(
+                            isNew={PagePalettes.features(
                               this.props.planStatus,
                               this.props.config
                             ).OPEN_PALETTE.isNew()}
@@ -371,7 +373,14 @@ export default class InternalPalettes extends PureComponent<
   render() {
     return (
       <>
-        <this.InternalPalettesList />
+        <Bar
+          leftPartSlot={
+            <span className={doClassnames([texts.type, texts.label])}>
+              {this.props.locals.browse.page.title}
+            </span>
+          }
+        />
+        <this.PagePalettesList />
         <this.Modals />
       </>
     )

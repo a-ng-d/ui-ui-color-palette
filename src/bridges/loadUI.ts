@@ -5,6 +5,7 @@ import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import checkUserPreferences from './checks/checkUserPreferences'
 import createPaletteFromDuplication from './creations/createFromDuplication'
+import createFromRemote from './creations/createFromRemote'
 import createPalette from './creations/createPalette'
 import deletePalette from './creations/deletePalette'
 import exportCss from './exports/exportCss'
@@ -104,6 +105,20 @@ window.addEventListener('message', async (msg: any) => {
       ),
     CREATE_PALETTE_FROM_DOCUMENT: () =>
       console.log('Create palette from document', path),
+    CREATE_PALETTE_FROM_REMOTE: () =>
+      createFromRemote(path)
+        .then(() =>
+          iframe?.contentWindow?.postMessage({
+            type: 'POST_MESSAGE',
+            data: {
+              type: 'SUCCESS',
+              message: locals.get().success.addToLocal,
+            },
+          })
+        )
+        .finally(() =>
+          iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+        ),
     SYNC_LOCAL_STYLES: () => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
       iframe?.contentWindow?.postMessage({

@@ -8,7 +8,7 @@
     "title": "About UI Color Palette"
   },
   "actions": {
-    "addToFile": "Add to file",
+    "addToLocal": "Add to local",
     "addToSource": "Add to source",
     "colorThemesNumber": {
       "several": "{$1} color modes",
@@ -57,7 +57,17 @@
       "create": "Create from document",
       "open": "Open document"
     },
-    "copy": "Copy of {$1}"
+    "copy": "Copy of {$1}",
+    "contexts": {
+      "local": "Local",
+      "remote": "Library",
+      "community": "Community",
+      "page": "This page",
+      "self": "My palettes"
+    },
+    "page": {
+      "title": "UI Color Palettes on this page"
+    }
   },
   "colors": {
     "actions": {
@@ -98,7 +108,7 @@
     "themes": "Modes"
   },
   "error": {
-    "addToFile": "The palette cannot be added",
+    "addToLocal": "The palette cannot be added",
     "announcements": "The announcements cannot be loaded",
     "authentication": "The authentication has failed",
     "badResponse": "The response is not valid",
@@ -177,6 +187,7 @@
     }
   },
   "info": {
+    "addToLocal": "The palette already exists in this page",
     "createdLocalStyles": {
       "none": "No style created",
       "plural": "styles created",
@@ -608,6 +619,7 @@
     "title": "More products from Yelbolt"
   },
   "success": {
+    "addToLocal": "The palette has been added to this page",
     "detachment": "The palette has been detached",
     "nonPublication": "The palette has been unpublished",
     "publication": "The palette has been published",

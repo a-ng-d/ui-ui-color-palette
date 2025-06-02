@@ -1,5 +1,5 @@
-import { Bar, Button, layouts, texts } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -9,7 +9,8 @@ import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import InternalPalettes from '../contexts/InternalPalettes'
+import LocalPalettes from '../contexts/LocalPalettes'
+import RemotePalettes from '../contexts/RemotePalettes'
 
 interface BrowsePalettesProps extends BaseProps, WithConfigProps {
   document: DocumentConfiguration
@@ -18,8 +19,6 @@ interface BrowsePalettesProps extends BaseProps, WithConfigProps {
 
 interface BrowsePalettesStates {
   context: Context | ''
-  isPrimaryLoading: boolean
-  isSecondaryLoading: boolean
 }
 
 export default class BrowsePalettes extends PureComponent<
@@ -29,9 +28,14 @@ export default class BrowsePalettes extends PureComponent<
   private contexts: Array<ContextItem>
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
-    LIBRARY_PAGE: new FeatureStatus({
+    LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
-      featureName: 'LIBRARY_PAGE',
+      featureName: 'LOCAL_PALETTES',
+      planStatus: planStatus,
+    }),
+    REMOTE_PALETTES: new FeatureStatus({
+      features: config.features,
+      featureName: 'REMOTE_PALETTES',
       planStatus: planStatus,
     }),
     DOCUMENT_OPEN: new FeatureStatus({
@@ -54,44 +58,16 @@ export default class BrowsePalettes extends PureComponent<
   constructor(props: BrowsePalettesProps) {
     super(props)
     this.contexts = setContexts(
-      ['LIBRARY_PAGE'],
+      ['LOCAL_PALETTES', 'REMOTE_PALETTES'],
       props.planStatus,
       props.config.features
     )
     this.state = {
-      context: this.contexts[0].id,
-      isPrimaryLoading: false,
-      isSecondaryLoading: false,
+      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
     }
-  }
-
-  // Lifecycle
-  componentDidMount = () => {
-    parent.postMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
-
-    window.addEventListener('message', this.handleMessage)
-  }
-
-  componentWillUnmount = () => {
-    window.removeEventListener('message', this.handleMessage)
   }
 
   // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const actions: {
-      [action: string]: () => void
-    } = {
-      STOP_LOADER: () =>
-        this.setState({
-          isPrimaryLoading: false,
-          isSecondaryLoading: false,
-        }),
-      DEFAULT: () => null,
-    }
-
-    return actions[e.data.type ?? 'DEFAULT']?.()
-  }
-
   navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature as Context,
@@ -132,8 +108,12 @@ export default class BrowsePalettes extends PureComponent<
     let fragment
 
     switch (this.state.context) {
-      case 'LIBRARY_PAGE': {
-        fragment = <InternalPalettes {...this.props} />
+      case 'LOCAL_PALETTES': {
+        fragment = <LocalPalettes {...this.props} />
+        break
+      }
+      case 'REMOTE_PALETTES': {
+        fragment = <RemotePalettes {...this.props} />
         break
       }
     }
@@ -142,9 +122,12 @@ export default class BrowsePalettes extends PureComponent<
       <>
         <Bar
           leftPartSlot={
-            <span className={doClassnames([texts.type, texts.label])}>
-              {this.props.locals.palettes.devMode.title}
-            </span>
+            <Tabs
+              tabs={this.contexts}
+              active={this.state.context ?? ''}
+              isFlex
+              action={this.navHandler}
+            />
           }
           rightPartSlot={
             <div className={layouts['snackbar--medium']}>
@@ -217,6 +200,7 @@ export default class BrowsePalettes extends PureComponent<
               </Feature>
             </div>
           }
+          isFullWidth
         />
         <section className="context">{fragment}</section>
       </>

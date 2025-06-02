@@ -23,8 +23,11 @@ export interface BaseProps {
 }
 
 export type Context =
-  | 'LIBRARY_PAGE'
-  | 'LIBRARY_FILE'
+  | 'LOCAL_PALETTES'
+  | 'LOCAL_PALETTES_PAGE'
+  | 'REMOTE_PALETTES'
+  | 'REMOTE_PALETTES_SELF'
+  | 'REMOTE_PALETTES_COMMUNITY'
   | 'SOURCE'
   | 'SOURCE_OVERVIEW'
   | 'SOURCE_EXPLORE'

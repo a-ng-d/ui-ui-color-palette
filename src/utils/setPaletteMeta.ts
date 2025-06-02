@@ -9,7 +9,7 @@ const getPaletteMeta = (
     themesNumber = themes.filter(
       (theme) => theme.type === 'custom theme'
     ).length,
-    shadeNumber = Object.values(themes[0].scale).length
+    shadeNumber = Object.values(themes[0].scale).length * colorsNumber
 
   let colorLabel: string, themeLabel: string, shadeLabel: string
 

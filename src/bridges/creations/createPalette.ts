@@ -4,7 +4,6 @@ import { locals } from '../../content/locals'
 import {
   ColorConfiguration,
   ExchangeConfiguration,
-  MetaConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
 } from '../../types/configurations'
@@ -13,9 +12,6 @@ interface Msg {
   data: {
     sourceColors: Array<SourceColorConfiguration>
     exchange: ExchangeConfiguration
-    themes?: Array<ThemeConfiguration>
-    isRemote?: boolean
-    paletteMeta?: MetaConfiguration
   }
 }
 
@@ -64,6 +60,8 @@ const createPalette = async (msg: Msg) => {
     },
   ]
 
+  const now = new Date().toISOString()
+
   const palette = new Data({
     base: {
       name: msg.data.exchange.name,
@@ -79,16 +77,14 @@ const createPalette = async (msg: Msg) => {
     meta: {
       id: uid(),
       dates: {
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: now,
+        updatedAt: now,
         publishedAt: '',
       },
       creatorIdentity: {
-        creatorId: msg.data.paletteMeta?.creatorIdentity?.creatorId ?? '',
-        creatorFullName:
-          msg.data.paletteMeta?.creatorIdentity?.creatorFullName ?? '',
-        creatorAvatar:
-          msg.data.paletteMeta?.creatorIdentity?.creatorAvatar ?? '',
+        creatorId: '',
+        creatorFullName: '',
+        creatorAvatar: '',
       },
       publicationStatus: {
         isShared: false,

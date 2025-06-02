@@ -1,8 +1,13 @@
-import { HexModel } from '@a_ng_d/utils-ui-color-palette'
+import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  HexModel,
+} from '@a_ng_d/utils-ui-color-palette'
 import { Channel } from 'diagnostics_channel'
 import {
   ColorConfiguration,
   PresetConfiguration,
+  ShiftConfiguration,
   ThemeConfiguration,
 } from './configurations'
 
@@ -75,11 +80,19 @@ export interface ColourLovers {
 export interface ExternalPalettes {
   palette_id: string
   name: string
+  description: string
   preset: PresetConfiguration
+  shift: ShiftConfiguration
+  areSourceColorsLocked: boolean
   colors: Array<ColorConfiguration>
   themes: Array<ThemeConfiguration>
+  color_space: ColorSpaceConfiguration
+  algorithm_version: AlgorithmVersionConfiguration
+  is_shared: boolean
+  creator_id: string
   creator_avatar: string
   creator_full_name: string
-  creator_id: string
-  is_shared: boolean
+  created_at: Date | string
+  updated_at: Date | string
+  published_at: Date | string
 }

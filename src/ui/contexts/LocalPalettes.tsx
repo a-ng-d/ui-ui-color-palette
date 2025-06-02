@@ -1,0 +1,72 @@
+import { Layout } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { PureComponent } from 'preact/compat'
+import React from 'react'
+import { ConfigContextType } from '../../config/ConfigContext'
+import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
+import { setContexts } from '../../utils/setContexts'
+import { WithConfigProps } from '../components/WithConfig'
+import PagePalettes from '../modules/PagePalettes'
+
+interface LocalPalettesStates {
+  context: Context | ''
+}
+
+export default class LocalPalettes extends PureComponent<
+  BaseProps & WithConfigProps,
+  LocalPalettesStates
+> {
+  private contexts: Array<ContextItem>
+
+  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+    LOCAL_PALETTES_PAGE: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES_PAGE',
+      planStatus: planStatus,
+    }),
+  })
+
+  constructor(props: BaseProps & WithConfigProps) {
+    super(props)
+    this.contexts = setContexts(
+      ['LOCAL_PALETTES_PAGE'],
+      props.planStatus,
+      props.config.features
+    )
+    this.state = {
+      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+    }
+  }
+
+  // Handlers
+  navHandler = (e: Event) =>
+    this.setState({
+      context: (e.target as HTMLElement).dataset.feature as Context,
+    })
+
+  // Render
+  render() {
+    let fragment
+
+    switch (this.state.context) {
+      case 'LOCAL_PALETTES_PAGE': {
+        fragment = <PagePalettes {...this.props} />
+        break
+      }
+    }
+
+    return (
+      <Layout
+        id="local-palettes"
+        column={[
+          {
+            node: fragment,
+            typeModifier: 'BLANK',
+          },
+        ]}
+        isFullHeight
+        isFullWidth
+      />
+    )
+  }
+}

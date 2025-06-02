@@ -8,14 +8,29 @@ export const setContexts = (
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
 ) => {
   const featuresList = {
-    LIBRARY_PAGE: new FeatureStatus({
+    LOCAL_PALETTES: new FeatureStatus({
       features: features,
-      featureName: 'LIBRARY_PAGE',
+      featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
     }),
-    LIBRARY_FILE: new FeatureStatus({
+    LOCAL_PALETTES_PAGE: new FeatureStatus({
       features: features,
-      featureName: 'LIBRARY_FILE',
+      featureName: 'LOCAL_PALETTES_PAGE',
+      planStatus: planStatus,
+    }),
+    REMOTE_PALETTES: new FeatureStatus({
+      features: features,
+      featureName: 'REMOTE_PALETTES',
+      planStatus: planStatus,
+    }),
+    REMOTE_PALETTES_SELF: new FeatureStatus({
+      features: features,
+      featureName: 'REMOTE_PALETTES_SELF',
+      planStatus: planStatus,
+    }),
+    REMOTE_PALETTES_COMMUNITY: new FeatureStatus({
+      features: features,
+      featureName: 'REMOTE_PALETTES_COMMUNITY',
       planStatus: planStatus,
     }),
     SOURCE: new FeatureStatus({
@@ -72,16 +87,34 @@ export const setContexts = (
     isActive: boolean
   }> = [
     {
-      label: locals.get().palettes.contexts.page,
-      id: 'LIBRARY_PAGE',
-      isUpdated: featuresList.LIBRARY_PAGE.isNew(),
-      isActive: featuresList.LIBRARY_PAGE.isActive(),
+      label: locals.get().browse.contexts.local,
+      id: 'LOCAL_PALETTES',
+      isUpdated: featuresList.LOCAL_PALETTES.isNew(),
+      isActive: featuresList.LOCAL_PALETTES.isActive(),
     },
     {
-      label: locals.get().palettes.contexts.file,
-      id: 'LIBRARY_FILE',
-      isUpdated: featuresList.LIBRARY_FILE.isNew(),
-      isActive: featuresList.LIBRARY_FILE.isActive(),
+      label: locals.get().browse.contexts.page,
+      id: 'LOCAL_PALETTES_PAGE',
+      isUpdated: featuresList.LOCAL_PALETTES_PAGE.isNew(),
+      isActive: featuresList.LOCAL_PALETTES_PAGE.isActive(),
+    },
+    {
+      label: locals.get().browse.contexts.remote,
+      id: 'REMOTE_PALETTES',
+      isUpdated: featuresList.REMOTE_PALETTES.isNew(),
+      isActive: featuresList.REMOTE_PALETTES.isActive(),
+    },
+    {
+      label: locals.get().browse.contexts.self,
+      id: 'REMOTE_PALETTES_SELF',
+      isUpdated: featuresList.REMOTE_PALETTES_SELF.isNew(),
+      isActive: featuresList.REMOTE_PALETTES_SELF.isActive(),
+    },
+    {
+      label: locals.get().browse.contexts.community,
+      id: 'REMOTE_PALETTES_COMMUNITY',
+      isUpdated: featuresList.REMOTE_PALETTES_COMMUNITY.isNew(),
+      isActive: featuresList.REMOTE_PALETTES_COMMUNITY.isActive(),
     },
     {
       label: locals.get().contexts.source,
