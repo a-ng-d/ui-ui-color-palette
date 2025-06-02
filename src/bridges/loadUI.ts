@@ -21,6 +21,7 @@ import exportUIKit from './exports/exportUIKit'
 import exportXml from './exports/exportXml'
 import getPalettesOnCurrentPage from './getPalettesOnCurrentPage'
 import getProPlan from './getProPlan'
+import jumpToPalette from './jumpToPalette'
 import updateColors from './updates/updateColors'
 import updatePalette from './updates/updatePalette'
 import updateScale from './updates/updateScale'
@@ -217,22 +218,7 @@ window.addEventListener('message', async (msg: any) => {
       ),
     //
     GET_PALETTES: async () => await getPalettesOnCurrentPage(),
-    JUMP_TO_PALETTE: async () => {
-      const rawPalette = window.localStorage.getItem(`palette_${path.id}`)
-      if (rawPalette) {
-        const palette = JSON.parse(rawPalette)
-        palette.meta.dates.openedAt = new Date().toISOString()
-        window.localStorage.setItem(
-          `palette_${path.id}`,
-          JSON.stringify(palette)
-        )
-        iframe?.contentWindow?.postMessage({
-          type: 'LOAD_PALETTE',
-          data: palette,
-        })
-      }
-        
-    },
+    JUMP_TO_PALETTE: async () => await jumpToPalette(path.id),
     DUPLICATE_PALETTE: async () =>
       await createPaletteFromDuplication(path.id)
         .finally(async () => await getPalettesOnCurrentPage())
