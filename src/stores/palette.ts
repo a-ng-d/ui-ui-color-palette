@@ -1,9 +1,11 @@
+import {
+  AlgorithmVersionConfiguration,
+  ExchangeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { deepMap } from 'nanostores'
-import { ExchangeConfiguration } from '../types/configurations'
 import { locals } from '../content/locals'
-import { presets } from './presets'
 import globalConfig from '../global.config'
-import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { presets } from './presets'
 
 export const $palette = deepMap<ExchangeConfiguration>({
   id: '',

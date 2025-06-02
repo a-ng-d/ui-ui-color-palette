@@ -12,7 +12,10 @@ import {
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Color,
+  ColorConfiguration,
   HexModel,
+  ScaleConfiguration,
+  SourceColorConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import chroma from 'chroma-js'
@@ -23,23 +26,20 @@ import lsc from '../../content/images/lock_source_colors.gif'
 import { $palette } from '../../stores/palette'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { BaseProps, PlanStatus, Service } from '../../types/app'
-import {
-  AlgorithmVersionConfiguration,
-  ColorConfiguration,
-  ColorSpaceConfiguration,
-  LockedSourceColorsConfiguration,
-  ScaleConfiguration,
-  ShiftConfiguration,
-  SourceColorConfiguration,
-  ThemeConfiguration,
-  VisionSimulationModeConfiguration,
-} from '../../types/configurations'
 import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import Shade from '../components/Shade'
 import Source from '../components/Source'
 import { WithConfigProps } from '../components/WithConfig'
+import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface PreviewProps extends BaseProps, WithConfigProps {
   service: Service

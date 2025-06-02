@@ -16,6 +16,9 @@ import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { $palette } from '../../stores/palette'
 import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { AppStates } from '../App'
+import Feature from '../components/Feature'
+import { WithConfigProps } from '../components/WithConfig'
 import {
   CreatorConfiguration,
   DatesConfiguration,
@@ -23,10 +26,7 @@ import {
   ScaleConfiguration,
   SourceColorConfiguration,
   ViewConfiguration,
-} from '../../types/configurations'
-import { AppStates } from '../App'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
+} from '@a_ng_d/utils-ui-color-palette'
 
 interface ActionsProps extends BaseProps, WithConfigProps {
   service: Service

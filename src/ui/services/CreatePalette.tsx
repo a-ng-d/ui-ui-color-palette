@@ -2,6 +2,9 @@ import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   HexModel,
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import chroma from 'chroma-js'
@@ -20,16 +23,6 @@ import {
   PriorityContext,
   ThirdParty,
 } from '../../types/app'
-import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
-  LockedSourceColorsConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  ShiftConfiguration,
-  SourceColorConfiguration,
-  VisionSimulationModeConfiguration,
-} from '../../types/configurations'
 import { trackActionEvent } from '../../utils/eventsTracker'
 import { setContexts } from '../../utils/setContexts'
 import type { AppStates } from '../App'
@@ -40,6 +33,13 @@ import Settings from '../contexts/Settings'
 import Source from '../contexts/Source'
 import Actions from '../modules/Actions'
 import Preview from '../modules/Preview'
+import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
+  ShiftConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface CreatePaletteProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration> | []

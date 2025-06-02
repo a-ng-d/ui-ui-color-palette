@@ -1,9 +1,10 @@
-import { BaseConfiguration, Data } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locals'
 import {
+  BaseConfiguration,
+  Data,
   MetaConfiguration,
   ThemeConfiguration,
-} from '../../types/configurations'
+} from '@a_ng_d/utils-ui-color-palette'
+import { locals } from '../../content/locals'
 
 interface Msg {
   data: {

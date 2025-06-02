@@ -1,5 +1,4 @@
-import { Data } from '@a_ng_d/utils-ui-color-palette'
-import { FullConfiguration } from '../../types/configurations'
+import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { ThemesMessage } from '../../types/messages'
 
 const updateThemes = async (msg: ThemesMessage) => {

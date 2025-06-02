@@ -24,24 +24,6 @@ import {
   Service,
   TrialStatus,
 } from '../types/app'
-import {
-  AlgorithmVersionConfiguration,
-  ColorConfiguration,
-  ColorSpaceConfiguration,
-  CreatorConfiguration,
-  DocumentConfiguration,
-  ExportConfiguration,
-  ExtractOfBaseConfiguration,
-  LockedSourceColorsConfiguration,
-  PresetConfiguration,
-  PublicationConfiguration,
-  ScaleConfiguration,
-  ShiftConfiguration,
-  SourceColorConfiguration,
-  ThemeConfiguration,
-  ViewConfiguration,
-  VisionSimulationModeConfiguration,
-} from '../types/configurations'
 import { UserSession } from '../types/user'
 import { doScale } from '@a_ng_d/figmug-utils'
 import {
@@ -61,10 +43,28 @@ import EditPalette from './services/EditPalette'
 import './stylesheets/app.css'
 import {
   DatesConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { NotificationMessage } from '../types/messages'
 import { supabase } from '../index'
+import {
+  AlgorithmVersionConfiguration,
+  ColorConfiguration,
+  ColorSpaceConfiguration,
+  CreatorConfiguration,
+  DocumentConfiguration,
+  ExportConfiguration,
+  ExtractOfBaseConfiguration,
+  LockedSourceColorsConfiguration,
+  PublicationConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+  ViewConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 type AppProps = WithConfigProps
 

@@ -11,13 +11,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus, Service } from '../../types/app'
+import Feature from '../components/Feature'
+import { WithConfigProps } from '../components/WithConfig'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
   VisionSimulationModeConfiguration,
-} from '../../types/configurations'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
+} from '@a_ng_d/utils-ui-color-palette'
 
 interface ColorSettingsProps extends BaseProps, WithConfigProps {
   service: Service

@@ -20,10 +20,10 @@ import {
   FilterOptions,
   ThirdParty,
 } from '../../types/app'
-import { SourceColorConfiguration } from '../../types/configurations'
-import { ColourLovers } from '../../types/data'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import { WithConfigProps } from '../components/WithConfig'
+import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface ExploreProps extends BaseProps, WithConfigProps {
   colourLoversPaletteList: Array<ColourLovers>

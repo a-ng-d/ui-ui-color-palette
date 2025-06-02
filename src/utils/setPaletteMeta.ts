@@ -1,4 +1,7 @@
-import { ColorConfiguration, ThemeConfiguration } from '../types/configurations'
+import {
+  ColorConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { locals } from '../content/locals'
 
 const getPaletteMeta = (

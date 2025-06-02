@@ -4,13 +4,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
-import { DocumentConfiguration } from '../../types/configurations'
 import { setContexts } from '../../utils/setContexts'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import LocalPalettes from '../contexts/LocalPalettes'
 import RemotePalettes from '../contexts/RemotePalettes'
+import { DocumentConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface BrowsePalettesProps extends BaseProps, WithConfigProps {
   document: DocumentConfiguration

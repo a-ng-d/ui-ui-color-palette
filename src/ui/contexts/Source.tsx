@@ -12,12 +12,12 @@ import {
   PriorityContext,
   ThirdParty,
 } from '../../types/app'
-import { SourceColorConfiguration } from '../../types/configurations'
-import { ColourLovers } from '../../types/data'
 import { setContexts } from '../../utils/setContexts'
 import { WithConfigProps } from '../components/WithConfig'
 import Explore from './Explore'
 import Overview from './Overview'
+import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
 
 interface SourceProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>

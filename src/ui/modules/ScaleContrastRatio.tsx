@@ -11,16 +11,14 @@ import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { $palette } from '../../stores/palette'
 import { BaseProps, Easing, PlanStatus, Service } from '../../types/app'
-import {
-  ExchangeConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-} from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import {
   Contrast,
+  ExchangeConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 

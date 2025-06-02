@@ -1,12 +1,12 @@
-import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
   ExchangeConfiguration,
+  TextColorsThemeConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
-} from './configurations'
+} from '@a_ng_d/utils-ui-color-palette'
 
 export interface ScaleMessage {
   type: 'UPDATE_SCALE'

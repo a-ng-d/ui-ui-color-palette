@@ -1,5 +1,4 @@
-import { Data } from '@a_ng_d/utils-ui-color-palette'
-import { FullConfiguration } from '../../types/configurations'
+import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { SettingsMessage } from '../../types/messages'
 
 const updateSettings = async (msg: SettingsMessage) => {

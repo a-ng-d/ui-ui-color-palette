@@ -1,21 +1,19 @@
 import { Layout } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
   HexModel,
+  SourceColorConfiguration,
   TextColorsThemeConfiguration,
+  ThemeConfiguration,
+  VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { $palette } from '../../stores/palette'
 import { BaseProps, Context, PlanStatus, Service } from '../../types/app'
-import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
-  SourceColorConfiguration,
-  ThemeConfiguration,
-  VisionSimulationModeConfiguration,
-} from '../../types/configurations'
 import { SettingsMessage } from '../../types/messages'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'

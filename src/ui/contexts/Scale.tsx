@@ -23,20 +23,22 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  ShiftConfiguration,
-  SourceColorConfiguration,
-  ThemeConfiguration,
-} from '../../types/configurations'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import ScaleContrastRatio from '../modules/ScaleContrastRatio'
 import ScaleLightnessChroma from '../modules/ScaleLightnessChroma'
-import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import {
+  ShiftConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   service: Service

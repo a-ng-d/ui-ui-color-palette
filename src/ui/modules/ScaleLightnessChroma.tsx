@@ -14,6 +14,9 @@ import {
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Contrast,
+  ExchangeConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { PureComponent } from 'preact/compat'
@@ -28,18 +31,13 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import {
-  ExchangeConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  ShiftConfiguration,
-} from '../../types/configurations'
 import { ScaleMessage } from '../../types/messages'
 import { doScale } from '@a_ng_d/figmug-utils'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import { ShiftConfiguration } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   service: Service
@@ -571,7 +569,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     }
 
     const setCustomPreset = () => {
-      const preset =
+      const preset: PresetConfiguration =
         presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
       const newScale = preset?.stops.map((_, index) => {
         if (this.props.namingConvention === 'TENS') return (index + 1) * 10

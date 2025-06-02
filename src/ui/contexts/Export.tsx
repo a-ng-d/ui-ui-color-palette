@@ -14,10 +14,9 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus } from '../../types/app'
-import { ColorSpaceConfiguration } from '../../types/configurations'
-import { ActionsList } from '../../types/models'
 import { WithConfigProps } from '../components/WithConfig'
 import Actions from '../modules/Actions'
+import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface ExportProps extends BaseProps, WithConfigProps {
   id: string
@@ -174,7 +173,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
 
   // Handlers
   exportHandler = (e: Event) => {
-    const actions: ActionsList = {
+    const actions: {
+      [key: string]: () => void
+    } = {
       EXPORT_TOKENS_TOKENS_STUDIO: () => {
         this.setState({
           format: 'EXPORT_TOKENS_TOKENS_STUDIO',

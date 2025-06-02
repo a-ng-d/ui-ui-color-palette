@@ -5,17 +5,15 @@ import React from 'react'
 import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
 import {
   Color,
+  ColorConfiguration,
   Contrast,
   HexModel,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
-import { BaseProps } from '../../types/app'
-import {
-  ColorConfiguration,
   LockedSourceColorsConfiguration,
   SourceColorConfiguration,
+  TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
-} from '../../types/configurations'
+} from '@a_ng_d/utils-ui-color-palette'
+import { BaseProps } from '../../types/app'
 
 interface ShadeProps extends BaseProps {
   index: number

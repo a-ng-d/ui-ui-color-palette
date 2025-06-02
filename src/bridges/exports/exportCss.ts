@@ -1,11 +1,11 @@
 import { Case } from '@a_ng_d/figmug-utils'
 import {
+  ColorSpaceConfiguration,
   PaletteData,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
 import chroma from 'chroma-js'
 import { locals } from '../../content/locals'
-import { ColorSpaceConfiguration } from '../../types/configurations'
 
 const exportCss = (id: string, colorSpace: ColorSpaceConfiguration) => {
   const iframe = document.querySelector(

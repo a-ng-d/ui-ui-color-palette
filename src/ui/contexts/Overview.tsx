@@ -22,12 +22,14 @@ import {
   ImportUrl,
   PlanStatus,
   PriorityContext,
-  ThirdParty,
 } from '../../types/app'
-import { SourceColorConfiguration } from '../../types/configurations'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import {
+  SourceColorConfiguration,
+  ThirdParty,
+} from '@a_ng_d/utils-ui-color-palette'
 
 interface OverviewProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>

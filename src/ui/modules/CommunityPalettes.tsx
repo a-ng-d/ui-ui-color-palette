@@ -7,16 +7,18 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import { BaseConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  BaseConfiguration,
+  MetaConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { supabase } from '../../index'
 import { BaseProps, Context, FetchStatus } from '../../types/app'
-import { MetaConfiguration } from '../../types/configurations'
-import { ExternalPalettes } from '../../types/data'
 import { trackPublicationEvent } from '../../utils/eventsTracker'
 import getPaletteMeta from '../../utils/setPaletteMeta'
 import { WithConfigProps } from '../components/WithConfig'
+import { ExternalPalettes } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
 
 interface CommunityPalettesProps extends BaseProps, WithConfigProps {
   context: Context

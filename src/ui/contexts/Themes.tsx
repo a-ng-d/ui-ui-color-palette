@@ -14,11 +14,6 @@ import React, { PureComponent } from 'react'
 import { uid } from 'uid'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus, PriorityContext } from '../../types/app'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  ThemeConfiguration,
-} from '../../types/configurations'
 import { ThemesMessage } from '../../types/messages'
 import { doScale } from '@a_ng_d/figmug-utils'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
@@ -27,7 +22,10 @@ import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import {
   HexModel,
+  PresetConfiguration,
+  ScaleConfiguration,
   TextColorsThemeConfiguration,
+  ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 
 interface ThemesProps extends BaseProps, WithConfigProps {

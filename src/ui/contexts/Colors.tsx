@@ -18,16 +18,13 @@ import React from 'react'
 import { uid } from 'uid'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus, PriorityContext } from '../../types/app'
-import {
-  ColorConfiguration,
-  ShiftConfiguration,
-} from '../../types/configurations'
 import { ColorsMessage } from '../../types/messages'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import { HexModel } from '@a_ng_d/utils-ui-color-palette'
+import { ColorConfiguration, HexModel } from '@a_ng_d/utils-ui-color-palette'
+import { ShiftConfiguration } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface ColorsProps extends BaseProps, WithConfigProps {
   id: string

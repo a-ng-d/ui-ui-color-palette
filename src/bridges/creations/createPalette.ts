@@ -1,12 +1,12 @@
-import { Data } from '@a_ng_d/utils-ui-color-palette'
-import { uid } from 'uid'
-import { locals } from '../../content/locals'
 import {
   ColorConfiguration,
+  Data,
   ExchangeConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-} from '../../types/configurations'
+} from '@a_ng_d/utils-ui-color-palette'
+import { uid } from 'uid'
+import { locals } from '../../content/locals'
 
 interface Msg {
   data: {

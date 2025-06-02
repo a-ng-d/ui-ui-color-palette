@@ -22,21 +22,6 @@ import {
   PlanStatus,
   PriorityContext,
 } from '../../types/app'
-import {
-  AlgorithmVersionConfiguration,
-  ColorConfiguration,
-  ColorSpaceConfiguration,
-  DatesConfiguration,
-  DocumentConfiguration,
-  ExportConfiguration,
-  LockedSourceColorsConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  ShiftConfiguration,
-  ThemeConfiguration,
-  ViewConfiguration,
-  VisionSimulationModeConfiguration,
-} from '../../types/configurations'
 import { SourceColorEvent } from '../../types/events'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
 import { doScale } from '@a_ng_d/figmug-utils'
@@ -55,7 +40,24 @@ import Settings from '../contexts/Settings'
 import Themes from '../contexts/Themes'
 import Actions from '../modules/Actions'
 import Preview from '../modules/Preview'
-import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import {
+  AlgorithmVersionConfiguration,
+  ColorConfiguration,
+  ColorSpaceConfiguration,
+  DatesConfiguration,
+  DocumentConfiguration,
+  ExportConfiguration,
+  LockedSourceColorsConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+  ViewConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface EditPaletteProps extends BaseProps, WithConfigProps {
   id: string
