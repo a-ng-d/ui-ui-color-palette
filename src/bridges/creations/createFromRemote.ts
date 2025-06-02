@@ -23,13 +23,7 @@ const createFromRemote = async (msg: Msg) => {
   )
 
   if (localPalette)
-    return iframe?.contentWindow?.postMessage({
-      type: 'POST_MESSAGE',
-      data: {
-        type: 'INFO',
-        message: locals.get().info.addToLocal,
-      },
-    })
+    throw new Error()
 
   const palette = new Data({
     base: {

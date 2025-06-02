@@ -117,6 +117,15 @@ window.addEventListener('message', async (msg: any) => {
             },
           })
         )
+        .catch(() =>
+          iframe?.contentWindow?.postMessage({
+            type: 'POST_MESSAGE',
+            data: {
+              type: 'INFO',
+              message: locals.get().info.addToLocal,
+            },
+          })
+        )
         .finally(() =>
           iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
         ),
@@ -218,7 +227,16 @@ window.addEventListener('message', async (msg: any) => {
       ),
     //
     GET_PALETTES: async () => await getPalettesOnCurrentPage(),
-    JUMP_TO_PALETTE: async () => await jumpToPalette(path.id),
+    JUMP_TO_PALETTE: async () =>
+      await jumpToPalette(path.id).catch(() =>
+        iframe?.contentWindow?.postMessage({
+          type: 'POST_MESSAGE',
+          data: {
+            type: 'ERROR',
+            message: locals.get().error.fetchPalette,
+          },
+        })
+      ),
     DUPLICATE_PALETTE: async () =>
       await createPaletteFromDuplication(path.id)
         .finally(async () => await getPalettesOnCurrentPage())

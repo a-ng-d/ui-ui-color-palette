@@ -4,16 +4,16 @@ const jumpToPalette = async (id: string) => {
   ) as HTMLIFrameElement | null
   const rawPalette = window.localStorage.getItem(`palette_${id}`)
 
-  if (rawPalette) {
-    const palette = JSON.parse(rawPalette)
-    palette.meta.dates.openedAt = new Date().toISOString()
-    window.localStorage.setItem(`palette_${id}`, JSON.stringify(palette))
+  if (!rawPalette) throw new Error()
 
-    return iframe?.contentWindow?.postMessage({
-      type: 'LOAD_PALETTE',
-      data: palette,
-    })
-  }
+  const palette = JSON.parse(rawPalette)
+  palette.meta.dates.openedAt = new Date().toISOString()
+  window.localStorage.setItem(`palette_${id}`, JSON.stringify(palette))
+
+  return iframe?.contentWindow?.postMessage({
+    type: 'LOAD_PALETTE',
+    data: palette,
+  })
 }
 
 export default jumpToPalette
