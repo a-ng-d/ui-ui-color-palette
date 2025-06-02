@@ -137,6 +137,59 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   }
 
   // Handlers
+  shiftHandler = (feature: string, state: string, value: number) => {
+    const onReleaseStop = () => {
+      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+      this.scaleMessage.feature = feature
+
+      if (this.props.service === 'EDIT')
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+    }
+
+    const onChangeStop = () => {
+      this.palette.setKey('shift.chroma', value)
+
+      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+      this.scaleMessage.feature = feature
+
+      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeScale()
+
+      if (this.props.service === 'EDIT')
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+    }
+
+    const onTypeStopValue = () => {
+      this.palette.setKey('shift.chroma', value)
+
+      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+
+      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeScale()
+
+      if (this.props.service === 'EDIT')
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+    }
+
+    const onUpdatingStop = () => {
+      this.palette.setKey('shift.chroma', value)
+      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeScale()
+    }
+
+    const actions: {
+      [action: string]: () => void
+    } = {
+      RELEASED: () => onReleaseStop(),
+      SHIFTED: () => onChangeStop(),
+      TYPED: () => onTypeStopValue(),
+      UPDATING: () => onUpdatingStop(),
+      DEFAULT: () => null,
+    }
+
+    return actions[state ?? 'DEFAULT']?.()
+  }
+
   lightnessHandler = (
     state: string,
     results: {
@@ -991,10 +1044,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               this.props.planStatus,
               this.props.config
             ).SCALE_CHROMA.isNew()}
-            onChange={(feature, state, value) => {
-              this.palette.setKey('shift.chroma', value)
-              this.props.onChangeShift(feature, state, value)
-            }}
+            onChange={this.shiftHandler}
           />
         </Feature>
       </>
@@ -1179,10 +1229,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               this.props.planStatus,
               this.props.config
             ).SCALE_CHROMA.isNew()}
-            onChange={(feature, state, value) => {
-              this.palette.setKey('shift.chroma', value)
-              this.props.onChangeShift(feature, state, value)
-            }}
+            onChange={this.shiftHandler}
           />
         </Feature>
       </>
