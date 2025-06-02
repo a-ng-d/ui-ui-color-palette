@@ -13,6 +13,7 @@ import { trackPublicationEvent } from '../../utils/eventsTracker'
 import getPaletteMeta from '../../utils/setPaletteMeta'
 import type { AppStates } from '../App'
 import { WithConfigProps } from '../components/WithConfig'
+import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
 
 interface PublicationProps extends BaseProps, WithConfigProps {
   rawData: AppStates
@@ -57,12 +58,46 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
+export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
+  private data: PaletteData
+  private enabledThemeIndex: number
+
   constructor(props: PublicationProps) {
     super(props)
+    this.data = new Data({
+      base: {
+        name: this.props.rawData.name,
+        description: this.props.rawData.description,
+        preset: this.props.rawData.preset,
+        shift: this.props.rawData.shift,
+        areSourceColorsLocked: this.props.rawData.areSourceColorsLocked,
+        colors: this.props.rawData.colors,
+        colorSpace: this.props.rawData.colorSpace,
+        algorithmVersion: this.props.rawData.algorithmVersion,
+      },
+      themes: this.props.rawData.themes,
+      meta: {
+        id: this.props.rawData.id,
+        dates: {
+          createdAt: this.props.rawData.dates.createdAt,
+          updatedAt: this.props.rawData.dates.updatedAt,
+          publishedAt: this.props.rawData.dates.publishedAt,
+          openedAt: this.props.rawData.dates.openedAt,
+        },
+        creatorIdentity: {
+          creatorId: this.props.rawData.creatorIdentity.creatorId,
+          creatorFullName: this.props.rawData.creatorIdentity.creatorFullName,
+          creatorAvatar: this.props.rawData.creatorIdentity.creatorAvatar,
+        },
+        publicationStatus: {
+          isShared: this.props.rawData.publicationStatus.isShared,
+          isPublished: this.props.rawData.publicationStatus.isPublished,
+        },
+      },
+    }).makePaletteData()
+    this.enabledThemeIndex = this.props.rawData.themes.findIndex(
+      (theme) => theme.isEnabled
+    )
     this.state = {
       isPaletteShared: this.props.rawData.publicationStatus.isShared,
       publicationStatus: 'WAITING',
@@ -906,7 +941,64 @@ export default class Publication extends PureComponent<
         select={this.publicationOption(this.state.publicationStatus)}
         onClose={this.props.onClosePublication}
       >
-        <div className="dialog__cover dialog__cover--padding"></div>
+        <div className="dialog__cover dialog__cover--padding">
+          <div
+            style={{
+              borderRadius: 'var(--border-radius-med)',
+              overflow: 'hidden',
+              height: '100%',
+            }}
+            className="preview__rows"
+          >
+            {this.data.themes[this.enabledThemeIndex].colors.map(
+              (color, index) => (
+                <div
+                  key={`color-${index}`}
+                  className="preview__row"
+                >
+                  {color.shades.map((shade, shadeIndex) => (
+                    <div
+                      key={`color-${index}-${shadeIndex}`}
+                      className="preview__cell"
+                      style={{
+                        minHeight: 'unset',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          zIndex: '1',
+                          top: 0,
+                          left: 0,
+                          backgroundColor: shade.hex,
+                        }}
+                      />
+                      {shade.backgroundColor !== undefined && (
+                        <div
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            position: 'absolute',
+                            zIndex: '0',
+                            top: 0,
+                            left: 0,
+                            backgroundColor: Array.isArray(
+                              shade.backgroundColor
+                            )
+                              ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
+                              : undefined,
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )
+            )}
+          </div>
+        </div>
         <div className="dialog__text">
           <div
             style={{

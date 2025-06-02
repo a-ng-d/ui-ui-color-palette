@@ -29,7 +29,6 @@ import {
   ColorConfiguration,
   ColorSpaceConfiguration,
   CreatorConfiguration,
-  DatesConfiguration,
   DocumentConfiguration,
   ExportConfiguration,
   ExtractOfBaseConfiguration,
@@ -60,7 +59,10 @@ import BrowsePalettes from './services/BrowsePalettes'
 import CreatePalette from './services/CreatePalette'
 import EditPalette from './services/EditPalette'
 import './stylesheets/app.css'
-import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  DatesConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { NotificationMessage } from '../types/messages'
 import { supabase } from '../index'
 
@@ -167,6 +169,7 @@ class App extends Component<AppProps, AppStates> {
         createdAt: '',
         updatedAt: '',
         publishedAt: '',
+        openedAt: '',
       },
       export: {
         format: 'JSON',
@@ -553,6 +556,7 @@ class App extends Component<AppProps, AppStates> {
               createdAt: path.data.meta.dates.createdAt,
               updatedAt: path.data.meta.dates.updatedAt,
               publishedAt: path.data.meta.dates.publishedAt,
+              openedAt: new Date().toISOString(),
             },
             publicationStatus: {
               isPublished: path.data.meta.publicationStatus.isPublished,
@@ -772,6 +776,7 @@ class App extends Component<AppProps, AppStates> {
               createdAt: this.state.dates['createdAt'],
               updatedAt: date,
               publishedAt: this.state.dates['publishedAt'],
+              openedAt: this.state.dates['openedAt'],
             },
           })
 
@@ -897,6 +902,7 @@ class App extends Component<AppProps, AppStates> {
         createdAt: '',
         updatedAt: '',
         publishedAt: '',
+        openedAt: '',
       },
       publicationStatus: {
         isPublished: false,
