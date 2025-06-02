@@ -556,7 +556,7 @@ class App extends Component<AppProps, AppStates> {
               createdAt: path.data.meta.dates.createdAt,
               updatedAt: path.data.meta.dates.updatedAt,
               publishedAt: path.data.meta.dates.publishedAt,
-              openedAt: new Date().toISOString(),
+              openedAt: path.data.meta.dates.openedAt,
             },
             publicationStatus: {
               isPublished: path.data.meta.publicationStatus.isPublished,

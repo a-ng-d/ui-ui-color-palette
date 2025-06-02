@@ -218,12 +218,20 @@ window.addEventListener('message', async (msg: any) => {
     //
     GET_PALETTES: async () => await getPalettesOnCurrentPage(),
     JUMP_TO_PALETTE: async () => {
-      const palette = window.localStorage.getItem(`palette_${path.id}`)
-      if (palette !== undefined && palette !== null)
+      const rawPalette = window.localStorage.getItem(`palette_${path.id}`)
+      if (rawPalette) {
+        const palette = JSON.parse(rawPalette)
+        palette.meta.dates.openedAt = new Date().toISOString()
+        window.localStorage.setItem(
+          `palette_${path.id}`,
+          JSON.stringify(palette)
+        )
         iframe?.contentWindow?.postMessage({
           type: 'LOAD_PALETTE',
-          data: JSON.parse(palette),
+          data: palette,
         })
+      }
+        
     },
     DUPLICATE_PALETTE: async () =>
       await createPaletteFromDuplication(path.id)
