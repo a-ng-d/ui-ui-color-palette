@@ -115,6 +115,24 @@ export default class Overview extends PureComponent<
   }
 
   // Lifecycle
+  componentDidUpdate = (previousProps: Readonly<OverviewProps>) => {
+    if (previousProps.sourceColors !== this.props.sourceColors) {
+      this.setState({
+        isCoolorsImportOpen:
+          this.props.sourceColors.filter((color) => color.source === 'COOLORS')
+            .length > 0,
+        isRealtimeColorsImportOpen:
+          this.props.sourceColors.filter(
+            (color) => color.source === 'REALTIME_COLORS'
+          ).length > 0,
+        isColourLoversImportOpen:
+          this.props.sourceColors.filter(
+            (color) => color.source === 'COLOUR_LOVERS'
+          ).length > 0,
+      })
+    }
+  }
+
   componentWillUnmount = () => {
     this.setState({
       coolorsUrl: {
@@ -456,6 +474,11 @@ export default class Overview extends PureComponent<
           <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'COOLORS')
+              .sort((a, b) => {
+                if (a.name.localeCompare(b.name) > 0) return 1
+                else if (a.name.localeCompare(b.name) < 0) return -1
+                else return 0
+              })
               .map((sourceColor) => {
                 return (
                   <ColorItem
@@ -541,6 +564,11 @@ export default class Overview extends PureComponent<
           <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'REALTIME_COLORS')
+              .sort((a, b) => {
+                if (a.name.localeCompare(b.name) > 0) return 1
+                else if (a.name.localeCompare(b.name) < 0) return -1
+                else return 0
+              })
               .map((sourceColor) => {
                 return (
                   <ColorItem
@@ -597,6 +625,11 @@ export default class Overview extends PureComponent<
           <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'COLOUR_LOVERS')
+              .sort((a, b) => {
+                if (a.name.localeCompare(b.name) > 0) return 1
+                else if (a.name.localeCompare(b.name) < 0) return -1
+                else return 0
+              })
               .map((sourceColor) => {
                 return (
                   <ColorItem

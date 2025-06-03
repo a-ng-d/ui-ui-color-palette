@@ -882,6 +882,11 @@ class App extends Component<AppProps, AppStates> {
     this.setState({
       service: 'BROWSE',
       id: '',
+      sourceColors: this.state.sourceColors.filter(
+        (sourceColor: SourceColorConfiguration) =>
+          sourceColor.source === 'CANVAS'
+      ),
+      colors: [],
       name: this.state.locals.settings.global.name.default,
       description: '',
       preset: preset,
