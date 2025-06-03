@@ -106,7 +106,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.colorsMessage.data = this.props.colors
       this.colorsMessage.data.push({
-        name: `${this.props.locals.colors.actions.actions.new} ${hasAlreadyNewUIColor.length + 1}`,
+        name: `${this.props.locals.colors.actions.new} ${hasAlreadyNewUIColor.length + 1}`,
         description: '',
         rgb: {
           r: 0.53,
