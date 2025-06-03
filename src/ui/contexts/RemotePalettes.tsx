@@ -10,11 +10,11 @@ import {
   FetchStatus,
   PlanStatus,
 } from '../../types/app'
-import { ExternalPalettes } from '../../types/data'
 import { setContexts } from '../../utils/setContexts'
 import { WithConfigProps } from '../components/WithConfig'
 import CommunityPalettes from '../modules/CommunityPalettes'
 import SelfPalettes from '../modules/SelfPalettes'
+import { ExternalPalettes } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
 
 interface RemotePalettesStates {
   context: Context | ''

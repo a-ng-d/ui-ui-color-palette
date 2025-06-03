@@ -1,4 +1,8 @@
-import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  Data,
+  FullConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { supabase } from '../../index'
 import type { AppStates } from '../../ui/App'
 
@@ -67,7 +71,9 @@ const pullPalette = async ({
       name: data[0].name,
       description: data[0].description,
       preset: data[0].preset,
-      scale: data[0].themes.find((theme) => theme.isEnabled)?.scale || {},
+      scale:
+        data[0].themes.find((theme: ThemeConfiguration) => theme.isEnabled)
+          ?.scale || {},
       shift: data[0].shift,
       areSourceColorsLocked: data[0].are_source_colors_locked,
       colors: data[0].colors,

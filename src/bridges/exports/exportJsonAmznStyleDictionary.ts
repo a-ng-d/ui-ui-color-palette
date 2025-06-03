@@ -4,7 +4,7 @@ import {
   PaletteData,
   PaletteDataColorItem,
   PaletteDataShadeItem,
-} from '../../types/data'
+} from '@a_ng_d/utils-ui-color-palette'
 
 const exportJsonAmznStyleDictionary = (id: string) => {
   const iframe = document.querySelector(

@@ -9,7 +9,6 @@ import {
   SemanticMessage,
   SimpleItem,
   SimpleSlider,
-  texts,
 } from '@a_ng_d/figmug-ui'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
@@ -683,7 +682,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         if (preset[1].length > 1)
           return {
             label: preset[0],
-            value: preset[0].toUpperCase().replace(' ', '_'),
+            value: preset[0].toUpperCase().split(' ').join('_'),
             type: 'OPTION',
             children: preset[1].map((preset: PresetConfiguration) => ({
               label: preset.name,
@@ -729,12 +728,15 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     )
 
     if (this.props.preset.id === 'CUSTOM')
-      options[options.length - 1].children.unshift({
-        label: this.props.locals.scale.presets.legacy,
-        value: 'CUSTOM',
-        feature: 'PRESETS_CUSTOM',
-        type: 'OPTION',
-      })
+      options[options.length - 1].children = [
+        {
+          label: this.props.locals.scale.presets.legacy,
+          value: 'CUSTOM',
+          feature: 'PRESETS_CUSTOM',
+          type: 'OPTION',
+        },
+        ...(options[options.length - 1].children ?? []),
+      ]
 
     options.splice(options.length - 1, 0, {
       type: 'SEPARATOR',
