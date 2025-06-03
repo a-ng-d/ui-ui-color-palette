@@ -48,8 +48,6 @@ const publishPalette = async ({
     ])
     .select()
 
-  console.log(error)
-
   if (!error) {
     const meta: MetaConfiguration = {
       id: rawData.id,
@@ -105,7 +103,7 @@ const publishPalette = async ({
               value: meta.creatorIdentity.creatorId,
             },
           ],
-          isAlreatyUpdated: true,
+          isAlreadyUpdated: true,
         },
       },
       '*'

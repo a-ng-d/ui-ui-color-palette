@@ -40,55 +40,55 @@ const unpublishPalette = async ({
       },
     }
 
-    if (!isRemote)
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_PALETTE',
-            id: meta.id,
-            items: [
-              {
-                key: 'meta.id',
-                value: meta.id,
-              },
-              {
-                key: 'meta.dates.createdAt',
-                value: meta.dates.createdAt,
-              },
-              {
-                key: 'meta.dates.updatedAt',
-                value: meta.dates.updatedAt,
-              },
-              {
-                key: 'meta.dates.publishedAt',
-                value: meta.dates.publishedAt,
-              },
-              {
-                key: 'meta.publicationStatus.isPublished',
-                value: meta.publicationStatus.isPublished,
-              },
-              {
-                key: 'meta.publicationStatus.isShared',
-                value: meta.publicationStatus.isShared,
-              },
-              {
-                key: 'meta.creatorIdentity.creatorFullName',
-                value: meta.creatorIdentity.creatorFullName,
-              },
-              {
-                key: 'meta.creatorIdentity.creatorAvatar',
-                value: meta.creatorIdentity.creatorAvatar,
-              },
-              {
-                key: 'meta.creatorIdentity.creatorId',
-                value: meta.creatorIdentity.creatorId,
-              },
-            ],
-            isAlreatyUpdated: true,
-          },
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_PALETTE',
+          id: meta.id,
+          items: [
+            {
+              key: 'meta.id',
+              value: meta.id,
+            },
+            {
+              key: 'meta.dates.createdAt',
+              value: meta.dates.createdAt,
+            },
+            {
+              key: 'meta.dates.updatedAt',
+              value: meta.dates.updatedAt,
+            },
+            {
+              key: 'meta.dates.publishedAt',
+              value: meta.dates.publishedAt,
+            },
+            {
+              key: 'meta.publicationStatus.isPublished',
+              value: meta.publicationStatus.isPublished,
+            },
+            {
+              key: 'meta.publicationStatus.isShared',
+              value: meta.publicationStatus.isShared,
+            },
+            {
+              key: 'meta.creatorIdentity.creatorFullName',
+              value: meta.creatorIdentity.creatorFullName,
+            },
+            {
+              key: 'meta.creatorIdentity.creatorAvatar',
+              value: meta.creatorIdentity.creatorAvatar,
+            },
+            {
+              key: 'meta.creatorIdentity.creatorId',
+              value: meta.creatorIdentity.creatorId,
+            },
+          ],
+          isAlreadyUpdated: true,
+          shouldLoadPalette: !isRemote,
         },
-        '*'
-      )
+      },
+      '*'
+    )
 
     return meta
   } else throw error

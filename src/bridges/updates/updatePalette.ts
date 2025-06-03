@@ -1,7 +1,15 @@
 import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { PaletteMessage } from '../../types/messages'
 
-const updatePalette = async (msg: PaletteMessage, isAlreadyUpdated = false) => {
+const updatePalette = async ({
+  msg,
+  isAlreadyUpdated = false,
+  shouldLoadPalette = true,
+}: {
+  msg: PaletteMessage
+  isAlreadyUpdated?: boolean
+  shouldLoadPalette?: boolean
+}) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
@@ -35,10 +43,11 @@ const updatePalette = async (msg: PaletteMessage, isAlreadyUpdated = false) => {
 
   palette.data = new Data(palette).makePaletteData(palette.data)
 
-  iframe?.contentWindow?.postMessage({
-    type: 'LOAD_PALETTE',
-    data: palette,
-  })
+  if (shouldLoadPalette)
+    iframe?.contentWindow?.postMessage({
+      type: 'LOAD_PALETTE',
+      data: palette,
+    })
 
   return window.localStorage.setItem(
     `palette_${msg.id}`,

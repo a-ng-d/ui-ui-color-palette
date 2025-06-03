@@ -90,7 +90,12 @@ window.addEventListener('message', async (msg: any) => {
     UPDATE_COLORS: () => updateColors(path),
     UPDATE_THEMES: () => updateThemes(path),
     UPDATE_SETTINGS: () => updateSettings(path),
-    UPDATE_PALETTE: () => updatePalette(path, path.isAlreadyUpdated),
+    UPDATE_PALETTE: () =>
+      updatePalette({
+        msg: path,
+        isAlreadyUpdated: path.isAlreadyUpdated,
+        shouldLoadPalette: path.shouldLoadPalette,
+      }),
     UPDATE_DOCUMENT: () => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
       console.log('Update document', path)

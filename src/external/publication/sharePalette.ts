@@ -22,8 +22,33 @@ const sharePalette = async ({
     ])
     .match({ palette_id: id })
 
-  if (!error) return
-  else throw error
+  if (!error) {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_PALETTE',
+          id: id,
+          items: [
+            {
+              key: 'meta.dates.updatedAt',
+              value: now,
+            },
+            {
+              key: 'meta.dates.publishedAt',
+              value: now,
+            },
+            {
+              key: 'meta.publicationStatus.isShared',
+              value: isShared,
+            },
+          ],
+          isAlreadyUpdated: true,
+          shouldLoadPalette: false,
+        },
+      },
+      '*'
+    )
+  } else throw error
 }
 
 export default sharePalette
