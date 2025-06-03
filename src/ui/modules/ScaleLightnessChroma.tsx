@@ -143,6 +143,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
+      this.props.onChangeShift(feature, state, value)
+
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
     }
@@ -154,7 +156,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.scaleMessage.feature = feature
 
       this.props.onChangeShift(feature, state, value)
-      this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
@@ -166,7 +167,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
       this.props.onChangeShift(feature, state, value)
-      this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
@@ -175,7 +175,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const onUpdatingStop = () => {
       this.palette.setKey('shift.chroma', value)
       this.props.onChangeShift(feature, state, value)
-      this.props.onChangeScale()
     }
 
     const actions: {
@@ -204,6 +203,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const onReleaseStop = () => {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
+
+      this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')

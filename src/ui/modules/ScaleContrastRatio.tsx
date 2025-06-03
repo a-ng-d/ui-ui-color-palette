@@ -33,7 +33,7 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   distributionEasing: EasingConfiguration
   onChangeScale: () => void
-  onChangeStop?: () => void
+  onChangeStop: () => void
   onSwitchMode: () => void
 }
 
@@ -107,6 +107,8 @@ export default class ScaleContrastRatio extends PureComponent<
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
+      this.props.onChangeScale()
+
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
     }
@@ -142,7 +144,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeStop?.()
+      this.props.onChangeStop()
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
@@ -171,7 +173,7 @@ export default class ScaleContrastRatio extends PureComponent<
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
-      this.props.onChangeStop?.()
+      this.props.onChangeStop()
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
@@ -228,6 +230,8 @@ export default class ScaleContrastRatio extends PureComponent<
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
+      this.props.onChangeScale()
+
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
     }
@@ -263,7 +267,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeStop?.()
+      this.props.onChangeStop()
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
@@ -300,7 +304,7 @@ export default class ScaleContrastRatio extends PureComponent<
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
-      this.props.onChangeStop?.()
+      this.props.onChangeStop()
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')

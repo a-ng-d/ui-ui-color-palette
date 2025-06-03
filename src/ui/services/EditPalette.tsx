@@ -257,7 +257,6 @@ export default class EditPalette extends PureComponent<
   shiftHandler = (feature?: string, state?: string, value?: number) => {
     const onReleaseStop = () => {
       setData()
-
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
