@@ -67,6 +67,7 @@ const pullPalette = async ({
       name: data[0].name,
       description: data[0].description,
       preset: data[0].preset,
+      scale: data[0].themes.find((theme) => theme.isEnabled)?.scale || {},
       shift: data[0].shift,
       areSourceColorsLocked: data[0].are_source_colors_locked,
       colors: data[0].colors,
