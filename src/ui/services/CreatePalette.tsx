@@ -17,7 +17,6 @@ import {
   BaseProps,
   Context,
   ContextItem,
-  Easing,
   NamingConvention,
   PlanStatus,
   PriorityContext,
@@ -36,6 +35,7 @@ import Preview from '../modules/Preview'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
+  EasingConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   VisionSimulationModeConfiguration,
@@ -48,7 +48,7 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   description: string
   preset: PresetConfiguration
   namingConvention: NamingConvention
-  distributionEasing: Easing
+  distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration

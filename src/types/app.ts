@@ -101,19 +101,6 @@ export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 
 export type NamingConvention = 'ONES' | 'TENS' | 'HUNDREDS'
 
-export type Easing =
-  | 'NONE'
-  | 'LINEAR'
-  | 'EASE_IN'
-  | 'EASE_OUT'
-  | 'EASE_IN_OUT'
-  | 'FAST_EASE_IN'
-  | 'FAST_EASE_OUT'
-  | 'FAST_EASE_IN_OUT'
-  | 'SLOW_EASE_IN'
-  | 'SLOW_EASE_OUT'
-  | 'SLOW_EASE_IN_OUT'
-
 export interface ImportUrl {
   value: string
   state: 'DEFAULT' | 'ERROR' | undefined

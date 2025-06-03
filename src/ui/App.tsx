@@ -15,7 +15,6 @@ import {
 import { defaultPreset, presets } from '../stores/presets'
 import {
   BaseProps,
-  Easing,
   Editor,
   HighlightDigest,
   NamingConvention,
@@ -56,6 +55,7 @@ import {
   ColorSpaceConfiguration,
   CreatorConfiguration,
   DocumentConfiguration,
+  EasingConfiguration,
   ExportConfiguration,
   ExtractOfBaseConfiguration,
   LockedSourceColorsConfiguration,
@@ -76,7 +76,7 @@ export interface AppStates extends BaseProps {
   description: string
   preset: PresetConfiguration
   namingConvention: NamingConvention
-  distributionEasing: Easing
+  distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration

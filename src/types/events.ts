@@ -1,5 +1,8 @@
-import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { Easing, Editor, NamingConvention } from './app'
+import {
+  ColorSpaceConfiguration,
+  EasingConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { Editor, NamingConvention } from './app'
 
 export interface EditorEvent {
   editor: Editor
@@ -42,7 +45,7 @@ export interface ScaleEvent {
     | 'SWITCH_CUSTOM'
     | 'OPEN_KEYBOARD_SHORTCUTS'
     | NamingConvention
-    | Easing
+    | EasingConfiguration
 }
 
 export interface PreviewEvent {

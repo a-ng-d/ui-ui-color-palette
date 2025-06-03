@@ -26,7 +26,6 @@ import { $palette } from '../../stores/palette'
 import { defaultPreset, presets } from '../../stores/presets'
 import {
   BaseProps,
-  Easing,
   NamingConvention,
   PlanStatus,
   Service,
@@ -37,14 +36,17 @@ import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import { ShiftConfiguration } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import {
+  EasingConfiguration,
+  ShiftConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   service: Service
   id: string
   preset: PresetConfiguration
   namingConvention: NamingConvention
-  distributionEasing: Easing
+  distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>

@@ -10,12 +10,13 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { $palette } from '../../stores/palette'
-import { BaseProps, Easing, PlanStatus, Service } from '../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../types/app'
 import { ScaleMessage } from '../../types/messages'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import {
   Contrast,
+  EasingConfiguration,
   ExchangeConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
@@ -30,7 +31,7 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   ratioLightForeground: ScaleConfiguration
   ratioDarkForeground: ScaleConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  distributionEasing: Easing
+  distributionEasing: EasingConfiguration
   onChangeScale: () => void
   onChangeStop?: () => void
   onSwitchMode: () => void
