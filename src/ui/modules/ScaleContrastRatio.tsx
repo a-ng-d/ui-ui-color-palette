@@ -396,7 +396,12 @@ export default class ScaleContrastRatio extends PureComponent<
           <SimpleItem
             id="update-preset"
             leftPartSlot={
-              <SectionTitle label={this.props.locals.scale.contrast.title} />
+              <SectionTitle
+                label={this.props.locals.scale.contrast.title}
+                indicator={Object.entries(
+                  this.props.scale ?? {}
+                ).length.toString()}
+              />
             }
             rightPartSlot={
               <div className={layouts['snackbar--medium']}>
