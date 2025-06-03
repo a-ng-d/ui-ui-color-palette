@@ -447,7 +447,24 @@
       "tens": "10 - 100"
     },
     "presets": {
-      "more": "More presets"
+      "more": "More presets",
+      "custom": "Make your own preset",
+      "legacy": "Custom (Legacy)",
+      "material": "Material Design, 50-900",
+      "material3": "Material 3, 0-100",
+      "tailwind": "Tailwind, 50-950",
+      "ant": "Ant Design, 1-10",
+      "ads": "ADS Foundations, 100-1000",
+      "adsNeutral": "ADS Foundations, Neutral 0-1100",
+      "carbon": "Carbon, 10-100 (IBM)",
+      "base": "Base, 50-700 (Uber)",
+      "polaris": "Polaris, 1-16 (Shopify)",
+      "customOnes": "Custom, 1-10",
+      "customTens": "Custom, 10-100",
+      "customHundreds": "Custom, 100-1000",
+      "atlassian": "Atlassian",
+      "google": "Google"
+
     },
     "shift": {
       "chroma": "Chroma"

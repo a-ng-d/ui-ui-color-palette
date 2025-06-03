@@ -56,7 +56,6 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   onAddStop: React.Dispatch<Partial<AppStates>>
   onRemoveStop: React.Dispatch<Partial<AppStates>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
-  onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
   onChangeThemes?: (scale: ScaleConfiguration) => void
   onSwitchMode: () => void
 }
@@ -617,17 +616,13 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
     }
 
-    const setCustomPreset = () => {
+    const setCustomPreset = (
+      convention: '' | '_1_10' | '_10_100' | '_100_1000'
+    ) => {
       const preset: PresetConfiguration =
-        presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
-      const newScale = preset?.stops.map((_, index) => {
-        if (this.props.namingConvention === 'TENS') return (index + 1) * 10
-        else if (this.props.namingConvention === 'HUNDREDS')
-          return (index + 1) * 100
-        return (index + 1) * 1
-      })
+        presets.find((preset) => preset.id === `CUSTOM${convention}`) ??
+        defaultPreset
 
-      preset.stops = newScale ?? []
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
 
@@ -664,7 +659,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       CARBON: () => setCarbonPreset(),
       BASE: () => setBasePreset(),
       POLARIS: () => setPolarisPreset(),
-      CUSTOM: () => setCustomPreset(),
+      CUSTOM_1_10: () => setCustomPreset('_1_10'),
+      CUSTOM_10_100: () => setCustomPreset('_10_100'),
+      CUSTOM_100_1000: () => setCustomPreset('_100_1000'),
       DEFAULT: () => null,
     }
 
@@ -692,7 +689,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         if (preset[1].length > 1)
           return {
             label: preset[0],
-            value: preset[0].toUpperCase(),
+            value: preset[0].toUpperCase().replace(' ', '_'),
             type: 'OPTION',
             children: preset[1].map((preset: PresetConfiguration) => ({
               label: preset.name,
@@ -737,6 +734,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
     )
 
+    if (this.props.preset.id === 'CUSTOM')
+      options[options.length - 1].children.unshift({
+        label: this.props.locals.scale.presets.legacy,
+        value: 'CUSTOM',
+        feature: 'PRESETS_CUSTOM',
+        type: 'OPTION',
+      })
+
     options.splice(options.length - 1, 0, {
       type: 'SEPARATOR',
     })
@@ -746,8 +751,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
   customHandler = (e: Event) => {
     const stops = this.props.preset?.['stops'] ?? [1, 2]
-    const preset =
-      presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
+    const preset = this.props.preset ?? defaultPreset
     const scale = (stps = stops) =>
       doScale(
         stps,
@@ -782,43 +786,11 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
     }
 
-    const changeNamingConvention = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
-      const option = (e.target as HTMLInputElement).dataset
-        .value as NamingConvention
-      const newStops = stops.map((_, index) => {
-        if (option === 'TENS') return (index + 1) * 10
-        else if (option === 'HUNDREDS') return (index + 1) * 100
-        return (index + 1) * 1
-      })
-
-      preset.stops = newStops
-      this.palette.setKey('scale', scale(newStops))
-      this.palette.setKey('preset', preset)
-
-      this.props.onChangeNamingConvention?.({
-        namingConvention: option,
-        preset: preset,
-        scale: scale(newStops),
-      })
-
-      trackScaleManagementEvent(
-        this.props.userIdentity.id,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: option,
-        }
-      )
-    }
-
     const actions: {
       [action: string]: () => void
     } = {
       ADD_STOP: () => addStop(),
       REMOVE_STOP: () => removeStop(),
-      UPDATE_NAMING_CONVENTION: () => changeNamingConvention(),
       DEFAULT: () => null,
     }
 
@@ -828,57 +800,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   }
 
   // Templates
-  NamingConvention = () => {
-    return (
-      <Dropdown
-        id="naming-convention"
-        options={[
-          {
-            label: this.props.locals.scale.namingConvention.ones,
-            value: 'ONES',
-            feature: 'UPDATE_NAMING_CONVENTION',
-            type: 'OPTION',
-            isActive: true,
-            isBlocked: false,
-            isNew: false,
-            action: this.customHandler,
-          },
-          {
-            label: this.props.locals.scale.namingConvention.tens,
-            value: 'TENS',
-            feature: 'UPDATE_NAMING_CONVENTION',
-            type: 'OPTION',
-            isActive: true,
-            isBlocked: false,
-            isNew: false,
-            action: this.customHandler,
-          },
-          {
-            label: this.props.locals.scale.namingConvention.hundreds,
-            value: 'HUNDREDS',
-            feature: 'UPDATE_NAMING_CONVENTION',
-            type: 'OPTION',
-            isActive: true,
-            isBlocked: false,
-            isNew: false,
-            action: this.customHandler,
-          },
-        ]}
-        selected={this.props.namingConvention}
-        alignment="RIGHT"
-        pin="TOP"
-        isBlocked={ScaleLightnessChroma.features(
-          this.props.planStatus,
-          this.props.config
-        ).SCALE_PRESETS_NAMING_CONVENTION.isBlocked()}
-        isNew={ScaleLightnessChroma.features(
-          this.props.planStatus,
-          this.props.config
-        ).SCALE_PRESETS_NAMING_CONVENTION.isNew()}
-      />
-    )
-  }
-
   Create = () => {
     return (
       <>
@@ -920,16 +841,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     this.props.config
                   ).SCALE_PRESETS.isActive()}
                 >
-                  {this.props.preset.name === 'Custom' && (
+                  {this.props.preset.id.includes('CUSTOM') && (
                     <>
-                      <Feature
-                        isActive={ScaleLightnessChroma.features(
-                          this.props.planStatus,
-                          this.props.config
-                        ).SCALE_PRESETS_NAMING_CONVENTION.isActive()}
-                      >
-                        <this.NamingConvention />
-                      </Feature>
                       {this.props.preset.stops.length > 2 && (
                         <Button
                           type="icon"
@@ -1002,7 +915,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             this.props.planStatus,
             this.props.config
           ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length) &&
-            this.props.preset.id === 'CUSTOM' && (
+            this.props.preset.id.includes('CUSTOM') && (
               <div
                 style={{
                   padding: 'var(--size-xxxsmall) var(--size-xsmall)',
@@ -1167,7 +1080,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             this.props.planStatus,
             this.props.config
           ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length) &&
-            this.props.preset.id === 'CUSTOM' && (
+            this.props.preset.id.includes('CUSTOM') && (
               <div
                 style={{
                   padding: 'var(--size-xxxsmall) var(--size-xsmall)',
@@ -1204,7 +1117,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             this.props.config
           ).SCALE_CONFIGURATION.isActive()}
         >
-          {this.props.preset.id === 'CUSTOM' ? (
+          {this.props.preset.id.includes('CUSTOM') ? (
             <MultipleSlider
               {...this.props}
               type="FULLY_EDIT"

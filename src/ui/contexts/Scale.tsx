@@ -58,7 +58,6 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   onAddStop: React.Dispatch<Partial<AppStates>>
   onRemoveStop: React.Dispatch<Partial<AppStates>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
-  onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
   onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
   onChangeThemes: React.Dispatch<Partial<AppStates>>
 }

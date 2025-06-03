@@ -978,7 +978,6 @@ class App extends Component<AppProps, AppStates> {
               onChangePreset={(e) => this.setState({ ...e })}
               onCustomPreset={(e) => this.setState({ ...e })}
               onChangeDistributionEasing={(e) => this.setState({ ...e })}
-              onChangeNamingConvention={(e) => this.setState({ ...e })}
               onChangeSettings={(e) => this.setState({ ...e })}
               onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
               onGetProPlan={(e) => this.setState({ ...e })}
