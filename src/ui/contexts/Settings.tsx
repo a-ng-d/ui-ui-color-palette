@@ -289,8 +289,12 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       this.props.onChangeSettings({
         themes: this.props.themes?.map((theme) => {
-          if (theme.isEnabled)
-            theme.textColorsTheme = this.settingsMessage.data.textColorsTheme
+          if (theme.isEnabled) {
+            theme.textColorsTheme = {
+              ...theme.textColorsTheme,
+              lightColor: code,
+            }
+          }
           return theme
         }),
         textColorsTheme: this.settingsMessage.data.textColorsTheme,
@@ -332,8 +336,12 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       this.props.onChangeSettings({
         themes: this.props.themes?.map((theme) => {
-          if (theme.isEnabled)
-            theme.textColorsTheme = this.settingsMessage.data.textColorsTheme
+          if (theme.isEnabled) {
+            theme.textColorsTheme = {
+              ...theme.textColorsTheme,
+              darkColor: code,
+            }
+          }
           return theme
         }),
         textColorsTheme: this.settingsMessage.data.textColorsTheme,
