@@ -81,9 +81,9 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
-    "@a_ng_d/figmug-ui": "^1.8.16",
-    "@a_ng_d/figmug-utils": "^0.3.0",
-    "@a_ng_d/utils-ui-color-palette": "^1.0.11",
+    "@a_ng_d/figmug-ui": "^1.8.20",
+    "@a_ng_d/figmug-utils": "^0.3.2",
+    "@a_ng_d/utils-ui-color-palette": "^1.0.15",
     "@nanostores/preact": "^0.5.2",
     "@sentry/react": "^8.8.0",
     "@supabase/supabase-js": "^2.44.2",
