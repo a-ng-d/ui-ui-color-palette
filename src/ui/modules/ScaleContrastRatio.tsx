@@ -80,11 +80,11 @@ export default class ScaleContrastRatio extends PureComponent<
     this.setContrastMode()
     this.unsubscribePalette = $palette.subscribe((value) => {
       this.scaleMessage.data = value as ExchangeConfiguration
-      if (value.isThemeSwitched) {
-        setTimeout(() => this.setContrastMode(), 100)
-        $palette.setKey('isThemeSwitched', false)
-      }
     })
+  }
+
+  componentDidUpdate(previousProps: Readonly<ScaleProps>): void {
+    if (previousProps.scale !== this.props.scale) this.setContrastMode()
   }
 
   componentWillUnmount = () => {

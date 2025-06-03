@@ -199,8 +199,6 @@ export default class EditPalette extends PureComponent<
       return theme
     })
 
-    $palette.setKey('isThemeSwitched', true)
-
     parent.postMessage({ pluginMessage: this.themesMessage }, '*')
 
     this.props.onChangeThemes({
