@@ -629,8 +629,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       preset.stops = newScale ?? []
       this.palette.setKey('preset', preset)
-      this.palette.setKey('lightnessRange.min', preset.min)
-      this.palette.setKey('lightnessRange.max', preset.max)
       this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset({
@@ -789,7 +787,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         presets.find((preset) => preset.id === 'CUSTOM') ?? defaultPreset
       const option = (e.target as HTMLInputElement).dataset
         .value as NamingConvention
-      const newStops = stops.map((stop, index) => {
+      const newStops = stops.map((_, index) => {
         if (option === 'TENS') return (index + 1) * 10
         else if (option === 'HUNDREDS') return (index + 1) * 100
         return (index + 1) * 1

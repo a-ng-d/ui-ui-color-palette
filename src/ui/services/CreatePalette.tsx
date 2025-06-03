@@ -65,6 +65,8 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   onConfigureExternalSourceColors: React.Dispatch<Partial<AppStates>>
   onResetSourceColors: React.Dispatch<Partial<AppStates>>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
+  onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
+  onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
   onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
   onCancelPalette: () => void
   onSavedPalette: React.Dispatch<Partial<AppStates>>

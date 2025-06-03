@@ -886,7 +886,6 @@ class App extends Component<AppProps, AppStates> {
         (sourceColor: SourceColorConfiguration) =>
           sourceColor.source === 'CANVAS'
       ),
-      colors: [],
       name: this.state.locals.settings.global.name.default,
       description: '',
       preset: preset,
@@ -895,6 +894,8 @@ class App extends Component<AppProps, AppStates> {
         chroma: 100,
       },
       areSourceColorsLocked: false,
+      colors: [],
+      themes: [],
       colorSpace: 'LCH',
       visionSimulationMode: 'NONE',
       view: 'PALETTE_WITH_PROPERTIES',
@@ -903,6 +904,8 @@ class App extends Component<AppProps, AppStates> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
+      distributionEasing: 'LINEAR',
+      namingConvention: 'ONES',
       dates: {
         createdAt: '',
         updatedAt: '',
@@ -974,6 +977,8 @@ class App extends Component<AppProps, AppStates> {
               onChangeShift={(e) => this.setState({ ...e })}
               onChangePreset={(e) => this.setState({ ...e })}
               onCustomPreset={(e) => this.setState({ ...e })}
+              onChangeDistributionEasing={(e) => this.setState({ ...e })}
+              onChangeNamingConvention={(e) => this.setState({ ...e })}
               onChangeSettings={(e) => this.setState({ ...e })}
               onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
               onGetProPlan={(e) => this.setState({ ...e })}
