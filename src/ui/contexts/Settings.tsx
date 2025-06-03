@@ -13,7 +13,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { $palette } from '../../stores/palette'
-import { BaseProps, Context, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Context, PlanStatus } from '../../types/app'
 import { SettingsMessage } from '../../types/messages'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
@@ -25,7 +25,6 @@ import DangerZone from '../modules/DangerZone'
 import GlobalSettings from '../modules/GlobalSettings'
 
 interface SettingsProps extends BaseProps, WithConfigProps {
-  service: Service
   id: string
   sourceColors?: Array<SourceColorConfiguration>
   name: string

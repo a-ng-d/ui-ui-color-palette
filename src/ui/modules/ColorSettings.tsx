@@ -10,7 +10,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, PlanStatus } from '../../types/app'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import {
@@ -20,7 +20,6 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 
 interface ColorSettingsProps extends BaseProps, WithConfigProps {
-  service: Service
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion?: AlgorithmVersionConfiguration

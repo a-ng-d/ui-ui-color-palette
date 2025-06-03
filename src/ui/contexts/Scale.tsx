@@ -16,12 +16,7 @@ import { createPortal, PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import de from '../../content/images/distribution_easing.gif'
-import {
-  BaseProps,
-  NamingConvention,
-  PlanStatus,
-  Service,
-} from '../../types/app'
+import { BaseProps, NamingConvention, PlanStatus } from '../../types/app'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -41,7 +36,6 @@ import {
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
-  service: Service
   id: string
   sourceColors?: Array<SourceColorConfiguration>
   preset: PresetConfiguration

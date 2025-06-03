@@ -10,7 +10,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { $palette } from '../../stores/palette'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, PlanStatus } from '../../types/app'
 import { ScaleMessage } from '../../types/messages'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
@@ -24,7 +24,6 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
-  service: Service
   id: string
   preset: PresetConfiguration
   scale: ScaleConfiguration

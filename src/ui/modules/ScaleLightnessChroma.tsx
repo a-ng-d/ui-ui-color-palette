@@ -24,12 +24,7 @@ import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { $palette } from '../../stores/palette'
 import { defaultPreset, presets } from '../../stores/presets'
-import {
-  BaseProps,
-  NamingConvention,
-  PlanStatus,
-  Service,
-} from '../../types/app'
+import { BaseProps, NamingConvention, PlanStatus } from '../../types/app'
 import { ScaleMessage } from '../../types/messages'
 import { doScale } from '@a_ng_d/figmug-utils'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
@@ -42,7 +37,6 @@ import {
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
-  service: Service
   id: string
   preset: PresetConfiguration
   namingConvention: NamingConvention

@@ -20,7 +20,6 @@ import {
   NamingConvention,
   PlanStatus,
   PriorityContext,
-  Service,
   TrialStatus,
 } from '../types/app'
 import { UserSession } from '../types/user'
@@ -69,7 +68,6 @@ import {
 type AppProps = WithConfigProps
 
 export interface AppStates extends BaseProps {
-  service: Service
   sourceColors: Array<SourceColorConfiguration>
   id: string
   name: string

@@ -12,6 +12,8 @@ export interface ContextItem {
 }
 
 export interface BaseProps {
+  service: Service
+  context: Context
   userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>

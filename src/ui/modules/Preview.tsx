@@ -25,7 +25,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 import lsc from '../../content/images/lock_source_colors.gif'
 import { $palette } from '../../stores/palette'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, PlanStatus } from '../../types/app'
 import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
 import { AppStates } from '../App'
 import Feature from '../components/Feature'
@@ -42,7 +42,6 @@ import {
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface PreviewProps extends BaseProps, WithConfigProps {
-  service: Service
   id: string
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
