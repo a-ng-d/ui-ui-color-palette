@@ -30,6 +30,7 @@ const updateScale = async (msg: ScaleMessage) => {
 
   palette.base.preset = msg.data.preset
   palette.base.shift = msg.data.shift
+  palette.base.preset = msg.data.preset
 
   palette.meta.dates.updatedAt = now
   iframe?.contentWindow?.postMessage({

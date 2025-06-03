@@ -47,19 +47,20 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   preset: PresetConfiguration
   namingConvention: NamingConvention
   distributionEasing: EasingConfiguration
-  scale?: ScaleConfiguration
+  scale: ScaleConfiguration
   shift: ShiftConfiguration
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   actions?: string
-  onChangePreset?: React.Dispatch<Partial<AppStates>>
+  onChangePreset: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void
-  onChangeStop?: () => void
-  onAddStop?: React.Dispatch<Partial<AppStates>>
-  onRemoveStop?: React.Dispatch<Partial<AppStates>>
+  onChangeStop: () => void
+  onAddStop: React.Dispatch<Partial<AppStates>>
+  onRemoveStop: React.Dispatch<Partial<AppStates>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
-  onChangeDistributionEasing?: React.Dispatch<Partial<AppStates>>
+  onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
+  onChangeThemes: React.Dispatch<Partial<AppStates>>
 }
 
 interface ScaleStates {
@@ -133,6 +134,37 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }
   }
 
+  // Handlers
+  themesHandler = (e: ScaleConfiguration) => {
+    const scale = e
+    const newThemes = this.props.themes.map((theme) => {
+      return {
+        ...theme,
+        scale: scale,
+      }
+    })
+
+    this.props.onChangeThemes({
+      themes: newThemes,
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_PALETTE',
+          id: this.props.id,
+          items: [
+            {
+              key: 'themes',
+              value: newThemes,
+            },
+          ],
+        },
+      },
+      '*'
+    )
+  }
+
   // Direct Actions
   onChangeDistributionEasingCurve = (e: Event) => {
     const value = (e.target as HTMLElement).dataset.value ?? 'LINEAR'
@@ -150,7 +182,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       explodedEasing.pop()
     }
 
-    this.props.onChangeDistributionEasing?.({
+    this.props.onChangeDistributionEasing({
       distributionEasing: explodedEasing.join('_') as EasingConfiguration,
     })
 
@@ -172,7 +204,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     explodedEasing[1] = value
 
-    this.props.onChangeDistributionEasing?.({
+    this.props.onChangeDistributionEasing({
       distributionEasing: explodedEasing.join('_') as EasingConfiguration,
     })
 
@@ -591,6 +623,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 {!this.state.isContrastMode ? (
                   <ScaleLightnessChroma
                     {...this.props}
+                    onChangeThemes={this.themesHandler}
                     onSwitchMode={() =>
                       this.setState({
                         isContrastMode: !this.state.isContrastMode,

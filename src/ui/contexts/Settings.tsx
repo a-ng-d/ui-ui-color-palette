@@ -41,7 +41,6 @@ interface SettingsProps extends BaseProps, WithConfigProps {
 
 export default class Settings extends PureComponent<SettingsProps> {
   private settingsMessage: SettingsMessage
-  private unsubscribe: (() => void) | null = null
   private palette: typeof $palette
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({

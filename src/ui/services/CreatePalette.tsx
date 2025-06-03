@@ -271,8 +271,6 @@ export default class CreatePalette extends PureComponent<
             service="CREATE"
             onAddStop={this.props.onCustomPreset}
             onRemoveStop={this.props.onCustomPreset}
-            onChangeNamingConvention={this.props.onCustomPreset}
-            onChangeDistributionEasing={this.props.onCustomPreset}
             onChangeScale={this.slideHandler}
             onChangeShift={this.shiftHandler}
           />

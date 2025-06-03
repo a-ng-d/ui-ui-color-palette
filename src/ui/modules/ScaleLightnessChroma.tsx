@@ -50,19 +50,20 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onChangePreset?: React.Dispatch<Partial<AppStates>>
+  onChangePreset: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void
-  onChangeStop?: () => void
-  onAddStop?: React.Dispatch<Partial<AppStates>>
-  onRemoveStop?: React.Dispatch<Partial<AppStates>>
+  onChangeStop: () => void
+  onAddStop: React.Dispatch<Partial<AppStates>>
+  onRemoveStop: React.Dispatch<Partial<AppStates>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeNamingConvention?: React.Dispatch<Partial<AppStates>>
+  onChangeThemes?: (scale: ScaleConfiguration) => void
   onSwitchMode: () => void
 }
 
 export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   private scaleMessage: ScaleMessage
-  private unsubscribePalette: (() => void) | undefined
+  private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
 
   static defaultProps: Partial<ScaleProps> = {
@@ -127,13 +128,13 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
   // Lifecycle
   componentDidMount = () => {
-    this.unsubscribePalette = $palette.subscribe((value) => {
+    this.subscribePalette = $palette.subscribe((value) => {
       this.scaleMessage.data = value as ExchangeConfiguration
     })
   }
 
   componentWillUnmount = () => {
-    if (this.unsubscribePalette) this.unsubscribePalette()
+    if (this.subscribePalette) this.subscribePalette()
   }
 
   // Handlers
@@ -250,7 +251,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeStop?.()
+      this.props.onChangeStop()
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
@@ -287,7 +288,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
-      this.props.onChangeStop?.()
+      this.props.onChangeStop()
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
@@ -358,11 +359,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -385,11 +391,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -408,11 +419,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -431,11 +447,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -458,11 +479,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -485,11 +511,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       )
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -508,11 +539,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -531,11 +567,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -554,11 +595,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -586,11 +632,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.palette.setKey('lightnessRange.max', preset.max)
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset?.({
+      this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
         onGoingStep: 'preset changed',
       })
+
+      if (this.props.service === 'EDIT') {
+        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        this.props.onChangeThemes?.(scale(preset))
+      }
 
       trackScaleManagementEvent(
         this.props.userIdentity.id,
@@ -712,7 +763,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         preset.stops = stops
         this.palette.setKey('scale', scale())
 
-        this.props.onAddStop?.({
+        this.props.onAddStop({
           preset: preset,
           scale: scale(),
         })
@@ -725,7 +776,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         preset.stops = stops
         this.palette.setKey('scale', scale())
 
-        this.props.onRemoveStop?.({
+        this.props.onRemoveStop({
           preset: preset,
           scale: scale(),
         })
@@ -1072,7 +1123,20 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             }
             rightPartSlot={
               <div className={layouts['snackbar--medium']}>
-                <div className={texts.label}>{this.props.preset.name}</div>
+                <Feature
+                  isActive={ScaleLightnessChroma.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).SCALE_PRESETS.isActive()}
+                >
+                  <Dropdown
+                    id="presets"
+                    options={this.presetsOptions()}
+                    selected={this.props.preset.id}
+                    alignment="RIGHT"
+                    pin="TOP"
+                  />
+                </Feature>
                 <Feature
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,

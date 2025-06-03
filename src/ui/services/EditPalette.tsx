@@ -78,8 +78,9 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   document: DocumentConfiguration
   dates: DatesConfiguration
   onChangeScale: React.Dispatch<Partial<AppStates>>
-  onChangeStop?: React.Dispatch<Partial<AppStates>>
-  onChangeDistributionEasing?: React.Dispatch<Partial<AppStates>>
+  onChangeStop: React.Dispatch<Partial<AppStates>>
+  onChangePreset: React.Dispatch<Partial<AppStates>>
+  onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
   onChangeColors: React.Dispatch<Partial<AppStates>>
   onChangeThemes: React.Dispatch<Partial<AppStates>>
   onChangeSettings: React.Dispatch<Partial<AppStates>>
@@ -101,7 +102,10 @@ interface EditPaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteStates
+> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
@@ -227,7 +231,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
     })
 
   customSlideHandler = () =>
-    this.props.onChangeStop?.({
+    this.props.onChangeStop({
       preset:
         Object.keys(this.palette.get().preset).length === 0
           ? this.props.preset
