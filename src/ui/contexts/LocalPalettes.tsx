@@ -8,12 +8,16 @@ import { setContexts } from '../../utils/setContexts'
 import { WithConfigProps } from '../components/WithConfig'
 import PagePalettes from '../modules/PagePalettes'
 
+interface LocalPalettesProps extends BaseProps, WithConfigProps {
+  onCreatePalette: () => void
+}
+
 interface LocalPalettesStates {
   context: Context | ''
 }
 
 export default class LocalPalettes extends PureComponent<
-  BaseProps & WithConfigProps,
+  LocalPalettesProps,
   LocalPalettesStates
 > {
   private contexts: Array<ContextItem>
@@ -26,7 +30,7 @@ export default class LocalPalettes extends PureComponent<
     }),
   })
 
-  constructor(props: BaseProps & WithConfigProps) {
+  constructor(props: LocalPalettesProps) {
     super(props)
     this.contexts = setContexts(
       ['LOCAL_PALETTES_PAGE'],

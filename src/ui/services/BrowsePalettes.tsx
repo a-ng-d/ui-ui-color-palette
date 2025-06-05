@@ -109,7 +109,12 @@ export default class BrowsePalettes extends PureComponent<
 
     switch (this.state.context) {
       case 'LOCAL_PALETTES': {
-        fragment = <LocalPalettes {...this.props} />
+        fragment = (
+          <LocalPalettes
+            {...this.props}
+            onCreatePalette={this.onCreatePalette}
+          />
+        )
         break
       }
       case 'REMOTE_PALETTES': {
@@ -200,7 +205,6 @@ export default class BrowsePalettes extends PureComponent<
               </Feature>
             </div>
           }
-          isFullWidth
         />
         <section className="context">{fragment}</section>
       </>

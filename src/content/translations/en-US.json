@@ -16,7 +16,8 @@
     },
     "syncLocalStyles": "Sync with the local styles",
     "syncLocalVariables": "Sync with the local variables",
-    "createPalette": "Save the UI Color Palette",
+    "createPalette": "Create a UI Color Palette",
+    "savePalette": "Save the UI Color Palette",
     "duplicate": "Duplicate",
     "export": "Export the UI Color Palette to",
     "generateDocument": {
@@ -712,7 +713,7 @@
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
     "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
-    "noPaletteOnCurrrentPage": "There is no UI Color Palette on the current page",
+    "noPaletteOnCurrrentPage": "There is no UI Color Palette on this page",
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "paletteNameRecommendation": "64 characters max is recommended",
     "unselectedColor": "Select a layer that is filled with at least one solid color"

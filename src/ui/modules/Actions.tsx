@@ -547,7 +547,7 @@ export default class Actions extends PureComponent<
           >
             <Button
               type="primary"
-              label={this.props.locals.actions.createPalette}
+              label={this.props.locals.actions.savePalette}
               feature="CREATE_PALETTE"
               isDisabled={this.props.sourceColors.length === 0}
               isBlocked={

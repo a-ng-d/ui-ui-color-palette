@@ -19,6 +19,10 @@ import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
+interface PagePalettesProps extends BaseProps, WithConfigProps {
+  onCreatePalette: () => void
+}
+
 interface PagePalettesStates {
   paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   paletteLists: Array<FullConfiguration>
@@ -28,10 +32,15 @@ interface PagePalettesStates {
 }
 
 export default class PagePalettes extends PureComponent<
-  BaseProps & WithConfigProps,
+  PagePalettesProps,
   PagePalettesStates
 > {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+    }),
     OPEN_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'OPEN_PALETTE',
@@ -49,7 +58,7 @@ export default class PagePalettes extends PureComponent<
     }),
   })
 
-  constructor(props: BaseProps & WithConfigProps) {
+  constructor(props: PagePalettesProps) {
     super(props)
     this.state = {
       paletteListsStatus: 'LOADING',
@@ -363,6 +372,18 @@ export default class PagePalettes extends PureComponent<
           <SemanticMessage
             type="NEUTRAL"
             message={`${this.props.locals.warning.noPaletteOnCurrrentPage}`}
+            actionsSlot={
+              <Button
+                type="primary"
+                label={this.props.locals.actions.createPalette}
+                isNew={PagePalettes.features(
+                  this.props.planStatus,
+                  this.props.config
+                ).CREATE_PALETTE.isNew()}
+                action={this.props.onCreatePalette}
+              />
+            }
+            orientation="VERTICAL"
           />
         )}
       </List>
