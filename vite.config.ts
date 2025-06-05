@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
         project: 'ui-color-palette',
         authToken: env.SENTRY_AUTH_TOKEN,
       }),
-      basicSsl(),
+      // basicSsl(),
     ],
 
     define: {
@@ -38,7 +38,6 @@ export default defineConfig(({ mode }) => {
 
     server: {
       port: 4400,
-      https: {},
       watch: {
         usePolling: false,
       },
@@ -46,6 +45,9 @@ export default defineConfig(({ mode }) => {
         protocol: 'ws',
         host: 'localhost',
         port: 4400,
+        clientPort: 4400,
+        timeout: 20000,
+        overlay: true,
       },
       headers: {
         'Access-Control-Allow-Origin': '*',
