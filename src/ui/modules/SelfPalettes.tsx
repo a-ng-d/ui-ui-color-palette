@@ -271,6 +271,7 @@ export default class SelfPalettes extends PureComponent<
               }}
             />
           }
+          isCentered
           padding="var(--size-xxsmall) var(--size-xsmall)"
         />
       )
@@ -283,6 +284,7 @@ export default class SelfPalettes extends PureComponent<
               messages={[this.props.locals.palettes.lazyLoad.completeList]}
             />
           }
+          isCentered
           padding="var(--size-xxsmall) var(--size-xsmall)"
         />
       )
@@ -654,7 +656,6 @@ export default class SelfPalettes extends PureComponent<
                 />
               }
               border={['BOTTOM']}
-              isFullWidth
             />
           )}
         {fragment}
