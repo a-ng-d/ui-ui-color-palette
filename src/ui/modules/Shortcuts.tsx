@@ -163,10 +163,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
     const scaleX = Math.abs(origin.x - cursor.x - shift.x),
       scaleY = Math.abs(origin.y - cursor.y - shift.y)
 
-    if (scaleX > 540) windowSize.w = scaleX
-    else windowSize.w = 540
-    if (scaleY > 432) windowSize.h = scaleY
-    else windowSize.h = 432
+    if (scaleX > 360) windowSize.w = scaleX
+    else windowSize.w = 360
+    if (scaleY > 360) windowSize.h = scaleY
+    else windowSize.h = 360
 
     parent.postMessage(
       {
