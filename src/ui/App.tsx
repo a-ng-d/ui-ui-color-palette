@@ -215,8 +215,9 @@ class App extends Component<AppProps, AppStates> {
         status: 'NO_HIGHLIGHT',
       },
       notification: {
-        type: undefined,
+        type: 'INFO',
         message: '',
+        timer: 5000,
       },
       isLoaded: false,
       onGoingStep: '',
@@ -426,6 +427,7 @@ class App extends Component<AppProps, AppStates> {
             notification: {
               type: path.data.type,
               message: path.data.message,
+              timer: path.data.timer === undefined ? 5000 : path.data.timer,
             },
           })
 
@@ -1028,8 +1030,9 @@ class App extends Component<AppProps, AppStates> {
                         status: 'NO_HIGHLIGHT',
                       },
                       notification: {
-                        type: undefined,
+                        type: 'INFO',
                         message: '',
+                        timer: 5000,
                       },
                     })
                   }

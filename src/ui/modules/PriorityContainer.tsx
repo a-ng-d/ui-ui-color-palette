@@ -257,8 +257,7 @@ export default class PriorityContainer extends PureComponent<
   }
 
   Notification = () => {
-    setTimeout(() => this.props.onClose(), 5000)
-
+    console.log(this.props.notification)
     return (
       <Feature
         isActive={PriorityContainer.features(
@@ -269,6 +268,7 @@ export default class PriorityContainer extends PureComponent<
         <Notification
           type={this.props.notification.type || 'INFO'}
           message={this.props.notification.message}
+          timer={this.props.notification.timer}
           onClose={this.props.onClose}
         />
       </Feature>

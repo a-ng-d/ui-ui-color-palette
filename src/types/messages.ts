@@ -50,6 +50,7 @@ export interface PaletteMessage {
 }
 
 export interface NotificationMessage {
-  type?: 'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR'
+  type: 'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR'
   message: string
+  timer?: number
 }
