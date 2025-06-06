@@ -120,9 +120,6 @@ div.export-palette__preview textarea {
 }
 
 /* Background */
-:root[data-theme='figma-ui2'] #app {
-  background-color: var(--figma-color-bg);
-}
 :root[data-theme='figma-ui3'] #app {
   background-color: var(--figma-color-bg);
 }

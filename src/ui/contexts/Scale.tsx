@@ -408,9 +408,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       case 'penpot':
         padding = '0 var(--size-xxsmall)'
         break
-      case 'figma-ui2':
-        padding = 'var(--size-xxsmall)'
-        break
       case 'figma-ui3':
         padding = 'var(--size-xxsmall)'
         break

@@ -350,9 +350,6 @@ export default class PriorityContainer extends PureComponent<
       case 'penpot':
         padding = '0 var(--size-xxsmall)'
         break
-      case 'figma-ui2':
-        padding = 'var(--size-xxsmall)'
-        break
       case 'figma-ui3':
         padding = 'var(--size-xxsmall)'
         break
@@ -472,9 +469,6 @@ export default class PriorityContainer extends PureComponent<
     switch (theme) {
       case 'penpot':
         padding = 'var(--size-xxsmall) var(--size-small)'
-        break
-      case 'figma-ui2':
-        padding = 'var(--size-xxsmall)'
         break
       case 'figma-ui3':
         padding = 'var(--size-xxsmall)'
