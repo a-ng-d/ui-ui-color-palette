@@ -7,10 +7,10 @@ const checkUserPreferences = async () => {
   ) as HTMLIFrameElement | null
   const isWCAGDisplayed = window.localStorage.getItem('is_wcag_displayed')
   const isAPCADisplayed = window.localStorage.getItem('is_apca_displayed')
-  const canDeepSyncPalette = window.localStorage.getItem(
-    'can_deep_sync_palette'
-  )
   const canDeepSyncStyles = window.localStorage.getItem('can_deep_sync_styles')
+  const canDeepSyncVariables = window.localStorage.getItem(
+    'can_deep_sync_variables'
+  )
   const userLanguage = window.localStorage.getItem('user_language')
 
   if (isWCAGDisplayed === null)
@@ -19,11 +19,11 @@ const checkUserPreferences = async () => {
   if (isAPCADisplayed === null)
     window.localStorage.setItem('is_apca_displayed', 'true')
 
-  if (canDeepSyncPalette === null)
-    window.localStorage.setItem('can_deep_sync_palette', 'false')
-
   if (canDeepSyncStyles === null)
     window.localStorage.setItem('can_deep_sync_styles', 'false')
+
+  if (canDeepSyncVariables === null)
+    window.localStorage.setItem('can_deep_sync_variables', 'false')
 
   if (userLanguage === null)
     window.localStorage.setItem('user_language', 'en-US')
@@ -36,8 +36,8 @@ const checkUserPreferences = async () => {
       data: {
         isWCAGDisplayed: isWCAGDisplayed === 'true',
         isAPCADisplayed: isAPCADisplayed === 'true',
-        canDeepSyncPalette: canDeepSyncPalette === 'true',
         canDeepSyncStyles: canDeepSyncStyles === 'true',
+        canDeepSyncVariables: canDeepSyncVariables === 'true',
         userLanguage: userLanguage ?? 'en-US',
       },
     },

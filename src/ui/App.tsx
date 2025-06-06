@@ -7,6 +7,7 @@ import { locals } from '../content/locals'
 import { $palette } from '../stores/palette'
 import {
   $canStylesDeepSync,
+  $canVariablesDeepSync,
   $isAPCADisplayed,
   $isVsCodeMessageDisplayed,
   $isWCAGDisplayed,
@@ -393,6 +394,7 @@ class App extends Component<AppProps, AppStates> {
           $isWCAGDisplayed.set(path.data.isWCAGDisplayed)
           $isAPCADisplayed.set(path.data.isAPCADisplayed)
           $canStylesDeepSync.set(path.data.canDeepSyncStyles)
+          $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
           $isVsCodeMessageDisplayed.set(path.data.isVsCodeMessageDisplayed)
           $userLanguage.set(path.data.userLanguage)
         }
