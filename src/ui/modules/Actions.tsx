@@ -1,6 +1,7 @@
 import {
   Bar,
   Button,
+  Chip,
   Dropdown,
   DropdownOption,
   Icon,
@@ -23,6 +24,7 @@ import {
   CreatorConfiguration,
   DatesConfiguration,
   DocumentConfiguration,
+  PublicationConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
   ViewConfiguration,
@@ -37,6 +39,7 @@ interface ActionsProps extends BaseProps, WithConfigProps {
   creatorIdentity?: CreatorConfiguration
   exportType?: string
   document?: DocumentConfiguration
+  publicationStatus: PublicationConfiguration
   isPrimaryLoading?: boolean
   isSecondaryLoading?: boolean
   onCreatePalette?: React.MouseEventHandler<HTMLButtonElement> &
@@ -152,6 +155,11 @@ export default class Actions extends PureComponent<
     PUBLISH_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'PUBLISH_PALETTE',
+      planStatus: planStatus,
+    }),
+    PUBLICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION',
       planStatus: planStatus,
     }),
   })
@@ -577,6 +585,19 @@ export default class Actions extends PureComponent<
       <Bar
         leftPartSlot={
           <div className={layouts['snackbar--medium']}>
+            <Feature
+              isActive={
+                Actions.features(
+                  this.props.planStatus,
+                  this.props.config
+                ).PUBLICATION.isActive() &&
+                this.props.publicationStatus.isPublished
+              }
+            >
+              <Chip isSolo>
+                {this.props.locals.publication.statusPublished}
+              </Chip>
+            </Feature>
             <Input
               id="update-palette-name"
               type="TEXT"

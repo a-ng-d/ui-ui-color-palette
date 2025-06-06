@@ -616,7 +616,12 @@ export default class Preview extends PureComponent<
             </div>
           }
           rightPartSlot={
-            <div className={layouts['snackbar--medium']}>
+            <div
+              className={layouts['snackbar--medium']}
+              style={{
+                justifyContent: 'end',
+              }}
+            >
               <Feature
                 isActive={Preview.features(
                   this.props.planStatus,
@@ -1040,6 +1045,7 @@ export default class Preview extends PureComponent<
             </div>
           }
           isInverted
+          shouldReflow
         />
         {!this.state.isDrawerCollapsed && (
           <div className="preview__palette">

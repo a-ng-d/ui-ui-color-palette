@@ -380,6 +380,7 @@
     "statusNotFound": "Not found",
     "statusRemoteChanges": "Remote changes",
     "statusShared": "Shared",
+    "statusPublished": "Published",
     "statusUnpublished": "Unpublished",
     "statusUptoDate": "No change",
     "statusWaiting": "Pending…",
