@@ -1039,6 +1039,7 @@ export default class Preview extends PureComponent<
               )}
             </div>
           }
+          isInverted
         />
         {!this.state.isDrawerCollapsed && (
           <div className="preview__palette">
