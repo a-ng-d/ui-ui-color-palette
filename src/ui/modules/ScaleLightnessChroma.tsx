@@ -279,8 +279,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
-      console.log(this.scaleMessage.data)
-
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
