@@ -997,7 +997,6 @@ class App extends Component<AppProps, AppStates> {
               {...this.props}
               {...this.state}
               onChangeScale={(e) => this.setState({ ...e })}
-              onChangeStop={(e) => this.setState({ ...e })}
               onChangePreset={(e) => this.setState({ ...e })}
               onChangeDistributionEasing={(e) => this.setState({ ...e })}
               onChangeColors={(e) => this.setState({ ...e })}

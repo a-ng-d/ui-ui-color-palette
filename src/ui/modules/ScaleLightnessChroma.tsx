@@ -45,7 +45,6 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onChangePreset: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void
-  onChangeStop: () => void
   onAddStop: React.Dispatch<Partial<AppStates>>
   onRemoveStop: React.Dispatch<Partial<AppStates>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
@@ -244,7 +243,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeStop()
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
@@ -281,7 +279,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
-      this.props.onChangeStop()
+      console.log(this.scaleMessage.data)
+
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
