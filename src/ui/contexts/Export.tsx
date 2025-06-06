@@ -1,5 +1,6 @@
 import type { DropdownOption } from '@a_ng_d/figmug-ui'
 import {
+  Bar,
   Dropdown,
   Input,
   Layout,
@@ -666,7 +667,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             {
               node: (
                 <>
-                  <SimpleItem
+                  <Bar
                     id="export-palette"
                     leftPartSlot={
                       <SectionTitle
@@ -980,7 +981,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                         )}
                       </div>
                     }
-                    alignment="BASELINE"
                   />
                   {this.state.format === 'EXPORT_TOKENS_DTCG' && (
                     <div className="export-palette__info">

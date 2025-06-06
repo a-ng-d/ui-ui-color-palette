@@ -39,7 +39,7 @@ interface ActionsProps extends BaseProps, WithConfigProps {
   creatorIdentity?: CreatorConfiguration
   exportType?: string
   document?: DocumentConfiguration
-  publicationStatus: PublicationConfiguration
+  publicationStatus?: PublicationConfiguration
   isPrimaryLoading?: boolean
   isSecondaryLoading?: boolean
   onCreatePalette?: React.MouseEventHandler<HTMLButtonElement> &
@@ -591,7 +591,7 @@ export default class Actions extends PureComponent<
                   this.props.planStatus,
                   this.props.config
                 ).PUBLICATION.isActive() &&
-                this.props.publicationStatus.isPublished
+                this.props.publicationStatus?.isPublished
               }
             >
               <Chip isSolo>
