@@ -257,7 +257,6 @@ export default class PriorityContainer extends PureComponent<
   }
 
   Notification = () => {
-    console.log(this.props.notification)
     return (
       <Feature
         isActive={PriorityContainer.features(

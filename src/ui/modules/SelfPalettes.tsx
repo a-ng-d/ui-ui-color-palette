@@ -10,6 +10,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import {
   BaseConfiguration,
+  Data,
   MetaConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
@@ -136,10 +137,10 @@ export default class SelfPalettes extends PureComponent<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
-          'palette_id, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
         )
         .eq('creator_id', this.props.userSession.userId)
         .order('published_at', { ascending: false })
@@ -149,10 +150,10 @@ export default class SelfPalettes extends PureComponent<
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
-          'palette_id, name, preset, colors, themes, creator_avatar, creator_full_name, creator_id, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
         )
         .eq('creator_id', this.props.userSession.userId)
         .order('published_at', { ascending: false })
@@ -317,253 +318,332 @@ export default class SelfPalettes extends PureComponent<
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
-          this.props.palettesList.map((palette, index: number) => (
-            <ActionsItem
-              id={palette.palette_id}
-              key={`palette-${index}`}
-              name={palette.name}
-              description={palette.preset?.name}
-              subdescription={getPaletteMeta(
-                palette.colors ?? [],
-                palette.themes ?? []
-              )}
-              indicator={
-                palette.is_shared
-                  ? {
-                      status: 'ACTIVE',
-                      label: this.props.locals.publication.statusShared,
-                    }
-                  : undefined
-              }
-              actionsSlot={
-                <>
-                  <Menu
-                    id="publication-options"
-                    icon="ellipses"
-                    options={[
-                      {
-                        label: this.props.locals.publication.unpublish,
-                        type: 'OPTION',
-                        isActive: true,
-                        isBlocked: false,
-                        isNew: false,
-                        action: async () => {
-                          this.setState({
-                            isContextActionLoading:
-                              this.state.isContextActionLoading.map(
-                                (loading, i) => (i === index ? true : loading)
-                              ),
-                          })
-                          unpublishPalette({
-                            rawData: {
+          this.props.palettesList.map((palette, index: number) => {
+            const enabledThemeIndex = palette.themes.findIndex(
+              (theme) => theme.isEnabled
+            )
+
+            const data = new Data({
+              base: {
+                name: palette.name,
+                description: palette.description,
+                preset: palette.preset,
+                shift: palette.shift,
+                areSourceColorsLocked: palette.are_source_colors_locked,
+                colors: palette.colors,
+                colorSpace: palette.color_space,
+                algorithmVersion: palette.algorithm_version,
+              },
+              themes: palette.themes,
+            }).makePaletteData()
+            return (
+              <ActionsItem
+                id={palette.palette_id}
+                key={`palette-${index}`}
+                name={palette.name}
+                description={palette.preset?.name}
+                subdescription={getPaletteMeta(
+                  palette.colors ?? [],
+                  palette.themes ?? []
+                )}
+                indicator={
+                  palette.is_shared
+                    ? {
+                        status: 'ACTIVE',
+                        label: this.props.locals.publication.statusShared,
+                      }
+                    : undefined
+                }
+                actionsSlot={
+                  <>
+                    <Menu
+                      id="publication-options"
+                      icon="ellipses"
+                      options={[
+                        {
+                          label: this.props.locals.publication.unpublish,
+                          type: 'OPTION',
+                          isActive: true,
+                          isBlocked: false,
+                          isNew: false,
+                          action: async () => {
+                            this.setState({
+                              isContextActionLoading:
+                                this.state.isContextActionLoading.map(
+                                  (loading, i) => (i === index ? true : loading)
+                                ),
+                            })
+                            unpublishPalette({
+                              rawData: {
+                                id: palette.palette_id,
+                                userSession: this.props.userSession,
+                              },
+                              palettesDbTableName:
+                                this.props.config.dbs.palettesDbTableName,
+                              isRemote: true,
+                            })
+                              .then(() => {
+                                const currentPalettesList =
+                                  this.props.palettesList.filter(
+                                    (pal) =>
+                                      pal.palette_id !== palette.palette_id
+                                  )
+
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'SUCCESS',
+                                        message:
+                                          this.props.locals.success
+                                            .nonPublication,
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+                                this.props.onLoadPalettesList(
+                                  currentPalettesList
+                                )
+
+                                if (currentPalettesList.length === 0)
+                                  this.props.onChangeStatus('EMPTY')
+                                if (
+                                  currentPalettesList.length <
+                                  this.props.config.limits.pageSize
+                                )
+                                  this.props.onChangeCurrentPage(1)
+
+                                trackPublicationEvent(
+                                  this.props.userIdentity.id,
+                                  this.props.userConsent.find(
+                                    (consent) => consent.id === 'mixpanel'
+                                  )?.isConsented ?? false,
+                                  {
+                                    feature: 'UNPUBLISH_PALETTE',
+                                  }
+                                )
+                              })
+                              .finally(() => {
+                                this.setState({
+                                  isContextActionLoading:
+                                    this.state.isContextActionLoading.map(
+                                      (loading, i) =>
+                                        i === index ? false : loading
+                                    ),
+                                })
+                              })
+                              .catch(() => {
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'ERROR',
+                                        message:
+                                          this.props.locals.error
+                                            .nonPublication,
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+                              })
+                          },
+                        },
+                        {
+                          label: palette.is_shared
+                            ? this.props.locals.publication.unshare
+                            : this.props.locals.publication.share,
+                          type: 'OPTION',
+                          isActive: true,
+                          isBlocked: false,
+                          isNew: false,
+                          action: async () => {
+                            this.setState({
+                              isContextActionLoading:
+                                this.state.isContextActionLoading.map(
+                                  (loading, i) => (i === index ? true : loading)
+                                ),
+                            })
+                            sharePalette({
                               id: palette.palette_id,
-                              userSession: this.props.userSession,
-                            },
-                            palettesDbTableName:
-                              this.props.config.dbs.palettesDbTableName,
-                            isRemote: true,
-                          })
-                            .then(() => {
-                              const currentPalettesList =
-                                this.props.palettesList.filter(
-                                  (pal) => pal.palette_id !== palette.palette_id
+                              palettesDbTableName:
+                                this.props.config.dbs.palettesDbTableName,
+                              isShared: !palette.is_shared,
+                            })
+                              .then(() => {
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'SUCCESS',
+                                        message: !palette.is_shared
+                                          ? this.props.locals.success.share
+                                          : this.props.locals.success.unshare,
+                                      },
+                                    },
+                                  },
+                                  '*'
                                 )
 
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'SUCCESS',
-                                      message:
-                                        this.props.locals.success
-                                          .nonPublication,
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                              this.props.onLoadPalettesList(currentPalettesList)
-
-                              if (currentPalettesList.length === 0)
-                                this.props.onChangeStatus('EMPTY')
-                              if (
-                                currentPalettesList.length <
-                                this.props.config.limits.pageSize
-                              )
-                                this.props.onChangeCurrentPage(1)
-
-                              trackPublicationEvent(
-                                this.props.userIdentity.id,
-                                this.props.userConsent.find(
-                                  (consent) => consent.id === 'mixpanel'
-                                )?.isConsented ?? false,
-                                {
-                                  feature: 'UNPUBLISH_PALETTE',
-                                }
-                              )
-                            })
-                            .finally(() => {
-                              this.setState({
-                                isContextActionLoading:
-                                  this.state.isContextActionLoading.map(
-                                    (loading, i) =>
-                                      i === index ? false : loading
-                                  ),
-                              })
-                            })
-                            .catch(() => {
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'ERROR',
-                                      message:
-                                        this.props.locals.error.nonPublication,
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                            })
-                        },
-                      },
-                      {
-                        label: palette.is_shared
-                          ? this.props.locals.publication.unshare
-                          : this.props.locals.publication.share,
-                        type: 'OPTION',
-                        isActive: true,
-                        isBlocked: false,
-                        isNew: false,
-                        action: async () => {
-                          this.setState({
-                            isContextActionLoading:
-                              this.state.isContextActionLoading.map(
-                                (loading, i) => (i === index ? true : loading)
-                              ),
-                          })
-                          sharePalette({
-                            id: palette.palette_id,
-                            palettesDbTableName:
-                              this.props.config.dbs.palettesDbTableName,
-                            isShared: !palette.is_shared,
-                          })
-                            .then(() => {
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'SUCCESS',
-                                      message: !palette.is_shared
-                                        ? this.props.locals.success.share
-                                        : this.props.locals.success.unshare,
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-
-                              const currentPalettesList =
-                                this.props.palettesList.map((pal) =>
-                                  pal.palette_id === palette.palette_id
-                                    ? {
-                                        ...pal,
-                                        is_shared: !pal.is_shared,
-                                      }
-                                    : pal
+                                const currentPalettesList =
+                                  this.props.palettesList.map((pal) =>
+                                    pal.palette_id === palette.palette_id
+                                      ? {
+                                          ...pal,
+                                          is_shared: !pal.is_shared,
+                                        }
+                                      : pal
+                                  )
+                                this.props.onLoadPalettesList(
+                                  currentPalettesList
                                 )
-                              this.props.onLoadPalettesList(currentPalettesList)
 
-                              trackPublicationEvent(
-                                this.props.userIdentity.id,
-                                this.props.userConsent.find(
-                                  (consent) => consent.id === 'mixpanel'
-                                )?.isConsented ?? false,
-                                {
-                                  feature: 'SHARE_PALETTE',
-                                }
-                              )
-                            })
-                            .finally(() => {
-                              this.setState({
-                                isContextActionLoading:
-                                  this.state.isContextActionLoading.map(
-                                    (loading, i) =>
-                                      i === index ? false : loading
-                                  ),
+                                trackPublicationEvent(
+                                  this.props.userIdentity.id,
+                                  this.props.userConsent.find(
+                                    (consent) => consent.id === 'mixpanel'
+                                  )?.isConsented ?? false,
+                                  {
+                                    feature: 'SHARE_PALETTE',
+                                  }
+                                )
                               })
-                            })
-                            .catch(() => {
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'ERROR',
-                                      message: !palette.is_shared
-                                        ? this.props.locals.error.share
-                                        : this.props.locals.error.unshare,
+                              .finally(() => {
+                                this.setState({
+                                  isContextActionLoading:
+                                    this.state.isContextActionLoading.map(
+                                      (loading, i) =>
+                                        i === index ? false : loading
+                                    ),
+                                })
+                              })
+                              .catch(() => {
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'ERROR',
+                                        message: !palette.is_shared
+                                          ? this.props.locals.error.share
+                                          : this.props.locals.error.unshare,
+                                      },
                                     },
                                   },
-                                },
-                                '*'
-                              )
-                            })
+                                  '*'
+                                )
+                              })
+                          },
                         },
-                      },
-                    ]}
-                    state={
-                      this.state.isContextActionLoading[index]
-                        ? 'LOADING'
-                        : 'DEFAULT'
-                    }
-                    alignment="BOTTOM_RIGHT"
-                    helper={{
-                      label: this.props.locals.palettes.actions.managePalette,
-                    }}
-                  />
-                  <Button
-                    type="secondary"
-                    label={this.props.locals.actions.addToLocal}
-                    isLoading={this.state.isAddToLocalActionLoading[index]}
-                    action={() => {
-                      this.setState({
-                        isAddToLocalActionLoading: this.state[
-                          'isAddToLocalActionLoading'
-                        ].map((loading, i) => (i === index ? true : loading)),
-                      })
-                      this.onSelectPalette(palette.palette_id)
-                        .finally(() => {
-                          this.setState({
-                            isAddToLocalActionLoading: Array(
-                              this.props.palettesList.length
-                            ).fill(false),
-                          })
+                      ]}
+                      state={
+                        this.state.isContextActionLoading[index]
+                          ? 'LOADING'
+                          : 'DEFAULT'
+                      }
+                      alignment="BOTTOM_RIGHT"
+                      helper={{
+                        label: this.props.locals.palettes.actions.managePalette,
+                      }}
+                    />
+                    <Button
+                      type="secondary"
+                      label={this.props.locals.actions.addToLocal}
+                      isLoading={this.state.isAddToLocalActionLoading[index]}
+                      action={() => {
+                        this.setState({
+                          isAddToLocalActionLoading: this.state[
+                            'isAddToLocalActionLoading'
+                          ].map((loading, i) => (i === index ? true : loading)),
                         })
-                        .catch(() =>
-                          parent.postMessage(
-                            {
-                              pluginMessage: {
-                                type: 'POST_MESSAGE',
-                                data: {
-                                  type: 'ERROR',
+                        this.onSelectPalette(palette.palette_id)
+                          .finally(() => {
+                            this.setState({
+                              isAddToLocalActionLoading: Array(
+                                this.props.palettesList.length
+                              ).fill(false),
+                            })
+                          })
+                          .catch(() =>
+                            parent.postMessage(
+                              {
+                                pluginMessage: {
+                                  type: 'POST_MESSAGE',
+                                  data: {
+                                    type: 'ERROR',
 
-                                  message: this.props.locals.error.addToLocal,
+                                    message: this.props.locals.error.addToLocal,
+                                  },
                                 },
                               },
-                            },
-                            '*'
+                              '*'
+                            )
                           )
-                        )
+                      }}
+                    />
+                  </>
+                }
+                complementSlot={
+                  <div
+                    style={{
+                      borderRadius: 'var(--border-radius-med)',
+                      overflow: 'hidden',
                     }}
-                  />
-                </>
-              }
-            />
-          ))}
+                    className="preview__rows"
+                  >
+                    {data.themes[enabledThemeIndex].colors.map(
+                      (color, index) => (
+                        <div
+                          key={`color-${index}`}
+                          className="preview__row"
+                        >
+                          {color.shades.map((shade, shadeIndex) => (
+                            <div
+                              key={`color-${index}-${shadeIndex}`}
+                              className="preview__cell preview__cell--compact"
+                            >
+                              <div
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  position: 'absolute',
+                                  zIndex: '1',
+                                  top: 0,
+                                  left: 0,
+                                  backgroundColor: shade.hex,
+                                }}
+                              />
+                              {shade.backgroundColor !== undefined && (
+                                <div
+                                  style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    position: 'absolute',
+                                    zIndex: '0',
+                                    top: 0,
+                                    left: 0,
+                                    backgroundColor: Array.isArray(
+                                      shade.backgroundColor
+                                    )
+                                      ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
+                                      : undefined,
+                                  }}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    )}
+                  </div>
+                }
+              />
+            )
+          })}
         {fragment}
       </List>
     )

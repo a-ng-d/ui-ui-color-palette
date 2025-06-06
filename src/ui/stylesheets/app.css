@@ -101,6 +101,10 @@ div.export-palette__preview textarea {
   min-height: unset;
 }
 
+.preview__cell--compact {
+  min-height: var(--size-xxsmall);
+}
+
 /* Box resizer grip */
 .box-resizer-grip {
   display: flex;

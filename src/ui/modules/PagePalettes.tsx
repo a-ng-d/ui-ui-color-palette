@@ -326,7 +326,7 @@ export default class PagePalettes extends PureComponent<
                               {color.shades.map((shade, shadeIndex) => (
                                 <div
                                   key={`color-${index}-${shadeIndex}`}
-                                  className="preview__cell"
+                                  className="preview__cell preview__cell--compact"
                                 >
                                   <div
                                     style={{
