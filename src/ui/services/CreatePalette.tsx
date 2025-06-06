@@ -292,27 +292,22 @@ export default class CreatePalette extends PureComponent<
     return (
       <>
         <Bar
-          soloPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--tight'],
-                'context-switcher',
-              ])}
-            >
-              <Button
-                type="icon"
-                icon="back"
-                action={this.onCancelPalette}
-              />
-              <Tabs
-                tabs={this.contexts}
-                active={this.state.context ?? ''}
-                isFlex
-                action={this.navHandler}
-              />
-            </div>
+          leftPartSlot={
+            <Button
+              type="icon"
+              icon="back"
+              action={this.onCancelPalette}
+            />
           }
-          isFullWidth
+          rightPartSlot={
+            <Tabs
+              tabs={this.contexts}
+              active={this.state.context ?? ''}
+              isFlex
+              action={this.navHandler}
+            />
+          }
+          isInverted
         />
         <section className="context">{fragment}</section>
         <Feature

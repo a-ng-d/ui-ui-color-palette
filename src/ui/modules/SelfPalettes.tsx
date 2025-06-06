@@ -298,6 +298,7 @@ export default class SelfPalettes extends PureComponent<
           this.props.status === 'EMPTY' ||
           this.props.status === 'NO_RESULT'
         }
+        isFullHeight
       >
         {this.props.status === 'ERROR' && (
           <SemanticMessage

@@ -203,6 +203,7 @@ export default class PagePalettes extends PureComponent<
       <List
         isLoading={this.state.paletteListsStatus === 'LOADING'}
         isMessage={this.state.paletteListsStatus === 'EMPTY'}
+        isFullHeight
       >
         {this.state.paletteListsStatus === 'LOADED' && (
           <>

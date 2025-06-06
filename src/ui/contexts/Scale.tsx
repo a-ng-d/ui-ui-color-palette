@@ -1,4 +1,5 @@
 import {
+  Bar,
   Button,
   Dialog,
   Dropdown,
@@ -539,7 +540,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.config
                   ).SCALE_HELPER.isActive()}
                 >
-                  <SimpleItem
+                  <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
@@ -591,7 +592,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
-                    alignment="BASELINE"
+                    shouldReflow
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>
@@ -639,7 +640,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.config
                   ).SCALE_HELPER.isActive()}
                 >
-                  <SimpleItem
+                  <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
@@ -691,7 +692,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
-                    alignment="BASELINE"
+                    shouldReflow
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>

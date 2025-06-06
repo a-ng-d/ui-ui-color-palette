@@ -301,12 +301,13 @@ export default class Explore extends PureComponent<
             node: (
               <>
                 <Bar
-                  leftPartSlot={
+                  soloPartSlot={
                     <FormItem
                       id="explore-filters"
                       label={
                         this.props.locals.source.colourLovers.filters.label
                       }
+                      shouldFill={false}
                     >
                       <Dropdown
                         id="explore-filters"
