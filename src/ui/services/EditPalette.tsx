@@ -78,7 +78,6 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   document: DocumentConfiguration
   dates: DatesConfiguration
   onChangeScale: React.Dispatch<Partial<AppStates>>
-  onChangeStop: React.Dispatch<Partial<AppStates>>
   onChangePreset: React.Dispatch<Partial<AppStates>>
   onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
   onChangeColors: React.Dispatch<Partial<AppStates>>
@@ -226,30 +225,6 @@ export default class EditPalette extends PureComponent<
         return theme
       }),
       onGoingStep: 'scale changed',
-    })
-
-  customSlideHandler = () =>
-    this.props.onChangeStop({
-      preset:
-        Object.keys(this.palette.get().preset).length === 0
-          ? this.props.preset
-          : this.palette.get().preset,
-      scale: this.palette.get().scale,
-      themes: this.props.themes.map((theme: ThemeConfiguration) => {
-        if (theme.isEnabled) theme.scale = this.palette.get().scale
-        else
-          theme.scale = doScale(
-            Object.keys(this.palette.get().scale).map((stop) => {
-              return parseFloat(stop)
-            }),
-            theme.scale[
-              Object.keys(theme.scale)[Object.keys(theme.scale).length - 1]
-            ],
-            theme.scale[Object.keys(theme.scale)[0]]
-          )
-        return theme
-      }),
-      onGoingStep: 'stops changed',
     })
 
   shiftHandler = (feature?: string, state?: string, value?: number) => {
@@ -504,7 +479,6 @@ export default class EditPalette extends PureComponent<
             {...this.props}
             service="EDIT"
             onChangeScale={this.slideHandler}
-            onChangeStop={this.customSlideHandler}
             onChangeShift={this.shiftHandler}
           />
         )
@@ -593,7 +567,6 @@ export default class EditPalette extends PureComponent<
               </Feature>
             </div>
           }
-          isFullWidth
         />
         <section className="context">{fragment}</section>
         <Feature

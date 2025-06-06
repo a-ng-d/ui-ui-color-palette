@@ -343,6 +343,23 @@ export default class PriorityContainer extends PureComponent<
   }
 
   Preference = () => {
+    const theme = document.documentElement.getAttribute('data-theme')
+    let padding
+
+    switch (theme) {
+      case 'penpot':
+        padding = '0 var(--size-xxsmall)'
+        break
+      case 'figma-ui2':
+        padding = 'var(--size-xxsmall)'
+        break
+      case 'figma-ui3':
+        padding = 'var(--size-xxsmall)'
+        break
+      default:
+        padding = 'var(--size-xxsmall)'
+    }
+
     return (
       <Feature isActive={true}>
         <Dialog
@@ -350,7 +367,7 @@ export default class PriorityContainer extends PureComponent<
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <List>
+          <List padding={padding}>
             <SyncPreferences {...this.props} />
           </List>
         </Dialog>

@@ -1,4 +1,5 @@
 import {
+  FormItem,
   Section,
   SectionTitle,
   Select,
@@ -181,10 +182,18 @@ export default class SyncPreferences extends PureComponent<
         }
         body={[
           {
-            node: <this.StylesDeepSync />,
+            node: (
+              <FormItem shouldFill>
+                <this.StylesDeepSync />
+              </FormItem>
+            ),
           },
           {
-            node: <this.VariablesDeepSync />,
+            node: (
+              <FormItem shouldFill>
+                <this.VariablesDeepSync />
+              </FormItem>
+            ),
           },
           {
             node: (

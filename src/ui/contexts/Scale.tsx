@@ -401,6 +401,23 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   }
 
   KeyboardShortcuts = () => {
+    const theme = document.documentElement.getAttribute('data-theme')
+    let padding
+
+    switch (theme) {
+      case 'penpot':
+        padding = '0 var(--size-xxsmall)'
+        break
+      case 'figma-ui2':
+        padding = 'var(--size-xxsmall)'
+        break
+      case 'figma-ui3':
+        padding = 'var(--size-xxsmall)'
+        break
+      default:
+        padding = 'var(--size-xxsmall)'
+    }
+
     const isMacOrWinKeyboard =
       navigator.userAgent.indexOf('Mac') !== -1 ? '⌘' : '⌃'
 
@@ -422,85 +439,87 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           })
         }
       >
-        <Layout
-          id="keyboard-shortcuts"
-          column={[
-            {
-              node: (
-                <List>
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.move}
-                    shortcuts={[[isMacOrWinKeyboard, 'drag']]}
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.distribute}
-                    shortcuts={[['⇧', 'drag']]}
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.select}
-                    shortcuts={[['click']]}
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.unselect}
-                    shortcuts={[['⎋ Esc']]}
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.navPrevious}
-                    shortcuts={[['⇧', '⇥ Tab']]}
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.navNext}
-                    shortcuts={[['⇥ Tab']]}
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.type}
-                    shortcuts={[['db click'], ['↩︎ Enter']]}
-                    separator="or"
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.shiftLeft}
-                    shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
-                    separator="or"
-                  />
-                  <KeyboardShortcutItem
-                    label={this.props.locals.scale.tips.shiftRight}
-                    shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
-                    separator="or"
-                  />
-                </List>
-              ),
-              typeModifier: 'DISTRIBUTED',
-            },
-            {
-              node:
-                this.props.service === 'EDIT' ? (
-                  <>
-                    <SimpleItem
-                      id="watch-custom-keyboard-shortcuts"
-                      leftPartSlot={
-                        <SectionTitle
-                          label={this.props.locals.scale.tips.custom}
-                        />
-                      }
-                      alignment="CENTER"
+        <div style={{ flex: 1, padding: padding }}>
+          <Layout
+            id="keyboard-shortcuts"
+            column={[
+              {
+                node: (
+                  <List>
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.move}
+                      shortcuts={[[isMacOrWinKeyboard, 'drag']]}
                     />
-                    <List>
-                      <KeyboardShortcutItem
-                        label={this.props.locals.scale.tips.add}
-                        shortcuts={[['click']]}
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.distribute}
+                      shortcuts={[['⇧', 'drag']]}
+                    />
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.select}
+                      shortcuts={[['click']]}
+                    />
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.unselect}
+                      shortcuts={[['⎋ Esc']]}
+                    />
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.navPrevious}
+                      shortcuts={[['⇧', '⇥ Tab']]}
+                    />
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.navNext}
+                      shortcuts={[['⇥ Tab']]}
+                    />
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.type}
+                      shortcuts={[['db click'], ['↩︎ Enter']]}
+                      separator="or"
+                    />
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.shiftLeft}
+                      shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
+                      separator="or"
+                    />
+                    <KeyboardShortcutItem
+                      label={this.props.locals.scale.tips.shiftRight}
+                      shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
+                      separator="or"
+                    />
+                  </List>
+                ),
+                typeModifier: 'DISTRIBUTED',
+              },
+              {
+                node:
+                  this.props.service === 'EDIT' ? (
+                    <>
+                      <SimpleItem
+                        id="watch-custom-keyboard-shortcuts"
+                        leftPartSlot={
+                          <SectionTitle
+                            label={this.props.locals.scale.tips.custom}
+                          />
+                        }
+                        alignment="CENTER"
                       />
-                      <KeyboardShortcutItem
-                        label={this.props.locals.scale.tips.remove}
-                        shortcuts={[['⌫']]}
-                      />
-                    </List>
-                  </>
-                ) : undefined,
-              typeModifier: 'LIST',
-            },
-          ]}
-          isFullWidth
-        />
+                      <List>
+                        <KeyboardShortcutItem
+                          label={this.props.locals.scale.tips.add}
+                          shortcuts={[['click']]}
+                        />
+                        <KeyboardShortcutItem
+                          label={this.props.locals.scale.tips.remove}
+                          shortcuts={[['⌫']]}
+                        />
+                      </List>
+                    </>
+                  ) : undefined,
+                typeModifier: 'LIST',
+              },
+            ]}
+            isFullWidth
+          />
+        </div>
       </Dialog>,
       document.getElementById('modal') ?? document.createElement('app')
     )
