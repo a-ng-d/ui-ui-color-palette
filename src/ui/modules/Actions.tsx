@@ -478,6 +478,11 @@ export default class Actions extends PureComponent<
               placeholder={this.props.locals.name}
               value={this.props.name !== '' ? this.props.name : ''}
               charactersLimit={64}
+              helper={{
+                label: this.props.locals.settings.actions.paletteName,
+                pin: 'TOP',
+                type: 'SINGLE_LINE',
+              }}
               isBlocked={Actions.features(
                 this.props.planStatus,
                 this.props.config
@@ -604,6 +609,11 @@ export default class Actions extends PureComponent<
               placeholder={this.props.locals.name}
               value={this.props.name !== '' ? this.props.name : ''}
               charactersLimit={64}
+              helper={{
+                label: this.props.locals.settings.actions.paletteName,
+                pin: 'TOP',
+                type: 'SINGLE_LINE',
+              }}
               isBlocked={Actions.features(
                 this.props.planStatus,
                 this.props.config

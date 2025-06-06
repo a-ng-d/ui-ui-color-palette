@@ -74,7 +74,9 @@
     "actions": {
       "moreParameters": "More parameters",
       "removeColor": "Remove color",
-      "new": "New UI Color"
+      "new": "New UI Color",
+      "colorName": "Color name",
+      "shiftHue": "Shift hue"
     },
     "backgroundColor": {
       "label": "Background"
@@ -492,6 +494,9 @@
   },
   "separator": "・",
   "settings": {
+    "actions": {
+      "paletteName": "Palette name"
+    },
     "color": {
       "algorithmVersion": {
         "label": "Chroma velocity",
@@ -546,7 +551,7 @@
       "name": {
         "default": "Untitled",
         "self": "{$1}'s UI Color Palette",
-        "label": "Name"
+        "label": "Palette name"
       },
       "title": "Global",
       "views": {
@@ -649,7 +654,8 @@
     "actions": {
       "moreParameters": "More parameters",
       "removeColor": "Remove mode",
-      "new": "New UI Mode"
+      "new": "New UI Mode",
+      "themeName": "Mode name"
     },
     "callout": {
       "cta": "Create a color mode",

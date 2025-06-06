@@ -481,6 +481,12 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   value={theme.name}
                                   feature="RENAME_THEME"
                                   charactersLimit={24}
+                                  helper={{
+                                    label:
+                                      this.props.locals.themes.actions
+                                        .themeName,
+                                    type: 'SINGLE_LINE',
+                                  }}
                                   isBlocked={Themes.features(
                                     this.props.planStatus,
                                     this.props.config

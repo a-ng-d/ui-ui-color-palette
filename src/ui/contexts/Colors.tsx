@@ -655,6 +655,11 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 value={color.name}
                                 charactersLimit={24}
                                 feature="RENAME_COLOR"
+                                helper={{
+                                  label:
+                                    this.props.locals.colors.actions.colorName,
+                                  type: 'SINGLE_LINE',
+                                }}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config
@@ -716,6 +721,11 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 min="-180"
                                 max="180"
                                 feature="SHIFT_HUE"
+                                helper={{
+                                  label:
+                                    this.props.locals.colors.actions.shiftHue,
+                                  type: 'SINGLE_LINE',
+                                }}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config
