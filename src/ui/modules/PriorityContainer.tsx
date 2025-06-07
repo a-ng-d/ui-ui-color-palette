@@ -623,7 +623,10 @@ export default class PriorityContainer extends PureComponent<
           </div>
           <div className="dialog__text">
             <p className={texts.type}>
-              {this.props.locals.proPlan.welcome.trial}
+              {this.props.locals.proPlan.welcome.trial.replace(
+                '{$1}',
+                this.props.config.plan.trialTime
+              )}
             </p>
           </div>
         </Dialog>
