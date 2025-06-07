@@ -542,13 +542,27 @@ export default class PriorityContainer extends PureComponent<
         ).GET_PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locals.proPlan.trial.title}
+          title={this.props.locals.proPlan.trial.title.replace(
+            '{$1}',
+            this.props.config.plan.trialTime
+          )}
           actions={{
             primary: {
-              label: this.props.locals.proPlan.trial.cta,
+              label: this.props.locals.proPlan.trial.cta.replace(
+                '{$1}',
+                this.props.config.plan.trialTime
+              ),
               action: () =>
                 parent.postMessage(
-                  { pluginMessage: { type: 'ENABLE_TRIAL' } },
+                  {
+                    pluginMessage: {
+                      type: 'ENABLE_TRIAL',
+                      data: {
+                        trialTime: this.props.config.plan.trialTime,
+                        trialVersion: this.props.config.versions.trialVersion,
+                      },
+                    },
+                  },
                   '*'
                 ),
             },

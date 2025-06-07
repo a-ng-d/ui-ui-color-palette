@@ -29,6 +29,7 @@ import {
   trackEditorEvent,
   trackExportEvent,
   trackPurchaseEvent,
+  trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../utils/eventsTracker'
 import { userConsent } from '../utils/userConsent'
@@ -794,6 +795,23 @@ class App extends Component<AppProps, AppStates> {
           )
         }
 
+        const enableTrial = () => {
+          this.setState({
+            planStatus: 'PAID',
+            trialStatus: 'PENDING',
+            priorityContainerContext: 'WELCOME_TO_TRIAL',
+          })
+          trackTrialEnablementEvent(
+            path.data.id,
+            this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false,
+            {
+              date: path.data.date,
+              trialTime: path.data.trialTime,
+            }
+          )
+        }
+
         const signOut = (data: UserSession) =>
           this.setState({
             userSession: data,
@@ -825,6 +843,7 @@ class App extends Component<AppProps, AppStates> {
           EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
           UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
           GET_PRO_PLAN: () => getProPlan(),
+          ENABLE_TRIAL: () => enableTrial(),
           SIGN_OUT: () => signOut(path?.data),
           DEFAULT: () => null,
         }

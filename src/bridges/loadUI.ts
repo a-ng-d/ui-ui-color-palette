@@ -8,6 +8,7 @@ import createPaletteFromDuplication from './creations/createFromDuplication'
 import createFromRemote from './creations/createFromRemote'
 import createPalette from './creations/createPalette'
 import deletePalette from './creations/deletePalette'
+import enableTrial from './enableTrial'
 import exportCss from './exports/exportCss'
 import exportCsv from './exports/exportCsv'
 import exportJson from './exports/exportJson'
@@ -256,6 +257,10 @@ window.addEventListener('message', async (msg: any) => {
         }),
     //
     GET_PRO_PLAN: async () => await getProPlan(),
+    ENABLE_TRIAL: async () => {
+      await enableTrial(path.data.trialTime, path.data.trialVersion)
+      await checkPlanStatus()
+    },
     SIGN_OUT: () =>
       iframe?.contentWindow?.postMessage({
         type: 'SIGN_OUT',

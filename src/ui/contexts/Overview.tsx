@@ -404,8 +404,14 @@ export default class Overview extends PureComponent<
             icon="info"
             messages={[
               this.props.locals.source.canvas.tip
-                .replace('{$1}', 'board/shape')
-                .replace('{$2}', 'Penpot'),
+                .replace(
+                  '{$1}',
+                  this.props.locals.source.nodes[this.props.config.env.platform]
+                )
+                .replace(
+                  '{$2}',
+                  this.props.locals.platform[this.props.config.env.platform]
+                ),
             ]}
           />
         )}

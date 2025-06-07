@@ -630,7 +630,11 @@
         "placeholder": "Paste a link－https://www.realtimecolors.com/…"
       }
     },
-    "title": "Source colors"
+    "title": "Source colors",
+    "nodes": {
+      "penpot": "shape/board",
+      "figma": "shape/frame"
+    }
   },
   "store": {
     "isb": {
@@ -724,5 +728,9 @@
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "paletteNameRecommendation": "64 characters max is recommended",
     "unselectedColor": "Select a layer that is filled with at least one solid color"
+  },
+  "platform": {
+    "figma": "Figma",
+    "penpot": "Penpot"
   }
 }

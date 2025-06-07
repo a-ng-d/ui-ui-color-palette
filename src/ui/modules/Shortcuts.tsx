@@ -33,7 +33,10 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsStates
+> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER: new FeatureStatus({
       features: config.features,
@@ -722,6 +725,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
               {fragment}
             </Feature>
           }
+          shouldReflow
         />
       </>
     )
