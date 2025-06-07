@@ -41,10 +41,6 @@ section.context {
   overflow: hidden;
 }
 
-.context-switcher div:nth-child(2) {
-  flex: 1;
-}
-
 /* Export */
 div.export-palette__preview {
   display: grid;

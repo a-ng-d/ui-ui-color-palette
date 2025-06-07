@@ -254,6 +254,19 @@ export default class CreatePalette extends PureComponent<
   // Renders
   render() {
     let fragment
+    const theme = document.documentElement.getAttribute('data-theme')
+    let isFlex = true
+
+    switch (theme) {
+      case 'penpot':
+        isFlex = true
+        break
+      case 'figma-ui3':
+        isFlex = false
+        break
+      default:
+        isFlex = true
+    }
 
     switch (this.state.context) {
       case 'SOURCE': {
@@ -303,7 +316,7 @@ export default class CreatePalette extends PureComponent<
             <Tabs
               tabs={this.contexts}
               active={this.state.context ?? ''}
-              isFlex
+              isFlex={isFlex}
               action={this.navHandler}
             />
           }

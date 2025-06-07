@@ -351,7 +351,7 @@ export default class PriorityContainer extends PureComponent<
         padding = '0 var(--size-xxsmall)'
         break
       case 'figma-ui3':
-        padding = 'var(--size-xxsmall)'
+        padding = '0'
         break
       default:
         padding = 'var(--size-xxsmall)'
@@ -497,6 +497,9 @@ export default class PriorityContainer extends PureComponent<
               src={isb}
               label={this.props.locals.store.isb.label}
               shouldFill
+              action={() => {
+                window.open(this.props.config.urls.isbUrl, '_blank')?.focus()
+              }}
             >
               <Button
                 type="primary"

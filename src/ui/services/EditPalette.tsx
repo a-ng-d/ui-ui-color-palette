@@ -471,6 +471,19 @@ export default class EditPalette extends PureComponent<
   // Render
   render() {
     let fragment
+    const theme = document.documentElement.getAttribute('data-theme')
+    let isFlex = true
+
+    switch (theme) {
+      case 'penpot':
+        isFlex = true
+        break
+      case 'figma-ui3':
+        isFlex = false
+        break
+      default:
+        isFlex = true
+    }
 
     switch (this.state.context) {
       case 'SCALE': {
@@ -525,13 +538,8 @@ export default class EditPalette extends PureComponent<
     return (
       <>
         <Bar
-          soloPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--tight'],
-                'context-switcher',
-              ])}
-            >
+          leftPartSlot={
+            <div className={doClassnames([layouts['snackbar--tight']])}>
               <Button
                 type="icon"
                 icon="back"
@@ -540,32 +548,34 @@ export default class EditPalette extends PureComponent<
               <Tabs
                 tabs={this.contexts}
                 active={this.state.context ?? ''}
-                isFlex
+                isFlex={isFlex}
                 action={this.navHandler}
               />
-              <Feature
-                isActive={EditPalette.features(
-                  this.props.planStatus,
-                  this.props.config
-                ).THEMES.isActive()}
-              >
-                <FormItem
-                  id="switch-theme"
-                  label={this.props.locals.themes.switchTheme.label}
-                  shouldFill={false}
-                >
-                  <Dropdown
-                    id="switch-theme"
-                    options={this.setThemes()}
-                    selected={
-                      this.props.themes.find((theme) => theme.isEnabled)?.id
-                    }
-                    alignment="RIGHT"
-                    pin="TOP"
-                  />
-                </FormItem>
-              </Feature>
             </div>
+          }
+          rightPartSlot={
+            <Feature
+              isActive={EditPalette.features(
+                this.props.planStatus,
+                this.props.config
+              ).THEMES.isActive()}
+            >
+              <FormItem
+                id="switch-theme"
+                label={this.props.locals.themes.switchTheme.label}
+                shouldFill={false}
+              >
+                <Dropdown
+                  id="switch-theme"
+                  options={this.setThemes()}
+                  selected={
+                    this.props.themes.find((theme) => theme.isEnabled)?.id
+                  }
+                  alignment="RIGHT"
+                  pin="TOP"
+                />
+              </FormItem>
+            </Feature>
           }
         />
         <section className="context">{fragment}</section>
