@@ -17,7 +17,6 @@ export interface ConfigContextType {
     isProEnabled: boolean
     isTrialEnabled: boolean
     trialTime: number
-    oldTrialTime: number
   }
   dbs: {
     palettesDbTableName: string

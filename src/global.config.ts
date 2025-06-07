@@ -111,10 +111,9 @@ const globalConfig: Config = {
     onboardingDbId: import.meta.env.VITE_NOTION_ONBOARDING_ID as string,
   },
   plan: {
-    isProEnabled: false,
-    isTrialEnabled: false,
+    isProEnabled: true,
+    isTrialEnabled: true,
     trialTime: 72,
-    oldTrialTime: 72,
   },
   dbs: {
     palettesDbTableName: isDev ? 'sandbox.palettes' : 'palettes',

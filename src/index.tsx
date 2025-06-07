@@ -61,7 +61,6 @@ root.render(
       isProEnabled: globalConfig.plan.isProEnabled,
       isTrialEnabled: globalConfig.plan.isTrialEnabled,
       trialTime: globalConfig.plan.trialTime,
-      oldTrialTime: globalConfig.plan.oldTrialTime,
     }}
     dbs={{
       palettesDbTableName: globalConfig.dbs.palettesDbTableName,
