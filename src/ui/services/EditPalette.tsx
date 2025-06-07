@@ -539,7 +539,12 @@ export default class EditPalette extends PureComponent<
       <>
         <Bar
           leftPartSlot={
-            <div className={doClassnames([layouts['snackbar--tight']])}>
+            <div
+              className={doClassnames([
+                layouts['snackbar--tight'],
+                isFlex && 'patch-2',
+              ])}
+            >
               <Button
                 type="icon"
                 icon="back"

@@ -41,6 +41,10 @@ section.context {
   overflow: hidden;
 }
 
+.patch-2 div:nth-child(2) {
+  flex: 1;
+}
+
 /* Export */
 div.export-palette__preview {
   display: grid;
