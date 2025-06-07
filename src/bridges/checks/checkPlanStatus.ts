@@ -3,30 +3,26 @@ import globalConfig from '../../global.config'
 const checkPlanStatus = async () => {
   // figma.clientStorage.deleteAsync('trial_start_date')
   // figma.clientStorage.deleteAsync('trial_version')
-  window.localStorage.setItem(
-    'trial_start_date',
-    (new Date().getTime() - 72 * 60 * 60 * 1000).toString()
-  )
+  // window.localStorage.setItem(
+  //  'trial_start_date',
+  //  (new Date().getTime() - 72 * 60 * 60 * 1000).toString()
+  // )
   // figma.payments?.setPaymentStatusInDevelopment({
   //   type: 'UNPAID',
   // })
 
-  globalConfig
-
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
-  const trialStartDate = parseFloat(
-    window.localStorage.getItem('trial_start_date') ||
-      new Date().getTime().toString()
-  )
+  const trialStartDate =
+    window.localStorage.getItem('trial_start_date') !== null
+      ? parseFloat(window.localStorage.getItem('trial_start_date') ?? '0')
+      : null
   const currentTrialVersion: string =
     window.localStorage.getItem('trial_version') || ''
   const currentTrialTime: number = parseFloat(
     window.localStorage.getItem('trial_time') || '72'
   )
-
-  console.log(trialStartDate)
 
   let consumedTime = 0,
     trialStatus = 'UNUSED'
@@ -47,8 +43,6 @@ const checkPlanStatus = async () => {
     else trialStatus = 'PENDING'
   }
 
-  console.log(consumedTime, currentTrialTime, trialStatus)
-
   iframe?.contentWindow?.postMessage({
     type: 'CHECK_PLAN_STATUS',
     data: {
@@ -68,8 +62,6 @@ const checkPlanStatus = async () => {
   return trialStatus === 'PENDING' || !globalConfig.plan.isProEnabled
     ? 'PAID'
     : 'UNPAID'
-
-  return null
 }
 
 export default checkPlanStatus
