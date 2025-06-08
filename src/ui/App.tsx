@@ -987,7 +987,6 @@ class App extends Component<AppProps, AppStates> {
 
   // Render
   render() {
-    console.log($isVsCodeMessageDisplayed.get())
     if (this.state.isLoaded)
       return (
         <main className="ui">
