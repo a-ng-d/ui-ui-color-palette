@@ -340,10 +340,12 @@ export default class Shortcuts extends PureComponent<
                         {
                           label: this.props.locals.user.updatePreferences,
                           type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config
-                          ).USER_PREFERENCES.isActive(),
+                          isActive:
+                            Shortcuts.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).USER_PREFERENCES.isActive() &&
+                            !this.props.editor.includes('dev'),
                           isBlocked: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
@@ -440,10 +442,12 @@ export default class Shortcuts extends PureComponent<
                         {
                           label: this.props.locals.user.updatePreferences,
                           type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config
-                          ).USER_PREFERENCES.isActive(),
+                          isActive:
+                            Shortcuts.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).USER_PREFERENCES.isActive() &&
+                            !this.props.editor.includes('dev'),
                           isBlocked: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
@@ -467,7 +471,7 @@ export default class Shortcuts extends PureComponent<
                   )}
                 </Feature>
                 <Menu
-                  id="shortcuts-menu"
+                  id="help-support-menu"
                   icon="ellipses"
                   options={[
                     {

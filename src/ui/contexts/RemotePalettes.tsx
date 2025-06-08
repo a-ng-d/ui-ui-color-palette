@@ -52,7 +52,8 @@ export default class RemotePalettes extends PureComponent<
     this.contexts = setContexts(
       ['REMOTE_PALETTES_SELF', 'REMOTE_PALETTES_COMMUNITY'],
       props.planStatus,
-      props.config.features
+      props.config.features,
+      props.editor
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',

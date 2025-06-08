@@ -37,8 +37,6 @@ export type Context =
   | 'THEMES'
   | 'EXPORT'
   | 'SETTINGS'
-  | 'SETTINGS_PALETTE'
-  | 'SETTINGS_PREFERENCES'
 
 export type FilterOptions =
   | 'ANY'

@@ -45,6 +45,7 @@
       "deletePalette": "Delete palette",
       "duplicatePalette": "Duplicate palette",
       "editPalette": "Edit palette",
+      "openPalette": "Open palette",
       "new": "New UI Color Palette",
       "moreParameters": "More parameters"
     },
@@ -279,6 +280,13 @@
     "visionSimulation": "Vision simulation: ",
     "wcag": "WCAG 2.1 scores"
   },
+  "dev": {
+    "vscode": {
+        "cta": "Try it out",
+        "message": "UI Color Palette is also available for Visual Studio Code"
+      },
+      "readyForDev": "Ready for development"
+  },
   "palettes": {
     "actions": {
       "managePalette": "Manage palette",
@@ -291,14 +299,6 @@
       "page": "This page",
       "search": "Search palettes",
       "self": "My palettes"
-    },
-    "devMode": {
-      "readyForDev": "Ready for development",
-      "title": "UI Color Palettes on this page",
-      "vscode": {
-        "cta": "Try it out",
-        "message": "UI Color Palette is also available for Visual Studio Code"
-      }
     },
     "lazyLoad": {
       "completeList": "The palettes list is complete",

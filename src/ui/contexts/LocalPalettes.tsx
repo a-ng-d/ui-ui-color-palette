@@ -35,7 +35,8 @@ export default class LocalPalettes extends PureComponent<
     this.contexts = setContexts(
       ['LOCAL_PALETTES_PAGE'],
       props.planStatus,
-      props.config.features
+      props.config.features,
+      props.editor
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',

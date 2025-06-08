@@ -702,7 +702,7 @@ export default class Actions extends PureComponent<
         rightPartSlot={
           <div className={layouts['snackbar--medium']}>
             <Menu
-              id="display-more-actions"
+              id="more-actions"
               type="ICON"
               icon="ellipses"
               options={this.optionsHandler()}
@@ -710,7 +710,7 @@ export default class Actions extends PureComponent<
               state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
             />
             <Menu
-              id="display-main-actions"
+              id="main-actions"
               type="PRIMARY"
               label={this.props.locals.actions.sync}
               options={[

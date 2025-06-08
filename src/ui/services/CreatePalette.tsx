@@ -103,7 +103,8 @@ export default class CreatePalette extends PureComponent<
     this.contexts = setContexts(
       ['SOURCE', 'SCALE', 'SETTINGS'],
       props.planStatus,
-      props.config.features
+      props.config.features,
+      props.editor
     )
     this.state = {
       context:

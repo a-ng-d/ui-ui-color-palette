@@ -1,4 +1,11 @@
-import { Consent, ConsentConfiguration, Icon, layouts } from '@a_ng_d/figmug-ui'
+import {
+  Button,
+  Consent,
+  ConsentConfiguration,
+  Icon,
+  layouts,
+  SemanticMessage,
+} from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Component, createPortal } from 'preact/compat'
 import React from 'react'
@@ -101,6 +108,7 @@ export interface AppStates extends BaseProps {
   mustUserConsent: boolean
   highlight: HighlightDigest
   notification: NotificationMessage
+  isVsCodeMessageDisplayed: boolean
   isLoaded: boolean
   onGoingStep: string
 }
@@ -108,6 +116,7 @@ export interface AppStates extends BaseProps {
 class App extends Component<AppProps, AppStates> {
   private palette: typeof $palette
   private subscribeLanguage: (() => void) | undefined
+  private subsscribeVsCodeMessage: (() => void) | undefined
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     BROWSE: new FeatureStatus({
@@ -123,6 +132,11 @@ class App extends Component<AppProps, AppStates> {
     EDIT: new FeatureStatus({
       features: config.features,
       featureName: 'EDIT',
+      planStatus: planStatus,
+    }),
+    TRANSFER: new FeatureStatus({
+      features: config.features,
+      featureName: 'TRANSFER',
       planStatus: planStatus,
     }),
     CONSENT: new FeatureStatus({
@@ -221,6 +235,7 @@ class App extends Component<AppProps, AppStates> {
         message: '',
         timer: 5000,
       },
+      isVsCodeMessageDisplayed: true,
       isLoaded: false,
       onGoingStep: '',
     }
@@ -243,6 +258,14 @@ class App extends Component<AppProps, AppStates> {
         },
       })
     })
+
+    this.subsscribeVsCodeMessage = $isVsCodeMessageDisplayed.subscribe(
+      (value) => {
+        this.setState({
+          isVsCodeMessageDisplayed: value,
+        })
+      }
+    )
 
     this.setState({
       scale: doScale(
@@ -857,6 +880,7 @@ class App extends Component<AppProps, AppStates> {
 
   componentWillUnmount = () => {
     if (this.subscribeLanguage) this.subscribeLanguage()
+    if (this.subsscribeVsCodeMessage) this.subsscribeVsCodeMessage()
   }
 
   // Handlers
@@ -963,6 +987,7 @@ class App extends Component<AppProps, AppStates> {
 
   // Render
   render() {
+    console.log($isVsCodeMessageDisplayed.get())
     if (this.state.isLoaded)
       return (
         <main className="ui">
@@ -1102,6 +1127,58 @@ class App extends Component<AppProps, AppStates> {
                 isConsented: true,
               }}
               vendorsList={this.state.userConsent}
+            />
+          </Feature>
+          <Feature
+            isActive={
+              App.features(
+                this.state.planStatus,
+                this.props.config
+              ).TRANSFER.isActive() &&
+              this.state.editor === 'dev' &&
+              this.state.isVsCodeMessageDisplayed
+            }
+          >
+            <SemanticMessage
+              type="INFO"
+              message={this.state.locals.dev.vscode.message}
+              actionsSlot={
+                <>
+                  <Button
+                    type="secondary"
+                    label={this.state.locals.dev.vscode.cta}
+                    action={() =>
+                      window.open(
+                        this.props.config.urls.vsCodeFigmaPluginUrl,
+                        '_blank'
+                      )
+                    }
+                  />
+                  <Button
+                    type="icon"
+                    icon="close"
+                    action={() => {
+                      $isVsCodeMessageDisplayed.set(false)
+                      this.setState({ isVsCodeMessageDisplayed: false })
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'SET_ITEMS',
+                            items: [
+                              {
+                                key: 'is_vscode_message_displayed',
+                                value: false,
+                              },
+                            ],
+                          },
+                        },
+                        '*'
+                      )
+                    }}
+                  />
+                </>
+              }
+              isAnchored
             />
           </Feature>
           <Feature

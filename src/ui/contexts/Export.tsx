@@ -8,7 +8,6 @@ import {
   Menu,
   SectionTitle,
   SemanticMessage,
-  SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
@@ -16,7 +15,6 @@ import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { BaseProps, PlanStatus } from '../../types/app'
 import { WithConfigProps } from '../components/WithConfig'
-import Actions from '../modules/Actions'
 import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface ExportProps extends BaseProps, WithConfigProps {
@@ -660,354 +658,344 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
   render() {
     this.setFirstPreview()
     return (
-      <>
-        <Layout
-          id="export"
-          column={[
-            {
-              node: (
-                <>
-                  <Bar
-                    id="export-palette"
-                    leftPartSlot={
-                      <SectionTitle
-                        label={this.props.locals.export.format}
-                        indicator="10"
+      <Layout
+        id="export"
+        column={[
+          {
+            node: (
+              <>
+                <Bar
+                  id="export-palette"
+                  leftPartSlot={
+                    <SectionTitle
+                      label={this.props.locals.export.format}
+                      indicator="10"
+                    />
+                  }
+                  rightPartSlot={
+                    <div className={layouts['snackbar--medium']}>
+                      <Dropdown
+                        id="select-format"
+                        options={[
+                          {
+                            label: this.props.locals.export.tokens.label,
+                            value: 'TOKENS_GROUP',
+                            feature: 'SELECT_EXPORT_FILE',
+                            type: 'OPTION',
+                            isActive: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_TOKENS.isActive(),
+                            isBlocked: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_TOKENS.isBlocked(),
+                            isNew: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_TOKENS.isNew(),
+                            children: [
+                              {
+                                label:
+                                  this.props.locals.export.tokens.nativeTokens,
+                                value: 'EXPORT_TOKENS_TOKENS_STUDIO',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label:
+                                  this.props.locals.export.tokens.dtcg.label,
+                                value: 'EXPORT_TOKENS_DTCG',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_DTCG.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_DTCG.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_DTCG.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label:
+                                  this.props.locals.export.tokens
+                                    .amznStyleDictionary,
+                                value: 'EXPORT_TOKENS_AMZN_STYLE_DICTIONARY',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label: this.props.locals.export.tokens.global,
+                                value: 'EXPORT_TOKENS_GLOBAL',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_TOKENS_JSON.isNew(),
+                                action: this.exportHandler,
+                              },
+                            ],
+                          },
+                          {
+                            label:
+                              this.props.locals.export.css.customProperties,
+                            value: 'EXPORT_CSS',
+                            type: 'OPTION',
+                            isActive: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_CSS.isActive(),
+                            isBlocked: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_CSS.isBlocked(),
+                            isNew: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_CSS.isNew(),
+                            action: this.exportHandler,
+                          },
+                          {
+                            label: this.props.locals.export.tailwind.config,
+                            value: 'EXPORT_TAILWIND',
+                            type: 'OPTION',
+                            isActive: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_TAILWIND.isActive(),
+                            isBlocked: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_TAILWIND.isBlocked(),
+                            isNew: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_TAILWIND.isNew(),
+                            action: this.exportHandler,
+                          },
+                          {
+                            label: this.props.locals.export.apple.label,
+                            value: 'APPLE_GROUP',
+                            type: 'OPTION',
+                            isActive: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_APPLE.isActive(),
+                            isBlocked: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_APPLE.isBlocked(),
+                            isNew: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_APPLE.isNew(),
+                            children: [
+                              {
+                                label: this.props.locals.export.apple.swiftui,
+                                value: 'EXPORT_APPLE_SWIFTUI',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_APPLE_SWIFTUI.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_APPLE_SWIFTUI.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_APPLE_SWIFTUI.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label: this.props.locals.export.apple.uikit,
+                                value: 'EXPORT_APPLE_UIKIT',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_APPLE_UIKIT.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_APPLE_UIKIT.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_APPLE_UIKIT.isNew(),
+                                action: this.exportHandler,
+                              },
+                            ],
+                            action: this.exportHandler,
+                          },
+                          {
+                            label: this.props.locals.export.android.label,
+                            value: 'ANDROID_GROUP',
+                            type: 'OPTION',
+                            isActive: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_ANDROID.isActive(),
+                            isBlocked: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_ANDROID.isBlocked(),
+                            isNew: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_ANDROID.isNew(),
+                            children: [
+                              {
+                                label: this.props.locals.export.android.compose,
+                                value: 'EXPORT_ANDROID_COMPOSE',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_ANDROID_COMPOSE.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_ANDROID_COMPOSE.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_ANDROID_COMPOSE.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label:
+                                  this.props.locals.export.android.resources,
+                                value: 'EXPORT_ANDROID_XML',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_ANDROID_XML.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_ANDROID_XML.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).EXPORT_ANDROID_XML.isNew(),
+                                action: this.exportHandler,
+                              },
+                            ],
+                            action: this.exportHandler,
+                          },
+                          {
+                            label: this.props.locals.export.csv.spreadsheet,
+                            value: 'EXPORT_CSV',
+                            type: 'OPTION',
+                            isActive: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_CSV.isActive(),
+                            isBlocked: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_CSV.isBlocked(),
+                            isNew: Export.features(
+                              this.props.planStatus,
+                              this.props.config
+                            ).EXPORT_CSV.isNew(),
+                            action: this.exportHandler,
+                          },
+                        ]}
+                        selected={this.state.format ?? ''}
+                        alignment="RIGHT"
+                        pin="TOP"
                       />
-                    }
-                    rightPartSlot={
-                      <div className={layouts['snackbar--medium']}>
-                        <Dropdown
-                          id="select-format"
-                          options={[
-                            {
-                              label: this.props.locals.export.tokens.label,
-                              value: 'TOKENS_GROUP',
-                              feature: 'SELECT_EXPORT_FILE',
-                              type: 'OPTION',
-                              isActive: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_TOKENS.isActive(),
-                              isBlocked: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_TOKENS.isBlocked(),
-                              isNew: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_TOKENS.isNew(),
-                              children: [
-                                {
-                                  label:
-                                    this.props.locals.export.tokens
-                                      .nativeTokens,
-                                  value: 'EXPORT_TOKENS_TOKENS_STUDIO',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isNew(),
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label:
-                                    this.props.locals.export.tokens.dtcg.label,
-                                  value: 'EXPORT_TOKENS_DTCG',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_DTCG.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_DTCG.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_DTCG.isNew(),
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label:
-                                    this.props.locals.export.tokens
-                                      .amznStyleDictionary,
-                                  value: 'EXPORT_TOKENS_AMZN_STYLE_DICTIONARY',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isNew(),
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label: this.props.locals.export.tokens.global,
-                                  value: 'EXPORT_TOKENS_GLOBAL',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_TOKENS_JSON.isNew(),
-                                  action: this.exportHandler,
-                                },
-                              ],
-                            },
-                            {
-                              label:
-                                this.props.locals.export.css.customProperties,
-                              value: 'EXPORT_CSS',
-                              type: 'OPTION',
-                              isActive: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_CSS.isActive(),
-                              isBlocked: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_CSS.isBlocked(),
-                              isNew: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_CSS.isNew(),
-                              action: this.exportHandler,
-                            },
-                            {
-                              label: this.props.locals.export.tailwind.config,
-                              value: 'EXPORT_TAILWIND',
-                              type: 'OPTION',
-                              isActive: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_TAILWIND.isActive(),
-                              isBlocked: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_TAILWIND.isBlocked(),
-                              isNew: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_TAILWIND.isNew(),
-                              action: this.exportHandler,
-                            },
-                            {
-                              label: this.props.locals.export.apple.label,
-                              value: 'APPLE_GROUP',
-                              type: 'OPTION',
-                              isActive: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_APPLE.isActive(),
-                              isBlocked: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_APPLE.isBlocked(),
-                              isNew: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_APPLE.isNew(),
-                              children: [
-                                {
-                                  label: this.props.locals.export.apple.swiftui,
-                                  value: 'EXPORT_APPLE_SWIFTUI',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_APPLE_SWIFTUI.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_APPLE_SWIFTUI.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_APPLE_SWIFTUI.isNew(),
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label: this.props.locals.export.apple.uikit,
-                                  value: 'EXPORT_APPLE_UIKIT',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_APPLE_UIKIT.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_APPLE_UIKIT.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_APPLE_UIKIT.isNew(),
-                                  action: this.exportHandler,
-                                },
-                              ],
-                              action: this.exportHandler,
-                            },
-                            {
-                              label: this.props.locals.export.android.label,
-                              value: 'ANDROID_GROUP',
-                              type: 'OPTION',
-                              isActive: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_ANDROID.isActive(),
-                              isBlocked: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_ANDROID.isBlocked(),
-                              isNew: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_ANDROID.isNew(),
-                              children: [
-                                {
-                                  label:
-                                    this.props.locals.export.android.compose,
-                                  value: 'EXPORT_ANDROID_COMPOSE',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_ANDROID_COMPOSE.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_ANDROID_COMPOSE.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_ANDROID_COMPOSE.isNew(),
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label:
-                                    this.props.locals.export.android.resources,
-                                  value: 'EXPORT_ANDROID_XML',
-                                  type: 'OPTION',
-                                  isActive: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_ANDROID_XML.isActive(),
-                                  isBlocked: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_ANDROID_XML.isBlocked(),
-                                  isNew: Export.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).EXPORT_ANDROID_XML.isNew(),
-                                  action: this.exportHandler,
-                                },
-                              ],
-                              action: this.exportHandler,
-                            },
-                            {
-                              label: this.props.locals.export.csv.spreadsheet,
-                              value: 'EXPORT_CSV',
-                              type: 'OPTION',
-                              isActive: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_CSV.isActive(),
-                              isBlocked: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_CSV.isBlocked(),
-                              isNew: Export.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).EXPORT_CSV.isNew(),
-                              action: this.exportHandler,
-                            },
-                          ]}
-                          selected={this.state.format ?? ''}
-                          alignment="RIGHT"
-                          pin="TOP"
+                      {this.state.format === 'EXPORT_CSS' && (
+                        <Menu
+                          icon="adjust"
+                          id="color-space"
+                          options={this.state.colorSpace.options}
+                          selected={`${this.state.format}_${this.state.colorSpace.selected}`}
+                          alignment="BOTTOM_RIGHT"
+                          helper={{
+                            label:
+                              this.props.locals.export.actions.selectColorSpace,
+                          }}
                         />
-                        {this.state.format === 'EXPORT_CSS' && (
-                          <Menu
-                            icon="adjust"
-                            id="select-color-space"
-                            options={this.state.colorSpace.options}
-                            selected={`${this.state.format}_${this.state.colorSpace.selected}`}
-                            alignment="BOTTOM_RIGHT"
-                            helper={{
-                              label:
-                                this.props.locals.export.actions
-                                  .selectColorSpace,
-                            }}
-                          />
-                        )}
-                        {this.state.format === 'EXPORT_TOKENS_DTCG' && (
-                          <Menu
-                            icon="adjust"
-                            id="select-color-space"
-                            options={this.state.colorSpace.options}
-                            selected={`${this.state.format}_${this.state.colorSpace.selected}`}
-                            alignment="BOTTOM_RIGHT"
-                            helper={{
-                              label:
-                                this.props.locals.export.actions
-                                  .selectColorSpace,
-                            }}
-                          />
-                        )}
-                      </div>
-                    }
-                  />
-                  {this.state.format === 'EXPORT_TOKENS_DTCG' && (
-                    <div className="export-palette__info">
-                      <SemanticMessage
-                        type="INFO"
-                        message={this.props.locals.export.tokens.dtcg.message}
-                      />
+                      )}
+                      {this.state.format === 'EXPORT_TOKENS_DTCG' && (
+                        <Menu
+                          icon="adjust"
+                          id="color-space"
+                          options={this.state.colorSpace.options}
+                          selected={`${this.state.format}_${this.state.colorSpace.selected}`}
+                          alignment="BOTTOM_RIGHT"
+                          helper={{
+                            label:
+                              this.props.locals.export.actions.selectColorSpace,
+                          }}
+                        />
+                      )}
                     </div>
-                  )}
-                  <div className="export-palette__preview">
-                    <Input
-                      id="code-snippet-dragging"
-                      type="CODE"
-                      value={this.props.exportPreview}
+                  }
+                />
+                {this.state.format === 'EXPORT_TOKENS_DTCG' && (
+                  <div className="export-palette__info">
+                    <SemanticMessage
+                      type="INFO"
+                      message={this.props.locals.export.tokens.dtcg.message}
                     />
                   </div>
-                </>
-              ),
-            },
-          ]}
-          isFullHeight
-        />
-        <Actions
-          {...this.props}
-          service="TRANSFER"
-        />
-      </>
+                )}
+                <div className="export-palette__preview">
+                  <Input
+                    id="code-snippet-dragging"
+                    type="CODE"
+                    value={this.props.exportPreview}
+                  />
+                </div>
+              </>
+            ),
+          },
+        ]}
+        isFullHeight
+      />
     )
   }
 }

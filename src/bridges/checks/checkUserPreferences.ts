@@ -11,6 +11,9 @@ const checkUserPreferences = async () => {
   const canDeepSyncVariables = window.localStorage.getItem(
     'can_deep_sync_variables'
   )
+  const isVsCodeMessageDisplayed = window.localStorage.getItem(
+    'is_vscode_message_displayed'
+  )
   const userLanguage = window.localStorage.getItem('user_language')
 
   if (isWCAGDisplayed === null)
@@ -25,6 +28,9 @@ const checkUserPreferences = async () => {
   if (canDeepSyncVariables === null)
     window.localStorage.setItem('can_deep_sync_variables', 'false')
 
+  if (isVsCodeMessageDisplayed === null)
+    window.localStorage.setItem('is_vscode_message_displayed', 'true')
+
   if (userLanguage === null)
     window.localStorage.setItem('user_language', 'en-US')
 
@@ -38,6 +44,11 @@ const checkUserPreferences = async () => {
         isAPCADisplayed: isAPCADisplayed === 'true',
         canDeepSyncStyles: canDeepSyncStyles === 'true',
         canDeepSyncVariables: canDeepSyncVariables === 'true',
+        isVsCodeMessageDisplayed:
+          isVsCodeMessageDisplayed === null ||
+          isVsCodeMessageDisplayed === undefined
+            ? true
+            : isVsCodeMessageDisplayed === 'true',
         userLanguage: userLanguage ?? 'en-US',
       },
     },

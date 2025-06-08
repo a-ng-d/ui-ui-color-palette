@@ -58,7 +58,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    service: ['EDIT'],
+    service: ['BROWSE', 'TRANSFER'],
   },
   {
     name: 'PROPERTIES',
@@ -851,15 +851,6 @@ export const featuresScheme: Array<
   {
     name: 'SETTINGS',
     description: 'General configuration settings',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'CONTEXT',
-    service: ['CREATE', 'EDIT'],
-  },
-  {
-    name: 'SETTINGS_PALETTE',
-    description: 'Palette configuration settings',
     isActive: true,
     isPro: false,
     isNew: false,

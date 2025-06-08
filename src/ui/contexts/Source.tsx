@@ -50,7 +50,8 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
     this.contexts = setContexts(
       ['SOURCE_OVERVIEW', 'SOURCE_EXPLORE'],
       props.planStatus,
-      props.config.features
+      props.config.features,
+      props.editor
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',

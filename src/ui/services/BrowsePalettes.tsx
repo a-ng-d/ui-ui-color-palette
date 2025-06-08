@@ -60,7 +60,8 @@ export default class BrowsePalettes extends PureComponent<
     this.contexts = setContexts(
       ['LOCAL_PALETTES', 'REMOTE_PALETTES'],
       props.planStatus,
-      props.config.features
+      props.config.features,
+      props.editor
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -140,12 +141,14 @@ export default class BrowsePalettes extends PureComponent<
       <>
         <Bar
           leftPartSlot={
-            <Tabs
-              tabs={this.contexts}
-              active={this.state.context ?? ''}
-              isFlex={isFlex}
-              action={this.navHandler}
-            />
+            this.contexts.length > 1 ? (
+              <Tabs
+                tabs={this.contexts}
+                active={this.state.context ?? ''}
+                isFlex={isFlex}
+                action={this.navHandler}
+              />
+            ) : undefined
           }
           rightPartSlot={
             <div className={layouts['snackbar--medium']}>
@@ -173,7 +176,8 @@ export default class BrowsePalettes extends PureComponent<
                   </Feature>
                 )}
               {this.props.document.isLinkedToPalette !== undefined &&
-                !this.props.document.isLinkedToPalette && (
+                !this.props.document.isLinkedToPalette &&
+                !this.props.editor.includes('dev') && (
                   <Feature
                     isActive={BrowsePalettes.features(
                       this.props.planStatus,
@@ -196,10 +200,12 @@ export default class BrowsePalettes extends PureComponent<
                   </Feature>
                 )}
               <Feature
-                isActive={BrowsePalettes.features(
-                  this.props.planStatus,
-                  this.props.config
-                ).CREATE_PALETTE.isActive()}
+                isActive={
+                  BrowsePalettes.features(
+                    this.props.planStatus,
+                    this.props.config
+                  ).CREATE_PALETTE.isActive() && this.props.editor !== 'dev'
+                }
               >
                 <Button
                   type="primary"

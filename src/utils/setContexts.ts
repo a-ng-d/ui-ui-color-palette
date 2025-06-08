@@ -1,11 +1,12 @@
 import { Feature, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { locals } from '../content/locals'
-import { Context, PlanStatus } from '../types/app'
+import { Context, Editor, PlanStatus } from '../types/app'
 
 export const setContexts = (
   contextList: Array<Context>,
   planStatus: PlanStatus,
-  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
+  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>,
+  editor: Editor
 ) => {
   const featuresList = {
     LOCAL_PALETTES: new FeatureStatus({
@@ -68,16 +69,6 @@ export const setContexts = (
       featureName: 'SETTINGS',
       planStatus: planStatus,
     }),
-    SETTINGS_PALETTE: new FeatureStatus({
-      features: features,
-      featureName: 'SETTINGS_PALETTE',
-      planStatus: planStatus,
-    }),
-    SETTINGS_PREFERENCES: new FeatureStatus({
-      features: features,
-      featureName: 'SETTINGS_PREFERENCES',
-      planStatus: planStatus,
-    }),
   }
 
   const contexts: Array<{
@@ -102,7 +93,8 @@ export const setContexts = (
       label: locals.get().browse.contexts.remote,
       id: 'REMOTE_PALETTES',
       isUpdated: featuresList.REMOTE_PALETTES.isNew(),
-      isActive: featuresList.REMOTE_PALETTES.isActive(),
+      isActive:
+        featuresList.REMOTE_PALETTES.isActive() && !editor.includes('dev'),
     },
     {
       label: locals.get().browse.contexts.self,
@@ -138,19 +130,19 @@ export const setContexts = (
       label: locals.get().contexts.scale,
       id: 'SCALE',
       isUpdated: featuresList.SCALE.isNew(),
-      isActive: featuresList.SCALE.isActive(),
+      isActive: featuresList.SCALE.isActive() && !editor.includes('dev'),
     },
     {
       label: locals.get().contexts.colors,
       id: 'COLORS',
       isUpdated: featuresList.COLORS.isNew(),
-      isActive: featuresList.COLORS.isActive(),
+      isActive: featuresList.COLORS.isActive() && !editor.includes('dev'),
     },
     {
       label: locals.get().contexts.themes,
       id: 'THEMES',
       isUpdated: featuresList.THEMES.isNew(),
-      isActive: featuresList.THEMES.isActive(),
+      isActive: featuresList.THEMES.isActive() && !editor.includes('dev'),
     },
     {
       label: locals.get().contexts.export,
@@ -162,19 +154,7 @@ export const setContexts = (
       label: locals.get().contexts.settings,
       id: 'SETTINGS',
       isUpdated: featuresList.SETTINGS.isNew(),
-      isActive: featuresList.SETTINGS.isActive(),
-    },
-    {
-      label: locals.get().settings.contexts.palette,
-      id: 'SETTINGS_PALETTE',
-      isUpdated: featuresList.SETTINGS_PALETTE.isNew(),
-      isActive: featuresList.SETTINGS_PALETTE.isActive(),
-    },
-    {
-      label: locals.get().settings.contexts.preferences,
-      id: 'SETTINGS_PREFERENCES',
-      isUpdated: featuresList.SETTINGS_PREFERENCES.isNew(),
-      isActive: featuresList.SETTINGS_PREFERENCES.isActive(),
+      isActive: featuresList.SETTINGS.isActive() && !editor.includes('dev'),
     },
   ]
 

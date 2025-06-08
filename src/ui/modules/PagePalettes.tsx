@@ -234,60 +234,63 @@ export default class PagePalettes extends PureComponent<
                     )}
                     actionsSlot={
                       <>
-                        <Menu
-                          id="shortcuts-menu"
-                          icon="ellipses"
-                          options={[
-                            {
+                        <Feature isActive={!this.props.editor.includes('dev')}>
+                          <Menu
+                            id={`more-actions-${palette.meta.id}`}
+                            icon="ellipses"
+                            options={[
+                              {
+                                label:
+                                  this.props.locals.browse.actions
+                                    .duplicatePalette,
+                                type: 'OPTION',
+                                isActive: PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).DUPLICATE_PALETTE.isActive(),
+                                isBlocked: PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).DUPLICATE_PALETTE.isBlocked(),
+                                isNew: PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).DUPLICATE_PALETTE.isNew(),
+                                action: () =>
+                                  this.onDuplicatePalette(palette.meta.id),
+                              },
+                              {
+                                label:
+                                  this.props.locals.browse.actions
+                                    .deletePalette,
+                                type: 'OPTION',
+                                isActive: PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).DELETE_PALETTE.isActive(),
+                                isBlocked: PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).DELETE_PALETTE.isBlocked(),
+                                isNew: PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config
+                                ).DELETE_PALETTE.isNew(),
+                                action: () =>
+                                  this.setState({
+                                    isDeleteDialogOpen: true,
+                                    targetedPaletteId: palette.meta.id,
+                                    targetedPaletteName: palette.base.name,
+                                  }),
+                              },
+                            ]}
+                            alignment="BOTTOM_RIGHT"
+                            helper={{
                               label:
-                                this.props.locals.browse.actions
-                                  .duplicatePalette,
-                              type: 'OPTION',
-                              isActive: PagePalettes.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).DUPLICATE_PALETTE.isActive(),
-                              isBlocked: PagePalettes.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).DUPLICATE_PALETTE.isBlocked(),
-                              isNew: PagePalettes.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).DUPLICATE_PALETTE.isNew(),
-                              action: () =>
-                                this.onDuplicatePalette(palette.meta.id),
-                            },
-                            {
-                              label:
-                                this.props.locals.browse.actions.deletePalette,
-                              type: 'OPTION',
-                              isActive: PagePalettes.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).DELETE_PALETTE.isActive(),
-                              isBlocked: PagePalettes.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).DELETE_PALETTE.isBlocked(),
-                              isNew: PagePalettes.features(
-                                this.props.planStatus,
-                                this.props.config
-                              ).DELETE_PALETTE.isNew(),
-                              action: () =>
-                                this.setState({
-                                  isDeleteDialogOpen: true,
-                                  targetedPaletteId: palette.meta.id,
-                                  targetedPaletteName: palette.base.name,
-                                }),
-                            },
-                          ]}
-                          alignment="BOTTOM_RIGHT"
-                          helper={{
-                            label:
-                              this.props.locals.browse.actions.moreParameters,
-                          }}
-                        />
+                                this.props.locals.browse.actions.moreParameters,
+                            }}
+                          />
+                        </Feature>
                         <Feature
                           isActive={PagePalettes.features(
                             this.props.planStatus,
@@ -296,7 +299,11 @@ export default class PagePalettes extends PureComponent<
                         >
                           <Button
                             type="secondary"
-                            label={this.props.locals.browse.actions.editPalette}
+                            label={
+                              !this.props.editor.includes('dev')
+                                ? this.props.locals.browse.actions.editPalette
+                                : this.props.locals.browse.actions.openPalette
+                            }
                             isBlocked={PagePalettes.features(
                               this.props.planStatus,
                               this.props.config

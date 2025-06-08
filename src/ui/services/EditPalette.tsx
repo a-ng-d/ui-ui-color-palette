@@ -145,7 +145,8 @@ export default class EditPalette extends PureComponent<
     this.contexts = setContexts(
       ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
       props.planStatus,
-      props.config.features
+      props.config.features,
+      props.editor
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -550,20 +551,24 @@ export default class EditPalette extends PureComponent<
                 icon="back"
                 action={this.props.onUnloadPalette}
               />
-              <Tabs
-                tabs={this.contexts}
-                active={this.state.context ?? ''}
-                isFlex={isFlex}
-                action={this.navHandler}
-              />
+              {this.contexts.length > 1 && (
+                <Tabs
+                  tabs={this.contexts}
+                  active={this.state.context ?? ''}
+                  isFlex={isFlex}
+                  action={this.navHandler}
+                />
+              )}
             </div>
           }
           rightPartSlot={
             <Feature
-              isActive={EditPalette.features(
-                this.props.planStatus,
-                this.props.config
-              ).THEMES.isActive()}
+              isActive={
+                EditPalette.features(
+                  this.props.planStatus,
+                  this.props.config
+                ).THEMES.isActive() && !this.props.editor.includes('dev')
+              }
             >
               <FormItem
                 id="switch-theme"
@@ -589,7 +594,9 @@ export default class EditPalette extends PureComponent<
             EditPalette.features(
               this.props.planStatus,
               this.props.config
-            ).PREVIEW.isActive() && this.state.context !== 'EXPORT'
+            ).PREVIEW.isActive() &&
+            (this.state.context !== 'EXPORT' ||
+              this.props.editor.includes('dev'))
           }
         >
           <Preview
@@ -598,21 +605,21 @@ export default class EditPalette extends PureComponent<
           />
         </Feature>
         <Feature
-          isActive={
-            EditPalette.features(
-              this.props.planStatus,
-              this.props.config
-            ).ACTIONS.isActive() && this.state.context !== 'EXPORT'
-          }
+          isActive={EditPalette.features(
+            this.props.planStatus,
+            this.props.config
+          ).ACTIONS.isActive()}
         >
           <Actions
             {...this.props}
             {...this.state}
-            service="EDIT"
+            service={this.props.editor.includes('dev') ? 'TRANSFER' : 'EDIT'}
+            exportType={this.props.export.label}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
             onPublishPalette={this.onPublishPalette}
             onChangeDocument={this.onChangeDocument}
+            onExportPalette={this.onExport}
           />
         </Feature>
       </>

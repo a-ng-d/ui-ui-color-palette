@@ -358,7 +358,7 @@ export default class SelfPalettes extends PureComponent<
                 actionsSlot={
                   <>
                     <Menu
-                      id="publication-options"
+                      id={`more-actions-${palette.palette_id}`}
                       icon="ellipses"
                       options={[
                         {
