@@ -56,6 +56,10 @@ root.render(
       supabaseAnonKey: globalConfig.env.supabaseAnonKey,
       announcementsDbId: globalConfig.env.announcementsDbId,
       onboardingDbId: globalConfig.env.onboardingDbId,
+      ui: globalConfig.env.ui,
+      colorMode: globalConfig.env.colorMode,
+      mixpanelToken: globalConfig.env.mixpanelToken,
+      sentryToken: globalConfig.env.sentryToken,
     }}
     plan={{
       isProEnabled: globalConfig.plan.isProEnabled,
@@ -71,6 +75,7 @@ root.render(
       announcementsWorkerUrl: globalConfig.urls.announcementsWorkerUrl,
       databaseUrl: globalConfig.urls.databaseUrl,
       authUrl: globalConfig.urls.authUrl,
+      sentryDsn: globalConfig.urls.sentryDsn,
       documentationUrl: globalConfig.urls.documentationUrl,
       repositoryUrl: globalConfig.urls.repositoryUrl,
       supportEmail: globalConfig.urls.supportEmail,
@@ -83,6 +88,7 @@ root.render(
       privacyUrl: globalConfig.urls.privacyUrl,
       vsCodeFigmaPluginUrl: globalConfig.urls.vsCodeFigmaPluginUrl,
       isbUrl: globalConfig.urls.isbUrl,
+      storeUrl: globalConfig.urls.storeUrl,
     }}
     versions={{
       userConsentVersion: globalConfig.versions.userConsentVersion,

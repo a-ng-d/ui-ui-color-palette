@@ -44,6 +44,7 @@ export interface Config {
     privacyUrl: string
     vsCodeFigmaPluginUrl: string
     isbUrl: string
+    storeUrl: string
   }
   versions: {
     userConsentVersion: string

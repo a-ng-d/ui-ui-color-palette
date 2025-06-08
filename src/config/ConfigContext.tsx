@@ -1,53 +1,7 @@
-import { Feature } from '@a_ng_d/figmug-utils'
 import React, { createContext, ReactNode, useContext } from 'react'
+import { Config } from '../types/config'
 
-export interface ConfigContextType {
-  limits: {
-    pageSize: number
-  }
-  env: {
-    isDev: boolean
-    platform: 'figma' | 'penpot'
-    editor: 'figma' | 'figjam' | 'dev' | 'penpot'
-    supabaseAnonKey: string
-    announcementsDbId: string
-    onboardingDbId: string
-  }
-  plan: {
-    isProEnabled: boolean
-    isTrialEnabled: boolean
-    trialTime: number
-  }
-  dbs: {
-    palettesDbTableName: string
-    palettesStorageName: string
-  }
-  urls: {
-    authWorkerUrl: string
-    announcementsWorkerUrl: string
-    databaseUrl: string
-    authUrl: string
-    networkUrl: string
-    documentationUrl: string
-    repositoryUrl: string
-    supportEmail: string
-    feedbackUrl: string
-    trialFeedbackUrl: string
-    requestsUrl: string
-    isbUrl: string
-    licenseUrl: string
-    privacyUrl: string
-    vsCodeFigmaPluginUrl: string
-    authorUrl: string
-  }
-  versions: {
-    userConsentVersion: string
-    trialVersion: string
-    algorithmVersion: 'v1' | 'v2' | 'v3'
-    paletteDataVersion: string
-  }
-  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
-}
+export interface ConfigContextType extends Config {}
 
 export const ConfigContext = createContext<ConfigContextType | undefined>(
   undefined

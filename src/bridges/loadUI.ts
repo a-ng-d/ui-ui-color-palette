@@ -1,3 +1,4 @@
+import globalConfig from '../global.config'
 import { locals } from '../content/locals'
 import { Window } from '../types/app'
 import checkHighlightStatus from './checks/checkHighlightStatus'
@@ -257,7 +258,8 @@ window.addEventListener('message', async (msg: any) => {
           throw error
         }),
     //
-    GET_PRO_PLAN: async () => await getProPlan(),
+    GET_PRO_PLAN: async () =>
+      window.open(globalConfig.urls.storeUrl, '_blank')?.focus(),
     ENABLE_TRIAL: async () => {
       await enableTrial(path.data.trialTime, path.data.trialVersion)
       await checkPlanStatus()

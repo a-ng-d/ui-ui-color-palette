@@ -144,6 +144,9 @@ const globalConfig: Config = {
     vsCodeFigmaPluginUrl:
       'https://marketplace.visualstudio.com/items?itemName=figma.figma-vscode-extension',
     isbUrl: 'https://isb.ylb.lt/run',
+    storeUrl: isDev
+      ? 'https://uicp.ylb.lt/store-dev'
+      : 'https://uicp.ylb.lt/store',
   },
   versions: {
     userConsentVersion: '2024.01',
