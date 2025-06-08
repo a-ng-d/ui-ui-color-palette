@@ -232,6 +232,7 @@ window.addEventListener('message', async (msg: any) => {
         window.localStorage.removeItem(item)
       ),
     //
+    OPEN_IN_BROWSER: () => window.open(msg.url, '_blank'),
     GET_PALETTES: async () => await getPalettesOnCurrentPage(),
     JUMP_TO_PALETTE: async () =>
       await jumpToPalette(path.id).catch(() =>
