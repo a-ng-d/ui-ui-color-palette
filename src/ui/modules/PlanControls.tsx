@@ -134,14 +134,36 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
 
   // Render
   render() {
-    return (
-      <div className={doClassnames(['pro-zone', layouts['snackbar--tight']])}>
-        {this.props.trialStatus === 'UNUSED' &&
-          this.props.planStatus === 'UNPAID' && <this.FreePlan />}
-        {this.props.trialStatus === 'PENDING' && <this.PendingTrial />}
-        {this.props.trialStatus === 'EXPIRED' &&
-          this.props.planStatus === 'UNPAID' && <this.ExpiredTrial />}
-      </div>
-    )
+    if (this.props.config.plan.isTrialEnabled)
+      return (
+        <div className={doClassnames(['pro-zone', layouts['snackbar--tight']])}>
+          {this.props.trialStatus === 'UNUSED' &&
+            this.props.planStatus === 'UNPAID' && <this.FreePlan />}
+          {this.props.trialStatus === 'PENDING' && <this.PendingTrial />}
+          {this.props.trialStatus === 'EXPIRED' &&
+            this.props.planStatus === 'UNPAID' && <this.ExpiredTrial />}
+        </div>
+      )
+    else if (this.props.config.plan.isProEnabled)
+      return (
+        <div className={doClassnames(['pro-zone', layouts['snackbar--tight']])}>
+          {this.props.planStatus === 'UNPAID' &&
+            this.props.trialStatus === 'UNUSED' && (
+              <Button
+                type="alternative"
+                size="small"
+                icon="lock-off"
+                label={this.props.locals.plan.getPro}
+                action={() =>
+                  parent.postMessage(
+                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                    '*'
+                  )
+                }
+              />
+            )}
+        </div>
+      )
+    else return null
   }
 }
