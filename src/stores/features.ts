@@ -107,7 +107,7 @@ export const featuresScheme: Array<
     service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
   },
   {
-    name: 'CONSENT',
+    name: 'USER_CONSENT',
     description: 'User vendors consent',
     isActive: true,
     isPro: false,
@@ -1303,15 +1303,6 @@ export const featuresScheme: Array<
     service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
   },
   {
-    name: 'USER_PREFERENCES_SYNC_DEEP_PALETTE',
-    description: 'Deep synchronization of the palette',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
-  },
-  {
     name: 'USER_PREFERENCES_SYNC_DEEP_STYLES',
     description: 'Deep synchronization of styles',
     isActive: true,
@@ -1328,6 +1319,15 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     service: ['BROWSE', 'CREATE', 'EDIT'],
+  },
+  {
+    name: 'USER_LICENSE',
+    description: 'License management module',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
   },
   {
     name: 'HELP_HIGHLIGHT',

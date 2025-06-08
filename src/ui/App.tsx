@@ -139,9 +139,9 @@ class App extends Component<AppProps, AppStates> {
       featureName: 'TRANSFER',
       planStatus: planStatus,
     }),
-    CONSENT: new FeatureStatus({
+    USER_CONSENT: new FeatureStatus({
       features: config.features,
-      featureName: 'CONSENT',
+      featureName: 'USER_CONSENT',
       planStatus: planStatus,
     }),
     SHORTCUTS: new FeatureStatus({
@@ -179,12 +179,6 @@ class App extends Component<AppProps, AppStates> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      dates: {
-        createdAt: '',
-        updatedAt: '',
-        publishedAt: '',
-        openedAt: '',
-      },
       export: {
         format: 'JSON',
         context: 'TOKENS_TOKENS_STUDIO',
@@ -195,10 +189,12 @@ class App extends Component<AppProps, AppStates> {
       },
       palettesList: [],
       document: {},
-      planStatus: 'UNPAID',
-      trialStatus: 'UNUSED',
-      editor: props.config.env.editor,
-      trialRemainingTime: this.props.config.plan.trialTime,
+      dates: {
+        createdAt: '',
+        updatedAt: '',
+        publishedAt: '',
+        openedAt: '',
+      },
       publicationStatus: {
         isPublished: false,
         isShared: false,
@@ -208,9 +204,6 @@ class App extends Component<AppProps, AppStates> {
         creatorFullName: '',
         creatorAvatar: '',
       },
-      priorityContainerContext: 'EMPTY',
-      locals: {},
-      lang: $userLanguage.get(),
       userSession: {
         connectionStatus: 'UNCONNECTED',
         userId: '',
@@ -225,6 +218,13 @@ class App extends Component<AppProps, AppStates> {
         fullName: '',
         avatar: '',
       },
+      planStatus: 'UNPAID',
+      trialStatus: 'UNUSED',
+      trialRemainingTime: this.props.config.plan.trialTime,
+      editor: props.config.env.editor,
+      priorityContainerContext: 'EMPTY',
+      locals: {},
+      lang: $userLanguage.get(),
       mustUserConsent: true,
       highlight: {
         version: '',
@@ -1091,7 +1091,7 @@ class App extends Component<AppProps, AppStates> {
               App.features(
                 this.state.planStatus,
                 this.props.config
-              ).CONSENT.isActive()
+              ).USER_CONSENT.isActive()
             }
           >
             <Consent
@@ -1213,8 +1213,11 @@ class App extends Component<AppProps, AppStates> {
                 else this.setState({ priorityContainerContext: 'TRY' })
               }}
               onUpdateConsent={() => this.setState({ mustUserConsent: true })}
-              onOpenPreferences={() =>
+              onReOpenPreferences={() =>
                 this.setState({ priorityContainerContext: 'PREFERENCES' })
+              }
+              onReOpenLicense={() =>
+                this.setState({ priorityContainerContext: 'LICENSE' })
               }
             />
           </Feature>

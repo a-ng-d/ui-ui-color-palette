@@ -26,7 +26,8 @@ interface ShortcutsProps extends BaseProps, WithConfigProps {
   onReOpenReport: () => void
   onGetProPlan: () => void
   onUpdateConsent: () => void
-  onOpenPreferences: () => void
+  onReOpenPreferences: () => void
+  onReOpenLicense: () => void
 }
 
 interface ShortcutsStates {
@@ -48,6 +49,11 @@ export default class Shortcuts extends PureComponent<
       featureName: 'USER_PREFERENCES',
       planStatus: planStatus,
     }),
+    USER_LICENSE: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LICENSE',
+      planStatus: planStatus,
+    }),
     HELP_HIGHLIGHT: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_HIGHLIGHT',
@@ -58,14 +64,14 @@ export default class Shortcuts extends PureComponent<
       featureName: 'HELP_ONBOARDING',
       planStatus: planStatus,
     }),
-    INVOLVE_REPOSITORY: new FeatureStatus({
-      features: config.features,
-      featureName: 'INVOLVE_REPOSITORY',
-      planStatus: planStatus,
-    }),
     HELP_EMAIL: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_EMAIL',
+      planStatus: planStatus,
+    }),
+    INVOLVE_REPOSITORY: new FeatureStatus({
+      features: config.features,
+      featureName: 'INVOLVE_REPOSITORY',
       planStatus: planStatus,
     }),
     INVOLVE_FEEDBACK: new FeatureStatus({
@@ -113,9 +119,9 @@ export default class Shortcuts extends PureComponent<
       featureName: 'GET_PRO_PLAN',
       planStatus: planStatus,
     }),
-    CONSENT: new FeatureStatus({
+    USER_CONSENT: new FeatureStatus({
       features: config.features,
-      featureName: 'CONSENT',
+      featureName: 'USER_CONSENT',
       planStatus: planStatus,
     }),
     RESIZE_UI: new FeatureStatus({
@@ -303,15 +309,15 @@ export default class Shortcuts extends PureComponent<
                           isActive: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).CONSENT.isActive(),
+                          ).USER_CONSENT.isActive(),
                           isBlocked: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).CONSENT.isBlocked(),
+                          ).USER_CONSENT.isBlocked(),
                           isNew: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).CONSENT.isNew(),
+                          ).USER_CONSENT.isNew(),
                           action: this.props.onUpdateConsent,
                         },
                         {
@@ -331,7 +337,24 @@ export default class Shortcuts extends PureComponent<
                             this.props.planStatus,
                             this.props.config
                           ).USER_PREFERENCES.isNew(),
-                          action: this.props.onOpenPreferences,
+                          action: this.props.onReOpenPreferences,
+                        },
+                        {
+                          label: this.props.locals.user.updateLicense,
+                          type: 'OPTION',
+                          isActive: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_LICENSE.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_LICENSE.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_LICENSE.isNew(),
+                          action: () => this.props.onReOpenLicense(),
                         },
                       ]}
                       alignment="TOP_RIGHT"
@@ -405,15 +428,15 @@ export default class Shortcuts extends PureComponent<
                           isActive: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).CONSENT.isActive(),
+                          ).USER_CONSENT.isActive(),
                           isBlocked: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).CONSENT.isBlocked(),
+                          ).USER_CONSENT.isBlocked(),
                           isNew: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).CONSENT.isNew(),
+                          ).USER_CONSENT.isNew(),
                           action: this.props.onUpdateConsent,
                         },
                         {
@@ -433,7 +456,24 @@ export default class Shortcuts extends PureComponent<
                             this.props.planStatus,
                             this.props.config
                           ).USER_PREFERENCES.isNew(),
-                          action: this.props.onOpenPreferences,
+                          action: this.props.onReOpenPreferences,
+                        },
+                        {
+                          label: this.props.locals.user.updateLicense,
+                          type: 'OPTION',
+                          isActive: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_LICENSE.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_LICENSE.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).USER_LICENSE.isNew(),
+                          action: () => this.props.onReOpenLicense(),
                         },
                       ]}
                       state={

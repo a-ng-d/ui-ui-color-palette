@@ -691,6 +691,7 @@
     "signOut": "Sign out",
     "updateConsent": "Manage your cookies",
     "updatePreferences": "Update your preferences",
+    "updateLicense": "Update your license key",
     "welcomeMessage": "Hello {$1}",
     "preferences": {
       "sync": {
@@ -707,6 +708,14 @@
           },
         "title": "Synchronization"
       }
+    },
+    "license": {
+      "key": {
+      "label": "License key",
+      "message": "Enter your license key to unlock the Pro features",
+      "placeholder": "Enter your license key"
+    },
+    "cta": "Check your license"
     }
   },
   "vendors": {

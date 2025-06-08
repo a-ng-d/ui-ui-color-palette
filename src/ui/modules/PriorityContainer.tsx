@@ -6,6 +6,7 @@ import {
   Input,
   List,
   Notification,
+  SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -53,6 +54,7 @@ interface PriorityContainerStates {
   userFullName: string
   userEmail: string
   userMessage: string
+  userLicenseKey: string
 }
 
 export default class PriorityContainer extends PureComponent<
@@ -70,6 +72,21 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'NOTIFICATIONS',
       planStatus: planStatus,
     }),
+    USER_PREFERENCES: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_PREFERENCES',
+      planStatus: planStatus,
+    }),
+    PUBLICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION',
+      planStatus: planStatus,
+    }),
+    USER_LICENSE: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LICENSE',
+      planStatus: planStatus,
+    }),
     HELP_HIGHLIGHT: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_HIGHLIGHT',
@@ -80,14 +97,9 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'HELP_ONBOARDING',
       planStatus: planStatus,
     }),
-    PUBLICATION: new FeatureStatus({
+    INVOLVE_ISSUES: new FeatureStatus({
       features: config.features,
-      featureName: 'PUBLICATION',
-      planStatus: planStatus,
-    }),
-    HELP_ISSUES: new FeatureStatus({
-      features: config.features,
-      featureName: 'HELP_ISSUES',
+      featureName: 'INVOLVE_ISSUES',
       planStatus: planStatus,
     }),
     MORE_STORE: new FeatureStatus({
@@ -110,7 +122,35 @@ export default class PriorityContainer extends PureComponent<
       userFullName: '',
       userEmail: '',
       userMessage: '',
+      userLicenseKey: '',
     }
+  }
+
+  // Lifecycle
+  componentDidMount = () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const path = e.data
+
+    const actions: {
+      [action: string]: () => void
+    } = {
+      GET_DATA_LICENSE_KEY: () => {
+        if (path !== null || path.data === undefined)
+          this.setState({ userLicenseKey: path.data })
+        else this.setState({ userLicenseKey: '' })
+      },
+      DEFAULT: () => null,
+    }
+
+    return actions[path.type ?? 'DEFAULT']?.()
   }
 
   // Handlers
@@ -342,7 +382,7 @@ export default class PriorityContainer extends PureComponent<
     )
   }
 
-  Preference = () => {
+  Preferences = () => {
     const theme = document.documentElement.getAttribute('data-theme')
     let padding
 
@@ -358,7 +398,12 @@ export default class PriorityContainer extends PureComponent<
     }
 
     return (
-      <Feature isActive={true}>
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus,
+          this.props.config
+        ).USER_PREFERENCES.isActive()}
+      >
         <Dialog
           title={this.props.locals.user.updatePreferences}
           pin="RIGHT"
@@ -372,13 +417,101 @@ export default class PriorityContainer extends PureComponent<
     )
   }
 
+  License = () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'GET_DATA',
+          items: ['user_license_key'],
+        },
+      },
+      '*'
+    )
+    const theme = document.documentElement.getAttribute('data-theme')
+    let padding
+
+    switch (theme) {
+      case 'penpot':
+        padding = '0 var(--size-xxsmall)'
+        break
+      case 'figma-ui3':
+        padding = '0'
+        break
+      default:
+        padding = 'var(--size-xxsmall)'
+    }
+
+    return (
+      <Feature
+        isActive={PriorityContainer.features(
+          this.props.planStatus,
+          this.props.config
+        ).USER_LICENSE.isActive()}
+      >
+        <Dialog
+          title={this.props.locals.user.updateLicense}
+          pin="RIGHT"
+          actions={{
+            primary: {
+              label: this.props.locals.user.license.cta,
+              state: (() => {
+                if (this.state.userLicenseKey === '') return 'DISABLED'
+                if (this.state.isPrimaryActionLoading) return 'LOADING'
+
+                return 'DEFAULT'
+              })(),
+              action: () => {
+                this.setState({ isPrimaryActionLoading: true })
+                parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: 'UPDATE_LICENSE',
+                      data: this.state.userLicenseKey,
+                    },
+                  },
+                  '*'
+                )
+              },
+            },
+          }}
+          onClose={this.props.onClose}
+        >
+          <div className="dialog__form">
+            <SemanticMessage
+              type="INFO"
+              message={this.props.locals.user.license.key.message}
+            />
+            <FormItem
+              label={this.props.locals.user.license.key.label}
+              id="type-license"
+              shouldFill
+            >
+              <Input
+                type="TEXT"
+                id="type-license"
+                value={this.state.userLicenseKey}
+                isAutoFocus
+                placeholder={this.props.locals.user.license.key.placeholder}
+                onChange={(e) =>
+                  this.setState({
+                    userLicenseKey: (e.target as HTMLInputElement).value,
+                  })
+                }
+              />
+            </FormItem>
+          </div>
+        </Dialog>
+      </Feature>
+    )
+  }
+
   Report = () => {
     return (
       <Feature
         isActive={PriorityContainer.features(
           this.props.planStatus,
           this.props.config
-        ).HELP_ISSUES.isActive()}
+        ).INVOLVE_ISSUES.isActive()}
       >
         <Dialog
           title={this.props.locals.report.title}
@@ -678,7 +811,8 @@ export default class PriorityContainer extends PureComponent<
         {this.props.context === 'NOTIFICATION' && <this.Notification />}
         {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
         {this.props.context === 'ONBOARDING' && <this.OnBoarding />}
-        {this.props.context === 'PREFERENCES' && <this.Preference />}
+        {this.props.context === 'PREFERENCES' && <this.Preferences />}
+        {this.props.context === 'LICENSE' && <this.License />}
         {this.props.context === 'REPORT' && <this.Report />}
         {this.props.context === 'STORE' && <this.Store />}
         {this.props.context === 'ABOUT' && <this.About />}

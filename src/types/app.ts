@@ -86,6 +86,7 @@ export type PriorityContext =
   | 'EMPTY'
   | 'NOTIFICATION'
   | 'PREFERENCES'
+  | 'LICENSE'
   | 'PUBLICATION'
   | 'HIGHLIGHT'
   | 'ONBOARDING'
