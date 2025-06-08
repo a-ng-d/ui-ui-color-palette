@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@a_ng_d/figmug-ui": "^1.9.26",
-    "@a_ng_d/figmug-utils": "^0.3.4",
+    "@a_ng_d/figmug-utils": "^0.3.5",
     "@a_ng_d/utils-ui-color-palette": "^1.0.24",
     "@nanostores/preact": "^0.5.2",
     "@sentry/react": "^8.8.0",
