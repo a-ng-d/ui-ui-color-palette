@@ -21,7 +21,6 @@ interface ExportProps extends BaseProps, WithConfigProps {
   id: string
   exportPreview: string
   exportType: string
-  onExportPalette: () => void
 }
 
 interface ExportStates {

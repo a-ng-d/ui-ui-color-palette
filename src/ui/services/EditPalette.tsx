@@ -521,7 +521,6 @@ export default class EditPalette extends PureComponent<
                 : this.props.export.data
             }
             exportType={this.props.export.label}
-            onExportPalette={this.onExport}
           />
         )
         break
@@ -613,7 +612,7 @@ export default class EditPalette extends PureComponent<
           <Actions
             {...this.props}
             {...this.state}
-            service={this.props.editor.includes('dev') ? 'TRANSFER' : 'EDIT'}
+            service={this.state.context === 'EXPORT' ? 'TRANSFER' : 'EDIT'}
             exportType={this.props.export.label}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
