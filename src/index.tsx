@@ -76,6 +76,7 @@ root.render(
       databaseUrl: globalConfig.urls.databaseUrl,
       authUrl: globalConfig.urls.authUrl,
       sentryDsn: globalConfig.urls.sentryDsn,
+      storeApiUrl: globalConfig.urls.storeApiUrl,
       documentationUrl: globalConfig.urls.documentationUrl,
       repositoryUrl: globalConfig.urls.repositoryUrl,
       supportEmail: globalConfig.urls.supportEmail,

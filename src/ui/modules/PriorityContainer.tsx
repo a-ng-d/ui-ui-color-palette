@@ -37,6 +37,7 @@ import { NotificationMessage } from '../../types/messages'
 import { signIn } from '../../external/auth/authentication'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import Publication from './Publication'
+import activateUserLicenseKey from '../../external/license/activateUserLicenseKey'
 
 interface PriorityContainerProps extends BaseProps, WithConfigProps {
   rawData: AppStates
@@ -51,6 +52,7 @@ interface PriorityContainerProps extends BaseProps, WithConfigProps {
 interface PriorityContainerStates {
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
+  licenseStatus: 'NO_LICENSE' | 'VALID' | 'ERROR'
   userFullName: string
   userEmail: string
   userMessage: string
@@ -119,6 +121,7 @@ export default class PriorityContainer extends PureComponent<
     this.state = {
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
+      licenseStatus: 'NO_LICENSE',
       userFullName: '',
       userEmail: '',
       userMessage: '',
@@ -128,6 +131,15 @@ export default class PriorityContainer extends PureComponent<
 
   // Lifecycle
   componentDidMount = () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'GET_DATA',
+          items: ['user_license_key'],
+        },
+      },
+      '*'
+    )
     window.addEventListener('message', this.handleMessage)
   }
 
@@ -142,10 +154,11 @@ export default class PriorityContainer extends PureComponent<
     const actions: {
       [action: string]: () => void
     } = {
-      GET_DATA_LICENSE_KEY: () => {
-        if (path !== null || path.data === undefined)
-          this.setState({ userLicenseKey: path.data })
-        else this.setState({ userLicenseKey: '' })
+      GET_DATA_USER_LICENSE_KEY: () => {
+        console.log
+        if (path.value !== null || path.value === undefined)
+          this.setState({ userLicenseKey: path.value, licenseStatus: 'VALID' })
+        else this.setState({ userLicenseKey: '', licenseStatus: 'NO_LICENSE' })
       },
       DEFAULT: () => null,
     }
@@ -153,7 +166,6 @@ export default class PriorityContainer extends PureComponent<
     return actions[path.type ?? 'DEFAULT']?.()
   }
 
-  // Handlers
   reportHandler = () => {
     this.setState({ isPrimaryActionLoading: true })
     Sentry.sendFeedback(
@@ -200,6 +212,12 @@ export default class PriorityContainer extends PureComponent<
           '*'
         )
       })
+  }
+
+  isValidLicenseKeyFormat = (key: string): boolean => {
+    const licenseKeyRegex =
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i
+    return licenseKeyRegex.test(key)
   }
 
   // Templates
@@ -455,35 +473,68 @@ export default class PriorityContainer extends PureComponent<
             primary: {
               label: this.props.locals.user.license.cta,
               state: (() => {
-                if (this.state.userLicenseKey === '') return 'DISABLED'
+                if (
+                  !this.isValidLicenseKeyFormat(this.state.userLicenseKey) ||
+                  this.state.userLicenseKey === ''
+                )
+                  return 'DISABLED'
                 if (this.state.isPrimaryActionLoading) return 'LOADING'
 
                 return 'DEFAULT'
               })(),
-              action: () => {
+              action: async () => {
                 this.setState({ isPrimaryActionLoading: true })
-                parent.postMessage(
-                  {
-                    pluginMessage: {
-                      type: 'UPDATE_LICENSE',
-                      data: this.state.userLicenseKey,
-                    },
-                  },
-                  '*'
+                activateUserLicenseKey(
+                  this.props.config.urls.storeApiUrl,
+                  this.state.userLicenseKey
                 )
+                  .then(() => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'POST_MESSAGE',
+                          data: {
+                            type: 'SUCCESS',
+                            message: this.props.locals.success.license,
+                          },
+                        },
+                      },
+                      '*'
+                    )
+                  })
+                  .finally(() => {
+                    this.setState({ isPrimaryActionLoading: false })
+                  })
+                  .then(() => {
+                    this.setState({
+                      licenseStatus: 'ERROR',
+                    })
+                  })
               },
             },
           }}
           onClose={this.props.onClose}
         >
           <div className="dialog__form">
-            <SemanticMessage
-              type="INFO"
-              message={this.props.locals.user.license.key.message}
-            />
+            {this.state.licenseStatus === 'NO_LICENSE' && (
+              <SemanticMessage
+                type="INFO"
+                message={this.props.locals.user.license.key.message}
+              />
+            )}
+            {this.state.licenseStatus === 'ERROR' && (
+              <SemanticMessage
+                type="ERROR"
+                message={this.props.locals.error.license}
+              />
+            )}
             <FormItem
               label={this.props.locals.user.license.key.label}
               id="type-license"
+              helper={{
+                type: 'INFO',
+                message: this.props.locals.user.license.key.helper,
+              }}
               shouldFill
             >
               <Input

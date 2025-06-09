@@ -131,6 +131,7 @@ const globalConfig: Config = {
     authUrl: isDev
       ? 'http://localhost:3000'
       : (import.meta.env.VITE_AUTH_URL as string),
+    storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,
     documentationUrl: 'https://uicp.ylb.lt/docs',
     repositoryUrl: 'https://uicp.ylb.lt/repository',
     supportEmail: 'https://uicp.ylb.lt/contact',

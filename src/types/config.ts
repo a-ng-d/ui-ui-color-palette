@@ -32,6 +32,7 @@ export interface Config {
     databaseUrl: string
     authUrl: string
     sentryDsn: string
+    storeApiUrl: string
     documentationUrl: string
     repositoryUrl: string
     supportEmail: string

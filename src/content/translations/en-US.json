@@ -129,7 +129,8 @@
     "styles": "The styles cannot be generated",
     "synchronization": "The palette has not been synchronized",
     "timeout": "The authentication has been timed out",
-    "unshare": "The palette has not been removed from the community"
+    "unshare": "The palette has not been removed from the community",
+    "license": "The license key is not valid and cannot be updated"
   },
   "export": {
     "actions": {
@@ -214,38 +215,38 @@
       "single": "1 style updated"
     },
     "createdVariablesAndModes": {
-        "noneNone": "No variable and mode created",
-        "noneSingle": "1 mode created",
-        "singleNone": "1 variable created",
-        "nonePlural": "{$1} modes created",
-        "pluralNone": "{$1} variables created",
-        "singleSingle": "1 variable and mode created",
-        "singlePlural": "1 variable and {$1} modes created",
-        "pluralSingle": "{$1} variables and 1 mode created",
-        "pluralPlural": "{$1} variables and {$2} modes created"
-      },
-      "updatedVariablesAndModes": {
-        "noneNone": "No variable and mode updated",
-        "noneSingle": "1 mode updated",
-        "singleNone": "1 variable updated",
-        "nonePlural": "{$1} modes updated",
-        "pluralNone": "{$1} variables updated",
-        "singleSingle": "1 variable and mode updated",
-        "singlePlural": "1 variable and $1 modes updated",
-        "pluralSingle": "{$1} variables and 1 mode updated",
-        "pluralPlural": "{$1} variables and {$2} modes updated"
-      },
-      "removedVariablesAndModes": {
-        "noneNone": "No variable and mode removed",
-        "noneSingle": "1 mode removed",
-        "singleNone": "1 variable removed",
-        "nonePlural": "{$1} modes removed",
-        "pluralNone": "{$1} variables removed",
-        "singleSingle": "1 variable and mode removed",
-        "singlePlural": "1 variable and {$1} modes removed",
-        "pluralSingle": "{$1} variables and 1 mode removed",
-        "pluralPlural": "{$1} variables and {$2} modes removed"
-      }
+      "noneNone": "No variable and mode created",
+      "noneSingle": "1 mode created",
+      "singleNone": "1 variable created",
+      "nonePlural": "{$1} modes created",
+      "pluralNone": "{$1} variables created",
+      "singleSingle": "1 variable and mode created",
+      "singlePlural": "1 variable and {$1} modes created",
+      "pluralSingle": "{$1} variables and 1 mode created",
+      "pluralPlural": "{$1} variables and {$2} modes created"
+    },
+    "updatedVariablesAndModes": {
+      "noneNone": "No variable and mode updated",
+      "noneSingle": "1 mode updated",
+      "singleNone": "1 variable updated",
+      "nonePlural": "{$1} modes updated",
+      "pluralNone": "{$1} variables updated",
+      "singleSingle": "1 variable and mode updated",
+      "singlePlural": "1 variable and $1 modes updated",
+      "pluralSingle": "{$1} variables and 1 mode updated",
+      "pluralPlural": "{$1} variables and {$2} modes updated"
+    },
+    "removedVariablesAndModes": {
+      "noneNone": "No variable and mode removed",
+      "noneSingle": "1 mode removed",
+      "singleNone": "1 variable removed",
+      "nonePlural": "{$1} modes removed",
+      "pluralNone": "{$1} variables removed",
+      "singleSingle": "1 variable and mode removed",
+      "singlePlural": "1 variable and {$1} modes removed",
+      "pluralSingle": "{$1} variables and 1 mode removed",
+      "pluralPlural": "{$1} variables and {$2} modes removed"
+    }
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -651,7 +652,8 @@
     "report": "Thanks for your report",
     "share": "The palette has been shared with the community",
     "synchronization": "The palette has been synchronized",
-    "unshare": "The palette is no longer shared with the community"
+    "unshare": "The palette is no longer shared with the community",
+    "license": "Your license key has been updated"
   },
   "tagline": "WCAG-Compliant Color Palette Suite",
   "themes": {
@@ -713,7 +715,8 @@
       "key": {
       "label": "License key",
       "message": "Enter your license key to unlock the Pro features",
-      "placeholder": "Enter your license key"
+      "placeholder": "Enter your license key",
+      "helper": "The license key format must be like this: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
     },
     "cta": "Check your license"
     }
