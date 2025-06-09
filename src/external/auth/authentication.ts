@@ -20,7 +20,7 @@ export const signIn = async (
     })
       .then((response) => {
         if (response.ok) return response.json()
-        else reject(new Error())
+        else return reject(new Error())
       })
       .then((result) => {
         window.open(`${authUrl}/?passkey=${result.passkey}`, '_blank')?.focus()
@@ -37,7 +37,7 @@ export const signIn = async (
           })
             .then((response) => {
               if (response.body) return response.json()
-              else reject(new Error())
+              else return reject(new Error())
             })
             .then(async (result) => {
               if (result.message !== 'No token found') {
@@ -63,31 +63,31 @@ export const signIn = async (
                 )
                   .then(() => {
                     clearInterval(poll)
-                    resolve(result)
+                    return resolve(result)
                   })
                   .catch((error) => {
                     clearInterval(poll)
-                    reject(error)
+                    return reject(error)
                   })
               }
             })
             .catch((error) => {
               clearInterval(poll)
-              reject(error)
+              return reject(error)
             })
         }, 5000)
         setTimeout(
           () => {
             if (!isAuthenticated) {
               clearInterval(poll)
-              reject(new Error('Authentication timeout'))
+              return reject(new Error('Authentication timeout'))
             }
           },
           2 * 60 * 1000
         )
       })
       .catch((error) => {
-        reject(error)
+        return reject(error)
       })
   })
 }

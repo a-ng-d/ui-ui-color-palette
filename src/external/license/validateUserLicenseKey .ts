@@ -20,8 +20,8 @@ const validateUserLicenseKey = async (
         else throw new Error()
       })
       .then((data) => {
-        if (data.valid) resolve(data.valid)
-        if (data.error) reject()
+        if (data.valid) return resolve(data.valid)
+        if (data.error) return reject()
       })
   })
 }

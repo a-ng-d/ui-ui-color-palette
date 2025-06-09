@@ -16,7 +16,7 @@ const activateUserLicenseKey = async (
     )
       .then((response) => {
         if (response.status === 200) return response.json()
-        else reject()
+        else return reject()
       })
       .then((data) => {
         parent.postMessage(
@@ -41,7 +41,7 @@ const activateUserLicenseKey = async (
           },
           '*'
         )
-        resolve(data)
+        return resolve(data)
       })
   })
 }
