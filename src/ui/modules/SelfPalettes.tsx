@@ -258,7 +258,7 @@ export default class SelfPalettes extends PureComponent<
           soloPartSlot={
             <Button
               type="secondary"
-              label={this.props.locals.palettes.lazyLoad.loadMore}
+              label={this.props.locals.browse.lazyLoad.loadMore}
               isLoading={this.state.isLoadMoreActionLoading}
               action={() => {
                 this.props.onChangeCurrentPage(this.props.currentPage + 1)
@@ -282,7 +282,7 @@ export default class SelfPalettes extends PureComponent<
           soloPartSlot={
             <Message
               icon="check"
-              messages={[this.props.locals.palettes.lazyLoad.completeList]}
+              messages={[this.props.locals.browse.lazyLoad.completeList]}
             />
           }
           isCentered
@@ -548,7 +548,7 @@ export default class SelfPalettes extends PureComponent<
                       }
                       alignment="BOTTOM_RIGHT"
                       helper={{
-                        label: this.props.locals.palettes.actions.managePalette,
+                        label: this.props.locals.browse.actions.managePalette,
                       }}
                     />
                     <Button
@@ -661,12 +661,12 @@ export default class SelfPalettes extends PureComponent<
         <List isMessage>
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locals.palettes.signInFirst.message}
+            message={this.props.locals.browse.signInFirst.message}
             orientation="VERTICAL"
             actionsSlot={
               <Button
                 type="primary"
-                label={this.props.locals.palettes.signInFirst.signIn}
+                label={this.props.locals.browse.signInFirst.signIn}
                 isLoading={this.state.isSignInActionLoading}
                 action={async () => {
                   this.setState({ isSignInActionLoading: true })
@@ -714,7 +714,7 @@ export default class SelfPalettes extends PureComponent<
                     type: 'PICTO',
                     value: 'search',
                   }}
-                  placeholder={this.props.locals.palettes.lazyLoad.search}
+                  placeholder={this.props.locals.browse.lazyLoad.search}
                   value={this.props.searchQuery}
                   isClearable
                   isFramed={false}

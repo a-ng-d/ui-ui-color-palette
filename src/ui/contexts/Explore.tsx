@@ -253,7 +253,7 @@ export default class Explore extends PureComponent<
               this.state.colourLoversPalettesListStatus === 'LOADED' ? (
                 <Button
                   type="secondary"
-                  label={this.props.locals.palettes.lazyLoad.loadMore}
+                  label={this.props.locals.browse.lazyLoad.loadMore}
                   isLoading={this.state.isLoadMoreActionLoading}
                   action={() =>
                     this.setState({
@@ -266,7 +266,7 @@ export default class Explore extends PureComponent<
                 />
               ) : (
                 <div className={texts['type--secondary']}>
-                  {this.props.locals.palettes.lazyLoad.completeList}
+                  {this.props.locals.browse.lazyLoad.completeList}
                 </div>
               )
             }
