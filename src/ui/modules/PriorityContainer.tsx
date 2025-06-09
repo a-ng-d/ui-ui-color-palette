@@ -21,7 +21,7 @@ import t from '../../content/images/trial.webp'
 import p from '../../content/images/publication.webp'
 import {
   BaseProps,
-  HighlightDigest,
+  AnnouncementsDigest,
   PlanStatus,
   PriorityContext,
   TrialStatus,
@@ -30,7 +30,6 @@ import type { AppStates } from '../App'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
 import About from './About'
-import Highlight from './Highlight'
 import Onboarding from './Onboarding'
 import SyncPreferences from './SyncPreferences'
 import { NotificationMessage } from '../../types/messages'
@@ -38,13 +37,14 @@ import { signIn } from '../../external/auth/authentication'
 import { trackSignInEvent } from '../../utils/eventsTracker'
 import Publication from './Publication'
 import activateUserLicenseKey from '../../external/license/activateUserLicenseKey'
+import Announcements from './Announcements'
 
 interface PriorityContainerProps extends BaseProps, WithConfigProps {
   rawData: AppStates
   context: PriorityContext
   notification: NotificationMessage
   trialStatus: TrialStatus
-  highlight: HighlightDigest
+  announcements: AnnouncementsDigest
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
@@ -89,9 +89,9 @@ export default class PriorityContainer extends PureComponent<
       featureName: 'USER_LICENSE',
       planStatus: planStatus,
     }),
-    HELP_HIGHLIGHT: new FeatureStatus({
+    HELP_ANNOUNCEMENTS: new FeatureStatus({
       features: config.features,
-      featureName: 'HELP_HIGHLIGHT',
+      featureName: 'HELP_ANNOUNCEMENTS',
       planStatus: planStatus,
     }),
     HELP_ONBOARDING: new FeatureStatus({
@@ -331,20 +331,20 @@ export default class PriorityContainer extends PureComponent<
     )
   }
 
-  Highlight = () => {
+  Announcements = () => {
     return (
       <Feature
         isActive={PriorityContainer.features(
           this.props.planStatus,
           this.props.config
-        ).HELP_HIGHLIGHT.isActive()}
+        ).HELP_ANNOUNCEMENTS.isActive()}
       >
-        <Highlight
+        <Announcements
           {...this.props}
-          onCloseHighlight={() => {
+          onCloseAnnouncements={() => {
             if (
-              this.props.highlight.version !== undefined ||
-              this.props.highlight.version !== ''
+              this.props.announcements.version !== undefined ||
+              this.props.announcements.version !== ''
             )
               parent.postMessage(
                 {
@@ -352,8 +352,8 @@ export default class PriorityContainer extends PureComponent<
                     type: 'SET_ITEMS',
                     items: [
                       {
-                        key: 'highlight_version',
-                        value: this.props.highlight.version,
+                        key: 'announcements_version',
+                        value: this.props.announcements.version,
                       },
                     ],
                   },
@@ -859,7 +859,7 @@ export default class PriorityContainer extends PureComponent<
       <>
         {this.props.context === 'PUBLICATION' && <this.Publication />}
         {this.props.context === 'NOTIFICATION' && <this.Notification />}
-        {this.props.context === 'HIGHLIGHT' && <this.Highlight />}
+        {this.props.context === 'ANNOUNCEMENTS' && <this.Announcements />}
         {this.props.context === 'ONBOARDING' && <this.OnBoarding />}
         {this.props.context === 'PREFERENCES' && <this.Preferences />}
         {this.props.context === 'LICENSE' && <this.License />}

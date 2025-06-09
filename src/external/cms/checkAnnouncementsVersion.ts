@@ -1,4 +1,4 @@
-const checkHighlightVersion = async (
+const checkAnnouncementsVersion = async (
   announcementsWorkerUrl: string,
   announcementsDbId: string
 ): Promise<string> => {
@@ -15,4 +15,4 @@ const checkHighlightVersion = async (
   })
 }
 
-export default checkHighlightVersion
+export default checkAnnouncementsVersion

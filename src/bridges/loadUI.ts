@@ -1,7 +1,6 @@
 import globalConfig from '../global.config'
 import { locals } from '../content/locals'
 import { Window } from '../types/app'
-import checkHighlightStatus from './checks/checkHighlightStatus'
 import checkPlanStatus from './checks/checkPlanStatus'
 import checkUserConsent from './checks/checkUserConsent'
 import checkUserPreferences from './checks/checkUserPreferences'
@@ -29,6 +28,7 @@ import updateScale from './updates/updateScale'
 import updateSettings from './updates/updateSettings'
 import updateThemes from './updates/updateThemes'
 import checkUserLicense from './checks/checkUserLicense'
+import checkAnnouncementsStatus from './checks/checkAnnouncementsStatus'
 
 const iframe = document.querySelector(
   '#ui-container'
@@ -63,7 +63,7 @@ if (iframe) {
       },
     })
     iframe?.contentWindow?.postMessage({
-      type: 'CHECK_HIGHLIGHT_VERSION',
+      type: 'CHECK_ANNOUNCEMENTS_VERSION',
     })
   }
 }
@@ -90,7 +90,8 @@ window.addEventListener('message', async (msg: any) => {
       )
     },
     CHECK_USER_CONSENT: () => checkUserConsent(),
-    CHECK_HIGHLIGHT_STATUS: () => checkHighlightStatus(path.data.version),
+    CHECK_ANNOUNCEMENTS_STATUS: () =>
+      checkAnnouncementsStatus(path.data.version),
     //
     UPDATE_SCALE: () => updateScale(path),
     UPDATE_COLORS: () => updateColors(path),

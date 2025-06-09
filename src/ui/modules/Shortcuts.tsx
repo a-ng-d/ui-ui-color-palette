@@ -5,7 +5,7 @@ import React from 'react'
 import { ConfigContextType } from '../../config/ConfigContext'
 import {
   BaseProps,
-  HighlightDigest,
+  AnnouncementsDigest,
   PlanStatus,
   TrialStatus,
 } from '../../types/app'
@@ -18,8 +18,8 @@ import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 interface ShortcutsProps extends BaseProps, WithConfigProps {
   trialStatus: TrialStatus
   trialRemainingTime: number
-  highlight: HighlightDigest
-  onReOpenHighlight: () => void
+  announcements: AnnouncementsDigest
+  onReOpenAnnouncements: () => void
   onReOpenOnboarding: () => void
   onReOpenStore: () => void
   onReOpenAbout: () => void
@@ -34,10 +34,7 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER: new FeatureStatus({
       features: config.features,
@@ -54,9 +51,9 @@ export default class Shortcuts extends PureComponent<
       featureName: 'USER_LICENSE',
       planStatus: planStatus,
     }),
-    HELP_HIGHLIGHT: new FeatureStatus({
+    HELP_ANNOUNCEMENTS: new FeatureStatus({
       features: config.features,
-      featureName: 'HELP_HIGHLIGHT',
+      featureName: 'HELP_ANNOUNCEMENTS',
       planStatus: planStatus,
     }),
     HELP_ONBOARDING: new FeatureStatus({
@@ -497,17 +494,17 @@ export default class Shortcuts extends PureComponent<
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).HELP_HIGHLIGHT.isActive(),
+                      ).HELP_ANNOUNCEMENTS.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).HELP_HIGHLIGHT.isBlocked(),
+                      ).HELP_ANNOUNCEMENTS.isBlocked(),
                       isNew:
-                        this.props.highlight.status ===
-                        'DISPLAY_HIGHLIGHT_NOTIFICATION'
+                        this.props.announcements.status ===
+                        'DISPLAY_ANNOUNCEMENTS_NOTIFICATION'
                           ? true
                           : false,
-                      action: () => this.props.onReOpenHighlight(),
+                      action: () => this.props.onReOpenAnnouncements(),
                     },
                     {
                       label: this.props.locals.shortcuts.onboarding,
@@ -711,8 +708,8 @@ export default class Shortcuts extends PureComponent<
                     pin: 'TOP',
                   }}
                   isNew={
-                    this.props.highlight.status ===
-                    'DISPLAY_HIGHLIGHT_NOTIFICATION'
+                    this.props.announcements.status ===
+                    'DISPLAY_ANNOUNCEMENTS_NOTIFICATION'
                       ? true
                       : false
                   }

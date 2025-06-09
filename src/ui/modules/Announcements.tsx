@@ -1,15 +1,15 @@
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { BaseProps, HighlightDigest } from '../../types/app'
+import { BaseProps, AnnouncementsDigest } from '../../types/app'
 import { WithConfigProps } from '../components/WithConfig'
 
-interface HighlightProps extends BaseProps, WithConfigProps {
-  highlight: HighlightDigest
-  onCloseHighlight: (e: MouseEvent) => void
+interface AnnouncementsProps extends BaseProps, WithConfigProps {
+  announcements: AnnouncementsDigest
+  onCloseAnnouncements: (e: MouseEvent) => void
 }
 
-interface HighlightStates {
+interface AnnouncementsStates {
   position: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   announcements: Array<any>
@@ -17,11 +17,11 @@ interface HighlightStates {
   isImageLoaded: boolean
 }
 
-export default class Highlight extends PureComponent<
-  HighlightProps,
-  HighlightStates
+export default class Announcements extends PureComponent<
+  AnnouncementsProps,
+  AnnouncementsStates
 > {
-  constructor(props: HighlightProps) {
+  constructor(props: AnnouncementsProps) {
     super(props)
     this.state = {
       position: 0,
@@ -86,7 +86,7 @@ export default class Highlight extends PureComponent<
     if (this.state.position + 1 < this.state.announcements.length)
       this.setState({ position: this.state.position + 1, isImageLoaded: false })
     else {
-      this.props.onCloseHighlight(e as MouseEvent)
+      this.props.onCloseAnnouncements(e as MouseEvent)
       this.setState({ position: 0 })
     }
   }
@@ -98,7 +98,7 @@ export default class Highlight extends PureComponent<
         <Dialog
           title={this.props.locals.shortcuts.news}
           isLoading
-          onClose={this.props.onCloseHighlight}
+          onClose={this.props.onCloseAnnouncements}
         />
       )
     else if (this.state.status === 'ERROR')
@@ -106,7 +106,7 @@ export default class Highlight extends PureComponent<
         <Dialog
           title={this.props.locals.shortcuts.news}
           isMessage
-          onClose={this.props.onCloseHighlight}
+          onClose={this.props.onCloseAnnouncements}
         >
           <SemanticMessage
             type="WARNING"
@@ -129,8 +129,8 @@ export default class Highlight extends PureComponent<
             primary: {
               label:
                 this.state.position + 1 < this.state.announcements.length
-                  ? this.props.locals.highlight.cta.next
-                  : this.props.locals.highlight.cta.gotIt,
+                  ? this.props.locals.announcements.cta.next
+                  : this.props.locals.announcements.cta.gotIt,
               action: (e: MouseEvent) => this.goNextSlide(e),
             },
             secondary: (() => {
@@ -139,7 +139,7 @@ export default class Highlight extends PureComponent<
                   .url !== null
               )
                 return {
-                  label: this.props.locals.highlight.cta.learnMore,
+                  label: this.props.locals.announcements.cta.learnMore,
                   action: () =>
                     window
                       .open(
@@ -159,8 +159,8 @@ export default class Highlight extends PureComponent<
           }
           onClose={(e: MouseEvent) => {
             if (
-              this.props.highlight.version !== undefined ||
-              this.props.highlight.version !== ''
+              this.props.announcements.version !== undefined ||
+              this.props.announcements.version !== ''
             )
               parent.postMessage(
                 {
@@ -168,15 +168,15 @@ export default class Highlight extends PureComponent<
                     type: 'SET_ITEMS',
                     items: [
                       {
-                        key: 'highlight_version',
-                        value: this.props.highlight.version,
+                        key: 'announcements_version',
+                        value: this.props.announcements.version,
                       },
                     ],
                   },
                 },
                 '*'
               )
-            this.props.onCloseHighlight(e)
+            this.props.onCloseAnnouncements(e)
           }}
         >
           <div

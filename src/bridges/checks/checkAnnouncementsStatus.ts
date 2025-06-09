@@ -1,15 +1,15 @@
-const checkHighlightStatus = (remoteVersion: string) => {
+const checkAnnouncementsStatus = (remoteVersion: string) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
-  const localVersion = window.localStorage.getItem('highlight_version')
+  const localVersion = window.localStorage.getItem('announcements_version')
   const isOnboardingRead = window.localStorage.getItem('is_onboarding_read')
 
   if (localVersion === null && remoteVersion === null)
     return {
-      type: 'PUSH_HIGHLIGHT_STATUS',
+      type: 'PUSH_ANNOUNCEMENTS_STATUS',
       data: {
-        status: 'NO_HIGHLIGHT',
+        status: 'NO_ANNOUNCEMENTS',
       },
     }
   else if (localVersion === null && isOnboardingRead === null)
@@ -21,9 +21,9 @@ const checkHighlightStatus = (remoteVersion: string) => {
     })
   else if (localVersion === null)
     return iframe?.contentWindow?.postMessage({
-      type: 'PUSH_HIGHLIGHT_STATUS',
+      type: 'PUSH_ANNOUNCEMENTS_STATUS',
       data: {
-        status: 'DISPLAY_HIGHLIGHT_DIALOG',
+        status: 'DISPLAY_ANNOUNCEMENTS_DIALOG',
       },
     })
   else {
@@ -35,27 +35,27 @@ const checkHighlightStatus = (remoteVersion: string) => {
 
     if (remoteMajorVersion !== localMajorVersion)
       return iframe?.contentWindow?.postMessage({
-        type: 'PUSH_HIGHLIGHT_STATUS',
+        type: 'PUSH_ANNOUNCEMENTS_STATUS',
         data: {
-          status: 'DISPLAY_HIGHLIGHT_DIALOG',
+          status: 'DISPLAY_ANNOUNCEMENTS_DIALOG',
         },
       })
 
     if (remoteMinorVersion !== localMinorVersion)
       return iframe?.contentWindow?.postMessage({
-        type: 'PUSH_HIGHLIGHT_STATUS',
+        type: 'PUSH_ANNOUNCEMENTS_STATUS',
         data: {
-          status: 'DISPLAY_HIGHLIGHT_NOTIFICATION',
+          status: 'DISPLAY_ANNOUNCEMENTS_NOTIFICATION',
         },
       })
 
     return {
-      type: 'PUSH_HIGHLIGHT_STATUS',
+      type: 'PUSH_ANNOUNCEMENTS_STATUS',
       data: {
-        status: 'NO_HIGHLIGHT',
+        status: 'NO_ANNOUNCEMENTS',
       },
     }
   }
 }
 
-export default checkHighlightStatus
+export default checkAnnouncementsStatus

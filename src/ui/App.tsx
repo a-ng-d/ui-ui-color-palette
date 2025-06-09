@@ -24,7 +24,7 @@ import { defaultPreset, presets } from '../stores/presets'
 import {
   BaseProps,
   Editor,
-  HighlightDigest,
+  AnnouncementsDigest,
   NamingConvention,
   PlanStatus,
   PriorityContext,
@@ -73,8 +73,8 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
-import checkHighlightVersion from '../external/cms/checkHighlightVersion'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
+import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
 
 type AppProps = WithConfigProps
 
@@ -108,7 +108,7 @@ export interface AppStates extends BaseProps {
   creatorIdentity: CreatorConfiguration
   priorityContainerContext: PriorityContext
   mustUserConsent: boolean
-  highlight: HighlightDigest
+  announcements: AnnouncementsDigest
   notification: NotificationMessage
   isVsCodeMessageDisplayed: boolean
   isLoaded: boolean
@@ -228,9 +228,9 @@ class App extends Component<AppProps, AppStates> {
       locals: {},
       lang: $userLanguage.get(),
       mustUserConsent: true,
-      highlight: {
+      announcements: {
         version: '',
-        status: 'NO_HIGHLIGHT',
+        status: 'NO_ANNOUNCEMENTS',
       },
       notification: {
         type: 'INFO',
@@ -432,21 +432,21 @@ class App extends Component<AppProps, AppStates> {
             trialRemainingTime: path.data.trialRemainingTime,
           })
 
-        const checkHighlight = () => {
-          checkHighlightVersion(
+        const checkAnnouncements = () => {
+          checkAnnouncementsVersion(
             this.props.config.urls.announcementsWorkerUrl,
             this.props.config.env.announcementsDbId
           ).then((version: string) => {
             this.setState({
-              highlight: {
+              announcements: {
                 version: version,
-                status: 'NO_HIGHLIGHT',
+                status: 'NO_ANNOUNCEMENTS',
               },
             })
             parent.postMessage(
               {
                 pluginMessage: {
-                  type: 'CHECK_HIGHLIGHT_STATUS',
+                  type: 'CHECK_ANNOUNCEMENTS_STATUS',
                   data: {
                     version: version,
                   },
@@ -467,14 +467,14 @@ class App extends Component<AppProps, AppStates> {
             },
           })
 
-        const handleHighlight = () => {
+        const handleAnnouncements = () => {
           this.setState({
             priorityContainerContext:
-              path.data.status !== 'DISPLAY_HIGHLIGHT_DIALOG'
+              path.data.status !== 'DISPLAY_ANNOUNCEMENTS_DIALOG'
                 ? 'EMPTY'
-                : 'HIGHLIGHT',
-            highlight: {
-              version: this.state.highlight.version,
+                : 'ANNOUNCEMENTS',
+            announcements: {
+              version: this.state.announcements.version,
               status: path.data.status,
             },
           })
@@ -860,9 +860,9 @@ class App extends Component<AppProps, AppStates> {
           CHECK_USER_LICENSE: () => checkUserLicense(),
           CHECK_EDITOR: () => checkEditor(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
-          CHECK_HIGHLIGHT_VERSION: () => checkHighlight(),
+          CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
           POST_MESSAGE: () => postMessage(),
-          PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
+          PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
           PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
           EMPTY_SELECTION: () => updateWhileEmptySelection(),
           COLOR_SELECTED: () => updateWhileColorSelected(),
@@ -1081,9 +1081,9 @@ class App extends Component<AppProps, AppStates> {
                   onClose={() =>
                     this.setState({
                       priorityContainerContext: 'EMPTY',
-                      highlight: {
-                        version: this.state.highlight.version,
-                        status: 'NO_HIGHLIGHT',
+                      announcements: {
+                        version: this.state.announcements.version,
+                        status: 'NO_ANNOUNCEMENTS',
                       },
                       notification: {
                         type: 'INFO',
@@ -1201,8 +1201,8 @@ class App extends Component<AppProps, AppStates> {
             <Shortcuts
               {...this.props}
               {...this.state}
-              onReOpenHighlight={() =>
-                this.setState({ priorityContainerContext: 'HIGHLIGHT' })
+              onReOpenAnnouncements={() =>
+                this.setState({ priorityContainerContext: 'ANNOUNCEMENTS' })
               }
               onReOpenOnboarding={() =>
                 this.setState({ priorityContainerContext: 'ONBOARDING' })

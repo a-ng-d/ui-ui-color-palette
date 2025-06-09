@@ -63,10 +63,10 @@ export type FetchStatus =
   | 'SIGN_IN_FIRST'
   | 'NO_RESULT'
 
-export type HighlightStatus =
-  | 'NO_HIGHLIGHT'
-  | 'DISPLAY_HIGHLIGHT_NOTIFICATION'
-  | 'DISPLAY_HIGHLIGHT_DIALOG'
+export type AnnouncementsStatus =
+  | 'NO_ANNOUNCEMENTS'
+  | 'DISPLAY_ANNOUNCEMENTS_NOTIFICATION'
+  | 'DISPLAY_ANNOUNCEMENTS_DIALOG'
 
 export type OnboardingStatus = 'NO_ONBOARDING' | 'DISPLAY_ONBOARDING_DIALOG'
 
@@ -77,9 +77,9 @@ export interface Window {
   height: number
 }
 
-export interface HighlightDigest {
+export interface AnnouncementsDigest {
   version: string
-  status: HighlightStatus
+  status: AnnouncementsStatus
 }
 
 export type PriorityContext =
@@ -88,7 +88,7 @@ export type PriorityContext =
   | 'PREFERENCES'
   | 'LICENSE'
   | 'PUBLICATION'
-  | 'HIGHLIGHT'
+  | 'ANNOUNCEMENTS'
   | 'ONBOARDING'
   | 'REPORT'
   | 'TRY'

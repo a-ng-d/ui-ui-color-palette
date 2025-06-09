@@ -1330,7 +1330,7 @@ export const featuresScheme: Array<
     service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
   },
   {
-    name: 'HELP_HIGHLIGHT',
+    name: 'HELP_ANNOUNCEMENTS',
     description: 'Release notes',
     isActive: true,
     isPro: false,
