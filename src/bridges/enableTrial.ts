@@ -8,7 +8,7 @@ const enableTrial = async (trialTime: number, trialVersion: string) => {
   window.localStorage.setItem('trial_version', trialVersion)
   window.localStorage.setItem('trial_time', trialTime.toString())
 
-  iframe?.contentWindow?.postMessage({
+  return iframe?.contentWindow?.postMessage({
     type: 'ENABLE_TRIAL',
     data: {
       date: date,

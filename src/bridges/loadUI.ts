@@ -260,8 +260,9 @@ window.addEventListener('message', async (msg: any) => {
     GET_PRO_PLAN: async () =>
       window.open(globalConfig.urls.storeUrl, '_blank')?.focus(),
     ENABLE_TRIAL: async () => {
-      await enableTrial(path.data.trialTime, path.data.trialVersion)
-      await checkPlanStatus()
+      enableTrial(path.data.trialTime, path.data.trialVersion).then(() =>
+        checkPlanStatus()
+      )
     },
     SIGN_OUT: () =>
       iframe?.contentWindow?.postMessage({
