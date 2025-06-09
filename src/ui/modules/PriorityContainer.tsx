@@ -435,15 +435,6 @@ export default class PriorityContainer extends PureComponent<
   }
 
   License = () => {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'GET_DATA',
-          items: ['user_license_key'],
-        },
-      },
-      '*'
-    )
     const theme = document.documentElement.getAttribute('data-theme')
     let padding
 
@@ -504,7 +495,7 @@ export default class PriorityContainer extends PureComponent<
                   .finally(() => {
                     this.setState({ isPrimaryActionLoading: false })
                   })
-                  .then(() => {
+                  .catch(() => {
                     this.setState({
                       licenseStatus: 'ERROR',
                     })

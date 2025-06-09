@@ -8,9 +8,8 @@ const checkAnnouncementsVersion = async (
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.message !== 'The database is not found') {
+        if (data.message !== 'The database is not found')
           return resolve(data.version as string)
-        }
       })
   })
 }

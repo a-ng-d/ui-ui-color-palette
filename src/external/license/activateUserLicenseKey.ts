@@ -14,11 +14,9 @@ const activateUserLicenseKey = async (
         },
       }
     )
-      .then((response) => {
-        if (response.status === 200) return response.json()
-        else return reject()
-      })
+      .then((response) => response.json())
       .then((data) => {
+        if (data.error) return reject(new Error(data.error))
         parent.postMessage(
           {
             pluginMessage: {
@@ -43,6 +41,7 @@ const activateUserLicenseKey = async (
         )
         return resolve(data)
       })
+      .catch((error) => reject(error))
   })
 }
 

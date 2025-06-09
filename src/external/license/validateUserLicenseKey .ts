@@ -15,14 +15,12 @@ const validateUserLicenseKey = async (
         },
       }
     )
-      .then((response) => {
-        if (response.status === 200) return response.json()
-        else throw new Error()
-      })
+      .then((response) => response.json())
       .then((data) => {
         if (data.valid) return resolve(data.valid)
-        if (data.error) return reject()
+        if (data.error) throw new Error(data.error)
       })
+      .catch((error) => reject(error))
   })
 }
 
