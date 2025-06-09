@@ -73,6 +73,7 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import checkHighlightVersion from '../external/cms/checkHighlightVersion'
 
 type AppProps = WithConfigProps
 
@@ -292,30 +293,17 @@ class App extends Component<AppProps, AppStates> {
     })
 
     // Announcements
-    fetch(
-      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_version&database_id=${this.props.config.env.announcementsDbId}`
+    checkHighlightVersion(
+      this.props.config.urls.announcementsWorkerUrl,
+      this.props.config.env.announcementsDbId
     )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message !== 'The database is not found') {
-          parent.postMessage(
-            {
-              pluginMessage: {
-                type: 'CHECK_HIGHLIGHT_STATUS',
-                data: {
-                  version: data.version,
-                },
-              },
-            },
-            '*'
-          )
-          this.setState({
-            highlight: {
-              version: data.version,
-              status: 'NO_HIGHLIGHT',
-            },
-          })
-        }
+      .then((version: string) => {
+        this.setState({
+          highlight: {
+            version: version,
+            status: 'NO_HIGHLIGHT',
+          },
+        })
       })
       .catch((error) => console.error(error))
 
