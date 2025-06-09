@@ -74,6 +74,7 @@ import {
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 import checkHighlightVersion from '../external/cms/checkHighlightVersion'
+import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 
 type AppProps = WithConfigProps
 
@@ -296,16 +297,14 @@ class App extends Component<AppProps, AppStates> {
     checkHighlightVersion(
       this.props.config.urls.announcementsWorkerUrl,
       this.props.config.env.announcementsDbId
-    )
-      .then((version: string) => {
-        this.setState({
-          highlight: {
-            version: version,
-            status: 'NO_HIGHLIGHT',
-          },
-        })
+    ).then((version: string) => {
+      this.setState({
+        highlight: {
+          version: version,
+          status: 'NO_HIGHLIGHT',
+        },
       })
-      .catch((error) => console.error(error))
+    })
 
     // Authentication
     if (supabase !== undefined)
@@ -368,7 +367,6 @@ class App extends Component<AppProps, AppStates> {
             })
           },
         }
-        // console.log(event, session)
         return actions[event]?.()
       })
 
@@ -409,6 +407,18 @@ class App extends Component<AppProps, AppStates> {
           $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
           $isVsCodeMessageDisplayed.set(path.data.isVsCodeMessageDisplayed)
           $userLanguage.set(path.data.userLanguage)
+        }
+
+        const checkUserLicense = () => {
+          validateUserLicenseKey(
+            this.props.config.urls.storeApiUrl,
+            path.data.licenseKey,
+            path.datainstanceId
+          ).then((isValid: boolean) => {
+            this.setState({
+              planStatus: isValid ? 'PAID' : 'UNPAID',
+            })
+          })
         }
 
         const checkEditor = () => {
@@ -835,6 +845,7 @@ class App extends Component<AppProps, AppStates> {
           CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
           CHECK_USER_CONSENT: () => checkUserConsent(),
           CHECK_USER_PREFERENCES: () => checkUserPreferences(),
+          CHECK_USER_LICENSE: () => checkUserLicense(),
           CHECK_EDITOR: () => checkEditor(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
           POST_MESSAGE: () => postMessage(),

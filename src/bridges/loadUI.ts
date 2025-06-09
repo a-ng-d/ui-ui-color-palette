@@ -28,6 +28,7 @@ import updatePalette from './updates/updatePalette'
 import updateScale from './updates/updateScale'
 import updateSettings from './updates/updateSettings'
 import updateThemes from './updates/updateThemes'
+import checkUserLicense from './checks/checkUserLicense'
 
 const iframe = document.querySelector(
   '#ui-container'
@@ -49,6 +50,7 @@ if (iframe) {
     checkUserConsent()
       .then(() => checkPlanStatus())
       .then(() => checkUserPreferences())
+      .then(() => checkUserLicense())
 
     iframe?.contentWindow?.postMessage({
       type: 'CHECK_USER_AUTHENTICATION',

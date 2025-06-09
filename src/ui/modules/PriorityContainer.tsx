@@ -155,7 +155,6 @@ export default class PriorityContainer extends PureComponent<
       [action: string]: () => void
     } = {
       GET_DATA_USER_LICENSE_KEY: () => {
-        console.log
         if (path.value !== null || path.value === undefined)
           this.setState({ userLicenseKey: path.value, licenseStatus: 'VALID' })
         else this.setState({ userLicenseKey: '', licenseStatus: 'NO_LICENSE' })

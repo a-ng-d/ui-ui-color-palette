@@ -40,7 +40,6 @@ export const signIn = async (
               else reject(new Error())
             })
             .then(async (result) => {
-              //console.log(result)
               if (result.message !== 'No token found') {
                 isAuthenticated = true
                 parent.postMessage({
