@@ -137,6 +137,87 @@ export default class BrowsePalettes extends PureComponent<
       }
     }
 
+    const buttons = [] as React.ReactNode[]
+
+    if (this.props.document.isLinkedToPalette !== undefined) {
+      if (this.props.document.isLinkedToPalette) {
+        buttons.push(
+          <Feature
+            isActive={BrowsePalettes.features(
+              this.props.planStatus,
+              this.props.config
+            ).DOCUMENT_OPEN.isActive()}
+          >
+            <Button
+              type="secondary"
+              label={this.props.locals.browse.document.open}
+              isBlocked={BrowsePalettes.features(
+                this.props.planStatus,
+                this.props.config
+              ).DOCUMENT_OPEN.isBlocked()}
+              isNew={BrowsePalettes.features(
+                this.props.planStatus,
+                this.props.config
+              ).DOCUMENT_OPEN.isNew()}
+              action={this.onEditPalette}
+            />
+          </Feature>
+        )
+      } else {
+        buttons.push(
+          <Feature
+            isActive={
+              BrowsePalettes.features(
+                this.props.planStatus,
+                this.props.config
+              ).DOCUMENT_CREATE.isActive() && !this.props.editor.includes('dev')
+            }
+          >
+            <Button
+              type="secondary"
+              label={this.props.locals.browse.document.create}
+              isBlocked={BrowsePalettes.features(
+                this.props.planStatus,
+                this.props.config
+              ).DOCUMENT_CREATE.isBlocked()}
+              isNew={BrowsePalettes.features(
+                this.props.planStatus,
+                this.props.config
+              ).DOCUMENT_CREATE.isNew()}
+              action={this.onCreateFromDocument}
+            />
+          </Feature>
+        )
+      }
+    }
+
+    if (
+      BrowsePalettes.features(
+        this.props.planStatus,
+        this.props.config
+      ).CREATE_PALETTE.isActive() &&
+      !this.props.editor.includes('dev')
+    ) {
+      buttons.push(
+        <Button
+          type="primary"
+          icon="plus"
+          label={this.props.locals.browse.actions.new}
+          isBlocked={BrowsePalettes.features(
+            this.props.planStatus,
+            this.props.config
+          ).CREATE_PALETTE.isBlocked()}
+          isNew={BrowsePalettes.features(
+            this.props.planStatus,
+            this.props.config
+          ).CREATE_PALETTE.isNew()}
+          action={this.onCreatePalette}
+        />
+      )
+    }
+
+    console.log(buttons)
+
     return (
       <>
         <Bar
@@ -151,78 +232,9 @@ export default class BrowsePalettes extends PureComponent<
             ) : undefined
           }
           rightPartSlot={
-            <div className={layouts['snackbar--medium']}>
-              {this.props.document.isLinkedToPalette !== undefined &&
-                this.props.document.isLinkedToPalette && (
-                  <Feature
-                    isActive={BrowsePalettes.features(
-                      this.props.planStatus,
-                      this.props.config
-                    ).DOCUMENT_OPEN.isActive()}
-                  >
-                    <Button
-                      type="secondary"
-                      label={this.props.locals.browse.document.open}
-                      isBlocked={BrowsePalettes.features(
-                        this.props.planStatus,
-                        this.props.config
-                      ).DOCUMENT_OPEN.isBlocked()}
-                      isNew={BrowsePalettes.features(
-                        this.props.planStatus,
-                        this.props.config
-                      ).DOCUMENT_OPEN.isNew()}
-                      action={this.onEditPalette}
-                    />
-                  </Feature>
-                )}
-              {this.props.document.isLinkedToPalette !== undefined &&
-                !this.props.document.isLinkedToPalette &&
-                !this.props.editor.includes('dev') && (
-                  <Feature
-                    isActive={BrowsePalettes.features(
-                      this.props.planStatus,
-                      this.props.config
-                    ).DOCUMENT_CREATE.isActive()}
-                  >
-                    <Button
-                      type="secondary"
-                      label={this.props.locals.browse.document.create}
-                      isBlocked={BrowsePalettes.features(
-                        this.props.planStatus,
-                        this.props.config
-                      ).DOCUMENT_CREATE.isBlocked()}
-                      isNew={BrowsePalettes.features(
-                        this.props.planStatus,
-                        this.props.config
-                      ).DOCUMENT_CREATE.isNew()}
-                      action={this.onCreateFromDocument}
-                    />
-                  </Feature>
-                )}
-              <Feature
-                isActive={
-                  BrowsePalettes.features(
-                    this.props.planStatus,
-                    this.props.config
-                  ).CREATE_PALETTE.isActive() && this.props.editor !== 'dev'
-                }
-              >
-                <Button
-                  type="primary"
-                  icon="plus"
-                  label={this.props.locals.browse.actions.new}
-                  isBlocked={BrowsePalettes.features(
-                    this.props.planStatus,
-                    this.props.config
-                  ).CREATE_PALETTE.isBlocked()}
-                  isNew={BrowsePalettes.features(
-                    this.props.planStatus,
-                    this.props.config
-                  ).CREATE_PALETTE.isNew()}
-                  action={this.onCreatePalette}
-                />
-              </Feature>
-            </div>
+            buttons.length > 0 ? (
+              <div className={layouts['snackbar--medium']}>{buttons}</div>
+            ) : undefined
           }
         />
         <section className="context">{fragment}</section>
