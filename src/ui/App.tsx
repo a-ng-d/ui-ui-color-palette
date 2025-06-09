@@ -293,19 +293,6 @@ class App extends Component<AppProps, AppStates> {
       name: locals.get().settings.global.name.default,
     })
 
-    // Announcements
-    checkHighlightVersion(
-      this.props.config.urls.announcementsWorkerUrl,
-      this.props.config.env.announcementsDbId
-    ).then((version: string) => {
-      this.setState({
-        highlight: {
-          version: version,
-          status: 'NO_HIGHLIGHT',
-        },
-      })
-    })
-
     // Authentication
     if (supabase !== undefined)
       supabase.auth.onAuthStateChange((event, session) => {
@@ -444,6 +431,31 @@ class App extends Component<AppProps, AppStates> {
             trialStatus: path.data.trialStatus,
             trialRemainingTime: path.data.trialRemainingTime,
           })
+
+        const checkHighlight = () => {
+          checkHighlightVersion(
+            this.props.config.urls.announcementsWorkerUrl,
+            this.props.config.env.announcementsDbId
+          ).then((version: string) => {
+            this.setState({
+              highlight: {
+                version: version,
+                status: 'NO_HIGHLIGHT',
+              },
+            })
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: 'CHECK_HIGHLIGHT_STATUS',
+                  data: {
+                    version: version,
+                  },
+                },
+              },
+              '*'
+            )
+          })
+        }
 
         const postMessage = () =>
           this.setState({
@@ -848,6 +860,7 @@ class App extends Component<AppProps, AppStates> {
           CHECK_USER_LICENSE: () => checkUserLicense(),
           CHECK_EDITOR: () => checkEditor(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
+          CHECK_HIGHLIGHT_VERSION: () => checkHighlight(),
           POST_MESSAGE: () => postMessage(),
           PUSH_HIGHLIGHT_STATUS: () => handleHighlight(),
           PUSH_ONBOARDING_STATUS: () => handleOnboarding(),

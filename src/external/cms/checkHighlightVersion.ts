@@ -9,17 +9,6 @@ const checkHighlightVersion = async (
       .then((response) => response.json())
       .then((data) => {
         if (data.message !== 'The database is not found') {
-          parent.postMessage(
-            {
-              pluginMessage: {
-                type: 'CHECK_HIGHLIGHT_STATUS',
-                data: {
-                  version: data.version,
-                },
-              },
-            },
-            '*'
-          )
           return resolve(data.version as string)
         }
       })

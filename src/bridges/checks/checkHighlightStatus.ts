@@ -5,21 +5,21 @@ const checkHighlightStatus = (remoteVersion: string) => {
   const localVersion = window.localStorage.getItem('highlight_version')
   const isOnboardingRead = window.localStorage.getItem('is_onboarding_read')
 
-  if (localVersion === undefined && remoteVersion === undefined)
+  if (localVersion === null && remoteVersion === null)
     return {
       type: 'PUSH_HIGHLIGHT_STATUS',
       data: {
         status: 'NO_HIGHLIGHT',
       },
     }
-  else if (localVersion === undefined && isOnboardingRead === undefined)
+  else if (localVersion === null && isOnboardingRead === null)
     return iframe?.contentWindow?.postMessage({
       type: 'PUSH_ONBOARDING_STATUS',
       data: {
         status: 'DISPLAY_ONBOARDING_DIALOG',
       },
     })
-  else if (localVersion === undefined)
+  else if (localVersion === null)
     return iframe?.contentWindow?.postMessage({
       type: 'PUSH_HIGHLIGHT_STATUS',
       data: {

@@ -62,6 +62,9 @@ if (iframe) {
         refreshToken: window.localStorage.getItem('supabase_refresh_token'),
       },
     })
+    iframe?.contentWindow?.postMessage({
+      type: 'CHECK_HIGHLIGHT_VERSION',
+    })
   }
 }
 
