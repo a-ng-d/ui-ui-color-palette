@@ -20,7 +20,7 @@ export const signIn = async (
     })
       .then((response) => {
         if (response.ok) return response.json()
-        else return reject(new Error())
+        else throw new Error('Failed to fetch passkey')
       })
       .then((result) => {
         window.open(`${authUrl}/?passkey=${result.passkey}`, '_blank')?.focus()
@@ -37,7 +37,7 @@ export const signIn = async (
           })
             .then((response) => {
               if (response.body) return response.json()
-              else return reject(new Error())
+              else throw new Error()
             })
             .then(async (result) => {
               if (result.message !== 'No token found') {
@@ -80,15 +80,13 @@ export const signIn = async (
           () => {
             if (!isAuthenticated) {
               clearInterval(poll)
-              return reject(new Error('Authentication timeout'))
+              throw new Error('Authentication timeout')
             }
           },
           2 * 60 * 1000
         )
       })
-      .catch((error) => {
-        return reject(error)
-      })
+      .catch((error) => reject(error))
   })
 }
 
