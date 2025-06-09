@@ -216,8 +216,6 @@ export default class BrowsePalettes extends PureComponent<
       )
     }
 
-    console.log(buttons)
-
     return (
       <>
         <Bar
