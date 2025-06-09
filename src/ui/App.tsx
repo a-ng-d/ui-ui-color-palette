@@ -400,7 +400,7 @@ class App extends Component<AppProps, AppStates> {
           validateUserLicenseKey(
             this.props.config.urls.storeApiUrl,
             path.data.licenseKey,
-            path.datainstanceId
+            path.data.instanceId
           ).then((isValid: boolean) => {
             this.setState({
               planStatus: isValid ? 'PAID' : 'UNPAID',
