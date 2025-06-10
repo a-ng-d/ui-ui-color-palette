@@ -19,9 +19,10 @@ if (globalConfig.env.mixpanelToken)
     opt_out_tracking_by_default: true,
   })
 
-if (globalConfig.env.sentryToken)
+if (globalConfig.env.sentryToken && !globalConfig.env.isDev) {
   Sentry.init({
     dsn: globalConfig.urls.sentryDsn,
+    environment: 'production',
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
@@ -30,10 +31,26 @@ if (globalConfig.env.sentryToken)
         autoInject: false,
       }),
     ],
-    tracesSampleRate: 1.0,
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0,
+    tracesSampleRate: 0.1,
+    replaysSessionSampleRate: 0.05,
+    replaysOnErrorSampleRate: 0.5,
   })
+} else if (globalConfig.env.isDev) {
+  const devLogger = {
+    captureException: (error: Error) => {
+      console.group('🐛 Dev Error Logger')
+      console.error(error)
+      console.groupEnd()
+    },
+    captureMessage: (message: string) => {
+      console.group('📝 Dev Message Logger')
+      console.info(message)
+      console.groupEnd()
+    },
+  }
+
+  ;(window as any).Sentry = devLogger
+}
 
 let supabase: SupabaseClient
 if (globalConfig.env.supabaseAnonKey)
