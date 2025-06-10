@@ -22,7 +22,7 @@ const sharePalette = async ({
     ])
     .match({ palette_id: id })
 
-  if (!error) 
+  if (!error)
     parent.postMessage(
       {
         pluginMessage: {
@@ -48,7 +48,7 @@ const sharePalette = async ({
       },
       '*'
     )
-   else throw error
+  else throw error
 }
 
 export default sharePalette

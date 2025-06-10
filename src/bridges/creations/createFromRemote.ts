@@ -21,8 +21,7 @@ const createFromRemote = async (msg: Msg) => {
     `palette_${msg.data.meta.id}`
   )
 
-  if (localPalette)
-    throw new Error()
+  if (localPalette) throw new Error()
 
   const palette = new Data({
     base: {

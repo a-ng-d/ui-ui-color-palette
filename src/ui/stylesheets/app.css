@@ -87,6 +87,7 @@ div.export-palette__preview textarea {
 
 .preview__cell {
   display: flex;
+  position: relative;
   flex: 1;
   flex-direction: column;
   align-items: flex-end;
@@ -94,7 +95,6 @@ div.export-palette__preview textarea {
   padding: var(--size-xxxsmall);
   min-height: 44px;
   overflow: hidden;
-  position: relative;
 }
 
 .preview__cell--no-height {

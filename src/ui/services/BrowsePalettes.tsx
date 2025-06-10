@@ -139,8 +139,8 @@ export default class BrowsePalettes extends PureComponent<
 
     const buttons = [] as React.ReactNode[]
 
-    if (this.props.document.isLinkedToPalette !== undefined) 
-      if (this.props.document.isLinkedToPalette) 
+    if (this.props.document.isLinkedToPalette !== undefined)
+      if (this.props.document.isLinkedToPalette)
         buttons.push(
           <Feature
             isActive={BrowsePalettes.features(
@@ -163,7 +163,7 @@ export default class BrowsePalettes extends PureComponent<
             />
           </Feature>
         )
-       else 
+      else
         buttons.push(
           <Feature
             isActive={
@@ -188,8 +188,6 @@ export default class BrowsePalettes extends PureComponent<
             />
           </Feature>
         )
-      
-    
 
     if (
       BrowsePalettes.features(
@@ -197,7 +195,7 @@ export default class BrowsePalettes extends PureComponent<
         this.props.config
       ).CREATE_PALETTE.isActive() &&
       !this.props.editor.includes('dev')
-    ) 
+    )
       buttons.push(
         <Button
           type="primary"
@@ -214,7 +212,6 @@ export default class BrowsePalettes extends PureComponent<
           action={this.onCreatePalette}
         />
       )
-    
 
     return (
       <>

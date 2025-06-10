@@ -106,7 +106,7 @@ export default class License extends PureComponent<
   }
 
   licenseHandler = () => {
-    if (!this.state.hasLicense) 
+    if (!this.state.hasLicense)
       return {
         label: this.props.locals.user.license.cta.activate,
         state:
@@ -149,7 +149,7 @@ export default class License extends PureComponent<
             })
         },
       }
-    
+
     return {
       label: this.props.locals.user.license.cta.manage,
       action: () => {

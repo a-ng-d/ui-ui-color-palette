@@ -111,7 +111,7 @@ export default class Overview extends PureComponent<
 
   // Lifecycle
   componentDidUpdate = (previousProps: Readonly<OverviewProps>) => {
-    if (previousProps.sourceColors !== this.props.sourceColors) 
+    if (previousProps.sourceColors !== this.props.sourceColors)
       this.setState({
         isCoolorsImportOpen:
           this.props.sourceColors.filter((color) => color.source === 'COOLORS')
@@ -125,7 +125,6 @@ export default class Overview extends PureComponent<
             (color) => color.source === 'COLOUR_LOVERS'
           ).length > 0,
       })
-    
   }
 
   componentWillUnmount = () => {

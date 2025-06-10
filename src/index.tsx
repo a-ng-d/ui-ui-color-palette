@@ -36,22 +36,22 @@ if (globalConfig.env.sentryToken && !globalConfig.env.isDev)
     replaysOnErrorSampleRate: 0.5,
   })
 else if (globalConfig.env.isDev) {
-   const devLogger = {
-     captureException: (error: Error) => {
-       console.group('🐛 Dev Error Logger')
-       console.error(error)
-       console.groupEnd()
-     },
-     captureMessage: (message: string) => {
-       console.group('📝 Dev Message Logger')
-       console.info(message)
-       console.groupEnd()
-     },
-   }
+  const devLogger = {
+    captureException: (error: Error) => {
+      console.group('🐛 Dev Error Logger')
+      console.error(error)
+      console.groupEnd()
+    },
+    captureMessage: (message: string) => {
+      console.group('📝 Dev Message Logger')
+      console.info(message)
+      console.groupEnd()
+    },
+  }
 
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   ;(window as any).Sentry = devLogger
- }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ;(window as any).Sentry = devLogger
+}
 
 let supabase: SupabaseClient
 if (globalConfig.env.supabaseAnonKey)

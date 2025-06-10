@@ -137,7 +137,7 @@ export default class SelfPalettes extends PureComponent<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;;({ data, error } = await supabase
+      ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
@@ -150,7 +150,7 @@ export default class SelfPalettes extends PureComponent<
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;;({ data, error } = await supabase
+      ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
