@@ -1,0 +1,86 @@
+import { Dialog, texts } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { PureComponent } from 'preact/compat'
+import React from 'react'
+import { ConfigContextType } from '../../../config/ConfigContext'
+import cp from '../../../content/images/choose_plan.webp'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import Feature from '../../components/Feature'
+import { WithConfigProps } from '../../components/WithConfig'
+
+interface TryProProps extends BaseProps, WithConfigProps {
+  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+}
+
+export default class TryPro extends PureComponent<TryProProps> {
+  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+    PRO_PLAN: new FeatureStatus({
+      features: config.features,
+      featureName: 'PRO_PLAN',
+      planStatus: planStatus,
+    }),
+  })
+
+  // Render
+  render() {
+    return (
+      <Feature
+        isActive={TryPro.features(
+          this.props.planStatus,
+          this.props.config
+        ).PRO_PLAN.isActive()}
+      >
+        <Dialog
+          title={this.props.locals.proPlan.trial.title.replace(
+            '{$1}',
+            this.props.config.plan.trialTime
+          )}
+          actions={{
+            primary: {
+              label: this.props.locals.proPlan.trial.cta.replace(
+                '{$1}',
+                this.props.config.plan.trialTime
+              ),
+              action: () =>
+                parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: 'ENABLE_TRIAL',
+                      data: {
+                        trialTime: this.props.config.plan.trialTime,
+                        trialVersion: this.props.config.versions.trialVersion,
+                      },
+                    },
+                  },
+                  '*'
+                ),
+            },
+            secondary: {
+              label: this.props.locals.proPlan.trial.option,
+              action: () =>
+                parent.postMessage(
+                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                  '*'
+                ),
+            },
+          }}
+          onClose={this.props.onClose}
+        >
+          <div className="dialog__cover">
+            <img
+              src={cp}
+              style={{
+                width: '100%',
+              }}
+            />
+          </div>
+          <div className="dialog__text">
+            <p className={texts.type}>
+              {this.props.locals.proPlan.trial.message}
+            </p>
+          </div>
+        </Dialog>
+      </Feature>
+    )
+  }
+}

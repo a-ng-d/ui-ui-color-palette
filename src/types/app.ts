@@ -82,7 +82,7 @@ export interface AnnouncementsDigest {
   status: AnnouncementsStatus
 }
 
-export type PriorityContext =
+export type ModalContext =
   | 'EMPTY'
   | 'NOTIFICATION'
   | 'PREFERENCES'

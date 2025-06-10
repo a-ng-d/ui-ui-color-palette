@@ -13,7 +13,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { PureComponent } from 'react'
 import { uid } from 'uid'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus, PriorityContext } from '../../types/app'
+import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
 import { ThemesMessage } from '../../types/messages'
 import { doScale } from '@a_ng_d/figmug-utils'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
@@ -35,7 +35,7 @@ interface ThemesProps extends BaseProps, WithConfigProps {
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onChangeThemes: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
+  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 export default class Themes extends PureComponent<ThemesProps> {

@@ -1,5 +1,5 @@
-import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Bar, Button, Tabs } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   HexModel,
   PresetConfiguration,
@@ -19,7 +19,7 @@ import {
   ContextItem,
   NamingConvention,
   PlanStatus,
-  PriorityContext,
+  ModalContext,
   ThirdParty,
 } from '../../types/app'
 import { trackActionEvent } from '../../utils/eventsTracker'
@@ -66,7 +66,7 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   onResetSourceColors: React.Dispatch<Partial<AppStates>>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
+  onGetProPlan: (context: { modalContext: ModalContext }) => void
   onCancelPalette: () => void
   onSavedPalette: React.Dispatch<Partial<AppStates>>
 }

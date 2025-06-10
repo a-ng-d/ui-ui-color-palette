@@ -9,7 +9,7 @@ import {
   ContextItem,
   FilterOptions,
   PlanStatus,
-  PriorityContext,
+  ModalContext,
   ThirdParty,
 } from '../../types/app'
 import { setContexts } from '../../utils/setContexts'
@@ -25,7 +25,7 @@ interface SourceProps extends BaseProps, WithConfigProps {
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
   ) => void
-  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
+  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 interface SourceStates {

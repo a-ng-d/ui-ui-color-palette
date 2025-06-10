@@ -34,7 +34,10 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsStates
+> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER: new FeatureStatus({
       features: config.features,
@@ -111,9 +114,9 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
       featureName: 'HELP_DOCUMENTATION',
       planStatus: planStatus,
     }),
-    GET_PRO_PLAN: new FeatureStatus({
+    PRO_PLAN: new FeatureStatus({
       features: config.features,
-      featureName: 'GET_PRO_PLAN',
+      featureName: 'PRO_PLAN',
       planStatus: planStatus,
     }),
     USER_CONSENT: new FeatureStatus({
@@ -738,7 +741,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
               isActive={Shortcuts.features(
                 this.props.planStatus,
                 this.props.config
-              ).GET_PRO_PLAN.isActive()}
+              ).PRO_PLAN.isActive()}
             >
               <PlanControls {...this.props} />
             </Feature>

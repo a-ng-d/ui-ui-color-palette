@@ -17,12 +17,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 import { ConfigContextType } from '../../config/ConfigContext'
-import {
-  BaseProps,
-  ImportUrl,
-  PlanStatus,
-  PriorityContext,
-} from '../../types/app'
+import { BaseProps, ImportUrl, PlanStatus, ModalContext } from '../../types/app'
 import { trackImportEvent } from '../../utils/eventsTracker'
 import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
@@ -38,7 +33,7 @@ interface OverviewProps extends BaseProps, WithConfigProps {
     source: ThirdParty
   ) => void
   onChangeContexts: () => void
-  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
+  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 interface OverviewStates {

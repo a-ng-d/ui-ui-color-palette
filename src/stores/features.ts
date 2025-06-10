@@ -98,7 +98,7 @@ export const featuresScheme: Array<
     service: ['EDIT'],
   },
   {
-    name: 'GET_PRO_PLAN',
+    name: 'PRO_PLAN',
     description: 'Pro plan subscription',
     isActive: true,
     isPro: false,

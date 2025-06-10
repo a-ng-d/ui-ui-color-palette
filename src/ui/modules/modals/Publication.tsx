@@ -1,26 +1,28 @@
 import { Avatar, Chip, Dialog, texts } from '@a_ng_d/figmug-ui'
-import { doClassnames } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { PureComponent } from 'preact/compat'
 import React from 'react'
-import detachPalette from '../../external/publication/detachPalette'
-import publishPalette from '../../external/publication/publishPalette'
-import pullPalette from '../../external/publication/pullPalette'
-import pushPalette from '../../external/publication/pushPalette'
-import unpublishPalette from '../../external/publication/unpublishPalette'
-import { supabase } from '../../index'
-import { BaseProps } from '../../types/app'
-import { trackPublicationEvent } from '../../utils/eventsTracker'
-import getPaletteMeta from '../../utils/setPaletteMeta'
-import type { AppStates } from '../App'
-import { WithConfigProps } from '../components/WithConfig'
+import detachPalette from '../../../external/publication/detachPalette'
+import publishPalette from '../../../external/publication/publishPalette'
+import pullPalette from '../../../external/publication/pullPalette'
+import pushPalette from '../../../external/publication/pushPalette'
+import unpublishPalette from '../../../external/publication/unpublishPalette'
+import { ConfigContextType, supabase } from '../../../index'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import {
+  trackPublicationEvent,
+  trackSignInEvent,
+} from '../../../utils/eventsTracker'
+import p from '../../../content/images/publication.webp'
+import getPaletteMeta from '../../../utils/setPaletteMeta'
+import type { AppStates } from '../../App'
+import { WithConfigProps } from '../../components/WithConfig'
 import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
+import Feature from '../../components/Feature'
+import { signIn } from '../../../external/auth/authentication'
 
 interface PublicationProps extends BaseProps, WithConfigProps {
   rawData: AppStates
-  isPrimaryActionLoading: boolean
-  isSecondaryActionLoading: boolean
-  onLoadPrimaryAction: (e: boolean) => void
-  onLoadSecondaryAction: (e: boolean) => void
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onClosePublication: React.MouseEventHandler<HTMLButtonElement>
 }
@@ -37,6 +39,8 @@ type PublicationStatus =
   | 'WAITING'
 
 interface PublicationStates {
+  isPrimaryActionLoading: boolean
+  isSecondaryActionLoading: boolean
   isPaletteShared: boolean
   publicationStatus: PublicationStatus
 }
@@ -58,9 +62,20 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
+export default class Publication extends PureComponent<
+  PublicationProps,
+  PublicationStates
+> {
   private data: PaletteData
   private enabledThemeIndex: number
+
+  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+    PUBLICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION',
+      planStatus: planStatus,
+    }),
+  })
 
   constructor(props: PublicationProps) {
     super(props)
@@ -99,6 +114,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       (theme) => theme.isEnabled
     )
     this.state = {
+      isPrimaryActionLoading: false,
+      isSecondaryActionLoading: false,
       isPaletteShared: this.props.rawData.publicationStatus.isShared,
       publicationStatus: 'WAITING',
     }
@@ -225,9 +242,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       UNPUBLISHED: {
         primary: {
           label: this.props.locals.publication.publish,
-          state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             publishPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -264,7 +281,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -287,9 +304,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       CAN_BE_PUSHED: {
         primary: {
           label: this.props.locals.publication.publish,
-          state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             pushPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -327,7 +344,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -347,9 +364,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
         },
         secondary: {
           label: this.props.locals.publication.revert,
-          state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadSecondaryAction(true)
+            this.setState({ isSecondaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -385,7 +402,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadSecondaryAction(false)
+                this.setState({ isSecondaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -407,9 +424,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       MUST_BE_PULLED: {
         primary: {
           label: this.props.locals.publication.synchronize,
-          state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -445,7 +462,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -465,9 +482,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
         },
         secondary: {
           label: this.props.locals.publication.detach,
-          state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadSecondaryAction(true)
+            this.setState({ isSecondaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
               locals: this.props.locals,
@@ -491,7 +508,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadSecondaryAction(false)
+                this.setState({ isSecondaryActionLoading: false })
               })
           },
         },
@@ -499,9 +516,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       MAY_BE_PULLED: {
         primary: {
           label: this.props.locals.publication.synchronize,
-          state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -537,7 +554,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -557,9 +574,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
         },
         secondary: {
           label: this.props.locals.publication.detach,
-          state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadSecondaryAction(true)
+            this.setState({ isSecondaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
               locals: this.props.locals,
@@ -583,7 +600,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadSecondaryAction(false)
+                this.setState({ isSecondaryActionLoading: false })
               })
           },
         },
@@ -596,12 +613,12 @@ export default class Publication extends PureComponent<PublicationProps, Publica
               this.props.rawData.publicationStatus.isShared !==
               this.state.isPaletteShared
             )
-              return this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT'
+              return this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT'
 
             return 'DISABLED'
           })(),
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             pushPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -639,7 +656,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -659,9 +676,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
         },
         secondary: {
           label: this.props.locals.publication.unpublish,
-          state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadSecondaryAction(true)
+            this.setState({ isSecondaryActionLoading: true })
             unpublishPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -697,7 +714,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadSecondaryAction(false)
+                this.setState({ isSecondaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -719,9 +736,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       UP_TO_DATE: {
         primary: {
           label: this.props.locals.publication.detach,
-          state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
               locals: this.props.locals,
@@ -745,7 +762,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
           },
         },
@@ -754,9 +771,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       CAN_BE_REVERTED: {
         primary: {
           label: this.props.locals.publication.revert,
-          state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
@@ -792,7 +809,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
               .catch(() => {
                 parent.postMessage(
@@ -812,9 +829,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
         },
         secondary: {
           label: this.props.locals.publication.detach,
-          state: this.props.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadSecondaryAction(true)
+            this.setState({ isSecondaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
               locals: this.props.locals,
@@ -836,7 +853,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadSecondaryAction(false)
+                this.setState({ isSecondaryActionLoading: false })
               })
           },
         },
@@ -844,9 +861,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       IS_NOT_FOUND: {
         primary: {
           label: this.props.locals.publication.detach,
-          state: this.props.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
-            this.props.onLoadPrimaryAction(true)
+            this.setState({ isPrimaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
               locals: this.props.locals,
@@ -870,7 +887,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 )
               })
               .finally(() => {
-                this.props.onLoadPrimaryAction(false)
+                this.setState({ isPrimaryActionLoading: false })
               })
           },
         },
@@ -928,119 +945,203 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
   // Render
   render() {
-    return (
-      <Dialog
-        title={
-          this.props.rawData.creatorIdentity.creatorId ===
-            this.props.rawData.userSession.userId ||
-          this.props.rawData.creatorIdentity.creatorId === ''
-            ? this.props.locals.publication.titlePublish
-            : this.props.locals.publication.titleSynchronize
-        }
-        actions={this.publicationActions(this.state.publicationStatus)}
-        select={this.publicationOption(this.state.publicationStatus)}
-        onClose={this.props.onClosePublication}
-      >
-        <div className="dialog__cover dialog__cover--padding">
-          <div
-            style={{
-              borderRadius: 'var(--border-radius-med)',
-              overflow: 'hidden',
-              height: '100%',
-            }}
-            className="preview__rows"
+    if (this.props.userSession.connectionStatus === 'CONNECTED')
+      return (
+        <Feature
+          isActive={Publication.features(
+            this.props.planStatus,
+            this.props.config
+          ).PUBLICATION.isActive()}
+        >
+          <Dialog
+            title={
+              this.props.rawData.creatorIdentity.creatorId ===
+                this.props.rawData.userSession.userId ||
+              this.props.rawData.creatorIdentity.creatorId === ''
+                ? this.props.locals.publication.titlePublish
+                : this.props.locals.publication.titleSynchronize
+            }
+            actions={this.publicationActions(this.state.publicationStatus)}
+            select={this.publicationOption(this.state.publicationStatus)}
+            onClose={this.props.onClosePublication}
           >
-            {this.data.themes[this.enabledThemeIndex].colors.map(
-              (color, index) => (
-                <div
-                  key={`color-${index}`}
-                  className="preview__row"
-                >
-                  {color.shades.map((shade, shadeIndex) => (
-                    <div
-                      key={`color-${index}-${shadeIndex}`}
-                      className="preview__cell"
-                      style={{
-                        minHeight: 'unset',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          position: 'absolute',
-                          zIndex: '1',
-                          top: 0,
-                          left: 0,
-                          backgroundColor: shade.hex,
-                        }}
-                      />
-                      {shade.backgroundColor !== undefined && (
-                        <div
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            position: 'absolute',
-                            zIndex: '0',
-                            top: 0,
-                            left: 0,
-                            backgroundColor: Array.isArray(
-                              shade.backgroundColor
-                            )
-                              ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
-                              : undefined,
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )
-            )}
-          </div>
-        </div>
-        <div className="dialog__text">
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--size-xxsmall)',
-            }}
-          >
-            <div>
-              <div className={texts.type}>
-                {this.props.rawData.name === ''
-                  ? this.props.locals.name
-                  : this.props.rawData.name}
-                {this.getPaletteStatus()}
-              </div>
-              <div className={texts.type}>{this.props.rawData.preset.name}</div>
+            <div className="dialog__cover dialog__cover--padding">
               <div
-                className={doClassnames([texts.type, texts['type--secondary']])}
                 style={{
-                  marginTop: '2px',
+                  borderRadius: 'var(--border-radius-med)',
+                  overflow: 'hidden',
+                  height: '100%',
                 }}
+                className="preview__rows"
               >
-                {getPaletteMeta(
-                  this.props.rawData.colors,
-                  this.props.rawData.themes
+                {this.data.themes[this.enabledThemeIndex].colors.map(
+                  (color, index) => (
+                    <div
+                      key={`color-${index}`}
+                      className="preview__row"
+                    >
+                      {color.shades.map((shade, shadeIndex) => (
+                        <div
+                          key={`color-${index}-${shadeIndex}`}
+                          className="preview__cell"
+                          style={{
+                            minHeight: 'unset',
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              position: 'absolute',
+                              zIndex: '1',
+                              top: 0,
+                              left: 0,
+                              backgroundColor: shade.hex,
+                            }}
+                          />
+                          {shade.backgroundColor !== undefined && (
+                            <div
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                position: 'absolute',
+                                zIndex: '0',
+                                top: 0,
+                                left: 0,
+                                backgroundColor: Array.isArray(
+                                  shade.backgroundColor
+                                )
+                                  ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
+                                  : undefined,
+                              }}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )
                 )}
               </div>
             </div>
-            {(this.state.publicationStatus === 'UP_TO_DATE' ||
-              this.state.publicationStatus === 'MAY_BE_PULLED' ||
-              this.state.publicationStatus === 'CAN_BE_REVERTED') && (
-              <Avatar
-                avatar={this.props.rawData.creatorIdentity.creatorAvatar}
-                fullName={this.props.rawData.creatorIdentity.creatorFullName}
-              />
-            )}
+            <div className="dialog__text">
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'var(--size-xxsmall)',
+                }}
+              >
+                <div>
+                  <div className={texts.type}>
+                    {this.props.rawData.name === ''
+                      ? this.props.locals.name
+                      : this.props.rawData.name}
+                    {this.getPaletteStatus()}
+                  </div>
+                  <div className={texts.type}>
+                    {this.props.rawData.preset.name}
+                  </div>
+                  <div
+                    className={doClassnames([
+                      texts.type,
+                      texts['type--secondary'],
+                    ])}
+                    style={{
+                      marginTop: '2px',
+                    }}
+                  >
+                    {getPaletteMeta(
+                      this.props.rawData.colors,
+                      this.props.rawData.themes
+                    )}
+                  </div>
+                </div>
+                {(this.state.publicationStatus === 'UP_TO_DATE' ||
+                  this.state.publicationStatus === 'MAY_BE_PULLED' ||
+                  this.state.publicationStatus === 'CAN_BE_REVERTED') && (
+                  <Avatar
+                    avatar={this.props.rawData.creatorIdentity.creatorAvatar}
+                    fullName={
+                      this.props.rawData.creatorIdentity.creatorFullName
+                    }
+                  />
+                )}
+              </div>
+              <div
+                className={doClassnames([texts.type, texts['type--secondary']])}
+              ></div>
+            </div>
+          </Dialog>
+        </Feature>
+      )
+    return (
+      <Feature
+        isActive={Publication.features(
+          this.props.planStatus,
+          this.props.config
+        ).PUBLICATION.isActive()}
+      >
+        <Dialog
+          title={this.props.locals.publication.titleSignIn}
+          actions={{
+            primary: {
+              label: this.props.locals.publication.signIn,
+              state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+              action: async () => {
+                this.setState({ isPrimaryActionLoading: true })
+                signIn(
+                  this.props.userIdentity.id,
+                  this.props.config.urls.authWorkerUrl,
+                  this.props.config.urls.authUrl
+                )
+                  .then(() => {
+                    trackSignInEvent(
+                      this.props.userIdentity.id,
+                      this.props.userConsent.find(
+                        (consent) => consent.id === 'mixpanel'
+                      )?.isConsented ?? false
+                    )
+                  })
+                  .finally(() => {
+                    this.setState({ isPrimaryActionLoading: false })
+                  })
+                  .catch((error) => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'POST_MESSAGE',
+                          data: {
+                            type: 'ERROR',
+                            message:
+                              error.message === 'Authentication timeout'
+                                ? this.props.locals.error.timeout
+                                : this.props.locals.error.authentication,
+                          },
+                        },
+                      },
+                      '*'
+                    )
+                  })
+              },
+            },
+          }}
+          onClose={this.props.onClosePublication}
+        >
+          <div className="dialog__cover">
+            <img
+              src={p}
+              style={{
+                width: '100%',
+              }}
+            />
           </div>
-          <div
-            className={doClassnames([texts.type, texts['type--secondary']])}
-          ></div>
-        </div>
-      </Dialog>
+          <div className="dialog__text">
+            <p className={texts.type}>
+              {this.props.locals.publication.message}
+            </p>
+          </div>
+        </Dialog>
+      </Feature>
     )
   }
 }

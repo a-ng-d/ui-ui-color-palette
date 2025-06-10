@@ -156,7 +156,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
                 label={this.props.locals.plan.getPro}
                 action={() =>
                   parent.postMessage(
-                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                    { pluginMessage: { type: 'PRO_PLAN' } },
                     '*'
                   )
                 }

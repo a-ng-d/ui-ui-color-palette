@@ -17,7 +17,7 @@ import { PureComponent } from 'preact/compat'
 import React from 'react'
 import { uid } from 'uid'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus, PriorityContext } from '../../types/app'
+import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
 import { ColorsMessage } from '../../types/messages'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import type { AppStates } from '../App'
@@ -31,7 +31,7 @@ interface ColorsProps extends BaseProps, WithConfigProps {
   colors: Array<ColorConfiguration>
   shift: ShiftConfiguration
   onChangeColors: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
+  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 export default class Colors extends PureComponent<ColorsProps> {

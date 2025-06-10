@@ -19,8 +19,8 @@ import {
   BaseProps,
   Context,
   ContextItem,
+  ModalContext,
   PlanStatus,
-  PriorityContext,
 } from '../../types/app'
 import { SourceColorEvent } from '../../types/events'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
@@ -85,7 +85,7 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onPublishPalette: React.Dispatch<Partial<AppStates>>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { priorityContainerContext: PriorityContext }) => void
+  onGetProPlan: (context: { modalContext: ModalContext }) => void
   onUnloadPalette: () => void
   onChangeDocument: React.Dispatch<Partial<AppStates>>
   onDeletePalette: () => void
@@ -340,7 +340,7 @@ export default class EditPalette extends PureComponent<
   }
 
   onPublishPalette = () => {
-    this.props.onPublishPalette({ priorityContainerContext: 'PUBLICATION' })
+    this.props.onPublishPalette({ modalContext: 'PUBLICATION' })
   }
 
   onChangeDocument = (view?: ViewConfiguration) => {

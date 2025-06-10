@@ -27,7 +27,7 @@ import {
   AnnouncementsDigest,
   NamingConvention,
   PlanStatus,
-  PriorityContext,
+  ModalContext,
   TrialStatus,
 } from '../types/app'
 import { UserSession } from '../types/user'
@@ -42,7 +42,6 @@ import {
 import { userConsent } from '../utils/userConsent'
 import Feature from './components/Feature'
 import { WithConfig, WithConfigProps } from './components/WithConfig'
-import PriorityContainer from './modules/PriorityContainer'
 import Shortcuts from './modules/Shortcuts'
 import BrowsePalettes from './services/BrowsePalettes'
 import CreatePalette from './services/CreatePalette'
@@ -75,6 +74,7 @@ import {
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
+import Modal from './modules/Modal'
 
 type AppProps = WithConfigProps
 
@@ -106,7 +106,7 @@ export interface AppStates extends BaseProps {
   editor: Editor
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
-  priorityContainerContext: PriorityContext
+  modalContext: ModalContext
   mustUserConsent: boolean
   announcements: AnnouncementsDigest
   notification: NotificationMessage
@@ -224,7 +224,7 @@ class App extends Component<AppProps, AppStates> {
       trialStatus: 'UNUSED',
       trialRemainingTime: this.props.config.plan.trialTime,
       editor: props.config.env.editor,
-      priorityContainerContext: 'EMPTY',
+      modalContext: 'EMPTY',
       locals: {},
       lang: $userLanguage.get(),
       mustUserConsent: true,
@@ -459,7 +459,7 @@ class App extends Component<AppProps, AppStates> {
 
         const postMessage = () =>
           this.setState({
-            priorityContainerContext: 'NOTIFICATION',
+            modalContext: 'NOTIFICATION',
             notification: {
               type: path.data.type,
               message: path.data.message,
@@ -469,7 +469,7 @@ class App extends Component<AppProps, AppStates> {
 
         const handleAnnouncements = () => {
           this.setState({
-            priorityContainerContext:
+            modalContext:
               path.data.status !== 'DISPLAY_ANNOUNCEMENTS_DIALOG'
                 ? 'EMPTY'
                 : 'ANNOUNCEMENTS',
@@ -482,7 +482,7 @@ class App extends Component<AppProps, AppStates> {
 
         const handleOnboarding = () => {
           this.setState({
-            priorityContainerContext:
+            modalContext:
               path.data.status !== 'DISPLAY_ONBOARDING_DIALOG'
                 ? 'EMPTY'
                 : 'ONBOARDING',
@@ -819,7 +819,7 @@ class App extends Component<AppProps, AppStates> {
         const welcomeToPro = () => {
           this.setState({
             planStatus: 'PAID',
-            priorityContainerContext: 'WELCOME_TO_PRO',
+            modalContext: 'WELCOME_TO_PRO',
           })
           trackPurchaseEvent(
             path.data.id,
@@ -838,7 +838,7 @@ class App extends Component<AppProps, AppStates> {
           this.setState({
             planStatus: 'PAID',
             trialStatus: 'PENDING',
-            priorityContainerContext: 'WELCOME_TO_TRIAL',
+            modalContext: 'WELCOME_TO_TRIAL',
           })
           trackTrialEnablementEvent(
             path.data.id,
@@ -1067,7 +1067,7 @@ class App extends Component<AppProps, AppStates> {
               onChangeThemes={(e) => this.setState({ ...e })}
               onChangeSettings={(e) => this.setState({ ...e })}
               onPublishPalette={() =>
-                this.setState({ priorityContainerContext: 'PUBLICATION' })
+                this.setState({ modalContext: 'PUBLICATION' })
               }
               onLockSourceColors={(e) => this.setState({ ...e })}
               onGetProPlan={(e) => this.setState({ ...e })}
@@ -1076,18 +1076,18 @@ class App extends Component<AppProps, AppStates> {
               onDeletePalette={this.onReset}
             />
           </Feature>
-          <Feature isActive={this.state.priorityContainerContext !== 'EMPTY'}>
+          <Feature isActive={this.state.modalContext !== 'EMPTY'}>
             {document.getElementById('modal') &&
               createPortal(
-                <PriorityContainer
+                <Modal
                   {...this.props}
                   {...this.state}
                   rawData={this.state}
-                  context={this.state.priorityContainerContext}
+                  context={this.state.modalContext}
                   onChangePublication={(e) => this.setState({ ...e })}
                   onClose={() =>
                     this.setState({
-                      priorityContainerContext: 'EMPTY',
+                      modalContext: 'EMPTY',
                       announcements: {
                         version: this.state.announcements.version,
                         status: 'NO_ANNOUNCEMENTS',
@@ -1209,35 +1209,27 @@ class App extends Component<AppProps, AppStates> {
               {...this.props}
               {...this.state}
               onReOpenAnnouncements={() =>
-                this.setState({ priorityContainerContext: 'ANNOUNCEMENTS' })
+                this.setState({ modalContext: 'ANNOUNCEMENTS' })
               }
               onReOpenOnboarding={() =>
-                this.setState({ priorityContainerContext: 'ONBOARDING' })
+                this.setState({ modalContext: 'ONBOARDING' })
               }
-              onReOpenReport={() =>
-                this.setState({ priorityContainerContext: 'REPORT' })
-              }
-              onReOpenStore={() =>
-                this.setState({ priorityContainerContext: 'STORE' })
-              }
-              onReOpenAbout={() =>
-                this.setState({ priorityContainerContext: 'ABOUT' })
-              }
+              onReOpenReport={() => this.setState({ modalContext: 'REPORT' })}
+              onReOpenStore={() => this.setState({ modalContext: 'STORE' })}
+              onReOpenAbout={() => this.setState({ modalContext: 'ABOUT' })}
               onGetProPlan={() => {
                 if (this.state.trialStatus === 'EXPIRED')
                   parent.postMessage(
                     { pluginMessage: { type: 'GET_PRO_PLAN' } },
                     '*'
                   )
-                else this.setState({ priorityContainerContext: 'TRY' })
+                else this.setState({ modalContext: 'TRY' })
               }}
               onUpdateConsent={() => this.setState({ mustUserConsent: true })}
               onReOpenPreferences={() =>
-                this.setState({ priorityContainerContext: 'PREFERENCES' })
+                this.setState({ modalContext: 'PREFERENCES' })
               }
-              onReOpenLicense={() =>
-                this.setState({ priorityContainerContext: 'LICENSE' })
-              }
+              onReOpenLicense={() => this.setState({ modalContext: 'LICENSE' })}
             />
           </Feature>
         </main>
