@@ -1,9 +1,9 @@
+import chroma from 'chroma-js'
 import {
   PaletteData,
   PaletteDataColorItem,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
-import chroma from 'chroma-js'
 import { locals } from '../../content/locals'
 
 const exportJsonTokensStudio = (id: string) => {

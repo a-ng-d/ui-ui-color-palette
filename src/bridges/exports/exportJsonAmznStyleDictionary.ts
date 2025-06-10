@@ -1,10 +1,10 @@
 import chroma from 'chroma-js'
-import { locals } from '../../content/locals'
 import {
   PaletteData,
   PaletteDataColorItem,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
+import { locals } from '../../content/locals'
 
 const exportJsonAmznStyleDictionary = (id: string) => {
   const iframe = document.querySelector(

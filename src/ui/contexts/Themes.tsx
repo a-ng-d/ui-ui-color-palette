@@ -1,3 +1,14 @@
+import { uid } from 'uid'
+import React, { PureComponent } from 'react'
+import {
+  HexModel,
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doScale } from '@a_ng_d/figmug-utils'
 import {
   Button,
   FormItem,
@@ -9,24 +20,13 @@ import {
   SimpleItem,
   SortableList,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import React, { PureComponent } from 'react'
-import { uid } from 'uid'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
-import { ThemesMessage } from '../../types/messages'
-import { doScale } from '@a_ng_d/figmug-utils'
-import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
-import type { AppStates } from '../App'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import {
-  HexModel,
-  PresetConfiguration,
-  ScaleConfiguration,
-  TextColorsThemeConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+import Feature from '../components/Feature'
+import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
+import { ThemesMessage } from '../../types/messages'
+import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
+import type { AppStates } from '../App'
 
 interface ThemesProps extends BaseProps, WithConfigProps {
   id: string

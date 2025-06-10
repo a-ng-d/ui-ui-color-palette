@@ -1,5 +1,5 @@
-import { Layout } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
@@ -9,20 +9,20 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { $palette } from '../../stores/palette'
-import { BaseProps, Context, PlanStatus } from '../../types/app'
-import { SettingsMessage } from '../../types/messages'
-import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
-import type { AppStates } from '../App'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
-import ColorSettings from '../modules/ColorSettings'
-import ContrastSettings from '../modules/ContrastSettings'
-import DangerZone from '../modules/DangerZone'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Layout } from '@a_ng_d/figmug-ui'
 import GlobalSettings from '../modules/GlobalSettings'
+import DangerZone from '../modules/DangerZone'
+import ContrastSettings from '../modules/ContrastSettings'
+import ColorSettings from '../modules/ColorSettings'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
+import { SettingsMessage } from '../../types/messages'
+import { BaseProps, Context, PlanStatus } from '../../types/app'
+import { $palette } from '../../stores/palette'
+import { ConfigContextType } from '../../config/ConfigContext'
+import type { AppStates } from '../App'
 
 interface SettingsProps extends BaseProps, WithConfigProps {
   id: string

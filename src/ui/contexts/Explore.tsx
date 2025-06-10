@@ -1,3 +1,9 @@
+import { uid } from 'uid'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import chroma from 'chroma-js'
+import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import {
   ActionsItem,
   Bar,
@@ -10,20 +16,14 @@ import {
   SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
-import chroma from 'chroma-js'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { uid } from 'uid'
+import { WithConfigProps } from '../components/WithConfig'
+import { trackImportEvent } from '../../utils/eventsTracker'
 import {
   BaseProps,
   FetchStatus,
   FilterOptions,
   ThirdParty,
 } from '../../types/app'
-import { trackImportEvent } from '../../utils/eventsTracker'
-import { WithConfigProps } from '../components/WithConfig'
-import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
-import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
 
 interface ExploreProps extends BaseProps, WithConfigProps {
   colourLoversPaletteList: Array<ColourLovers>

@@ -1,3 +1,6 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,
   Dialog,
@@ -7,15 +10,12 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../../config/ConfigContext'
-import { BaseProps, PlanStatus } from '../../../types/app'
-import Feature from '../../components/Feature'
 import { WithConfigProps } from '../../components/WithConfig'
-import activateUserLicenseKey from '../../../external/license/activateUserLicenseKey'
+import Feature from '../../components/Feature'
+import { BaseProps, PlanStatus } from '../../../types/app'
 import desactivateUserLicenseKey from '../../../external/license/desactivateUserLicenseKey'
+import activateUserLicenseKey from '../../../external/license/activateUserLicenseKey'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface LicenseProps extends BaseProps, WithConfigProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
@@ -106,7 +106,7 @@ export default class License extends PureComponent<
   }
 
   licenseHandler = () => {
-    if (!this.state.hasLicense) {
+    if (!this.state.hasLicense) 
       return {
         label: this.props.locals.user.license.cta.activate,
         state:
@@ -149,7 +149,7 @@ export default class License extends PureComponent<
             })
         },
       }
-    }
+    
     return {
       label: this.props.locals.user.license.cta.manage,
       action: () => {

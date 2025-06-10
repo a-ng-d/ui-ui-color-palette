@@ -1,3 +1,7 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   FormItem,
   Input,
@@ -6,14 +10,10 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus } from '../../types/app'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import Feature from '../components/Feature'
+import { BaseProps, PlanStatus } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ContrastSettingsProps extends BaseProps, WithConfigProps {
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>

@@ -1,3 +1,12 @@
+import { uid } from 'uid'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import chroma from 'chroma-js'
+import {
+  SourceColorConfiguration,
+  ThirdParty,
+} from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Accordion,
   Button,
@@ -11,20 +20,11 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import chroma from 'chroma-js'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { uid } from 'uid'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, ImportUrl, PlanStatus, ModalContext } from '../../types/app'
-import { trackImportEvent } from '../../utils/eventsTracker'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import {
-  SourceColorConfiguration,
-  ThirdParty,
-} from '@a_ng_d/utils-ui-color-palette'
+import Feature from '../components/Feature'
+import { trackImportEvent } from '../../utils/eventsTracker'
+import { BaseProps, ImportUrl, PlanStatus, ModalContext } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>

@@ -36,9 +36,9 @@ const checkPlanStatus = async () => {
     if (
       consumedTime <= currentTrialTime &&
       currentTrialVersion !== globalConfig.versions.trialVersion
-    ) {
+    ) 
       trialStatus = 'PENDING'
-    } else if (consumedTime >= globalConfig.plan.trialTime)
+     else if (consumedTime >= globalConfig.plan.trialTime)
       trialStatus = 'EXPIRED'
     else trialStatus = 'PENDING'
   }

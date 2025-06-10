@@ -1,8 +1,12 @@
-import { Layout, Tabs } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { PureComponent } from 'preact/compat'
+import { ExternalPalettes } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Layout, Tabs } from '@a_ng_d/figmug-ui'
+import SelfPalettes from '../modules/SelfPalettes'
+import CommunityPalettes from '../modules/CommunityPalettes'
+import { WithConfigProps } from '../components/WithConfig'
+import { setContexts } from '../../utils/setContexts'
 import {
   BaseProps,
   Context,
@@ -10,11 +14,7 @@ import {
   FetchStatus,
   PlanStatus,
 } from '../../types/app'
-import { setContexts } from '../../utils/setContexts'
-import { WithConfigProps } from '../components/WithConfig'
-import CommunityPalettes from '../modules/CommunityPalettes'
-import SelfPalettes from '../modules/SelfPalettes'
-import { ExternalPalettes } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface RemotePalettesStates {
   context: Context | ''

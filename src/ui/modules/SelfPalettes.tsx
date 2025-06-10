@@ -1,3 +1,12 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { ExternalPalettes } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import {
+  BaseConfiguration,
+  Data,
+  MetaConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import {
   ActionsItem,
   Bar,
@@ -8,23 +17,14 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import {
-  BaseConfiguration,
-  Data,
-  MetaConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { signIn } from '../../external/auth/authentication'
-import sharePalette from '../../external/publication/sharePalette'
-import unpublishPalette from '../../external/publication/unpublishPalette'
-import { supabase } from '../../index'
-import { BaseProps, Context, FetchStatus } from '../../types/app'
-import { trackPublicationEvent } from '../../utils/eventsTracker'
-import getPaletteMeta from '../../utils/setPaletteMeta'
 import { WithConfigProps } from '../components/WithConfig'
-import { ExternalPalettes } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import getPaletteMeta from '../../utils/setPaletteMeta'
+import { trackPublicationEvent } from '../../utils/eventsTracker'
+import { BaseProps, Context, FetchStatus } from '../../types/app'
+import { supabase } from '../../index'
+import unpublishPalette from '../../external/publication/unpublishPalette'
+import sharePalette from '../../external/publication/sharePalette'
+import { signIn } from '../../external/auth/authentication'
 
 interface SelfPalettesProps extends BaseProps, WithConfigProps {
   context: Context

@@ -1,3 +1,17 @@
+import React from 'react'
+import { createPortal, PureComponent } from 'preact/compat'
+import {
+  EasingConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Bar,
   Button,
@@ -12,29 +26,15 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { createPortal, PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import de from '../../content/images/distribution_easing.gif'
-import { BaseProps, NamingConvention, PlanStatus } from '../../types/app'
-import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import type { AppStates } from '../App'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
-import ScaleContrastRatio from '../modules/ScaleContrastRatio'
 import ScaleLightnessChroma from '../modules/ScaleLightnessChroma'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
-import {
-  EasingConfiguration,
-  ShiftConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import ScaleContrastRatio from '../modules/ScaleContrastRatio'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { trackScaleManagementEvent } from '../../utils/eventsTracker'
+import { BaseProps, NamingConvention, PlanStatus } from '../../types/app'
+import de from '../../content/images/distribution_easing.gif'
+import { ConfigContextType } from '../../config/ConfigContext'
+import type { AppStates } from '../App'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   id: string

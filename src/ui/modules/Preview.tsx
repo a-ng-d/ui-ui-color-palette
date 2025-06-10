@@ -1,3 +1,23 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import chroma from 'chroma-js'
+import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import {
+  Color,
+  ColorConfiguration,
+  HexModel,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Bar,
   Button,
@@ -9,37 +29,17 @@ import {
   Select,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import {
-  Color,
-  ColorConfiguration,
-  HexModel,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
-import chroma from 'chroma-js'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import lsc from '../../content/images/lock_source_colors.gif'
-import { $palette } from '../../stores/palette'
-import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
-import { BaseProps, PlanStatus } from '../../types/app'
-import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
-import { AppStates } from '../App'
-import Feature from '../components/Feature'
-import Shade from '../components/Shade'
-import Source from '../components/Source'
 import { WithConfigProps } from '../components/WithConfig'
-import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
-  LockedSourceColorsConfiguration,
-  ShiftConfiguration,
-  ThemeConfiguration,
-  VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import Source from '../components/Source'
+import Shade from '../components/Shade'
+import Feature from '../components/Feature'
+import { AppStates } from '../App'
+import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
+import { BaseProps, PlanStatus } from '../../types/app'
+import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
+import { $palette } from '../../stores/palette'
+import lsc from '../../content/images/lock_source_colors.gif'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface PreviewProps extends BaseProps, WithConfigProps {
   id: string

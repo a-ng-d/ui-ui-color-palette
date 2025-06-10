@@ -1,3 +1,6 @@
+import React from 'react'
+import { createPortal, PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,
   Dialog,
@@ -6,13 +9,10 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { createPortal, PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus } from '../../types/app'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { BaseProps, PlanStatus } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface DangerZoneProps extends BaseProps, WithConfigProps {
   id: string

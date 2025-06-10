@@ -1,26 +1,26 @@
-import { PureComponent } from 'preact/compat'
 import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { WithConfigProps } from '../components/WithConfig'
+import { NotificationMessage } from '../../types/messages'
 import {
   BaseProps,
   AnnouncementsDigest,
   ModalContext,
   TrialStatus,
 } from '../../types/app'
-import type { AppStates } from '../App'
-import { WithConfigProps } from '../components/WithConfig'
-import About from './modals/About'
-import Onboarding from './modals/Onboarding'
-import { NotificationMessage } from '../../types/messages'
-import Publication from './modals/Publication'
-import Announcements from './modals/Announcements'
 import WelcomeToTrial from './modals/WelcomeToTrial'
 import WelcomeToPro from './modals/WelcomeToPro'
 import TryPro from './modals/TryPro'
 import Store from './modals/Store'
 import Report from './modals/Report'
-import License from './modals/License'
+import Publication from './modals/Publication'
 import Preferences from './modals/Preferences'
+import Onboarding from './modals/Onboarding'
 import NotificationBanner from './modals/NotificationBanner'
+import License from './modals/License'
+import Announcements from './modals/Announcements'
+import About from './modals/About'
+import type { AppStates } from '../App'
 
 interface ModalProps extends BaseProps, WithConfigProps {
   rawData: AppStates

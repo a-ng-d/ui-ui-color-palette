@@ -1,5 +1,5 @@
-import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { uid } from 'uid'
+import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { supabase } from '../../index'
 import type { AppStates } from '../../ui/App'
 

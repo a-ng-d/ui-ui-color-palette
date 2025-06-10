@@ -1,5 +1,5 @@
-import { ExchangeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { deepMap } from 'nanostores'
+import { ExchangeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { locals } from '../content/locals'
 import { presets } from './presets'
 

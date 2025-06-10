@@ -1,12 +1,12 @@
-import { Dialog, texts } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../../config/ConfigContext'
-import t from '../../../content/images/trial.webp'
-import { BaseProps, PlanStatus } from '../../../types/app'
-import Feature from '../../components/Feature'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import t from '../../../content/images/trial.webp'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface WelcomeToTrialProps extends BaseProps, WithConfigProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)

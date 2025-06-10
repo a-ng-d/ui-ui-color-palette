@@ -1,8 +1,6 @@
-import chroma from 'chroma-js'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-
-import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
+import { PureComponent } from 'preact/compat'
+import chroma from 'chroma-js'
 import {
   Color,
   ColorConfiguration,
@@ -13,6 +11,7 @@ import {
   TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
 import { BaseProps } from '../../types/app'
 
 interface ShadeProps extends BaseProps {

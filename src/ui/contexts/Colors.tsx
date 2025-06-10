@@ -1,3 +1,10 @@
+import { uid } from 'uid'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import chroma from 'chroma-js'
+import { ShiftConfiguration } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import { ColorConfiguration, HexModel } from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,
   FormItem,
@@ -11,20 +18,13 @@ import {
   SimpleItem,
   SortableList,
 } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import chroma from 'chroma-js'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { uid } from 'uid'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
-import { ColorsMessage } from '../../types/messages'
-import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
-import type { AppStates } from '../App'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import { ColorConfiguration, HexModel } from '@a_ng_d/utils-ui-color-palette'
-import { ShiftConfiguration } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import Feature from '../components/Feature'
+import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
+import { ColorsMessage } from '../../types/messages'
+import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
+import type { AppStates } from '../App'
 
 interface ColorsProps extends BaseProps, WithConfigProps {
   id: string

@@ -1,3 +1,8 @@
+import { createPortal } from 'react-dom'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   ActionsItem,
   Bar,
@@ -8,16 +13,11 @@ import {
   SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { createPortal } from 'react-dom'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus } from '../../types/app'
-import setPaletteMeta from '../../utils/setPaletteMeta'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import Feature from '../components/Feature'
+import setPaletteMeta from '../../utils/setPaletteMeta'
+import { BaseProps, PlanStatus } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface PagePalettesProps extends BaseProps, WithConfigProps {
   onCreatePalette: () => void

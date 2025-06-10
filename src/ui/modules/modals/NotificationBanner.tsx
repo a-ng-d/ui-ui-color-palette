@@ -1,12 +1,12 @@
-import { Notification } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../../config/ConfigContext'
-import { BaseProps, PlanStatus } from '../../../types/app'
-import Feature from '../../components/Feature'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Notification } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
 import { NotificationMessage } from '../../../types/messages'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface NotificationBannerProps extends BaseProps, WithConfigProps {
   notification: NotificationMessage

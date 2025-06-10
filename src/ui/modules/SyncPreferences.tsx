@@ -1,3 +1,6 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   FormItem,
   Section,
@@ -6,17 +9,14 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { BaseProps, PlanStatus } from '../../types/app'
 import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
 } from '../../stores/preferences'
-import { BaseProps, PlanStatus } from '../../types/app'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface SyncPreferencesProps extends BaseProps, WithConfigProps {
   isLast?: boolean

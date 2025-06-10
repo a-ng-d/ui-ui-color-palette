@@ -1,16 +1,16 @@
-import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
-import { setContexts } from '../../utils/setContexts'
-import { AppStates } from '../App'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
-import LocalPalettes from '../contexts/LocalPalettes'
-import RemotePalettes from '../contexts/RemotePalettes'
+import { PureComponent } from 'preact/compat'
 import { DocumentConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
+import RemotePalettes from '../contexts/RemotePalettes'
+import LocalPalettes from '../contexts/LocalPalettes'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { AppStates } from '../App'
+import { setContexts } from '../../utils/setContexts'
+import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface BrowsePalettesProps extends BaseProps, WithConfigProps {
   document: DocumentConfiguration
@@ -139,8 +139,8 @@ export default class BrowsePalettes extends PureComponent<
 
     const buttons = [] as React.ReactNode[]
 
-    if (this.props.document.isLinkedToPalette !== undefined) {
-      if (this.props.document.isLinkedToPalette) {
+    if (this.props.document.isLinkedToPalette !== undefined) 
+      if (this.props.document.isLinkedToPalette) 
         buttons.push(
           <Feature
             isActive={BrowsePalettes.features(
@@ -163,7 +163,7 @@ export default class BrowsePalettes extends PureComponent<
             />
           </Feature>
         )
-      } else {
+       else 
         buttons.push(
           <Feature
             isActive={
@@ -188,8 +188,8 @@ export default class BrowsePalettes extends PureComponent<
             />
           </Feature>
         )
-      }
-    }
+      
+    
 
     if (
       BrowsePalettes.features(
@@ -197,7 +197,7 @@ export default class BrowsePalettes extends PureComponent<
         this.props.config
       ).CREATE_PALETTE.isActive() &&
       !this.props.editor.includes('dev')
-    ) {
+    ) 
       buttons.push(
         <Button
           type="primary"
@@ -214,7 +214,7 @@ export default class BrowsePalettes extends PureComponent<
           action={this.onCreatePalette}
         />
       )
-    }
+    
 
     return (
       <>

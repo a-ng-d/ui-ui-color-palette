@@ -1,6 +1,6 @@
 import { uid } from 'uid'
-import { locals } from '../../content/locals'
 import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { locals } from '../../content/locals'
 
 const createPaletteFromDuplication = async (id: string) => {
   const rawPalette = window.localStorage.getItem(`palette_${id}`)

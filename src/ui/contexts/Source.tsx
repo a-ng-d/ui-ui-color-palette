@@ -1,8 +1,11 @@
-import { Layout, Tabs } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { PureComponent } from 'preact/compat'
+import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Layout, Tabs } from '@a_ng_d/figmug-ui'
+import { WithConfigProps } from '../components/WithConfig'
+import { setContexts } from '../../utils/setContexts'
 import {
   BaseProps,
   Context,
@@ -12,12 +15,9 @@ import {
   ModalContext,
   ThirdParty,
 } from '../../types/app'
-import { setContexts } from '../../utils/setContexts'
-import { WithConfigProps } from '../components/WithConfig'
-import Explore from './Explore'
+import { ConfigContextType } from '../../config/ConfigContext'
 import Overview from './Overview'
-import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import Explore from './Explore'
 
 interface SourceProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>

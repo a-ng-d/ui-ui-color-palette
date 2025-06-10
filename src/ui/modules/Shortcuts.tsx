@@ -1,19 +1,19 @@
-import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { PureComponent } from 'preact/compat'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import {
   BaseProps,
   AnnouncementsDigest,
   PlanStatus,
   TrialStatus,
 } from '../../types/app'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
-import PlanControls from './PlanControls'
 import { signIn, signOut } from '../../external/auth/authentication'
-import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
+import { ConfigContextType } from '../../config/ConfigContext'
+import PlanControls from './PlanControls'
 
 interface ShortcutsProps extends BaseProps, WithConfigProps {
   trialStatus: TrialStatus

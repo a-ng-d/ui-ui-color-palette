@@ -1,12 +1,12 @@
-import { Button, Card, Dialog, List, texts } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../../config/ConfigContext'
-import isb from '../../../content/images/isb_product_thumbnail.webp'
-import { BaseProps, PlanStatus } from '../../../types/app'
-import Feature from '../../components/Feature'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Button, Card, Dialog, List } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import isb from '../../../content/images/isb_product_thumbnail.webp'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface StoreProps extends BaseProps, WithConfigProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)

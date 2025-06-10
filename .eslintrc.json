@@ -38,7 +38,7 @@
           "sibling",
           "index",
           "object",
-          "type",
+          "type"
         ],
         "pathGroups": [
           {
@@ -47,10 +47,20 @@
             "position": "before"
           },
           {
+            "pattern": "*/**/components",
+            "group": "sibling",
+            "position": "before"
+          },
+          {
+            "pattern": "*/**/updates",
+            "group": "sibling",
+            "position": "before"
+          },
+          {
             "pattern": "*.css",
             "group": "sibling",
             "position": "after"
-          },
+          }
         ],
         "newlines-between": "never",
         "alphabetize": {

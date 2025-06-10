@@ -1,5 +1,5 @@
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
 
 export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'

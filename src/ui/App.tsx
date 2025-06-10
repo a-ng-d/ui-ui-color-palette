@@ -1,61 +1,5 @@
-import {
-  Button,
-  Consent,
-  ConsentConfiguration,
-  Icon,
-  layouts,
-  SemanticMessage,
-} from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Component, createPortal } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../config/ConfigContext'
-import { locals } from '../content/locals'
-import { $palette } from '../stores/palette'
-import {
-  $canStylesDeepSync,
-  $canVariablesDeepSync,
-  $isAPCADisplayed,
-  $isVsCodeMessageDisplayed,
-  $isWCAGDisplayed,
-  $userLanguage,
-} from '../stores/preferences'
-import { defaultPreset, presets } from '../stores/presets'
-import {
-  BaseProps,
-  Editor,
-  AnnouncementsDigest,
-  NamingConvention,
-  PlanStatus,
-  ModalContext,
-  TrialStatus,
-} from '../types/app'
-import { UserSession } from '../types/user'
-import { doScale } from '@a_ng_d/figmug-utils'
-import {
-  trackEditorEvent,
-  trackExportEvent,
-  trackPurchaseEvent,
-  trackTrialEnablementEvent,
-  trackUserConsentEvent,
-} from '../utils/eventsTracker'
-import { userConsent } from '../utils/userConsent'
-import Feature from './components/Feature'
-import { WithConfig, WithConfigProps } from './components/WithConfig'
-import Shortcuts from './modules/Shortcuts'
-import BrowsePalettes from './services/BrowsePalettes'
-import CreatePalette from './services/CreatePalette'
-import EditPalette from './services/EditPalette'
-import './stylesheets/app.css'
-import {
-  DatesConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
-import { NotificationMessage } from '../types/messages'
-import { supabase } from '../index'
+import { Component, createPortal } from 'preact/compat'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -67,14 +11,67 @@ import {
   ExtractOfBaseConfiguration,
   LockedSourceColorsConfiguration,
   PublicationConfiguration,
-  ShiftConfiguration,
   ThemeConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+  DatesConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  TextColorsThemeConfiguration,
+  ShiftConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus, doScale } from '@a_ng_d/figmug-utils'
+import {
+  Button,
+  Consent,
+  ConsentConfiguration,
+  Icon,
+  layouts,
+  SemanticMessage,
+} from '@a_ng_d/figmug-ui'
+import './stylesheets/app.css'
+import { userConsent } from '../utils/userConsent'
+import {
+  trackEditorEvent,
+  trackExportEvent,
+  trackPurchaseEvent,
+  trackTrialEnablementEvent,
+  trackUserConsentEvent,
+} from '../utils/eventsTracker'
+import { UserSession } from '../types/user'
+import { NotificationMessage } from '../types/messages'
+import {
+  BaseProps,
+  Editor,
+  AnnouncementsDigest,
+  NamingConvention,
+  PlanStatus,
+  ModalContext,
+  TrialStatus,
+} from '../types/app'
+import { defaultPreset, presets } from '../stores/presets'
+import {
+  $canStylesDeepSync,
+  $canVariablesDeepSync,
+  $isAPCADisplayed,
+  $isVsCodeMessageDisplayed,
+  $isWCAGDisplayed,
+  $userLanguage,
+} from '../stores/preferences'
+import { $palette } from '../stores/palette'
+import { supabase } from '../index'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
+import { locals } from '../content/locals'
+import { ConfigContextType } from '../config/ConfigContext'
+import EditPalette from './services/EditPalette'
+import CreatePalette from './services/CreatePalette'
+import BrowsePalettes from './services/BrowsePalettes'
+import Shortcuts from './modules/Shortcuts'
 import Modal from './modules/Modal'
+import { WithConfig, WithConfigProps } from './components/WithConfig'
+import Feature from './components/Feature'
 
 type AppProps = WithConfigProps
 

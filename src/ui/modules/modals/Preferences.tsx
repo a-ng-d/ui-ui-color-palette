@@ -1,12 +1,12 @@
-import { Dialog, List } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../../config/ConfigContext'
-import { BaseProps, PlanStatus, TrialStatus } from '../../../types/app'
-import Feature from '../../components/Feature'
-import { WithConfigProps } from '../../components/WithConfig'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Dialog, List } from '@a_ng_d/figmug-ui'
 import SyncPreferences from '../SyncPreferences'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { BaseProps, PlanStatus, TrialStatus } from '../../../types/app'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PreferencesProps extends BaseProps, WithConfigProps {
   trialStatus: TrialStatus

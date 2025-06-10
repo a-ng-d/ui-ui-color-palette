@@ -1,5 +1,5 @@
-import { supabase } from '../../index'
 import checkConnectionStatus from '../../utils/checkConnectionStatus'
+import { supabase } from '../../index'
 
 let isAuthenticated = false
 

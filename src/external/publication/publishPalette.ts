@@ -1,6 +1,6 @@
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { supabase } from '../../index'
 import { AppStates } from '../../ui/App'
+import { supabase } from '../../index'
 
 const publishPalette = async ({
   rawData,

@@ -1,5 +1,15 @@
-import { Bar, Button, Tabs } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { uid } from 'uid'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import chroma from 'chroma-js'
+import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  EasingConfiguration,
+  LockedSourceColorsConfiguration,
+  ShiftConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 import {
   HexModel,
   PresetConfiguration,
@@ -7,12 +17,17 @@ import {
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import chroma from 'chroma-js'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { uid } from 'uid'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { $palette } from '../../stores/palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Bar, Button, Tabs } from '@a_ng_d/figmug-ui'
+import Preview from '../modules/Preview'
+import Actions from '../modules/Actions'
+import Source from '../contexts/Source'
+import Settings from '../contexts/Settings'
+import Scale from '../contexts/Scale'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { setContexts } from '../../utils/setContexts'
+import { trackActionEvent } from '../../utils/eventsTracker'
 import {
   BaseProps,
   Context,
@@ -22,24 +37,9 @@ import {
   ModalContext,
   ThirdParty,
 } from '../../types/app'
-import { trackActionEvent } from '../../utils/eventsTracker'
-import { setContexts } from '../../utils/setContexts'
+import { $palette } from '../../stores/palette'
+import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
-import Scale from '../contexts/Scale'
-import Settings from '../contexts/Settings'
-import Source from '../contexts/Source'
-import Actions from '../modules/Actions'
-import Preview from '../modules/Preview'
-import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
-  EasingConfiguration,
-  LockedSourceColorsConfiguration,
-  ShiftConfiguration,
-  VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
 
 interface CreatePaletteProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration> | []

@@ -1,12 +1,12 @@
-import { Layout } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
-import { setContexts } from '../../utils/setContexts'
-import { WithConfigProps } from '../components/WithConfig'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Layout } from '@a_ng_d/figmug-ui'
 import PagePalettes from '../modules/PagePalettes'
+import { WithConfigProps } from '../components/WithConfig'
+import { setContexts } from '../../utils/setContexts'
+import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface LocalPalettesProps extends BaseProps, WithConfigProps {
   onCreatePalette: () => void

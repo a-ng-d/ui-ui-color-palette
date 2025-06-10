@@ -1,10 +1,10 @@
-import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import React, { PureComponent } from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus, TrialStatus } from '../../types/app'
-import Feature from '../components/Feature'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { BaseProps, PlanStatus, TrialStatus } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface PlanControlsProps extends BaseProps, WithConfigProps {
   trialStatus: TrialStatus

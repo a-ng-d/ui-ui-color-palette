@@ -1,3 +1,15 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import {
+  CreatorConfiguration,
+  DatesConfiguration,
+  DocumentConfiguration,
+  PublicationConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  ViewConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Bar,
   Button,
@@ -11,24 +23,12 @@ import {
   texts,
   Tooltip,
 } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { $palette } from '../../stores/palette'
-import { BaseProps, PlanStatus } from '../../types/app'
-import { AppStates } from '../App'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import {
-  CreatorConfiguration,
-  DatesConfiguration,
-  DocumentConfiguration,
-  PublicationConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  ViewConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+import Feature from '../components/Feature'
+import { AppStates } from '../App'
+import { BaseProps, PlanStatus } from '../../types/app'
+import { $palette } from '../../stores/palette'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ActionsProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration> | []

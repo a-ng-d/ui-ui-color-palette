@@ -1,4 +1,8 @@
 import type { DropdownOption } from '@a_ng_d/figmug-ui'
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Bar,
   Dropdown,
@@ -9,13 +13,9 @@ import {
   SectionTitle,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { BaseProps, PlanStatus } from '../../types/app'
 import { WithConfigProps } from '../components/WithConfig'
-import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { BaseProps, PlanStatus } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ExportProps extends BaseProps, WithConfigProps {
   id: string

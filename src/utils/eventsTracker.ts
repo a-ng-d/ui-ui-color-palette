@@ -1,5 +1,5 @@
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import mixpanel from 'mixpanel-figma'
+import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import {
   ActionEvent,
   ColorThemeEvent,

@@ -1,19 +1,5 @@
-import {
-  layouts,
-  MultipleSlider,
-  SectionTitle,
-  Select,
-  SimpleItem,
-} from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { $palette } from '../../stores/palette'
-import { BaseProps, PlanStatus } from '../../types/app'
-import { ScaleMessage } from '../../types/messages'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
+import { PureComponent } from 'preact/compat'
 import {
   Contrast,
   EasingConfiguration,
@@ -22,6 +8,20 @@ import {
   ScaleConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import {
+  layouts,
+  MultipleSlider,
+  SectionTitle,
+  Select,
+  SimpleItem,
+} from '@a_ng_d/figmug-ui'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { ScaleMessage } from '../../types/messages'
+import { BaseProps, PlanStatus } from '../../types/app'
+import { $palette } from '../../stores/palette'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   id: string

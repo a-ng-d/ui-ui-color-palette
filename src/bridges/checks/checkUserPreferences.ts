@@ -1,5 +1,5 @@
-import { locals } from '../../content/locals'
 import { Language } from '../../types/app'
+import { locals } from '../../content/locals'
 
 const checkUserPreferences = async () => {
   const iframe = document.querySelector(

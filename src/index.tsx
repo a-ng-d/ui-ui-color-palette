@@ -1,12 +1,12 @@
-import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { ConfigProvider } from './config/ConfigContext'
-import { ThemeProvider } from './config/ThemeContext'
-import App from './ui/App'
-import globalConfig from './global.config'
-import * as Sentry from '@sentry/react'
+import React from 'react'
 import mixpanel from 'mixpanel-figma'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import * as Sentry from '@sentry/react'
+import App from './ui/App'
+import globalConfig from './global.config'
+import { ThemeProvider } from './config/ThemeContext'
+import { ConfigProvider } from './config/ConfigContext'
 
 const container = document.getElementById('app'),
   root = createRoot(container)
@@ -19,7 +19,7 @@ if (globalConfig.env.mixpanelToken)
     opt_out_tracking_by_default: true,
   })
 
-if (globalConfig.env.sentryToken && !globalConfig.env.isDev) {
+if (globalConfig.env.sentryToken && !globalConfig.env.isDev)
   Sentry.init({
     dsn: globalConfig.urls.sentryDsn,
     environment: 'production',
@@ -35,22 +35,23 @@ if (globalConfig.env.sentryToken && !globalConfig.env.isDev) {
     replaysSessionSampleRate: 0.05,
     replaysOnErrorSampleRate: 0.5,
   })
-} else if (globalConfig.env.isDev) {
-  const devLogger = {
-    captureException: (error: Error) => {
-      console.group('🐛 Dev Error Logger')
-      console.error(error)
-      console.groupEnd()
-    },
-    captureMessage: (message: string) => {
-      console.group('📝 Dev Message Logger')
-      console.info(message)
-      console.groupEnd()
-    },
-  }
+else if (globalConfig.env.isDev) {
+   const devLogger = {
+     captureException: (error: Error) => {
+       console.group('🐛 Dev Error Logger')
+       console.error(error)
+       console.groupEnd()
+     },
+     captureMessage: (message: string) => {
+       console.group('📝 Dev Message Logger')
+       console.info(message)
+       console.groupEnd()
+     },
+   }
 
-  ;(window as any).Sentry = devLogger
-}
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   ;(window as any).Sentry = devLogger
+ }
 
 let supabase: SupabaseClient
 if (globalConfig.env.supabaseAnonKey)

@@ -1,6 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
-import { doSpecificMode } from './stores/features'
 import { Config } from './types/config'
+import { doSpecificMode } from './stores/features'
 
 declare const __PLATFORM__: 'figma' | 'penpot'
 declare const __COLOR_MODE__: 'dark' | 'light'

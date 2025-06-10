@@ -1,3 +1,18 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import {
+  EasingConfiguration,
+  ShiftConfiguration,
+} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import {
+  Contrast,
+  ExchangeConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doScale } from '@a_ng_d/figmug-utils'
 import {
   Button,
   Dropdown,
@@ -10,30 +25,15 @@ import {
   SimpleItem,
   SimpleSlider,
 } from '@a_ng_d/figmug-ui'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import {
-  Contrast,
-  ExchangeConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
-import { PureComponent } from 'preact/compat'
-import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { $palette } from '../../stores/palette'
-import { defaultPreset, presets } from '../../stores/presets'
-import { BaseProps, NamingConvention, PlanStatus } from '../../types/app'
-import { ScaleMessage } from '../../types/messages'
-import { doScale } from '@a_ng_d/figmug-utils'
-import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import type { AppStates } from '../App'
-import Feature from '../components/Feature'
 import { WithConfigProps } from '../components/WithConfig'
-import {
-  EasingConfiguration,
-  ShiftConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import Feature from '../components/Feature'
+import { trackScaleManagementEvent } from '../../utils/eventsTracker'
+import { ScaleMessage } from '../../types/messages'
+import { BaseProps, NamingConvention, PlanStatus } from '../../types/app'
+import { defaultPreset, presets } from '../../stores/presets'
+import { $palette } from '../../stores/palette'
+import { ConfigContextType } from '../../config/ConfigContext'
+import type { AppStates } from '../App'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   id: string

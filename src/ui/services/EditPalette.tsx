@@ -1,50 +1,8 @@
 import type { DropdownOption } from '@a_ng_d/figmug-ui'
-import {
-  Bar,
-  Button,
-  Dropdown,
-  FormItem,
-  layouts,
-  Tabs,
-} from '@a_ng_d/figmug-ui'
-import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import FileSaver from 'file-saver'
-import JSZip from 'jszip'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../config/ConfigContext'
-import { $palette } from '../../stores/palette'
-import { defaultPreset } from '../../stores/presets'
-import {
-  BaseProps,
-  Context,
-  ContextItem,
-  ModalContext,
-  PlanStatus,
-} from '../../types/app'
-import { SourceColorEvent } from '../../types/events'
-import { ColorsMessage, ThemesMessage } from '../../types/messages'
-import { doScale } from '@a_ng_d/figmug-utils'
-import {
-  trackActionEvent,
-  trackSourceColorsManagementEvent,
-} from '../../utils/eventsTracker'
-import { setContexts } from '../../utils/setContexts'
-import type { AppStates } from '../App'
-import Feature from '../components/Feature'
-import { WithConfigProps } from '../components/WithConfig'
-import Colors from '../contexts/Colors'
-import Export from '../contexts/Export'
-import Scale from '../contexts/Scale'
-import Settings from '../contexts/Settings'
-import Themes from '../contexts/Themes'
-import Actions from '../modules/Actions'
-import Preview from '../modules/Preview'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+import { PureComponent } from 'preact/compat'
+import JSZip from 'jszip'
+import FileSaver from 'file-saver'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -58,6 +16,48 @@ import {
   ViewConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doScale } from '@a_ng_d/figmug-utils'
+import {
+  Bar,
+  Button,
+  Dropdown,
+  FormItem,
+  layouts,
+  Tabs,
+} from '@a_ng_d/figmug-ui'
+import Preview from '../modules/Preview'
+import Actions from '../modules/Actions'
+import Themes from '../contexts/Themes'
+import Settings from '../contexts/Settings'
+import Scale from '../contexts/Scale'
+import Export from '../contexts/Export'
+import Colors from '../contexts/Colors'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { setContexts } from '../../utils/setContexts'
+import {
+  trackActionEvent,
+  trackSourceColorsManagementEvent,
+} from '../../utils/eventsTracker'
+import { ColorsMessage, ThemesMessage } from '../../types/messages'
+import { SourceColorEvent } from '../../types/events'
+import {
+  BaseProps,
+  Context,
+  ContextItem,
+  ModalContext,
+  PlanStatus,
+} from '../../types/app'
+import { defaultPreset } from '../../stores/presets'
+import { $palette } from '../../stores/palette'
+import { ConfigContextType } from '../../config/ConfigContext'
+import type { AppStates } from '../App'
 
 interface EditPaletteProps extends BaseProps, WithConfigProps {
   id: string

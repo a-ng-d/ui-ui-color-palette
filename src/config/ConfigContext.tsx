@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useContext } from 'react'
 import { Config } from '../types/config'
 
-export interface ConfigContextType extends Config {}
+export type ConfigContextType = Config
 
 export const ConfigContext = createContext<ConfigContextType | undefined>(
   undefined

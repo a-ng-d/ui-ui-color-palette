@@ -1,12 +1,12 @@
-import { Dialog, FormItem, Input } from '@a_ng_d/figmug-ui'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import * as Sentry from '@sentry/browser'
-import { PureComponent } from 'preact/compat'
 import React from 'react'
-import { ConfigContextType } from '../../../config/ConfigContext'
-import { BaseProps, PlanStatus } from '../../../types/app'
-import Feature from '../../components/Feature'
+import { PureComponent } from 'preact/compat'
+import * as Sentry from '@sentry/browser'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Dialog, FormItem, Input } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ReportProps extends BaseProps, WithConfigProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
