@@ -292,7 +292,8 @@
     "unknown": "Unknown",
     "updatedAt": "Updated at: ",
     "visionSimulation": "Vision simulation: ",
-    "wcag": "WCAG 2.1 scores"
+    "wcag": "WCAG 2.1 scores",
+    "transparent": "Transparent"
   },
   "dev": {
     "vscode": {

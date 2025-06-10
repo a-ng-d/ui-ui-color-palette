@@ -157,7 +157,7 @@ class App extends Component<AppProps, AppStates> {
       service: 'BROWSE',
       sourceColors: [],
       id: '',
-      name: '',
+      name: locals.get().settings.global.name.default,
       description: '',
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
@@ -222,7 +222,7 @@ class App extends Component<AppProps, AppStates> {
       trialRemainingTime: this.props.config.plan.trialTime,
       editor: props.config.env.editor,
       modalContext: 'EMPTY',
-      locals: {},
+      locals: locals.get(),
       lang: $userLanguage.get(),
       mustUserConsent: true,
       announcements: {
@@ -283,12 +283,6 @@ class App extends Component<AppProps, AppStates> {
         this.state.preset.easing
       )
     )
-
-    // Locals
-    this.setState({
-      locals: locals.get(),
-      name: locals.get().settings.global.name.default,
-    })
 
     // Authentication
     if (supabase !== undefined)
@@ -594,7 +588,7 @@ class App extends Component<AppProps, AppStates> {
             export: {
               format: 'JSON',
               context: path.data.context,
-              label: `${this.state.locals.actions.export} ${
+              label: `${this.state.locals.actions.duplicate} ${
                 this.state.locals.export.tokens.label
               }`,
               colorSpace: path.data.colorSpace,

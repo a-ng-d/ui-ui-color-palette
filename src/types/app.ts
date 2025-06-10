@@ -1,6 +1,7 @@
 import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
+import { Translations } from './translation'
 
 export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'
 
@@ -18,8 +19,7 @@ export interface BaseProps {
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
   editor: Editor
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  locals: any
+  locals: Translations
   lang: Language
 }
 
