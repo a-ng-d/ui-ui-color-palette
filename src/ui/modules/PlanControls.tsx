@@ -152,7 +152,8 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         <div className={doClassnames(['pro-zone', layouts['snackbar--tight']])}>
           {this.props.trialStatus === 'UNUSED' &&
             this.props.planStatus === 'UNPAID' && <this.FreePlan />}
-          {this.props.trialStatus === 'PENDING' && <this.PendingTrial />}
+          {this.props.trialStatus === 'PENDING' &&
+            this.props.planStatus === 'UNPAID' && <this.PendingTrial />}
           {this.props.trialStatus === 'EXPIRED' &&
             this.props.planStatus === 'UNPAID' && <this.ExpiredTrial />}
         </div>

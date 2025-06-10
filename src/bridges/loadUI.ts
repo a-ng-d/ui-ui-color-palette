@@ -268,6 +268,7 @@ window.addEventListener('message', async (msg: any) => {
     WELCOME_TO_PRO: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'WELCOME_TO_PRO',
+        id: '',
       }),
     LEAVE_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
