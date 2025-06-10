@@ -50,13 +50,8 @@
             "position": "before"
           },
           {
-            "pattern": "*/**/components",
-            "group": "sibling",
-            "position": "before"
-          },
-          {
-            "pattern": "*/**/updates",
-            "group": "sibling",
+            "pattern": "*/**/ui",
+            "group": "internal",
             "position": "before"
           },
           {

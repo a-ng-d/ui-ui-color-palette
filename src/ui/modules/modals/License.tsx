@@ -2,17 +2,18 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
+  Bar,
   Button,
   Dialog,
   FormItem,
   Input,
   Message,
   SemanticMessage,
-  SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, PlanStatus } from '../../../types/app'
+import validateUserLicenseKey from '../../../external/license/validateUserLicenseKey '
 import desactivateUserLicenseKey from '../../../external/license/desactivateUserLicenseKey'
 import activateUserLicenseKey from '../../../external/license/activateUserLicenseKey'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -31,10 +32,7 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<
-  LicenseProps,
-  LicenseStates
-> {
+export default class License extends PureComponent<LicenseProps, LicenseStates> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER_LICENSE: new FeatureStatus({
       features: config.features,
@@ -105,7 +103,8 @@ export default class License extends PureComponent<
     return actions[path.type ?? 'DEFAULT']?.()
   }
 
-  licenseHandler = () => {
+  // Direct Actions
+  onActivateLicense = () => {
     if (!this.state.hasLicense)
       return {
         label: this.props.locals.user.license.cta.activate,
@@ -150,12 +149,64 @@ export default class License extends PureComponent<
         },
       }
 
-    return {
-      label: this.props.locals.user.license.cta.manage,
-      action: () => {
-        window.open('https://app.lemonsqueezy.com/my-orders', '_blank')?.focus()
-      },
-    }
+    return undefined
+  }
+
+  onDesactivateLicense = () => {
+    if (this.state.hasLicense)
+      return {
+        label: this.props.locals.user.license.cta.unlink,
+        state: this.state.isPrimaryActionLoading
+          ? ('LOADING' as const)
+          : ('DEFAULT' as const),
+        action: () => {
+          this.setState({ isPrimaryActionLoading: true })
+          desactivateUserLicenseKey({
+            storeApiUrl: this.props.config.urls.storeApiUrl,
+            licenseKey: this.state.userLicenseKey,
+            instanceId: this.state.userInstanceId,
+          })
+            .then(() => {
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'POST_MESSAGE',
+                    data: {
+                      type: 'SUCCESS',
+                      message: this.props.locals.success.unlinkedLicense,
+                    },
+                  },
+                },
+                '*'
+              )
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'LEAVE_PRO_PLAN',
+                  },
+                },
+                '*'
+              )
+              this.setState({
+                userLicenseKey: '',
+                userInstanceId: '',
+                hasLicense: false,
+              })
+            })
+            .finally(() => {
+              this.setState({
+                isSecondaryActionLoading: false,
+              })
+            })
+            .catch(() => {
+              this.setState({
+                licenseStatus: 'ERROR',
+              })
+            })
+        },
+      }
+
+    return undefined
   }
 
   isValidLicenseKeyFormat = (key: string): boolean => {
@@ -189,165 +240,164 @@ export default class License extends PureComponent<
       >
         <Dialog
           title={this.props.locals.user.manageLicense}
-          pin="RIGHT"
           actions={{
-            primary: this.licenseHandler(),
+            primary: this.onActivateLicense(),
+            destructive: this.onDesactivateLicense(),
+            secondary: (() => {
+              if (this.state.hasLicense)
+                return {
+                  label: this.props.locals.user.license.cta.manage,
+                  action: () => {
+                    window
+                      .open('https://app.lemonsqueezy.com/my-orders', '_blank')
+                      ?.focus()
+                  },
+                }
+              return undefined
+            })(),
           }}
           onClose={this.props.onClose}
         >
-          <div className="dialog__form">
-            {!this.state.hasLicense ? (
-              <>
-                {this.state.licenseStatus === 'READY' && (
-                  <SemanticMessage
-                    type="INFO"
-                    message={this.props.locals.user.license.messages.activate}
-                  />
-                )}
-                {this.state.licenseStatus === 'ERROR' && (
-                  <SemanticMessage
-                    type="ERROR"
-                    message={this.props.locals.error.activatedLicense}
-                  />
-                )}
-                <FormItem
-                  label={this.props.locals.user.license.key.label}
+          {!this.state.hasLicense && (
+            <div className="dialog__form">
+              {this.state.licenseStatus === 'READY' && (
+                <SemanticMessage
+                  type="INFO"
+                  message={this.props.locals.user.license.messages.activate}
+                />
+              )}
+              {this.state.licenseStatus === 'ERROR' && (
+                <SemanticMessage
+                  type="ERROR"
+                  message={this.props.locals.error.activatedLicense}
+                />
+              )}
+              <FormItem
+                label={this.props.locals.user.license.key.label}
+                id="type-license-key"
+                shouldFill
+              >
+                <Input
+                  type="TEXT"
                   id="type-license-key"
-                  shouldFill
-                >
-                  <Input
-                    type="TEXT"
-                    id="type-license-key"
-                    value={this.state.userLicenseKey}
-                    placeholder={this.props.locals.user.license.key.placeholder}
-                    onChange={(e) =>
-                      this.setState({
-                        userLicenseKey: (e.target as HTMLInputElement).value,
-                      })
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label={this.props.locals.user.license.name.label}
-                  id="type-instance-name"
-                  helper={{
-                    type: 'INFO',
-                    message: this.props.locals.user.license.name.helper,
-                  }}
-                  shouldFill
-                >
-                  <Input
-                    type="TEXT"
-                    id="type-instance-name"
-                    value={this.state.userInstanceName}
-                    placeholder={
-                      this.props.locals.user.license.name.placeholder
-                    }
-                    onChange={(e) =>
-                      this.setState({
-                        userInstanceName: (e.target as HTMLInputElement).value,
-                      })
-                    }
-                  />
-                </FormItem>
-              </>
-            ) : (
-              <>
-                {this.state.licenseStatus === 'ERROR' && (
-                  <SemanticMessage
-                    type="ERROR"
-                    message={this.props.locals.error.unlinkedLicense}
-                  />
-                )}
-                <SimpleItem
-                  leftPartSlot={
-                    <Message
-                      icon="key"
-                      messages={[this.state.userLicenseKey]}
-                    />
-                  }
-                  rightPartSlot={
-                    this.state.licenseStatus !== 'ERROR' ? (
-                      <Button
-                        type="destructive"
-                        label={this.props.locals.user.license.cta.unlink}
-                        isLoading={this.state.isPrimaryActionLoading}
-                        action={() => {
-                          this.setState({ isPrimaryActionLoading: true })
-                          desactivateUserLicenseKey({
-                            storeApiUrl: this.props.config.urls.storeApiUrl,
-                            licenseKey: this.state.userLicenseKey,
-                            instanceId: this.state.userInstanceId,
-                          })
-                            .then(() => {
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'SUCCESS',
-                                      message:
-                                        this.props.locals.success
-                                          .unlinkedLicense,
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                              parent.postMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'LEAVE_PRO_PLAN',
-                                  },
-                                },
-                                '*'
-                              )
-                              this.setState({
-                                userLicenseKey: '',
-                                userInstanceId: '',
-                                hasLicense: false,
-                              })
-                            })
-                            .finally(() => {
-                              this.setState({ isSecondaryActionLoading: false })
-                            })
-                            .catch(() => {
-                              this.setState({
-                                licenseStatus: 'ERROR',
-                              })
-                            })
-                        }}
-                      />
-                    ) : (
-                      <Button
-                        type="secondary"
-                        label={this.props.locals.user.license.cta.unlinkLocally}
-                        action={() => {
-                          parent.postMessage(
-                            {
-                              pluginMessage: {
-                                type: 'DELETE_DATA',
-                                items: [
-                                  'user_license_key',
-                                  'user_license_instance_id',
-                                ],
-                              },
-                            },
-                            '*'
-                          )
-                          this.setState({
-                            userLicenseKey: '',
-                            userInstanceId: '',
-                            hasLicense: false,
-                          })
-                        }}
-                      />
-                    )
+                  value={this.state.userLicenseKey}
+                  placeholder={this.props.locals.user.license.key.placeholder}
+                  onChange={(e) =>
+                    this.setState({
+                      userLicenseKey: (e.target as HTMLInputElement).value,
+                    })
                   }
                 />
-              </>
-            )}
-          </div>
+              </FormItem>
+              <FormItem
+                label={this.props.locals.user.license.name.label}
+                id="type-instance-name"
+                helper={{
+                  type: 'INFO',
+                  message: this.props.locals.user.license.name.helper,
+                }}
+                shouldFill
+              >
+                <Input
+                  type="TEXT"
+                  id="type-instance-name"
+                  value={this.state.userInstanceName}
+                  placeholder={this.props.locals.user.license.name.placeholder}
+                  onChange={(e) =>
+                    this.setState({
+                      userInstanceName: (e.target as HTMLInputElement).value,
+                    })
+                  }
+                />
+              </FormItem>
+            </div>
+          )}
+          {this.state.hasLicense && (
+            <div style={{ flex: 1 }}>
+              {this.state.licenseStatus === 'ERROR' && (
+                <SemanticMessage
+                  type="ERROR"
+                  message={this.props.locals.error.unlinkedLicense}
+                />
+              )}
+              <Bar
+                leftPartSlot={
+                  <Message
+                    icon="key"
+                    messages={[this.state.userLicenseKey]}
+                  />
+                }
+                rightPartSlot={
+                  this.state.licenseStatus !== 'ERROR' ? (
+                    <Button
+                      type="secondary"
+                      icon={
+                        this.state.licenseStatus === 'OK' ? 'check' : undefined
+                      }
+                      label={
+                        this.state.licenseStatus === 'OK'
+                          ? this.props.locals.user.license.messages.checked
+                          : this.props.locals.user.license.cta.check
+                      }
+                      isLoading={this.state.isSecondaryActionLoading}
+                      action={() => {
+                        this.setState({ isSecondaryActionLoading: true })
+                        validateUserLicenseKey({
+                          storeApiUrl: this.props.config.urls.storeApiUrl,
+                          licenseKey: this.state.userLicenseKey,
+                          instanceId: this.state.userInstanceId,
+                        })
+                          .then(() => {
+                            this.setState({
+                              licenseStatus: 'OK',
+                            })
+                            setTimeout(() => {
+                              this.setState({
+                                licenseStatus: 'READY',
+                              })
+                            }, 2000)
+                          })
+                          .finally(() => {
+                            this.setState({
+                              isSecondaryActionLoading: false,
+                            })
+                          })
+                          .catch(() => {
+                            this.setState({
+                              licenseStatus: 'ERROR',
+                            })
+                          })
+                      }}
+                    />
+                  ) : (
+                    <Button
+                      type="secondary"
+                      label={this.props.locals.user.license.cta.unlinkLocally}
+                      action={() => {
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'DELETE_DATA',
+                              items: [
+                                'user_license_key',
+                                'user_license_instance_id',
+                              ],
+                            },
+                          },
+                          '*'
+                        )
+                        this.setState({
+                          userLicenseKey: '',
+                          userInstanceId: '',
+                          hasLicense: false,
+                        })
+                      }}
+                    />
+                  )
+                }
+              />
+            </div>
+          )}
         </Dialog>
       </Feature>
     )

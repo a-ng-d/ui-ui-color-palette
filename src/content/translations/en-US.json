@@ -705,7 +705,8 @@
     },
     "license": {
       "messages": {
-        "activate": "Enter your license key to unlock the Pro features"
+        "activate": "Enter your license key to unlock the Pro features",
+        "checked": "Verified"
       },
       "key": {
         "label": "License key",
@@ -720,7 +721,8 @@
         "activate": "Activate your license",
         "manage": "Manage your license",
         "unlink": "Unlink your license",
-        "unlinkLocally": "Unlink your license locally"
+        "unlinkLocally": "Unlink your license locally",
+        "check": "Verify"
       }
     }
   },

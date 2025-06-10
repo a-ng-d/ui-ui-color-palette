@@ -116,6 +116,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
       >
         <Dialog
           title={this.props.locals.report.title}
+          pin="RIGHT"
           actions={{
             primary: {
               label: this.props.locals.report.cta,
