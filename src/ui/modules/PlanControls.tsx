@@ -35,35 +35,46 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
 
   // Templates
   RemainingTime = () => (
-    <div
-      className={doClassnames([
-        texts.type,
-        texts['type--secondary'],
-        texts['type--truncated'],
-      ])}
-    >
-      {Math.ceil(this.props.trialRemainingTime) > 72 && (
-        <span>
-          {this.props.locals.plan.trialTimeDays.plural.replace(
-            '{$1}',
-            Math.ceil(this.props.trialRemainingTime) > 72
-              ? Math.ceil(this.props.trialRemainingTime / 24).toString()
-              : Math.ceil(this.props.trialRemainingTime).toString()
-          )}
-        </span>
-      )}
-      {Math.ceil(this.props.trialRemainingTime) <= 72 &&
-        Math.ceil(this.props.trialRemainingTime) > 1 && (
+    <div className={doClassnames([layouts['snackbar--medium']])}>
+      <Button
+        type="alternative"
+        size="small"
+        icon="lock-off"
+        label={this.props.locals.plan.getPro}
+        action={() =>
+          parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+        }
+      />
+      <div
+        className={doClassnames([
+          texts.type,
+          texts['type--secondary'],
+          texts['type--truncated'],
+        ])}
+      >
+        {Math.ceil(this.props.trialRemainingTime) > 72 && (
           <span>
-            {this.props.locals.plan.trialTimeHours.plural.replace(
+            {this.props.locals.plan.trialTimeDays.plural.replace(
               '{$1}',
-              Math.ceil(this.props.trialRemainingTime).toString()
+              Math.ceil(this.props.trialRemainingTime) > 72
+                ? Math.ceil(this.props.trialRemainingTime / 24).toString()
+                : Math.ceil(this.props.trialRemainingTime).toString()
             )}
           </span>
         )}
-      {Math.ceil(this.props.trialRemainingTime) <= 1 && (
-        <span>{this.props.locals.plan.trialTimeHours.single}</span>
-      )}
+        {Math.ceil(this.props.trialRemainingTime) <= 72 &&
+          Math.ceil(this.props.trialRemainingTime) > 1 && (
+            <span>
+              {this.props.locals.plan.trialTimeHours.plural.replace(
+                '{$1}',
+                Math.ceil(this.props.trialRemainingTime).toString()
+              )}
+            </span>
+          )}
+        {Math.ceil(this.props.trialRemainingTime) <= 1 && (
+          <span>{this.props.locals.plan.trialTimeHours.single}</span>
+        )}
+      </div>
     </div>
   )
 
@@ -88,7 +99,9 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         size="small"
         icon="lock-off"
         label={this.props.locals.plan.getPro}
-        action={this.props.onGetProPlan}
+        action={() =>
+          parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+        }
       />
       <span className={doClassnames([texts.type, texts['type--secondary']])}>
         {this.props.locals.separator}
@@ -156,7 +169,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
                 label={this.props.locals.plan.getPro}
                 action={() =>
                   parent.postMessage(
-                    { pluginMessage: { type: 'PRO_PLAN' } },
+                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
                     '*'
                   )
                 }
