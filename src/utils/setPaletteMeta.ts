@@ -19,29 +19,38 @@ const getPaletteMeta = (
   if (colorsNumber > 1)
     colorLabel = locals
       .get()
-      .actions.sourceColorsNumber.several.replace('{$1}', colorsNumber)
+      .actions.sourceColorsNumber.several.replace(
+        '{$1}',
+        colorsNumber.toString()
+      )
   else
     colorLabel = locals
       .get()
-      .actions.sourceColorsNumber.single.replace('{$1}', colorsNumber)
+      .actions.sourceColorsNumber.single.replace(
+        '{$1}',
+        colorsNumber.toString()
+      )
 
   if (themesNumber > 1)
     themeLabel = locals
       .get()
-      .actions.colorThemesNumber.several.replace('{$1}', themesNumber)
+      .actions.colorThemesNumber.several.replace(
+        '{$1}',
+        themesNumber.toString()
+      )
   else
     themeLabel = locals
       .get()
-      .actions.colorThemesNumber.single.replace('{$1}', themesNumber)
+      .actions.colorThemesNumber.single.replace('{$1}', themesNumber.toString())
 
   if (shadeNumber > 1)
     shadeLabel = locals
       .get()
-      .actions.shadesNumber.several.replace('{$1}', shadeNumber)
+      .actions.shadesNumber.several.replace('{$1}', shadeNumber.toString())
   else
     shadeLabel = locals
       .get()
-      .actions.shadesNumber.single.replace('{$1}', shadeNumber)
+      .actions.shadesNumber.single.replace('{$1}', shadeNumber.toString())
 
   return `${colorLabel}${locals.get().separator}${shadeLabel}${locals.get().separator}${themeLabel}`
 }

@@ -595,10 +595,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                       type="INFO"
                       message={this.props.locals.info.maxNumberOfSourceColors.replace(
                         '{$1}',
-                        Colors.features(
-                          this.props.planStatus,
-                          this.props.config
-                        ).COLORS.limit
+                        (
+                          Colors.features(
+                            this.props.planStatus,
+                            this.props.config
+                          ).COLORS.limit ?? 0
+                        ).toString()
                       )}
                       actionsSlot={
                         <Button

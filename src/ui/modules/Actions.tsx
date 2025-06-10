@@ -508,11 +508,11 @@ export default class Actions extends PureComponent<
               {this.props.sourceColors.length > 1
                 ? this.props.locals.actions.sourceColorsNumber.several.replace(
                     '{$1}',
-                    this.props.sourceColors.length
+                    this.props.sourceColors.length.toString()
                   )
                 : this.props.locals.actions.sourceColorsNumber.single.replace(
                     '{$1}',
-                    this.props.sourceColors.length
+                    this.props.sourceColors.length.toString()
                   )}
             </div>
             {Actions.features(
@@ -542,8 +542,12 @@ export default class Actions extends PureComponent<
                   <Tooltip>
                     {this.props.locals.info.maxNumberOfSourceColors.replace(
                       '{$1}',
-                      Actions.features(this.props.planStatus, this.props.config)
-                        .SOURCE.limit
+                      String(
+                        Actions.features(
+                          this.props.planStatus,
+                          this.props.config
+                        ).SOURCE.limit ?? 0
+                      )
                     )}
                   </Tooltip>
                 )}

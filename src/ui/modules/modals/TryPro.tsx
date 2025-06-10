@@ -33,13 +33,13 @@ export default class TryPro extends PureComponent<TryProProps> {
         <Dialog
           title={this.props.locals.proPlan.trial.title.replace(
             '{$1}',
-            this.props.config.plan.trialTime
+            this.props.config.plan.trialTime.toString()
           )}
           actions={{
             primary: {
               label: this.props.locals.proPlan.trial.cta.replace(
                 '{$1}',
-                this.props.config.plan.trialTime
+                this.props.config.plan.trialTime.toString()
               ),
               action: () =>
                 parent.postMessage(

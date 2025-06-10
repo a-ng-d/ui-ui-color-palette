@@ -143,7 +143,9 @@ export default class Explore extends PureComponent<
     return this.filters.map((filter) => {
       return {
         label:
-          this.props.locals.source.colourLovers.filters[filter.toLowerCase()],
+          this.props.locals.source.colourLovers.filters[
+            filter.toLowerCase() as keyof typeof this.props.locals.source.colourLovers.filters
+          ],
         value: filter,
         feature: 'EDIT_FILTER',
         type: 'OPTION',

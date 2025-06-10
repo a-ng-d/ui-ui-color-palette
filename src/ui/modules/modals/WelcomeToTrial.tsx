@@ -52,7 +52,7 @@ export default class WelcomeToTrial extends PureComponent<WelcomeToTrialProps> {
             <p className={texts.type}>
               {this.props.locals.proPlan.welcome.trial.replace(
                 '{$1}',
-                this.props.config.plan.trialTime
+                this.props.config.plan.trialTime.toString()
               )}
             </p>
           </div>

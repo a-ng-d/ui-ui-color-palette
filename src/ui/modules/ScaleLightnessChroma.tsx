@@ -918,10 +918,12 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   type="INFO"
                   message={this.props.locals.info.maxNumberOfStops.replace(
                     '{$1}',
-                    ScaleLightnessChroma.features(
-                      this.props.planStatus,
-                      this.props.config
-                    ).PRESETS_CUSTOM_ADD.limit
+                    (
+                      ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).PRESETS_CUSTOM_ADD.limit ?? 0
+                    ).toString()
                   )}
                   actionsSlot={
                     <Button
@@ -1083,10 +1085,12 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   type="INFO"
                   message={this.props.locals.info.maxNumberOfStops.replace(
                     '{$1}',
-                    ScaleLightnessChroma.features(
-                      this.props.planStatus,
-                      this.props.config
-                    ).PRESETS_CUSTOM_ADD.limit
+                    (
+                      ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).PRESETS_CUSTOM_ADD.limit ?? 0
+                    ).toString()
                   )}
                   actionsSlot={
                     <Button
