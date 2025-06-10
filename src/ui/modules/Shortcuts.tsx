@@ -243,7 +243,23 @@ export default class Shortcuts extends PureComponent<
                   {this.props.userSession.connectionStatus === 'CONNECTED' ? (
                     <Menu
                       id="user-menu"
-                      icon="user"
+                      customIcon={
+                        this.props.userSession.userAvatar ? (
+                          <img
+                            src={this.props.userSession.userAvatar}
+                            style={{
+                              width: 'calc(100% - var(--size-xxsmall))',
+                              borderRadius: 'var(--border-radius-full)',
+                            }}
+                            alt="User Avatar"
+                          />
+                        ) : (
+                          <Icon
+                            type="PICTO"
+                            iconName="user"
+                          />
+                        )
+                      }
                       options={[
                         {
                           label: this.props.locals.user.welcomeMessage.replace(
@@ -391,6 +407,23 @@ export default class Shortcuts extends PureComponent<
                               this.props.config.urls.authUrl
                             )
                               .then(() => {
+                                parent.postMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'POST_MESSAGE',
+                                      data: {
+                                        type: 'SUCCESS',
+                                        message:
+                                          this.props.locals.user.welcomeMessage.replace(
+                                            '{$1}',
+                                            this.props.userSession.userFullName
+                                          ),
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+
                                 trackSignInEvent(
                                   this.props.userIdentity.id,
                                   this.props.userConsent.find(

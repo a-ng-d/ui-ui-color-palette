@@ -310,21 +310,6 @@ class App extends Component<AppProps, AppStates> {
                 refreshToken: session?.refresh_token,
               },
             })
-            parent.postMessage(
-              {
-                pluginMessage: {
-                  type: 'POST_MESSAGE',
-                  data: {
-                    type: 'SUCCESS',
-                    message: this.state.locals.user.welcomeMessage.replace(
-                      '{$1}',
-                      session?.user.user_metadata.full_name
-                    ),
-                  },
-                },
-              },
-              '*'
-            )
           },
           TOKEN_REFRESHED: () => {
             this.setState({
