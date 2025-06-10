@@ -13,11 +13,11 @@ import {
   SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../components/WithConfig'
-import Feature from '../components/Feature'
-import setPaletteMeta from '../../utils/setPaletteMeta'
-import { BaseProps, PlanStatus } from '../../types/app'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import setPaletteMeta from '../../../utils/setPaletteMeta'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PagePalettesProps extends BaseProps, WithConfigProps {
   onCreatePalette: () => void

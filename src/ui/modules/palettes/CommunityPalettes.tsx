@@ -15,11 +15,11 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../components/WithConfig'
-import getPaletteMeta from '../../utils/setPaletteMeta'
-import { trackPublicationEvent } from '../../utils/eventsTracker'
-import { BaseProps, Context, FetchStatus } from '../../types/app'
-import { supabase } from '../../index'
+import { WithConfigProps } from '../../components/WithConfig'
+import getPaletteMeta from '../../../utils/setPaletteMeta'
+import { trackPublicationEvent } from '../../../utils/eventsTracker'
+import { BaseProps, Context, FetchStatus } from '../../../types/app'
+import { supabase } from '../../../index'
 
 interface CommunityPalettesProps extends BaseProps, WithConfigProps {
   context: Context

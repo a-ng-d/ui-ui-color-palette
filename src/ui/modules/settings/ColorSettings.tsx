@@ -14,10 +14,10 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../components/WithConfig'
-import Feature from '../components/Feature'
-import { BaseProps, PlanStatus } from '../../types/app'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ColorSettingsProps extends BaseProps, WithConfigProps {
   colorSpace: ColorSpaceConfiguration

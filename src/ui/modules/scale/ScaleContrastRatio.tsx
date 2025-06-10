@@ -16,12 +16,12 @@ import {
   Select,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../components/WithConfig'
-import Feature from '../components/Feature'
-import { ScaleMessage } from '../../types/messages'
-import { BaseProps, PlanStatus } from '../../types/app'
-import { $palette } from '../../stores/palette'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { ScaleMessage } from '../../../types/messages'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import { $palette } from '../../../stores/palette'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   id: string

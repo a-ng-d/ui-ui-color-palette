@@ -1,5 +1,17 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import WelcomeToTrial from '../modules/modals/WelcomeToTrial'
+import WelcomeToPro from '../modules/modals/WelcomeToPro'
+import TryPro from '../modules/modals/TryPro'
+import Store from '../modules/modals/Store'
+import Report from '../modules/modals/Report'
+import Publication from '../modules/modals/Publication'
+import Preferences from '../modules/modals/Preferences'
+import Onboarding from '../modules/modals/Onboarding'
+import NotificationBanner from '../modules/modals/NotificationBanner'
+import License from '../modules/modals/License'
+import Announcements from '../modules/modals/Announcements'
+import About from '../modules/modals/About'
 import { WithConfigProps } from '../components/WithConfig'
 import { NotificationMessage } from '../../types/messages'
 import {
@@ -8,18 +20,6 @@ import {
   ModalContext,
   TrialStatus,
 } from '../../types/app'
-import WelcomeToTrial from './modals/WelcomeToTrial'
-import WelcomeToPro from './modals/WelcomeToPro'
-import TryPro from './modals/TryPro'
-import Store from './modals/Store'
-import Report from './modals/Report'
-import Publication from './modals/Publication'
-import Preferences from './modals/Preferences'
-import Onboarding from './modals/Onboarding'
-import NotificationBanner from './modals/NotificationBanner'
-import License from './modals/License'
-import Announcements from './modals/Announcements'
-import About from './modals/About'
 import type { AppStates } from '../App'
 
 interface ModalProps extends BaseProps, WithConfigProps {

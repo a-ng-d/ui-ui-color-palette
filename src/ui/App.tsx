@@ -69,7 +69,7 @@ import EditPalette from './services/EditPalette'
 import CreatePalette from './services/CreatePalette'
 import BrowsePalettes from './services/BrowsePalettes'
 import Shortcuts from './modules/Shortcuts'
-import Modal from './modules/Modal'
+import Modal from './contexts/Modal'
 import { WithConfig, WithConfigProps } from './components/WithConfig'
 import Feature from './components/Feature'
 

@@ -26,8 +26,8 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
-import ScaleLightnessChroma from '../modules/ScaleLightnessChroma'
-import ScaleContrastRatio from '../modules/ScaleContrastRatio'
+import ScaleLightnessChroma from '../modules/scale/ScaleLightnessChroma'
+import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'

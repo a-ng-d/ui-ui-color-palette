@@ -17,14 +17,14 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../components/WithConfig'
-import getPaletteMeta from '../../utils/setPaletteMeta'
-import { trackPublicationEvent } from '../../utils/eventsTracker'
-import { BaseProps, Context, FetchStatus } from '../../types/app'
-import { supabase } from '../../index'
-import unpublishPalette from '../../external/publication/unpublishPalette'
-import sharePalette from '../../external/publication/sharePalette'
-import { signIn } from '../../external/auth/authentication'
+import { WithConfigProps } from '../../components/WithConfig'
+import getPaletteMeta from '../../../utils/setPaletteMeta'
+import { trackPublicationEvent } from '../../../utils/eventsTracker'
+import { BaseProps, Context, FetchStatus } from '../../../types/app'
+import { supabase } from '../../../index'
+import unpublishPalette from '../../../external/publication/unpublishPalette'
+import sharePalette from '../../../external/publication/sharePalette'
+import { signIn } from '../../../external/auth/authentication'
 
 interface SelfPalettesProps extends BaseProps, WithConfigProps {
   context: Context
