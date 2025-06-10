@@ -1,10 +1,18 @@
-const activateUserLicenseKey = async (
-  storeApiUrl: string,
+const activateUserLicenseKey = async ({
+  storeApiUrl,
+  licenseKey,
+  instanceName,
+}: {
+  storeApiUrl: string
   licenseKey: string
-) => {
+  instanceName: string
+}): Promise<{
+  license_key: string
+  instance_id: string
+}> => {
   return new Promise((resolve, reject) => {
     fetch(
-      `${storeApiUrl}/licenses/activate?license_key=${licenseKey}&instance_name=ui_color_palette_plugin`,
+      `${storeApiUrl}/licenses/activate?license_key=${licenseKey}&instance_name=${instanceName}`,
       {
         method: 'POST',
         headers: {
@@ -16,30 +24,31 @@ const activateUserLicenseKey = async (
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.error) return reject(new Error(data.error))
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'SET_DATA',
-              items: [
-                {
-                  key: 'user_license_key',
-                  value: data.license_key.key,
-                },
-                {
-                  key: 'user_license_status',
-                  value: data.license_key.status,
-                },
-                {
-                  key: 'user_license_instance_id',
-                  value: data.instance.id,
-                },
-              ],
+        if (data.error) throw new Error(data.error)
+        if (data.activated) {
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: 'SET_DATA',
+                items: [
+                  {
+                    key: 'user_license_key',
+                    value: data.license_key.key,
+                  },
+                  {
+                    key: 'user_license_instance_id',
+                    value: data.instance.id,
+                  },
+                ],
+              },
             },
-          },
-          '*'
-        )
-        return resolve(data)
+            '*'
+          )
+          return resolve({
+            license_key: data.license_key.key,
+            instance_id: data.instance.id,
+          })
+        }
       })
       .catch((error) => reject(error))
   })

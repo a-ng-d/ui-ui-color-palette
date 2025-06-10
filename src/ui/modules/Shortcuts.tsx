@@ -337,7 +337,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                           action: this.props.onReOpenPreferences,
                         },
                         {
-                          label: this.props.locals.user.updateLicense,
+                          label: this.props.locals.user.manageLicense,
                           type: 'OPTION',
                           isActive: Shortcuts.features(
                             this.props.planStatus,
@@ -456,7 +456,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                           action: this.props.onReOpenPreferences,
                         },
                         {
-                          label: this.props.locals.user.updateLicense,
+                          label: this.props.locals.user.manageLicense,
                           type: 'OPTION',
                           isActive: Shortcuts.features(
                             this.props.planStatus,

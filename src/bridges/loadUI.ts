@@ -265,6 +265,14 @@ window.addEventListener('message', async (msg: any) => {
     //
     GET_PRO_PLAN: async () =>
       window.open(globalConfig.urls.storeUrl, '_blank')?.focus(),
+    WELCOME_TO_PRO: async () =>
+      iframe?.contentWindow?.postMessage({
+        type: 'WELCOME_TO_PRO',
+      }),
+    LEAVE_PRO_PLAN: async () =>
+      iframe?.contentWindow?.postMessage({
+        type: 'LEAVE_PRO_PLAN',
+      }),
     ENABLE_TRIAL: async () => {
       enableTrial(path.data.trialTime, path.data.trialVersion).then(() =>
         checkPlanStatus()

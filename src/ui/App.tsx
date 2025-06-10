@@ -397,11 +397,11 @@ class App extends Component<AppProps, AppStates> {
         }
 
         const checkUserLicense = () => {
-          validateUserLicenseKey(
-            this.props.config.urls.storeApiUrl,
-            path.data.licenseKey,
-            path.data.instanceId
-          ).then((isValid: boolean) => {
+          validateUserLicenseKey({
+            storeApiUrl: this.props.config.urls.storeApiUrl,
+            licenseKey: path.data.licenseKey,
+            instanceId: path.data.instanceId,
+          }).then((isValid: boolean) => {
             this.setState({
               planStatus: isValid ? 'PAID' : 'UNPAID',
             })
@@ -816,9 +816,9 @@ class App extends Component<AppProps, AppStates> {
             },
           })
 
-        const getProPlan = () => {
+        const welcomeToPro = () => {
           this.setState({
-            planStatus: path.data.status,
+            planStatus: 'PAID',
             priorityContainerContext: 'WELCOME_TO_PRO',
           })
           trackPurchaseEvent(
@@ -826,6 +826,12 @@ class App extends Component<AppProps, AppStates> {
             this.state.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false
           )
+        }
+
+        const leaveProPlan = () => {
+          this.setState({
+            planStatus: 'UNPAID',
+          })
         }
 
         const enableTrial = () => {
@@ -877,7 +883,8 @@ class App extends Component<AppProps, AppStates> {
           EXPORT_PALETTE_XML: () => exportPaletteToXml(),
           EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
           UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
-          GET_PRO_PLAN: () => getProPlan(),
+          WELCOME_TO_PRO: () => welcomeToPro(),
+          LEAVE_PRO_PLAN: () => leaveProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
           SIGN_OUT: () => signOut(path?.data),
           DEFAULT: () => null,

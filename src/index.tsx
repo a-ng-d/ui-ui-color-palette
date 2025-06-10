@@ -107,6 +107,7 @@ root.render(
       vsCodeFigmaPluginUrl: globalConfig.urls.vsCodeFigmaPluginUrl,
       isbUrl: globalConfig.urls.isbUrl,
       storeUrl: globalConfig.urls.storeUrl,
+      storeManagementUrl: globalConfig.urls.storeManagementUrl,
     }}
     versions={{
       userConsentVersion: globalConfig.versions.userConsentVersion,

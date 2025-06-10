@@ -1,4 +1,4 @@
-const validateUserLicenseKey = async ({
+const desactivateUserLicenseKey = async ({
   storeApiUrl,
   licenseKey,
   instanceId,
@@ -9,7 +9,7 @@ const validateUserLicenseKey = async ({
 }): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     fetch(
-      `${storeApiUrl}/licenses/validate?license_key=${licenseKey}&instance_id=${instanceId}`,
+      `${storeApiUrl}/licenses/deactivate?license_key=${licenseKey}&instance_id=${instanceId}`,
       {
         method: 'POST',
         headers: {
@@ -21,11 +21,22 @@ const validateUserLicenseKey = async ({
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data.valid) return resolve(data.valid)
         if (data.error) throw new Error(data.error)
+        if (data.deactivated) {
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: 'DELETE_DATA',
+                items: ['user_license_key', 'user_license_instance_id'],
+              },
+            },
+            '*'
+          )
+          return resolve(data.valid)
+        }
       })
       .catch((error) => reject(error))
   })
 }
 
-export default validateUserLicenseKey
+export default desactivateUserLicenseKey
