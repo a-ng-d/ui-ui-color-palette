@@ -9,6 +9,7 @@ import {
   Input,
   Message,
   SemanticMessage,
+  SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -32,7 +33,10 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<LicenseProps, LicenseStates> {
+export default class License extends PureComponent<
+  LicenseProps,
+  LicenseStates
+> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER_LICENSE: new FeatureStatus({
       features: config.features,
@@ -313,14 +317,21 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
             </div>
           )}
           {this.state.hasLicense && (
-            <div style={{ flex: 1 }}>
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
               {this.state.licenseStatus === 'ERROR' && (
                 <SemanticMessage
                   type="ERROR"
                   message={this.props.locals.error.unlinkedLicense}
                 />
               )}
-              <Bar
+              <SimpleItem
                 leftPartSlot={
                   <Message
                     icon="key"
@@ -395,6 +406,8 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                     />
                   )
                 }
+                isListItem={false}
+                alignment="CENTER"
               />
             </div>
           )}
