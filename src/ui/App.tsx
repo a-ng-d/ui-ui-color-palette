@@ -404,6 +404,10 @@ class App extends Component<AppProps, AppStates> {
         const checkPlanStatus = () =>
           this.setState({
             planStatus: path.data.planStatus,
+          })
+
+        const checkTrialStatus = () =>
+          this.setState({
             trialStatus: path.data.trialStatus,
             trialRemainingTime: path.data.trialRemainingTime,
           })
@@ -842,6 +846,7 @@ class App extends Component<AppProps, AppStates> {
           CHECK_USER_LICENSE: () => checkUserLicense(),
           CHECK_EDITOR: () => checkEditor(),
           CHECK_PLAN_STATUS: () => checkPlanStatus(),
+          CHECK_TRIAL_STATUS: () => checkTrialStatus(),
           CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
           POST_MESSAGE: () => postMessage(),
           PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),

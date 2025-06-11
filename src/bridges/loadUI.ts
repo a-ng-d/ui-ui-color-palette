@@ -27,7 +27,7 @@ import createPaletteFromDuplication from './creations/createFromDuplication'
 import checkUserPreferences from './checks/checkUserPreferences'
 import checkUserLicense from './checks/checkUserLicense'
 import checkUserConsent from './checks/checkUserConsent'
-import checkPlanStatus from './checks/checkPlanStatus'
+import checkTrialStatus from './checks/checkTrialStatus'
 import checkAnnouncementsStatus from './checks/checkAnnouncementsStatus'
 
 const iframe = document.querySelector(
@@ -48,7 +48,7 @@ if (iframe) {
 
   iframe.onload = () => {
     checkUserConsent()
-      .then(() => checkPlanStatus())
+      .then(() => checkTrialStatus())
       .then(() => checkUserPreferences())
       .then(() => checkUserLicense())
 
@@ -281,7 +281,7 @@ window.addEventListener('message', async (msg: any) => {
       }),
     ENABLE_TRIAL: async () => {
       enableTrial(path.data.trialTime, path.data.trialVersion).then(() =>
-        checkPlanStatus()
+        checkTrialStatus()
       )
     },
     SIGN_OUT: () =>

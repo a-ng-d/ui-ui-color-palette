@@ -1,6 +1,6 @@
 import globalConfig from '../../global.config'
 
-const checkPlanStatus = async () => {
+const checkTrialStatus = async () => {
   // figma.clientStorage.deleteAsync('trial_start_date')
   // figma.clientStorage.deleteAsync('trial_version')
   // window.localStorage.setItem(
@@ -44,12 +44,8 @@ const checkPlanStatus = async () => {
   }
 
   iframe?.contentWindow?.postMessage({
-    type: 'CHECK_PLAN_STATUS',
+    type: 'CHECK_TRIAL_STATUS',
     data: {
-      planStatus:
-        trialStatus === 'PENDING' || !globalConfig.plan.isProEnabled
-          ? 'PAID'
-          : 'UNPAID',
       trialStatus: trialStatus,
       trialRemainingTime: Math.ceil(
         currentTrialVersion !== globalConfig.versions.trialVersion
@@ -64,4 +60,4 @@ const checkPlanStatus = async () => {
     : 'UNPAID'
 }
 
-export default checkPlanStatus
+export default checkTrialStatus
