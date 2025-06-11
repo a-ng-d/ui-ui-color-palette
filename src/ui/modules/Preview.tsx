@@ -640,10 +640,13 @@ export default class Preview extends PureComponent<
                     }}
                     feature="LOCK_SOURCE_COLORS"
                     isChecked={this.props.areSourceColorsLocked}
-                    isBlocked={Preview.features(
-                      this.props.planStatus,
-                      this.props.config
-                    ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()}
+                    isBlocked={
+                      Preview.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked() &&
+                      !this.props.areSourceColorsLocked
+                    }
                     isNew={Preview.features(
                       this.props.planStatus,
                       this.props.config
