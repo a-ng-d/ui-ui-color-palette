@@ -142,8 +142,8 @@
     "synchronization": "The palette has not been synchronized",
     "timeout": "The authentication has been timed out",
     "unshare": "The palette has not been removed from the community",
-    "activatedLicense": "The license key is not valid and cannot be activated",
-    "unlinkedLicense": "Your license key cannot be unlinked"
+    "activatedLicense": "This license key is not valid and cannot be activated. Please check it and try again. If the problem persists, please contact support.",
+    "unlinkedLicense": "Your license key \"{$1}\" is no longer valid or cannot be unlinked remotely. Please unlink it locally in order to replace it with a new one. If the problem persists, please contact support."
   },
   "export": {
     "actions": {
@@ -644,8 +644,8 @@
     "share": "The palette has been shared with the community",
     "synchronization": "The palette has been synchronized",
     "unshare": "The palette is no longer shared with the community",
-    "activatedLicense": "Your license key has been activated",
-    "unlinkedLicense": "Your license key has been unlinked"
+    "activatedLicense": "The license key \"{$1}\" has been activated",
+    "unlinkedLicense": "Your license key \"{$1}\" has been unlinked"
   },
   "tagline": "WCAG-Compliant Color Palette Suite",
   "themes": {
@@ -706,7 +706,8 @@
     "license": {
       "messages": {
         "activate": "Enter your license key to unlock the Pro features",
-        "checked": "Verified"
+        "active": "Valid",
+        "unactive": "Not valid"
       },
       "key": {
         "label": "License key",
@@ -722,7 +723,7 @@
         "manage": "Manage your license",
         "unlink": "Unlink your license",
         "unlinkLocally": "Unlink your license locally",
-        "check": "Verify"
+        "validate": "Verify"
       }
     }
   },

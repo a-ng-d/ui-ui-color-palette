@@ -272,6 +272,13 @@ window.addEventListener('message', async (msg: any) => {
           id: '123456789',
         },
       }),
+    ENABLE_PRO_PLAN: async () =>
+      iframe?.contentWindow?.postMessage({
+        type: 'ENABLE_PRO_PLAN',
+        data: {
+          id: '123456789',
+        },
+      }),
     LEAVE_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'LEAVE_PRO_PLAN',

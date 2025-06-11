@@ -808,6 +808,12 @@ class App extends Component<AppProps, AppStates> {
           )
         }
 
+        const enableProPlan = () => {
+          this.setState({
+            planStatus: 'PAID',
+          })
+        }
+
         const leaveProPlan = () => {
           this.setState({
             planStatus: 'UNPAID',
@@ -865,6 +871,7 @@ class App extends Component<AppProps, AppStates> {
           EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
           UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
           WELCOME_TO_PRO: () => welcomeToPro(),
+          ENABLE_PRO_PLAN: () => enableProPlan(),
           LEAVE_PRO_PLAN: () => leaveProPlan(),
           ENABLE_TRIAL: () => enableTrial(),
           SIGN_OUT: () => signOut(path?.data),

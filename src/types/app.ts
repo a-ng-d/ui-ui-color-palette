@@ -3,6 +3,8 @@ import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
 import { Translations } from './translation'
 
+export type Platform = 'figma' | 'penpot'
+
 export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'
 
 export interface ContextItem {

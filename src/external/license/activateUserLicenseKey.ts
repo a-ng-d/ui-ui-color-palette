@@ -1,18 +1,23 @@
+import { Platform } from '../../types/app'
+
 const activateUserLicenseKey = async ({
   storeApiUrl,
   licenseKey,
   instanceName,
+  platform,
 }: {
   storeApiUrl: string
   licenseKey: string
   instanceName: string
+  platform: Platform
 }): Promise<{
   license_key: string
   instance_id: string
+  instance_name: string
 }> => {
   return new Promise((resolve, reject) => {
     fetch(
-      `${storeApiUrl}/licenses/activate?license_key=${licenseKey}&instance_name=${instanceName}`,
+      `${storeApiUrl}/licenses/activate?license_key=${licenseKey}&instance_name=${encodeURI(instanceName + ' - ' + platform)}`,
       {
         method: 'POST',
         headers: {
@@ -39,6 +44,10 @@ const activateUserLicenseKey = async ({
                     key: 'user_license_instance_id',
                     value: data.instance.id,
                   },
+                  {
+                    key: 'user_license_instance_name',
+                    value: instanceName,
+                  },
                 ],
               },
             },
@@ -47,6 +56,7 @@ const activateUserLicenseKey = async ({
           return resolve({
             license_key: data.license_key.key,
             instance_id: data.instance.id,
+            instance_name: instanceName,
           })
         }
       })
