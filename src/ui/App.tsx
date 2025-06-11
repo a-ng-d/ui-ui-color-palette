@@ -418,6 +418,7 @@ class App extends Component<AppProps, AppStates> {
 
       const checkTrialStatus = () =>
         this.setState({
+          planStatus: path.data.planStatus,
           trialStatus: path.data.trialStatus,
           trialRemainingTime: path.data.trialRemainingTime,
         })

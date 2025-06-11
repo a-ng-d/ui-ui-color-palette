@@ -35,17 +35,25 @@ const checkTrialStatus = async () => {
 
     if (
       consumedTime <= currentTrialTime &&
-      currentTrialVersion !== globalConfig.versions.trialVersion
+      currentTrialVersion !== globalConfig.versions.trialVersion &&
+      globalConfig.plan.isTrialEnabled
     )
       trialStatus = 'PENDING'
-    else if (consumedTime >= globalConfig.plan.trialTime)
+    else if (
+      consumedTime >= globalConfig.plan.trialTime &&
+      globalConfig.plan.isTrialEnabled
+    )
       trialStatus = 'EXPIRED'
-    else trialStatus = 'PENDING'
+    else trialStatus = 'UNUSED'
   }
 
   iframe?.contentWindow?.postMessage({
     type: 'CHECK_TRIAL_STATUS',
     data: {
+      planStatus:
+        trialStatus === 'PENDING' || !globalConfig.plan.isProEnabled
+          ? 'PAID'
+          : 'UNPAID',
       trialStatus: trialStatus,
       trialRemainingTime: Math.ceil(
         currentTrialVersion !== globalConfig.versions.trialVersion
