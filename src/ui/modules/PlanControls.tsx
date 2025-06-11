@@ -3,13 +3,11 @@ import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { BaseProps, PlanStatus, TrialStatus } from '../../types/app'
+import { BaseProps, PlanStatus } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface PlanControlsProps extends BaseProps, WithConfigProps {
-  trialStatus: TrialStatus
   trialRemainingTime: number
-  onGetProPlan: () => void
 }
 
 export default class PlanControls extends PureComponent<PlanControlsProps> {
@@ -85,7 +83,14 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         size="small"
         icon="lock-off"
         label={this.props.locals.plan.tryPro}
-        action={this.props.onGetProPlan}
+        action={() => {
+          this.props.config.plan.isTrialEnabled
+            ? parent.postMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
+            : parent.postMessage(
+                { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                '*'
+              )
+        }}
       />
     </>
   )

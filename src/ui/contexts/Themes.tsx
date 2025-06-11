@@ -24,7 +24,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
 import { ThemesMessage } from '../../types/messages'
-import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
+import { BaseProps, PlanStatus } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
@@ -35,7 +35,6 @@ interface ThemesProps extends BaseProps, WithConfigProps {
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onChangeThemes: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 export default class Themes extends PureComponent<ThemesProps> {
@@ -365,7 +364,7 @@ export default class Themes extends PureComponent<ThemesProps> {
     const customThemes = this.props.themes.filter(
       (item) => item.type === 'custom theme'
     )
-
+    
     return (
       <Layout
         id="colors"
@@ -409,18 +408,37 @@ export default class Themes extends PureComponent<ThemesProps> {
                           {Themes.features(
                             this.props.planStatus,
                             this.props.config
-                          ).THEMES.isBlocked() && (
-                            <Button
-                              type="secondary"
-                              label={this.props.locals.plan.getPro}
-                              action={() =>
-                                parent.postMessage(
-                                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                                  '*'
-                                )
-                              }
-                            />
-                          )}
+                          ).THEMES.isBlocked() &&
+                            (this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED' ? (
+                              <Button
+                                type="secondary"
+                                label={this.props.locals.plan.tryPro}
+                                action={() =>
+                                  parent.postMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_TRIAL' },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            ) : (
+                              <Button
+                                type="secondary"
+                                label={this.props.locals.plan.getPro}
+                                action={() =>
+                                  parent.postMessage(
+                                    {
+                                      pluginMessage: {
+                                        type: 'GET_PRO_PLAN',
+                                      },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            ))}
                           <Button
                             type="primary"
                             feature="ADD_THEME"
@@ -450,16 +468,36 @@ export default class Themes extends PureComponent<ThemesProps> {
                           type="INFO"
                           message={this.props.locals.info.themesOnFree}
                           actionsSlot={
-                            <Button
-                              type="secondary"
-                              label={this.props.locals.plan.getPro}
-                              action={() =>
-                                parent.postMessage(
-                                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                                  '*'
-                                )
-                              }
-                            />
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED' ? (
+                              <Button
+                                type="secondary"
+                                label={this.props.locals.plan.tryPro}
+                                action={() =>
+                                  parent.postMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_TRIAL' },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            ) : (
+                              <Button
+                                type="secondary"
+                                label={this.props.locals.plan.getPro}
+                                action={() =>
+                                  parent.postMessage(
+                                    {
+                                      pluginMessage: {
+                                        type: 'GET_PRO_PLAN',
+                                      },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            )
                           }
                         />
                       </div>

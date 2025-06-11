@@ -5,11 +5,10 @@ import { Dialog, List } from '@a_ng_d/figmug-ui'
 import SyncPreferences from '../SyncPreferences'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, TrialStatus } from '../../../types/app'
+import { BaseProps, PlanStatus } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PreferencesProps extends BaseProps, WithConfigProps {
-  trialStatus: TrialStatus
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

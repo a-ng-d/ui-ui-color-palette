@@ -23,7 +23,7 @@ import {
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackImportEvent } from '../../utils/eventsTracker'
-import { BaseProps, ImportUrl, PlanStatus, ModalContext } from '../../types/app'
+import { BaseProps, ImportUrl, PlanStatus } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps extends BaseProps, WithConfigProps {
@@ -33,7 +33,6 @@ interface OverviewProps extends BaseProps, WithConfigProps {
     source: ThirdParty
   ) => void
   onChangeContexts: () => void
-  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 interface OverviewStates {
@@ -318,7 +317,12 @@ export default class Overview extends PureComponent<
   // Templates
   SelectedColors = () => {
     return (
-      <>
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config
+        ).SOURCE_CANVAS.isActive()}
+      >
         <SimpleItem
           id="watch-swatchs"
           leftPartSlot={
@@ -352,16 +356,30 @@ export default class Overview extends PureComponent<
                 ).toString()
               )}
               actionsSlot={
-                <Button
-                  type="secondary"
-                  label={this.props.locals.plan.getPro}
-                  action={() =>
-                    parent.postMessage(
-                      { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                      '*'
-                    )
-                  }
-                />
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED' ? (
+                  <Button
+                    type="secondary"
+                    label={this.props.locals.plan.tryPro}
+                    action={() =>
+                      parent.postMessage(
+                        { pluginMessage: { type: 'GET_TRIAL' } },
+                        '*'
+                      )
+                    }
+                  />
+                ) : (
+                  <Button
+                    type="secondary"
+                    label={this.props.locals.plan.getPro}
+                    action={() =>
+                      parent.postMessage(
+                        { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                        '*'
+                      )
+                    }
+                  />
+                )
               }
             />
           </div>
@@ -411,13 +429,18 @@ export default class Overview extends PureComponent<
             ]}
           />
         )}
-      </>
+      </Feature>
     )
   }
 
   CoolorsColors = () => {
     return (
-      <>
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config
+        ).SOURCE_COOLORS.isActive()}
+      >
         <Accordion
           label={this.props.locals.source.coolors.title}
           indicator={this.props.sourceColors
@@ -499,13 +522,18 @@ export default class Overview extends PureComponent<
               })}
           </List>
         </Accordion>
-      </>
+      </Feature>
     )
   }
 
   RealtimeColorsColors = () => {
     return (
-      <>
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config
+        ).SOURCE_REALTIME_COLORS.isActive()}
+      >
         <Accordion
           label={this.props.locals.source.realtimeColors.title}
           indicator={this.props.sourceColors
@@ -589,13 +617,18 @@ export default class Overview extends PureComponent<
               })}
           </List>
         </Accordion>
-      </>
+      </Feature>
     )
   }
 
   ColourLoversColors = () => {
     return (
-      <>
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config
+        ).SOURCE_COLOUR_LOVERS.isActive()}
+      >
         <Accordion
           label={this.props.locals.source.colourLovers.title}
           indicator={this.props.sourceColors
@@ -650,7 +683,7 @@ export default class Overview extends PureComponent<
               })}
           </List>
         </Accordion>
-      </>
+      </Feature>
     )
   }
 
@@ -661,45 +694,15 @@ export default class Overview extends PureComponent<
         id="overview"
         column={[
           {
-            node: (
-              <Feature
-                isActive={Overview.features(
-                  this.props.planStatus,
-                  this.props.config
-                ).SOURCE_CANVAS.isActive()}
-              >
-                <this.SelectedColors />
-              </Feature>
-            ),
+            node: <this.SelectedColors />,
             typeModifier: 'LIST',
           },
           {
             node: (
               <>
-                <Feature
-                  isActive={Overview.features(
-                    this.props.planStatus,
-                    this.props.config
-                  ).SOURCE_COOLORS.isActive()}
-                >
-                  <this.CoolorsColors />
-                </Feature>
-                <Feature
-                  isActive={Overview.features(
-                    this.props.planStatus,
-                    this.props.config
-                  ).SOURCE_REALTIME_COLORS.isActive()}
-                >
-                  <this.RealtimeColorsColors />
-                </Feature>
-                <Feature
-                  isActive={Overview.features(
-                    this.props.planStatus,
-                    this.props.config
-                  ).SOURCE_COLOUR_LOVERS.isActive()}
-                >
-                  <this.ColourLoversColors />
-                </Feature>
+                <this.CoolorsColors />
+                <this.RealtimeColorsColors />
+                <this.ColourLoversColors />
               </>
             ),
             typeModifier: 'DRAWER',
@@ -707,7 +710,7 @@ export default class Overview extends PureComponent<
               direction: 'HORIZONTAL',
               pin: 'RIGHT',
               defaultSize: {
-                value: 276,
+                value: 240,
                 unit: 'PIXEL',
               },
               maxSize: {
@@ -715,9 +718,10 @@ export default class Overview extends PureComponent<
                 unit: 'PIXEL',
               },
               minSize: {
-                value: 276,
+                value: 240,
                 unit: 'PIXEL',
               },
+              isScrolling: true,
             },
           },
         ]}

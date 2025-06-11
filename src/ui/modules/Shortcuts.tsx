@@ -5,18 +5,12 @@ import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
-import {
-  BaseProps,
-  AnnouncementsDigest,
-  PlanStatus,
-  TrialStatus,
-} from '../../types/app'
+import { BaseProps, AnnouncementsDigest, PlanStatus } from '../../types/app'
 import { signIn, signOut } from '../../external/auth/authentication'
 import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
 
 interface ShortcutsProps extends BaseProps, WithConfigProps {
-  trialStatus: TrialStatus
   trialRemainingTime: number
   announcements: AnnouncementsDigest
   onReOpenAnnouncements: () => void
@@ -24,7 +18,6 @@ interface ShortcutsProps extends BaseProps, WithConfigProps {
   onReOpenStore: () => void
   onReOpenAbout: () => void
   onReOpenReport: () => void
-  onGetProPlan: () => void
   onUpdateConsent: () => void
   onReOpenPreferences: () => void
   onReOpenLicense: () => void

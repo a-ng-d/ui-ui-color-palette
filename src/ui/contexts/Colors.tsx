@@ -22,7 +22,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import { ColorsMessage } from '../../types/messages'
-import { BaseProps, PlanStatus, ModalContext } from '../../types/app'
+import { BaseProps, PlanStatus } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
@@ -31,7 +31,6 @@ interface ColorsProps extends BaseProps, WithConfigProps {
   colors: Array<ColorConfiguration>
   shift: ShiftConfiguration
   onChangeColors: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 export default class Colors extends PureComponent<ColorsProps> {
@@ -603,16 +602,30 @@ export default class Colors extends PureComponent<ColorsProps> {
                         ).toString()
                       )}
                       actionsSlot={
-                        <Button
-                          type="secondary"
-                          label={this.props.locals.plan.getPro}
-                          action={() =>
-                            parent.postMessage(
-                              { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                              '*'
-                            )
-                          }
-                        />
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED' ? (
+                          <Button
+                            type="secondary"
+                            label={this.props.locals.plan.tryPro}
+                            action={() =>
+                              parent.postMessage(
+                                { pluginMessage: { type: 'GET_TRIAL' } },
+                                '*'
+                              )
+                            }
+                          />
+                        ) : (
+                          <Button
+                            type="secondary"
+                            label={this.props.locals.plan.getPro}
+                            action={() =>
+                              parent.postMessage(
+                                { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                                '*'
+                              )
+                            }
+                          />
+                        )
                       }
                     />
                   </div>

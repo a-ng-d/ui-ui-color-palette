@@ -5,12 +5,11 @@ import { Dialog, Layout, layouts, texts } from '@a_ng_d/figmug-ui'
 import Icon from '../Icon'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, TrialStatus } from '../../../types/app'
+import { BaseProps, PlanStatus } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 import package_json from './../../../../package.json'
 
 interface AboutProps extends BaseProps, WithConfigProps {
-  trialStatus: TrialStatus
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

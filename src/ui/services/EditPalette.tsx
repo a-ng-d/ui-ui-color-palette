@@ -47,13 +47,7 @@ import {
 } from '../../utils/eventsTracker'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
 import { SourceColorEvent } from '../../types/events'
-import {
-  BaseProps,
-  Context,
-  ContextItem,
-  ModalContext,
-  PlanStatus,
-} from '../../types/app'
+import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
 import { defaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -85,7 +79,6 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   onChangeSettings: React.Dispatch<Partial<AppStates>>
   onPublishPalette: React.Dispatch<Partial<AppStates>>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { modalContext: ModalContext }) => void
   onUnloadPalette: () => void
   onChangeDocument: React.Dispatch<Partial<AppStates>>
   onDeletePalette: () => void
@@ -101,10 +94,7 @@ interface EditPaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
@@ -221,6 +211,7 @@ export default class EditPalette extends PureComponent<
   slideHandler = () =>
     this.props.onChangeScale({
       scale: this.palette.get().scale,
+      preset: this.palette.get().preset,
       themes: this.props.themes.map((theme: ThemeConfiguration) => {
         if (theme.isEnabled) theme.scale = this.palette.get().scale
         return theme

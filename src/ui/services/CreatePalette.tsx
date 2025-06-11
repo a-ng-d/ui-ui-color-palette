@@ -34,7 +34,6 @@ import {
   ContextItem,
   NamingConvention,
   PlanStatus,
-  ModalContext,
   ThirdParty,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -66,7 +65,6 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   onResetSourceColors: React.Dispatch<Partial<AppStates>>
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
-  onGetProPlan: (context: { modalContext: ModalContext }) => void
   onCancelPalette: () => void
   onSavedPalette: React.Dispatch<Partial<AppStates>>
 }

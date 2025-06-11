@@ -926,16 +926,30 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     ).toString()
                   )}
                   actionsSlot={
-                    <Button
-                      type="secondary"
-                      label={this.props.locals.plan.getPro}
-                      action={() =>
-                        parent.postMessage(
-                          { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                          '*'
-                        )
-                      }
-                    />
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED' ? (
+                      <Button
+                        type="secondary"
+                        label={this.props.locals.plan.tryPro}
+                        action={() =>
+                          parent.postMessage(
+                            { pluginMessage: { type: 'GET_TRIAL' } },
+                            '*'
+                          )
+                        }
+                      />
+                    ) : (
+                      <Button
+                        type="secondary"
+                        label={this.props.locals.plan.getPro}
+                        action={() =>
+                          parent.postMessage(
+                            { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                            '*'
+                          )
+                        }
+                      />
+                    )
                   }
                 />
               </div>
@@ -1093,16 +1107,30 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     ).toString()
                   )}
                   actionsSlot={
-                    <Button
-                      type="secondary"
-                      label={this.props.locals.plan.getPro}
-                      action={() =>
-                        parent.postMessage(
-                          { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                          '*'
-                        )
-                      }
-                    />
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED' ? (
+                      <Button
+                        type="secondary"
+                        label={this.props.locals.plan.tryPro}
+                        action={() =>
+                          parent.postMessage(
+                            { pluginMessage: { type: 'GET_TRIAL' } },
+                            '*'
+                          )
+                        }
+                      />
+                    ) : (
+                      <Button
+                        type="secondary"
+                        label={this.props.locals.plan.getPro}
+                        action={() =>
+                          parent.postMessage(
+                            { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                            '*'
+                          )
+                        }
+                      />
+                    )
                   }
                 />
               </div>
@@ -1121,7 +1149,12 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               stops={{
                 list: this.props.preset.stops,
                 min: 2,
-                max: 24,
+                max: ScaleLightnessChroma.features(
+                  this.props.planStatus,
+                  this.props.config
+                ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length)
+                  ? 10
+                  : 24,
               }}
               range={{
                 min: 0,

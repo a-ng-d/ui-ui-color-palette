@@ -14,19 +14,13 @@ import Announcements from '../modules/modals/Announcements'
 import About from '../modules/modals/About'
 import { WithConfigProps } from '../components/WithConfig'
 import { NotificationMessage } from '../../types/messages'
-import {
-  BaseProps,
-  AnnouncementsDigest,
-  ModalContext,
-  TrialStatus,
-} from '../../types/app'
+import { BaseProps, AnnouncementsDigest, ModalContext } from '../../types/app'
 import type { AppStates } from '../App'
 
 interface ModalProps extends BaseProps, WithConfigProps {
   rawData: AppStates
   context: ModalContext
   notification: NotificationMessage
-  trialStatus: TrialStatus
   announcements: AnnouncementsDigest
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)

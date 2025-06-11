@@ -265,6 +265,13 @@ window.addEventListener('message', async (msg: any) => {
     //
     GET_PRO_PLAN: async () =>
       window.open(globalConfig.urls.storeUrl, '_blank')?.focus(),
+    GET_TRIAL: async () =>
+      iframe?.contentWindow?.postMessage({
+        type: 'GET_TRIAL',
+        data: {
+          id: '123456789',
+        },
+      }),
     WELCOME_TO_PRO: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'WELCOME_TO_PRO',

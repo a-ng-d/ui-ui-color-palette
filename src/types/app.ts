@@ -20,6 +20,7 @@ export interface BaseProps {
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
   planStatus: PlanStatus
+  trialStatus: TrialStatus
   editor: Editor
   locals: Translations
   lang: Language

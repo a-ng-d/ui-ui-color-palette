@@ -25,7 +25,6 @@ interface SourceProps extends BaseProps, WithConfigProps {
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
   ) => void
-  onGetProPlan: (context: { modalContext: ModalContext }) => void
 }
 
 interface SourceStates {
