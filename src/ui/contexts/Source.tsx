@@ -12,7 +12,6 @@ import {
   ContextItem,
   FilterOptions,
   PlanStatus,
-  ModalContext,
   ThirdParty,
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
