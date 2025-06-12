@@ -359,6 +359,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -391,6 +392,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -419,6 +421,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -447,6 +450,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -479,6 +483,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -511,6 +516,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -539,6 +545,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -567,6 +574,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -595,6 +603,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -626,6 +635,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       }
 
       trackScaleManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,

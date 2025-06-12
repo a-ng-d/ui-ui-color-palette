@@ -238,6 +238,7 @@ export default class Explore extends PureComponent<
                         'COLOUR_LOVERS'
                       )
                       trackImportEvent(
+                        this.props.config.env.isMixpanelEnabled,
                         this.props.userIdentity.id,
                         this.props.userConsent.find(
                           (consent) => consent.id === 'mixpanel'

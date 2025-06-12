@@ -378,6 +378,9 @@ const globalConfig: Config = {
   env: {
     ...specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].env,
     isDev,
+    isSupabaseEnabled: true,
+    isMixpanelEnabled: true,
+    isSentryEnabled: true,
     supabaseAnonKey: import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY as string,
     mixpanelToken: import.meta.env.VITE_MIXPANEL_TOKEN as string,
     sentryToken: import.meta.env.VITE_SENTRY_AUTH_TOKEN as string,

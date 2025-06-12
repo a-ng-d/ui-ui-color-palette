@@ -233,6 +233,7 @@ export default class Overview extends PureComponent<
         },
       })
       trackImportEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -293,6 +294,7 @@ export default class Overview extends PureComponent<
         },
       })
       trackImportEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,

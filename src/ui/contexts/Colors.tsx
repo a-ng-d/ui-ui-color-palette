@@ -138,6 +138,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -170,6 +171,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
         trackSourceColorsManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
@@ -212,6 +214,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
         trackSourceColorsManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
@@ -244,6 +247,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -275,6 +279,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -306,6 +311,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -339,6 +345,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -372,6 +379,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -397,6 +405,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -422,6 +431,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -446,6 +456,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
         trackSourceColorsManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
@@ -497,6 +508,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -541,6 +553,7 @@ export default class Colors extends PureComponent<ColorsProps> {
     parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
 
     trackSourceColorsManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
       this.props.userIdentity.id,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,

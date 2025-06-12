@@ -19,13 +19,11 @@ const eventsRecurringProperties = {
   Env: process.env.NODE_ENV === 'development' ? 'Dev' : 'Prod',
 }
 
-export const trackRunningEvent = (id: string, consent: boolean) => {
-  if (!consent) return
-  mixpanel.identify(id)
-  mixpanel.track('Plugin Run', { ...eventsRecurringProperties })
-}
-
-export const trackUserConsentEvent = (consent: Array<ConsentConfiguration>) => {
+export const trackUserConsentEvent = (
+  isEnabled: boolean,
+  consent: Array<ConsentConfiguration>
+) => {
+  if (!isEnabled) return
   mixpanel.track('Consent Proof Sent', {
     'User Consent Version': globalConfig.versions.userConsentVersion,
     Consent: consent.map((c) => {
@@ -36,10 +34,12 @@ export const trackUserConsentEvent = (consent: Array<ConsentConfiguration>) => {
 }
 
 export const trackEditorEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: EditorEvent
 ) => {
+  if (!consent && !isEnabled) return
   if (!consent) return
   mixpanel.identify(id)
   mixpanel.track('Editor Run', {
@@ -48,24 +48,33 @@ export const trackEditorEvent = (
   })
 }
 
-export const trackSignInEvent = (id: string, consent: boolean) => {
-  if (!consent) return
+export const trackSignInEvent = (
+  isEnabled: boolean,
+  id: string,
+  consent: boolean
+) => {
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Signed In', { ...eventsRecurringProperties })
 }
 
-export const trackSignOutEvent = (id: string, consent: boolean) => {
-  if (!consent) return
+export const trackSignOutEvent = (
+  isEnabled: boolean,
+  id: string,
+  consent: boolean
+) => {
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Signed Out', { ...eventsRecurringProperties })
 }
 
 export const trackTrialEnablementEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: TrialEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Trial Enabled', {
     'Trial Start Date': new Date(options.date).toISOString(),
@@ -78,18 +87,23 @@ export const trackTrialEnablementEvent = (
   })
 }
 
-export const trackPurchaseEvent = (id: string, consent: boolean) => {
-  if (!consent) return
+export const trackPurchaseEvent = (
+  isEnabled: boolean,
+  id: string,
+  consent: boolean
+) => {
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Purchase Enabled', { ...eventsRecurringProperties })
 }
 
 export const trackPublicationEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: PublicationEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Palette Managed', {
     ...eventsRecurringProperties,
@@ -98,11 +112,12 @@ export const trackPublicationEvent = (
 }
 
 export const trackImportEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: ImportEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Colors Imported', {
     ...eventsRecurringProperties,
@@ -111,11 +126,12 @@ export const trackImportEvent = (
 }
 
 export const trackScaleManagementEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: ScaleEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Scale Updated', {
     ...eventsRecurringProperties,
@@ -124,11 +140,12 @@ export const trackScaleManagementEvent = (
 }
 
 export const trackPreviewManagementEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: PreviewEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Preview Updated', {
     ...eventsRecurringProperties,
@@ -137,11 +154,12 @@ export const trackPreviewManagementEvent = (
 }
 
 export const trackSourceColorsManagementEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: SourceColorEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Source Color Updated', {
     ...eventsRecurringProperties,
@@ -150,11 +168,12 @@ export const trackSourceColorsManagementEvent = (
 }
 
 export const trackColorThemesManagementEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: ColorThemeEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Color Theme Updated', {
     ...eventsRecurringProperties,
@@ -163,11 +182,12 @@ export const trackColorThemesManagementEvent = (
 }
 
 export const trackSettingsManagementEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: SettingEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Setting Updated', {
     ...eventsRecurringProperties,
@@ -176,11 +196,12 @@ export const trackSettingsManagementEvent = (
 }
 
 export const trackExportEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: ExportEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Color Shades Exported', {
     ...eventsRecurringProperties,
@@ -190,11 +211,12 @@ export const trackExportEvent = (
 }
 
 export const trackActionEvent = (
+  isEnabled: boolean,
   id: string,
   consent: boolean,
   options: ActionEvent
 ) => {
-  if (!consent) return
+  if (!consent && !isEnabled) return
   mixpanel.identify(id)
   mixpanel.track('Action Triggered', {
     ...eventsRecurringProperties,

@@ -11,6 +11,9 @@ export interface Config {
     editor: 'figma' | 'figjam' | 'dev' | 'penpot'
     ui: 'figma-ui3' | 'penpot'
     colorMode: 'figma-dark' | 'figma-light' | 'penpot-dark' | 'penpot-light'
+    isSupabaseEnabled: boolean
+    isMixpanelEnabled: boolean
+    isSentryEnabled: boolean
     supabaseAnonKey: string
     mixpanelToken: string
     sentryToken: string

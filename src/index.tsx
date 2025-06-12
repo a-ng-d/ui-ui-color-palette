@@ -11,7 +11,7 @@ import { ConfigProvider } from './config/ConfigContext'
 const container = document.getElementById('app'),
   root = createRoot(container)
 
-if (globalConfig.env.mixpanelToken)
+if (globalConfig.env.isMixpanelEnabled)
   mixpanel.init(globalConfig.env.mixpanelToken, {
     debug: globalConfig.env.isDev,
     disable_persistence: true,
@@ -19,7 +19,7 @@ if (globalConfig.env.mixpanelToken)
     opt_out_tracking_by_default: true,
   })
 
-if (globalConfig.env.sentryToken && !globalConfig.env.isDev)
+if (globalConfig.env.isMixpanelEnabled && !globalConfig.env.isDev)
   Sentry.init({
     dsn: globalConfig.urls.sentryDsn,
     environment: 'production',
@@ -54,7 +54,7 @@ else if (globalConfig.env.isDev) {
 }
 
 let supabase: SupabaseClient
-if (globalConfig.env.supabaseAnonKey)
+if (globalConfig.env.isSupabaseEnabled)
   supabase = createClient(
     globalConfig.urls.databaseUrl,
     globalConfig.env.supabaseAnonKey
@@ -68,16 +68,19 @@ root.render(
       pageSize: globalConfig.limits.pageSize,
     }}
     env={{
-      isDev: globalConfig.env.isDev,
       platform: globalConfig.env.platform,
-      editor: globalConfig.env.editor,
-      supabaseAnonKey: globalConfig.env.supabaseAnonKey,
-      announcementsDbId: globalConfig.env.announcementsDbId,
-      onboardingDbId: globalConfig.env.onboardingDbId,
       ui: globalConfig.env.ui,
       colorMode: globalConfig.env.colorMode,
+      editor: globalConfig.env.editor,
+      isDev: globalConfig.env.isDev,
+      isSupabaseEnabled: globalConfig.env.isSupabaseEnabled,
+      isMixpanelEnabled: globalConfig.env.isMixpanelEnabled,
+      isSentryEnabled: globalConfig.env.isSentryEnabled,
+      supabaseAnonKey: globalConfig.env.supabaseAnonKey,
       mixpanelToken: globalConfig.env.mixpanelToken,
       sentryToken: globalConfig.env.sentryToken,
+      announcementsDbId: globalConfig.env.announcementsDbId,
+      onboardingDbId: globalConfig.env.onboardingDbId,
     }}
     plan={{
       isProEnabled: globalConfig.plan.isProEnabled,

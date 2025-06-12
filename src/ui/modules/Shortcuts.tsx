@@ -286,6 +286,7 @@ export default class Shortcuts extends PureComponent<
                                 )
 
                                 trackSignOutEvent(
+                                  this.props.config.env.isMixpanelEnabled,
                                   this.props.userIdentity.id,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'
@@ -418,6 +419,7 @@ export default class Shortcuts extends PureComponent<
                                 )
 
                                 trackSignInEvent(
+                                  this.props.config.env.isMixpanelEnabled,
                                   this.props.userIdentity.id,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'

@@ -241,6 +241,7 @@ export default class SelfPalettes extends PureComponent<
         )
 
         trackPublicationEvent(
+          this.props.config.env.isMixpanelEnabled,
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
@@ -428,6 +429,7 @@ export default class SelfPalettes extends PureComponent<
                                   this.props.onChangeCurrentPage(1)
 
                                 trackPublicationEvent(
+                                  this.props.config.env.isMixpanelEnabled,
                                   this.props.userIdentity.id,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'
@@ -515,6 +517,7 @@ export default class SelfPalettes extends PureComponent<
                                 )
 
                                 trackPublicationEvent(
+                                  this.props.config.env.isMixpanelEnabled,
                                   this.props.userIdentity.id,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'

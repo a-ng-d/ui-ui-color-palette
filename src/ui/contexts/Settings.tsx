@@ -120,6 +120,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -151,6 +152,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -186,6 +188,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -226,6 +229,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -259,6 +263,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
@@ -305,6 +310,7 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       if (e.type === 'focusout')
         trackSettingsManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
@@ -351,6 +357,7 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       if (e.type === 'focusout')
         trackSettingsManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
           this.props.userIdentity.id,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
