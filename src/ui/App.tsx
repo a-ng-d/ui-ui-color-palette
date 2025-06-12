@@ -632,6 +632,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         if (path.data.context !== 'TOKENS_GLOBAL')
           trackExportEvent(
             this.props.config.env.isMixpanelEnabled,
@@ -658,6 +659,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -688,6 +690,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -713,6 +716,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -738,6 +742,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -763,6 +768,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -788,6 +794,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -813,6 +820,7 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'export previewed',
         })
+
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
