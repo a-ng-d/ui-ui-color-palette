@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => {
         clientPort: 4400,
         timeout: 20000,
         overlay: true,
-        preserveState: true,
+        preserveState: false,
       },
       headers: {
         'Access-Control-Allow-Origin': '*',
