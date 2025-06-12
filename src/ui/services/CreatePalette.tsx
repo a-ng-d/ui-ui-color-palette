@@ -3,19 +3,17 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
+  HexModel,
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  TextColorsThemeConfiguration,
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
   EasingConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
-import {
-  HexModel,
-  PresetConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, Tabs } from '@a_ng_d/figmug-ui'

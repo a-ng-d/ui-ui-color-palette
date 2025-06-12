@@ -2,20 +2,18 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
-  LockedSourceColorsConfiguration,
-  ShiftConfiguration,
-  ThemeConfiguration,
-  VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
-import {
   Color,
   ColorConfiguration,
   HexModel,
   ScaleConfiguration,
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+  VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {

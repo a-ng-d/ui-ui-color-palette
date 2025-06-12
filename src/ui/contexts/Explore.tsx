@@ -2,8 +2,10 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
-import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  SourceColorConfiguration,
+  ColourLovers,
+} from '@a_ng_d/utils-ui-color-palette'
 import {
   ActionsItem,
   Bar,

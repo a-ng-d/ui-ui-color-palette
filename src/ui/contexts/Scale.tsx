@@ -1,15 +1,13 @@
 import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
 import {
-  EasingConfiguration,
-  ShiftConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
-import {
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
+  EasingConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {

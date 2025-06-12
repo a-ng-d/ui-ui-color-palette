@@ -1,7 +1,9 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { ColourLovers } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
-import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  SourceColorConfiguration,
+  ColourLovers,
+} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'

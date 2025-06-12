@@ -4,6 +4,9 @@ import { PureComponent } from 'preact/compat'
 import JSZip from 'jszip'
 import FileSaver from 'file-saver'
 import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
@@ -15,11 +18,6 @@ import {
   ThemeConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { doScale } from '@a_ng_d/figmug-utils'

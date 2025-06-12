@@ -2,8 +2,11 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { ShiftConfiguration } from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
-import { ColorConfiguration, HexModel } from '@a_ng_d/utils-ui-color-palette'
+import {
+  ColorConfiguration,
+  HexModel,
+  ShiftConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,

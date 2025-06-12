@@ -1,6 +1,9 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { ExternalPalettes } from '@a_ng_d/utils-ui-color-palette/dist/types/data.types'
+import {
+  FullConfiguration,
+  ExternalPalettes,
+} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
 import SelfPalettes from '../modules/palettes/SelfPalettes'
@@ -16,6 +19,10 @@ import {
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
+interface RemotePalettesProps extends BaseProps, WithConfigProps {
+  localPalettesList: Array<FullConfiguration>
+}
+
 interface RemotePalettesStates {
   context: Context | ''
   selfPalettesListStatus: FetchStatus
@@ -29,7 +36,7 @@ interface RemotePalettesStates {
 }
 
 export default class RemotePalettes extends PureComponent<
-  BaseProps & WithConfigProps,
+  RemotePalettesProps,
   RemotePalettesStates
 > {
   private contexts: Array<ContextItem>
@@ -47,7 +54,7 @@ export default class RemotePalettes extends PureComponent<
     }),
   })
 
-  constructor(props: BaseProps & WithConfigProps) {
+  constructor(props: RemotePalettesProps) {
     super(props)
     this.contexts = setContexts(
       ['REMOTE_PALETTES_SELF', 'REMOTE_PALETTES_COMMUNITY'],

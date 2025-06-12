@@ -22,8 +22,8 @@ interface BrowsePalettesProps extends BaseProps, WithConfigProps {
 
 interface BrowsePalettesStates {
   context: Context | ''
-  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
-  paletteLists: Array<FullConfiguration>
+  localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
+  localPalettesList: Array<FullConfiguration>
 }
 
 export default class BrowsePalettes extends PureComponent<
@@ -70,8 +70,8 @@ export default class BrowsePalettes extends PureComponent<
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
-      paletteListsStatus: 'LOADING',
-      paletteLists: [],
+      localPalettesListStatus: 'LOADING',
+      localPalettesList: [],
     }
   }
 
@@ -95,10 +95,11 @@ export default class BrowsePalettes extends PureComponent<
     } = {
       EXPOSE_PALETTES: () =>
         this.setState({
-          paletteListsStatus: path.data.length > 0 ? 'LOADED' : 'EMPTY',
-          paletteLists: path.data,
+          localPalettesListStatus: path.data.length > 0 ? 'LOADED' : 'EMPTY',
+          localPalettesList: path.data,
         }),
-      LOAD_PALETTES: () => this.setState({ paletteListsStatus: 'LOADING' }),
+      LOAD_PALETTES: () =>
+        this.setState({ localPalettesListStatus: 'LOADING' }),
       DEFAULT: () => null,
     }
 
@@ -169,7 +170,12 @@ export default class BrowsePalettes extends PureComponent<
         break
       }
       case 'REMOTE_PALETTES': {
-        fragment = <RemotePalettes {...this.props} />
+        fragment = (
+          <RemotePalettes
+            {...this.props}
+            {...this.state}
+          />
+        )
         break
       }
     }
@@ -246,7 +252,7 @@ export default class BrowsePalettes extends PureComponent<
             BrowsePalettes.features(
               this.props.planStatus,
               this.props.config
-            ).LOCAL_PALETTES.isReached(this.state.paletteLists.length)
+            ).LOCAL_PALETTES.isReached(this.state.localPalettesList.length)
           }
           isNew={BrowsePalettes.features(
             this.props.planStatus,

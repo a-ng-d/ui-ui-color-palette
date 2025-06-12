@@ -20,8 +20,8 @@ import { BaseProps, PlanStatus } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PagePalettesProps extends BaseProps, WithConfigProps {
-  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
-  paletteLists: Array<FullConfiguration>
+  localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
+  localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
 }
 
@@ -174,14 +174,14 @@ export default class PagePalettes extends PureComponent<
   PagePalettesList = () => {
     return (
       <List
-        isLoading={this.props.paletteListsStatus === 'LOADING'}
-        isMessage={this.props.paletteListsStatus === 'EMPTY'}
+        isLoading={this.props.localPalettesListStatus === 'LOADING'}
+        isMessage={this.props.localPalettesListStatus === 'EMPTY'}
         isFullHeight
         isTopBorderEnabled
       >
-        {this.props.paletteListsStatus === 'LOADED' && (
+        {this.props.localPalettesListStatus === 'LOADED' && (
           <>
-            {this.props.paletteLists
+            {this.props.localPalettesList
               .sort(
                 (a, b) =>
                   new Date(b.meta.dates.openedAt).getTime() -
@@ -231,7 +231,7 @@ export default class PagePalettes extends PureComponent<
                                     this.props.planStatus,
                                     this.props.config
                                   ).LOCAL_PALETTES.isReached(
-                                    this.props.paletteLists.length
+                                    this.props.localPalettesList.length
                                   ),
                                 isNew: PagePalettes.features(
                                   this.props.planStatus,
@@ -357,7 +357,7 @@ export default class PagePalettes extends PureComponent<
               })}
           </>
         )}
-        {this.props.paletteListsStatus === 'EMPTY' && (
+        {this.props.localPalettesListStatus === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
             message={`${this.props.locals.warning.noPaletteOnCurrrentPage}`}
@@ -394,7 +394,7 @@ export default class PagePalettes extends PureComponent<
         {PagePalettes.features(
           this.props.planStatus,
           this.props.config
-        ).LOCAL_PALETTES.isReached(this.props.paletteLists.length) &&
+        ).LOCAL_PALETTES.isReached(this.props.localPalettesList.length) &&
           !this.props.editor.includes('dev') && (
             <div
               style={{

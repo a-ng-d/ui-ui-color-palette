@@ -1,15 +1,13 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
-  EasingConfiguration,
-  ShiftConfiguration,
-} from '@a_ng_d/utils-ui-color-palette/dist/types/configuration.types'
-import {
   Contrast,
   ExchangeConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   TextColorsThemeConfiguration,
+  EasingConfiguration,
+  ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { doScale } from '@a_ng_d/figmug-utils'

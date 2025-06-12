@@ -1,12 +1,11 @@
 import { ConfigContextType } from 'src/config/ConfigContext'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { PlanStatus } from '@a_ng_d/figmug-utils/dist/types/feature.types'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps } from '../../../types/app'
+import { BaseProps, PlanStatus } from '../../../types/app'
 
 interface OnboardingProps extends BaseProps, WithConfigProps {
   onCloseOnboarding: (e: MouseEvent) => void

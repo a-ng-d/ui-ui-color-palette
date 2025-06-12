@@ -10,8 +10,8 @@ import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface LocalPalettesProps extends BaseProps, WithConfigProps {
-  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
-  paletteLists: Array<FullConfiguration>
+  localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
+  localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
 }
 
