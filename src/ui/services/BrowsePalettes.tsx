@@ -261,17 +261,18 @@ export default class BrowsePalettes extends PureComponent<
           action={this.onCreatePalette}
         />
       )
-
     return (
       <>
         <Bar
           leftPartSlot={
-            <Tabs
-              tabs={this.contexts}
-              active={this.state.context ?? ''}
-              isFlex={isFlex}
-              action={this.navHandler}
-            />
+            this.contexts.length > 1 ? (
+              <Tabs
+                tabs={this.contexts}
+                active={this.state.context ?? ''}
+                isFlex={isFlex}
+                action={this.navHandler}
+              />
+            ) : undefined
           }
           rightPartSlot={
             buttons.length > 0 ? (
