@@ -258,6 +258,7 @@ const specConfig: SpecConfig = {
             'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
             'AUTHENTICATION',
             'PUBLICATION',
+            'PUBLISH_PALETTE',
           ],
           [
             'SYNC_LOCAL_STYLES',
@@ -284,7 +285,6 @@ const specConfig: SpecConfig = {
             'COLORS_ALPHA',
             'COLORS_BACKGROUND_COLOR',
             'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
-            'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
             'EXPORT_TAILWIND',
             'EXPORT_APPLE_SWIFTUI',
             'EXPORT_APPLE_UIKIT',
@@ -316,6 +316,7 @@ const specConfig: SpecConfig = {
             'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
             'AUTHENTICATION',
             'PUBLICATION',
+            'PUBLISH_PALETTE',
           ],
           [
             'SYNC_LOCAL_STYLES',
@@ -340,7 +341,6 @@ const specConfig: SpecConfig = {
             'COLORS_HUE_SHIFTING',
             'COLORS_CHROMA_SHIFTING',
             'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
-            'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
             'EXPORT_TAILWIND',
             'EXPORT_APPLE_SWIFTUI',
             'EXPORT_APPLE_UIKIT',
