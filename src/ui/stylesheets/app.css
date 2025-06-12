@@ -103,7 +103,7 @@ div.export-palette__preview textarea {
 }
 
 .preview__cell--compact {
-  min-height: var(--size-xxsmall);
+  min-height: var(--size-small);
 }
 
 .preview__cell--medium {
