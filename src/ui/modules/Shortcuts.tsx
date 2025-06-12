@@ -621,10 +621,12 @@ export default class Shortcuts extends PureComponent<
                     {
                       label: this.props.locals.report.title,
                       type: 'OPTION',
-                      isActive: Shortcuts.features(
-                        this.props.planStatus,
-                        this.props.config
-                      ).INVOLVE_ISSUES.isActive(),
+                      isActive:
+                        Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config
+                        ).INVOLVE_ISSUES.isActive() &&
+                        this.props.config.env.isSentryEnabled,
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
