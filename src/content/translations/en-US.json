@@ -121,7 +121,8 @@
     "scale": "Scale",
     "settings": "Settings",
     "source": "Source",
-    "themes": "Modes"
+    "themes": "Modes",
+    "back": "Back to palettes"
   },
   "error": {
     "addToLocal": "The palette cannot be added",

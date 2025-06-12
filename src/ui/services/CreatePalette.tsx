@@ -308,6 +308,9 @@ export default class CreatePalette extends PureComponent<
             <Button
               type="icon"
               icon="back"
+              helper={{
+                label: this.props.locals.contexts.back,
+              }}
               action={this.onCancelPalette}
             />
           }

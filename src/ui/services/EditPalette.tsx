@@ -539,6 +539,9 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
               <Button
                 type="icon"
                 icon="back"
+                helper={{
+                  label: this.props.locals.contexts.back,
+                }}
                 action={this.props.onUnloadPalette}
               />
               {this.contexts.length > 1 && (
