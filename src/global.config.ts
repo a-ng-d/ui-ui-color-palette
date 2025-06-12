@@ -41,6 +41,7 @@ const specConfig: SpecConfig = {
         features: doSpecificMode(
           [],
           [
+            'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
             'SYNC_LOCAL_VARIABLES',
             'USER_PREFERENCES_SYNC_DEEP_STYLES',
@@ -93,6 +94,7 @@ const specConfig: SpecConfig = {
         features: doSpecificMode(
           [],
           [
+            'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
             'SYNC_LOCAL_VARIABLES',
             'USER_PREFERENCES_SYNC_DEEP_STYLES',
@@ -147,6 +149,7 @@ const specConfig: SpecConfig = {
         features: doSpecificMode(
           [],
           [
+            'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
             'SYNC_LOCAL_VARIABLES',
             'USER_PREFERENCES_SYNC_DEEP_STYLES',
@@ -199,6 +202,7 @@ const specConfig: SpecConfig = {
         features: doSpecificMode(
           [],
           [
+            'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
             'SYNC_LOCAL_VARIABLES',
             'USER_PREFERENCES_SYNC_DEEP_STYLES',
@@ -259,8 +263,10 @@ const specConfig: SpecConfig = {
             'BACKSTAGE_AUTHENTICATION',
             'PUBLICATION',
             'PUBLISH_PALETTE',
+            'REMOTE_PALETTES',
           ],
           [
+            'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
             'USER_PREFERENCES_SYNC_DEEP_STYLES',
             'PREVIEW_LOCK_SOURCE_COLORS',
@@ -308,7 +314,7 @@ const specConfig: SpecConfig = {
           platform: 'penpot',
           editor: 'penpot',
           ui: 'penpot',
-          colorMode: 'penpot-dark',
+          colorMode: 'penpot-light',
         },
         features: doSpecificMode(
           [
@@ -317,8 +323,10 @@ const specConfig: SpecConfig = {
             'BACKSTAGE_AUTHENTICATION',
             'PUBLICATION',
             'PUBLISH_PALETTE',
+            'REMOTE_PALETTES',
           ],
           [
+            'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
             'USER_PREFERENCES_SYNC_DEEP_STYLES',
             'PREVIEW_LOCK_SOURCE_COLORS',

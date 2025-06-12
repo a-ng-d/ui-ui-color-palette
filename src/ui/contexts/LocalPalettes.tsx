@@ -1,5 +1,6 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout } from '@a_ng_d/figmug-ui'
 import PagePalettes from '../modules/palettes/PagePalettes'
@@ -9,6 +10,8 @@ import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface LocalPalettesProps extends BaseProps, WithConfigProps {
+  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
+  paletteLists: Array<FullConfiguration>
   onCreatePalette: () => void
 }
 

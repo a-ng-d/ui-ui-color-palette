@@ -364,7 +364,7 @@ export default class Themes extends PureComponent<ThemesProps> {
     const customThemes = this.props.themes.filter(
       (item) => item.type === 'custom theme'
     )
-    
+
     return (
       <Layout
         id="colors"
@@ -461,7 +461,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                     ).THEMES.isBlocked() && (
                       <div
                         style={{
-                          padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+                          padding: '0 var(--size-xsmall) var(--size-xxsmall)',
                         }}
                       >
                         <SemanticMessage

@@ -214,6 +214,7 @@
     },
     "maxNumberOfSourceColors": "You cannot add more than {$1} source colors",
     "maxNumberOfStops": "You cannot add more than {$1} stops",
+    "maxNumberOfLocalPalettes": "You cannot add more than {$1} local palettes",
     "noResult": "No palette matches your search",
     "paletteCreated": "{$1} palette created",
     "removedLocalStyles": {

@@ -5,12 +5,12 @@ import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   ActionsItem,
-  Bar,
   Button,
   Dialog,
   List,
   Menu,
   SemanticMessage,
+  SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
@@ -20,12 +20,12 @@ import { BaseProps, PlanStatus } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PagePalettesProps extends BaseProps, WithConfigProps {
+  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
+  paletteLists: Array<FullConfiguration>
   onCreatePalette: () => void
 }
 
 interface PagePalettesStates {
-  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
-  paletteLists: Array<FullConfiguration>
   isDeleteDialogOpen: boolean
   targetedPaletteId: string
   targetedPaletteName: string
@@ -36,6 +36,11 @@ export default class PagePalettes extends PureComponent<
   PagePalettesStates
 > {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+    LOCAL_PALETTES: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES',
+      planStatus: planStatus,
+    }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
@@ -61,42 +66,10 @@ export default class PagePalettes extends PureComponent<
   constructor(props: PagePalettesProps) {
     super(props)
     this.state = {
-      paletteListsStatus: 'LOADING',
-      paletteLists: [],
       isDeleteDialogOpen: false,
       targetedPaletteId: '',
       targetedPaletteName: '',
     }
-  }
-
-  // Lifecycle
-  componentDidMount = () => {
-    parent.postMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
-
-    window.addEventListener('message', this.handleMessage)
-  }
-
-  componentWillUnmount = () => {
-    window.removeEventListener('message', this.handleMessage)
-  }
-
-  // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const path = e.data
-
-    const actions: {
-      [action: string]: () => void
-    } = {
-      EXPOSE_PALETTES: () =>
-        this.setState({
-          paletteListsStatus: path.data.length > 0 ? 'LOADED' : 'EMPTY',
-          paletteLists: path.data,
-        }),
-      LOAD_PALETTES: () => this.setState({ paletteListsStatus: 'LOADING' }),
-      DEFAULT: () => null,
-    }
-
-    return actions[path.type ?? 'DEFAULT']?.()
   }
 
   // Direct Actions
@@ -201,13 +174,14 @@ export default class PagePalettes extends PureComponent<
   PagePalettesList = () => {
     return (
       <List
-        isLoading={this.state.paletteListsStatus === 'LOADING'}
-        isMessage={this.state.paletteListsStatus === 'EMPTY'}
+        isLoading={this.props.paletteListsStatus === 'LOADING'}
+        isMessage={this.props.paletteListsStatus === 'EMPTY'}
         isFullHeight
+        isTopBorderEnabled
       >
-        {this.state.paletteListsStatus === 'LOADED' && (
+        {this.props.paletteListsStatus === 'LOADED' && (
           <>
-            {this.state.paletteLists
+            {this.props.paletteLists
               .sort(
                 (a, b) =>
                   new Date(b.meta.dates.openedAt).getTime() -
@@ -248,10 +222,17 @@ export default class PagePalettes extends PureComponent<
                                   this.props.planStatus,
                                   this.props.config
                                 ).DUPLICATE_PALETTE.isActive(),
-                                isBlocked: PagePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config
-                                ).DUPLICATE_PALETTE.isBlocked(),
+                                isBlocked:
+                                  PagePalettes.features(
+                                    this.props.planStatus,
+                                    this.props.config
+                                  ).DUPLICATE_PALETTE.isBlocked() ||
+                                  PagePalettes.features(
+                                    this.props.planStatus,
+                                    this.props.config
+                                  ).LOCAL_PALETTES.isReached(
+                                    this.props.paletteLists.length
+                                  ),
                                 isNew: PagePalettes.features(
                                   this.props.planStatus,
                                   this.props.config
@@ -376,7 +357,7 @@ export default class PagePalettes extends PureComponent<
               })}
           </>
         )}
-        {this.state.paletteListsStatus === 'EMPTY' && (
+        {this.props.paletteListsStatus === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
             message={`${this.props.locals.warning.noPaletteOnCurrrentPage}`}
@@ -402,13 +383,64 @@ export default class PagePalettes extends PureComponent<
   render() {
     return (
       <>
-        <Bar
+        <SimpleItem
           leftPartSlot={
             <span className={doClassnames([texts.type, texts.label])}>
               {this.props.locals.browse.page.title}
             </span>
           }
+          isListItem={false}
         />
+        {PagePalettes.features(
+          this.props.planStatus,
+          this.props.config
+        ).LOCAL_PALETTES.isReached(this.props.paletteLists.length) &&
+          !this.props.editor.includes('dev') && (
+            <div
+              style={{
+                padding: '0 var(--size-xsmall) var(--size-xxxsmall)',
+              }}
+            >
+              <SemanticMessage
+                type="INFO"
+                message={this.props.locals.info.maxNumberOfLocalPalettes.replace(
+                  '{$1}',
+                  (
+                    PagePalettes.features(
+                      this.props.planStatus,
+                      this.props.config
+                    ).LOCAL_PALETTES.limit ?? 0
+                  ).toString()
+                )}
+                actionsSlot={
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED' ? (
+                    <Button
+                      type="secondary"
+                      label={this.props.locals.plan.tryPro}
+                      action={() =>
+                        parent.postMessage(
+                          { pluginMessage: { type: 'GET_TRIAL' } },
+                          '*'
+                        )
+                      }
+                    />
+                  ) : (
+                    <Button
+                      type="secondary"
+                      label={this.props.locals.plan.getPro}
+                      action={() =>
+                        parent.postMessage(
+                          { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                          '*'
+                        )
+                      }
+                    />
+                  )
+                }
+              />
+            </div>
+          )}
         <this.PagePalettesList />
         <this.Modals />
       </>

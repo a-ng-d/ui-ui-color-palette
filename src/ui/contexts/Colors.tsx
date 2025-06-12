@@ -587,7 +587,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                 ).COLORS.isReached(this.props.colors.length) && (
                   <div
                     style={{
-                      padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+                      padding: '0 var(--size-xsmall) var(--size-xxsmall)',
                     }}
                   >
                     <SemanticMessage
@@ -952,20 +952,26 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   message:
                                     this.props.locals.colors.alpha.message,
                                 }}
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config
-                                ).COLORS_ALPHA.isBlocked()}
+                                isBlocked={
+                                  Colors.features(
+                                    this.props.planStatus,
+                                    this.props.config
+                                  ).COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
+                                }
                               >
                                 <Select
                                   id="switch-alpha-mode"
                                   type="SWITCH_BUTTON"
                                   feature="SWITCH_ALPHA_MODE"
                                   isChecked={color.alpha.isEnabled}
-                                  isBlocked={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config
-                                  ).COLORS_ALPHA.isBlocked()}
+                                  isBlocked={
+                                    Colors.features(
+                                      this.props.planStatus,
+                                      this.props.config
+                                    ).COLORS_ALPHA.isBlocked() &&
+                                    !color.alpha.isEnabled
+                                  }
                                   isNew={Colors.features(
                                     this.props.planStatus,
                                     this.props.config

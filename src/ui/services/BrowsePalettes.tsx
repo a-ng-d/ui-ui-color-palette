@@ -1,6 +1,9 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { DocumentConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  DocumentConfiguration,
+  FullConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
 import RemotePalettes from '../contexts/RemotePalettes'
@@ -19,6 +22,8 @@ interface BrowsePalettesProps extends BaseProps, WithConfigProps {
 
 interface BrowsePalettesStates {
   context: Context | ''
+  paletteListsStatus: 'LOADING' | 'LOADED' | 'EMPTY'
+  paletteLists: Array<FullConfiguration>
 }
 
 export default class BrowsePalettes extends PureComponent<
@@ -65,10 +70,41 @@ export default class BrowsePalettes extends PureComponent<
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      paletteListsStatus: 'LOADING',
+      paletteLists: [],
     }
   }
 
+  // Lifecycle
+  componentDidMount = () => {
+    parent.postMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
+
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
   // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const path = e.data
+
+    const actions: {
+      [action: string]: () => void
+    } = {
+      EXPOSE_PALETTES: () =>
+        this.setState({
+          paletteListsStatus: path.data.length > 0 ? 'LOADED' : 'EMPTY',
+          paletteLists: path.data,
+        }),
+      LOAD_PALETTES: () => this.setState({ paletteListsStatus: 'LOADING' }),
+      DEFAULT: () => null,
+    }
+
+    return actions[path.type ?? 'DEFAULT']?.()
+  }
+
   navHandler = (e: Event) =>
     this.setState({
       context: (e.target as HTMLElement).dataset.feature as Context,
@@ -126,6 +162,7 @@ export default class BrowsePalettes extends PureComponent<
         fragment = (
           <LocalPalettes
             {...this.props}
+            {...this.state}
             onCreatePalette={this.onCreatePalette}
           />
         )
@@ -201,10 +238,16 @@ export default class BrowsePalettes extends PureComponent<
           type="primary"
           icon="plus"
           label={this.props.locals.browse.actions.new}
-          isBlocked={BrowsePalettes.features(
-            this.props.planStatus,
-            this.props.config
-          ).CREATE_PALETTE.isBlocked()}
+          isBlocked={
+            BrowsePalettes.features(
+              this.props.planStatus,
+              this.props.config
+            ).CREATE_PALETTE.isBlocked() ||
+            BrowsePalettes.features(
+              this.props.planStatus,
+              this.props.config
+            ).LOCAL_PALETTES.isReached(this.state.paletteLists.length)
+          }
           isNew={BrowsePalettes.features(
             this.props.planStatus,
             this.props.config
@@ -217,20 +260,19 @@ export default class BrowsePalettes extends PureComponent<
       <>
         <Bar
           leftPartSlot={
-            this.contexts.length > 1 ? (
-              <Tabs
-                tabs={this.contexts}
-                active={this.state.context ?? ''}
-                isFlex={isFlex}
-                action={this.navHandler}
-              />
-            ) : undefined
+            <Tabs
+              tabs={this.contexts}
+              active={this.state.context ?? ''}
+              isFlex={isFlex}
+              action={this.navHandler}
+            />
           }
           rightPartSlot={
             buttons.length > 0 ? (
               <div className={layouts['snackbar--medium']}>{buttons}</div>
             ) : undefined
           }
+          border={['BOTTOM']}
         />
         <section className="context">{fragment}</section>
       </>

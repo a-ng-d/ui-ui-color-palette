@@ -133,6 +133,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'CONTEXT',
     service: ['BROWSE'],
+    limit: 5,
   },
   {
     name: 'LOCAL_PALETTES_PAGE',

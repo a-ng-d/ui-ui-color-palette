@@ -911,7 +911,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             this.props.preset.id.includes('CUSTOM') && (
               <div
                 style={{
-                  padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+                  padding: '0 var(--size-xsmall) var(--size-xxsmall)',
                 }}
               >
                 <SemanticMessage
@@ -1092,7 +1092,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             this.props.preset.id.includes('CUSTOM') && (
               <div
                 style={{
-                  padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+                  padding: '0 var(--size-xsmall) var(--size-xxxsmall)',
                 }}
               >
                 <SemanticMessage

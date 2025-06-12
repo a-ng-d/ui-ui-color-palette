@@ -29,6 +29,7 @@ import {
   Dropdown,
   FormItem,
   layouts,
+  texts,
   Tabs,
 } from '@a_ng_d/figmug-ui'
 import Preview from '../modules/Preview'
@@ -94,7 +95,10 @@ interface EditPaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteStates
+> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
@@ -544,14 +548,17 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
                 }}
                 action={this.props.onUnloadPalette}
               />
-              {this.contexts.length > 1 && (
-                <Tabs
-                  tabs={this.contexts}
-                  active={this.state.context ?? ''}
-                  isFlex={isFlex}
-                  action={this.navHandler}
-                />
+              {this.props.editor.includes('dev') && (
+                <span className={doClassnames([texts.type])}>
+                  {this.props.name}
+                </span>
               )}
+              <Tabs
+                tabs={this.contexts}
+                active={this.state.context ?? ''}
+                isFlex={isFlex}
+                action={this.navHandler}
+              />
             </div>
           }
           rightPartSlot={
@@ -580,6 +587,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
               </FormItem>
             </Feature>
           }
+          border={['BOTTOM']}
         />
         <section className="context">{fragment}</section>
         <Feature

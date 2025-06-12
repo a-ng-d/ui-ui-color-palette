@@ -343,7 +343,7 @@ export default class Overview extends PureComponent<
         ).SOURCE.isReached(this.props.sourceColors.length - 1) && (
           <div
             style={{
-              padding: 'var(--size-xxxsmall) var(--size-xsmall)',
+              padding: '0 var(--size-xsmall) var(--size-xxsmall)',
             }}
           >
             <SemanticMessage
@@ -710,7 +710,7 @@ export default class Overview extends PureComponent<
               direction: 'HORIZONTAL',
               pin: 'RIGHT',
               defaultSize: {
-                value: 240,
+                value: 272,
                 unit: 'PIXEL',
               },
               maxSize: {
@@ -718,7 +718,7 @@ export default class Overview extends PureComponent<
                 unit: 'PIXEL',
               },
               minSize: {
-                value: 240,
+                value: 272,
                 unit: 'PIXEL',
               },
               isScrolling: true,

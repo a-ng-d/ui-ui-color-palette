@@ -53,7 +53,7 @@ div.export-palette__preview {
 }
 
 div.export-palette__info {
-  padding: var(--size-xxxsmall) var(--size-xsmall) var(--size-xxsmall);
+  padding: 0 var(--size-xsmall) var(--size-xxsmall);
 }
 
 div.export-palette__preview textarea {

@@ -322,6 +322,7 @@ export default class CreatePalette extends PureComponent<
               action={this.navHandler}
             />
           }
+          border={['BOTTOM']}
           isInverted
         />
         <section className="context">{fragment}</section>
