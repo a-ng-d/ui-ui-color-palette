@@ -93,8 +93,9 @@ div.export-palette__preview textarea {
   align-items: flex-end;
   gap: var(--size-xxxsmall);
   padding: var(--size-xxxsmall);
-  min-height: 44px;
+  min-height: var(--size-medium);
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .preview__cell--no-height {
@@ -103,6 +104,14 @@ div.export-palette__preview textarea {
 
 .preview__cell--compact {
   min-height: var(--size-xxsmall);
+}
+
+.preview__cell--medium {
+  min-height: var(--size-xxlarge);
+}
+
+.preview__cell--large {
+  min-height: 104px;
 }
 
 /* Box resizer grip */

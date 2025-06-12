@@ -13,6 +13,7 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
 import { BaseProps } from '../../types/app'
+import { doClassnames } from '@a_ng_d/figmug-utils'
 
 interface ShadeProps extends BaseProps {
   index: number
@@ -247,7 +248,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
 
     return (
       <div
-        className="preview__cell"
+        className={doClassnames([
+          'preview__cell',
+          this.props.isAPCADisplayed ||
+            (this.props.isWCAGDisplayed && 'preview__cell--medium'),
+          this.props.isAPCADisplayed &&
+            this.props.isWCAGDisplayed &&
+            'preview__cell--large',
+        ])}
         style={{
           backgroundColor: background,
         }}
