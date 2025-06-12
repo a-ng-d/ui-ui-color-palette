@@ -22,6 +22,15 @@ export const featuresScheme: Array<
     type: 'DIVISION',
     service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
   },
+  {
+    name: 'BACKSTAGE_AUTHENTICATION',
+    description: 'User authentication module',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'DIVISION',
+    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+  },
   // Services
   {
     name: 'BROWSE',
@@ -79,15 +88,6 @@ export const featuresScheme: Array<
     service: ['CREATE', 'EDIT', 'BROWSE'],
   },
   // Modules
-  {
-    name: 'AUTHENTICATION',
-    description: 'User authentication module',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
-  },
   {
     name: 'PUBLICATION',
     description: 'Palette publication pitch',

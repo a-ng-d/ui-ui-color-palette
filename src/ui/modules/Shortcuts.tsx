@@ -122,9 +122,9 @@ export default class Shortcuts extends PureComponent<
       featureName: 'RESIZE_UI',
       planStatus: planStatus,
     }),
-    AUTHENTICATION: new FeatureStatus({
+    BACKSTAGE_AUTHENTICATION: new FeatureStatus({
       features: config.features,
-      featureName: 'AUTHENTICATION',
+      featureName: 'BACKSTAGE_AUTHENTICATION',
       planStatus: planStatus,
     }),
   })
@@ -383,15 +383,15 @@ export default class Shortcuts extends PureComponent<
                           isActive: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).AUTHENTICATION.isActive(),
+                          ).BACKSTAGE_AUTHENTICATION.isActive(),
                           isBlocked: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).AUTHENTICATION.isBlocked(),
+                          ).BACKSTAGE_AUTHENTICATION.isBlocked(),
                           isNew: Shortcuts.features(
                             this.props.planStatus,
                             this.props.config
-                          ).AUTHENTICATION.isNew(),
+                          ).BACKSTAGE_AUTHENTICATION.isNew(),
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
                             signIn(

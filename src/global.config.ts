@@ -256,7 +256,7 @@ const specConfig: SpecConfig = {
           [
             'SYNC_LOCAL_VARIABLES',
             'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
-            'AUTHENTICATION',
+            'BACKSTAGE_AUTHENTICATION',
             'PUBLICATION',
             'PUBLISH_PALETTE',
           ],
@@ -314,7 +314,7 @@ const specConfig: SpecConfig = {
           [
             'SYNC_LOCAL_VARIABLES',
             'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
-            'AUTHENTICATION',
+            'BACKSTAGE_AUTHENTICATION',
             'PUBLICATION',
             'PUBLISH_PALETTE',
           ],

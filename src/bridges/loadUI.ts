@@ -54,10 +54,10 @@ if (iframe) {
 
     iframe?.contentWindow?.postMessage({
       type: 'CHECK_USER_AUTHENTICATION',
-      id: '',
-      fullName: '',
-      avatar: '',
       data: {
+        id: '',
+        fullName: '',
+        avatar: '',
         accessToken: window.localStorage.getItem('supabase_access_token'),
         refreshToken: window.localStorage.getItem('supabase_refresh_token'),
       },

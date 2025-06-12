@@ -1,4 +1,4 @@
-import { supabase } from '../index'
+import { supabase } from '../../index'
 
 const checkConnectionStatus = async (
   accessToken: string | undefined,

@@ -63,6 +63,7 @@ import { $palette } from '../stores/palette'
 import { supabase } from '../index'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
+import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { locals } from '../content/locals'
 import { ConfigContextType } from '../config/ConfigContext'
 import EditPalette from './services/EditPalette'
@@ -118,6 +119,11 @@ class App extends Component<AppProps, AppStates> {
   private subsscribeVsCodeMessage: (() => void) | undefined
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+    BACKSTAGE_AUTHENTICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'BACKSTAGE_AUTHENTICATION',
+      planStatus: planStatus,
+    }),
     BROWSE: new FeatureStatus({
       features: config.features,
       featureName: 'BROWSE',
@@ -285,7 +291,13 @@ class App extends Component<AppProps, AppStates> {
     )
 
     // Authentication
-    if (supabase !== undefined)
+    if (
+      supabase !== undefined &&
+      App.features(
+        this.state.planStatus,
+        this.props.config
+      ).BACKSTAGE_AUTHENTICATION.isActive()
+    )
       supabase.auth.onAuthStateChange((event, session) => {
         const actions: {
           [action: string]: () => void
@@ -356,6 +368,16 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const checkUserAuthentication = async () => {
+        if (
+          App.features(
+            this.state.planStatus,
+            this.props.config
+          ).BACKSTAGE_AUTHENTICATION.isActive()
+        )
+          await checkConnectionStatus(
+            path.data.accessToken,
+            path.data.refreshToken
+          )
         this.setState({
           userIdentity: {
             id: path.data.id,
