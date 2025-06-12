@@ -270,7 +270,11 @@ export default class Shortcuts extends PureComponent<
                           type: 'OPTION',
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
-                            signOut(this.props.config.urls.authUrl)
+                            signOut({
+                              authUrl: this.props.config.urls.authUrl,
+                              platformUrl: this.props.config.urls.platformUrl,
+                              pluginId: this.props.config.env.pluginId,
+                            })
                               .then(() => {
                                 parent.postMessage(
                                   {
@@ -395,11 +399,14 @@ export default class Shortcuts extends PureComponent<
                           ).BACKSTAGE_AUTHENTICATION.isNew(),
                           action: async () => {
                             this.setState({ isUserMenuLoading: true })
-                            signIn(
-                              this.props.userIdentity.id,
-                              this.props.config.urls.authWorkerUrl,
-                              this.props.config.urls.authUrl
-                            )
+                            signIn({
+                              disinctId: this.props.userIdentity.id,
+                              authWorkerUrl:
+                                this.props.config.urls.authWorkerUrl,
+                              authUrl: this.props.config.urls.authUrl,
+                              platformUrl: this.props.config.urls.platformUrl,
+                              pluginId: this.props.config.env.pluginId,
+                            })
                               .then(() => {
                                 parent.postMessage(
                                   {

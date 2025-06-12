@@ -381,11 +381,9 @@ const globalConfig: Config = {
     isSupabaseEnabled: true,
     isMixpanelEnabled: true,
     isSentryEnabled: true,
-    supabaseAnonKey: import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY as string,
-    mixpanelToken: import.meta.env.VITE_MIXPANEL_TOKEN as string,
-    sentryToken: import.meta.env.VITE_SENTRY_AUTH_TOKEN as string,
     announcementsDbId: import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID as string,
     onboardingDbId: import.meta.env.VITE_NOTION_ONBOARDING_ID as string,
+    pluginId: '123456789',
   },
   plan: {
     isProEnabled: true,
@@ -404,13 +402,13 @@ const globalConfig: Config = {
       ? 'http://localhost:8888'
       : (import.meta.env.VITE_ANNOUNCEMENTS_WORKER_URL as string),
     databaseUrl: import.meta.env.VITE_SUPABASE_URL as string,
-    sentryDsn: import.meta.env.VITE_SENTRY_DSN as string,
     authUrl: isDev
       ? 'http://localhost:3000'
       : (import.meta.env.VITE_AUTH_URL as string),
     storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,
     documentationUrl: 'https://uicp.ylb.lt/docs',
     repositoryUrl: 'https://uicp.ylb.lt/repository',
+    platformUrl: window.location.origin,
     supportEmail: 'https://uicp.ylb.lt/contact',
     feedbackUrl: 'https://uicp.ylb.lt/feedback',
     trialFeedbackUrl: 'https://uicp.ylb.lt/feedback-trial',

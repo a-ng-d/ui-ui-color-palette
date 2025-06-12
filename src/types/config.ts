@@ -14,11 +14,9 @@ export interface Config {
     isSupabaseEnabled: boolean
     isMixpanelEnabled: boolean
     isSentryEnabled: boolean
-    supabaseAnonKey: string
-    mixpanelToken: string
-    sentryToken: string
     announcementsDbId: string
     onboardingDbId: string
+    readonly pluginId: string
   }
   plan: {
     isProEnabled: boolean
@@ -34,8 +32,8 @@ export interface Config {
     announcementsWorkerUrl: string
     databaseUrl: string
     authUrl: string
-    sentryDsn: string
     storeApiUrl: string
+    platformUrl: string
     documentationUrl: string
     repositoryUrl: string
     supportEmail: string

@@ -690,11 +690,13 @@ export default class SelfPalettes extends PureComponent<
                 isLoading={this.state.isSignInActionLoading}
                 action={async () => {
                   this.setState({ isSignInActionLoading: true })
-                  signIn(
-                    this.props.userIdentity.id,
-                    this.props.config.urls.authWorkerUrl,
-                    this.props.config.urls.authUrl
-                  )
+                  signIn({
+                    disinctId: this.props.userIdentity.id,
+                    authWorkerUrl: this.props.config.urls.authWorkerUrl,
+                    authUrl: this.props.config.urls.authUrl,
+                    platformUrl: this.props.config.urls.platformUrl,
+                    pluginId: this.props.config.env.pluginId,
+                  })
                     .finally(() => {
                       this.setState({ isSignInActionLoading: false })
                     })

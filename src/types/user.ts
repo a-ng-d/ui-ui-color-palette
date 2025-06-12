@@ -5,8 +5,6 @@ export interface UserSession {
   userId: string
   userFullName: string
   userAvatar: string
-  accessToken: string | undefined
-  refreshToken: string | undefined
 }
 
 export interface Identity {

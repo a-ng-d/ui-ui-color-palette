@@ -306,8 +306,6 @@ window.addEventListener('message', async (msg: any) => {
           userFullName: '',
           userAvatar: '',
           userId: undefined,
-          accessToken: undefined,
-          refreshToken: undefined,
         },
       }),
     //

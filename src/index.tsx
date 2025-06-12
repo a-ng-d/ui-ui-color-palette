@@ -12,7 +12,7 @@ const container = document.getElementById('app'),
   root = createRoot(container)
 
 if (globalConfig.env.isMixpanelEnabled)
-  mixpanel.init(globalConfig.env.mixpanelToken, {
+  mixpanel.init(import.meta.env.VITE_MIXPANEL_TOKEN as string, {
     debug: globalConfig.env.isDev,
     disable_persistence: true,
     disable_cookie: true,
@@ -21,7 +21,7 @@ if (globalConfig.env.isMixpanelEnabled)
 
 if (globalConfig.env.isMixpanelEnabled && !globalConfig.env.isDev)
   Sentry.init({
-    dsn: globalConfig.urls.sentryDsn,
+    dsn: import.meta.env.VITE_SENTRY_AUTH_TOKEN as string,
     environment: 'production',
     integrations: [
       Sentry.browserTracingIntegration(),
@@ -57,7 +57,7 @@ let supabase: SupabaseClient
 if (globalConfig.env.isSupabaseEnabled)
   supabase = createClient(
     globalConfig.urls.databaseUrl,
-    globalConfig.env.supabaseAnonKey
+    import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
   )
 
 export { supabase }
@@ -76,11 +76,9 @@ root.render(
       isSupabaseEnabled: globalConfig.env.isSupabaseEnabled,
       isMixpanelEnabled: globalConfig.env.isMixpanelEnabled,
       isSentryEnabled: globalConfig.env.isSentryEnabled,
-      supabaseAnonKey: globalConfig.env.supabaseAnonKey,
-      mixpanelToken: globalConfig.env.mixpanelToken,
-      sentryToken: globalConfig.env.sentryToken,
       announcementsDbId: globalConfig.env.announcementsDbId,
       onboardingDbId: globalConfig.env.onboardingDbId,
+      pluginId: globalConfig.env.pluginId,
     }}
     plan={{
       isProEnabled: globalConfig.plan.isProEnabled,
@@ -96,8 +94,8 @@ root.render(
       announcementsWorkerUrl: globalConfig.urls.announcementsWorkerUrl,
       databaseUrl: globalConfig.urls.databaseUrl,
       authUrl: globalConfig.urls.authUrl,
-      sentryDsn: globalConfig.urls.sentryDsn,
       storeApiUrl: globalConfig.urls.storeApiUrl,
+      platformUrl: globalConfig.urls.platformUrl,
       documentationUrl: globalConfig.urls.documentationUrl,
       repositoryUrl: globalConfig.urls.repositoryUrl,
       supportEmail: globalConfig.urls.supportEmail,

@@ -3,11 +3,19 @@ import checkConnectionStatus from './checkConnectionStatus'
 
 let isAuthenticated = false
 
-export const signIn = async (
-  disinctId: string,
-  authWorkerUrl: string,
+export const signIn = async ({
+  disinctId,
+  authWorkerUrl,
+  authUrl,
+  platformUrl,
+  pluginId,
+}: {
+  disinctId: string
+  authWorkerUrl: string
   authUrl: string
-) => {
+  platformUrl: string
+  pluginId: string
+}) => {
   return new Promise((resolve, reject) => {
     fetch(authWorkerUrl, {
       method: 'GET',
@@ -42,21 +50,25 @@ export const signIn = async (
             .then(async (result) => {
               if (result.message !== 'No token found') {
                 isAuthenticated = true
-                parent.postMessage({
-                  pluginMessage: {
-                    type: 'SET_ITEMS',
-                    items: [
-                      {
-                        key: 'supabase_access_token',
-                        value: result.tokens.access_token,
-                      },
-                      {
-                        key: 'supabase_refresh_token',
-                        value: result.tokens.refresh_token,
-                      },
-                    ],
+                parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: 'SET_ITEMS',
+                      items: [
+                        {
+                          key: 'supabase_access_token',
+                          value: result.tokens.access_token,
+                        },
+                        {
+                          key: 'supabase_refresh_token',
+                          value: result.tokens.refresh_token,
+                        },
+                      ],
+                    },
+                    pluginId: pluginId,
                   },
-                })
+                  platformUrl
+                )
                 checkConnectionStatus(
                   result.tokens.access_token,
                   result.tokens.refresh_token
@@ -90,7 +102,15 @@ export const signIn = async (
   })
 }
 
-export const signOut = async (authUrl: string) => {
+export const signOut = async ({
+  authUrl,
+  platformUrl,
+  pluginId,
+}: {
+  authUrl: string
+  platformUrl: string
+  pluginId: string
+}) => {
   window.open(`${authUrl}/?action=sign_out`, '_blank')?.focus()
   parent.postMessage(
     {
@@ -98,8 +118,9 @@ export const signOut = async (authUrl: string) => {
         type: 'DELETE_ITEMS',
         items: ['supabase_access_token'],
       },
+      pluginId: pluginId,
     },
-    '*'
+    platformUrl
   )
   parent.postMessage(
     {

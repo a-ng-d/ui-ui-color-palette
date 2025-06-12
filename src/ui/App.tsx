@@ -214,8 +214,6 @@ class App extends Component<AppProps, AppStates> {
         userId: '',
         userFullName: '',
         userAvatar: '',
-        accessToken: undefined,
-        refreshToken: undefined,
       },
       userConsent: userConsent,
       userIdentity: {
@@ -309,8 +307,6 @@ class App extends Component<AppProps, AppStates> {
                 userId: session?.user.id || '',
                 userFullName: session?.user.user_metadata.full_name,
                 userAvatar: session?.user.user_metadata.avatar_url,
-                accessToken: session?.access_token,
-                refreshToken: session?.refresh_token,
               },
             })
           },
@@ -321,8 +317,6 @@ class App extends Component<AppProps, AppStates> {
                 userId: session?.user.id || '',
                 userFullName: session?.user.user_metadata.full_name,
                 userAvatar: session?.user.user_metadata.avatar_url,
-                accessToken: session?.access_token,
-                refreshToken: session?.refresh_token,
               },
             })
             parent.postMessage({
@@ -339,7 +333,8 @@ class App extends Component<AppProps, AppStates> {
                   },
                 ],
               },
-            })
+            }),
+              this.props.config.urls.platformUrl
           },
         }
         return actions[event]?.()
@@ -960,8 +955,9 @@ class App extends Component<AppProps, AppStates> {
             },
           ],
         },
+        pluginId: this.props.config.env.pluginId,
       },
-      '*'
+      this.props.config.urls.platformUrl
     )
     parent.postMessage(
       {

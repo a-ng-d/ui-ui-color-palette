@@ -1102,11 +1102,13 @@ export default class Publication extends PureComponent<
               state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
               action: async () => {
                 this.setState({ isPrimaryActionLoading: true })
-                signIn(
-                  this.props.userIdentity.id,
-                  this.props.config.urls.authWorkerUrl,
-                  this.props.config.urls.authUrl
-                )
+                signIn({
+                  disinctId: this.props.userIdentity.id,
+                  authWorkerUrl: this.props.config.urls.authWorkerUrl,
+                  authUrl: this.props.config.urls.authUrl,
+                  platformUrl: this.props.config.urls.platformUrl,
+                  pluginId: this.props.config.env.pluginId,
+                })
                   .then(() => {
                     trackSignInEvent(
                       this.props.config.env.isMixpanelEnabled,
