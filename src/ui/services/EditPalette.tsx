@@ -93,15 +93,13 @@ interface EditPaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
   private themesRef: React.RefObject<Themes>
   private palette: typeof $palette
+  private theme: string | null
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     THEMES: new FeatureStatus({
@@ -150,6 +148,7 @@ export default class EditPalette extends PureComponent<
       isSecondaryLoading: false,
     }
     this.themesRef = React.createRef()
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -465,10 +464,9 @@ export default class EditPalette extends PureComponent<
   // Render
   render() {
     let fragment
-    const theme = document.documentElement.getAttribute('data-theme')
     let isFlex = true
 
-    switch (theme) {
+    switch (this.theme) {
       case 'penpot':
         isFlex = true
         break

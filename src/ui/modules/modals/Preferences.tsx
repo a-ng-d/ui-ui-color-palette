@@ -13,6 +13,7 @@ interface PreferencesProps extends BaseProps, WithConfigProps {
 }
 
 export default class Preferences extends PureComponent<PreferencesProps> {
+  private theme: string | null
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER_PREFERENCES: new FeatureStatus({
       features: config.features,
@@ -21,12 +22,16 @@ export default class Preferences extends PureComponent<PreferencesProps> {
     }),
   })
 
+  constructor(props: PreferencesProps) {
+    super(props)
+    this.theme = document.documentElement.getAttribute('data-theme')
+  }
+
   // Render
   render() {
-    const theme = document.documentElement.getAttribute('data-theme')
     let padding
 
-    switch (theme) {
+    switch (this.theme) {
       case 'penpot':
         padding = '0 var(--size-xxsmall)'
         break

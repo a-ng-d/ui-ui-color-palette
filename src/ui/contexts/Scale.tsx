@@ -59,6 +59,8 @@ interface ScaleStates {
   isContrastMode: boolean
 }
 export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
+  private theme: string | null
+
   static defaultProps: Partial<ScaleProps> = {
     namingConvention: 'ONES',
     distributionEasing: 'LINEAR',
@@ -123,6 +125,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       isTipsOpen: false,
       isContrastMode: false,
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Handlers
@@ -399,10 +402,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   }
 
   KeyboardShortcuts = () => {
-    const theme = document.documentElement.getAttribute('data-theme')
     let padding
 
-    switch (theme) {
+    switch (this.theme) {
       case 'penpot':
         padding = '0 var(--size-xxsmall)'
         break

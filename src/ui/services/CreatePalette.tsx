@@ -79,6 +79,7 @@ export default class CreatePalette extends PureComponent<
 > {
   private contexts: Array<ContextItem>
   private palette: typeof $palette
+  private theme: string | null
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     ACTIONS: new FeatureStatus({
@@ -110,6 +111,7 @@ export default class CreatePalette extends PureComponent<
       isPrimaryLoading: false,
       isSecondaryLoading: false,
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -251,10 +253,9 @@ export default class CreatePalette extends PureComponent<
   // Renders
   render() {
     let fragment
-    const theme = document.documentElement.getAttribute('data-theme')
     let isFlex = true
 
-    switch (theme) {
+    switch (this.theme) {
       case 'penpot':
         isFlex = true
         break

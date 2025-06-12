@@ -140,59 +140,89 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     </Chip>
   )
 
-  lockColorTag = () => (
-    <Chip
-      state="ON_BACKGROUND"
-      leftSlot={
-        <div
-          style={{
-            width: 'var(--size-xxsmall)',
-            height: 'var(--size-xxsmall)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            '--icon-picto-color': 'black',
-            '--icon-width': 'var(--size-xmsmall)',
-            '--icon-height': 'var(--size-xmsmall)',
-          }}
-        >
-          <Icon
-            type="PICTO"
-            iconName="lock-on"
-          />
-        </div>
-      }
-    >
-      {this.props.locals.preview.lock.tag}
-    </Chip>
-  )
+  lockColorTag = () => {
+    let size
 
-  closestColorTag = () => (
-    <Chip
-      state="ON_BACKGROUND"
-      leftSlot={
-        <div
-          style={{
-            width: 'var(--size-xxsmall)',
-            height: 'var(--size-xxsmall)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            '--icon-picto-color': 'black',
-            '--icon-width': 'var(--size-xmsmall)',
-            '--icon-height': 'var(--size-xmsmall)',
-          }}
-        >
-          <Icon
-            type="PICTO"
-            iconName="resize-to-fit"
-          />
-        </div>
-      }
-    >
-      {this.props.locals.preview.closest.tag}
-    </Chip>
-  )
+    switch (this.theme) {
+      case 'penpot':
+        size = 'var(--size-xmsmall)'
+        break
+      case 'figma-ui3':
+        size = 'var(--size-small)'
+        break
+      default:
+        size = 'var(--size-small)'
+    }
+
+    return (
+      <Chip
+        state="ON_BACKGROUND"
+        leftSlot={
+          <div
+            style={{
+              width: 'var(--size-xxsmall)',
+              height: 'var(--size-xxsmall)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              '--icon-picto-color': 'black',
+              '--icon-width': size,
+              '--icon-height': size,
+            }}
+          >
+            <Icon
+              type="PICTO"
+              iconName="lock-on"
+            />
+          </div>
+        }
+      >
+        {this.props.locals.preview.lock.tag}
+      </Chip>
+    )
+  }
+
+  closestColorTag = () => {
+    let size
+
+    switch (this.theme) {
+      case 'penpot':
+        size = 'var(--size-xmsmall)'
+        break
+      case 'figma-ui3':
+        size = 'var(--size-small)'
+        break
+      default:
+        size = 'var(--size-small)'
+    }
+
+    return (
+      <Chip
+        state="ON_BACKGROUND"
+        leftSlot={
+          <div
+            style={{
+              width: 'var(--size-xxsmall)',
+              height: 'var(--size-xxsmall)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              '--icon-picto-color': 'black',
+              '--icon-width': size,
+              '--icon-height': size,
+            }}
+          >
+            <Icon
+              type="PICTO"
+              iconName="resize-to-fit"
+            />
+          </div>
+        }
+      >
+        {this.props.locals.preview.closest.tag}
+      </Chip>
+    )
+  }
 
   // Render
   render() {

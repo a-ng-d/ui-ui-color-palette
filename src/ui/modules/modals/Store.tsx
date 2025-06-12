@@ -13,6 +13,8 @@ interface StoreProps extends BaseProps, WithConfigProps {
 }
 
 export default class Store extends PureComponent<StoreProps> {
+  private theme: string | null
+
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     MORE_STORE: new FeatureStatus({
       features: config.features,
@@ -21,12 +23,16 @@ export default class Store extends PureComponent<StoreProps> {
     }),
   })
 
+  constructor(props: StoreProps) {
+    super(props)
+    this.theme = document.documentElement.getAttribute('data-theme')
+  }
+
   // Render
   render() {
-    const theme = document.documentElement.getAttribute('data-theme')
     let padding
 
-    switch (theme) {
+    switch (this.theme) {
       case 'penpot':
         padding = 'var(--size-xxsmall) var(--size-small)'
         break

@@ -33,10 +33,9 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<
-  LicenseProps,
-  LicenseStates
-> {
+export default class License extends PureComponent<LicenseProps, LicenseStates> {
+  private theme: string | null
+
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER_LICENSE: new FeatureStatus({
       features: config.features,
@@ -57,6 +56,7 @@ export default class License extends PureComponent<
       userInstanceId: '',
       userInstanceName: '',
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -262,18 +262,17 @@ export default class License extends PureComponent<
 
   // Render
   render() {
-    const theme = document.documentElement.getAttribute('data-theme')
     let padding
 
-    switch (theme) {
+    switch (this.theme) {
       case 'penpot':
-        padding = '0 var(--size-xxsmall)'
+        padding = '0 var(--size-xsmall)'
         break
       case 'figma-ui3':
         padding = '0'
         break
       default:
-        padding = 'var(--size-xxsmall)'
+        padding = '0'
     }
 
     return (
@@ -364,6 +363,7 @@ export default class License extends PureComponent<
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
+                padding: padding,
               }}
             >
               {this.state.licenseStatus === 'ERROR' && (

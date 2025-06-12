@@ -31,6 +31,7 @@ export default class BrowsePalettes extends PureComponent<
   BrowsePalettesStates
 > {
   private contexts: Array<ContextItem>
+  private theme: string | null
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     LOCAL_PALETTES: new FeatureStatus({
@@ -73,6 +74,7 @@ export default class BrowsePalettes extends PureComponent<
       localPalettesListStatus: 'LOADING',
       localPalettesList: [],
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -144,10 +146,9 @@ export default class BrowsePalettes extends PureComponent<
   // Renders
   render() {
     let fragment
-    const theme = document.documentElement.getAttribute('data-theme')
     let isFlex = true
 
-    switch (theme) {
+    switch (this.theme) {
       case 'penpot':
         isFlex = true
         break
