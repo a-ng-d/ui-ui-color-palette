@@ -640,7 +640,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
-          feature: 'SWITCH_CUSTOM',
+          feature: `SWITCH_CUSTOM${convention}`,
         }
       )
     }

@@ -214,6 +214,24 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     )
   }
 
+  onSwitchContrasteMode = () => {
+    this.setState({
+      isContrastMode: !this.state.isContrastMode,
+    })
+
+    trackScaleManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userIdentity.id,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: this.state.isContrastMode
+          ? 'CONTRAST_MODE_ON'
+          : 'CONTRAST_MODE_OFF',
+      }
+    )
+  }
+
   // Templates
   DistributionEasing = () => {
     return (
@@ -536,20 +554,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 {!this.state.isContrastMode ? (
                   <ScaleLightnessChroma
                     {...this.props}
-                    onSwitchMode={() =>
-                      this.setState({
-                        isContrastMode: !this.state.isContrastMode,
-                      })
-                    }
+                    onSwitchMode={this.onSwitchContrasteMode}
                   />
                 ) : (
                   <ScaleContrastRatio
                     {...this.props}
-                    onSwitchMode={() =>
-                      this.setState({
-                        isContrastMode: !this.state.isContrastMode,
-                      })
-                    }
+                    onSwitchMode={this.onSwitchContrasteMode}
                   />
                 )}
                 <Feature
@@ -636,20 +646,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   <ScaleLightnessChroma
                     {...this.props}
                     onChangeThemes={this.themesHandler}
-                    onSwitchMode={() =>
-                      this.setState({
-                        isContrastMode: !this.state.isContrastMode,
-                      })
-                    }
+                    onSwitchMode={this.onSwitchContrasteMode}
                   />
                 ) : (
                   <ScaleContrastRatio
                     {...this.props}
-                    onSwitchMode={() =>
-                      this.setState({
-                        isContrastMode: !this.state.isContrastMode,
-                      })
-                    }
+                    onSwitchMode={this.onSwitchContrasteMode}
                   />
                 )}
                 <Feature

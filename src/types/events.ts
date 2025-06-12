@@ -43,8 +43,12 @@ export interface ScaleEvent {
     | 'SWITCH_BASE'
     | 'SWITCH_POLARIS'
     | 'SWITCH_CUSTOM'
+    | 'SWITCH_CUSTOM_1_10'
+    | 'SWITCH_CUSTOM_10_100'
+    | 'SWITCH_CUSTOM_100_1000'
     | 'OPEN_KEYBOARD_SHORTCUTS'
-    | NamingConvention
+    | 'CONTRAST_MODE_ON'
+    | 'CONTRAST_MODE_OFF'
     | EasingConfiguration
 }
 
