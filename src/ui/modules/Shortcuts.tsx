@@ -243,6 +243,9 @@ export default class Shortcuts extends PureComponent<
                             style={{
                               width: 'calc(100% - var(--size-xxsmall))',
                               borderRadius: 'var(--border-radius-full)',
+                              lineHeight: '0',
+                              verticalAlign: 'middle',
+                              textAlign: 'center',
                             }}
                             alt="User Avatar"
                           />
