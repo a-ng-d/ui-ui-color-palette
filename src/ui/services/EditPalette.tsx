@@ -283,6 +283,131 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
     return actions[state ?? 'DEFAULT']?.()
   }
 
+  documentHandler = (e: Event) => {
+    this.setState({
+      isSecondaryLoading: true,
+    })
+    const currentElement = e.currentTarget as HTMLInputElement
+
+    const generatePalette = () => {
+      this.props.onChangeDocument({
+        document: {
+          ...this.props.document,
+          view: 'PALETTE',
+        },
+      })
+
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'CREATE_DOCUMENT',
+            id: this.props.id,
+            view: 'PALETTE',
+          },
+        },
+        '*'
+      )
+    }
+
+    const generateSheet = () => {
+      this.props.onChangeDocument({
+        document: {
+          ...this.props.document,
+          view: 'SHEET',
+        },
+      })
+
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'CREATE_DOCUMENT',
+            id: this.props.id,
+            view: 'SHEET',
+          },
+        },
+        '*'
+      )
+
+      trackActionEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'GENERATE_SHEET',
+        }
+      )
+    }
+
+    const generatePaletteWithProperties = () => {
+      this.props.onChangeDocument({
+        document: {
+          ...this.props.document,
+          view: 'PALETTE_WITH_PROPERTIES',
+        },
+      })
+
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'CREATE_DOCUMENT',
+            id: this.props.id,
+            view: 'PALETTE_WITH_PROPERTIES',
+          },
+        },
+        '*'
+      )
+
+      trackActionEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
+        }
+      )
+    }
+
+    const pushUpdates = () => {
+      this.props.onChangeDocument({
+        document: {
+          ...this.props.document,
+          view: this.props.document?.view ?? 'PALETTE',
+        },
+      })
+
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_DOCUMENT',
+            view: this.props.document?.view ?? 'PALETTE',
+          },
+        },
+        '*'
+      )
+
+      trackActionEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_DOCUMENT',
+        }
+      )
+    }
+
+    const actions: { [action: string]: () => void } = {
+      GENERATE_SHEET: () => generateSheet(),
+      GENERATE_PALETTE_WITH_PROPERTIES: () => generatePaletteWithProperties(),
+      GENERATE_PALETTE: () => generatePalette(),
+      PUSH_UPDATES: () => pushUpdates(),
+    }
+
+    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
+  }
+
   // Direct Actions
   onSyncStyles = () => {
     this.setState({
@@ -336,6 +461,44 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
 
   onPublishPalette = () => {
     this.props.onPublishPalette({ modalContext: 'PUBLICATION' })
+  }
+
+  onChangeView = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    this.setState({
+      isSecondaryLoading: true,
+    })
+    const currentElement = e.currentTarget as HTMLInputElement
+
+    this.props.onChangeDocument({
+      document: {
+        ...this.props.document,
+        view: currentElement.dataset.value as ViewConfiguration,
+      },
+    })
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_DOCUMENT',
+          view: currentElement.dataset.value,
+        },
+      },
+      '*'
+    )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userIdentity.id,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: `SWITCH_${currentElement.dataset.value as ViewConfiguration}`,
+      }
+    )
   }
 
   onChangeDocument = (view?: ViewConfiguration) => {
@@ -618,7 +781,8 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
             onPublishPalette={this.onPublishPalette}
-            onChangeDocument={this.onChangeDocument}
+            onGenerateDocument={this.documentHandler}
+            onChangeView={this.onChangeView}
             onExportPalette={this.onExport}
           />
         </Feature>

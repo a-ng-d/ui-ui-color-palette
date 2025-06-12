@@ -109,7 +109,17 @@ export interface SettingEvent {
 }
 
 export interface ActionEvent {
-  feature: 'CREATE_PALETTE' | 'SYNC_STYLES' | 'SYNC_VARIABLES'
+  feature:
+    | 'CREATE_PALETTE'
+    | 'SYNC_STYLES'
+    | 'SYNC_VARIABLES'
+    | 'GENERATE_PALETTE'
+    | 'GENERATE_PALETTE_WITH_PROPERTIES'
+    | 'GENERATE_SHEET'
+    | 'SWITCH_PALETTE'
+    | 'SWITCH_PALETTE_WITH_PROPERTIES'
+    | 'SWITCH_SHEET'
+    | 'UPDATE_DOCUMENT'
   colors?: number
   stops?: number
 }

@@ -53,7 +53,14 @@ interface ActionsProps extends BaseProps, WithConfigProps {
   onPublishPalette?: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
-  onChangeDocument?: (view?: ViewConfiguration) => void
+  onGenerateDocument?: (
+    e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+  ) => void
+  onChangeView?: (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
   onChangeSettings?: React.Dispatch<Partial<AppStates>>
@@ -64,10 +71,7 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -219,96 +223,6 @@ export default class Actions extends PureComponent<
       )
   }
 
-  onChangeView = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const currentElement = e.currentTarget as HTMLInputElement
-
-    this.props.onChangeDocument?.(
-      currentElement.dataset.value as ViewConfiguration
-    )
-
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'UPDATE_DOCUMENT',
-          view: currentElement.dataset.value,
-        },
-      },
-      '*'
-    )
-  }
-
-  documentHandler = (e: Event) => {
-    const currentElement = e.currentTarget as HTMLInputElement
-
-    const generateSheet = () => {
-      this.props.onChangeDocument?.()
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'CREATE_DOCUMENT',
-            id: this.props.id,
-            view: 'SHEET',
-          },
-        },
-        '*'
-      )
-    }
-
-    const generatePaletteWithProperties = () => {
-      this.props.onChangeDocument?.()
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'CREATE_DOCUMENT',
-            id: this.props.id,
-            view: 'PALETTE_WITH_PROPERTIES',
-          },
-        },
-        '*'
-      )
-    }
-
-    const generatePalette = () => {
-      this.props.onChangeDocument?.()
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'CREATE_DOCUMENT',
-            id: this.props.id,
-            view: 'PALETTE',
-          },
-        },
-        '*'
-      )
-    }
-
-    const pushUpdates = () => {
-      this.props.onChangeDocument?.()
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_DOCUMENT',
-            view: this.props.document?.view ?? 'PALETTE',
-          },
-        },
-        '*'
-      )
-    }
-
-    const actions: { [action: string]: () => void } = {
-      GENERATE_SHEET: () => generateSheet(),
-      GENERATE_PALETTE_WITH_PROPERTIES: () => generatePaletteWithProperties(),
-      GENERATE_PALETTE: () => generatePalette(),
-      PUSH_UPDATES: () => pushUpdates(),
-    }
-
-    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
-  }
-
   optionsHandler = () => {
     const options = [
       {
@@ -350,7 +264,7 @@ export default class Actions extends PureComponent<
               this.props.planStatus,
               this.props.config
             ).DOCUMENT_PALETTE.isNew(),
-            action: this.documentHandler,
+            action: this.props.onGenerateDocument,
           },
           {
             label:
@@ -369,7 +283,7 @@ export default class Actions extends PureComponent<
               this.props.planStatus,
               this.props.config
             ).DOCUMENT_PALETTE_PROPERTIES.isNew(),
-            action: this.documentHandler,
+            action: this.props.onGenerateDocument,
           },
           {
             label: this.props.locals.actions.generateDocument.sheet,
@@ -387,7 +301,7 @@ export default class Actions extends PureComponent<
               this.props.planStatus,
               this.props.config
             ).DOCUMENT_SHEET.isNew(),
-            action: this.documentHandler,
+            action: this.props.onGenerateDocument,
           },
         ],
       },
@@ -410,7 +324,7 @@ export default class Actions extends PureComponent<
           this.props.planStatus,
           this.props.config
         ).DOCUMENT_PUSH_UPDATES.isNew(),
-        action: this.documentHandler,
+        action: this.props.onGenerateDocument,
       })
 
     return options
@@ -652,7 +566,7 @@ export default class Actions extends PureComponent<
                       this.props.planStatus,
                       this.props.config
                     ).VIEWS_PALETTE.isNew(),
-                    action: this.onChangeView,
+                    action: this.props.onChangeView,
                   },
                   {
                     label: this.props.locals.settings.global.views.detailed,
@@ -670,7 +584,7 @@ export default class Actions extends PureComponent<
                       this.props.planStatus,
                       this.props.config
                     ).VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
-                    action: this.onChangeView,
+                    action: this.props.onChangeView,
                   },
                   {
                     label: this.props.locals.settings.global.views.sheet,
@@ -688,7 +602,7 @@ export default class Actions extends PureComponent<
                       this.props.planStatus,
                       this.props.config
                     ).VIEWS_SHEET.isNew(),
-                    action: this.onChangeView,
+                    action: this.props.onChangeView,
                   },
                 ]}
                 selected={this.props.document.view}
