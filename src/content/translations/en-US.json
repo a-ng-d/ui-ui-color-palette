@@ -354,8 +354,8 @@
   "proPlan": {
     "trial": {
       "cta": "Enable the {$1}-hour trial",
-      "message": "Explore the potential of simulating a vision impairment, synchronizing your color palette with styles, exporting design tokens, and more.",
-      "option": "Purchase",
+      "message": "Supercharge your primitive colors for {$1} hours with the Pro plan. You will be able to create more palette, manage your color modes, and export your palette to more formats.",
+      "option": "Get Pro directly",
       "title": "Would you like to upgrade to the Pro plan within the next {$1} hours?"
     },
     "welcome": {
@@ -532,9 +532,9 @@
     },
     "contrast": {
       "textColors": {
-        "textDarkColor": "Dark foreground color",
-        "textLightColor": "Light foreground color",
-        "textThemeColorsDescription": "The light and dark foreground colors serve as a reference to simulate contrast and obtain both WCAG 2.1 and APCA scores"
+        "textDarkColor": "Dark text color",
+        "textLightColor": "Light text color",
+        "textThemeColorsDescription": "The light and dark text colors serve as a reference to simulate contrast and obtain both WCAG 2.1 and APCA scores"
       },
       "title": "Contrast management"
     },
