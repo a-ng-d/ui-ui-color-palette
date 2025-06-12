@@ -37,6 +37,7 @@ export interface Config {
     documentationUrl: string
     repositoryUrl: string
     supportEmail: string
+    communityUrl: string
     feedbackUrl: string
     trialFeedbackUrl: string
     requestsUrl: string

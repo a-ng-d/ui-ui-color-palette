@@ -82,6 +82,11 @@ export default class Shortcuts extends PureComponent<
       featureName: 'INVOLVE_REQUESTS',
       planStatus: planStatus,
     }),
+    INVOLVE_COMMUNITY: new FeatureStatus({
+      features: config.features,
+      featureName: 'INVOLVE_COMMUNITY',
+      planStatus: planStatus,
+    }),
     MORE_STORE: new FeatureStatus({
       features: config.features,
       featureName: 'MORE_STORE',
@@ -565,27 +570,47 @@ export default class Shortcuts extends PureComponent<
                       action: () => this.props.onReOpenOnboarding(),
                     },
                     {
-                      label: this.props.locals.shortcuts.repository,
+                      label: this.props.locals.shortcuts.email,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).INVOLVE_REPOSITORY.isActive(),
+                      ).HELP_EMAIL.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).INVOLVE_REPOSITORY.isBlocked(),
+                      ).HELP_EMAIL.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).INVOLVE_REPOSITORY.isNew(),
+                      ).HELP_EMAIL.isNew(),
                       action: () =>
                         window
-                          .open(this.props.config.urls.repositoryUrl, '_blank')
+                          .open(this.props.config.urls.supportEmail, '_blank')
                           ?.focus(),
                     },
                     {
                       type: 'SEPARATOR',
+                    },
+                    {
+                      label: this.props.locals.shortcuts.community,
+                      type: 'OPTION',
+                      isActive: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).INVOLVE_COMMUNITY.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).INVOLVE_COMMUNITY.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).INVOLVE_COMMUNITY.isNew(),
+                      action: () =>
+                        window
+                          .open(this.props.config.urls.communityUrl, '_blank')
+                          ?.focus(),
                     },
                     {
                       label: this.props.locals.shortcuts.request,
@@ -606,6 +631,25 @@ export default class Shortcuts extends PureComponent<
                         window
                           .open(this.props.config.urls.requestsUrl, '_blank')
                           ?.focus(),
+                    },
+                    {
+                      label: this.props.locals.report.title,
+                      type: 'OPTION',
+                      isActive:
+                        Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config
+                        ).INVOLVE_ISSUES.isActive() &&
+                        this.props.config.env.isSentryEnabled,
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).INVOLVE_ISSUES.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).INVOLVE_ISSUES.isNew(),
+                      action: this.props.onReOpenReport,
                     },
                     {
                       label: this.props.locals.shortcuts.feedback,
@@ -629,47 +673,29 @@ export default class Shortcuts extends PureComponent<
                       },
                     },
                     {
-                      label: this.props.locals.report.title,
-                      type: 'OPTION',
-                      isActive:
-                        Shortcuts.features(
-                          this.props.planStatus,
-                          this.props.config
-                        ).INVOLVE_ISSUES.isActive() &&
-                        this.props.config.env.isSentryEnabled,
-                      isBlocked: Shortcuts.features(
-                        this.props.planStatus,
-                        this.props.config
-                      ).INVOLVE_ISSUES.isBlocked(),
-                      isNew: Shortcuts.features(
-                        this.props.planStatus,
-                        this.props.config
-                      ).INVOLVE_ISSUES.isNew(),
-                      action: this.props.onReOpenReport,
-                    },
-                    {
-                      label: this.props.locals.shortcuts.email,
+                      label: this.props.locals.shortcuts.repository,
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).HELP_EMAIL.isActive(),
+                      ).INVOLVE_REPOSITORY.isActive(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).HELP_EMAIL.isBlocked(),
+                      ).INVOLVE_REPOSITORY.isBlocked(),
                       isNew: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config
-                      ).HELP_EMAIL.isNew(),
+                      ).INVOLVE_REPOSITORY.isNew(),
                       action: () =>
                         window
-                          .open(this.props.config.urls.supportEmail, '_blank')
+                          .open(this.props.config.urls.repositoryUrl, '_blank')
                           ?.focus(),
                     },
                     {
                       type: 'SEPARATOR',
                     },
+
                     {
                       label: this.props.locals.shortcuts.store,
                       type: 'OPTION',

@@ -409,6 +409,7 @@ const globalConfig: Config = {
     documentationUrl: 'https://uicp.ylb.lt/docs',
     repositoryUrl: 'https://uicp.ylb.lt/repository',
     platformUrl: window.location.origin,
+    communityUrl: 'https://uicp.ylb.lt/community',
     supportEmail: 'https://uicp.ylb.lt/contact',
     feedbackUrl: 'https://uicp.ylb.lt/feedback',
     trialFeedbackUrl: 'https://uicp.ylb.lt/feedback-trial',

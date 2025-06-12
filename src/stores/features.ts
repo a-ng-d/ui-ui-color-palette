@@ -1394,6 +1394,15 @@ export const featuresScheme: Array<
     service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
   },
   {
+    name: 'INVOLVE_COMMUNITY',
+    description: 'Community discussions',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+  },
+  {
     name: 'INVOLVE_REQUESTS',
     description: 'Feature requests',
     isActive: true,
@@ -1422,7 +1431,7 @@ export const featuresScheme: Array<
   },
   {
     name: 'MORE_NETWORK',
-    description: 'LinkedIn page',
+    description: 'Social networks',
     isActive: false,
     isPro: false,
     isNew: false,
