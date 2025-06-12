@@ -622,7 +622,7 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'JSON',
             context: path.data.context,
-            label: `${this.state.locals.actions.duplicate} ${
+            label: `${this.state.locals.actions.export} ${
               this.state.locals.export.tokens.label
             }`,
             colorSpace: path.data.colorSpace,
