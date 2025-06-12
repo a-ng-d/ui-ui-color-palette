@@ -348,6 +348,8 @@ const specConfig: SpecConfig = {
             'COLORS',
             'COLORS_HUE_SHIFTING',
             'COLORS_CHROMA_SHIFTING',
+            'COLORS_ALPHA',
+            'COLORS_BACKGROUND_COLOR',
             'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
             'EXPORT_TAILWIND',
             'EXPORT_APPLE_SWIFTUI',

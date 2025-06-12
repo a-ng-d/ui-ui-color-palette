@@ -962,6 +962,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   ).COLORS_ALPHA.isBlocked() &&
                                   !color.alpha.isEnabled
                                 }
+                                isCentered
                               >
                                 <Select
                                   id="switch-alpha-mode"

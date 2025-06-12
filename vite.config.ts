@@ -40,6 +40,7 @@ export default defineConfig(({ mode }) => {
       port: 4400,
       watch: {
         usePolling: false,
+        ignored: ['**/node_modules/**', '!**/node_modules/@a_ng_d/**'],
       },
       hmr: {
         protocol: 'ws',
