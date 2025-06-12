@@ -479,6 +479,16 @@ export default class Colors extends PureComponent<ColorsProps> {
       })
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
+      trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userIdentity.id,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'SWITCH_ALPHA_MODE',
+        }
+      )
     }
 
     const updateBackgroundColor = () => {
@@ -492,8 +502,19 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      if (e.type === 'focusout')
+      if (e.type === 'focusout') {
         parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
+        trackSourceColorsManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userIdentity.id,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'UPDATE_BACKGROUND_COLOR',
+          }
+        )
+      }
     }
 
     const removeColor = () => {
@@ -507,6 +528,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       })
 
       parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userIdentity.id,

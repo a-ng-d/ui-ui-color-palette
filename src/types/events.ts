@@ -67,6 +67,8 @@ export interface SourceColorEvent {
     | 'RESET_HUE'
     | 'RESET_CHROMA'
     | 'DESCRIBE_COLOR'
+    | 'SWITCH_ALPHA_MODE'
+    | 'UPDATE_BACKGROUND_COLOR'
     | 'REORDER_COLOR'
 }
 
