@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   ActionsItem,
@@ -306,7 +306,7 @@ export default class PagePalettes extends PureComponent<
                         }}
                         className="preview__rows"
                       >
-                        {palette.data.themes[enabledThemeIndex].colors.map(
+                        {new Data(palette).makePaletteData().themes[enabledThemeIndex].colors.map(
                           (color, index) => (
                             <div
                               key={`color-${index}`}

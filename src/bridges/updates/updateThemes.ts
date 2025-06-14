@@ -18,8 +18,6 @@ const updateThemes = async (msg: ThemesMessage) => {
     data: now,
   })
 
-  palette.data = new Data(palette).makePaletteData(palette.data)
-
   return window.localStorage.setItem(
     `palette_${msg.id}`,
     JSON.stringify(palette)

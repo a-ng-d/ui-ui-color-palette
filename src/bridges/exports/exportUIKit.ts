@@ -1,4 +1,4 @@
-import { PaletteData } from '@a_ng_d/utils-ui-color-palette'
+import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
 import { Case } from '@a_ng_d/figmug-utils'
 import { locals } from '../../content/locals'
 
@@ -18,7 +18,7 @@ const exportUIKit = (id: string) => {
       },
     })
 
-  const paletteData: PaletteData = JSON.parse(rawPalette).data,
+  const paletteData: PaletteData = new Data(JSON.parse(rawPalette)).makePaletteData(),
     workingThemes =
       paletteData.themes.filter((theme) => theme.type === 'custom theme')
         .length === 0

@@ -1,6 +1,7 @@
 import chroma from 'chroma-js'
 import {
   ColorSpaceConfiguration,
+  Data,
   PaletteData,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
@@ -24,7 +25,7 @@ const exportCss = (id: string, colorSpace: ColorSpaceConfiguration) => {
       },
     })
 
-  const paletteData: PaletteData = JSON.parse(rawPalette).data,
+  const paletteData: PaletteData = new Data(JSON.parse(rawPalette)).makePaletteData(),
     workingThemes =
       paletteData.themes.filter((theme) => theme.type === 'custom theme')
         .length === 0

@@ -27,8 +27,6 @@ const updateSettings = async (msg: SettingsMessage) => {
     data: now,
   })
 
-  palette.data = new Data(palette).makePaletteData(palette.data)
-
   return window.localStorage.setItem(
     `palette_${msg.id}`,
     JSON.stringify(palette)

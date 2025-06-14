@@ -41,8 +41,6 @@ const updatePalette = async ({
     })
   }
 
-  palette.data = new Data(palette).makePaletteData(palette.data)
-
   if (shouldLoadPalette)
     iframe?.contentWindow?.postMessage({
       type: 'LOAD_PALETTE',
