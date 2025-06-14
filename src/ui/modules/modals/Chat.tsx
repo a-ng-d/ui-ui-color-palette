@@ -1,0 +1,78 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import * as Sentry from '@sentry/browser'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Dialog } from '@a_ng_d/figmug-ui'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { BaseProps, PlanStatus } from '../../../types/app'
+import { ConfigContextType } from '../../../config/ConfigContext'
+
+declare global {
+  interface Window {
+    Tawk_API?: any
+    Tawk_LoadStart?: Date
+  }
+}
+
+interface ChatProps extends BaseProps, WithConfigProps {
+  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+}
+
+interface ChatStates {
+  isPrimaryActionLoading: boolean
+  isSecondaryActionLoading: boolean
+  userFullName: string
+  userEmail: string
+  userMessage: string
+}
+
+export default class Chat extends PureComponent<ChatProps, ChatStates> {
+  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+    HELP_CHAT: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_CHAT',
+      planStatus: planStatus,
+    }),
+  })
+
+  componentDidMount() {
+    const s1 = document.createElement('script')
+    s1.async = true
+    s1.src = 'https://embed.tawk.to/680b8b6e6b4e0c1911f5d5ad/1itj2ssvj'
+    s1.charset = 'UTF-8'
+    s1.setAttribute('crossorigin', '*')
+    document.head.appendChild(s1)
+
+    // Initialiser l'API Tawk
+    window.Tawk_API = window.Tawk_API || {}
+    window.Tawk_LoadStart = new Date()
+    window.Tawk_API.embedded = 'tawk_680b8b6e6b4e0c1911f5d5ad'
+  }
+
+  // Render
+  render() {
+    return (
+      <Feature
+        isActive={Chat.features(
+          this.props.planStatus,
+          this.props.config
+        ).HELP_CHAT.isActive()}
+      >
+        <Dialog
+          title={this.props.locals.shortcuts.chat}
+          pin="RIGHT"
+          onClose={this.props.onClose}
+        >
+          <div
+            id="tawk_680b8b6e6b4e0c1911f5d5ad"
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+          ></div>
+        </Dialog>
+      </Feature>
+    )
+  }
+}

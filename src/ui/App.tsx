@@ -875,7 +875,7 @@ class App extends Component<AppProps, AppStates> {
           trialStatus: 'PENDING',
           modalContext: 'WELCOME_TO_TRIAL',
         })
-        
+
         trackTrialEnablementEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -1254,6 +1254,7 @@ class App extends Component<AppProps, AppStates> {
                 this.setState({ modalContext: 'PREFERENCES' })
               }
               onReOpenLicense={() => this.setState({ modalContext: 'LICENSE' })}
+              onReOpenChat={() => this.setState({ modalContext: 'CHAT' })}
             />
           </Feature>
         </main>

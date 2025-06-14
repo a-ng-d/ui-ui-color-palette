@@ -16,6 +16,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import { NotificationMessage } from '../../types/messages'
 import { BaseProps, AnnouncementsDigest, ModalContext } from '../../types/app'
 import type { AppStates } from '../App'
+import Chat from '../modules/modals/Chat'
 
 interface ModalProps extends BaseProps, WithConfigProps {
   rawData: AppStates
@@ -94,6 +95,7 @@ export default class Modal extends PureComponent<ModalProps> {
           )}
           {this.props.context === 'LICENSE' && <License {...this.props} />}
           {this.props.context === 'REPORT' && <Report {...this.props} />}
+          {this.props.context === 'CHAT' && <Chat {...this.props} />}
           {this.props.context === 'STORE' && <Store {...this.props} />}
           {this.props.context === 'ABOUT' && <About {...this.props} />}
           {this.props.context === 'TRY' && <TryPro {...this.props} />}

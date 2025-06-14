@@ -21,16 +21,14 @@ interface ShortcutsProps extends BaseProps, WithConfigProps {
   onUpdateConsent: () => void
   onReOpenPreferences: () => void
   onReOpenLicense: () => void
+  onReOpenChat: () => void
 }
 
 interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER: new FeatureStatus({
       features: config.features,
@@ -60,6 +58,11 @@ export default class Shortcuts extends PureComponent<
     HELP_EMAIL: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_EMAIL',
+      planStatus: planStatus,
+    }),
+    HELP_CHAT: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_CHAT',
       planStatus: planStatus,
     }),
     INVOLVE_REPOSITORY: new FeatureStatus({
@@ -588,6 +591,23 @@ export default class Shortcuts extends PureComponent<
                         window
                           .open(this.props.config.urls.supportEmail, '_blank')
                           ?.focus(),
+                    },
+                    {
+                      label: this.props.locals.shortcuts.chat,
+                      type: 'OPTION',
+                      isActive: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).HELP_CHAT.isActive(),
+                      isBlocked: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).HELP_CHAT.isBlocked(),
+                      isNew: Shortcuts.features(
+                        this.props.planStatus,
+                        this.props.config
+                      ).HELP_CHAT.isNew(),
+                      action: () => this.props.onReOpenChat(),
                     },
                     {
                       type: 'SEPARATOR',

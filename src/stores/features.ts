@@ -1368,7 +1368,16 @@ export const featuresScheme: Array<
   },
   {
     name: 'HELP_EMAIL',
-    description: 'Support email',
+    description: 'Email support',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+  },
+  {
+    name: 'HELP_CHAT',
+    description: 'Chat support',
     isActive: true,
     isPro: false,
     isNew: false,

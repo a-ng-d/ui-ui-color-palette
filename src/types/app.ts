@@ -99,6 +99,7 @@ export type ModalContext =
   | 'ABOUT'
   | 'WELCOME_TO_PRO'
   | 'WELCOME_TO_TRIAL'
+  | 'CHAT'
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 
