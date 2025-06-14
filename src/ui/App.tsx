@@ -842,6 +842,7 @@ class App extends Component<AppProps, AppStates> {
           planStatus: 'PAID',
           modalContext: 'WELCOME_TO_PRO',
         })
+
         trackPurchaseEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
@@ -874,6 +875,7 @@ class App extends Component<AppProps, AppStates> {
           trialStatus: 'PENDING',
           modalContext: 'WELCOME_TO_TRIAL',
         })
+        
         trackTrialEnablementEvent(
           this.props.config.env.isMixpanelEnabled,
           path.data.id,
