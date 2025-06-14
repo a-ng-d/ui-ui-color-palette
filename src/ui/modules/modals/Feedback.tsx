@@ -29,7 +29,6 @@ export default class Feedback extends PureComponent<FeedbackProps> {
 
   // Render
   render() {
-    console.log(this.props.config.urls.feedbackUrl)
     return (
       <Feature
         isActive={Feedback.features(
