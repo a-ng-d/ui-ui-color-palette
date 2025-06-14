@@ -1248,6 +1248,7 @@ class App extends Component<AppProps, AppStates> {
               onReOpenPreferences={(e) => this.setState({ ...e })}
               onReOpenLicense={(e) => this.setState({ ...e })}
               onReOpenChat={(e) => this.setState({ ...e })}
+              onReOpenFeedback={(e) => this.setState({ ...e })}
               onUpdateConsent={(e) => this.setState({ ...e })}
             />
           </Feature>

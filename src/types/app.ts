@@ -94,12 +94,13 @@ export type ModalContext =
   | 'ANNOUNCEMENTS'
   | 'ONBOARDING'
   | 'REPORT'
-  | 'TRY'
+  | 'CHAT'
+  | 'FEEDBACK'
   | 'STORE'
   | 'ABOUT'
+  | 'TRY'
   | 'WELCOME_TO_PRO'
   | 'WELCOME_TO_TRIAL'
-  | 'CHAT'
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 

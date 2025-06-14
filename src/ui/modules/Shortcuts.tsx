@@ -22,6 +22,7 @@ interface ShortcutsProps extends BaseProps, WithConfigProps {
   onReOpenPreferences: React.Dispatch<Partial<AppStates>>
   onReOpenLicense: React.Dispatch<Partial<AppStates>>
   onReOpenChat: React.Dispatch<Partial<AppStates>>
+  onReOpenFeedback: React.Dispatch<Partial<AppStates>>
   onUpdateConsent: React.Dispatch<Partial<AppStates>>
 }
 
@@ -29,7 +30,10 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsStates
+> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     USER: new FeatureStatus({
       features: config.features,
@@ -711,11 +715,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.planStatus,
                         this.props.config
                       ).INVOLVE_FEEDBACK.isNew(),
-                      action: () => {
-                        window
-                          .open(this.props.config.urls.feedbackUrl, '_blank')
-                          ?.focus()
-                      },
+                      action: () =>
+                        this.props.onReOpenFeedback({
+                          modalContext: 'FEEDBACK',
+                        }),
                     },
                     {
                       label: this.props.locals.shortcuts.repository,

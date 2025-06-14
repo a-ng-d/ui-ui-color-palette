@@ -411,7 +411,8 @@ const globalConfig: Config = {
     platformUrl: window.location.origin,
     communityUrl: 'https://uicp.ylb.lt/community',
     supportEmail: 'https://uicp.ylb.lt/contact',
-    feedbackUrl: 'https://uicp.ylb.lt/feedback',
+    feedbackUrl:
+      'https://angd.notion.site/ebd/13df8c62fd868018989de53f17ad6df3',
     trialFeedbackUrl: 'https://uicp.ylb.lt/feedback-trial',
     requestsUrl: 'https://uicp.ylb.lt/ideas',
     networkUrl: 'https://uicp.ylb.lt/network',

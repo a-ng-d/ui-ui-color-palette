@@ -14,54 +14,41 @@ declare global {
   }
 }
 
-interface ChatProps extends BaseProps, WithConfigProps {
+interface FeedbackProps extends BaseProps, WithConfigProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
-export default class Chat extends PureComponent<ChatProps> {
+export default class Feedback extends PureComponent<FeedbackProps> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
-    HELP_CHAT: new FeatureStatus({
+    INVOLVES_FEEDBACK: new FeatureStatus({
       features: config.features,
-      featureName: 'HELP_CHAT',
+      featureName: 'INVOLVES_FEEDBACK',
       planStatus: planStatus,
     }),
   })
 
-  componentDidMount() {
-    const s1 = document.createElement('script')
-    s1.async = true
-    s1.src = 'https://embed.tawk.to/680b8b6e6b4e0c1911f5d5ad/1itj2ssvj'
-    s1.charset = 'UTF-8'
-    s1.setAttribute('crossorigin', '*')
-    document.head.appendChild(s1)
-
-    // Initialiser l'API Tawk
-    window.Tawk_API = window.Tawk_API || {}
-    window.Tawk_LoadStart = new Date()
-    window.Tawk_API.embedded = 'tawk_680b8b6e6b4e0c1911f5d5ad'
-  }
-
   // Render
   render() {
+    console.log(this.props.config.urls.feedbackUrl)
     return (
       <Feature
-        isActive={Chat.features(
+        isActive={Feedback.features(
           this.props.planStatus,
           this.props.config
-        ).HELP_CHAT.isActive()}
+        ).INVOLVES_FEEDBACK.isActive()}
       >
         <Dialog
-          title={this.props.locals.shortcuts.chat}
+          title={this.props.locals.shortcuts.feedback}
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <div
-            id="tawk_680b8b6e6b4e0c1911f5d5ad"
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          ></div>
+          <iframe
+            src={this.props.config.urls.feedbackUrl}
+            width="100%"
+            height="auto"
+            frameBorder="0"
+            allowFullScreen
+          />
         </Dialog>
       </Feature>
     )
