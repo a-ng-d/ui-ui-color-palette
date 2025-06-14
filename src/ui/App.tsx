@@ -1240,21 +1240,15 @@ class App extends Component<AppProps, AppStates> {
             <Shortcuts
               {...this.props}
               {...this.state}
-              onReOpenAnnouncements={() =>
-                this.setState({ modalContext: 'ANNOUNCEMENTS' })
-              }
-              onReOpenOnboarding={() =>
-                this.setState({ modalContext: 'ONBOARDING' })
-              }
-              onReOpenReport={() => this.setState({ modalContext: 'REPORT' })}
-              onReOpenStore={() => this.setState({ modalContext: 'STORE' })}
-              onReOpenAbout={() => this.setState({ modalContext: 'ABOUT' })}
-              onUpdateConsent={() => this.setState({ mustUserConsent: true })}
-              onReOpenPreferences={() =>
-                this.setState({ modalContext: 'PREFERENCES' })
-              }
-              onReOpenLicense={() => this.setState({ modalContext: 'LICENSE' })}
-              onReOpenChat={() => this.setState({ modalContext: 'CHAT' })}
+              onReOpenAnnouncements={(e) => this.setState({ ...e })}
+              onReOpenOnboarding={(e) => this.setState({ ...e })}
+              onReOpenReport={(e) => this.setState({ ...e })}
+              onReOpenStore={(e) => this.setState({ ...e })}
+              onReOpenAbout={(e) => this.setState({ ...e })}
+              onReOpenPreferences={(e) => this.setState({ ...e })}
+              onReOpenLicense={(e) => this.setState({ ...e })}
+              onReOpenChat={(e) => this.setState({ ...e })}
+              onUpdateConsent={(e) => this.setState({ ...e })}
             />
           </Feature>
         </main>

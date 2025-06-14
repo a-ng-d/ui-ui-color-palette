@@ -9,19 +9,20 @@ import { BaseProps, AnnouncementsDigest, PlanStatus } from '../../types/app'
 import { signIn, signOut } from '../../external/auth/authentication'
 import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
+import { AppStates } from '../App'
 
 interface ShortcutsProps extends BaseProps, WithConfigProps {
   trialRemainingTime: number
   announcements: AnnouncementsDigest
-  onReOpenAnnouncements: () => void
-  onReOpenOnboarding: () => void
-  onReOpenStore: () => void
-  onReOpenAbout: () => void
-  onReOpenReport: () => void
-  onUpdateConsent: () => void
-  onReOpenPreferences: () => void
-  onReOpenLicense: () => void
-  onReOpenChat: () => void
+  onReOpenAnnouncements: React.Dispatch<Partial<AppStates>>
+  onReOpenOnboarding: React.Dispatch<Partial<AppStates>>
+  onReOpenStore: React.Dispatch<Partial<AppStates>>
+  onReOpenAbout: React.Dispatch<Partial<AppStates>>
+  onReOpenReport: React.Dispatch<Partial<AppStates>>
+  onReOpenPreferences: React.Dispatch<Partial<AppStates>>
+  onReOpenLicense: React.Dispatch<Partial<AppStates>>
+  onReOpenChat: React.Dispatch<Partial<AppStates>>
+  onUpdateConsent: React.Dispatch<Partial<AppStates>>
 }
 
 interface ShortcutsStates {
@@ -343,7 +344,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                             this.props.planStatus,
                             this.props.config
                           ).USER_CONSENT.isNew(),
-                          action: this.props.onUpdateConsent,
+                          action: () =>
+                            this.props.onUpdateConsent({
+                              mustUserConsent: true,
+                            }),
                         },
                         {
                           label: this.props.locals.user.updatePreferences,
@@ -379,7 +383,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                             this.props.planStatus,
                             this.props.config
                           ).USER_LICENSE.isNew(),
-                          action: () => this.props.onReOpenLicense(),
+                          action: () =>
+                            this.props.onReOpenLicense({
+                              modalContext: 'LICENSE',
+                            }),
                         },
                       ]}
                       alignment="TOP_RIGHT"
@@ -483,7 +490,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                             this.props.planStatus,
                             this.props.config
                           ).USER_CONSENT.isNew(),
-                          action: this.props.onUpdateConsent,
+                          action: () =>
+                            this.props.onUpdateConsent({
+                              mustUserConsent: true,
+                            }),
                         },
                         {
                           label: this.props.locals.user.updatePreferences,
@@ -519,7 +529,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                             this.props.planStatus,
                             this.props.config
                           ).USER_LICENSE.isNew(),
-                          action: () => this.props.onReOpenLicense(),
+                          action: () =>
+                            this.props.onReOpenLicense({
+                              modalContext: 'LICENSE',
+                            }),
                         },
                       ]}
                       state={
@@ -553,7 +566,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         'DISPLAY_ANNOUNCEMENTS_NOTIFICATION'
                           ? true
                           : false,
-                      action: () => this.props.onReOpenAnnouncements(),
+                      action: () =>
+                        this.props.onReOpenAnnouncements({
+                          modalContext: 'ANNOUNCEMENTS',
+                        }),
                     },
                     {
                       label: this.props.locals.shortcuts.onboarding,
@@ -570,7 +586,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.planStatus,
                         this.props.config
                       ).HELP_ONBOARDING.isNew(),
-                      action: () => this.props.onReOpenOnboarding(),
+                      action: () =>
+                        this.props.onReOpenOnboarding({
+                          modalContext: 'ONBOARDING',
+                        }),
                     },
                     {
                       label: this.props.locals.shortcuts.email,
@@ -607,7 +626,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.planStatus,
                         this.props.config
                       ).HELP_CHAT.isNew(),
-                      action: () => this.props.onReOpenChat(),
+                      action: () =>
+                        this.props.onReOpenChat({
+                          modalContext: 'CHAT',
+                        }),
                     },
                     {
                       type: 'SEPARATOR',
@@ -669,7 +691,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.planStatus,
                         this.props.config
                       ).INVOLVE_ISSUES.isNew(),
-                      action: this.props.onReOpenReport,
+                      action: () =>
+                        this.props.onReOpenReport({
+                          modalContext: 'REPORT',
+                        }),
                     },
                     {
                       label: this.props.locals.shortcuts.feedback,
@@ -731,7 +756,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.planStatus,
                         this.props.config
                       ).MORE_STORE.isNew(),
-                      action: this.props.onReOpenStore,
+                      action: () =>
+                        this.props.onReOpenStore({
+                          modalContext: 'STORE',
+                        }),
                     },
                     {
                       label: this.props.locals.about.title,
@@ -748,7 +776,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.planStatus,
                         this.props.config
                       ).MORE_ABOUT.isNew(),
-                      action: this.props.onReOpenAbout,
+                      action: () =>
+                        this.props.onReOpenAbout({
+                          modalContext: 'ABOUT',
+                        }),
                     },
                     {
                       label: this.props.locals.shortcuts.follow,
