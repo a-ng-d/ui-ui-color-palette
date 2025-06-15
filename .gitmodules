@@ -1,11 +1,11 @@
 [submodule "packages/auth-yelbolt"]
 	path = packages/auth-yelbolt
 	url = https://github.com/a-ng-d/auth-yelbolt
-    branch = main
+  branch = main
 [submodule "packages/auth-yelbolt-worker"]
 	path = packages/auth-yelbolt-worker
 	url = https://github.com/a-ng-d/auth-yelbolt-worker
-    branch = main
+  branch = main
 [submodule "packages/announcements-yelbolt-worker"]
 	path = packages/announcements-yelbolt-worker
 	url = https://github.com/a-ng-d/announcements-yelbolt-worker
