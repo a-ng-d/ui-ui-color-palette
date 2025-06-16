@@ -74,12 +74,5 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-
-    preview: {
-      port: 4400,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    },
   }
 })
