@@ -99,6 +99,7 @@ root.render(
       documentationUrl: globalConfig.urls.documentationUrl,
       repositoryUrl: globalConfig.urls.repositoryUrl,
       supportEmail: globalConfig.urls.supportEmail,
+      communityUrl: globalConfig.urls.communityUrl,
       feedbackUrl: globalConfig.urls.feedbackUrl,
       trialFeedbackUrl: globalConfig.urls.trialFeedbackUrl,
       requestsUrl: globalConfig.urls.requestsUrl,
