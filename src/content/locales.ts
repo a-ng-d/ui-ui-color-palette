@@ -6,12 +6,12 @@ export const translations = {
   'en-US': en_US,
 } as Record<Language, Translations>
 
-let currentLocal = translations['en-US']
+let currentLocale = translations['en-US']
 
 export const locales = {
-  get: () => currentLocal,
+  get: () => currentLocale,
   set: (lang: Language) => {
-    currentLocal = translations[lang]
+    currentLocale = translations[lang]
     return translations[lang]
   },
 }
