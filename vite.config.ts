@@ -60,7 +60,6 @@ export default defineConfig(({ mode }) => {
       sourcemap: isDev,
       minify: !isDev,
       outDir: 'dist',
-      watch: isDev ? {} : null,
       emptyOutDir: true,
       rollupOptions: {
         input: {
