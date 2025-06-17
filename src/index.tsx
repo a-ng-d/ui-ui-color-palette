@@ -96,6 +96,7 @@ root.render(
       authUrl: globalConfig.urls.authUrl,
       storeApiUrl: globalConfig.urls.storeApiUrl,
       platformUrl: globalConfig.urls.platformUrl,
+      windowUrl: globalConfig.urls.windowUrl,
       documentationUrl: globalConfig.urls.documentationUrl,
       repositoryUrl: globalConfig.urls.repositoryUrl,
       supportEmail: globalConfig.urls.supportEmail,

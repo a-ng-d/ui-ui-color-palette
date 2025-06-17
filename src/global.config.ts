@@ -391,24 +391,19 @@ const globalConfig: Config = {
     trialTime: 72,
   },
   dbs: {
-    palettesDbTableName: isDev ? 'sandbox.palettes' : 'palettes',
-    palettesStorageName: isDev ? 'palette.screenshots' : 'palette.screenshots',
+    palettesDbTableName: 'sandbox.palettes',
+    palettesStorageName: 'palette.screenshots',
   },
   urls: {
-    authWorkerUrl: isDev
-      ? 'http://localhost:8787'
-      : (import.meta.env.VITE_AUTH_WORKER_URL as string),
-    announcementsWorkerUrl: isDev
-      ? 'http://localhost:8888'
-      : (import.meta.env.VITE_ANNOUNCEMENTS_WORKER_URL as string),
+    authWorkerUrl: 'http://localhost:8787',
+    announcementsWorkerUrl: 'http://localhost:8888',
     databaseUrl: import.meta.env.VITE_SUPABASE_URL as string,
-    authUrl: isDev
-      ? 'http://localhost:3000'
-      : (import.meta.env.VITE_AUTH_URL as string),
+    authUrl: 'http://localhost:3000',
     storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,
+    platformUrl: window.location.origin,
+    windowUrl: 'http://localhost:4400',
     documentationUrl: 'https://uicp.ylb.lt/docs',
     repositoryUrl: 'https://uicp.ylb.lt/repository',
-    platformUrl: window.location.origin,
     communityUrl: 'https://uicp.ylb.lt/community',
     supportEmail: 'https://uicp.ylb.lt/contact',
     feedbackUrl:
