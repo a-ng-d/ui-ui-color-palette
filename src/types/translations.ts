@@ -9,3 +9,5 @@ type RecursiveKeyOf<TObj extends object> = {
 export type TranslationKeys = RecursiveKeyOf<typeof enUS>
 
 export type Translations = typeof enUS
+
+export type Language = 'en-US'

@@ -1,4 +1,4 @@
-import { Language } from '../../types/app'
+import { Language } from '../../types/translations'
 import { locales } from '../../content/locales'
 
 const checkUserPreferences = async () => {

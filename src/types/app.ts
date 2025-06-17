@@ -1,7 +1,7 @@
 import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
-import { Translations } from './translations'
+import { Language, Translations } from './translations'
 
 export type Platform = 'figma' | 'penpot'
 
@@ -72,8 +72,6 @@ export type AnnouncementsStatus =
   | 'DISPLAY_ANNOUNCEMENTS_DIALOG'
 
 export type OnboardingStatus = 'NO_ONBOARDING' | 'DISPLAY_ONBOARDING_DIALOG'
-
-export type Language = 'en-US'
 
 export interface Window {
   width: number
