@@ -7,13 +7,6 @@ import Feature from '../../components/Feature'
 import { BaseProps, PlanStatus } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-declare global {
-  interface Window {
-    Tawk_API?: any
-    Tawk_LoadStart?: Date
-  }
-}
-
 interface FeedbackProps extends BaseProps, WithConfigProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
