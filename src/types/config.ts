@@ -1,5 +1,6 @@
 import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Feature } from '@a_ng_d/figmug-utils'
+import { Translations } from './translations'
 
 export interface Config {
   limits: {
@@ -58,4 +59,5 @@ export interface Config {
     paletteDataVersion: string
   }
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
+  locales: Translations
 }

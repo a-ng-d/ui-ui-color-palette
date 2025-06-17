@@ -1,6 +1,7 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 import { Config } from './types/config'
 import { doSpecificMode } from './stores/features'
+import { locales } from './content/locales'
 
 declare const __PLATFORM__: 'figma' | 'penpot'
 declare const __COLOR_MODE__: 'dark' | 'light'
@@ -431,6 +432,7 @@ const globalConfig: Config = {
     paletteDataVersion: '2025.03',
   },
   features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
+  locales: locales.get(),
 }
 
 export default globalConfig

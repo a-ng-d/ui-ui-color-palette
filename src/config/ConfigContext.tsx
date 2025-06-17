@@ -20,10 +20,11 @@ export const ConfigProvider = ({
   urls,
   versions,
   features,
+  locales,
 }: ConfigProviderProps) => {
   return (
     <ConfigContext.Provider
-      value={{ limits, env, plan, dbs, urls, versions, features }}
+      value={{ limits, env, plan, dbs, urls, versions, features, locales }}
     >
       {children}
     </ConfigContext.Provider>

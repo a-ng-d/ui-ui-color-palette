@@ -64,7 +64,6 @@ import { supabase } from '../index'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
-import { locales } from '../content/locales'
 import { ConfigContextType } from '../config/ConfigContext'
 import EditPalette from './services/EditPalette'
 import CreatePalette from './services/CreatePalette'
@@ -163,7 +162,7 @@ class App extends Component<AppProps, AppStates> {
       service: 'BROWSE',
       sourceColors: [],
       id: '',
-      name: locales.get().settings.global.name.default,
+      name: props.config.locales.settings.global.name.default,
       description: '',
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
@@ -179,7 +178,7 @@ class App extends Component<AppProps, AppStates> {
       visionSimulationMode: 'NONE',
       themes: [],
       view: 'PALETTE_WITH_PROPERTIES',
-      algorithmVersion: this.props.config.versions.algorithmVersion,
+      algorithmVersion: props.config.versions.algorithmVersion,
       textColorsTheme: {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
@@ -223,10 +222,10 @@ class App extends Component<AppProps, AppStates> {
       },
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
-      trialRemainingTime: this.props.config.plan.trialTime,
+      trialRemainingTime: props.config.plan.trialTime,
       editor: props.config.env.editor,
       modalContext: 'EMPTY',
-      locales: locales.get(),
+      locales: props.config.locales,
       lang: $userLanguage.get(),
       mustUserConsent: true,
       announcements: {
@@ -249,7 +248,6 @@ class App extends Component<AppProps, AppStates> {
     this.subscribeLanguage = $userLanguage.subscribe(async (value) => {
       this.setState({
         lang: value,
-        locales: locales.set(value),
       })
 
       parent.postMessage({

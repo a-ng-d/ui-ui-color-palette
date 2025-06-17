@@ -120,6 +120,7 @@ root.render(
       paletteDataVersion: globalConfig.versions.paletteDataVersion,
     }}
     features={globalConfig.features}
+    locales={globalConfig.locales}
   >
     <ThemeProvider
       theme={globalConfig.env.ui}
