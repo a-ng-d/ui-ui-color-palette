@@ -130,15 +130,15 @@ export default class PagePalettes extends PureComponent<
           {document.getElementById('modal') &&
             createPortal(
               <Dialog
-                title={this.props.locals.browse.deletePaletteDialog.title}
+                title={this.props.locales.browse.deletePaletteDialog.title}
                 actions={{
                   destructive: {
-                    label: this.props.locals.browse.deletePaletteDialog.delete,
+                    label: this.props.locales.browse.deletePaletteDialog.delete,
                     feature: 'DELETE_PALETTE',
                     action: this.onDeletePalette,
                   },
                   secondary: {
-                    label: this.props.locals.browse.deletePaletteDialog.cancel,
+                    label: this.props.locales.browse.deletePaletteDialog.cancel,
                     action: () =>
                       this.setState({
                         isDeleteDialogOpen: false,
@@ -157,7 +157,7 @@ export default class PagePalettes extends PureComponent<
               >
                 <div className="dialog__text">
                   <p className={texts.type}>
-                    {this.props.locals.browse.deletePaletteDialog.message.replace(
+                    {this.props.locales.browse.deletePaletteDialog.message.replace(
                       '{$1}',
                       this.state.targetedPaletteName
                     )}
@@ -198,7 +198,7 @@ export default class PagePalettes extends PureComponent<
                     key={`palette-${index}`}
                     name={
                       palette.base.name === ''
-                        ? this.props.locals.name
+                        ? this.props.locales.name
                         : palette.base.name
                     }
                     description={palette.base.preset.name}
@@ -215,7 +215,7 @@ export default class PagePalettes extends PureComponent<
                             options={[
                               {
                                 label:
-                                  this.props.locals.browse.actions
+                                  this.props.locales.browse.actions
                                     .duplicatePalette,
                                 type: 'OPTION',
                                 isActive: PagePalettes.features(
@@ -242,7 +242,7 @@ export default class PagePalettes extends PureComponent<
                               },
                               {
                                 label:
-                                  this.props.locals.browse.actions
+                                  this.props.locales.browse.actions
                                     .deletePalette,
                                 type: 'OPTION',
                                 isActive: PagePalettes.features(
@@ -268,7 +268,8 @@ export default class PagePalettes extends PureComponent<
                             alignment="BOTTOM_RIGHT"
                             helper={{
                               label:
-                                this.props.locals.browse.actions.moreParameters,
+                                this.props.locales.browse.actions
+                                  .moreParameters,
                             }}
                           />
                         </Feature>
@@ -282,8 +283,8 @@ export default class PagePalettes extends PureComponent<
                             type="secondary"
                             label={
                               !this.props.editor.includes('dev')
-                                ? this.props.locals.browse.actions.editPalette
-                                : this.props.locals.browse.actions.openPalette
+                                ? this.props.locales.browse.actions.editPalette
+                                : this.props.locales.browse.actions.openPalette
                             }
                             isBlocked={PagePalettes.features(
                               this.props.planStatus,
@@ -306,8 +307,11 @@ export default class PagePalettes extends PureComponent<
                         }}
                         className="preview__rows"
                       >
-                        {new Data(palette).makePaletteData().themes[enabledThemeIndex].colors.map(
-                          (color, index) => (
+                        {new Data(palette)
+                          .makePaletteData()
+                          .themes[
+                            enabledThemeIndex
+                          ].colors.map((color, index) => (
                             <div
                               key={`color-${index}`}
                               className="preview__row"
@@ -348,8 +352,7 @@ export default class PagePalettes extends PureComponent<
                                 </div>
                               ))}
                             </div>
-                          )
-                        )}
+                          ))}
                       </div>
                     }
                   />
@@ -360,11 +363,11 @@ export default class PagePalettes extends PureComponent<
         {this.props.localPalettesListStatus === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={`${this.props.locals.warning.noPaletteOnCurrrentPage}`}
+            message={`${this.props.locales.warning.noPaletteOnCurrrentPage}`}
             actionsSlot={
               <Button
                 type="primary"
-                label={this.props.locals.actions.createPalette}
+                label={this.props.locales.actions.createPalette}
                 isNew={PagePalettes.features(
                   this.props.planStatus,
                   this.props.config
@@ -386,7 +389,7 @@ export default class PagePalettes extends PureComponent<
         <SimpleItem
           leftPartSlot={
             <span className={doClassnames([texts.type, texts.label])}>
-              {this.props.locals.browse.page.title}
+              {this.props.locales.browse.page.title}
             </span>
           }
           isListItem={false}
@@ -403,7 +406,7 @@ export default class PagePalettes extends PureComponent<
             >
               <SemanticMessage
                 type="INFO"
-                message={this.props.locals.info.maxNumberOfLocalPalettes.replace(
+                message={this.props.locales.info.maxNumberOfLocalPalettes.replace(
                   '{$1}',
                   (
                     PagePalettes.features(
@@ -417,7 +420,7 @@ export default class PagePalettes extends PureComponent<
                   this.props.trialStatus !== 'EXPIRED' ? (
                     <Button
                       type="secondary"
-                      label={this.props.locals.plan.tryPro}
+                      label={this.props.locales.plan.tryPro}
                       action={() =>
                         parent.postMessage(
                           { pluginMessage: { type: 'GET_TRIAL' } },
@@ -428,7 +431,7 @@ export default class PagePalettes extends PureComponent<
                   ) : (
                     <Button
                       type="secondary"
-                      label={this.props.locals.plan.getPro}
+                      label={this.props.locales.plan.getPro}
                       action={() =>
                         parent.postMessage(
                           { pluginMessage: { type: 'GET_PRO_PLAN' } },

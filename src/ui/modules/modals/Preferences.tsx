@@ -50,7 +50,7 @@ export default class Preferences extends PureComponent<PreferencesProps> {
         ).USER_PREFERENCES.isActive()}
       >
         <Dialog
-          title={this.props.locals.user.updatePreferences}
+          title={this.props.locales.user.updatePreferences}
           pin="RIGHT"
           onClose={this.props.onClose}
         >

@@ -253,7 +253,7 @@ export default class CommunityPalettes extends PureComponent<
           soloPartSlot={
             <Button
               type="secondary"
-              label={this.props.locals.browse.lazyLoad.loadMore}
+              label={this.props.locales.browse.lazyLoad.loadMore}
               isLoading={this.state.isLoadMoreActionLoading}
               action={() => {
                 this.props.onChangeCurrentPage(this.props.currentPage + 1)
@@ -277,7 +277,7 @@ export default class CommunityPalettes extends PureComponent<
           soloPartSlot={
             <Message
               icon="check"
-              messages={[this.props.locals.browse.lazyLoad.completeList]}
+              messages={[this.props.locales.browse.lazyLoad.completeList]}
             />
           }
           isCentered
@@ -298,19 +298,19 @@ export default class CommunityPalettes extends PureComponent<
         {this.props.status === 'ERROR' && (
           <SemanticMessage
             type="WARNING"
-            message={this.props.locals.error.fetchPalette}
+            message={this.props.locales.error.fetchPalette}
           />
         )}
         {this.props.status === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locals.warning.noCommunityPaletteOnRemote}
+            message={this.props.locales.warning.noCommunityPaletteOnRemote}
           />
         )}
         {this.props.status === 'NO_RESULT' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locals.info.noResult}
+            message={this.props.locales.info.noResult}
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
@@ -350,7 +350,7 @@ export default class CommunityPalettes extends PureComponent<
                 actionsSlot={
                   <Button
                     type="secondary"
-                    label={this.props.locals.actions.addToLocal}
+                    label={this.props.locales.actions.addToLocal}
                     isLoading={this.state.isAddToLocalActionLoading[index]}
                     isBlocked={CommunityPalettes.features(
                       this.props.planStatus,
@@ -380,7 +380,7 @@ export default class CommunityPalettes extends PureComponent<
                                 type: 'POST_MESSAGE',
                                 data: {
                                   type: 'ERROR',
-                                  message: this.props.locals.error.addToLocal,
+                                  message: this.props.locales.error.addToLocal,
                                 },
                               },
                             },
@@ -466,7 +466,7 @@ export default class CommunityPalettes extends PureComponent<
                     type: 'PICTO',
                     value: 'search',
                   }}
-                  placeholder={this.props.locals.browse.lazyLoad.search}
+                  placeholder={this.props.locales.browse.lazyLoad.search}
                   value={this.props.searchQuery}
                   isClearable
                   isFramed={false}

@@ -8,7 +8,7 @@ export const translations = {
 
 let currentLocal = translations['en-US']
 
-export const locals = {
+export const locales = {
   get: () => currentLocal,
   set: (lang: Language) => {
     currentLocal = translations[lang]

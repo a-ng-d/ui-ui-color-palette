@@ -75,15 +75,15 @@ export default class DangerZone extends PureComponent<
           {document.getElementById('modal') &&
             createPortal(
               <Dialog
-                title={this.props.locals.browse.deletePaletteDialog.title}
+                title={this.props.locales.browse.deletePaletteDialog.title}
                 actions={{
                   destructive: {
-                    label: this.props.locals.browse.deletePaletteDialog.delete,
+                    label: this.props.locales.browse.deletePaletteDialog.delete,
                     feature: 'DELETE_PALETTE',
                     action: this.onDeletePalette,
                   },
                   secondary: {
-                    label: this.props.locals.browse.deletePaletteDialog.cancel,
+                    label: this.props.locales.browse.deletePaletteDialog.cancel,
                     action: () =>
                       this.setState({
                         isDeleteDialogOpen: false,
@@ -98,7 +98,7 @@ export default class DangerZone extends PureComponent<
               >
                 <div className="dialog__text">
                   <p className={texts.type}>
-                    {this.props.locals.browse.deletePaletteDialog.message.replace(
+                    {this.props.locales.browse.deletePaletteDialog.message.replace(
                       '{$1}',
                       this.props.name
                     )}

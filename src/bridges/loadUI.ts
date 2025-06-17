@@ -1,6 +1,6 @@
 import { Window } from '../types/app'
 import globalConfig from '../global.config'
-import { locals } from '../content/locales'
+import { locales } from '../content/locales'
 import updateThemes from './updates/updateThemes'
 import updateSettings from './updates/updateSettings'
 import updateScale from './updates/updateScale'
@@ -109,7 +109,7 @@ window.addEventListener('message', async (msg: any) => {
     },
     UPDATE_LANGUAGE: () => {
       window.localStorage.setItem('user_language', path.data.lang)
-      locals.set(path.data.lang)
+      locales.set(path.data.lang)
     },
     //
     CREATE_PALETTE: () =>
@@ -125,7 +125,7 @@ window.addEventListener('message', async (msg: any) => {
             type: 'POST_MESSAGE',
             data: {
               type: 'SUCCESS',
-              message: locals.get().success.addToLocal,
+              message: locales.get().success.addToLocal,
             },
           })
         )
@@ -134,7 +134,7 @@ window.addEventListener('message', async (msg: any) => {
             type: 'POST_MESSAGE',
             data: {
               type: 'INFO',
-              message: locals.get().info.addToLocal,
+              message: locales.get().info.addToLocal,
             },
           })
         )
@@ -246,7 +246,7 @@ window.addEventListener('message', async (msg: any) => {
           type: 'POST_MESSAGE',
           data: {
             type: 'ERROR',
-            message: locals.get().error.fetchPalette,
+            message: locales.get().error.fetchPalette,
           },
         })
       ),

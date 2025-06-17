@@ -49,7 +49,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       >
         <FormItem
           id="update-text-light-color"
-          label={this.props.locals.settings.contrast.textColors.textLightColor}
+          label={this.props.locales.settings.contrast.textColors.textLightColor}
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
             this.props.config
@@ -87,7 +87,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       >
         <FormItem
           id="update-text-dark-color"
-          label={this.props.locals.settings.contrast.textColors.textDarkColor}
+          label={this.props.locales.settings.contrast.textColors.textDarkColor}
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
             this.props.config
@@ -122,7 +122,9 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.locals.settings.contrast.title} />
+              <SectionTitle
+                label={this.props.locales.settings.contrast.title}
+              />
             }
             isListItem={false}
             alignment="CENTER"
@@ -140,7 +142,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
               <SemanticMessage
                 type="INFO"
                 message={
-                  this.props.locals.settings.contrast.textColors
+                  this.props.locales.settings.contrast.textColors
                     .textThemeColorsDescription
                 }
               />

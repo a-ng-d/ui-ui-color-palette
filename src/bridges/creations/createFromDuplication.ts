@@ -1,6 +1,6 @@
 import { uid } from 'uid'
 import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locales'
+import { locales } from '../../content/locales'
 
 const createPaletteFromDuplication = async (id: string) => {
   const rawPalette = window.localStorage.getItem(`palette_${id}`)
@@ -11,7 +11,7 @@ const createPaletteFromDuplication = async (id: string) => {
 
   const palette = JSON.parse(rawPalette) as FullConfiguration
 
-  palette.base.name = locals
+  palette.base.name = locales
     .get()
     .browse.copy.replace('{$1}', palette.base.name)
   palette.meta.id = uid()

@@ -4,7 +4,7 @@ import {
   PaletteData,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locales'
+import { locales } from '../../content/locales'
 
 const exportJsonDtcg = (id: string, colorSpace: ColorSpaceConfiguration) => {
   const iframe = document.querySelector(
@@ -18,11 +18,13 @@ const exportJsonDtcg = (id: string, colorSpace: ColorSpaceConfiguration) => {
       data: {
         id: '',
         context: 'TOKENS_AMZN_STYLE_DICTIONARY',
-        code: locals.get().error.export,
+        code: locales.get().error.export,
       },
     })
 
-  const paletteData: PaletteData = new Data(JSON.parse(rawPalette)).makePaletteData(),
+  const paletteData: PaletteData = new Data(
+      JSON.parse(rawPalette)
+    ).makePaletteData(),
     workingThemes =
       paletteData.themes.filter((theme) => theme.type === 'custom theme')
         .length === 0
@@ -142,7 +144,7 @@ const exportJsonDtcg = (id: string, colorSpace: ColorSpaceConfiguration) => {
               $description:
                 color.description !== ''
                   ? color.description +
-                    locals.get().separator +
+                    locales.get().separator +
                     shade.description
                   : shade.description,
             }

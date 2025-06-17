@@ -125,7 +125,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
   onActivateLicense = () => {
     if (!this.state.hasLicense)
       return {
-        label: this.props.locals.user.license.cta.activate,
+        label: this.props.locales.user.license.cta.activate,
         state:
           !this.isValidLicenseKeyFormat(this.state.userLicenseKey) ||
           this.state.userLicenseKey === '' ||
@@ -175,7 +175,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
   onDesactivateLicense = () => {
     if (this.state.licenseStatus === 'ERROR' && this.state.hasLicense)
       return {
-        label: this.props.locals.user.license.cta.unlinkLocally,
+        label: this.props.locales.user.license.cta.unlinkLocally,
         action: () => {
           parent.postMessage(
             {
@@ -196,7 +196,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
       }
     else if (this.state.licenseStatus !== 'ERROR' && this.state.hasLicense)
       return {
-        label: this.props.locals.user.license.cta.unlink,
+        label: this.props.locales.user.license.cta.unlink,
         state: this.state.isPrimaryActionLoading
           ? ('LOADING' as const)
           : ('DEFAULT' as const),
@@ -215,7 +215,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                     data: {
                       type: 'SUCCESS',
                       message:
-                        this.props.locals.success.unlinkedLicense.replace(
+                        this.props.locales.success.unlinkedLicense.replace(
                           '{$1}',
                           this.state.userInstanceName
                         ),
@@ -283,14 +283,14 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
         ).USER_LICENSE.isActive()}
       >
         <Dialog
-          title={this.props.locals.user.manageLicense}
+          title={this.props.locales.user.manageLicense}
           actions={{
             primary: this.onActivateLicense(),
             destructive: this.onDesactivateLicense(),
             secondary: (() => {
               if (this.state.hasLicense)
                 return {
-                  label: this.props.locals.user.license.cta.manage,
+                  label: this.props.locales.user.license.cta.manage,
                   action: () => {
                     window
                       .open('https://app.lemonsqueezy.com/my-orders', '_blank')
@@ -307,17 +307,17 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
               {this.state.licenseStatus === 'READY' && (
                 <SemanticMessage
                   type="INFO"
-                  message={this.props.locals.user.license.messages.activate}
+                  message={this.props.locales.user.license.messages.activate}
                 />
               )}
               {this.state.licenseStatus === 'ERROR' && (
                 <SemanticMessage
                   type="ERROR"
-                  message={this.props.locals.error.activatedLicense}
+                  message={this.props.locales.error.activatedLicense}
                 />
               )}
               <FormItem
-                label={this.props.locals.user.license.key.label}
+                label={this.props.locales.user.license.key.label}
                 id="type-license-key"
                 shouldFill
               >
@@ -325,7 +325,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                   type="TEXT"
                   id="type-license-key"
                   value={this.state.userLicenseKey}
-                  placeholder={this.props.locals.user.license.key.placeholder}
+                  placeholder={this.props.locales.user.license.key.placeholder}
                   onChange={(e) =>
                     this.setState({
                       userLicenseKey: (e.target as HTMLInputElement).value,
@@ -334,11 +334,11 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                 />
               </FormItem>
               <FormItem
-                label={this.props.locals.user.license.name.label}
+                label={this.props.locales.user.license.name.label}
                 id="type-instance-name"
                 helper={{
                   type: 'INFO',
-                  message: this.props.locals.user.license.name.helper,
+                  message: this.props.locales.user.license.name.helper,
                 }}
                 shouldFill
               >
@@ -346,7 +346,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                   type="TEXT"
                   id="type-instance-name"
                   value={this.state.userInstanceName}
-                  placeholder={this.props.locals.user.license.name.placeholder}
+                  placeholder={this.props.locales.user.license.name.placeholder}
                   onChange={(e) =>
                     this.setState({
                       userInstanceName: (e.target as HTMLInputElement).value,
@@ -370,7 +370,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                 <div className="dialog__form">
                   <SemanticMessage
                     type="ERROR"
-                    message={this.props.locals.error.unlinkedLicense.replace(
+                    message={this.props.locales.error.unlinkedLicense.replace(
                       '{$1}',
                       this.state.userInstanceName
                     )}
@@ -398,10 +398,10 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                     }
                     label={
                       this.state.checkingButtonStatus === 'VALID'
-                        ? this.props.locals.user.license.messages.active
+                        ? this.props.locales.user.license.messages.active
                         : this.state.checkingButtonStatus === 'UNVALID'
-                          ? this.props.locals.user.license.messages.unactive
-                          : this.props.locals.user.license.cta.validate
+                          ? this.props.locales.user.license.messages.unactive
+                          : this.props.locales.user.license.cta.validate
                     }
                     isLoading={this.state.isSecondaryActionLoading}
                     action={() => {

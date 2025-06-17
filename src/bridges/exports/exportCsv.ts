@@ -1,5 +1,5 @@
 import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locales'
+import { locales } from '../../content/locales'
 
 interface colorCsv {
   name: string
@@ -24,11 +24,13 @@ const exportCsv = (id: string) => {
       data: {
         id: '',
         context: 'CSV',
-        code: locals.get().error.export,
+        code: locales.get().error.export,
       },
     })
 
-  const paletteData: PaletteData = new Data(JSON.parse(rawPalette)).makePaletteData(),
+  const paletteData: PaletteData = new Data(
+      JSON.parse(rawPalette)
+    ).makePaletteData(),
     workingThemes =
       paletteData.themes.filter((theme) => theme.type === 'custom theme')
         .length === 0
@@ -80,7 +82,7 @@ const exportCsv = (id: string) => {
           ? [
               {
                 name: 'empty',
-                colors: [{ csv: locals.get().warning.emptySourceColors }],
+                colors: [{ csv: locales.get().warning.emptySourceColors }],
               },
             ]
           : themeCsv,

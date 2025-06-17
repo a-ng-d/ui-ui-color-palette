@@ -31,10 +31,10 @@ export default class WelcomeToTrial extends PureComponent<WelcomeToTrialProps> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locals.proPlan.welcome.title}
+          title={this.props.locales.proPlan.welcome.title}
           actions={{
             primary: {
-              label: this.props.locals.proPlan.welcome.cta,
+              label: this.props.locales.proPlan.welcome.cta,
               action: this.props.onClose,
             },
           }}
@@ -50,7 +50,7 @@ export default class WelcomeToTrial extends PureComponent<WelcomeToTrialProps> {
           </div>
           <div className="dialog__text">
             <p className={texts.type}>
-              {this.props.locals.proPlan.welcome.trial.replace(
+              {this.props.locales.proPlan.welcome.trial.replace(
                 '{$1}',
                 this.props.config.plan.trialTime.toString()
               )}

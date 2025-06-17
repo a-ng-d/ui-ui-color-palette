@@ -2,7 +2,7 @@ import {
   ColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../content/locales'
+import { locales } from '../content/locales'
 
 const getPaletteMeta = (
   colors: Array<ColorConfiguration>,
@@ -17,14 +17,14 @@ const getPaletteMeta = (
   let colorLabel: string, themeLabel: string, shadeLabel: string
 
   if (colorsNumber > 1)
-    colorLabel = locals
+    colorLabel = locales
       .get()
       .actions.sourceColorsNumber.several.replace(
         '{$1}',
         colorsNumber.toString()
       )
   else
-    colorLabel = locals
+    colorLabel = locales
       .get()
       .actions.sourceColorsNumber.single.replace(
         '{$1}',
@@ -32,27 +32,27 @@ const getPaletteMeta = (
       )
 
   if (themesNumber > 1)
-    themeLabel = locals
+    themeLabel = locales
       .get()
       .actions.colorThemesNumber.several.replace(
         '{$1}',
         themesNumber.toString()
       )
   else
-    themeLabel = locals
+    themeLabel = locales
       .get()
       .actions.colorThemesNumber.single.replace('{$1}', themesNumber.toString())
 
   if (shadeNumber > 1)
-    shadeLabel = locals
+    shadeLabel = locales
       .get()
       .actions.shadesNumber.several.replace('{$1}', shadeNumber.toString())
   else
-    shadeLabel = locals
+    shadeLabel = locales
       .get()
       .actions.shadesNumber.single.replace('{$1}', shadeNumber.toString())
 
-  return `${colorLabel}${locals.get().separator}${shadeLabel}${locals.get().separator}${themeLabel}`
+  return `${colorLabel}${locales.get().separator}${shadeLabel}${locales.get().separator}${themeLabel}`
 }
 
 export default getPaletteMeta

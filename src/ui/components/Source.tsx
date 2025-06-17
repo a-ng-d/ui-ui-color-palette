@@ -32,7 +32,7 @@ export default class Source extends PureComponent<SourceProps> {
         <Chip state="ON_BACKGROUND">{this.props.name}</Chip>
         {this.props.isTransparent && (
           <Chip state="ON_BACKGROUND">
-            {this.props.locals.paletteProperties.transparent}
+            {this.props.locales.paletteProperties.transparent}
           </Chip>
         )}
       </div>

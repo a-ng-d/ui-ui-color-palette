@@ -244,12 +244,12 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
         action: this.props.onPublishPalette,
       },
       {
-        label: this.props.locals.actions.generateDocument.label,
+        label: this.props.locales.actions.generateDocument.label,
         value: 'DOCUMENT',
         type: 'OPTION',
         children: [
           {
-            label: this.props.locals.actions.generateDocument.palette,
+            label: this.props.locales.actions.generateDocument.palette,
             feature: 'GENERATE_PALETTE',
             type: 'OPTION',
             isActive: Actions.features(
@@ -268,7 +268,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
           },
           {
             label:
-              this.props.locals.actions.generateDocument.paletteWithProperties,
+              this.props.locales.actions.generateDocument.paletteWithProperties,
             feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
             type: 'OPTION',
             isActive: Actions.features(
@@ -286,7 +286,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
             action: this.props.onGenerateDocument,
           },
           {
-            label: this.props.locals.actions.generateDocument.sheet,
+            label: this.props.locales.actions.generateDocument.sheet,
             feature: 'GENERATE_SHEET',
             type: 'OPTION',
             isActive: Actions.features(
@@ -309,7 +309,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
 
     if (this.state.canUpdateDocument)
       options.push({
-        label: this.props.locals.actions.pushUpdates,
+        label: this.props.locales.actions.pushUpdates,
         feature: 'PUSH_UPDATES',
         type: 'OPTION',
         isActive: Actions.features(
@@ -334,7 +334,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
   publicationAction = (): Partial<DropdownOption> => {
     if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
       return {
-        label: this.props.locals.actions.publishOrSyncPalette,
+        label: this.props.locales.actions.publishOrSyncPalette,
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_SYNC_PALETTE',
       }
@@ -342,7 +342,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
     )
       return {
-        label: this.props.locals.actions.publishPalette,
+        label: this.props.locales.actions.publishPalette,
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_PALETTE',
       }
@@ -352,13 +352,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       this.props.creatorIdentity?.creatorId !== ''
     )
       return {
-        label: this.props.locals.actions.syncPalette,
+        label: this.props.locales.actions.syncPalette,
         value: 'PALETTE_PUBLICATION',
         feature: 'SYNC_PALETTE',
       }
     else
       return {
-        label: this.props.locals.actions.publishPalette,
+        label: this.props.locales.actions.publishPalette,
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_PALETTE',
       }
@@ -366,18 +366,18 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
 
   publicationLabel = (): string => {
     if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return this.props.locals.actions.publishOrSyncPalette
+      return this.props.locales.actions.publishOrSyncPalette
     else if (
       this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
     )
-      return this.props.locals.actions.publishPalette
+      return this.props.locales.actions.publishPalette
     else if (
       this.props.userSession?.userId !==
         this.props.creatorIdentity?.creatorId &&
       this.props.creatorIdentity?.creatorId !== ''
     )
-      return this.props.locals.actions.syncPalette
-    else return this.props.locals.actions.publishPalette
+      return this.props.locales.actions.syncPalette
+    else return this.props.locales.actions.publishPalette
   }
 
   // Templates
@@ -389,11 +389,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
             <Input
               id="update-palette-name"
               type="TEXT"
-              placeholder={this.props.locals.name}
+              placeholder={this.props.locales.name}
               value={this.props.name !== '' ? this.props.name : ''}
               charactersLimit={64}
               helper={{
-                label: this.props.locals.settings.actions.paletteName,
+                label: this.props.locales.settings.actions.paletteName,
                 pin: 'TOP',
                 type: 'SINGLE_LINE',
               }}
@@ -416,15 +416,15 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 texts['type--secondary'],
               ])}
             >
-              {this.props.locals.separator}
+              {this.props.locales.separator}
             </span>
             <div className={texts.type}>
               {this.props.sourceColors.length > 1
-                ? this.props.locals.actions.sourceColorsNumber.several.replace(
+                ? this.props.locales.actions.sourceColorsNumber.several.replace(
                     '{$1}',
                     this.props.sourceColors.length.toString()
                   )
-                : this.props.locals.actions.sourceColorsNumber.single.replace(
+                : this.props.locales.actions.sourceColorsNumber.single.replace(
                     '{$1}',
                     this.props.sourceColors.length.toString()
                   )}
@@ -454,7 +454,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 />
                 {this.state.isTooltipVisible && (
                   <Tooltip>
-                    {this.props.locals.info.maxNumberOfSourceColors.replace(
+                    {this.props.locales.info.maxNumberOfSourceColors.replace(
                       '{$1}',
                       String(
                         Actions.features(
@@ -478,7 +478,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
           >
             <Button
               type="primary"
-              label={this.props.locals.actions.savePalette}
+              label={this.props.locales.actions.savePalette}
               feature="CREATE_PALETTE"
               isDisabled={this.props.sourceColors.length === 0}
               isBlocked={
@@ -519,17 +519,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
               }
             >
               <Chip isSolo>
-                {this.props.locals.publication.statusPublished}
+                {this.props.locales.publication.statusPublished}
               </Chip>
             </Feature>
             <Input
               id="update-palette-name"
               type="TEXT"
-              placeholder={this.props.locals.name}
+              placeholder={this.props.locales.name}
               value={this.props.name !== '' ? this.props.name : ''}
               charactersLimit={64}
               helper={{
-                label: this.props.locals.settings.actions.paletteName,
+                label: this.props.locales.settings.actions.paletteName,
                 pin: 'TOP',
                 type: 'SINGLE_LINE',
               }}
@@ -551,7 +551,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 id="views"
                 options={[
                   {
-                    label: this.props.locals.settings.global.views.simple,
+                    label: this.props.locales.settings.global.views.simple,
                     value: 'PALETTE',
                     type: 'OPTION',
                     isActive: Actions.features(
@@ -569,7 +569,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                     action: this.props.onChangeView,
                   },
                   {
-                    label: this.props.locals.settings.global.views.detailed,
+                    label: this.props.locales.settings.global.views.detailed,
                     value: 'PALETTE_WITH_PROPERTIES',
                     type: 'OPTION',
                     isActive: Actions.features(
@@ -587,7 +587,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                     action: this.props.onChangeView,
                   },
                   {
-                    label: this.props.locals.settings.global.views.sheet,
+                    label: this.props.locales.settings.global.views.sheet,
                     value: 'SHEET',
                     type: 'OPTION',
                     isActive: Actions.features(
@@ -631,10 +631,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
             <Menu
               id="main-actions"
               type="PRIMARY"
-              label={this.props.locals.actions.sync}
+              label={this.props.locales.actions.sync}
               options={[
                 {
-                  label: this.props.locals.actions.syncLocalStyles,
+                  label: this.props.locales.actions.syncLocalStyles,
                   value: 'LOCAL_STYLES',
                   feature: 'SYNC_LOCAL_STYLES',
                   type: 'OPTION',
@@ -653,7 +653,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                   action: (e) => this.props.onSyncLocalStyles?.(e),
                 },
                 {
-                  label: this.props.locals.actions.syncLocalVariables,
+                  label: this.props.locales.actions.syncLocalVariables,
                   value: 'LOCAL_VARIABLES',
                   feature: 'SYNC_LOCAL_VARIABLES',
                   type: 'OPTION',

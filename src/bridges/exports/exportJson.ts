@@ -3,7 +3,7 @@ import {
   PaletteData,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locales'
+import { locales } from '../../content/locales'
 
 const exportJson = (id: string) => {
   const iframe = document.querySelector(
@@ -17,11 +17,13 @@ const exportJson = (id: string) => {
       data: {
         id: '',
         context: 'TOKENS_GLOBAL',
-        code: locals.get().error.export,
+        code: locales.get().error.export,
       },
     })
 
-  const paletteData: PaletteData = new Data(JSON.parse(rawPalette)).makePaletteData(),
+  const paletteData: PaletteData = new Data(
+      JSON.parse(rawPalette)
+    ).makePaletteData(),
     workingThemes =
       paletteData.themes.filter((theme) => theme.type === 'custom theme')
         .length === 0

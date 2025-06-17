@@ -1,5 +1,5 @@
 import { Language } from '../../types/app'
-import { locals } from '../../content/locales'
+import { locales } from '../../content/locales'
 
 const checkUserPreferences = async () => {
   const iframe = document.querySelector(
@@ -34,7 +34,7 @@ const checkUserPreferences = async () => {
   if (userLanguage === null)
     window.localStorage.setItem('user_language', 'en-US')
 
-  locals.set((userLanguage as Language) ?? 'en-US')
+  locales.set((userLanguage as Language) ?? 'en-US')
 
   return iframe?.contentWindow?.postMessage(
     {

@@ -64,7 +64,7 @@ import { supabase } from '../index'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
-import { locals } from '../content/locales'
+import { locales } from '../content/locales'
 import { ConfigContextType } from '../config/ConfigContext'
 import EditPalette from './services/EditPalette'
 import CreatePalette from './services/CreatePalette'
@@ -163,7 +163,7 @@ class App extends Component<AppProps, AppStates> {
       service: 'BROWSE',
       sourceColors: [],
       id: '',
-      name: locals.get().settings.global.name.default,
+      name: locales.get().settings.global.name.default,
       description: '',
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
@@ -226,7 +226,7 @@ class App extends Component<AppProps, AppStates> {
       trialRemainingTime: this.props.config.plan.trialTime,
       editor: props.config.env.editor,
       modalContext: 'EMPTY',
-      locals: locals.get(),
+      locales: locales.get(),
       lang: $userLanguage.get(),
       mustUserConsent: true,
       announcements: {
@@ -249,7 +249,7 @@ class App extends Component<AppProps, AppStates> {
     this.subscribeLanguage = $userLanguage.subscribe(async (value) => {
       this.setState({
         lang: value,
-        locals: locals.set(value),
+        locales: locales.set(value),
       })
 
       parent.postMessage({
@@ -615,8 +615,8 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'JSON',
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.tokens.label
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.tokens.label
             }`,
             colorSpace: path.data.colorSpace,
             mimeType: 'application/json',
@@ -643,8 +643,8 @@ class App extends Component<AppProps, AppStates> {
             format: 'CSS',
             colorSpace: path.data.colorSpace,
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.css.customProperties
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.css.customProperties
             }`,
             mimeType: 'text/css',
             data: path.data.code,
@@ -669,8 +669,8 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'TAILWIND',
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.tailwind.config
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.tailwind.config
             }`,
             colorSpace: 'HEX',
             mimeType: 'text/javascript',
@@ -699,8 +699,8 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'SWIFT',
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.apple.swiftui
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.apple.swiftui
             }`,
             colorSpace: 'HEX',
             mimeType: 'text/swift',
@@ -725,8 +725,8 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'SWIFT',
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.apple.uikit
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.apple.uikit
             }`,
             colorSpace: 'HEX',
             mimeType: 'text/swift',
@@ -751,8 +751,8 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'KT',
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.android.compose
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.android.compose
             }`,
             colorSpace: 'HEX',
             mimeType: 'text/x-kotlin',
@@ -777,8 +777,8 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'XML',
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.android.resources
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.android.resources
             }`,
             colorSpace: 'HEX',
             mimeType: 'text/xml',
@@ -803,8 +803,8 @@ class App extends Component<AppProps, AppStates> {
           export: {
             format: 'CSV',
             context: path.data.context,
-            label: `${this.state.locals.actions.export} ${
-              this.state.locals.export.csv.spreadsheet
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.csv.spreadsheet
             }`,
             colorSpace: 'HEX',
             mimeType: 'text/csv',
@@ -981,7 +981,7 @@ class App extends Component<AppProps, AppStates> {
         (sourceColor: SourceColorConfiguration) =>
           sourceColor.source === 'CANVAS'
       ),
-      name: this.state.locals.settings.global.name.default,
+      name: this.state.locales.settings.global.name.default,
       description: '',
       preset: preset,
       scale: scale,
@@ -1018,7 +1018,7 @@ class App extends Component<AppProps, AppStates> {
       },
     })
 
-    this.palette.setKey('name', this.state.locals.settings.global.name.default)
+    this.palette.setKey('name', this.state.locales.settings.global.name.default)
     this.palette.setKey('description', '')
     this.palette.setKey('preset', preset)
     this.palette.setKey('scale', scale)
@@ -1143,34 +1143,34 @@ class App extends Component<AppProps, AppStates> {
             }
           >
             <Consent
-              welcomeMessage={this.state.locals.user.cookies.welcome}
-              vendorsMessage={this.state.locals.user.cookies.vendors}
+              welcomeMessage={this.state.locales.user.cookies.welcome}
+              vendorsMessage={this.state.locales.user.cookies.vendors}
               privacyPolicy={{
-                label: this.state.locals.user.cookies.privacyPolicy,
+                label: this.state.locales.user.cookies.privacyPolicy,
                 action: () =>
                   window.open(this.props.config.urls.privacyUrl, '_blank'),
               }}
-              moreDetailsLabel={this.state.locals.user.cookies.customize}
-              lessDetailsLabel={this.state.locals.user.cookies.back}
+              moreDetailsLabel={this.state.locales.user.cookies.customize}
+              lessDetailsLabel={this.state.locales.user.cookies.back}
               consentActions={{
                 consent: {
-                  label: this.state.locals.user.cookies.consent,
+                  label: this.state.locales.user.cookies.consent,
                   action: this.userConsentHandler,
                 },
                 deny: {
-                  label: this.state.locals.user.cookies.deny,
+                  label: this.state.locales.user.cookies.deny,
                   action: this.userConsentHandler,
                 },
                 save: {
-                  label: this.state.locals.user.cookies.save,
+                  label: this.state.locales.user.cookies.save,
                   action: this.userConsentHandler,
                 },
               }}
               validVendor={{
-                name: this.state.locals.vendors.functional.name,
+                name: this.state.locales.vendors.functional.name,
                 id: 'functional',
                 icon: '',
-                description: this.state.locals.vendors.functional.description,
+                description: this.state.locales.vendors.functional.description,
                 isConsented: true,
               }}
               vendorsList={this.state.userConsent}
@@ -1188,12 +1188,12 @@ class App extends Component<AppProps, AppStates> {
           >
             <SemanticMessage
               type="INFO"
-              message={this.state.locals.dev.vscode.message}
+              message={this.state.locales.dev.vscode.message}
               actionsSlot={
                 <>
                   <Button
                     type="secondary"
-                    label={this.state.locals.dev.vscode.cta}
+                    label={this.state.locales.dev.vscode.cta}
                     action={() =>
                       window.open(
                         this.props.config.urls.vsCodeFigmaPluginUrl,

@@ -55,17 +55,18 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       | 'FLUENT_TEXT'
   ): string => {
     const actions: { [key: string]: () => string } = {
-      AVOID: () => this.props.locals.paletteProperties.avoid,
-      NON_TEXT: () => this.props.locals.paletteProperties.nonText,
-      SPOT_TEXT: () => this.props.locals.paletteProperties.spotText,
-      HEADLINES: () => this.props.locals.paletteProperties.headlines,
-      BODY_TEXT: () => this.props.locals.paletteProperties.bodyText,
-      CONTENT_TEXT: () => this.props.locals.paletteProperties.contentText,
-      FLUENT_TEXT: () => this.props.locals.paletteProperties.fluentText,
+      AVOID: () => this.props.locales.paletteProperties.avoid,
+      NON_TEXT: () => this.props.locales.paletteProperties.nonText,
+      SPOT_TEXT: () => this.props.locales.paletteProperties.spotText,
+      HEADLINES: () => this.props.locales.paletteProperties.headlines,
+      BODY_TEXT: () => this.props.locales.paletteProperties.bodyText,
+      CONTENT_TEXT: () => this.props.locales.paletteProperties.contentText,
+      FLUENT_TEXT: () => this.props.locales.paletteProperties.fluentText,
     }
 
     return (
-      actions[recommendation]?.() ?? this.props.locals.paletteProperties.unknown
+      actions[recommendation]?.() ??
+      this.props.locales.paletteProperties.unknown
     )
   }
 
@@ -177,7 +178,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           </div>
         }
       >
-        {this.props.locals.preview.lock.tag}
+        {this.props.locales.preview.lock.tag}
       </Chip>
     )
   }
@@ -219,7 +220,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           </div>
         }
       >
-        {this.props.locals.preview.closest.tag}
+        {this.props.locales.preview.closest.tag}
       </Chip>
     )
   }

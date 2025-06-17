@@ -237,7 +237,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     return (
       <FormItem
         id="update-distribution-easing"
-        label={this.props.locals.scale.easing.label}
+        label={this.props.locales.scale.easing.label}
         shouldFill={false}
         isBlocked={Scale.features(
           this.props.planStatus,
@@ -249,7 +249,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             id="update-distribution-easing-curve"
             options={[
               {
-                label: this.props.locals.scale.easing.linear,
+                label: this.props.locales.scale.easing.linear,
                 value: 'LINEAR',
                 type: 'OPTION',
                 isActive: Scale.features(
@@ -270,7 +270,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 type: 'SEPARATOR',
               },
               {
-                label: this.props.locals.scale.easing.easeIn,
+                label: this.props.locales.scale.easing.easeIn,
                 value: 'EASEIN',
                 type: 'OPTION',
                 isActive: Scale.features(
@@ -288,7 +288,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 action: this.onChangeDistributionEasingCurve,
               },
               {
-                label: this.props.locals.scale.easing.easeOut,
+                label: this.props.locales.scale.easing.easeOut,
                 value: 'EASEOUT',
                 type: 'OPTION',
                 isActive: Scale.features(
@@ -306,7 +306,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 action: this.onChangeDistributionEasingCurve,
               },
               {
-                label: this.props.locals.scale.easing.easeInOut,
+                label: this.props.locales.scale.easing.easeInOut,
                 value: 'EASEINOUT',
                 type: 'OPTION',
                 isActive: Scale.features(
@@ -328,7 +328,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             pin="BOTTOM"
             preview={{
               image: de,
-              text: this.props.locals.scale.easing.preview,
+              text: this.props.locales.scale.easing.preview,
               pin: 'TOP',
             }}
             isBlocked={Scale.features(
@@ -345,7 +345,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               id="update-distribution-easing-velocity"
               options={[
                 {
-                  label: this.props.locals.scale.easing.sine,
+                  label: this.props.locales.scale.easing.sine,
                   value: 'SINE',
                   type: 'OPTION',
                   isActive: Scale.features(
@@ -363,7 +363,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   action: this.onChangeDistributionEasingVelocity,
                 },
                 {
-                  label: this.props.locals.scale.easing.quad,
+                  label: this.props.locales.scale.easing.quad,
                   value: 'QUAD',
                   type: 'OPTION',
                   isActive: Scale.features(
@@ -381,7 +381,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   action: this.onChangeDistributionEasingVelocity,
                 },
                 {
-                  label: this.props.locals.scale.easing.cubic,
+                  label: this.props.locales.scale.easing.cubic,
                   value: 'CUBIC',
                   type: 'OPTION',
                   isActive: Scale.features(
@@ -403,7 +403,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               pin="BOTTOM"
               preview={{
                 image: de,
-                text: this.props.locals.scale.easing.preview,
+                text: this.props.locales.scale.easing.preview,
                 pin: 'TOP',
               }}
               isBlocked={Scale.features(
@@ -450,7 +450,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     return createPortal(
       <Dialog
-        title={this.props.locals.scale.tips.title}
+        title={this.props.locales.scale.tips.title}
         onClose={() =>
           this.setState({
             isTipsOpen: false,
@@ -465,41 +465,41 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 node: (
                   <List>
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.move}
+                      label={this.props.locales.scale.tips.move}
                       shortcuts={[[isMacOrWinKeyboard, 'drag']]}
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.distribute}
+                      label={this.props.locales.scale.tips.distribute}
                       shortcuts={[['⇧', 'drag']]}
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.select}
+                      label={this.props.locales.scale.tips.select}
                       shortcuts={[['click']]}
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.unselect}
+                      label={this.props.locales.scale.tips.unselect}
                       shortcuts={[['⎋ Esc']]}
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.navPrevious}
+                      label={this.props.locales.scale.tips.navPrevious}
                       shortcuts={[['⇧', '⇥ Tab']]}
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.navNext}
+                      label={this.props.locales.scale.tips.navNext}
                       shortcuts={[['⇥ Tab']]}
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.type}
+                      label={this.props.locales.scale.tips.type}
                       shortcuts={[['db click'], ['↩︎ Enter']]}
                       separator="or"
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.shiftLeft}
+                      label={this.props.locales.scale.tips.shiftLeft}
                       shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
                       separator="or"
                     />
                     <KeyboardShortcutItem
-                      label={this.props.locals.scale.tips.shiftRight}
+                      label={this.props.locales.scale.tips.shiftRight}
                       shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
                       separator="or"
                     />
@@ -515,18 +515,18 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         id="watch-custom-keyboard-shortcuts"
                         leftPartSlot={
                           <SectionTitle
-                            label={this.props.locals.scale.tips.custom}
+                            label={this.props.locales.scale.tips.custom}
                           />
                         }
                         alignment="CENTER"
                       />
                       <List>
                         <KeyboardShortcutItem
-                          label={this.props.locals.scale.tips.add}
+                          label={this.props.locales.scale.tips.add}
                           shortcuts={[['click']]}
                         />
                         <KeyboardShortcutItem
-                          label={this.props.locals.scale.tips.remove}
+                          label={this.props.locales.scale.tips.remove}
                           shortcuts={[['⌫']]}
                         />
                       </List>
@@ -590,7 +590,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         <div className={layouts['snackbar--tight']}>
                           <Button
                             type="tertiary"
-                            label={this.props.locals.scale.howTo}
+                            label={this.props.locales.scale.howTo}
                             action={() =>
                               window
                                 .open(
@@ -606,11 +606,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                               texts['type--secondary'],
                             ])}
                           >
-                            {this.props.locals.separator}
+                            {this.props.locales.separator}
                           </span>
                           <Button
                             type="tertiary"
-                            label={this.props.locals.scale.keyboardShortcuts}
+                            label={this.props.locales.scale.keyboardShortcuts}
                             action={() =>
                               this.setState({
                                 isTipsOpen: true,
@@ -682,7 +682,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         <div className={layouts['snackbar--tight']}>
                           <Button
                             type="tertiary"
-                            label={this.props.locals.scale.howTo}
+                            label={this.props.locales.scale.howTo}
                             action={() =>
                               window
                                 .open(
@@ -698,11 +698,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                               texts['type--secondary'],
                             ])}
                           >
-                            {this.props.locals.separator}
+                            {this.props.locales.separator}
                           </span>
                           <Button
                             type="tertiary"
-                            label={this.props.locals.scale.keyboardShortcuts}
+                            label={this.props.locales.scale.keyboardShortcuts}
                             action={() =>
                               this.setState({
                                 isTipsOpen: true,

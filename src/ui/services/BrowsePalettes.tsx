@@ -194,7 +194,7 @@ export default class BrowsePalettes extends PureComponent<
           >
             <Button
               type="secondary"
-              label={this.props.locals.browse.document.open}
+              label={this.props.locales.browse.document.open}
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config
@@ -219,7 +219,7 @@ export default class BrowsePalettes extends PureComponent<
           >
             <Button
               type="secondary"
-              label={this.props.locals.browse.document.create}
+              label={this.props.locales.browse.document.create}
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config
@@ -244,7 +244,7 @@ export default class BrowsePalettes extends PureComponent<
         <Button
           type="primary"
           icon="plus"
-          label={this.props.locals.browse.actions.new}
+          label={this.props.locales.browse.actions.new}
           isBlocked={
             BrowsePalettes.features(
               this.props.planStatus,

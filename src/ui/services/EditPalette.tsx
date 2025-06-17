@@ -546,11 +546,11 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
           FileSaver.saveAs(
             content,
             this.props.name === ''
-              ? new Case(this.props.locals.name).doSnakeCase()
+              ? new Case(this.props.locales.name).doSnakeCase()
               : new Case(this.props.name).doSnakeCase()
           )
         )
-        .catch(() => this.props.locals.error.generic)
+        .catch(() => this.props.locales.error.generic)
     } else if (this.props.export.format === 'TAILWIND')
       FileSaver.saveAs(blob, 'tailwind.config.js')
     else if (this.props.export.format === 'SWIFT')
@@ -558,7 +558,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         blob,
         `${
           this.props.name === ''
-            ? new Case(this.props.locals.name).doSnakeCase()
+            ? new Case(this.props.locales.name).doSnakeCase()
             : new Case(this.props.name).doSnakeCase()
         }.swift`
       )
@@ -567,7 +567,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         blob,
         `${
           this.props.name === ''
-            ? new Case(this.props.locals.name).doSnakeCase()
+            ? new Case(this.props.locales.name).doSnakeCase()
             : new Case(this.props.name).doSnakeCase()
         }.kt`
       )
@@ -575,7 +575,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       FileSaver.saveAs(
         blob,
         this.props.name === ''
-          ? new Case(this.props.locals.name).doSnakeCase()
+          ? new Case(this.props.locales.name).doSnakeCase()
           : new Case(this.props.name).doSnakeCase()
       )
   }
@@ -595,7 +595,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         type: 'SEPARATOR',
       },
       {
-        label: this.props.locals.themes.callout.cta,
+        label: this.props.locales.themes.callout.cta,
         feature: 'ADD_THEME',
         type: 'OPTION',
         isActive: EditPalette.features(
@@ -706,7 +706,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
                 type="icon"
                 icon="back"
                 helper={{
-                  label: this.props.locals.contexts.back,
+                  label: this.props.locales.contexts.back,
                 }}
                 action={this.props.onUnloadPalette}
               />
@@ -734,7 +734,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
             >
               <FormItem
                 id="switch-theme"
-                label={this.props.locals.themes.switchTheme.label}
+                label={this.props.locales.themes.switchTheme.label}
                 shouldFill={false}
               >
                 <Dropdown

@@ -22,7 +22,7 @@ export interface BaseProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   editor: Editor
-  locals: Translations
+  locales: Translations
   lang: Language
 }
 

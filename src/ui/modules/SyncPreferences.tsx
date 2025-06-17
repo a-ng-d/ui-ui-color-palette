@@ -87,7 +87,7 @@ export default class SyncPreferences extends PureComponent<
           id="update-styles-deep-sync"
           type="SWITCH_BUTTON"
           name="update-styles-deep-sync"
-          label={this.props.locals.user.preferences.sync.styles.label}
+          label={this.props.locales.user.preferences.sync.styles.label}
           isChecked={this.state.canStylesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
@@ -132,7 +132,7 @@ export default class SyncPreferences extends PureComponent<
           id="update-variables-deep-sync"
           type="SWITCH_BUTTON"
           name="update-variables-deep-sync"
-          label={this.props.locals.user.preferences.sync.variables.label}
+          label={this.props.locales.user.preferences.sync.variables.label}
           isChecked={this.state.canVariablesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
@@ -173,7 +173,7 @@ export default class SyncPreferences extends PureComponent<
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={this.props.locals.user.preferences.sync.title}
+                label={this.props.locales.user.preferences.sync.title}
               />
             }
             isListItem={false}
@@ -199,7 +199,7 @@ export default class SyncPreferences extends PureComponent<
             node: (
               <SemanticMessage
                 type="INFO"
-                message={this.props.locals.user.preferences.sync.message}
+                message={this.props.locales.user.preferences.sync.message}
               />
             ),
           },

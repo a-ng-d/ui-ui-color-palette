@@ -31,13 +31,13 @@ export default class TryPro extends PureComponent<TryProProps> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locals.proPlan.trial.title.replace(
+          title={this.props.locales.proPlan.trial.title.replace(
             '{$1}',
             this.props.config.plan.trialTime.toString()
           )}
           actions={{
             primary: {
-              label: this.props.locals.proPlan.trial.cta.replace(
+              label: this.props.locales.proPlan.trial.cta.replace(
                 '{$1}',
                 this.props.config.plan.trialTime.toString()
               ),
@@ -56,7 +56,7 @@ export default class TryPro extends PureComponent<TryProProps> {
                 ),
             },
             secondary: {
-              label: this.props.locals.proPlan.trial.option,
+              label: this.props.locales.proPlan.trial.option,
               action: () =>
                 parent.postMessage(
                   { pluginMessage: { type: 'GET_PRO_PLAN' } },
@@ -76,7 +76,7 @@ export default class TryPro extends PureComponent<TryProProps> {
           </div>
           <div className="dialog__text">
             <p className={texts.type}>
-              {this.props.locals.proPlan.trial.message}
+              {this.props.locales.proPlan.trial.message}
             </p>
           </div>
         </Dialog>

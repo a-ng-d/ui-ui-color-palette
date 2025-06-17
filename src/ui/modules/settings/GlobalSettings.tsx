@@ -52,7 +52,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
         ).SETTINGS_NAME.isActive()}
       >
         <FormItem
-          label={this.props.locals.settings.global.name.label}
+          label={this.props.locales.settings.global.name.label}
           id="update-palette-name"
           isBlocked={GlobalSettings.features(
             this.props.planStatus,
@@ -62,7 +62,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
           <Input
             id="update-palette-name"
             type="TEXT"
-            placeholder={this.props.locals.name}
+            placeholder={this.props.locales.name}
             value={this.props.name !== '' ? this.props.name : ''}
             charactersLimit={64}
             isBlocked={GlobalSettings.features(
@@ -92,7 +92,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
         ).SETTINGS_DESCRIPTION.isActive()}
       >
         <FormItem
-          label={this.props.locals.settings.global.description.label}
+          label={this.props.locales.settings.global.description.label}
           id="update-palette-description"
           isBlocked={GlobalSettings.features(
             this.props.planStatus,
@@ -102,7 +102,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
           <Input
             id="update-palette-description"
             type="LONG_TEXT"
-            placeholder={this.props.locals.global.description.placeholder}
+            placeholder={this.props.locales.global.description.placeholder}
             value={this.props.description}
             isBlocked={GlobalSettings.features(
               this.props.planStatus,
@@ -129,7 +129,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.locals.settings.global.title} />
+              <SectionTitle label={this.props.locales.settings.global.title} />
             }
             isListItem={false}
             alignment="CENTER"

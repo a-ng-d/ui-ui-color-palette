@@ -118,7 +118,7 @@ export default class Explore extends PureComponent<
     )
       .then((response) => {
         if (response.ok) return response.json()
-        else throw new Error(this.props.locals.error.badResponse)
+        else throw new Error(this.props.locales.error.badResponse)
       })
       .then((data) => {
         this.setState({
@@ -145,8 +145,8 @@ export default class Explore extends PureComponent<
     return this.filters.map((filter) => {
       return {
         label:
-          this.props.locals.source.colourLovers.filters[
-            filter.toLowerCase() as keyof typeof this.props.locals.source.colourLovers.filters
+          this.props.locales.source.colourLovers.filters[
+            filter.toLowerCase() as keyof typeof this.props.locales.source.colourLovers.filters
           ],
         value: filter,
         feature: 'EDIT_FILTER',
@@ -199,7 +199,7 @@ export default class Explore extends PureComponent<
                     type="icon"
                     icon="link-connected"
                     helper={{
-                      label: this.props.locals.source.actions.openPalette,
+                      label: this.props.locales.source.actions.openPalette,
                     }}
                     action={() =>
                       window
@@ -209,7 +209,7 @@ export default class Explore extends PureComponent<
                   />
                   <Button
                     type="secondary"
-                    label={this.props.locals.actions.addToSource}
+                    label={this.props.locales.actions.addToSource}
                     action={() => {
                       this.props.onChangeContexts()
                       this.props.onChangeColorsFromImport(
@@ -258,7 +258,7 @@ export default class Explore extends PureComponent<
               this.state.colourLoversPalettesListStatus === 'LOADED' ? (
                 <Button
                   type="secondary"
-                  label={this.props.locals.browse.lazyLoad.loadMore}
+                  label={this.props.locales.browse.lazyLoad.loadMore}
                   isLoading={this.state.isLoadMoreActionLoading}
                   action={() =>
                     this.setState({
@@ -271,7 +271,7 @@ export default class Explore extends PureComponent<
                 />
               ) : (
                 <div className={texts['type--secondary']}>
-                  {this.props.locals.browse.lazyLoad.completeList}
+                  {this.props.locales.browse.lazyLoad.completeList}
                 </div>
               )
             }
@@ -283,7 +283,7 @@ export default class Explore extends PureComponent<
       fragment = (
         <SemanticMessage
           type="WARNING"
-          message={this.props.locals.error.fetchPalette}
+          message={this.props.locales.error.fetchPalette}
         />
       )
     return (
@@ -310,7 +310,7 @@ export default class Explore extends PureComponent<
                     <FormItem
                       id="explore-filters"
                       label={
-                        this.props.locals.source.colourLovers.filters.label
+                        this.props.locales.source.colourLovers.filters.label
                       }
                       shouldFill={false}
                     >

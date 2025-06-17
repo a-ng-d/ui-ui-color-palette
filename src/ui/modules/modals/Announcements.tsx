@@ -113,7 +113,7 @@ export default class Announcements extends PureComponent<
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
-            title={this.props.locals.shortcuts.news}
+            title={this.props.locales.shortcuts.news}
             isLoading
             onClose={this.props.onCloseAnnouncements}
           />
@@ -128,13 +128,13 @@ export default class Announcements extends PureComponent<
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
-            title={this.props.locals.shortcuts.news}
+            title={this.props.locales.shortcuts.news}
             isMessage
             onClose={this.props.onCloseAnnouncements}
           >
             <SemanticMessage
               type="WARNING"
-              message={this.props.locals.error.announcements}
+              message={this.props.locales.error.announcements}
             />
           </Dialog>
         </Feature>
@@ -160,8 +160,8 @@ export default class Announcements extends PureComponent<
               primary: {
                 label:
                   this.state.position + 1 < this.state.announcements.length
-                    ? this.props.locals.announcements.cta.next
-                    : this.props.locals.announcements.cta.gotIt,
+                    ? this.props.locales.announcements.cta.next
+                    : this.props.locales.announcements.cta.gotIt,
                 action: (e: MouseEvent) => this.goNextSlide(e),
               },
               secondary: (() => {
@@ -170,7 +170,7 @@ export default class Announcements extends PureComponent<
                     .url !== null
                 )
                   return {
-                    label: this.props.locals.announcements.cta.learnMore,
+                    label: this.props.locales.announcements.cta.learnMore,
                     action: () =>
                       window
                         .open(

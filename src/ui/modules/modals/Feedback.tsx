@@ -37,7 +37,7 @@ export default class Feedback extends PureComponent<FeedbackProps> {
         ).INVOLVES_FEEDBACK.isActive()}
       >
         <Dialog
-          title={this.props.locals.shortcuts.feedback}
+          title={this.props.locales.shortcuts.feedback}
           pin="RIGHT"
           onClose={this.props.onClose}
         >

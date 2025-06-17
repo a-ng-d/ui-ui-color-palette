@@ -66,7 +66,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                 type: 'POST_MESSAGE',
                 data: {
                   type: 'SUCCESS',
-                  message: this.props.locals.success.report,
+                  message: this.props.locales.success.report,
                 },
               },
             },
@@ -81,7 +81,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                 type: 'POST_MESSAGE',
                 data: {
                   type: 'ERROR',
-                  message: this.props.locals.error.generic,
+                  message: this.props.locales.error.generic,
                 },
               },
             },
@@ -96,7 +96,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
             type: 'POST_MESSAGE',
             data: {
               type: 'ERROR',
-              message: this.props.locals.error.generic,
+              message: this.props.locales.error.generic,
             },
           },
         },
@@ -115,11 +115,11 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
         ).INVOLVE_ISSUES.isActive()}
       >
         <Dialog
-          title={this.props.locals.report.title}
+          title={this.props.locales.report.title}
           pin="RIGHT"
           actions={{
             primary: {
-              label: this.props.locals.report.cta,
+              label: this.props.locales.report.cta,
               state: (() => {
                 if (this.state.userMessage === '') return 'DISABLED'
                 if (this.state.isPrimaryActionLoading) return 'LOADING'
@@ -134,7 +134,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
           <div className="dialog__form">
             <div className="dialog__form__item">
               <FormItem
-                label={this.props.locals.report.fullName.label}
+                label={this.props.locales.report.fullName.label}
                 id="type-fullname"
                 shouldFill
               >
@@ -143,7 +143,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                   id="type-fullname"
                   value={this.state.userFullName}
                   isAutoFocus
-                  placeholder={this.props.locals.report.fullName.placeholder}
+                  placeholder={this.props.locales.report.fullName.placeholder}
                   onChange={(e) =>
                     this.setState({
                       userFullName: (e.target as HTMLInputElement).value,
@@ -154,7 +154,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
             </div>
             <div className="dialog__form__item">
               <FormItem
-                label={this.props.locals.report.email.label}
+                label={this.props.locales.report.email.label}
                 id="type-email"
                 shouldFill
               >
@@ -162,7 +162,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                   type="TEXT"
                   id="type-email"
                   value={this.state.userEmail}
-                  placeholder={this.props.locals.report.email.placeholder}
+                  placeholder={this.props.locales.report.email.placeholder}
                   onChange={(e) =>
                     this.setState({
                       userEmail: (e.target as HTMLInputElement).value,
@@ -173,14 +173,14 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
             </div>
             <div className="dialog__form__item">
               <FormItem
-                label={this.props.locals.report.message.label}
+                label={this.props.locales.report.message.label}
                 id="type-message"
                 shouldFill
               >
                 <Input
                   type="LONG_TEXT"
                   id="type-message"
-                  placeholder={this.props.locals.report.message.placeholder}
+                  placeholder={this.props.locales.report.message.placeholder}
                   value={this.state.userMessage}
                   isGrowing
                   onChange={(e) =>

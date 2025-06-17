@@ -32,7 +32,7 @@ export default class About extends PureComponent<AboutProps> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locals.about.title}
+          title={this.props.locales.about.title}
           onClose={this.props.onClose}
         >
           <Layout
@@ -50,7 +50,7 @@ export default class About extends PureComponent<AboutProps> {
                             texts['type--xlarge'],
                           ])}
                         >
-                          {this.props.locals.name}
+                          {this.props.locales.name}
                         </span>
                         <div className={layouts.snackbar}>
                           <span
@@ -66,20 +66,20 @@ export default class About extends PureComponent<AboutProps> {
                             }
                           >
                             <span className={texts.type}>
-                              {this.props.locals.separator}
+                              {this.props.locales.separator}
                             </span>
                             {this.props.config.env.isDev ? (
                               <span className={texts.type}>
-                                {this.props.locals.plan.dev}
+                                {this.props.locales.plan.dev}
                               </span>
                             ) : (
                               <span className={texts.type}>
                                 {this.props.planStatus === 'UNPAID'
-                                  ? this.props.locals.plan.free
+                                  ? this.props.locales.plan.free
                                   : this.props.planStatus === 'PAID' &&
                                       this.props.trialStatus === 'PENDING'
-                                    ? this.props.locals.plan.trial
-                                    : this.props.locals.plan.pro}
+                                    ? this.props.locales.plan.trial
+                                    : this.props.locales.plan.pro}
                               </span>
                             )}
                           </Feature>
@@ -88,13 +88,13 @@ export default class About extends PureComponent<AboutProps> {
                     </div>
                     <div className={layouts.stackbar}>
                       <span className={texts.type}>
-                        {this.props.locals.about.createdBy}
+                        {this.props.locales.about.createdBy}
                         <a
                           href={this.props.config.urls.authorUrl}
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {this.props.locals.about.author}
+                          {this.props.locales.about.author}
                         </a>
                       </span>
                       <span className={texts.type}>
@@ -103,15 +103,15 @@ export default class About extends PureComponent<AboutProps> {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {this.props.locals.about.sourceCode}
+                          {this.props.locales.about.sourceCode}
                         </a>
-                        {this.props.locals.about.isLicensed}
+                        {this.props.locales.about.isLicensed}
                         <a
                           href={this.props.config.urls.licenseUrl}
                           target="_blank"
                           rel="noreferrer"
                         >
-                          {this.props.locals.about.license}
+                          {this.props.locales.about.license}
                         </a>
                       </span>
                     </div>

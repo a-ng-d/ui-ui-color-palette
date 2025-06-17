@@ -735,7 +735,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     if (this.props.preset.id === 'CUSTOM')
       options[options.length - 1].children = [
         {
-          label: this.props.locals.scale.presets.legacy,
+          label: this.props.locales.scale.presets.legacy,
           value: 'CUSTOM',
           feature: 'PRESETS_CUSTOM',
           type: 'OPTION',
@@ -814,7 +814,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             id="update-preset"
             leftPartSlot={
               <SectionTitle
-                label={this.props.locals.scale.title}
+                label={this.props.locales.scale.title}
                 indicator={Object.entries(
                   this.props.scale ?? {}
                 ).length.toString()}
@@ -849,7 +849,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                           type="icon"
                           icon="minus"
                           helper={{
-                            label: this.props.locals.scale.actions.removeStop,
+                            label: this.props.locales.scale.actions.removeStop,
                           }}
                           feature="REMOVE_STOP"
                           action={this.customHandler}
@@ -872,7 +872,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                             this.props.preset.stops.length
                           )}
                           helper={{
-                            label: this.props.locals.scale.actions.addStop,
+                            label: this.props.locales.scale.actions.addStop,
                           }}
                           feature="ADD_STOP"
                           action={
@@ -894,7 +894,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   <Select
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
-                    label={this.props.locals.scale.contrast.label}
+                    label={this.props.locales.scale.contrast.label}
                     isChecked={false}
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,
@@ -924,7 +924,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               >
                 <SemanticMessage
                   type="INFO"
-                  message={this.props.locals.info.maxNumberOfStops.replace(
+                  message={this.props.locales.info.maxNumberOfStops.replace(
                     '{$1}',
                     (
                       ScaleLightnessChroma.features(
@@ -938,7 +938,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     this.props.trialStatus !== 'EXPIRED' ? (
                       <Button
                         type="secondary"
-                        label={this.props.locals.plan.tryPro}
+                        label={this.props.locales.plan.tryPro}
                         action={() =>
                           parent.postMessage(
                             { pluginMessage: { type: 'GET_TRIAL' } },
@@ -949,7 +949,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     ) : (
                       <Button
                         type="secondary"
-                        label={this.props.locals.plan.getPro}
+                        label={this.props.locales.plan.getPro}
                         action={() =>
                           parent.postMessage(
                             { pluginMessage: { type: 'GET_PRO_PLAN' } },
@@ -986,7 +986,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               max: 'white',
             }}
             tips={{
-              minMax: this.props.locals.scale.tips.distributeAsTooltip,
+              minMax: this.props.locales.scale.tips.distributeAsTooltip,
             }}
             isBlocked={ScaleLightnessChroma.features(
               this.props.planStatus,
@@ -1007,7 +1007,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         >
           <SimpleSlider
             id="update-chroma"
-            label={this.props.locals.scale.shift.chroma}
+            label={this.props.locales.scale.shift.chroma}
             value={this.props.shift.chroma}
             min={0}
             max={200}
@@ -1044,7 +1044,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             id="watch-preset"
             leftPartSlot={
               <SectionTitle
-                label={this.props.locals.scale.title}
+                label={this.props.locales.scale.title}
                 indicator={Object.entries(
                   this.props.scale ?? {}
                 ).length.toString()}
@@ -1075,7 +1075,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   <Select
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
-                    label={this.props.locals.scale.contrast.label}
+                    label={this.props.locales.scale.contrast.label}
                     isChecked={false}
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,
@@ -1105,7 +1105,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               >
                 <SemanticMessage
                   type="INFO"
-                  message={this.props.locals.info.maxNumberOfStops.replace(
+                  message={this.props.locales.info.maxNumberOfStops.replace(
                     '{$1}',
                     (
                       ScaleLightnessChroma.features(
@@ -1119,7 +1119,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     this.props.trialStatus !== 'EXPIRED' ? (
                       <Button
                         type="secondary"
-                        label={this.props.locals.plan.tryPro}
+                        label={this.props.locales.plan.tryPro}
                         action={() =>
                           parent.postMessage(
                             { pluginMessage: { type: 'GET_TRIAL' } },
@@ -1130,7 +1130,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     ) : (
                       <Button
                         type="secondary"
-                        label={this.props.locals.plan.getPro}
+                        label={this.props.locales.plan.getPro}
                         action={() =>
                           parent.postMessage(
                             { pluginMessage: { type: 'GET_PRO_PLAN' } },
@@ -1174,7 +1174,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 max: 'white',
               }}
               tips={{
-                minMax: this.props.locals.scale.tips.distributeAsTooltip,
+                minMax: this.props.locales.scale.tips.distributeAsTooltip,
               }}
               isBlocked={ScaleLightnessChroma.features(
                 this.props.planStatus,
@@ -1204,7 +1204,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 max: 'white',
               }}
               tips={{
-                minMax: this.props.locals.scale.tips.distributeAsTooltip,
+                minMax: this.props.locales.scale.tips.distributeAsTooltip,
               }}
               isBlocked={ScaleLightnessChroma.features(
                 this.props.planStatus,
@@ -1226,7 +1226,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         >
           <SimpleSlider
             id="update-chroma"
-            label={this.props.locals.scale.shift.chroma}
+            label={this.props.locales.scale.shift.chroma}
             value={this.props.shift.chroma}
             min={0}
             max={200}

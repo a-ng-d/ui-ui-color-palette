@@ -517,8 +517,8 @@ export default class Preview extends PureComponent<
                 }
                 helper={{
                   label: this.state.isDrawerCollapsed
-                    ? this.props.locals.preview.actions.expandPreview
-                    : this.props.locals.preview.actions.collapsePreview,
+                    ? this.props.locales.preview.actions.expandPreview
+                    : this.props.locales.preview.actions.collapsePreview,
                 }}
                 action={() => {
                   if (!this.state.isDrawerCollapsed)
@@ -532,7 +532,7 @@ export default class Preview extends PureComponent<
                 icon="visible"
                 options={[
                   {
-                    label: this.props.locals.preview.score.wcag,
+                    label: this.props.locales.preview.score.wcag,
                     value: 'ENABLE_WCAG_SCORE',
                     type: 'OPTION',
                     isActive: Preview.features(
@@ -566,7 +566,7 @@ export default class Preview extends PureComponent<
                     },
                   },
                   {
-                    label: this.props.locals.preview.score.apca,
+                    label: this.props.locales.preview.score.apca,
                     value: 'ENABLE_APCA_SCORE',
                     type: 'OPTION',
                     isActive: Preview.features(
@@ -603,7 +603,7 @@ export default class Preview extends PureComponent<
                 selected={this.displayHandler()}
                 alignment="TOP_LEFT"
                 helper={{
-                  label: this.props.locals.preview.actions.displayScores,
+                  label: this.props.locales.preview.actions.displayScores,
                 }}
                 isBlocked={Preview.features(
                   this.props.planStatus,
@@ -632,11 +632,11 @@ export default class Preview extends PureComponent<
                 >
                   <Select
                     id="lock-source-colors"
-                    label={this.props.locals.preview.lock.label}
+                    label={this.props.locales.preview.lock.label}
                     type="SWITCH_BUTTON"
                     preview={{
                       image: lsc,
-                      text: this.props.locals.preview.lock.preview,
+                      text: this.props.locales.preview.lock.preview,
                       pin: 'TOP',
                     }}
                     feature="LOCK_SOURCE_COLORS"
@@ -665,7 +665,7 @@ export default class Preview extends PureComponent<
                     id="update-color-space"
                     options={[
                       {
-                        label: this.props.locals.settings.color.colorSpace.lch,
+                        label: this.props.locales.settings.color.colorSpace.lch,
                         value: 'LCH',
                         feature: 'UPDATE_COLOR_SPACE',
                         type: 'OPTION',
@@ -685,7 +685,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.colorSpace.oklch,
+                          this.props.locales.settings.color.colorSpace.oklch,
                         value: 'OKLCH',
                         feature: 'UPDATE_COLOR_SPACE',
                         type: 'OPTION',
@@ -704,7 +704,7 @@ export default class Preview extends PureComponent<
                         action: this.colorSettingsHandler,
                       },
                       {
-                        label: this.props.locals.settings.color.colorSpace.lab,
+                        label: this.props.locales.settings.color.colorSpace.lab,
                         value: 'LAB',
                         feature: 'UPDATE_COLOR_SPACE',
                         type: 'OPTION',
@@ -724,7 +724,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.colorSpace.oklab,
+                          this.props.locales.settings.color.colorSpace.oklab,
                         value: 'OKLAB',
                         feature: 'UPDATE_COLOR_SPACE',
                         type: 'OPTION',
@@ -743,7 +743,7 @@ export default class Preview extends PureComponent<
                         action: this.colorSettingsHandler,
                       },
                       {
-                        label: this.props.locals.settings.color.colorSpace.hsl,
+                        label: this.props.locales.settings.color.colorSpace.hsl,
                         value: 'HSL',
                         feature: 'UPDATE_COLOR_SPACE',
                         type: 'OPTION',
@@ -763,7 +763,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.colorSpace.hsluv,
+                          this.props.locales.settings.color.colorSpace.hsluv,
                         value: 'HSLUV',
                         feature: 'UPDATE_COLOR_SPACE',
                         type: 'OPTION',
@@ -806,7 +806,7 @@ export default class Preview extends PureComponent<
                     options={[
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .noneAlternative,
                         value: 'NONE',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -830,13 +830,13 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .colorBlind,
                         type: 'TITLE',
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .protanomaly,
                         value: 'PROTANOMALY',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -857,7 +857,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .protanopia,
                         value: 'PROTANOPIA',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -878,7 +878,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .deuteranomaly,
                         value: 'DEUTERANOMALY',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -899,7 +899,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .deuteranopia,
                         value: 'DEUTERANOPIA',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -920,7 +920,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .tritanomaly,
                         value: 'TRITANOMALY',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -941,7 +941,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .tritanopia,
                         value: 'TRITANOPIA',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -962,7 +962,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .achromatomaly,
                         value: 'ACHROMATOMALY',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -983,7 +983,7 @@ export default class Preview extends PureComponent<
                       },
                       {
                         label:
-                          this.props.locals.settings.color.visionSimulationMode
+                          this.props.locales.settings.color.visionSimulationMode
                             .achromatopsia,
                         value: 'ACHROMATOPSIA',
                         feature: 'UPDATE_COLOR_BLIND_MODE',
@@ -1024,7 +1024,7 @@ export default class Preview extends PureComponent<
                         texts['type--secondary'],
                       ])}
                     >
-                      {this.props.locals.separator}
+                      {this.props.locales.separator}
                     </span>
                     <Button
                       type="icon"
@@ -1045,7 +1045,8 @@ export default class Preview extends PureComponent<
                       }
                       helper={{
                         label:
-                          this.props.locals.preview.actions.resetImportedColors,
+                          this.props.locales.preview.actions
+                            .resetImportedColors,
                       }}
                     />
                   </div>
@@ -1060,7 +1061,7 @@ export default class Preview extends PureComponent<
           <div className="preview__palette">
             <div className="preview__header">
               <div className="preview__cell preview__cell--no-height">
-                <this.stopTag stop={this.props.locals.preview.source.tag} />
+                <this.stopTag stop={this.props.locales.preview.source.tag} />
               </div>
               {Object.keys(this.props.scale)
                 .reverse()

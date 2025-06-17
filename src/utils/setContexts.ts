@@ -1,6 +1,6 @@
 import { Feature, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Context, Editor, PlanStatus } from '../types/app'
-import { locals } from '../content/locales'
+import { locales } from '../content/locales'
 
 export const setContexts = (
   contextList: Array<Context>,
@@ -78,80 +78,80 @@ export const setContexts = (
     isActive: boolean
   }> = [
     {
-      label: locals.get().browse.contexts.local,
+      label: locales.get().browse.contexts.local,
       id: 'LOCAL_PALETTES',
       isUpdated: featuresList.LOCAL_PALETTES.isNew(),
       isActive: featuresList.LOCAL_PALETTES.isActive(),
     },
     {
-      label: locals.get().browse.contexts.page,
+      label: locales.get().browse.contexts.page,
       id: 'LOCAL_PALETTES_PAGE',
       isUpdated: featuresList.LOCAL_PALETTES_PAGE.isNew(),
       isActive: featuresList.LOCAL_PALETTES_PAGE.isActive(),
     },
     {
-      label: locals.get().browse.contexts.remote,
+      label: locales.get().browse.contexts.remote,
       id: 'REMOTE_PALETTES',
       isUpdated: featuresList.REMOTE_PALETTES.isNew(),
       isActive:
         featuresList.REMOTE_PALETTES.isActive() && !editor.includes('dev'),
     },
     {
-      label: locals.get().browse.contexts.self,
+      label: locales.get().browse.contexts.self,
       id: 'REMOTE_PALETTES_SELF',
       isUpdated: featuresList.REMOTE_PALETTES_SELF.isNew(),
       isActive: featuresList.REMOTE_PALETTES_SELF.isActive(),
     },
     {
-      label: locals.get().browse.contexts.community,
+      label: locales.get().browse.contexts.community,
       id: 'REMOTE_PALETTES_COMMUNITY',
       isUpdated: featuresList.REMOTE_PALETTES_COMMUNITY.isNew(),
       isActive: featuresList.REMOTE_PALETTES_COMMUNITY.isActive(),
     },
     {
-      label: locals.get().contexts.source,
+      label: locales.get().contexts.source,
       id: 'SOURCE',
       isUpdated: featuresList.SOURCE.isNew(),
       isActive: featuresList.SOURCE.isActive(),
     },
     {
-      label: locals.get().source.contexts.overview,
+      label: locales.get().source.contexts.overview,
       id: 'SOURCE_OVERVIEW',
       isUpdated: featuresList.SOURCE_EXPLORE.isNew(),
       isActive: featuresList.SOURCE_EXPLORE.isActive(),
     },
     {
-      label: locals.get().source.contexts.explore,
+      label: locales.get().source.contexts.explore,
       id: 'SOURCE_EXPLORE',
       isUpdated: featuresList.SOURCE_EXPLORE.isNew(),
       isActive: featuresList.SOURCE_EXPLORE.isActive(),
     },
     {
-      label: locals.get().contexts.scale,
+      label: locales.get().contexts.scale,
       id: 'SCALE',
       isUpdated: featuresList.SCALE.isNew(),
       isActive: featuresList.SCALE.isActive() && !editor.includes('dev'),
     },
     {
-      label: locals.get().contexts.colors,
+      label: locales.get().contexts.colors,
       id: 'COLORS',
       isUpdated: featuresList.COLORS.isNew(),
       isActive: featuresList.COLORS.isActive() && !editor.includes('dev'),
     },
     {
-      label: locals.get().contexts.themes,
+      label: locales.get().contexts.themes,
       id: 'THEMES',
       isUpdated: featuresList.THEMES.isNew(),
       isActive: featuresList.THEMES.isActive() && !editor.includes('dev'),
     },
     {
-      label: locals.get().contexts.export,
+      label: locales.get().contexts.export,
       id: 'EXPORT',
       isUpdated: featuresList.EXPORT.isNew(),
       isActive: featuresList.EXPORT.isActive(),
     },
     {
-      label: locals.get().contexts.settings,
+      label: locales.get().contexts.settings,
       id: 'SETTINGS',
       isUpdated: featuresList.SETTINGS.isNew(),
       isActive: featuresList.SETTINGS.isActive() && !editor.includes('dev'),

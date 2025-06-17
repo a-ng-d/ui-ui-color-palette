@@ -51,7 +51,7 @@ export default class Store extends PureComponent<StoreProps> {
         ).MORE_STORE.isActive()}
       >
         <Dialog
-          title={this.props.locals.store.title}
+          title={this.props.locales.store.title}
           pin="RIGHT"
           onClose={this.props.onClose}
         >
@@ -61,7 +61,7 @@ export default class Store extends PureComponent<StoreProps> {
           >
             <Card
               src={isb}
-              label={this.props.locals.store.isb.label}
+              label={this.props.locales.store.isb.label}
               shouldFill
               action={() => {
                 window.open(this.props.config.urls.isbUrl, '_blank')?.focus()
@@ -69,7 +69,7 @@ export default class Store extends PureComponent<StoreProps> {
             >
               <Button
                 type="primary"
-                label={this.props.locals.store.isb.cta}
+                label={this.props.locales.store.isb.cta}
                 action={() => {
                   window.open(this.props.config.urls.isbUrl, '_blank')?.focus()
                 }}

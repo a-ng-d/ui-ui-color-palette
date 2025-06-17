@@ -51,7 +51,7 @@ export default class Chat extends PureComponent<ChatProps> {
         ).HELP_CHAT.isActive()}
       >
         <Dialog
-          title={this.props.locals.shortcuts.chat}
+          title={this.props.locales.shortcuts.chat}
           pin="RIGHT"
           onClose={this.props.onClose}
         >

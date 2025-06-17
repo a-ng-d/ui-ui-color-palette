@@ -38,7 +38,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         type="alternative"
         size="small"
         icon="lock-off"
-        label={this.props.locals.plan.getPro}
+        label={this.props.locales.plan.getPro}
         action={() =>
           parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
@@ -52,7 +52,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
       >
         {Math.ceil(this.props.trialRemainingTime) > 72 && (
           <span>
-            {this.props.locals.plan.trialTimeDays.plural.replace(
+            {this.props.locales.plan.trialTimeDays.plural.replace(
               '{$1}',
               Math.ceil(this.props.trialRemainingTime) > 72
                 ? Math.ceil(this.props.trialRemainingTime / 24).toString()
@@ -63,14 +63,14 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         {Math.ceil(this.props.trialRemainingTime) <= 72 &&
           Math.ceil(this.props.trialRemainingTime) > 1 && (
             <span>
-              {this.props.locals.plan.trialTimeHours.plural.replace(
+              {this.props.locales.plan.trialTimeHours.plural.replace(
                 '{$1}',
                 Math.ceil(this.props.trialRemainingTime).toString()
               )}
             </span>
           )}
         {Math.ceil(this.props.trialRemainingTime) <= 1 && (
-          <span>{this.props.locals.plan.trialTimeHours.single}</span>
+          <span>{this.props.locales.plan.trialTimeHours.single}</span>
         )}
       </div>
     </div>
@@ -82,7 +82,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         type="alternative"
         size="small"
         icon="lock-off"
-        label={this.props.locals.plan.tryPro}
+        label={this.props.locales.plan.tryPro}
         action={() => {
           this.props.config.plan.isTrialEnabled
             ? parent.postMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
@@ -103,13 +103,13 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         type="alternative"
         size="small"
         icon="lock-off"
-        label={this.props.locals.plan.getPro}
+        label={this.props.locales.plan.getPro}
         action={() =>
           parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
       <span className={doClassnames([texts.type, texts['type--secondary']])}>
-        {this.props.locals.separator}
+        {this.props.locales.separator}
       </span>
       <div
         className={doClassnames([
@@ -118,7 +118,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
           texts['type--truncated'],
         ])}
       >
-        <span>{this.props.locals.plan.trialEnded}</span>
+        <span>{this.props.locales.plan.trialEnded}</span>
       </div>
       <Feature
         isActive={PlanControls.features(
@@ -127,11 +127,11 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         ).INVOLVE_FEEDBACK.isActive()}
       >
         <span className={doClassnames([texts.type, texts['type--secondary']])}>
-          {this.props.locals.separator}
+          {this.props.locales.separator}
         </span>
         <Button
           type="tertiary"
-          label={this.props.locals.plan.trialFeedback}
+          label={this.props.locales.plan.trialFeedback}
           isBlocked={PlanControls.features(
             this.props.planStatus,
             this.props.config
@@ -172,7 +172,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
                 type="alternative"
                 size="small"
                 icon="lock-off"
-                label={this.props.locals.plan.getPro}
+                label={this.props.locales.plan.getPro}
                 action={() =>
                   parent.postMessage(
                     { pluginMessage: { type: 'GET_PRO_PLAN' } },

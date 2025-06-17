@@ -391,7 +391,7 @@ export default class ScaleContrastRatio extends PureComponent<
             id="update-preset"
             leftPartSlot={
               <SectionTitle
-                label={this.props.locals.scale.contrast.title}
+                label={this.props.locales.scale.contrast.title}
                 indicator={Object.entries(
                   this.props.scale ?? {}
                 ).length.toString()}
@@ -408,7 +408,7 @@ export default class ScaleContrastRatio extends PureComponent<
                   <Select
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
-                    label={this.props.locals.scale.contrast.label}
+                    label={this.props.locales.scale.contrast.label}
                     isChecked={true}
                     isBlocked={ScaleContrastRatio.features(
                       this.props.planStatus,
@@ -445,7 +445,7 @@ export default class ScaleContrastRatio extends PureComponent<
             max: this.props.textColorsTheme.lightColor,
           }}
           tips={{
-            minMax: this.props.locals.scale.tips.distributeAsTooltip,
+            minMax: this.props.locales.scale.tips.distributeAsTooltip,
           }}
           isBlocked={ScaleContrastRatio.features(
             this.props.planStatus,
@@ -475,7 +475,7 @@ export default class ScaleContrastRatio extends PureComponent<
             max: this.props.textColorsTheme.darkColor,
           }}
           tips={{
-            minMax: this.props.locals.scale.tips.distributeAsTooltip,
+            minMax: this.props.locales.scale.tips.distributeAsTooltip,
           }}
           isBlocked={ScaleContrastRatio.features(
             this.props.planStatus,

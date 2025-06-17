@@ -4,11 +4,11 @@ import type { AppStates } from '../../ui/App'
 
 const detachPalette = async ({
   rawData,
-  locals,
+  locales,
 }: {
   rawData: Partial<AppStates>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  locals: any
+  locales: any
 }): Promise<Partial<AppStates>> => {
   const now = new Date().toISOString()
 
@@ -37,7 +37,7 @@ const detachPalette = async ({
         type: 'POST_MESSAGE',
         data: {
           type: 'INFO',
-          message: locals.success.detachment,
+          message: locales.success.detachment,
         },
       },
     },

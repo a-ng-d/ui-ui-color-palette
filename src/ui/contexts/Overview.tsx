@@ -43,10 +43,7 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     SOURCE: new FeatureStatus({
       features: config.features,
@@ -163,7 +160,7 @@ export default class Overview extends PureComponent<
         )
           ? {
               type: 'INFO',
-              message: this.props.locals.source.coolors.url.infoMessage,
+              message: this.props.locales.source.coolors.url.infoMessage,
             }
           : state.coolorsUrl.helper,
       },
@@ -188,7 +185,7 @@ export default class Overview extends PureComponent<
         )
           ? {
               type: 'INFO',
-              message: this.props.locals.source.realtimeColors.url.infoMessage,
+              message: this.props.locales.source.realtimeColors.url.infoMessage,
             }
           : state.realtimeColorsUrl.helper,
       },
@@ -249,7 +246,7 @@ export default class Overview extends PureComponent<
           canBeSubmitted: this.state.coolorsUrl.canBeSubmitted,
           helper: {
             type: 'ERROR',
-            message: this.props.locals.source.coolors.url.errorMessage,
+            message: this.props.locales.source.coolors.url.errorMessage,
           },
         },
       })
@@ -310,7 +307,7 @@ export default class Overview extends PureComponent<
           canBeSubmitted: this.state.realtimeColorsUrl.canBeSubmitted,
           helper: {
             type: 'ERROR',
-            message: this.props.locals.source.realtimeColors.url.errorMessage,
+            message: this.props.locales.source.realtimeColors.url.errorMessage,
           },
         },
       })
@@ -329,7 +326,7 @@ export default class Overview extends PureComponent<
           id="watch-swatchs"
           leftPartSlot={
             <SectionTitle
-              label={this.props.locals.source.canvas.title}
+              label={this.props.locales.source.canvas.title}
               indicator={
                 this.props.sourceColors.filter(
                   (sourceColor) => sourceColor.source === 'CANVAS'
@@ -350,7 +347,7 @@ export default class Overview extends PureComponent<
           >
             <SemanticMessage
               type="INFO"
-              message={this.props.locals.info.maxNumberOfSourceColors.replace(
+              message={this.props.locales.info.maxNumberOfSourceColors.replace(
                 '{$1}',
                 (
                   Overview.features(this.props.planStatus, this.props.config)
@@ -362,7 +359,7 @@ export default class Overview extends PureComponent<
                 this.props.trialStatus !== 'EXPIRED' ? (
                   <Button
                     type="secondary"
-                    label={this.props.locals.plan.tryPro}
+                    label={this.props.locales.plan.tryPro}
                     action={() =>
                       parent.postMessage(
                         { pluginMessage: { type: 'GET_TRIAL' } },
@@ -373,7 +370,7 @@ export default class Overview extends PureComponent<
                 ) : (
                   <Button
                     type="secondary"
-                    label={this.props.locals.plan.getPro}
+                    label={this.props.locales.plan.getPro}
                     action={() =>
                       parent.postMessage(
                         { pluginMessage: { type: 'GET_PRO_PLAN' } },
@@ -419,14 +416,16 @@ export default class Overview extends PureComponent<
           <Message
             icon="info"
             messages={[
-              this.props.locals.source.canvas.tip
+              this.props.locales.source.canvas.tip
                 .replace(
                   '{$1}',
-                  this.props.locals.source.nodes[this.props.config.env.platform]
+                  this.props.locales.source.nodes[
+                    this.props.config.env.platform
+                  ]
                 )
                 .replace(
                   '{$2}',
-                  this.props.locals.platform[this.props.config.env.platform]
+                  this.props.locales.platform[this.props.config.env.platform]
                 ),
             ]}
           />
@@ -444,14 +443,14 @@ export default class Overview extends PureComponent<
         ).SOURCE_COOLORS.isActive()}
       >
         <Accordion
-          label={this.props.locals.source.coolors.title}
+          label={this.props.locales.source.coolors.title}
           indicator={this.props.sourceColors
             .filter((sourceColor) => sourceColor.source === 'COOLORS')
             .length.toString()}
-          helper={this.props.locals.source.coolors.helper}
+          helper={this.props.locales.source.coolors.helper}
           helpers={{
-            add: this.props.locals.source.coolors.add,
-            empty: this.props.locals.source.coolors.empty,
+            add: this.props.locales.source.coolors.add,
+            empty: this.props.locales.source.coolors.empty,
           }}
           isExpanded={this.state.isCoolorsImportOpen}
           isBlocked={Overview.features(
@@ -487,7 +486,7 @@ export default class Overview extends PureComponent<
                 id="update-coolors-url"
                 type="TEXT"
                 state={this.state.coolorsUrl.state}
-                placeholder={this.props.locals.source.coolors.url.placeholder}
+                placeholder={this.props.locales.source.coolors.url.placeholder}
                 value={this.state.coolorsUrl.value}
                 isAutoFocus
                 onChange={this.isTypingCoolorsUrlHandler}
@@ -537,14 +536,14 @@ export default class Overview extends PureComponent<
         ).SOURCE_REALTIME_COLORS.isActive()}
       >
         <Accordion
-          label={this.props.locals.source.realtimeColors.title}
+          label={this.props.locales.source.realtimeColors.title}
           indicator={this.props.sourceColors
             .filter((sourceColor) => sourceColor.source === 'REALTIME_COLORS')
             .length.toString()}
-          helper={this.props.locals.source.realtimeColors.helper}
+          helper={this.props.locales.source.realtimeColors.helper}
           helpers={{
-            add: this.props.locals.source.realtimeColors.add,
-            empty: this.props.locals.source.realtimeColors.empty,
+            add: this.props.locales.source.realtimeColors.add,
+            empty: this.props.locales.source.realtimeColors.empty,
           }}
           isExpanded={this.state.isRealtimeColorsImportOpen}
           isBlocked={Overview.features(
@@ -581,7 +580,7 @@ export default class Overview extends PureComponent<
                 type="TEXT"
                 state={this.state.realtimeColorsUrl.state}
                 placeholder={
-                  this.props.locals.source.realtimeColors.url.placeholder
+                  this.props.locales.source.realtimeColors.url.placeholder
                 }
                 value={this.state.realtimeColorsUrl.value}
                 isAutoFocus
@@ -632,15 +631,15 @@ export default class Overview extends PureComponent<
         ).SOURCE_COLOUR_LOVERS.isActive()}
       >
         <Accordion
-          label={this.props.locals.source.colourLovers.title}
+          label={this.props.locales.source.colourLovers.title}
           indicator={this.props.sourceColors
             .filter((sourceColor) => sourceColor.source === 'COLOUR_LOVERS')
             .length.toString()}
           icon="adjust"
-          helper={this.props.locals.source.colourLovers.helper}
+          helper={this.props.locales.source.colourLovers.helper}
           helpers={{
-            add: this.props.locals.source.colourLovers.add,
-            empty: this.props.locals.source.colourLovers.empty,
+            add: this.props.locales.source.colourLovers.add,
+            empty: this.props.locales.source.colourLovers.empty,
           }}
           isExpanded={this.state.isColourLoversImportOpen}
           isBlocked={Overview.features(

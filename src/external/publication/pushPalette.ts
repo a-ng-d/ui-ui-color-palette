@@ -6,18 +6,18 @@ const pushPalette = async ({
   rawData,
   palettesDbTableName,
   isShared = false,
-  locals,
+  locales,
 }: {
   rawData: AppStates
   palettesDbTableName: string
   isShared?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  locals: any
+  locales: any
 }): Promise<Partial<AppStates>> => {
   const now = new Date().toISOString()
   const name =
-    rawData.name === '' || rawData.name === locals.settings.global.name.default
-      ? locals.settings.global.name.self.replace(
+    rawData.name === '' || rawData.name === locales.settings.global.name.default
+      ? locales.settings.global.name.self.replace(
           '$1',
           rawData.userSession.userFullName
         )

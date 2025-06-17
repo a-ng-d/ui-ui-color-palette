@@ -152,7 +152,7 @@ export default class Onboarding extends PureComponent<
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog
-            title={this.props.locals.shortcuts.onboarding}
+            title={this.props.locales.shortcuts.onboarding}
             isLoading
             onClose={this.props.onCloseOnboarding}
           />
@@ -167,13 +167,13 @@ export default class Onboarding extends PureComponent<
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog
-            title={this.props.locals.shortcuts.onboarding}
+            title={this.props.locales.shortcuts.onboarding}
             isMessage
             onClose={this.props.onCloseOnboarding}
           >
             <SemanticMessage
               type="WARNING"
-              message={this.props.locals.error.onboarding}
+              message={this.props.locales.error.onboarding}
             />
           </Dialog>
         </Feature>
@@ -199,8 +199,8 @@ export default class Onboarding extends PureComponent<
               primary: {
                 label:
                   this.state.position + 1 < this.state.announcements.length
-                    ? this.props.locals.onboarding.cta.next
-                    : this.props.locals.onboarding.cta.gotIt,
+                    ? this.props.locales.onboarding.cta.next
+                    : this.props.locales.onboarding.cta.gotIt,
                 action: (e: MouseEvent) => this.goNextSlide(e),
               },
               secondary: (() => {
@@ -209,7 +209,7 @@ export default class Onboarding extends PureComponent<
                     .url !== null
                 )
                   return {
-                    label: this.props.locals.onboarding.cta.learnMore,
+                    label: this.props.locales.onboarding.cta.learnMore,
                     action: () =>
                       window
                         .open(
