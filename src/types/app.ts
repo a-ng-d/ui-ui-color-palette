@@ -1,7 +1,7 @@
 import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
-import { Translations } from './translation'
+import { Translations } from './translations'
 
 export type Platform = 'figma' | 'penpot'
 
