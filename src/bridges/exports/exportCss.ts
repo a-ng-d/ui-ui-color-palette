@@ -6,7 +6,7 @@ import {
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
 import { Case } from '@a_ng_d/figmug-utils'
-import { locals } from '../../content/locals'
+import { locals } from '../../content/locales'
 
 const exportCss = (id: string, colorSpace: ColorSpaceConfiguration) => {
   const iframe = document.querySelector(

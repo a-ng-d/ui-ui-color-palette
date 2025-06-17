@@ -1,5 +1,5 @@
 import { PresetConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../content/locals'
+import { locals } from '../content/locales'
 
 export const presets: Array<PresetConfiguration> = [
   {

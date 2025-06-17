@@ -4,7 +4,7 @@ import {
   PaletteData,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locals'
+import { locals } from '../../content/locales'
 
 const exportJsonDtcg = (id: string, colorSpace: ColorSpaceConfiguration) => {
   const iframe = document.querySelector(

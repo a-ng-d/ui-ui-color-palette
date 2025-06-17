@@ -2,7 +2,7 @@ import {
   ColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../content/locals'
+import { locals } from '../content/locales'
 
 const getPaletteMeta = (
   colors: Array<ColorConfiguration>,

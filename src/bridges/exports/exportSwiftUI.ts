@@ -1,6 +1,6 @@
 import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
 import { Case } from '@a_ng_d/figmug-utils'
-import { locals } from '../../content/locals'
+import { locals } from '../../content/locales'
 
 const exportSwiftUI = (id: string) => {
   const iframe = document.querySelector(

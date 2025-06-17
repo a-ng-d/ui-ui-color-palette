@@ -1,6 +1,6 @@
 import { Feature, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Context, Editor, PlanStatus } from '../types/app'
-import { locals } from '../content/locals'
+import { locals } from '../content/locales'
 
 export const setContexts = (
   contextList: Array<Context>,

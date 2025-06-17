@@ -1,6 +1,6 @@
 import { Window } from '../types/app'
 import globalConfig from '../global.config'
-import { locals } from '../content/locals'
+import { locals } from '../content/locales'
 import updateThemes from './updates/updateThemes'
 import updateSettings from './updates/updateSettings'
 import updateScale from './updates/updateScale'

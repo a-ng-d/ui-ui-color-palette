@@ -3,7 +3,7 @@ import {
   PaletteData,
   PaletteDataShadeItem,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locals'
+import { locals } from '../../content/locales'
 
 const exportJson = (id: string) => {
   const iframe = document.querySelector(

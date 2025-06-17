@@ -1,6 +1,6 @@
 import { deepMap } from 'nanostores'
 import { ExchangeConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../content/locals'
+import { locals } from '../content/locales'
 import { presets } from './presets'
 
 export const $palette = deepMap<ExchangeConfiguration>({

@@ -6,7 +6,7 @@ import {
   SourceColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locals } from '../../content/locals'
+import { locals } from '../../content/locales'
 
 interface Msg {
   data: {
