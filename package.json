@@ -13,7 +13,7 @@
     "install:packages": "npm install --workspaces",
     "update:packages": "git submodule update --remote --merge",
     "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest",
-    "update:ui-color-palette": "npm i @a_ng_d/utils-ui-color-palette@latest",
+    "update:uicp": "npm i @a_ng_d/utils-ui-color-palette@latest",
     "start:announcements": "npm run start:8888 -w announcements-yelbolt-worker",
     "start:auth": "npm run ui-color-palette -w auth-yelbolt",
     "start:packages": "npm run start:announcements & npm run start:auth",
