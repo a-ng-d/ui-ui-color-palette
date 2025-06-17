@@ -1,4 +1,3 @@
-import { Window } from '../types/app'
 import globalConfig from '../global.config'
 import { locales } from '../content/locales'
 import updateThemes from './updates/updateThemes'
@@ -29,6 +28,11 @@ import checkUserLicense from './checks/checkUserLicense'
 import checkUserConsent from './checks/checkUserConsent'
 import checkTrialStatus from './checks/checkTrialStatus'
 import checkAnnouncementsStatus from './checks/checkAnnouncementsStatus'
+
+interface Window {
+  width: number
+  height: number
+}
 
 const iframe = document.querySelector(
   '#ui-container'

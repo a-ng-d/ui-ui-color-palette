@@ -73,11 +73,6 @@ export type AnnouncementsStatus =
 
 export type OnboardingStatus = 'NO_ONBOARDING' | 'DISPLAY_ONBOARDING_DIALOG'
 
-export interface Window {
-  width: number
-  height: number
-}
-
 export interface AnnouncementsDigest {
   version: string
   status: AnnouncementsStatus
