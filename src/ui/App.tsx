@@ -964,7 +964,11 @@ class App extends Component<AppProps, AppStates> {
       },
       '*'
     )
-    trackUserConsentEvent(this.props.config.env.isMixpanelEnabled, e)
+    trackUserConsentEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.config.versions.userConsentVersion,
+      e
+    )
   }
 
   onReset = () => {

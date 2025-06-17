@@ -13,7 +13,6 @@ import {
   SourceColorEvent,
   TrialEvent,
 } from '../types/events'
-import globalConfig from '../global.config'
 
 const eventsRecurringProperties = {
   Env: process.env.NODE_ENV === 'development' ? 'Dev' : 'Prod',
@@ -21,11 +20,12 @@ const eventsRecurringProperties = {
 
 export const trackUserConsentEvent = (
   isEnabled: boolean,
+  version: string,
   consent: Array<ConsentConfiguration>
 ) => {
   if (!isEnabled) return
   mixpanel.track('Consent Proof Sent', {
-    'User Consent Version': globalConfig.versions.userConsentVersion,
+    'User Consent Version': version,
     Consent: consent.map((c) => {
       return { [c.name]: c.isConsented }
     }),
