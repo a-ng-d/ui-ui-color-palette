@@ -34,7 +34,7 @@ export interface Config {
     authUrl: string
     storeApiUrl: string
     platformUrl: string
-    windowUrl: string
+    uiUrl: string
     documentationUrl: string
     repositoryUrl: string
     supportEmail: string

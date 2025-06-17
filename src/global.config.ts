@@ -401,7 +401,7 @@ const globalConfig: Config = {
     authUrl: 'http://localhost:3000',
     storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,
     platformUrl: window.location.origin,
-    windowUrl: 'http://localhost:4400',
+    uiUrl: 'http://localhost:4400',
     documentationUrl: 'https://uicp.ylb.lt/docs',
     repositoryUrl: 'https://uicp.ylb.lt/repository',
     communityUrl: 'https://uicp.ylb.lt/community',
