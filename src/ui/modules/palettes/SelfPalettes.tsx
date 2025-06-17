@@ -23,9 +23,10 @@ import { WithConfigProps } from '../../components/WithConfig'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
 import { trackPublicationEvent } from '../../../utils/eventsTracker'
 import { BaseProps, Context, FetchStatus, PlanStatus } from '../../../types/app'
-import { ConfigContextType, supabase } from '../../../index'
+import { ConfigContextType } from '../../../index'
 import unpublishPalette from '../../../external/publication/unpublishPalette'
 import sharePalette from '../../../external/publication/sharePalette'
+import { getSupabase } from '../../../external/auth/client'
 import { signIn } from '../../../external/auth/authentication'
 
 interface SelfPalettesProps extends BaseProps, WithConfigProps {
@@ -148,7 +149,7 @@ export default class SelfPalettes extends PureComponent<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;({ data, error } = await getSupabase()
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
@@ -161,7 +162,7 @@ export default class SelfPalettes extends PureComponent<
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;({ data, error } = await getSupabase()
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
@@ -194,7 +195,7 @@ export default class SelfPalettes extends PureComponent<
   }
 
   onSelectPalette = async (id: string) => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from(this.props.config.dbs.palettesDbTableName)
       .select('*')
       .eq('palette_id', id)

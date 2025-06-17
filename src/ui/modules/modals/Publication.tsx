@@ -11,12 +11,13 @@ import {
   trackSignInEvent,
 } from '../../../utils/eventsTracker'
 import { BaseProps, PlanStatus } from '../../../types/app'
-import { ConfigContextType, supabase } from '../../../index'
+import { ConfigContextType } from '../../../index'
 import unpublishPalette from '../../../external/publication/unpublishPalette'
 import pushPalette from '../../../external/publication/pushPalette'
 import pullPalette from '../../../external/publication/pullPalette'
 import publishPalette from '../../../external/publication/publishPalette'
 import detachPalette from '../../../external/publication/detachPalette'
+import { getSupabase } from '../../../external/auth/client'
 import { signIn } from '../../../external/auth/authentication'
 import p from '../../../content/images/publication.webp'
 import type { AppStates } from '../../App'
@@ -151,7 +152,7 @@ export default class Publication extends PureComponent<
       localPublicationDate = new Date(this.props.rawData.dates.publishedAt),
       localUpdatedDate = new Date(this.props.rawData.dates.updatedAt)
 
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from(this.props.config.dbs.palettesDbTableName)
       .select('*')
       .eq('palette_id', this.props.rawData.id)
