@@ -356,10 +356,7 @@ class App extends Component<AppProps, AppStates> {
 
     try {
       const setTheme = () => {
-        document.documentElement.setAttribute(
-          'data-mode',
-          path.data.theme === 'light' ? 'penpot-light' : 'penpot-dark'
-        )
+        document.documentElement.setAttribute('data-mode', path.data.theme)
       }
 
       const checkUserAuthentication = async () => {
