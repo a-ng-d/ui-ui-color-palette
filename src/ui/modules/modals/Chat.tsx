@@ -9,6 +9,7 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Tawk_API?: any
     Tawk_LoadStart?: Date
   }

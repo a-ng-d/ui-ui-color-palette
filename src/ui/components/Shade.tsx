@@ -11,9 +11,9 @@ import {
   TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames } from '@a_ng_d/figmug-utils'
 import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
 import { BaseProps } from '../../types/app'
-import { doClassnames } from '@a_ng_d/figmug-utils'
 
 interface ShadeProps extends BaseProps {
   index: number

@@ -10,14 +10,14 @@ import Preferences from '../modules/modals/Preferences'
 import Onboarding from '../modules/modals/Onboarding'
 import NotificationBanner from '../modules/modals/NotificationBanner'
 import License from '../modules/modals/License'
+import Feedback from '../modules/modals/Feedback'
+import Chat from '../modules/modals/Chat'
 import Announcements from '../modules/modals/Announcements'
 import About from '../modules/modals/About'
 import { WithConfigProps } from '../components/WithConfig'
 import { NotificationMessage } from '../../types/messages'
 import { BaseProps, AnnouncementsDigest, ModalContext } from '../../types/app'
 import type { AppStates } from '../App'
-import Chat from '../modules/modals/Chat'
-import Feedback from '../modules/modals/Feedback'
 
 interface ModalProps extends BaseProps, WithConfigProps {
   rawData: AppStates

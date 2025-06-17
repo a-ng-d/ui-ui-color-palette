@@ -4,12 +4,12 @@ import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { AppStates } from '../App'
 import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import { BaseProps, AnnouncementsDigest, PlanStatus } from '../../types/app'
 import { signIn, signOut } from '../../external/auth/authentication'
 import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
-import { AppStates } from '../App'
 
 interface ShortcutsProps extends BaseProps, WithConfigProps {
   trialRemainingTime: number

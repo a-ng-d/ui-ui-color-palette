@@ -2,7 +2,7 @@ import {
   ColorSpaceConfiguration,
   EasingConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { Editor, NamingConvention } from './app'
+import { Editor } from './app'
 
 export interface EditorEvent {
   editor: Editor
