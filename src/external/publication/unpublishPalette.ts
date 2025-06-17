@@ -1,6 +1,6 @@
 import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { supabase } from '../../index'
+import { getSupabase } from '../auth/client'
 import type { AppStates } from '../../ui/App'
 
 const unpublishPalette = async ({
@@ -15,7 +15,7 @@ const unpublishPalette = async ({
   const id = rawData.id ?? uid()
   const now = new Date().toISOString()
 
-  const { error } = await supabase
+  const { error } = await getSupabase()
     .from(palettesDbTableName)
     .delete()
     .match({ palette_id: id })

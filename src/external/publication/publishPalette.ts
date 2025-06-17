@@ -1,6 +1,6 @@
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { getSupabase } from '../auth/client'
 import { AppStates } from '../../ui/App'
-import { supabase } from '../../index'
 
 const publishPalette = async ({
   rawData,
@@ -23,7 +23,7 @@ const publishPalette = async ({
         )
       : rawData.name
 
-  const { error } = await supabase
+  const { error } = await getSupabase()
     .from(palettesDbTableName)
     .insert([
       {

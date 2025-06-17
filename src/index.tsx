@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client'
 import React from 'react'
 import mixpanel from 'mixpanel-figma'
-import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
+import { initSupabase } from './external/auth/client'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
 
@@ -53,14 +53,11 @@ else if (globalConfig.env.isDev) {
   ;(window as any).Sentry = devLogger
 }
 
-let supabase: SupabaseClient
 if (globalConfig.env.isSupabaseEnabled)
-  supabase = createClient(
+  initSupabase(
     globalConfig.urls.databaseUrl,
     import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
   )
-
-export { supabase }
 
 root.render(
   <ConfigProvider

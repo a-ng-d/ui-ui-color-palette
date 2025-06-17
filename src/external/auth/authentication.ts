@@ -1,4 +1,4 @@
-import { supabase } from '../../index'
+import { getSupabase } from './client'
 import checkConnectionStatus from './checkConnectionStatus'
 
 let isAuthenticated = false
@@ -131,7 +131,7 @@ export const signOut = async ({
     '*'
   )
 
-  await supabase.auth.signOut({
+  await getSupabase().auth.signOut({
     scope: 'local',
   })
 }

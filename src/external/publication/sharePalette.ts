@@ -1,4 +1,4 @@
-import { supabase } from '../../index'
+import { getSupabase } from '../auth/client'
 
 const sharePalette = async ({
   id,
@@ -11,7 +11,7 @@ const sharePalette = async ({
 }): Promise<void> => {
   const now = new Date().toISOString()
 
-  const { error } = await supabase
+  const { error } = await getSupabase()
     .from(palettesDbTableName)
     .update([
       {

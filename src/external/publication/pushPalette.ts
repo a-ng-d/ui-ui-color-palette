@@ -1,5 +1,5 @@
 import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { supabase } from '../../index'
+import { getSupabase } from '../auth/client'
 import type { AppStates } from '../../ui/App'
 
 const pushPalette = async ({
@@ -23,7 +23,7 @@ const pushPalette = async ({
         )
       : rawData.name
 
-  const { error } = await supabase
+  const { error } = await getSupabase()
     .from(palettesDbTableName)
     .update([
       {

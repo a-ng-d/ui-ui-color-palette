@@ -60,9 +60,9 @@ import {
   $userLanguage,
 } from '../stores/preferences'
 import { $palette } from '../stores/palette'
-import { supabase } from '../index'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
+import { getSupabase } from '../external/auth/client'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { ConfigContextType } from '../config/ConfigContext'
 import EditPalette from './services/EditPalette'
@@ -288,13 +288,13 @@ class App extends Component<AppProps, AppStates> {
 
     // Authentication
     if (
-      supabase !== undefined &&
+      getSupabase() !== undefined &&
       App.features(
         this.state.planStatus,
         this.props.config
       ).BACKSTAGE_AUTHENTICATION.isActive()
     )
-      supabase.auth.onAuthStateChange((event, session) => {
+      getSupabase().auth.onAuthStateChange((event, session) => {
         const actions: {
           [action: string]: () => void
         } = {

@@ -3,7 +3,7 @@ import {
   FullConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { supabase } from '../../index'
+import { getSupabase } from '../auth/client'
 import type { AppStates } from '../../ui/App'
 
 const pullPalette = async ({
@@ -13,7 +13,7 @@ const pullPalette = async ({
   rawData: AppStates
   palettesDbTableName: string
 }): Promise<Partial<AppStates>> => {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from(palettesDbTableName)
     .select('*')
     .eq('palette_id', rawData.id)
