@@ -672,7 +672,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 },
               ]}
               alignment="TOP_RIGHT"
-              state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
+              state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
             />
           </div>
         }
