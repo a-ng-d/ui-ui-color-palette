@@ -7,8 +7,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:i18next/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "overrides": [
   ],
@@ -21,9 +20,7 @@
   "plugins": [
     "react",
     "@typescript-eslint",
-    "import",
-    "i18next",
-    "i18n-json"
+    "import"
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": [1],
@@ -66,30 +63,12 @@
           "caseInsensitive": true
         }
       }
-    ],
-    "i18next/no-literal-string": [
-      "error",
-      {
-        "markupOnly": true,
-        "ignoreAttribute": ["data-testid", "to", "target", "href", "src", "className"]
-      }
-    ],
-    "i18n-json/valid-json": 2,
-    "i18n-json/sorted-keys": [
-      2,
-      {
-        "order": "asc",
-        "indentSpaces": 2
-      }
     ]
   },
   "root": true,
   "settings" : {
     "react": {
       "version": "detect"
-    },
-    "i18next": {
-      "resourcePath": "./src/content/translations/en-US.json"
     }
   }
 }
