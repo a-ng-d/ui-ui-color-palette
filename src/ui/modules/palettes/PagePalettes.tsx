@@ -201,6 +201,15 @@ export default class PagePalettes extends PureComponent<
                         ? this.props.locales.name
                         : palette.base.name
                     }
+                    indicator={
+                      palette.meta.publicationStatus.isPublished
+                        ? {
+                            label:
+                              this.props.locales.publication.statusPublished,
+                            status: 'ACTIVE',
+                          }
+                        : undefined
+                    }
                     description={palette.base.preset.name}
                     subdescription={setPaletteMeta(
                       palette.base.colors,
