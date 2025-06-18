@@ -372,7 +372,10 @@ export default class Shortcuts extends PureComponent<
                             this.props.planStatus,
                             this.props.config
                           ).USER_PREFERENCES.isNew(),
-                          action: this.props.onReOpenPreferences,
+                          action: () =>
+                            this.props.onReOpenPreferences({
+                              modalContext: 'PREFERENCES',
+                            }),
                         },
                         {
                           label: this.props.locales.user.manageLicense,
@@ -518,7 +521,10 @@ export default class Shortcuts extends PureComponent<
                             this.props.planStatus,
                             this.props.config
                           ).USER_PREFERENCES.isNew(),
-                          action: this.props.onReOpenPreferences,
+                          action: () =>
+                            this.props.onReOpenPreferences({
+                              modalContext: 'PREFERENCES',
+                            }),
                         },
                         {
                           label: this.props.locales.user.manageLicense,
