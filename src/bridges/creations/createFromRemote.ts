@@ -4,6 +4,7 @@ import {
   MetaConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { locales } from '../../content/locales'
 
 interface Msg {
   data: {
@@ -21,7 +22,7 @@ const createFromRemote = async (msg: Msg) => {
     `palette_${msg.data.meta.id}`
   )
 
-  if (localPalette) throw new Error()
+  if (localPalette) throw new Error(locales.get().info.addToLocal)
 
   const palette = new Data({
     base: {

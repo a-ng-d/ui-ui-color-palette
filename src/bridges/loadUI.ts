@@ -124,21 +124,12 @@ window.addEventListener('message', async (msg: any) => {
       console.log('Create palette from document', path),
     CREATE_PALETTE_FROM_REMOTE: () =>
       createFromRemote(path)
-        .then(() =>
-          iframe?.contentWindow?.postMessage({
-            type: 'POST_MESSAGE',
-            data: {
-              type: 'SUCCESS',
-              message: locales.get().success.addToLocal,
-            },
-          })
-        )
-        .catch(() =>
+        .catch((error) =>
           iframe?.contentWindow?.postMessage({
             type: 'POST_MESSAGE',
             data: {
               type: 'INFO',
-              message: locales.get().info.addToLocal,
+              message: error.message,
             },
           })
         )
@@ -245,12 +236,12 @@ window.addEventListener('message', async (msg: any) => {
     OPEN_IN_BROWSER: () => window.open(msg.url, '_blank'),
     GET_PALETTES: async () => await getPalettesOnCurrentPage(),
     JUMP_TO_PALETTE: async () =>
-      await jumpToPalette(path.id).catch(() =>
+      await jumpToPalette(path.id).catch((error) =>
         iframe?.contentWindow?.postMessage({
           type: 'POST_MESSAGE',
           data: {
             type: 'ERROR',
-            message: locales.get().error.fetchPalette,
+            message: error.message,
           },
         })
       ),
@@ -258,14 +249,17 @@ window.addEventListener('message', async (msg: any) => {
       await createPaletteFromDuplication(path.id)
         .finally(async () => await getPalettesOnCurrentPage())
         .catch((error) => {
-          throw error
+          iframe?.contentWindow?.postMessage({
+          type: 'POST_MESSAGE',
+          data: {
+            type: 'ERROR',
+            message: error.message,
+          },
+        })
         }),
     DELETE_PALETTE: async () =>
       await deletePalette(path.id)
-        .finally(async () => await getPalettesOnCurrentPage())
-        .catch((error) => {
-          throw error
-        }),
+        .finally(async () => await getPalettesOnCurrentPage()),
     //
     GET_PRO_PLAN: async () =>
       window.open(globalConfig.urls.storeUrl, '_blank')?.focus(),

@@ -1,10 +1,12 @@
+import { locales } from '../content/locales'
+
 const jumpToPalette = async (id: string) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
   const rawPalette = window.localStorage.getItem(`palette_${id}`)
 
-  if (!rawPalette) throw new Error()
+  if (!rawPalette) throw new Error(locales.get().error.unfoundPalette)
 
   const palette = JSON.parse(rawPalette)
   palette.meta.dates.openedAt = new Date().toISOString()
