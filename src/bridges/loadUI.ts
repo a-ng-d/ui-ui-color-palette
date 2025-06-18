@@ -22,7 +22,7 @@ import enableTrial from './enableTrial'
 import deletePalette from './creations/deletePalette'
 import createPalette from './creations/createPalette'
 import createFromRemote from './creations/createFromRemote'
-import createPaletteFromDuplication from './creations/createFromDuplication'
+import createFromDuplication from './creations/createFromDuplication'
 import checkUserPreferences from './checks/checkUserPreferences'
 import checkUserLicense from './checks/checkUserLicense'
 import checkUserConsent from './checks/checkUserConsent'
@@ -246,7 +246,7 @@ window.addEventListener('message', async (msg: any) => {
         })
       ),
     DUPLICATE_PALETTE: async () =>
-      await createPaletteFromDuplication(path.id)
+      await createFromDuplication(path.id)
         .finally(async () => await getPalettesOnCurrentPage())
         .catch((error) => {
           iframe?.contentWindow?.postMessage({
