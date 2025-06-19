@@ -73,7 +73,7 @@
   "dependencies": {
     "@a_ng_d/figmug-ui": "^1.11.2",
     "@a_ng_d/figmug-utils": "^0.3.5",
-    "@a_ng_d/utils-ui-color-palette": "^1.1.0",
+    "@a_ng_d/utils-ui-color-palette": "^1.2.0",
     "@nanostores/preact": "^0.5.2",
     "@sentry/react": "^9.27.0",
     "@supabase/supabase-js": "^2.44.2",
@@ -81,9 +81,9 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "mixpanel-figma": "^2.0.4",
-    "uid": "^2.0.2",
     "preact": "^10.6.4",
     "react": "npm:@preact/compat",
-    "react-dom": "npm:@preact/compat"
+    "react-dom": "npm:@preact/compat",
+    "uid": "^2.0.2"
   }
 }
