@@ -40,85 +40,49 @@ const pushPalette = async ({
         creator_full_name: rawData.userSession.userFullName,
         creator_avatar: rawData.userSession.userAvatar,
         creator_id: rawData.userSession.userId,
-        updated_at: rawData.dates.updatedAt,
+        updated_at: now,
         published_at: now,
       },
     ])
     .match({ palette_id: rawData.id })
 
   if (!error) {
-    const palette: FullConfiguration = new Data({
-      base: {
-        name: name,
-        description: rawData.description,
-        preset: rawData.preset,
-        shift: rawData.shift,
-        areSourceColorsLocked: rawData.areSourceColorsLocked,
-        colors: rawData.colors,
-        colorSpace: rawData.colorSpace,
-        algorithmVersion: rawData.algorithmVersion,
-      },
-      themes: rawData.themes,
-      meta: {
-        id: rawData.id,
-        dates: {
-          createdAt: rawData.dates.createdAt,
-          updatedAt: now,
-          publishedAt: now,
-          openedAt: rawData.dates.openedAt,
-        },
-        publicationStatus: {
-          isPublished: true,
-          isShared: isShared,
-        },
-        creatorIdentity: {
-          creatorFullName: rawData.userSession.userFullName,
-          creatorAvatar: rawData.userSession.userAvatar,
-          creatorId: rawData.userSession.userId,
-        },
-      },
-    }).makePaletteFullData()
-
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'SET_DATA',
+          type: 'UPDATE_PALETTE',
+          id: rawData.id,
           items: [
             {
-              key: `palette_${rawData.id}`,
-              value: palette,
+              key: 'base.name',
+              value: name,
+            },
+            {
+              key: 'meta.publicationStatus.isShared',
+              value: isShared,
+            },
+            {
+              key: 'meta.dates.updatedAt',
+              value: now,
+            },
+            {
+              key: 'meta.dates.publishedAt',
+              value: now,
             },
           ],
+          isAlreadyUpdated: true,
         },
       },
       '*'
     )
 
     return {
-      id: rawData.id,
       name: name,
-      description: rawData.description,
-      preset: rawData.preset,
-      shift: rawData.shift,
-      areSourceColorsLocked: rawData.areSourceColorsLocked,
-      colors: rawData.colors,
-      colorSpace: rawData.colorSpace,
-      algorithmVersion: rawData.algorithmVersion,
-      themes: rawData.themes,
       dates: {
-        publishedAt: now,
         createdAt: rawData.dates.createdAt,
         updatedAt: now,
+        publishedAt: now,
         openedAt: rawData.dates.openedAt,
-      },
-      publicationStatus: {
-        isPublished: true,
-        isShared: isShared,
-      },
-      creatorIdentity: {
-        creatorFullName: rawData.userSession.userFullName,
-        creatorAvatar: rawData.userSession.userAvatar,
-        creatorId: rawData.userSession.userId,
       },
     }
   } else throw error
