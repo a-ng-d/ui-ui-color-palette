@@ -64,7 +64,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
     parent.postMessage(
       {
         pluginMessage: {
-          type: 'GET_DATA',
+          type: 'GET_ITEMS',
           items: [
             'user_license_key',
             'user_license_instance_id',
@@ -88,7 +88,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
     const actions: {
       [action: string]: () => void
     } = {
-      GET_DATA_USER_LICENSE_KEY: () => {
+      GET_ITEM_USER_LICENSE_KEY: () => {
         if (
           path.value !== null &&
           path.value !== undefined &&
@@ -97,7 +97,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
           this.setState({ userLicenseKey: path.value, hasLicense: true })
         else this.setState({ userLicenseKey: '', hasLicense: false })
       },
-      GET_DATA_USER_LICENSE_INSTANCE_ID: () => {
+      GET_ITEM_USER_LICENSE_INSTANCE_ID: () => {
         if (
           path.value !== null &&
           path.value !== undefined &&
@@ -107,7 +107,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
           this.setState({ userInstanceId: path.value, hasLicense: true })
         else this.setState({ userInstanceId: '', hasLicense: false })
       },
-      GET_DATA_USER_LICENSE_INSTANCE_NAME: () => {
+      GET_ITEM_USER_LICENSE_INSTANCE_NAME: () => {
         if (
           path.value !== null &&
           path.value !== undefined &&
