@@ -391,7 +391,6 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const checkUserPreferences = () => {
-        setTimeout(() => this.setState({ isLoaded: true }), 1000)
         $isWCAGDisplayed.set(path.data.isWCAGDisplayed)
         $isAPCADisplayed.set(path.data.isAPCADisplayed)
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
@@ -401,6 +400,7 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const checkUserLicense = () => {
+        setTimeout(() => this.setState({ isLoaded: true }), 2000)
         validateUserLicenseKey({
           storeApiUrl: this.props.config.urls.storeApiUrl,
           licenseKey: path.data.licenseKey,
