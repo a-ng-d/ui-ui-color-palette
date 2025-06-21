@@ -70,7 +70,10 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
+export default class Actions extends PureComponent<
+  ActionsProps,
+  ActionsStates
+> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -204,7 +207,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       this.props.onChangeSettings({
         name: e.currentTarget.value,
       })
-    if ((e.type === 'focusout' || ('key' in e && e.key === 'Enter')) && this.props.service === 'EDIT')
+    if (
+      (e.type === 'focusout' || ('key' in e && e.key === 'Enter')) &&
+      this.props.service === 'EDIT'
+    )
       parent.postMessage(
         {
           pluginMessage: {

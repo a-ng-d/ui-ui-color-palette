@@ -250,16 +250,17 @@ window.addEventListener('message', async (msg: any) => {
         .finally(async () => await getPalettesOnCurrentPage())
         .catch((error) => {
           iframe?.contentWindow?.postMessage({
-          type: 'POST_MESSAGE',
-          data: {
-            type: 'ERROR',
-            message: error.message,
-          },
-        })
+            type: 'POST_MESSAGE',
+            data: {
+              type: 'ERROR',
+              message: error.message,
+            },
+          })
         }),
     DELETE_PALETTE: async () =>
-      await deletePalette(path.id)
-        .finally(async () => await getPalettesOnCurrentPage()),
+      await deletePalette(path.id).finally(
+        async () => await getPalettesOnCurrentPage()
+      ),
     //
     GET_PRO_PLAN: async () =>
       window.open(globalConfig.urls.storeUrl, '_blank')?.focus(),

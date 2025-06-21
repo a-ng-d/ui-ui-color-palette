@@ -33,7 +33,10 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<LicenseProps, LicenseStates> {
+export default class License extends PureComponent<
+  LicenseProps,
+  LicenseStates
+> {
   private theme: string | null
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({

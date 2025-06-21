@@ -92,10 +92,10 @@ div.export-palette__preview textarea {
   flex-direction: column;
   align-items: flex-end;
   gap: var(--size-xxxsmall);
+  box-sizing: border-box;
   padding: var(--size-xxxsmall);
   min-height: var(--size-medium);
   overflow: hidden;
-  box-sizing: border-box;
 }
 
 .preview__cell--no-height {

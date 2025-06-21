@@ -1,8 +1,4 @@
-import {
-  Data,
-  FullConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+import { ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth/client'
 import type { AppStates } from '../../ui/App'
 

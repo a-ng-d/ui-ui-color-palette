@@ -43,7 +43,10 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     SOURCE: new FeatureStatus({
       features: config.features,
