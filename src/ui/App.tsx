@@ -358,7 +358,9 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const openInBrowser = () => {
-        window.open(path.data.url, '_blank')?.focus()
+        window
+          .open(path.data.url, !path.data.isNewTab ? '_self' : '_blank')
+          ?.focus()
       }
 
       const checkUserAuthentication = async () => {
