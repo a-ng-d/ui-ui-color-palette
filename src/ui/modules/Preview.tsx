@@ -59,16 +59,15 @@ interface PreviewStates {
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
   isDrawerCollapsed: boolean
+  drawerMaxHeight?: number
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
   private palette: typeof $palette
   private drawerRef: React.RefObject<Drawer>
+  private resizeObserver: ResizeObserver | null
 
   static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
     PREVIEW_SCORES: new FeatureStatus({
@@ -192,6 +191,7 @@ export default class Preview extends PureComponent<
       isDrawerCollapsed: false,
     }
     this.drawerRef = React.createRef() as React.RefObject<Drawer>
+    this.resizeObserver = null
   }
 
   // Lifecycle
@@ -202,14 +202,63 @@ export default class Preview extends PureComponent<
     this.unsubscribeAPCA = $isAPCADisplayed.subscribe((value) => {
       this.setState({ isAPCADisplayed: value })
     })
+    if (
+      this.drawerRef.current &&
+      (this.drawerRef.current.base as unknown as HTMLElement).parentElement
+    ) {
+      const parent = (this.drawerRef.current.base as unknown as HTMLElement)
+        .parentElement
+      if (parent) {
+        this.resizeObserver = new window.ResizeObserver(
+          this.updateDrawerMaxHeight
+        )
+        this.resizeObserver.observe(parent)
+      }
+    }
+    setTimeout(this.updateDrawerMaxHeight, 0)
+  }
+
+  componentDidUpdate = (): void => {
+    this.updateDrawerMaxHeight()
   }
 
   componentWillUnmount = (): void => {
     if (this.unsubscribeWCAG) this.unsubscribeWCAG()
     if (this.unsubscribeAPCA) this.unsubscribeAPCA()
+    if (
+      this.resizeObserver &&
+      this.drawerRef.current &&
+      (this.drawerRef.current.base as unknown as HTMLElement).parentElement
+    ) {
+      const parent = (this.drawerRef.current as unknown as HTMLElement)
+        .parentElement
+      if (parent) this.resizeObserver.unobserve(parent)
+    }
   }
 
   // Handlers
+  updateDrawerMaxHeight = () => {
+    if (!this.drawerRef.current) return
+
+    const drawerEl = this.drawerRef.current.base as unknown as HTMLElement
+    const parent = drawerEl?.parentElement
+
+    if (!parent) return
+
+    const parentHeight = parent.offsetHeight
+    const siblings = Array.from(parent.children).filter(
+      (el) => el !== drawerEl && !el.classList.contains('context')
+    )
+    const siblingsHeight = siblings.reduce(
+      (acc, el) => acc + (el as HTMLElement).offsetHeight,
+      0
+    )
+    const maxHeight = parentHeight - siblingsHeight
+
+    drawerEl.style.maxHeight = `${maxHeight}px`
+    this.setState({ drawerMaxHeight: maxHeight })
+  }
+
   displayHandler = (): string => {
     const options = []
     if (this.state.isWCAGDisplayed) options.push('ENABLE_WCAG_SCORE')
@@ -492,10 +541,17 @@ export default class Preview extends PureComponent<
         defaultSize={{
           unit: 'AUTO',
         }}
-        maxSize={{
-          value: 100,
-          unit: 'PERCENT',
-        }}
+        maxSize={
+          this.state.drawerMaxHeight
+            ? {
+                value: this.state.drawerMaxHeight,
+                unit: 'PIXEL',
+              }
+            : {
+                value: 100,
+                unit: 'PERCENT',
+              }
+        }
         minSize={{
           value: 40,
           unit: 'PIXEL',
