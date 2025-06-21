@@ -34,7 +34,7 @@ const activateUserLicenseKey = async ({
           parent.postMessage(
             {
               pluginMessage: {
-                type: 'SET_DATA',
+                type: 'SET_ITEMS',
                 items: [
                   {
                     key: 'user_license_key',
