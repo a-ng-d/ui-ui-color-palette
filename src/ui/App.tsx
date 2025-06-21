@@ -357,6 +357,10 @@ class App extends Component<AppProps, AppStates> {
         document.documentElement.setAttribute('data-mode', path.data.theme)
       }
 
+      const openInBrowser = () => {
+        window.open(path.data.url, '_blank')?.focus()
+      }
+
       const checkUserAuthentication = async () => {
         if (
           App.features(
@@ -892,6 +896,7 @@ class App extends Component<AppProps, AppStates> {
         [action: string]: () => void
       } = {
         SET_THEME: () => setTheme(),
+        OPEN_IN_BROWSER: () => openInBrowser(),
         CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
         CHECK_USER_CONSENT: () => checkUserConsent(),
         CHECK_USER_PREFERENCES: () => checkUserPreferences(),
