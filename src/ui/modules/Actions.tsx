@@ -624,6 +624,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
               type="ICON"
               icon="ellipses"
               options={this.optionsHandler()}
+              helper={{
+                label: this.props.locales.actions.moreActions,
+                pin: 'TOP',
+                isSingleLine: true,
+              }}
               alignment="TOP_RIGHT"
               state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
             />
