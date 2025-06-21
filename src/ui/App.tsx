@@ -907,6 +907,7 @@ class App extends Component<AppProps, AppStates> {
         COLOR_SELECTED: () => updateWhileColorSelected(),
         DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
         LOAD_PALETTE: () => loadPalette(),
+        RESET_PALETTE: () => this.onReset(),
         EXPORT_PALETTE_JSON: () => exportPaletteToJson(),
         EXPORT_PALETTE_CSS: () => exportPaletteToCss(),
         EXPORT_PALETTE_TAILWIND: () => exportPaletteToTaiwind(),
