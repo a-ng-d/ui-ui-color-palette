@@ -86,7 +86,7 @@ export default class License extends PureComponent<
 
   // Handlers
   handleMessage = (e: MessageEvent) => {
-    const path = e.data
+    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
 
     const actions: {
       [action: string]: () => void

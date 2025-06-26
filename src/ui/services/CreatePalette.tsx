@@ -125,6 +125,8 @@ export default class CreatePalette extends PureComponent<
 
   // Handlers
   handleMessage = (e: MessageEvent) => {
+    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+
     const actions: {
       [action: string]: () => void
     } = {
@@ -137,7 +139,7 @@ export default class CreatePalette extends PureComponent<
       DEFAULT: () => null,
     }
 
-    return actions[e.data.type ?? 'DEFAULT']?.()
+    return actions[path.type ?? 'DEFAULT']?.()
   }
 
   navHandler = (e: Event) =>

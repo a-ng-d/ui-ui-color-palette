@@ -350,7 +350,7 @@ class App extends Component<AppProps, AppStates> {
 
   // Handlers
   handleMessage = (e: MessageEvent) => {
-    const path = e.data
+    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
 
     try {
       const setTheme = () => {
@@ -391,6 +391,8 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const checkUserPreferences = () => {
+        console.log('checkUserPreferences', path.data)
+        setTimeout(() => this.setState({ isLoaded: true }), 2000)
         $isWCAGDisplayed.set(path.data.isWCAGDisplayed)
         $isAPCADisplayed.set(path.data.isAPCADisplayed)
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
@@ -400,7 +402,6 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const checkUserLicense = () => {
-        setTimeout(() => this.setState({ isLoaded: true }), 2000)
         validateUserLicenseKey({
           storeApiUrl: this.props.config.urls.storeApiUrl,
           licenseKey: path.data.licenseKey,

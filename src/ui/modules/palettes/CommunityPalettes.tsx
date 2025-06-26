@@ -98,6 +98,8 @@ export default class CommunityPalettes extends PureComponent<
 
   // Handlers
   handleMessage = (e: MessageEvent) => {
+    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+
     const actions: {
       [key: string]: () => void
     } = {
@@ -110,7 +112,7 @@ export default class CommunityPalettes extends PureComponent<
       DEFAULT: () => null,
     }
 
-    return actions[e.data.pluginMessage?.type ?? 'DEFAULT']?.()
+    return actions[path.type ?? 'DEFAULT']?.()
   }
 
   // Direct Actions
