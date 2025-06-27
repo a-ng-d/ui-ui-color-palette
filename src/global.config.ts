@@ -429,7 +429,6 @@ const globalConfig: Config = {
     userConsentVersion: '2024.01',
     trialVersion: '2024.03',
     algorithmVersion: 'v3',
-    paletteDataVersion: '2025.03',
   },
   features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
   locales: locales.get(),
