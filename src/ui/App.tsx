@@ -391,7 +391,6 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const checkUserPreferences = () => {
-        console.log('checkUserPreferences', path.data)
         setTimeout(() => this.setState({ isLoaded: true }), 2000)
         $isWCAGDisplayed.set(path.data.isWCAGDisplayed)
         $isAPCADisplayed.set(path.data.isAPCADisplayed)
