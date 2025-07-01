@@ -109,6 +109,7 @@ export interface AppStates extends BaseProps {
   notification: NotificationMessage
   isVsCodeMessageDisplayed: boolean
   isLoaded: boolean
+  isNotificationDisplayed: boolean
   onGoingStep: string
 }
 
@@ -239,6 +240,7 @@ class App extends Component<AppProps, AppStates> {
       },
       isVsCodeMessageDisplayed: true,
       isLoaded: false,
+      isNotificationDisplayed: false,
       onGoingStep: '',
     }
   }
@@ -469,7 +471,7 @@ class App extends Component<AppProps, AppStates> {
 
       const postMessage = () =>
         this.setState({
-          modalContext: 'NOTIFICATION',
+          isNotificationDisplayed: true,
           notification: {
             type: path.data.type,
             message: path.data.message,
@@ -1131,6 +1133,25 @@ class App extends Component<AppProps, AppStates> {
                         version: this.state.announcements.version,
                         status: 'NO_ANNOUNCEMENTS',
                       },
+                    })
+                  }
+                />,
+                document.getElementById('modal') ??
+                  document.createElement('app')
+              )}
+          </Feature>
+          <Feature isActive={this.state.isNotificationDisplayed}>
+            {document.getElementById('toast') &&
+              createPortal(
+                <Modal
+                  {...this.props}
+                  {...this.state}
+                  rawData={this.state}
+                  context="NOTIFICATION"
+                  onChangePublication={(e) => this.setState({ ...e })}
+                  onClose={() =>
+                    this.setState({
+                      isNotificationDisplayed: false,
                       notification: {
                         type: 'INFO',
                         message: '',
@@ -1139,7 +1160,7 @@ class App extends Component<AppProps, AppStates> {
                     })
                   }
                 />,
-                document.getElementById('modal') ??
+                document.getElementById('toast') ??
                   document.createElement('app')
               )}
           </Feature>

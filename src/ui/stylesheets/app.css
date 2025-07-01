@@ -27,6 +27,16 @@ div#app.dragged-ghost {
   cursor: grabbing;
 }
 
+div#ui {
+  z-index: 1;
+}
+div#modal {
+  z-index: 2;
+}
+div#toast {
+  z-index: 3;
+}
+
 main {
   display: flex;
   flex-direction: column;
