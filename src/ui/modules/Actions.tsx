@@ -325,10 +325,7 @@ export default class Actions extends PureComponent<
           this.props.planStatus,
           this.props.config
         ).DOCUMENT_PUSH_UPDATES.isBlocked(),
-        isNew: Actions.features(
-          this.props.planStatus,
-          this.props.config
-        ).DOCUMENT_PUSH_UPDATES.isNew(),
+        isNew: true,
         action: this.props.onGenerateDocument,
       })
 
@@ -637,6 +634,7 @@ export default class Actions extends PureComponent<
               }}
               alignment="TOP_RIGHT"
               state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
+              isNew={this.state.canUpdateDocument}
             />
             <Menu
               id="main-actions"
