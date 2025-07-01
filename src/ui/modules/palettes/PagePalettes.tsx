@@ -29,6 +29,8 @@ interface PagePalettesStates {
   isDeleteDialogOpen: boolean
   targetedPaletteId: string
   targetedPaletteName: string
+  isContextActionLoading: Array<boolean>
+  isDestructiveActionLoading: boolean
 }
 
 export default class PagePalettes extends PureComponent<
@@ -69,7 +71,50 @@ export default class PagePalettes extends PureComponent<
       isDeleteDialogOpen: false,
       targetedPaletteId: '',
       targetedPaletteName: '',
+      isContextActionLoading: [],
+      isDestructiveActionLoading: false,
     }
+  }
+
+  // Lifecycle
+  componentDidMount = async () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentDidUpdate = (prevProps: Readonly<PagePalettesProps>): void => {
+    if (prevProps.localPalettesList.length !== this.props.localPalettesList.length)
+      this.setState({
+        isContextActionLoading: Array(this.props.localPalettesList.length).fill(
+          false
+        ),
+      })
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+
+    const actions: {
+      [key: string]: () => void
+    } = {
+      STOP_LOADER: () => 
+        this.setState({
+          isContextActionLoading: Array(this.props.localPalettesList.length).fill(
+            false
+          ),
+          isDestructiveActionLoading: false,
+          isDeleteDialogOpen: false,
+          targetedPaletteId: '',
+          targetedPaletteName: '',
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[path.type ?? 'DEFAULT']?.()
   }
 
   // Direct Actions
@@ -98,11 +143,7 @@ export default class PagePalettes extends PureComponent<
   }
 
   onDeletePalette = () => {
-    this.setState({
-      isDeleteDialogOpen: false,
-      targetedPaletteId: '',
-      targetedPaletteName: '',
-    })
+    this.setState({ isDestructiveActionLoading: true })
 
     parent.postMessage(
       {
@@ -135,6 +176,9 @@ export default class PagePalettes extends PureComponent<
                   destructive: {
                     label: this.props.locales.browse.deletePaletteDialog.delete,
                     feature: 'DELETE_PALETTE',
+                    state: this.state.isDestructiveActionLoading
+                      ? 'LOADING'
+                      : 'DEFAULT',
                     action: this.onDeletePalette,
                   },
                   secondary: {
@@ -246,8 +290,16 @@ export default class PagePalettes extends PureComponent<
                                   this.props.planStatus,
                                   this.props.config
                                 ).DUPLICATE_PALETTE.isNew(),
-                                action: () =>
-                                  this.onDuplicatePalette(palette.meta.id),
+                                action: () => {
+                                  this.setState({
+                              isContextActionLoading:
+                                this.state.isContextActionLoading.map(
+                                  (loading, i) => (i === index ? true : loading)
+                                ),
+                            })
+                            this.onDuplicatePalette(palette.meta.id)
+                                }
+                                  ,
                               },
                               {
                                 label:
@@ -275,6 +327,11 @@ export default class PagePalettes extends PureComponent<
                               },
                             ]}
                             alignment="BOTTOM_RIGHT"
+                            state={
+                              this.state.isContextActionLoading[index]
+                                ? 'LOADING'
+                                : 'DEFAULT'
+                            }
                             helper={{
                               label:
                                 this.props.locales.browse.actions

@@ -234,9 +234,9 @@ window.addEventListener('message', async (msg: any) => {
       ),
     //
     OPEN_IN_BROWSER: () => window.open(msg.url, '_blank'),
-    GET_PALETTES: async () => await getPalettesOnCurrentPage(),
+    GET_PALETTES: async () => getPalettesOnCurrentPage(),
     JUMP_TO_PALETTE: async () =>
-      await jumpToPalette(path.id).catch((error) =>
+      jumpToPalette(path.id).catch((error) =>
         iframe?.contentWindow?.postMessage({
           type: 'POST_MESSAGE',
           data: {
@@ -246,8 +246,11 @@ window.addEventListener('message', async (msg: any) => {
         })
       ),
     DUPLICATE_PALETTE: async () =>
-      await createFromDuplication(path.id)
-        .finally(async () => await getPalettesOnCurrentPage())
+      createFromDuplication(path.id)
+        .finally(async () => {
+          getPalettesOnCurrentPage()
+          iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+        })
         .catch((error) => {
           iframe?.contentWindow?.postMessage({
             type: 'POST_MESSAGE',
@@ -258,8 +261,11 @@ window.addEventListener('message', async (msg: any) => {
           })
         }),
     DELETE_PALETTE: async () =>
-      await deletePalette(path.id).finally(
-        async () => await getPalettesOnCurrentPage()
+      deletePalette(path.id).finally(
+        async () => {
+          getPalettesOnCurrentPage()
+          iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+        }
       ),
     //
     GET_PRO_PLAN: async () =>
