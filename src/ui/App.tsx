@@ -355,6 +355,12 @@ class App extends Component<AppProps, AppStates> {
     const path = e.data.type === undefined ? e.data.pluginMessage : e.data
 
     try {
+      const switchService = () => {
+        this.setState({
+          service: path.data.service,
+        })
+      }
+
       const setTheme = () => {
         document.documentElement.setAttribute('data-mode', path.data.theme)
       }
@@ -899,6 +905,7 @@ class App extends Component<AppProps, AppStates> {
       const actions: {
         [action: string]: () => void
       } = {
+        SWITCH_SERVICE: () => switchService(),
         SET_THEME: () => setTheme(),
         OPEN_IN_BROWSER: () => openInBrowser(),
         CHECK_USER_AUTHENTICATION: () => checkUserAuthentication(),
