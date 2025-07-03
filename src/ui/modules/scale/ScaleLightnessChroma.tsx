@@ -190,6 +190,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     feature?: string
   ) => {
     const onReleaseStop = () => {
+      this.palette.setKey('scale', results.scale)
+
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
@@ -355,7 +357,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -388,7 +390,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -417,7 +419,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -446,7 +448,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -479,7 +481,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -512,7 +514,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -541,7 +543,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -570,7 +572,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -599,7 +601,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
@@ -631,7 +633,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
       if (this.props.service === 'EDIT') {
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.props.onChangeThemes?.(scale(preset))
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
       trackScaleManagementEvent(
