@@ -15,18 +15,17 @@ const updateScale = async (msg: ScaleMessage) => {
   if (theme !== undefined) theme.scale = msg.data.scale
 
   if (msg.feature === 'ADD_STOP' || msg.feature === 'DELETE_STOP')
-    palette.themes.forEach((theme) => {
-      if (!theme.isEnabled)
+    palette.themes
+      .filter((theme) => !theme.isEnabled)
+      .forEach((theme) => {
         theme.scale = doScale(
           Object.keys(msg.data.scale).map((stop) => {
             return parseFloat(stop)
           }),
-          theme.scale[
-            Object.keys(theme.scale)[Object.keys(theme.scale).length - 1]
-          ],
-          theme.scale[Object.keys(theme.scale)[0]]
+          Math.min(...Object.values(theme.scale)),
+          Math.max(...Object.values(theme.scale)),
         )
-    })
+      })
 
   palette.base.preset = msg.data.preset
   palette.base.shift = msg.data.shift
@@ -36,6 +35,11 @@ const updateScale = async (msg: ScaleMessage) => {
   iframe?.contentWindow?.postMessage({
     type: 'UPDATE_PALETTE_DATE',
     data: now,
+  })
+
+  iframe?.contentWindow?.postMessage({
+    type: 'LOAD_PALETTE',
+    data: palette,
   })
 
   return window.localStorage.setItem(
