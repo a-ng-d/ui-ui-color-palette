@@ -177,7 +177,6 @@ class App extends Component<AppProps, AppStates> {
       description: '',
       preset:
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
-      namingConvention: 'ONES',
       distributionEasing: 'LINEAR',
       scale: {},
       shift: {
@@ -1031,7 +1030,6 @@ class App extends Component<AppProps, AppStates> {
         darkColor: '#000000',
       },
       distributionEasing: 'LINEAR',
-      namingConvention: 'ONES',
       dates: {
         createdAt: '',
         updatedAt: '',

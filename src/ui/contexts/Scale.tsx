@@ -43,7 +43,6 @@ interface ScaleProps extends BaseProps, WithConfigProps {
   id: string
   sourceColors?: Array<SourceColorConfiguration>
   preset: PresetConfiguration
-  namingConvention: NamingConvention
   distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
@@ -67,7 +66,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   private theme: string | null
 
   static defaultProps: Partial<ScaleProps> = {
-    namingConvention: 'ONES',
     distributionEasing: 'LINEAR',
   }
 
