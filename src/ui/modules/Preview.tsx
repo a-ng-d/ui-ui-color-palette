@@ -558,13 +558,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
 
   // Render
   render() {
-    console.log(
-      Preview.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service
-      ).PREVIEW_LOCK_SOURCE_COLORS
-    )
     return (
       <Drawer
         id="preview"
