@@ -206,21 +206,25 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       return theme
     })
 
+    const activeTheme = this.themesMessage.data.find((theme) => theme.isEnabled)
+    const newScale =
+      activeTheme?.scale ??
+      doScale(defaultPreset.stops, defaultPreset.min, defaultPreset.max)
+    const newTextColorsTheme = activeTheme?.textColorsTheme ?? {
+      lightColor: '#000000',
+      darkColor: '#FFFFFF',
+    }
+    const newVisionSimulationMode = activeTheme?.visionSimulationMode ?? 'NONE'
+
+    this.palette.setKey('scale', newScale)
+
     parent.postMessage({ pluginMessage: this.themesMessage }, '*')
 
     this.props.onChangeThemes({
-      scale:
-        this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ??
-        doScale(defaultPreset.stops, defaultPreset.min, defaultPreset.max),
+      scale: newScale,
       themes: this.themesMessage.data,
-      visionSimulationMode:
-        this.themesMessage.data.find((theme) => theme.isEnabled)
-          ?.visionSimulationMode ?? 'NONE',
-      textColorsTheme: this.themesMessage.data.find((theme) => theme.isEnabled)
-        ?.textColorsTheme ?? {
-        lightColor: '#000000',
-        darkColor: '#FFFFFF',
-      },
+      visionSimulationMode: newVisionSimulationMode,
+      textColorsTheme: newTextColorsTheme,
       onGoingStep: 'themes changed',
     })
   }
