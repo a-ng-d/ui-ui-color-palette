@@ -29,12 +29,7 @@ import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import {
-  BaseProps,
-  NamingConvention,
-  PlanStatus,
-  Service,
-} from '../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../types/app'
 import de from '../../content/images/distribution_easing.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
