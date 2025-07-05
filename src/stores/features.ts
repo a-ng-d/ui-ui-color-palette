@@ -1273,7 +1273,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   // Shortcuts
   {

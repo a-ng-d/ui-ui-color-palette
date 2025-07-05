@@ -46,7 +46,13 @@ import {
 } from '../../utils/eventsTracker'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
 import { SourceColorEvent } from '../../types/events'
-import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
+import {
+  BaseProps,
+  Context,
+  ContextItem,
+  PlanStatus,
+  Service,
+} from '../../types/app'
 import { defaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -93,10 +99,7 @@ interface EditPaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
@@ -104,21 +107,28 @@ export default class EditPalette extends PureComponent<
   private palette: typeof $palette
   private theme: string | null
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     THEMES: new FeatureStatus({
       features: config.features,
       featureName: 'THEMES',
       planStatus: planStatus,
+      currentService: service,
     }),
     ACTIONS: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIONS',
       planStatus: planStatus,
+      currentService: service,
     }),
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -139,7 +149,8 @@ export default class EditPalette extends PureComponent<
       ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
       props.planStatus,
       props.config.features,
-      props.editor
+      props.editor,
+      props.service
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -605,15 +616,18 @@ export default class EditPalette extends PureComponent<
         type: 'OPTION',
         isActive: EditPalette.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).THEMES.isActive(),
         isBlocked: EditPalette.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).THEMES.isBlocked(),
         isNew: EditPalette.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).THEMES.isNew(),
         action: () => {
           this.setState({ context: 'THEMES' })
@@ -733,7 +747,8 @@ export default class EditPalette extends PureComponent<
               isActive={
                 EditPalette.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).THEMES.isActive() && !this.props.editor.includes('dev')
               }
             >
@@ -761,7 +776,8 @@ export default class EditPalette extends PureComponent<
           isActive={
             EditPalette.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).PREVIEW.isActive() &&
             (this.state.context !== 'EXPORT' ||
               this.props.editor.includes('dev'))
@@ -775,7 +791,8 @@ export default class EditPalette extends PureComponent<
         <Feature
           isActive={EditPalette.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).ACTIONS.isActive()}
         >
           <Actions

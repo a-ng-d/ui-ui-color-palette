@@ -20,7 +20,13 @@ import {
 import { WithConfigProps } from '../../components/WithConfig'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
 import { trackPublicationEvent } from '../../../utils/eventsTracker'
-import { BaseProps, Context, FetchStatus, PlanStatus } from '../../../types/app'
+import {
+  BaseProps,
+  Context,
+  FetchStatus,
+  PlanStatus,
+  Service,
+} from '../../../types/app'
 import { ConfigContextType } from '../../../index'
 import { getSupabase } from '../../../external/auth/client'
 
@@ -47,11 +53,16 @@ export default class CommunityPalettes extends PureComponent<
   CommunityPalettesProps,
   CommunityPalettesStates
 > {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -357,7 +368,8 @@ export default class CommunityPalettes extends PureComponent<
                     isLoading={this.state.isAddToLocalActionLoading[index]}
                     isBlocked={CommunityPalettes.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).LOCAL_PALETTES.isReached(
                       this.props.localPalettesList.length
                     )}

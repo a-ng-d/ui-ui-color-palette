@@ -4,7 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import pp from '../../../content/images/pro_plan.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -13,11 +13,16 @@ interface WelcomeToProProps extends BaseProps, WithConfigProps {
 }
 
 export default class WelcomeToPro extends PureComponent<WelcomeToProProps> {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     PRO_PLAN: new FeatureStatus({
       features: config.features,
       featureName: 'PRO_PLAN',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -27,7 +32,8 @@ export default class WelcomeToPro extends PureComponent<WelcomeToProProps> {
       <Feature
         isActive={WelcomeToPro.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).PRO_PLAN.isActive()}
       >
         <Dialog

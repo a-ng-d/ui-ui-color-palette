@@ -14,7 +14,7 @@ import {
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
-import { BaseProps, PlanStatus } from '../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ExportProps extends BaseProps, WithConfigProps {
@@ -49,111 +49,136 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     exportPreview: '',
   }
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     EXPORT_CSS_RGB: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_CSS_RGB',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_CSS_HEX: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_CSS_HEX',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_CSS_HSL: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_CSS_HSL',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_CSS_LCH: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_CSS_LCH',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_CSS_P3: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_CSS_P3',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TOKENS: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TOKENS',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TOKENS_JSON: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TOKENS_JSON',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TOKENS_JSON_TOKENS_STUDIO: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TOKENS_JSON_DTCG: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TOKENS_JSON_DTCG',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TOKENS_JSON_DTCG_RGB: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TOKENS_JSON_DTCG_RGB',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TOKENS_JSON_DTCG_OKLCH: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TOKENS_JSON_DTCG_OKLCH',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_CSS: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_CSS',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_TAILWIND: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TAILWIND',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_APPLE: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_APPLE',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_APPLE_SWIFTUI: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_APPLE_SWIFTUI',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_APPLE_UIKIT: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_APPLE_UIKIT',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_ANDROID: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_ANDROID',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_ANDROID_COMPOSE: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_ANDROID_COMPOSE',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_ANDROID_XML: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_ANDROID_XML',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT_CSV: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_CSV',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -206,15 +231,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_TOKENS_JSON_DTCG_RGB.isActive(),
                 isBlocked: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_TOKENS_JSON_DTCG_RGB.isBlocked(),
                 isNew: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_TOKENS_JSON_DTCG_RGB.isNew(),
                 action: this.exportHandler,
               },
@@ -225,15 +253,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_TOKENS_JSON_DTCG_OKLCH.isActive(),
                 isBlocked: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_TOKENS_JSON_DTCG_OKLCH.isBlocked(),
                 isNew: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_TOKENS_JSON_DTCG_OKLCH.isNew(),
                 action: this.exportHandler,
               },
@@ -337,15 +368,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_RGB.isActive(),
                 isBlocked: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_RGB.isBlocked(),
                 isNew: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_RGB.isNew(),
                 action: this.exportHandler,
               },
@@ -356,15 +390,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_HEX.isActive(),
                 isBlocked: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_HEX.isBlocked(),
                 isNew: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_HEX.isNew(),
                 action: this.exportHandler,
               },
@@ -375,15 +412,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_HSL.isActive(),
                 isBlocked: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_HSL.isBlocked(),
                 isNew: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_HSL.isNew(),
                 action: this.exportHandler,
               },
@@ -394,15 +434,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_LCH.isActive(),
                 isBlocked: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_LCH.isBlocked(),
                 isNew: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_LCH.isNew(),
                 action: this.exportHandler,
               },
@@ -413,15 +456,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 type: 'OPTION',
                 isActive: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_P3.isActive(),
                 isBlocked: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_P3.isBlocked(),
                 isNew: Export.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).EXPORT_CSS_P3.isNew(),
                 action: this.exportHandler,
               },
@@ -683,15 +729,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             type: 'OPTION',
                             isActive: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_TOKENS.isActive(),
                             isBlocked: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_TOKENS.isBlocked(),
                             isNew: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_TOKENS.isNew(),
                             children: [
                               {
@@ -701,15 +750,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isNew(),
                                 action: this.exportHandler,
                               },
@@ -720,15 +772,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_DTCG.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_DTCG.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_DTCG.isNew(),
                                 action: this.exportHandler,
                               },
@@ -740,15 +795,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isNew(),
                                 action: this.exportHandler,
                               },
@@ -758,15 +816,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_TOKENS_JSON.isNew(),
                                 action: this.exportHandler,
                               },
@@ -779,15 +840,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             type: 'OPTION',
                             isActive: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_CSS.isActive(),
                             isBlocked: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_CSS.isBlocked(),
                             isNew: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_CSS.isNew(),
                             action: this.exportHandler,
                           },
@@ -797,15 +861,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             type: 'OPTION',
                             isActive: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_TAILWIND.isActive(),
                             isBlocked: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_TAILWIND.isBlocked(),
                             isNew: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_TAILWIND.isNew(),
                             action: this.exportHandler,
                           },
@@ -815,15 +882,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             type: 'OPTION',
                             isActive: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_APPLE.isActive(),
                             isBlocked: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_APPLE.isBlocked(),
                             isNew: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_APPLE.isNew(),
                             children: [
                               {
@@ -832,15 +902,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_APPLE_SWIFTUI.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_APPLE_SWIFTUI.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_APPLE_SWIFTUI.isNew(),
                                 action: this.exportHandler,
                               },
@@ -850,15 +923,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_APPLE_UIKIT.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_APPLE_UIKIT.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_APPLE_UIKIT.isNew(),
                                 action: this.exportHandler,
                               },
@@ -871,15 +947,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             type: 'OPTION',
                             isActive: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_ANDROID.isActive(),
                             isBlocked: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_ANDROID.isBlocked(),
                             isNew: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_ANDROID.isNew(),
                             children: [
                               {
@@ -889,15 +968,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_ANDROID_COMPOSE.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_ANDROID_COMPOSE.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_ANDROID_COMPOSE.isNew(),
                                 action: this.exportHandler,
                               },
@@ -908,15 +990,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_ANDROID_XML.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_ANDROID_XML.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).EXPORT_ANDROID_XML.isNew(),
                                 action: this.exportHandler,
                               },
@@ -929,15 +1014,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             type: 'OPTION',
                             isActive: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_CSV.isActive(),
                             isBlocked: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_CSV.isBlocked(),
                             isNew: Export.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).EXPORT_CSV.isNew(),
                             action: this.exportHandler,
                           },

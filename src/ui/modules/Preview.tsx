@@ -33,7 +33,7 @@ import Shade from '../components/Shade'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
 import { trackPreviewManagementEvent } from '../../utils/eventsTracker'
-import { BaseProps, PlanStatus } from '../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../types/app'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
 import lsc from '../../content/images/lock_source_colors.gif'
@@ -62,121 +62,143 @@ interface PreviewStates {
   drawerMaxHeight?: number
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private unsubscribeWCAG: (() => void) | undefined
   private unsubscribeAPCA: (() => void) | undefined
   private palette: typeof $palette
   private drawerRef: React.RefObject<Drawer>
   private resizeObserver: ResizeObserver | null
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     PREVIEW_SCORES: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_SCORES',
       planStatus: planStatus,
+      currentService: service,
     }),
     PREVIEW_SCORES_WCAG: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_SCORES_WCAG',
       planStatus: planStatus,
+      currentService: service,
     }),
     PREVIEW_SCORES_APCA: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_SCORES_APCA',
       planStatus: planStatus,
+      currentService: service,
     }),
     PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_SPACE: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_SPACE',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_SPACE_LCH',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_SPACE_LAB',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_SPACE_HSL',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -536,6 +558,13 @@ export default class Preview extends PureComponent<
 
   // Render
   render() {
+    console.log(
+      Preview.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service
+      ).PREVIEW_LOCK_SOURCE_COLORS
+    )
     return (
       <Drawer
         id="preview"
@@ -596,15 +625,18 @@ export default class Preview extends PureComponent<
                     type: 'OPTION',
                     isActive: Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).PREVIEW_SCORES_WCAG.isActive(),
                     isBlocked: Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).PREVIEW_SCORES_WCAG.isBlocked(),
                     isNew: Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).PREVIEW_SCORES_WCAG.isNew(),
                     action: () => {
                       $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
@@ -630,15 +662,18 @@ export default class Preview extends PureComponent<
                     type: 'OPTION',
                     isActive: Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).PREVIEW_SCORES_APCA.isActive(),
                     isBlocked: Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).PREVIEW_SCORES_APCA.isBlocked(),
                     isNew: Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).PREVIEW_SCORES_APCA.isNew(),
                     action: () => {
                       $isAPCADisplayed.set(!this.state.isAPCADisplayed)
@@ -666,11 +701,13 @@ export default class Preview extends PureComponent<
                 }}
                 isBlocked={Preview.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).PREVIEW_SCORES.isBlocked()}
                 isNew={Preview.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).PREVIEW_SCORES.isNew()}
               />
             </div>
@@ -686,7 +723,8 @@ export default class Preview extends PureComponent<
                 <Feature
                   isActive={Preview.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).PREVIEW_LOCK_SOURCE_COLORS.isActive()}
                 >
                   <Select
@@ -703,13 +741,15 @@ export default class Preview extends PureComponent<
                     isBlocked={
                       Preview.features(
                         this.props.planStatus,
-                        this.props.config
+                        this.props.config,
+                        this.props.service
                       ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked() &&
                       !this.props.areSourceColorsLocked
                     }
                     isNew={Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).PREVIEW_LOCK_SOURCE_COLORS.isNew()}
                     action={this.colorSettingsHandler}
                   />
@@ -717,7 +757,8 @@ export default class Preview extends PureComponent<
                 <Feature
                   isActive={Preview.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SETTINGS_COLOR_SPACE.isActive()}
                 >
                   <Dropdown
@@ -730,15 +771,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_LCH.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_LCH.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_LCH.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -750,15 +794,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_OKLCH.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_OKLCH.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -769,15 +816,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_LAB.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_LAB.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_LAB.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -789,15 +839,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_OKLAB.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_OKLAB.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -808,15 +861,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_HSL.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_HSL.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_HSL.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -828,15 +884,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_HSLUV.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_COLOR_SPACE_HSLUV.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -846,18 +905,21 @@ export default class Preview extends PureComponent<
                     containerId="app"
                     isBlocked={Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).SETTINGS_COLOR_SPACE.isBlocked()}
                     isNew={Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).SETTINGS_COLOR_SPACE.isNew()}
                   />
                 </Feature>
                 <Feature
                   isActive={Preview.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SETTINGS_VISION_SIMULATION_MODE.isActive()}
                 >
                   <Dropdown
@@ -872,15 +934,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -902,15 +967,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -923,15 +991,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -944,15 +1015,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -965,15 +1039,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -986,15 +1063,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -1007,15 +1087,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -1028,15 +1111,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -1049,15 +1135,18 @@ export default class Preview extends PureComponent<
                         type: 'OPTION',
                         isActive: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
                         isBlocked: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
                         isNew: Preview.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
                         action: this.colorSettingsHandler,
                       },
@@ -1067,11 +1156,13 @@ export default class Preview extends PureComponent<
                     containerId="app"
                     isBlocked={Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
                     isNew={Preview.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
                   />
                 </Feature>

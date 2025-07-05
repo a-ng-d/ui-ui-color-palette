@@ -5,7 +5,7 @@ import { Notification } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { NotificationMessage } from '../../../types/messages'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface NotificationBannerProps extends BaseProps, WithConfigProps {
@@ -14,11 +14,16 @@ interface NotificationBannerProps extends BaseProps, WithConfigProps {
 }
 
 export default class NotificationBanner extends PureComponent<NotificationBannerProps> {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     NOTIFICATIONS: new FeatureStatus({
       features: config.features,
       featureName: 'NOTIFICATIONS',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -28,7 +33,8 @@ export default class NotificationBanner extends PureComponent<NotificationBanner
       <Feature
         isActive={NotificationBanner.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).NOTIFICATIONS.isActive()}
       >
         <Notification

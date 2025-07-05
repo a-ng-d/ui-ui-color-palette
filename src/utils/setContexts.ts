@@ -1,73 +1,86 @@
 import { Feature, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Context, Editor, PlanStatus } from '../types/app'
+import { Context, Editor, PlanStatus, Service } from '../types/app'
 import { locales } from '../content/locales'
 
 export const setContexts = (
   contextList: Array<Context>,
   planStatus: PlanStatus,
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>,
-  editor: Editor
+  editor: Editor,
+  service: Service
 ) => {
   const featuresList = {
     LOCAL_PALETTES: new FeatureStatus({
       features: features,
       featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
+      currentService: service,
     }),
     LOCAL_PALETTES_PAGE: new FeatureStatus({
       features: features,
       featureName: 'LOCAL_PALETTES_PAGE',
       planStatus: planStatus,
+      currentService: service,
     }),
     REMOTE_PALETTES: new FeatureStatus({
       features: features,
       featureName: 'REMOTE_PALETTES',
       planStatus: planStatus,
+      currentService: service,
     }),
     REMOTE_PALETTES_SELF: new FeatureStatus({
       features: features,
       featureName: 'REMOTE_PALETTES_SELF',
       planStatus: planStatus,
+      currentService: service,
     }),
     REMOTE_PALETTES_COMMUNITY: new FeatureStatus({
       features: features,
       featureName: 'REMOTE_PALETTES_COMMUNITY',
       planStatus: planStatus,
+      currentService: service,
     }),
     SOURCE: new FeatureStatus({
       features: features,
       featureName: 'SOURCE',
       planStatus: planStatus,
+      currentService: service,
     }),
     SOURCE_EXPLORE: new FeatureStatus({
       features: features,
       featureName: 'SOURCE_EXPLORE',
       planStatus: planStatus,
+      currentService: service,
     }),
     SCALE: new FeatureStatus({
       features: features,
       featureName: 'SCALE',
       planStatus: planStatus,
+      currentService: service,
     }),
     COLORS: new FeatureStatus({
       features: features,
       featureName: 'COLORS',
       planStatus: planStatus,
+      currentService: service,
     }),
     THEMES: new FeatureStatus({
       features: features,
       featureName: 'THEMES',
       planStatus: planStatus,
+      currentService: service,
     }),
     EXPORT: new FeatureStatus({
       features: features,
       featureName: 'EXPORT',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS',
       planStatus: planStatus,
+      currentService: service,
     }),
   }
 

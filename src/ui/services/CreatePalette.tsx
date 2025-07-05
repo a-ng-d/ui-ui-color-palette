@@ -32,6 +32,7 @@ import {
   ContextItem,
   NamingConvention,
   PlanStatus,
+  Service,
   ThirdParty,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -81,16 +82,22 @@ export default class CreatePalette extends PureComponent<
   private palette: typeof $palette
   private theme: string | null
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     ACTIONS: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIONS',
       planStatus: planStatus,
+      currentService: service,
     }),
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -101,7 +108,8 @@ export default class CreatePalette extends PureComponent<
       ['SOURCE', 'SCALE', 'SETTINGS'],
       props.planStatus,
       props.config.features,
-      props.editor
+      props.editor,
+      props.service
     )
     this.state = {
       context:
@@ -332,7 +340,8 @@ export default class CreatePalette extends PureComponent<
           isActive={
             CreatePalette.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).PREVIEW.isActive() && this.props.sourceColors.length > 0
           }
         >
@@ -346,7 +355,8 @@ export default class CreatePalette extends PureComponent<
         <Feature
           isActive={CreatePalette.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).ACTIONS.isActive()}
         >
           <Actions

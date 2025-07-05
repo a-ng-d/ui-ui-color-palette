@@ -24,7 +24,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackColorThemesManagementEvent } from '../../utils/eventsTracker'
 import { ThemesMessage } from '../../types/messages'
-import { BaseProps, PlanStatus } from '../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
@@ -40,26 +40,34 @@ interface ThemesProps extends BaseProps, WithConfigProps {
 export default class Themes extends PureComponent<ThemesProps> {
   private themesMessage: ThemesMessage
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     THEMES: new FeatureStatus({
       features: config.features,
       featureName: 'THEMES',
       planStatus: planStatus,
+      currentService: service,
     }),
     THEMES_NAME: new FeatureStatus({
       features: config.features,
       featureName: 'THEMES_NAME',
       planStatus: planStatus,
+      currentService: service,
     }),
     THEMES_PARAMS: new FeatureStatus({
       features: config.features,
       featureName: 'THEMES_PARAMS',
       planStatus: planStatus,
+      currentService: service,
     }),
     THEMES_DESCRIPTION: new FeatureStatus({
       features: config.features,
       featureName: 'THEMES_DESCRIPTION',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -396,7 +404,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                       }}
                       isBlocked={Themes.features(
                         this.props.planStatus,
-                        this.props.config
+                        this.props.config,
+                        this.props.service
                       ).THEMES.isBlocked()}
                       feature="ADD_THEME"
                       action={this.themesHandler}
@@ -414,7 +423,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                         <>
                           {Themes.features(
                             this.props.planStatus,
-                            this.props.config
+                            this.props.config,
+                            this.props.service
                           ).THEMES.isBlocked() &&
                             (this.props.config.plan.isTrialEnabled &&
                             this.props.trialStatus !== 'EXPIRED' ? (
@@ -452,7 +462,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                             label={this.props.locales.themes.callout.cta}
                             isBlocked={Themes.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).THEMES.isBlocked()}
                             action={this.themesHandler}
                           />
@@ -464,7 +475,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                   <>
                     {Themes.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).THEMES.isBlocked() && (
                       <div
                         style={{
@@ -517,7 +529,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                             <Feature
                               isActive={Themes.features(
                                 this.props.planStatus,
-                                this.props.config
+                                this.props.config,
+                                this.props.service
                               ).THEMES_NAME.isActive()}
                             >
                               <div className="draggable-item__param--compact">
@@ -534,11 +547,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   }}
                                   isBlocked={Themes.features(
                                     this.props.planStatus,
-                                    this.props.config
+                                    this.props.config,
+                                    this.props.service
                                   ).THEMES_NAME.isBlocked()}
                                   isNew={Themes.features(
                                     this.props.planStatus,
-                                    this.props.config
+                                    this.props.config,
+                                    this.props.service
                                   ).THEMES_NAME.isNew()}
                                   onBlur={this.themesHandler}
                                 />
@@ -547,7 +562,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                             <Feature
                               isActive={Themes.features(
                                 this.props.planStatus,
-                                this.props.config
+                                this.props.config,
+                                this.props.service
                               ).THEMES_PARAMS.isActive()}
                             >
                               <div className="draggable-item__param">
@@ -560,7 +576,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   shouldFill={false}
                                   isBlocked={Themes.features(
                                     this.props.planStatus,
-                                    this.props.config
+                                    this.props.config,
+                                    this.props.service
                                   ).THEMES_PARAMS.isBlocked()}
                                 >
                                   <Input
@@ -570,11 +587,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     feature="UPDATE_PALETTE_BACKGROUND"
                                     isBlocked={Themes.features(
                                       this.props.planStatus,
-                                      this.props.config
+                                      this.props.config,
+                                      this.props.service
                                     ).THEMES_PARAMS.isBlocked()}
                                     isNew={Themes.features(
                                       this.props.planStatus,
-                                      this.props.config
+                                      this.props.config,
+                                      this.props.service
                                     ).THEMES_PARAMS.isNew()}
                                     onChange={this.themesHandler}
                                     onBlur={this.themesHandler}
@@ -597,7 +616,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                               <Feature
                                 isActive={Themes.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).THEMES_DESCRIPTION.isActive()}
                               >
                                 <div className="draggable-item__param">
@@ -609,7 +629,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     }
                                     isBlocked={Themes.features(
                                       this.props.planStatus,
-                                      this.props.config
+                                      this.props.config,
+                                      this.props.service
                                     ).THEMES_DESCRIPTION.isBlocked()}
                                   >
                                     <Input
@@ -623,11 +644,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                       feature="UPDATE_DESCRIPTION"
                                       isBlocked={Themes.features(
                                         this.props.planStatus,
-                                        this.props.config
+                                        this.props.config,
+                                        this.props.service
                                       ).THEMES_DESCRIPTION.isBlocked()}
                                       isNew={Themes.features(
                                         this.props.planStatus,
-                                        this.props.config
+                                        this.props.config,
+                                        this.props.service
                                       ).THEMES_DESCRIPTION.isNew()}
                                       isGrowing
                                       onBlur={this.themesHandler}
@@ -649,7 +672,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                       onRemoveItem={this.themesHandler}
                       isBlocked={Themes.features(
                         this.props.planStatus,
-                        this.props.config
+                        this.props.config,
+                        this.props.service
                       ).THEMES.isBlocked()}
                     />
                   </>

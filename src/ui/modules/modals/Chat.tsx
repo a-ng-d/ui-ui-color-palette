@@ -4,7 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 declare global {
@@ -20,11 +20,16 @@ interface ChatProps extends BaseProps, WithConfigProps {
 }
 
 export default class Chat extends PureComponent<ChatProps> {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     HELP_CHAT: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_CHAT',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -48,7 +53,8 @@ export default class Chat extends PureComponent<ChatProps> {
       <Feature
         isActive={Chat.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).HELP_CHAT.isActive()}
       >
         <Dialog

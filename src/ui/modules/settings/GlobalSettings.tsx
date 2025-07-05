@@ -10,7 +10,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface GlobalSettingsProps extends BaseProps, WithConfigProps {
@@ -25,16 +25,22 @@ interface GlobalSettingsProps extends BaseProps, WithConfigProps {
 }
 
 export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     SETTINGS_NAME: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_NAME',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_DESCRIPTION: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_DESCRIPTION',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -48,7 +54,8 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
       <Feature
         isActive={GlobalSettings.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).SETTINGS_NAME.isActive()}
       >
         <FormItem
@@ -56,7 +63,8 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
           id="update-palette-name"
           isBlocked={GlobalSettings.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SETTINGS_NAME.isBlocked()}
         >
           <Input
@@ -67,11 +75,13 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             charactersLimit={64}
             isBlocked={GlobalSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_NAME.isBlocked()}
             isNew={GlobalSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_NAME.isNew()}
             feature="RENAME_PALETTE"
             onChange={this.props.onChangeSettings}
@@ -88,7 +98,8 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
       <Feature
         isActive={GlobalSettings.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).SETTINGS_DESCRIPTION.isActive()}
       >
         <FormItem
@@ -96,7 +107,8 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
           id="update-palette-description"
           isBlocked={GlobalSettings.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SETTINGS_DESCRIPTION.isBlocked()}
         >
           <Input
@@ -106,11 +118,13 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             value={this.props.description}
             isBlocked={GlobalSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_DESCRIPTION.isBlocked()}
             isNew={GlobalSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_DESCRIPTION.isNew()}
             feature="UPDATE_DESCRIPTION"
             isGrowing

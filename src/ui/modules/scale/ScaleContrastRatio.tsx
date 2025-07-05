@@ -19,7 +19,7 @@ import {
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { ScaleMessage } from '../../../types/messages'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { $palette } from '../../../stores/palette'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -52,11 +52,16 @@ export default class ScaleContrastRatio extends PureComponent<
     distributionEasing: 'LINEAR',
   }
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     SCALE_CONTRAST_RATIO: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CONTRAST_RATIO',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -402,7 +407,8 @@ export default class ScaleContrastRatio extends PureComponent<
                 <Feature
                   isActive={ScaleContrastRatio.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SCALE_CONTRAST_RATIO.isActive()}
                 >
                   <Select
@@ -412,11 +418,13 @@ export default class ScaleContrastRatio extends PureComponent<
                     isChecked={true}
                     isBlocked={ScaleContrastRatio.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={ScaleContrastRatio.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />
@@ -449,11 +457,13 @@ export default class ScaleContrastRatio extends PureComponent<
           }}
           isBlocked={ScaleContrastRatio.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={ScaleContrastRatio.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SCALE_CONTRAST_RATIO.isNew()}
           onChange={this.contrastLightForegroundHandler}
         />
@@ -479,11 +489,13 @@ export default class ScaleContrastRatio extends PureComponent<
           }}
           isBlocked={ScaleContrastRatio.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={ScaleContrastRatio.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SCALE_CONTRAST_RATIO.isNew()}
           onChange={this.contrastDarkForegroundHandler}
         />

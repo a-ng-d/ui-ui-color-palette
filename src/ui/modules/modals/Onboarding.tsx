@@ -4,7 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface OnboardingProps extends BaseProps, WithConfigProps {
@@ -23,11 +23,16 @@ export default class Onboarding extends PureComponent<
   OnboardingProps,
   OnboardingStates
 > {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     HELP_ONBOARDING: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_ONBOARDING',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -148,7 +153,8 @@ export default class Onboarding extends PureComponent<
         <Feature
           isActive={Onboarding.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog
@@ -163,7 +169,8 @@ export default class Onboarding extends PureComponent<
         <Feature
           isActive={Onboarding.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog
@@ -183,7 +190,8 @@ export default class Onboarding extends PureComponent<
         <Feature
           isActive={Onboarding.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog

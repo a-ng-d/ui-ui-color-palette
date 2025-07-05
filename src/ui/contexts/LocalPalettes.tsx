@@ -6,7 +6,13 @@ import { Layout } from '@a_ng_d/figmug-ui'
 import PagePalettes from '../modules/palettes/PagePalettes'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
-import { BaseProps, Context, ContextItem, PlanStatus } from '../../types/app'
+import {
+  BaseProps,
+  Context,
+  ContextItem,
+  PlanStatus,
+  Service,
+} from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface LocalPalettesProps extends BaseProps, WithConfigProps {
@@ -25,11 +31,16 @@ export default class LocalPalettes extends PureComponent<
 > {
   private contexts: Array<ContextItem>
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     LOCAL_PALETTES_PAGE: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES_PAGE',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -39,7 +50,8 @@ export default class LocalPalettes extends PureComponent<
       ['LOCAL_PALETTES_PAGE'],
       props.planStatus,
       props.config.features,
-      props.editor
+      props.editor,
+      props.service
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',

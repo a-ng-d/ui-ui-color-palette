@@ -25,7 +25,7 @@ import {
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
-import { BaseProps, PlanStatus } from '../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -82,91 +82,112 @@ export default class Actions extends PureComponent<
     document: {},
   }
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     GET_PRO_PLAN: new FeatureStatus({
       features: config.features,
       featureName: 'GET_PRO_PLAN',
       planStatus: planStatus,
+      currentService: service,
     }),
     SOURCE: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE',
       planStatus: planStatus,
+      currentService: service,
     }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
     SYNC_LOCAL_STYLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_STYLES',
       planStatus: planStatus,
+      currentService: service,
     }),
     SYNC_LOCAL_VARIABLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_VARIABLES',
       planStatus: planStatus,
+      currentService: service,
     }),
     DOCUMENT_SHEET: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_SHEET',
       planStatus: planStatus,
+      currentService: service,
     }),
     DOCUMENT_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
     DOCUMENT_PALETTE_PROPERTIES: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PALETTE_PROPERTIES',
       planStatus: planStatus,
+      currentService: service,
     }),
     DOCUMENT_PUSH_UPDATES: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PUSH_UPDATES',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_NAME: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_NAME',
       planStatus: planStatus,
+      currentService: service,
     }),
     PRESETS_CUSTOM_ADD: new FeatureStatus({
       features: config.features,
       featureName: 'PRESETS_CUSTOM_ADD',
       planStatus: planStatus,
+      currentService: service,
     }),
     VIEWS: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS',
       planStatus: planStatus,
+      currentService: service,
     }),
     VIEWS_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
     VIEWS_PALETTE_WITH_PROPERTIES: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_PALETTE_WITH_PROPERTIES',
       planStatus: planStatus,
+      currentService: service,
     }),
     VIEWS_SHEET: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_SHEET',
       planStatus: planStatus,
+      currentService: service,
     }),
     PUBLISH_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'PUBLISH_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
     PUBLICATION: new FeatureStatus({
       features: config.features,
       featureName: 'PUBLICATION',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -236,15 +257,18 @@ export default class Actions extends PureComponent<
         type: 'OPTION',
         isActive: Actions.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).PUBLISH_PALETTE.isActive(),
         isBlocked: Actions.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).PUBLISH_PALETTE.isBlocked(),
         isNew: Actions.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).PUBLISH_PALETTE.isNew(),
         action: this.props.onPublishPalette,
       },
@@ -259,15 +283,18 @@ export default class Actions extends PureComponent<
             type: 'OPTION',
             isActive: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_PALETTE.isActive(),
             isBlocked: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_PALETTE.isBlocked(),
             isNew: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_PALETTE.isNew(),
             action: this.props.onGenerateDocument,
           },
@@ -278,15 +305,18 @@ export default class Actions extends PureComponent<
             type: 'OPTION',
             isActive: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_PALETTE_PROPERTIES.isActive(),
             isBlocked: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
             isNew: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_PALETTE_PROPERTIES.isNew(),
             action: this.props.onGenerateDocument,
           },
@@ -296,15 +326,18 @@ export default class Actions extends PureComponent<
             type: 'OPTION',
             isActive: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_SHEET.isActive(),
             isBlocked: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_SHEET.isBlocked(),
             isNew: Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).DOCUMENT_SHEET.isNew(),
             action: this.props.onGenerateDocument,
           },
@@ -319,11 +352,13 @@ export default class Actions extends PureComponent<
         type: 'OPTION',
         isActive: Actions.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).DOCUMENT_PUSH_UPDATES.isActive(),
         isBlocked: Actions.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).DOCUMENT_PUSH_UPDATES.isBlocked(),
         isNew: true,
         action: this.props.onGenerateDocument,
@@ -401,11 +436,13 @@ export default class Actions extends PureComponent<
               }}
               isBlocked={Actions.features(
                 this.props.planStatus,
-                this.props.config
+                this.props.config,
+                this.props.service
               ).SETTINGS_NAME.isBlocked()}
               isNew={Actions.features(
                 this.props.planStatus,
-                this.props.config
+                this.props.config,
+                this.props.service
               ).SETTINGS_NAME.isNew()}
               feature="RENAME_PALETTE"
               onChange={this.nameHandler}
@@ -433,7 +470,8 @@ export default class Actions extends PureComponent<
             </div>
             {Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SOURCE.isReached(this.props.sourceColors.length - 1) && (
               <div
                 style={{
@@ -461,7 +499,8 @@ export default class Actions extends PureComponent<
                       String(
                         Actions.features(
                           this.props.planStatus,
-                          this.props.config
+                          this.props.config,
+                          this.props.service
                         ).SOURCE.limit ?? 0
                       )
                     )}
@@ -475,7 +514,8 @@ export default class Actions extends PureComponent<
           <Feature
             isActive={Actions.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).CREATE_PALETTE.isActive()}
           >
             <Button
@@ -486,11 +526,13 @@ export default class Actions extends PureComponent<
               isBlocked={
                 Actions.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).SOURCE.isReached(this.props.sourceColors.length - 1) ||
                 Actions.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).PRESETS_CUSTOM_ADD.isReached(
                   Object.keys(this.props.scale).length - 1
                 )
@@ -515,7 +557,8 @@ export default class Actions extends PureComponent<
               isActive={
                 Actions.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).PUBLICATION.isActive() &&
                 this.props.publicationStatus?.isPublished
               }
@@ -537,11 +580,13 @@ export default class Actions extends PureComponent<
               }}
               isBlocked={Actions.features(
                 this.props.planStatus,
-                this.props.config
+                this.props.config,
+                this.props.service
               ).SETTINGS_NAME.isBlocked()}
               isNew={Actions.features(
                 this.props.planStatus,
-                this.props.config
+                this.props.config,
+                this.props.service
               ).SETTINGS_NAME.isNew()}
               feature="RENAME_PALETTE"
               onChange={this.nameHandler}
@@ -558,15 +603,18 @@ export default class Actions extends PureComponent<
                     type: 'OPTION',
                     isActive: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_PALETTE.isActive(),
                     isBlocked: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_PALETTE.isBlocked(),
                     isNew: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_PALETTE.isNew(),
                     action: this.props.onChangeView,
                   },
@@ -576,15 +624,18 @@ export default class Actions extends PureComponent<
                     type: 'OPTION',
                     isActive: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
                     isBlocked: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_PALETTE_WITH_PROPERTIES.isBlocked(),
                     isNew: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
                     action: this.props.onChangeView,
                   },
@@ -594,15 +645,18 @@ export default class Actions extends PureComponent<
                     type: 'OPTION',
                     isActive: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_SHEET.isActive(),
                     isBlocked: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_SHEET.isBlocked(),
                     isNew: Actions.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).VIEWS_SHEET.isNew(),
                     action: this.props.onChangeView,
                   },
@@ -610,11 +664,13 @@ export default class Actions extends PureComponent<
                 selected={this.props.document.view}
                 isBlocked={Actions.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).VIEWS.isBlocked()}
                 isNew={Actions.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).VIEWS.isNew()}
               />
             )}
@@ -648,15 +704,18 @@ export default class Actions extends PureComponent<
                   type: 'OPTION',
                   isActive: Actions.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SYNC_LOCAL_STYLES.isActive(),
                   isBlocked: Actions.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SYNC_LOCAL_STYLES.isBlocked(),
                   isNew: Actions.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SYNC_LOCAL_STYLES.isNew(),
                   action: (e) => this.props.onSyncLocalStyles?.(e),
                 },
@@ -667,15 +726,18 @@ export default class Actions extends PureComponent<
                   type: 'OPTION',
                   isActive: Actions.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SYNC_LOCAL_VARIABLES.isActive(),
                   isBlocked: Actions.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SYNC_LOCAL_VARIABLES.isBlocked(),
                   isNew: Actions.features(
                     this.props.planStatus,
-                    this.props.config
+                    this.props.config,
+                    this.props.service
                   ).SYNC_LOCAL_VARIABLES.isNew(),
                   action: (e) => this.props.onSyncLocalVariables?.(e),
                 },

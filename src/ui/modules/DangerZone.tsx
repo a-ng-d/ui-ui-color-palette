@@ -11,7 +11,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { BaseProps, PlanStatus } from '../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface DangerZoneProps extends BaseProps, WithConfigProps {
@@ -29,11 +29,16 @@ export default class DangerZone extends PureComponent<
   DangerZoneProps,
   DangerZoneState
 > {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
-    SETTINGS_TEXT_COLORS_THEME: new FeatureStatus({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
+    DELETE_PALETTE: new FeatureStatus({
       features: config.features,
-      featureName: 'SETTINGS_TEXT_COLORS_THEME',
+      featureName: 'DELETE_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -70,52 +75,56 @@ export default class DangerZone extends PureComponent<
   // Templates
   Modals = () => {
     return (
-      <>
-        <Feature isActive={this.state.isDeleteDialogOpen}>
-          {document.getElementById('modal') &&
-            createPortal(
-              <Dialog
-                title={this.props.locales.browse.deletePaletteDialog.title}
-                actions={{
-                  destructive: {
-                    label: this.props.locales.browse.deletePaletteDialog.delete,
-                    feature: 'DELETE_PALETTE',
-                    action: this.onDeletePalette,
-                  },
-                  secondary: {
-                    label: this.props.locales.browse.deletePaletteDialog.cancel,
-                    action: () =>
-                      this.setState({
-                        isDeleteDialogOpen: false,
-                      }),
-                  },
-                }}
-                onClose={() =>
-                  this.setState({
-                    isDeleteDialogOpen: false,
-                  })
-                }
-              >
-                <div className="dialog__text">
-                  <p className={texts.type}>
-                    {this.props.locales.browse.deletePaletteDialog.message.replace(
-                      '{$1}',
-                      this.props.name
-                    )}
-                  </p>
-                </div>
-              </Dialog>,
-              document.getElementById('modal') ?? document.createElement('app')
-            )}
-        </Feature>
-      </>
+      <Feature isActive={this.state.isDeleteDialogOpen}>
+        {document.getElementById('modal') &&
+          createPortal(
+            <Dialog
+              title={this.props.locales.browse.deletePaletteDialog.title}
+              actions={{
+                destructive: {
+                  label: this.props.locales.browse.deletePaletteDialog.delete,
+                  feature: 'DELETE_PALETTE',
+                  action: this.onDeletePalette,
+                },
+                secondary: {
+                  label: this.props.locales.browse.deletePaletteDialog.cancel,
+                  action: () =>
+                    this.setState({
+                      isDeleteDialogOpen: false,
+                    }),
+                },
+              }}
+              onClose={() =>
+                this.setState({
+                  isDeleteDialogOpen: false,
+                })
+              }
+            >
+              <div className="dialog__text">
+                <p className={texts.type}>
+                  {this.props.locales.browse.deletePaletteDialog.message.replace(
+                    '{$1}',
+                    this.props.name
+                  )}
+                </p>
+              </div>
+            </Dialog>,
+            document.getElementById('modal') ?? document.createElement('app')
+          )}
+      </Feature>
     )
   }
 
   // Render
   render() {
     return (
-      <>
+      <Feature
+        isActive={DangerZone.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service
+        ).DELETE_PALETTE.isActive()}
+      >
         <Section
           title={
             <SimpleItem
@@ -138,7 +147,7 @@ export default class DangerZone extends PureComponent<
           border={!this.props.isLast ? ['BOTTOM'] : undefined}
         />
         <this.Modals />
-      </>
+      </Feature>
     )
   }
 }

@@ -16,6 +16,7 @@ import {
   ContextItem,
   FetchStatus,
   PlanStatus,
+  Service,
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -41,16 +42,22 @@ export default class RemotePalettes extends PureComponent<
 > {
   private contexts: Array<ContextItem>
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     REMOTE_PALETTES_SELF: new FeatureStatus({
       features: config.features,
       featureName: 'REMOTE_PALETTES_SELF',
       planStatus: planStatus,
+      currentService: service,
     }),
     REMOTE_PALETTES_COMMUNITY: new FeatureStatus({
       features: config.features,
       featureName: 'REMOTE_PALETTES_COMMUNITY',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -60,7 +67,8 @@ export default class RemotePalettes extends PureComponent<
       ['REMOTE_PALETTES_SELF', 'REMOTE_PALETTES_COMMUNITY'],
       props.planStatus,
       props.config.features,
-      props.editor
+      props.editor,
+      props.service
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',

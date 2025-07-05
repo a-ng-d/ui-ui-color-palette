@@ -12,7 +12,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ContrastSettingsProps extends BaseProps, WithConfigProps {
@@ -26,11 +26,16 @@ interface ContrastSettingsProps extends BaseProps, WithConfigProps {
 }
 
 export default class ContrastSettings extends PureComponent<ContrastSettingsProps> {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     SETTINGS_TEXT_COLORS_THEME: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_TEXT_COLORS_THEME',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -44,7 +49,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       <Feature
         isActive={ContrastSettings.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).SETTINGS_TEXT_COLORS_THEME.isActive()}
       >
         <FormItem
@@ -52,7 +58,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
           label={this.props.locales.settings.contrast.textColors.textLightColor}
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
         >
           <Input
@@ -61,11 +68,13 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
             value={this.props.textColorsTheme?.lightColor ?? '#FFFFFF'}
             isBlocked={ContrastSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
             isNew={ContrastSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_LIGHT_COLOR"
             onChange={this.props.onChangeSettings}
@@ -82,7 +91,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       <Feature
         isActive={ContrastSettings.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).SETTINGS_TEXT_COLORS_THEME.isActive()}
       >
         <FormItem
@@ -90,7 +100,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
           label={this.props.locales.settings.contrast.textColors.textDarkColor}
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
         >
           <Input
@@ -99,11 +110,13 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
             value={this.props.textColorsTheme?.darkColor ?? '#OOOOOO'}
             isBlocked={ContrastSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
             isNew={ContrastSettings.features(
               this.props.planStatus,
-              this.props.config
+              this.props.config,
+              this.props.service
             ).SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_DARK_COLOR"
             onChange={this.props.onChangeSettings}

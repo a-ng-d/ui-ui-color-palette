@@ -49,6 +49,7 @@ import {
   PlanStatus,
   ModalContext,
   TrialStatus,
+  Service,
 } from '../types/app'
 import { defaultPreset, presets } from '../stores/presets'
 import {
@@ -118,41 +119,52 @@ class App extends Component<AppProps, AppStates> {
   private subscribeLanguage: (() => void) | undefined
   private subsscribeVsCodeMessage: (() => void) | undefined
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     BACKSTAGE_AUTHENTICATION: new FeatureStatus({
       features: config.features,
       featureName: 'BACKSTAGE_AUTHENTICATION',
       planStatus: planStatus,
+      currentService: service,
     }),
     BROWSE: new FeatureStatus({
       features: config.features,
       featureName: 'BROWSE',
       planStatus: planStatus,
+      currentService: service,
     }),
     CREATE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE',
       planStatus: planStatus,
+      currentService: service,
     }),
     EDIT: new FeatureStatus({
       features: config.features,
       featureName: 'EDIT',
       planStatus: planStatus,
+      currentService: service,
     }),
     TRANSFER: new FeatureStatus({
       features: config.features,
       featureName: 'TRANSFER',
       planStatus: planStatus,
+      currentService: service,
     }),
     USER_CONSENT: new FeatureStatus({
       features: config.features,
       featureName: 'USER_CONSENT',
       planStatus: planStatus,
+      currentService: service,
     }),
     SHORTCUTS: new FeatureStatus({
       features: config.features,
       featureName: 'SHORTCUTS',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -293,7 +305,8 @@ class App extends Component<AppProps, AppStates> {
       getSupabase() !== undefined &&
       App.features(
         this.state.planStatus,
-        this.props.config
+        this.props.config,
+        this.state.service
       ).BACKSTAGE_AUTHENTICATION.isActive()
     )
       getSupabase().auth.onAuthStateChange((event, session) => {
@@ -375,7 +388,8 @@ class App extends Component<AppProps, AppStates> {
         if (
           App.features(
             this.state.planStatus,
-            this.props.config
+            this.props.config,
+            this.state.service
           ).BACKSTAGE_AUTHENTICATION.isActive()
         )
           await checkConnectionStatus(
@@ -1063,7 +1077,8 @@ class App extends Component<AppProps, AppStates> {
             isActive={
               App.features(
                 this.state.planStatus,
-                this.props.config
+                this.props.config,
+                this.state.service
               ).BROWSE.isActive() && this.state.service === 'BROWSE'
             }
           >
@@ -1077,7 +1092,8 @@ class App extends Component<AppProps, AppStates> {
             isActive={
               App.features(
                 this.state.planStatus,
-                this.props.config
+                this.props.config,
+                this.state.service
               ).CREATE.isActive() && this.state.service === 'CREATE'
             }
           >
@@ -1102,7 +1118,8 @@ class App extends Component<AppProps, AppStates> {
             isActive={
               App.features(
                 this.state.planStatus,
-                this.props.config
+                this.props.config,
+                this.state.service
               ).EDIT.isActive() && this.state.service === 'EDIT'
             }
           >
@@ -1176,7 +1193,8 @@ class App extends Component<AppProps, AppStates> {
               this.state.mustUserConsent &&
               App.features(
                 this.state.planStatus,
-                this.props.config
+                this.props.config,
+                this.state.service
               ).USER_CONSENT.isActive()
             }
           >
@@ -1218,7 +1236,8 @@ class App extends Component<AppProps, AppStates> {
             isActive={
               App.features(
                 this.state.planStatus,
-                this.props.config
+                this.props.config,
+                this.state.service
               ).TRANSFER.isActive() &&
               this.state.editor === 'dev' &&
               this.state.isVsCodeMessageDisplayed
@@ -1269,7 +1288,8 @@ class App extends Component<AppProps, AppStates> {
           <Feature
             isActive={App.features(
               this.state.planStatus,
-              this.props.config
+              this.props.config,
+              this.state.service
             ).SHORTCUTS.isActive()}
           >
             <Shortcuts

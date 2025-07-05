@@ -4,7 +4,12 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, AnnouncementsDigest, PlanStatus } from '../../../types/app'
+import {
+  BaseProps,
+  AnnouncementsDigest,
+  PlanStatus,
+  Service,
+} from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface AnnouncementsProps extends BaseProps, WithConfigProps {
@@ -24,11 +29,16 @@ export default class Announcements extends PureComponent<
   AnnouncementsProps,
   AnnouncementsStates
 > {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     HELP_ANNOUNCEMENTS: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_ANNOUNCEMENTS',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -109,7 +119,8 @@ export default class Announcements extends PureComponent<
         <Feature
           isActive={Announcements.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
@@ -124,7 +135,8 @@ export default class Announcements extends PureComponent<
         <Feature
           isActive={Announcements.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
@@ -144,7 +156,8 @@ export default class Announcements extends PureComponent<
         <Feature
           isActive={Announcements.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog

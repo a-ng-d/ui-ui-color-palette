@@ -16,7 +16,7 @@ import {
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PagePalettesProps extends BaseProps, WithConfigProps {
@@ -37,31 +37,40 @@ export default class PagePalettes extends PureComponent<
   PagePalettesProps,
   PagePalettesStates
 > {
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
+      currentService: service,
     }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
     OPEN_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'OPEN_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
     DUPLICATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DUPLICATE_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
     DELETE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DELETE_PALETTE',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -82,7 +91,9 @@ export default class PagePalettes extends PureComponent<
   }
 
   componentDidUpdate = (prevProps: Readonly<PagePalettesProps>): void => {
-    if (prevProps.localPalettesList.length !== this.props.localPalettesList.length)
+    if (
+      prevProps.localPalettesList.length !== this.props.localPalettesList.length
+    )
       this.setState({
         isContextActionLoading: Array(this.props.localPalettesList.length).fill(
           false
@@ -101,11 +112,11 @@ export default class PagePalettes extends PureComponent<
     const actions: {
       [key: string]: () => void
     } = {
-      STOP_LOADER: () => 
+      STOP_LOADER: () =>
         this.setState({
-          isContextActionLoading: Array(this.props.localPalettesList.length).fill(
-            false
-          ),
+          isContextActionLoading: Array(
+            this.props.localPalettesList.length
+          ).fill(false),
           isDestructiveActionLoading: false,
           isDeleteDialogOpen: false,
           targetedPaletteId: '',
@@ -159,59 +170,58 @@ export default class PagePalettes extends PureComponent<
   // Templates
   Modals = () => {
     return (
-      <>
-        <Feature
-          isActive={
-            PagePalettes.features(
-              this.props.planStatus,
-              this.props.config
-            ).DELETE_PALETTE.isActive() && this.state.isDeleteDialogOpen
-          }
-        >
-          {document.getElementById('modal') &&
-            createPortal(
-              <Dialog
-                title={this.props.locales.browse.deletePaletteDialog.title}
-                actions={{
-                  destructive: {
-                    label: this.props.locales.browse.deletePaletteDialog.delete,
-                    feature: 'DELETE_PALETTE',
-                    state: this.state.isDestructiveActionLoading
-                      ? 'LOADING'
-                      : 'DEFAULT',
-                    action: this.onDeletePalette,
-                  },
-                  secondary: {
-                    label: this.props.locales.browse.deletePaletteDialog.cancel,
-                    action: () =>
-                      this.setState({
-                        isDeleteDialogOpen: false,
-                        targetedPaletteId: '',
-                        targetedPaletteName: '',
-                      }),
-                  },
-                }}
-                onClose={() =>
-                  this.setState({
-                    isDeleteDialogOpen: false,
-                    targetedPaletteId: '',
-                    targetedPaletteName: '',
-                  })
-                }
-              >
-                <div className="dialog__text">
-                  <p className={texts.type}>
-                    {this.props.locales.browse.deletePaletteDialog.message.replace(
-                      '{$1}',
-                      this.state.targetedPaletteName
-                    )}
-                  </p>
-                </div>
-              </Dialog>,
-              document.getElementById('modal') ?? document.createElement('app')
-            )}
-        </Feature>
-      </>
+      <Feature
+        isActive={
+          PagePalettes.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service
+          ).DELETE_PALETTE.isActive() && this.state.isDeleteDialogOpen
+        }
+      >
+        {document.getElementById('modal') &&
+          createPortal(
+            <Dialog
+              title={this.props.locales.browse.deletePaletteDialog.title}
+              actions={{
+                destructive: {
+                  label: this.props.locales.browse.deletePaletteDialog.delete,
+                  feature: 'DELETE_PALETTE',
+                  state: this.state.isDestructiveActionLoading
+                    ? 'LOADING'
+                    : 'DEFAULT',
+                  action: this.onDeletePalette,
+                },
+                secondary: {
+                  label: this.props.locales.browse.deletePaletteDialog.cancel,
+                  action: () =>
+                    this.setState({
+                      isDeleteDialogOpen: false,
+                      targetedPaletteId: '',
+                      targetedPaletteName: '',
+                    }),
+                },
+              }}
+              onClose={() =>
+                this.setState({
+                  isDeleteDialogOpen: false,
+                  targetedPaletteId: '',
+                  targetedPaletteName: '',
+                })
+              }
+            >
+              <div className="dialog__text">
+                <p className={texts.type}>
+                  {this.props.locales.browse.deletePaletteDialog.message.replace(
+                    '{$1}',
+                    this.state.targetedPaletteName
+                  )}
+                </p>
+              </div>
+            </Dialog>,
+            document.getElementById('modal') ?? document.createElement('app')
+          )}
+      </Feature>
     )
   }
 
@@ -273,33 +283,37 @@ export default class PagePalettes extends PureComponent<
                                 type: 'OPTION',
                                 isActive: PagePalettes.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).DUPLICATE_PALETTE.isActive(),
                                 isBlocked:
                                   PagePalettes.features(
                                     this.props.planStatus,
-                                    this.props.config
+                                    this.props.config,
+                                    this.props.service
                                   ).DUPLICATE_PALETTE.isBlocked() ||
                                   PagePalettes.features(
                                     this.props.planStatus,
-                                    this.props.config
+                                    this.props.config,
+                                    this.props.service
                                   ).LOCAL_PALETTES.isReached(
                                     this.props.localPalettesList.length
                                   ),
                                 isNew: PagePalettes.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).DUPLICATE_PALETTE.isNew(),
                                 action: () => {
                                   this.setState({
-                              isContextActionLoading:
-                                this.state.isContextActionLoading.map(
-                                  (loading, i) => (i === index ? true : loading)
-                                ),
-                            })
-                            this.onDuplicatePalette(palette.meta.id)
-                                }
-                                  ,
+                                    isContextActionLoading:
+                                      this.state.isContextActionLoading.map(
+                                        (loading, i) =>
+                                          i === index ? true : loading
+                                      ),
+                                  })
+                                  this.onDuplicatePalette(palette.meta.id)
+                                },
                               },
                               {
                                 label:
@@ -308,15 +322,18 @@ export default class PagePalettes extends PureComponent<
                                 type: 'OPTION',
                                 isActive: PagePalettes.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).DELETE_PALETTE.isActive(),
                                 isBlocked: PagePalettes.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).DELETE_PALETTE.isBlocked(),
                                 isNew: PagePalettes.features(
                                   this.props.planStatus,
-                                  this.props.config
+                                  this.props.config,
+                                  this.props.service
                                 ).DELETE_PALETTE.isNew(),
                                 action: () =>
                                   this.setState({
@@ -342,7 +359,8 @@ export default class PagePalettes extends PureComponent<
                         <Feature
                           isActive={PagePalettes.features(
                             this.props.planStatus,
-                            this.props.config
+                            this.props.config,
+                            this.props.service
                           ).OPEN_PALETTE.isActive()}
                         >
                           <Button
@@ -354,11 +372,13 @@ export default class PagePalettes extends PureComponent<
                             }
                             isBlocked={PagePalettes.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).OPEN_PALETTE.isBlocked()}
                             isNew={PagePalettes.features(
                               this.props.planStatus,
-                              this.props.config
+                              this.props.config,
+                              this.props.service
                             ).OPEN_PALETTE.isNew()}
                             action={() => this.onEditPalette(palette.meta.id)}
                           />
@@ -436,7 +456,8 @@ export default class PagePalettes extends PureComponent<
                 label={this.props.locales.actions.createPalette}
                 isNew={PagePalettes.features(
                   this.props.planStatus,
-                  this.props.config
+                  this.props.config,
+                  this.props.service
                 ).CREATE_PALETTE.isNew()}
                 action={this.props.onCreatePalette}
               />
@@ -462,7 +483,8 @@ export default class PagePalettes extends PureComponent<
         />
         {PagePalettes.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).LOCAL_PALETTES.isReached(this.props.localPalettesList.length) &&
           !this.props.editor.includes('dev') && (
             <div
@@ -477,7 +499,8 @@ export default class PagePalettes extends PureComponent<
                   (
                     PagePalettes.features(
                       this.props.planStatus,
-                      this.props.config
+                      this.props.config,
+                      this.props.service
                     ).LOCAL_PALETTES.limit ?? 0
                   ).toString()
                 )}

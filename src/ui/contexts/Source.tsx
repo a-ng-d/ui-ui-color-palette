@@ -14,6 +14,7 @@ import {
   ContextItem,
   FilterOptions,
   PlanStatus,
+  Service,
   ThirdParty,
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -37,11 +38,16 @@ interface SourceStates {
 export default class Source extends PureComponent<SourceProps, SourceStates> {
   private contexts: Array<ContextItem>
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -51,7 +57,8 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
       ['SOURCE_OVERVIEW', 'SOURCE_EXPLORE'],
       props.planStatus,
       props.config.features,
-      props.editor
+      props.editor,
+      props.service
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',

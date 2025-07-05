@@ -5,7 +5,7 @@ import { Dialog, List } from '@a_ng_d/figmug-ui'
 import SyncPreferences from '../SyncPreferences'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus } from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PreferencesProps extends BaseProps, WithConfigProps {
@@ -14,11 +14,16 @@ interface PreferencesProps extends BaseProps, WithConfigProps {
 
 export default class Preferences extends PureComponent<PreferencesProps> {
   private theme: string | null
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     USER_PREFERENCES: new FeatureStatus({
       features: config.features,
       featureName: 'USER_PREFERENCES',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -46,7 +51,8 @@ export default class Preferences extends PureComponent<PreferencesProps> {
       <Feature
         isActive={Preferences.features(
           this.props.planStatus,
-          this.props.config
+          this.props.config,
+          this.props.service
         ).USER_PREFERENCES.isActive()}
       >
         <Dialog

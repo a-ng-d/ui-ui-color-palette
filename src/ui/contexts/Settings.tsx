@@ -19,7 +19,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import { SettingsMessage } from '../../types/messages'
-import { BaseProps, Context, PlanStatus } from '../../types/app'
+import { BaseProps, Context, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
@@ -42,26 +42,34 @@ export default class Settings extends PureComponent<SettingsProps> {
   private settingsMessage: SettingsMessage
   private palette: typeof $palette
 
-  static features = (planStatus: PlanStatus, config: ConfigContextType) => ({
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service
+  ) => ({
     SETTINGS_GLOBAL: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_GLOBAL',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_COLOR_MANAGEMENT: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_COLOR_MANAGEMENT',
       planStatus: planStatus,
+      currentService: service,
     }),
     SETTINGS_CONTRAST_MANAGEMENT: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_CONTRAST_MANAGEMENT',
       planStatus: planStatus,
+      currentService: service,
     }),
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
       planStatus: planStatus,
+      currentService: service,
     }),
   })
 
@@ -390,7 +398,8 @@ export default class Settings extends PureComponent<SettingsProps> {
         <Feature
           isActive={Settings.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SETTINGS_GLOBAL.isActive()}
         >
           <GlobalSettings
@@ -401,7 +410,8 @@ export default class Settings extends PureComponent<SettingsProps> {
         <Feature
           isActive={Settings.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SETTINGS_COLOR_MANAGEMENT.isActive()}
         >
           <ColorSettings
@@ -412,7 +422,8 @@ export default class Settings extends PureComponent<SettingsProps> {
         <Feature
           isActive={Settings.features(
             this.props.planStatus,
-            this.props.config
+            this.props.config,
+            this.props.service
           ).SETTINGS_CONTRAST_MANAGEMENT.isActive()}
         >
           <ContrastSettings
