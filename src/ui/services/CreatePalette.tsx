@@ -30,7 +30,6 @@ import {
   BaseProps,
   Context,
   ContextItem,
-  NamingConvention,
   PlanStatus,
   Service,
   ThirdParty,
@@ -45,7 +44,6 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   name: string
   description: string
   preset: PresetConfiguration
-  namingConvention: NamingConvention
   distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration

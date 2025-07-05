@@ -27,12 +27,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { trackScaleManagementEvent } from '../../../utils/eventsTracker'
 import { ScaleMessage } from '../../../types/messages'
-import {
-  BaseProps,
-  NamingConvention,
-  PlanStatus,
-  Service,
-} from '../../../types/app'
+import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { defaultPreset, presets } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -41,7 +36,6 @@ import type { AppStates } from '../../App'
 interface ScaleProps extends BaseProps, WithConfigProps {
   id: string
   preset: PresetConfiguration
-  namingConvention: NamingConvention
   distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
@@ -61,7 +55,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   private palette: typeof $palette
 
   static defaultProps: Partial<ScaleProps> = {
-    namingConvention: 'ONES',
     distributionEasing: 'LINEAR',
   }
 

@@ -45,7 +45,6 @@ import {
   BaseProps,
   Editor,
   AnnouncementsDigest,
-  NamingConvention,
   PlanStatus,
   ModalContext,
   TrialStatus,
@@ -82,7 +81,6 @@ export interface AppStates extends BaseProps {
   name: string
   description: string
   preset: PresetConfiguration
-  namingConvention: NamingConvention
   distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
