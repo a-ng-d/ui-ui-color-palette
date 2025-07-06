@@ -63,8 +63,8 @@ interface PreviewStates {
 }
 
 export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
-  private unsubscribeWCAG: (() => void) | undefined
-  private unsubscribeAPCA: (() => void) | undefined
+  private subscribeWCAG: (() => void) | undefined
+  private subscribeAPCA: (() => void) | undefined
   private palette: typeof $palette
   private drawerRef: React.RefObject<Drawer>
   private resizeObserver: ResizeObserver | null
@@ -221,10 +221,10 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
 
   // Lifecycle
   componentDidMount = (): void => {
-    this.unsubscribeWCAG = $isWCAGDisplayed.subscribe((value) => {
+    this.subscribeWCAG = $isWCAGDisplayed.subscribe((value) => {
       this.setState({ isWCAGDisplayed: value })
     })
-    this.unsubscribeAPCA = $isAPCADisplayed.subscribe((value) => {
+    this.subscribeAPCA = $isAPCADisplayed.subscribe((value) => {
       this.setState({ isAPCADisplayed: value })
     })
     if (
@@ -248,8 +248,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
   }
 
   componentWillUnmount = (): void => {
-    if (this.unsubscribeWCAG) this.unsubscribeWCAG()
-    if (this.unsubscribeAPCA) this.unsubscribeAPCA()
+    if (this.subscribeWCAG) this.subscribeWCAG()
+    if (this.subscribeAPCA) this.subscribeAPCA()
     if (
       this.resizeObserver &&
       this.drawerRef.current &&

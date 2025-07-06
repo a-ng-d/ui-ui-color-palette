@@ -442,7 +442,8 @@
   "scale": {
     "actions": {
       "addStop": "Add stop",
-      "removeStop": "Remove stop"
+      "removeStop": "Remove stop",
+      "resetScale": "Reset scale"
     },
     "contrast": {
       "label": "Contrast mode",

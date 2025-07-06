@@ -453,6 +453,15 @@ export const featuresScheme: Array<
     service: ['CREATE', 'EDIT'],
   },
   {
+    name: 'SCALE_RESET',
+    description: 'Reset the lightness scale',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    service: ['CREATE', 'EDIT'],
+  },
+  {
     name: 'SCALE_HELPER',
     description: 'Tips and tools to help configure the scaling',
     isActive: true,

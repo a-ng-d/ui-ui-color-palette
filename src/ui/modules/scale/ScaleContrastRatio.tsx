@@ -8,8 +8,9 @@ import {
   ScaleConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
+  Button,
   layouts,
   MultipleSlider,
   SectionTitle,
@@ -22,6 +23,7 @@ import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, PlanStatus, Service } from '../../../types/app'
 import { $palette } from '../../../stores/palette'
 import { ConfigContextType } from '../../../config/ConfigContext'
+import { defaultPreset } from '../../..//stores/presets'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   id: string
@@ -45,7 +47,7 @@ export default class ScaleContrastRatio extends PureComponent<
   ScaleStates
 > {
   private scaleMessage: ScaleMessage
-  private unsubscribePalette: (() => void) | undefined
+  private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
 
   static defaultProps: Partial<ScaleProps> = {
@@ -60,6 +62,12 @@ export default class ScaleContrastRatio extends PureComponent<
     SCALE_CONTRAST_RATIO: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CONTRAST_RATIO',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SCALE_RESET: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_RESET',
       planStatus: planStatus,
       currentService: service,
     }),
@@ -82,7 +90,7 @@ export default class ScaleContrastRatio extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     this.setContrastMode()
-    this.unsubscribePalette = $palette.subscribe((value) => {
+    this.subscribePalette = $palette.subscribe((value) => {
       this.scaleMessage.data = value as ExchangeConfiguration
     })
   }
@@ -92,7 +100,7 @@ export default class ScaleContrastRatio extends PureComponent<
   }
 
   componentWillUnmount = () => {
-    if (this.unsubscribePalette) this.unsubscribePalette()
+    if (this.subscribePalette) this.subscribePalette()
   }
 
   // Handlers
@@ -129,8 +137,6 @@ export default class ScaleContrastRatio extends PureComponent<
     const onReleaseStop = () => {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
-
-      this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
@@ -261,8 +267,6 @@ export default class ScaleContrastRatio extends PureComponent<
     const onReleaseStop = () => {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
-
-      this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
@@ -458,6 +462,20 @@ export default class ScaleContrastRatio extends PureComponent<
     })
   }
 
+  // Direct Actions
+  onResetScale = () => {
+    const preset = this.props.preset ?? defaultPreset
+
+    this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
+
+    this.palette.setKey('scale', this.scaleMessage.data.scale)
+
+    this.props.onChangeScale()
+
+    if (this.props.service === 'EDIT')
+      parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+  }
+
   // Render
   render() {
     return (
@@ -480,6 +498,33 @@ export default class ScaleContrastRatio extends PureComponent<
             }
             rightPartSlot={
               <div className={layouts['snackbar--medium']}>
+                <Feature
+                  isActive={ScaleContrastRatio.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service
+                  ).SCALE_RESET.isActive()}
+                >
+                  <Button
+                    type="icon"
+                    icon="reset"
+                    helper={{
+                      label: this.props.locales.scale.actions.resetScale,
+                    }}
+                    feature="RESET_SCALE"
+                    isBlocked={ScaleContrastRatio.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service
+                    ).SCALE_RESET.isBlocked()}
+                    isNew={ScaleContrastRatio.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service
+                    ).SCALE_RESET.isNew()}
+                    action={this.onResetScale}
+                  />
+                </Feature>
                 <Feature
                   isActive={ScaleContrastRatio.features(
                     this.props.planStatus,

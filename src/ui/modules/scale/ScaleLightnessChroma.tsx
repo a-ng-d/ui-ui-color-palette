@@ -93,6 +93,12 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       planStatus: planStatus,
       currentService: service,
     }),
+    SCALE_RESET: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_RESET',
+      planStatus: planStatus,
+      currentService: service,
+    }),
     PRESETS: (() => {
       return Object.fromEntries(
         Object.entries(presets).map(([, preset]) => [
@@ -199,12 +205,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     feature?: string
   ) => {
     const onReleaseStop = () => {
-      this.palette.setKey('scale', results.scale)
-
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
-
-      this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
         parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
@@ -212,17 +214,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
     const onChangeStop = () => {
       this.palette.setKey('scale', results.scale)
-      if (
-        results.stops !== undefined &&
-        results.min !== undefined &&
-        results.max !== undefined
-      )
-        this.palette.setKey('preset', {
-          ...this.palette.get().preset,
-          stops: results.stops,
-          min: results.min,
-          max: results.max,
-        })
+      this.palette.setKey('preset.stops', results.stops ?? [])
 
       const lightForegroundRatio = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
@@ -351,7 +343,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
 
-      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey('preset', preset)
       this.palette.setKey(
         'preset.name',
         `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
@@ -384,7 +376,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       const preset =
         presets.find((preset) => preset.id === 'MATERIAL_3') ?? defaultPreset
 
-      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey('preset', preset)
       this.palette.setKey(
         'preset.name',
         `${this.palette.get().preset.name} (${this.palette.get().preset.family}')`
@@ -475,7 +467,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       const preset =
         presets.find((preset) => preset.id === 'ADS') ?? defaultPreset
 
-      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey('preset', preset)
       this.palette.setKey(
         'preset.name',
         `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
@@ -508,7 +500,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       const preset =
         presets.find((preset) => preset.id === 'ADS_NEUTRAL') ?? defaultPreset
 
-      this.palette.setKey('preset', JSON.parse(JSON.stringify(preset)))
+      this.palette.setKey('preset', preset)
       this.palette.setKey(
         'preset.name',
         `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
@@ -817,6 +809,21 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     ]?.()
   }
 
+  // Direct Actions
+  onResetScale = () => {
+    console.log('Resetting scale...')
+    const preset = this.props.preset ?? defaultPreset
+
+    this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
+
+    this.palette.setKey('scale', this.scaleMessage.data.scale)
+
+    this.props.onChangeScale()
+
+    if (this.props.service === 'EDIT')
+      parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+  }
+
   // Templates
   Create = () => {
     return (
@@ -905,6 +912,33 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       </Feature>
                     </>
                   )}
+                </Feature>
+                <Feature
+                  isActive={ScaleLightnessChroma.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service
+                  ).SCALE_RESET.isActive()}
+                >
+                  <Button
+                    type="icon"
+                    icon="reset"
+                    helper={{
+                      label: this.props.locales.scale.actions.resetScale,
+                    }}
+                    feature="RESET_SCALE"
+                    isBlocked={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service
+                    ).SCALE_RESET.isBlocked()}
+                    isNew={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service
+                    ).SCALE_RESET.isNew()}
+                    action={this.onResetScale}
+                  />
                 </Feature>
                 <Feature
                   isActive={ScaleLightnessChroma.features(
@@ -1097,6 +1131,33 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     selected={this.props.preset.id}
                     alignment="RIGHT"
                     pin="TOP"
+                  />
+                </Feature>
+                <Feature
+                  isActive={ScaleLightnessChroma.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service
+                  ).SCALE_RESET.isActive()}
+                >
+                  <Button
+                    type="icon"
+                    icon="reset"
+                    helper={{
+                      label: this.props.locales.scale.actions.resetScale,
+                    }}
+                    feature="RESET_SCALE"
+                    isBlocked={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service
+                    ).SCALE_RESET.isBlocked()}
+                    isNew={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service
+                    ).SCALE_RESET.isNew()}
+                    action={this.onResetScale}
                   />
                 </Feature>
                 <Feature
