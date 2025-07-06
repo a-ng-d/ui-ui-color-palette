@@ -798,7 +798,8 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 feature="SHIFT_CHROMA"
                                 helper={{
                                   label:
-                                    this.props.locales.colors.chromaShifting.label,
+                                    this.props.locales.colors.chromaShifting
+                                      .label,
                                   type: 'SINGLE_LINE',
                                 }}
                                 isBlocked={Colors.features(
