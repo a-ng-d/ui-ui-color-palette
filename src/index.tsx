@@ -107,6 +107,7 @@ root.render(
       privacyUrl: globalConfig.urls.privacyUrl,
       vsCodeFigmaPluginUrl: globalConfig.urls.vsCodeFigmaPluginUrl,
       isbUrl: globalConfig.urls.isbUrl,
+      uicpUrl: globalConfig.urls.uicpUrl,
       storeUrl: globalConfig.urls.storeUrl,
       storeManagementUrl: globalConfig.urls.storeManagementUrl,
     }}
