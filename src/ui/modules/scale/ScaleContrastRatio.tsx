@@ -469,6 +469,7 @@ export default class ScaleContrastRatio extends PureComponent<
     this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
 
     this.palette.setKey('scale', this.scaleMessage.data.scale)
+    this.palette.setKey('shift.chroma', 100)
 
     this.props.onChangeScale()
 
@@ -509,7 +510,7 @@ export default class ScaleContrastRatio extends PureComponent<
                     type="icon"
                     icon="reset"
                     helper={{
-                      label: this.props.locales.scale.actions.resetScale,
+                      label: this.props.locales.scale.actions.resetLightness,
                     }}
                     feature="RESET_SCALE"
                     isBlocked={ScaleContrastRatio.features(

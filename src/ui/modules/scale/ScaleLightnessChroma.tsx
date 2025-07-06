@@ -814,10 +814,13 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const preset = this.props.preset ?? defaultPreset
 
     this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
+    this.scaleMessage.data.shift.chroma = 100
 
     this.palette.setKey('scale', this.scaleMessage.data.scale)
+    this.palette.setKey('shift.chroma', 100)
 
     this.props.onChangeScale()
+    this.props.onChangeShift('shift.chroma', 'SHIFTED', 100)
 
     if (this.props.service === 'EDIT')
       parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
@@ -891,13 +894,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                           type="icon"
                           icon="plus"
                           isDisabled={this.props.preset.stops.length === 24}
-                          isBlocked={ScaleLightnessChroma.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service
-                          ).PRESETS_CUSTOM_ADD.isReached(
-                            this.props.preset.stops.length
-                          )}
                           helper={{
                             label: this.props.locales.scale.actions.addStop,
                           }}
@@ -973,7 +969,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             this.props.planStatus,
             this.props.config,
             this.props.service
-          ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length) &&
+          ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length - 1) &&
             this.props.preset.id.includes('CUSTOM') && (
               <div
                 style={{
@@ -1270,7 +1266,11 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   this.props.config,
                   this.props.service
                 ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length)
-                  ? 10
+                  ? ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service
+                    ).PRESETS_CUSTOM_ADD.limit
                   : 24,
               }}
               range={{
