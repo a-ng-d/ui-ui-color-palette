@@ -775,7 +775,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                               this.props.planStatus,
                               this.props.config,
                               this.props.service
-                            ).COLORS_HUE_SHIFTING.isActive()}
+                            ).COLORS_CHROMA_SHIFTING.isActive()}
                           >
                             <div
                               className={doClassnames([
@@ -784,33 +784,33 @@ export default class Colors extends PureComponent<ColorsProps> {
                               ])}
                             >
                               <Input
-                                id="shift-hue"
+                                id="shift-chroma"
                                 type="NUMBER"
-                                icon={{ type: 'LETTER', value: 'H' }}
-                                unit="°"
+                                icon={{ type: 'LETTER', value: 'C' }}
+                                unit="%"
                                 value={
-                                  color.hue.shift !== undefined
-                                    ? color.hue.shift.toString()
+                                  color.chroma.shift !== undefined
+                                    ? color.chroma.shift.toString()
                                     : '100'
                                 }
-                                min="-180"
-                                max="180"
-                                feature="SHIFT_HUE"
+                                min="0"
+                                max="200"
+                                feature="SHIFT_CHROMA"
                                 helper={{
                                   label:
-                                    this.props.locales.colors.actions.shiftHue,
+                                    this.props.locales.colors.chromaShifting.label,
                                   type: 'SINGLE_LINE',
                                 }}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service
-                                ).COLORS_HUE_SHIFTING.isBlocked()}
+                                ).COLORS_CHROMA_SHIFTING.isBlocked()}
                                 isNew={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service
-                                ).COLORS_HUE_SHIFTING.isNew()}
+                                ).COLORS_CHROMA_SHIFTING.isNew()}
                                 onBlur={this.colorsHandler}
                                 onShift={this.colorsHandler}
                               />
@@ -818,12 +818,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 this.props.planStatus,
                                 this.props.config,
                                 this.props.service
-                              ).COLORS_HUE_SHIFTING.isBlocked() && (
+                              ).COLORS_CHROMA_SHIFTING.isBlocked() && (
                                 <Button
                                   type="icon"
                                   icon="reset"
-                                  feature="RESET_HUE"
-                                  isDisabled={!color.hue.isLocked}
+                                  feature="RESET_CHROMA"
+                                  isDisabled={!color.chroma.isLocked}
                                   action={this.colorsHandler}
                                 />
                               )}
@@ -917,43 +917,43 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 this.props.planStatus,
                                 this.props.config,
                                 this.props.service
-                              ).COLORS_CHROMA_SHIFTING.isActive()}
+                              ).COLORS_HUE_SHIFTING.isActive()}
                             >
                               <FormItem
-                                id="shift-chroma"
+                                id="shift-hue"
                                 label={
-                                  this.props.locales.colors.chromaShifting.label
+                                  this.props.locales.colors.actions.shiftHue
                                 }
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service
-                                ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                                ).COLORS_HUE_SHIFTING.isBlocked()}
                               >
                                 <div className={layouts['snackbar--tight']}>
                                   <Input
-                                    id="shift-chroma"
+                                    id="shift-hue"
                                     type="NUMBER"
-                                    icon={{ type: 'LETTER', value: 'C' }}
-                                    unit="%"
+                                    icon={{ type: 'LETTER', value: 'H' }}
+                                    unit="°"
                                     value={
-                                      color.chroma.shift !== undefined
-                                        ? color.chroma.shift.toString()
+                                      color.hue.shift !== undefined
+                                        ? color.hue.shift.toString()
                                         : '100'
                                     }
-                                    min="0"
-                                    max="200"
-                                    feature="SHIFT_CHROMA"
+                                    min="-180"
+                                    max="180"
+                                    feature="SHIFT_HUE"
                                     isBlocked={Colors.features(
                                       this.props.planStatus,
                                       this.props.config,
                                       this.props.service
-                                    ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                                    ).COLORS_HUE_SHIFTING.isBlocked()}
                                     isNew={Colors.features(
                                       this.props.planStatus,
                                       this.props.config,
                                       this.props.service
-                                    ).COLORS_CHROMA_SHIFTING.isNew()}
+                                    ).COLORS_HUE_SHIFTING.isNew()}
                                     onBlur={this.colorsHandler}
                                     onShift={this.colorsHandler}
                                   />
@@ -961,12 +961,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     this.props.planStatus,
                                     this.props.config,
                                     this.props.service
-                                  ).COLORS_CHROMA_SHIFTING.isBlocked() && (
+                                  ).COLORS_HUE_SHIFTING.isBlocked() && (
                                     <Button
                                       type="icon"
                                       icon="reset"
-                                      feature="RESET_CHROMA"
-                                      isDisabled={!color.chroma.isLocked}
+                                      feature="RESET_HUE"
+                                      isDisabled={!color.hue.isLocked}
                                       action={this.colorsHandler}
                                     />
                                   )}
