@@ -182,6 +182,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                 label={this.props.locales.report.message.label}
                 id="type-message"
                 shouldFill
+                isMultiLine
               >
                 <Input
                   type="LONG_TEXT"
