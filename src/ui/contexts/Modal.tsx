@@ -6,6 +6,7 @@ import TryPro from '../modules/modals/TryPro'
 import Store from '../modules/modals/Store'
 import Report from '../modules/modals/Report'
 import Publication from '../modules/modals/Publication'
+import Pricing from '../modules/modals/Pricing'
 import Preferences from '../modules/modals/Preferences'
 import Onboarding from '../modules/modals/Onboarding'
 import NotificationBanner from '../modules/modals/NotificationBanner'
@@ -16,7 +17,12 @@ import Announcements from '../modules/modals/Announcements'
 import About from '../modules/modals/About'
 import { WithConfigProps } from '../components/WithConfig'
 import { NotificationMessage } from '../../types/messages'
-import { BaseProps, AnnouncementsDigest, ModalContext } from '../../types/app'
+import {
+  BaseProps,
+  AnnouncementsDigest,
+  ModalContext,
+  Plans,
+} from '../../types/app'
 import type { AppStates } from '../App'
 
 interface ModalProps extends BaseProps, WithConfigProps {
@@ -24,6 +30,7 @@ interface ModalProps extends BaseProps, WithConfigProps {
   context: ModalContext
   notification: NotificationMessage
   announcements: AnnouncementsDigest
+  plans: Plans
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
@@ -101,6 +108,7 @@ export default class Modal extends PureComponent<ModalProps> {
           {this.props.context === 'STORE' && <Store {...this.props} />}
           {this.props.context === 'ABOUT' && <About {...this.props} />}
           {this.props.context === 'TRY' && <TryPro {...this.props} />}
+          {this.props.context === 'PRICING' && <Pricing {...this.props} />}
           {this.props.context === 'WELCOME_TO_TRIAL' && (
             <WelcomeToTrial {...this.props} />
           )}

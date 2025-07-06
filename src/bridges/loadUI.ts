@@ -269,7 +269,12 @@ window.addEventListener('message', async (msg: any) => {
       ),
     //
     GET_PRO_PLAN: async () =>
-      window.open(globalConfig.urls.storeUrl, '_blank')?.focus(),
+      iframe?.contentWindow?.postMessage({
+        type: 'GET_PRICING',
+        data: {
+          plans: ['ONE', 'FIGMA'],
+        },
+      }),
     GET_TRIAL: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'GET_TRIAL',

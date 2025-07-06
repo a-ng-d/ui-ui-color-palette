@@ -374,6 +374,17 @@
       "tag": "Source"
     }
   },
+  "pricing": {
+    "title": "Subscribe to UI Color Palette Pro",
+    "one": {
+      "cta": "Get your license",
+      "message": "UI Color Palette Pro/One: Your multi-platform license, working on Figma, Penpot and soon Sketch, to create unlimited palettes with unlimited source colors, stops, and color modes what ever the platform you are using."
+    },
+    "figma": {
+      "cta": "Get Pro for Figma only",
+      "message": "UI Color Palette Pro/Figma: Upgrade to the Pro plan to create unlimited palettes with unlimited source colors, stops, and color modes. You will also be able to export your palette to more formats, and synchronize it with the local library."
+    }
+  },
   "proPlan": {
     "trial": {
       "cta": "Enable the {$1}-hour trial",

@@ -92,8 +92,11 @@ export type ModalContext =
   | 'STORE'
   | 'ABOUT'
   | 'TRY'
+  | 'PRICING'
   | 'WELCOME_TO_PRO'
   | 'WELCOME_TO_TRIAL'
+
+export type Plans = Array<'ONE' | 'FIGMA' | 'ONE_FIGMA'>
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 

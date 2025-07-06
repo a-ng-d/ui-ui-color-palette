@@ -49,6 +49,7 @@ import {
   ModalContext,
   TrialStatus,
   Service,
+  Plans,
 } from '../types/app'
 import { defaultPreset, presets } from '../stores/presets'
 import {
@@ -100,6 +101,7 @@ export interface AppStates extends BaseProps {
   trialStatus: TrialStatus
   trialRemainingTime: number
   editor: Editor
+  plans: Plans
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
   modalContext: ModalContext
@@ -234,6 +236,7 @@ class App extends Component<AppProps, AppStates> {
       trialStatus: 'UNUSED',
       trialRemainingTime: props.config.plan.trialTime,
       editor: props.config.env.editor,
+      plans: [],
       modalContext: 'EMPTY',
       locales: props.config.locales,
       lang: $userLanguage.get(),
@@ -956,6 +959,7 @@ class App extends Component<AppProps, AppStates> {
 
       return actions[path.type ?? 'DEFAULT']?.()
     } catch (error) {
+      return
     }
   }
 
