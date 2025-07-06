@@ -271,7 +271,8 @@ class App extends Component<AppProps, AppStates> {
             lang: value,
           },
         },
-      })
+      }),
+        '*'
     })
 
     this.subsscribeVsCodeMessage = $isVsCodeMessageDisplayed.subscribe(
