@@ -861,25 +861,10 @@ class App extends Component<AppProps, AppStates> {
           },
         })
 
-      const enableProPlan = () =>
-        this.setState({
-          planStatus: 'PAID',
-        })
-
-      const leaveProPlan = () =>
-        this.setState({
-          planStatus: 'UNPAID',
-        })
 
       const getTrial = () =>
         this.setState({
           modalContext: 'TRY',
-        })
-
-      const getPricing = () =>
-        this.setState({
-          modalContext: 'PRICING',
-          plans: path.data.plans,
         })
 
       const enableTrial = () => {
@@ -900,6 +885,22 @@ class App extends Component<AppProps, AppStates> {
           }
         )
       }
+
+      const getPricing = () =>
+        this.setState({
+          modalContext: 'PRICING',
+          plans: path.data.plans,
+        })
+
+      const enableProPlan = () =>
+        this.setState({
+          planStatus: 'PAID',
+        })
+
+      const leaveProPlan = () =>
+        this.setState({
+          planStatus: 'UNPAID',
+        })
 
       const welcomeToPro = () => {
         this.setState({
@@ -951,11 +952,11 @@ class App extends Component<AppProps, AppStates> {
         EXPORT_PALETTE_XML: () => exportPaletteToXml(),
         EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
         UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
+        GET_TRIAL: () => getTrial(),
+        ENABLE_TRIAL: () => enableTrial(),
+        GET_PRICING: () => getPricing(),
         ENABLE_PRO_PLAN: () => enableProPlan(),
         LEAVE_PRO_PLAN: () => leaveProPlan(),
-        GET_TRIAL: () => getTrial(),
-        GET_PRICING: () => getPricing(),
-        ENABLE_TRIAL: () => enableTrial(),
         WELCOME_TO_PRO: () => welcomeToPro(),
         SIGN_OUT: () => signOut(path?.data),
         DEFAULT: () => null,

@@ -265,6 +265,15 @@ window.addEventListener('message', async (msg: any) => {
         iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
       }),
     //
+    ENABLE_TRIAL: async () => {
+      enableTrial(path.data.trialTime, path.data.trialVersion).then(() =>
+        checkTrialStatus()
+      )
+    },
+    GET_TRIAL: async () =>
+      iframe?.contentWindow?.postMessage({
+        type: 'GET_TRIAL',
+      }),
     GET_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'GET_PRICING',
@@ -272,14 +281,7 @@ window.addEventListener('message', async (msg: any) => {
           plans: ['ONE', 'FIGMA'],
         },
       }),
-    GET_TRIAL: async () =>
-      iframe?.contentWindow?.postMessage({
-        type: 'GET_TRIAL',
-      }),
-    WELCOME_TO_PRO: async () =>
-      iframe?.contentWindow?.postMessage({
-        type: 'WELCOME_TO_PRO',
-      }),
+    PAY_PRO_PLAN: async () => console.log('Pay Pro Plan', path),
     ENABLE_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'ENABLE_PRO_PLAN',
@@ -288,11 +290,10 @@ window.addEventListener('message', async (msg: any) => {
       iframe?.contentWindow?.postMessage({
         type: 'LEAVE_PRO_PLAN',
       }),
-    ENABLE_TRIAL: async () => {
-      enableTrial(path.data.trialTime, path.data.trialVersion).then(() =>
-        checkTrialStatus()
-      )
-    },
+    WELCOME_TO_PRO: async () =>
+      iframe?.contentWindow?.postMessage({
+        type: 'WELCOME_TO_PRO',
+      }),
     SIGN_OUT: () =>
       iframe?.contentWindow?.postMessage({
         type: 'SIGN_OUT',

@@ -126,7 +126,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 label={this.props.locales.pricing.figma.message}
                 shouldFill
                 action={() => {
-                  window.open(this.props.config.urls.uicpUrl, '_blank')?.focus()
+                  parent.postMessage(
+                    {
+                      type: 'PAY_PRO_PLAN',
+                    },
+                    '*'
+                  )
                 }}
               >
                 <Button
