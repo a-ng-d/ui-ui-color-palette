@@ -75,7 +75,6 @@ const exportSwiftUI = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_SWIFTUI',
     data: {
-      id: '',
       context: 'APPLE_SWIFTUI',
       code: `import SwiftUI\n\npublic extension Color {\n  static let Token = Color.TokenColor()\n  struct TokenColor {\n    ${swift.join(
         '\n    '

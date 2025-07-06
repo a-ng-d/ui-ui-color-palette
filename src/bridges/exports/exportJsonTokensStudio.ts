@@ -102,7 +102,6 @@ const exportJsonTokensStudio = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_JSON',
     data: {
-      id: '',
       context: 'TOKENS_TOKENS_STUDIO',
       code: JSON.stringify(json, null, '  '),
     },

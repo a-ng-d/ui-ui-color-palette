@@ -66,7 +66,6 @@ const exportXml = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_XML',
     data: {
-      id: '',
       context: 'ANDROID_XML',
       code: `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n  ${resources.join(
         '\n  '

@@ -1,4 +1,3 @@
-import globalConfig from '../global.config'
 import { locales } from '../content/locales'
 import updateThemes from './updates/updateThemes'
 import updateSettings from './updates/updateSettings'
@@ -261,12 +260,10 @@ window.addEventListener('message', async (msg: any) => {
           })
         }),
     DELETE_PALETTE: async () =>
-      deletePalette(path.id).finally(
-        async () => {
-          getPalettesOnCurrentPage()
-          iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
-        }
-      ),
+      deletePalette(path.id).finally(async () => {
+        getPalettesOnCurrentPage()
+        iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+      }),
     //
     GET_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
@@ -278,30 +275,18 @@ window.addEventListener('message', async (msg: any) => {
     GET_TRIAL: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'GET_TRIAL',
-        data: {
-          id: '123456789',
-        },
       }),
     WELCOME_TO_PRO: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'WELCOME_TO_PRO',
-        data: {
-          id: '123456789',
-        },
       }),
     ENABLE_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'ENABLE_PRO_PLAN',
-        data: {
-          id: '123456789',
-        },
       }),
     LEAVE_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'LEAVE_PRO_PLAN',
-        data: {
-          id: '123456789',
-        },
       }),
     ENABLE_TRIAL: async () => {
       enableTrial(path.data.trialTime, path.data.trialVersion).then(() =>

@@ -82,7 +82,6 @@ const exportTailwind = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_TAILWIND',
     data: {
-      id: '',
       context: 'TAILWIND',
       code: json,
     },

@@ -68,7 +68,6 @@ const exportUIKit = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_UIKIT',
     data: {
-      id: '',
       context: 'APPLE_UIKIT',
       code: `import UIKit\n\nstruct Color {\n  ${swift.join('\n\n  ')}\n}`,
     },

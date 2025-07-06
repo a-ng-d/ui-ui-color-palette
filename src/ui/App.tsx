@@ -440,7 +440,7 @@ class App extends Component<AppProps, AppStates> {
           () =>
             trackEditorEvent(
               this.props.config.env.isMixpanelEnabled,
-              path.data.id,
+              this.state.userIdentity.id,
               this.state.userConsent.find(
                 (consent) => consent.id === 'mixpanel'
               )?.isConsented ?? false,
@@ -655,7 +655,7 @@ class App extends Component<AppProps, AppStates> {
         if (path.data.context !== 'TOKENS_GLOBAL')
           trackExportEvent(
             this.props.config.env.isMixpanelEnabled,
-            path.data.id,
+            this.state.userIdentity.id,
             this.state.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
             {
@@ -681,7 +681,7 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -712,7 +712,7 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -738,7 +738,7 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -764,7 +764,7 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -790,7 +790,7 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -816,7 +816,7 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -842,7 +842,7 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -861,37 +861,26 @@ class App extends Component<AppProps, AppStates> {
           },
         })
 
-      const welcomeToPro = () => {
-        this.setState({
-          planStatus: 'PAID',
-          modalContext: 'WELCOME_TO_PRO',
-        })
-
-        trackPurchaseEvent(
-          this.props.config.env.isMixpanelEnabled,
-          path.data.id,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false
-        )
-      }
-
-      const enableProPlan = () => {
+      const enableProPlan = () =>
         this.setState({
           planStatus: 'PAID',
         })
-      }
 
-      const leaveProPlan = () => {
+      const leaveProPlan = () =>
         this.setState({
           planStatus: 'UNPAID',
         })
-      }
 
-      const getTrial = () => {
+      const getTrial = () =>
         this.setState({
           modalContext: 'TRY',
         })
-      }
+
+      const getPricing = () =>
+        this.setState({
+          modalContext: 'PRICING',
+          plans: path.data.plans,
+        })
 
       const enableTrial = () => {
         this.setState({
@@ -902,13 +891,27 @@ class App extends Component<AppProps, AppStates> {
 
         trackTrialEnablementEvent(
           this.props.config.env.isMixpanelEnabled,
-          path.data.id,
+          this.state.userIdentity.id,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
             date: path.data.date,
             trialTime: path.data.trialTime,
           }
+        )
+      }
+
+      const welcomeToPro = () => {
+        this.setState({
+          planStatus: 'PAID',
+          modalContext: 'WELCOME_TO_PRO',
+        })
+
+        trackPurchaseEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.state.userIdentity.id,
+          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false
         )
       }
 
@@ -948,11 +951,12 @@ class App extends Component<AppProps, AppStates> {
         EXPORT_PALETTE_XML: () => exportPaletteToXml(),
         EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
         UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
-        WELCOME_TO_PRO: () => welcomeToPro(),
         ENABLE_PRO_PLAN: () => enableProPlan(),
         LEAVE_PRO_PLAN: () => leaveProPlan(),
         GET_TRIAL: () => getTrial(),
+        GET_PRICING: () => getPricing(),
         ENABLE_TRIAL: () => enableTrial(),
+        WELCOME_TO_PRO: () => welcomeToPro(),
         SIGN_OUT: () => signOut(path?.data),
         DEFAULT: () => null,
       }

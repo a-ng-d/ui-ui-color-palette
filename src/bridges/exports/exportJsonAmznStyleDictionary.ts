@@ -94,7 +94,6 @@ const exportJsonAmznStyleDictionary = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_JSON',
     data: {
-      id: '',
       context: 'TOKENS_AMZN_STYLE_DICTIONARY',
       code: JSON.stringify(json, null, '  '),
     },

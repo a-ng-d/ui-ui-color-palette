@@ -75,7 +75,6 @@ const exportCsv = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_CSV',
     data: {
-      id: '',
       context: 'CSV',
       code:
         paletteData.themes[0].colors.length === 0
