@@ -105,6 +105,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
         <FormItem
           label={this.props.locales.settings.global.description.label}
           id="update-palette-description"
+          isMultiLine
           isBlocked={GlobalSettings.features(
             this.props.planStatus,
             this.props.config,

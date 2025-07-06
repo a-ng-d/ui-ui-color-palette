@@ -922,6 +922,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   message:
                                     this.props.locales.colors.alpha.message,
                                 }}
+                                isMultiLine
                                 isBlocked={
                                   Colors.features(
                                     this.props.planStatus,
@@ -930,7 +931,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   ).COLORS_ALPHA.isBlocked() &&
                                   !color.alpha.isEnabled
                                 }
-                                isCentered
                               >
                                 <Select
                                   id="switch-alpha-mode"
@@ -1074,6 +1074,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 label={
                                   this.props.locales.global.description.label
                                 }
+                                isMultiLine
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,

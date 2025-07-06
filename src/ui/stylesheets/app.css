@@ -66,7 +66,11 @@ div.export-palette__info {
   padding: 0 var(--size-xsmall) var(--size-xxsmall);
 }
 
-div.export-palette__preview textarea {
+div.export-palette__preview .input--code .input__wrapper {
+  height: 100%;
+}
+
+div.export-palette__preview .input--code .input__wrapper textarea {
   margin: 0;
   height: 100% !important;
 }

@@ -467,7 +467,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         padding = '0 var(--size-xxsmall)'
         break
       case 'figma-ui3':
-        padding = 'var(--size-xxsmall)'
+        padding = '0 var(--size-xxsmall)'
         break
       default:
         padding = 'var(--size-xxsmall)'

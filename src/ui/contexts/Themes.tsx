@@ -627,6 +627,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                       this.props.locales.global.description
                                         .label
                                     }
+                                    isMultiLine
                                     isBlocked={Themes.features(
                                       this.props.planStatus,
                                       this.props.config,
