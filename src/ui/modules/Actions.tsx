@@ -529,13 +529,17 @@ export default class Actions extends PureComponent<
                   this.props.config,
                   this.props.service
                 ).SOURCE.isReached(this.props.sourceColors.length - 1) ||
-                Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service
-                ).PRESETS_CUSTOM_ADD.isReached(
-                  Object.keys(this.props.scale).length - 1
-                )
+                ($palette.get().preset.id.includes('CUSTOM') &&
+                  Actions.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service
+                  ).PRESETS_CUSTOM_ADD.isReached(
+                    Object.keys(this.props.scale).length - 1
+                  )) ||
+                $palette.get().areSourceColorsLocked ||
+                $palette.get().shift.chroma !== 100 ||
+                $palette.get().visionSimulationMode !== 'NONE'
               }
               isLoading={this.props.isPrimaryLoading}
               action={this.props.onCreatePalette}

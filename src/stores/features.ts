@@ -1,8 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 
-export const featuresScheme: Array<
-  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>
-> = [
+export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',
@@ -11,7 +9,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'BACKSTAGE_MONITORING',
@@ -20,7 +18,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'BACKSTAGE_AUTHENTICATION',
@@ -29,7 +27,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   // Services
   {
@@ -67,7 +65,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    service: ['BROWSE', 'TRANSFER'],
+    service: ['BROWSE'],
   },
   {
     name: 'PROPERTIES',
@@ -104,7 +102,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'USER_CONSENT',
@@ -113,7 +111,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'NOTIFICATIONS',
@@ -122,7 +120,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   // Contexts
   {
@@ -133,7 +131,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'CONTEXT',
     service: ['BROWSE'],
-    limit: 5,
+    limit: 3,
   },
   {
     name: 'LOCAL_PALETTES_PAGE',
@@ -423,7 +421,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     service: ['CREATE', 'EDIT'],
-    limit: 10,
+    limit: 8,
   },
   {
     name: 'SCALE_CONFIGURATION',
@@ -450,7 +448,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_RESET',
@@ -477,7 +475,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_LINEAR',
@@ -486,7 +484,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_IN',
@@ -495,7 +493,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
@@ -504,7 +502,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
@@ -513,7 +511,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_SINE',
@@ -522,7 +520,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_QUAD',
@@ -531,7 +529,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_CUBIC',
@@ -540,7 +538,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SCALE_HELPER_TIPS',
@@ -667,7 +665,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TOKENS',
@@ -676,7 +674,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TOKENS_JSON',
@@ -685,7 +683,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
@@ -694,7 +692,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
@@ -703,7 +701,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_DTCG',
@@ -712,7 +710,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_DTCG_RGB',
@@ -721,7 +719,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_DTCG_OKLCH',
@@ -730,7 +728,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_CSS',
@@ -739,7 +737,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_CSS_RGB',
@@ -748,7 +746,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_CSS_HEX',
@@ -757,7 +755,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_CSS_HSL',
@@ -766,7 +764,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_CSS_LCH',
@@ -775,7 +773,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_CSS_P3',
@@ -784,7 +782,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_TAILWIND',
@@ -793,7 +791,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_APPLE',
@@ -802,7 +800,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_APPLE_SWIFTUI',
@@ -811,7 +809,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_APPLE_UIKIT',
@@ -820,7 +818,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_ANDROID',
@@ -829,7 +827,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_ANDROID_COMPOSE',
@@ -838,7 +836,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_ANDROID_XML',
@@ -847,7 +845,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'EXPORT_CSV',
@@ -856,7 +854,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['TRANSFER'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS',
@@ -1027,7 +1025,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
@@ -1036,7 +1034,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
@@ -1045,7 +1043,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
@@ -1054,7 +1052,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
@@ -1063,7 +1061,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
@@ -1072,7 +1070,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
@@ -1081,7 +1079,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
@@ -1090,7 +1088,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    service: ['EDIT'],
   },
   {
     name: 'SETTINGS_ALGORITHM',
@@ -1292,7 +1290,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'USER',
@@ -1301,7 +1299,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'USER_PREFERENCES',
@@ -1310,7 +1308,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'USER_PREFERENCES_SYNC_DEEP_STYLES',
@@ -1337,7 +1335,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'HELP_ANNOUNCEMENTS',
@@ -1346,7 +1344,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'HELP_ONBOARDING',
@@ -1355,7 +1353,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'HELP_DOCUMENTATION',
@@ -1364,7 +1362,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'INVOLVE_REPOSITORY',
@@ -1373,7 +1371,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'HELP_EMAIL',
@@ -1382,7 +1380,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'HELP_CHAT',
@@ -1391,7 +1389,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'INVOLVE_FEEDBACK',
@@ -1400,7 +1398,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'INVOLVE_ISSUES',
@@ -1409,7 +1407,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'INVOLVE_COMMUNITY',
@@ -1418,7 +1416,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'INVOLVE_REQUESTS',
@@ -1427,7 +1425,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'MORE_STORE',
@@ -1436,7 +1434,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'MORE_ABOUT',
@@ -1445,7 +1443,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'MORE_NETWORK',
@@ -1454,7 +1452,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'MORE_AUTHOR',
@@ -1463,7 +1461,7 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT', 'TRANSFER'],
+    service: ['BROWSE', 'CREATE', 'EDIT'],
   },
 ]
 

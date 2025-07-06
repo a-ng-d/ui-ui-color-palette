@@ -62,7 +62,10 @@ interface PreviewStates {
   drawerMaxHeight?: number
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private subscribeWCAG: (() => void) | undefined
   private subscribeAPCA: (() => void) | undefined
   private palette: typeof $palette
@@ -729,6 +732,16 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       text: this.props.locales.preview.lock.preview,
                       pin: 'TOP',
                     }}
+                    warning={
+                      this.props.service === 'CREATE' &&
+                      this.props.areSourceColorsLocked
+                        ? {
+                            label: this.props.locales.preview.lock.warning,
+                            pin: 'BOTTOM',
+                            type: 'SINGLE_LINE',
+                          }
+                        : undefined
+                    }
                     feature="LOCK_SOURCE_COLORS"
                     isChecked={this.props.areSourceColorsLocked}
                     isBlocked={
@@ -1147,6 +1160,18 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                     selected={this.props.visionSimulationMode}
                     alignment="RIGHT"
                     containerId="app"
+                    warning={
+                      this.props.service === 'CREATE' &&
+                      this.props.visionSimulationMode !== 'NONE'
+                        ? {
+                            label:
+                              this.props.locales.settings.color
+                                .visionSimulationMode.warning,
+                            pin: 'BOTTOM',
+                            type: 'SINGLE_LINE',
+                          }
+                        : undefined
+                    }
                     isBlocked={Preview.features(
                       this.props.planStatus,
                       this.props.config,

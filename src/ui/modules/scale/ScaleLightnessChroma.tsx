@@ -1070,7 +1070,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         >
           <SimpleSlider
             id="update-chroma"
-            label={this.props.locales.scale.shift.chroma}
+            label={this.props.locales.scale.shift.chroma.label}
             value={this.props.shift.chroma}
             min={0}
             max={200}
@@ -1078,6 +1078,15 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               min: 'hsl(187, 0%, 75%)',
               max: 'hsl(187, 100%, 75%)',
             }}
+            warning={
+              this.props.service === 'CREATE' && this.props.shift.chroma !== 100
+                ? {
+                    label: this.props.locales.scale.shift.chroma.warning,
+                    pin: 'BOTTOM',
+                    type: 'SINGLE_LINE',
+                  }
+                : undefined
+            }
             feature="SHIFT_CHROMA"
             isBlocked={ScaleLightnessChroma.features(
               this.props.planStatus,
@@ -1331,7 +1340,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         >
           <SimpleSlider
             id="update-chroma"
-            label={this.props.locales.scale.shift.chroma}
+            label={this.props.locales.scale.shift.chroma.label}
             value={this.props.shift.chroma}
             min={0}
             max={200}

@@ -363,7 +363,8 @@
     "lock": {
       "label": "Lock source colors",
       "preview": "Lock the source colors to include them in the palette",
-      "tag": "Locked"
+      "tag": "Locked",
+      "warning": "You cannot save a palette with locked source colors"
     },
     "score": {
       "apca": "Display APCA scores",
@@ -443,7 +444,8 @@
     "actions": {
       "addStop": "Add stop",
       "removeStop": "Remove stop",
-      "resetScale": "Reset scale"
+      "resetScale": "Reset lightness and chroma",
+      "resetLightness": "Reset lightness"
     },
     "contrast": {
       "label": "Contrast mode",
@@ -488,7 +490,10 @@
 
     },
     "shift": {
-      "chroma": "Chroma"
+      "chroma": {
+        "label": "Chroma",
+        "warning": "You cannot save a palette with a modified chroma shift. Reset it to 100% to save it."
+      }
     },
     "tips": {
       "add": "Add stop",
@@ -546,7 +551,8 @@
         "protanomaly": "Protanomaly (red-weak)",
         "protanopia": "Protanopia (red-blind)",
         "tritanomaly": "Tritanomaly (blue-weak)",
-        "tritanopia": "Tritanopia (blue-blind)"
+        "tritanopia": "Tritanopia (blue-blind)",
+        "warning": "You cannot save a palette with this vision simulation mode"
       }
     },
     "contexts": {

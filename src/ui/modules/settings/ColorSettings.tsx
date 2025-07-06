@@ -594,6 +594,18 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
               },
             ]}
             selected={this.props.visionSimulationMode}
+            warning={
+              this.props.service === 'CREATE' &&
+              this.props.visionSimulationMode !== 'NONE'
+                ? {
+                    label:
+                      this.props.locales.settings.color.visionSimulationMode
+                        .warning,
+                    pin: 'BOTTOM',
+                    type: 'SINGLE_LINE',
+                  }
+                : undefined
+            }
             isBlocked={ColorSettings.features(
               this.props.planStatus,
               this.props.config,
