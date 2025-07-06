@@ -955,7 +955,6 @@ class App extends Component<AppProps, AppStates> {
 
       return actions[path.type ?? 'DEFAULT']?.()
     } catch (error) {
-      console.error(error)
     }
   }
 

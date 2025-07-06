@@ -811,7 +811,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
   // Direct Actions
   onResetScale = () => {
-    console.log('Resetting scale...')
     const preset = this.props.preset ?? defaultPreset
 
     this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
