@@ -188,7 +188,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
   onResize = (e: MouseEvent, shiftX: number, shiftY: number) => {
     const windowSize = {
       w: 640,
-      h: 400,
+      h: 420,
     }
     const origin = {
       x: e.screenX - e.clientX,
@@ -205,10 +205,10 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
     const scaleX = Math.abs(origin.x - cursor.x - shift.x),
       scaleY = Math.abs(origin.y - cursor.y - shift.y)
 
-    if (scaleX > 360) windowSize.w = scaleX
-    else windowSize.w = 360
-    if (scaleY > 360) windowSize.h = scaleY
-    else windowSize.h = 360
+    if (scaleX > 640) windowSize.w = scaleX
+    else windowSize.w = 640
+    if (scaleY > 420) windowSize.h = scaleY
+    else windowSize.h = 420
 
     parent.postMessage(
       {
