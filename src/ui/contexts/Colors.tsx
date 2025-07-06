@@ -851,72 +851,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 this.props.planStatus,
                                 this.props.config,
                                 this.props.service
-                              ).COLORS_PARAMS.isActive()}
-                            >
-                              <FormItem
-                                id="shift-lch"
-                                label={this.props.locales.colors.lch.label}
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service
-                                ).COLORS_PARAMS.isBlocked()}
-                              >
-                                <InputsBar customClassName="draggable-item__param">
-                                  <Input
-                                    type="NUMBER"
-                                    value={lch[0].toFixed(0)}
-                                    min="0"
-                                    max="100"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service
-                                    ).COLORS_PARAMS.isBlocked()}
-                                    feature="UPDATE_LIGHTNESS"
-                                    onBlur={this.colorsHandler}
-                                    onShift={this.colorsHandler}
-                                  />
-                                  <Input
-                                    type="NUMBER"
-                                    value={lch[1].toFixed(0)}
-                                    min="0"
-                                    max="100"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service
-                                    ).COLORS_PARAMS.isBlocked()}
-                                    feature="UPDATE_CHROMA"
-                                    onBlur={this.colorsHandler}
-                                    onShift={this.colorsHandler}
-                                  />
-                                  <Input
-                                    type="NUMBER"
-                                    value={
-                                      lch[2].toFixed(0) === 'NaN'
-                                        ? '0'
-                                        : lch[2].toFixed(0)
-                                    }
-                                    min="0"
-                                    max="360"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service
-                                    ).COLORS_PARAMS.isBlocked()}
-                                    feature="UPDATE_HUE"
-                                    onBlur={this.colorsHandler}
-                                    onShift={this.colorsHandler}
-                                  />
-                                </InputsBar>
-                              </FormItem>
-                            </Feature>
-                            <Feature
-                              isActive={Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service
                               ).COLORS_HUE_SHIFTING.isActive()}
                             >
                               <FormItem
@@ -971,48 +905,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     />
                                   )}
                                 </div>
-                              </FormItem>
-                            </Feature>
-                            <Feature
-                              isActive={Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service
-                              ).COLORS_DESCRIPTION.isActive()}
-                            >
-                              <FormItem
-                                id="update-color-description"
-                                label={
-                                  this.props.locales.global.description.label
-                                }
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service
-                                ).COLORS_DESCRIPTION.isBlocked()}
-                              >
-                                <Input
-                                  id="update-color-description"
-                                  type="LONG_TEXT"
-                                  value={color.description}
-                                  placeholder={
-                                    this.props.locales.global.description
-                                      .placeholder
-                                  }
-                                  feature="UPDATE_DESCRIPTION"
-                                  isBlocked={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service
-                                  ).COLORS_DESCRIPTION.isBlocked()}
-                                  isNew={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service
-                                  ).COLORS_DESCRIPTION.isNew()}
-                                  isGrowing
-                                  onBlur={this.colorsHandler}
-                                />
                               </FormItem>
                             </Feature>
                             <Feature
@@ -1100,6 +992,114 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     this.props.service
                                   ).COLORS_BACKGROUND_COLOR.isNew()}
                                   onChange={this.colorsHandler}
+                                  onBlur={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={Colors.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service
+                              ).COLORS_PARAMS.isActive()}
+                            >
+                              <FormItem
+                                id="shift-lch"
+                                label={this.props.locales.colors.lch.label}
+                                isBlocked={Colors.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service
+                                ).COLORS_PARAMS.isBlocked()}
+                              >
+                                <InputsBar customClassName="draggable-item__param">
+                                  <Input
+                                    type="NUMBER"
+                                    value={lch[0].toFixed(0)}
+                                    min="0"
+                                    max="100"
+                                    isBlocked={Colors.features(
+                                      this.props.planStatus,
+                                      this.props.config,
+                                      this.props.service
+                                    ).COLORS_PARAMS.isBlocked()}
+                                    feature="UPDATE_LIGHTNESS"
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                  <Input
+                                    type="NUMBER"
+                                    value={lch[1].toFixed(0)}
+                                    min="0"
+                                    max="100"
+                                    isBlocked={Colors.features(
+                                      this.props.planStatus,
+                                      this.props.config,
+                                      this.props.service
+                                    ).COLORS_PARAMS.isBlocked()}
+                                    feature="UPDATE_CHROMA"
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                  <Input
+                                    type="NUMBER"
+                                    value={
+                                      lch[2].toFixed(0) === 'NaN'
+                                        ? '0'
+                                        : lch[2].toFixed(0)
+                                    }
+                                    min="0"
+                                    max="360"
+                                    isBlocked={Colors.features(
+                                      this.props.planStatus,
+                                      this.props.config,
+                                      this.props.service
+                                    ).COLORS_PARAMS.isBlocked()}
+                                    feature="UPDATE_HUE"
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                </InputsBar>
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={Colors.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service
+                              ).COLORS_DESCRIPTION.isActive()}
+                            >
+                              <FormItem
+                                id="update-color-description"
+                                label={
+                                  this.props.locales.global.description.label
+                                }
+                                isBlocked={Colors.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service
+                                ).COLORS_DESCRIPTION.isBlocked()}
+                              >
+                                <Input
+                                  id="update-color-description"
+                                  type="LONG_TEXT"
+                                  value={color.description}
+                                  placeholder={
+                                    this.props.locales.global.description
+                                      .placeholder
+                                  }
+                                  feature="UPDATE_DESCRIPTION"
+                                  isBlocked={Colors.features(
+                                    this.props.planStatus,
+                                    this.props.config,
+                                    this.props.service
+                                  ).COLORS_DESCRIPTION.isBlocked()}
+                                  isNew={Colors.features(
+                                    this.props.planStatus,
+                                    this.props.config,
+                                    this.props.service
+                                  ).COLORS_DESCRIPTION.isNew()}
+                                  isGrowing
                                   onBlur={this.colorsHandler}
                                 />
                               </FormItem>
