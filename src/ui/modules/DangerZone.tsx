@@ -23,7 +23,7 @@ interface DangerZoneProps extends BaseProps, WithConfigProps {
 
 interface DangerZoneState {
   isDeleteDialogOpen: boolean
-  isDestructiveActionLoading: false
+  isDestructiveActionLoading: boolean
 }
 
 export default class DangerZone extends PureComponent<
@@ -85,7 +85,7 @@ export default class DangerZone extends PureComponent<
   // Direct Actions
   onDeletePalette = () => {
     this.setState({
-      isDeleteDialogOpen: false,
+      isDestructiveActionLoading: true,
     })
 
     this.props.onDeletePalette()
