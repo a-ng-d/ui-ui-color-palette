@@ -10,7 +10,7 @@ import {
   trackPublicationEvent,
   trackSignInEvent,
 } from '../../../utils/eventsTracker'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../index'
 import unpublishPalette from '../../../external/publication/unpublishPalette'
 import pushPalette from '../../../external/publication/pushPalette'
@@ -63,23 +63,22 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
+export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
   private data: PaletteData
   private enabledThemeIndex: number
 
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     PUBLICATION: new FeatureStatus({
       features: config.features,
       featureName: 'PUBLICATION',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -970,7 +969,8 @@ export default class Publication extends PureComponent<
           isActive={Publication.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).PUBLICATION.isActive()}
         >
           <Dialog
@@ -1099,7 +1099,8 @@ export default class Publication extends PureComponent<
         isActive={Publication.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).PUBLICATION.isActive()}
       >
         <Dialog

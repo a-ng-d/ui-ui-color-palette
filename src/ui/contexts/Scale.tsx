@@ -29,7 +29,7 @@ import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackScaleManagementEvent } from '../../utils/eventsTracker'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import de from '../../content/images/distribution_easing.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
@@ -67,67 +67,78 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     SCALE_HELPER: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION_LINEAR: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_LINEAR',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION_EASE_IN: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_EASE_IN',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION_EASE_OUT: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION_SINE: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_SINE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION_QUAD: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_QUAD',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_DISTRIBUTION_CUBIC: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_CUBIC',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_HELPER_TIPS: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_TIPS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -254,7 +265,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         isBlocked={Scale.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
       >
         <div className={layouts['snackbar--tight']}>
@@ -268,17 +280,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 isActive: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
                 isBlocked: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
                 isNew: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
@@ -292,17 +307,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 isActive: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
                 isBlocked: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
                 isNew: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
@@ -313,17 +331,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 isActive: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
                 isBlocked: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
                 isNew: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
@@ -334,17 +355,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 isActive: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
                 isBlocked: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
                 isNew: Scale.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
@@ -359,12 +383,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             isBlocked={Scale.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
             isNew={Scale.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_HELPER_DISTRIBUTION.isNew()}
           />
           {this.props.distributionEasing !== 'LINEAR' && (
@@ -378,17 +404,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   isActive: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_SINE.isActive(),
                   isBlocked: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
                   isNew: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
@@ -399,17 +428,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   isActive: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_QUAD.isActive(),
                   isBlocked: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
                   isNew: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
@@ -420,17 +452,20 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   isActive: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_CUBIC.isActive(),
                   isBlocked: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
                   isNew: Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
@@ -445,12 +480,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               isBlocked={Scale.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
               isNew={Scale.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SCALE_HELPER_DISTRIBUTION.isNew()}
             />
           )}
@@ -604,7 +641,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   isActive={Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER.isActive()}
                 >
                   <Bar
@@ -614,7 +652,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         isActive={Scale.features(
                           this.props.planStatus,
                           this.props.config,
-                          this.props.service
+                          this.props.service,
+                          this.props.editor
                         ).SCALE_HELPER_DISTRIBUTION.isActive()}
                       >
                         <this.DistributionEasing />
@@ -625,7 +664,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         isActive={Scale.features(
                           this.props.planStatus,
                           this.props.config,
-                          this.props.service
+                          this.props.service,
+                          this.props.editor
                         ).SCALE_HELPER_TIPS.isActive()}
                       >
                         <div className={layouts['snackbar--tight']}>
@@ -699,7 +739,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   isActive={Scale.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_HELPER.isActive()}
                 >
                   <Bar
@@ -709,7 +750,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         isActive={Scale.features(
                           this.props.planStatus,
                           this.props.config,
-                          this.props.service
+                          this.props.service,
+                          this.props.editor
                         ).SCALE_HELPER_DISTRIBUTION.isActive()}
                       >
                         <this.DistributionEasing />
@@ -720,7 +762,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         isActive={Scale.features(
                           this.props.planStatus,
                           this.props.config,
-                          this.props.service
+                          this.props.service,
+                          this.props.editor
                         ).SCALE_HELPER_TIPS.isActive()}
                       >
                         <div className={layouts['snackbar--tight']}>

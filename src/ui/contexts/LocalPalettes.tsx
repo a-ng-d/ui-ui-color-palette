@@ -10,6 +10,7 @@ import {
   BaseProps,
   Context,
   ContextItem,
+  Editor,
   PlanStatus,
   Service,
 } from '../../types/app'
@@ -34,13 +35,15 @@ export default class LocalPalettes extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     LOCAL_PALETTES_PAGE: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES_PAGE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 

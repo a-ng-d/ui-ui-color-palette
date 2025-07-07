@@ -16,7 +16,7 @@ import {
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PagePalettesProps extends BaseProps, WithConfigProps {
@@ -40,37 +40,43 @@ export default class PagePalettes extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     OPEN_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'OPEN_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DUPLICATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DUPLICATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DELETE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DELETE_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -175,7 +181,8 @@ export default class PagePalettes extends PureComponent<
           PagePalettes.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).DELETE_PALETTE.isActive() && this.state.isDeleteDialogOpen
         }
       >
@@ -271,114 +278,118 @@ export default class PagePalettes extends PureComponent<
                     )}
                     actionsSlot={
                       <>
-                        <Feature isActive={!this.props.editor.includes('dev')}>
-                          <Menu
-                            id={`more-actions-${palette.meta.id}`}
-                            icon="ellipses"
-                            options={[
-                              {
-                                label:
-                                  this.props.locales.browse.actions
-                                    .duplicatePalette,
-                                type: 'OPTION',
-                                isActive: PagePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service
-                                ).DUPLICATE_PALETTE.isActive(),
-                                isBlocked:
-                                  PagePalettes.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service
-                                  ).DUPLICATE_PALETTE.isBlocked() ||
-                                  PagePalettes.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service
-                                  ).LOCAL_PALETTES.isReached(
-                                    this.props.localPalettesList.length
-                                  ),
-                                isNew: PagePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service
-                                ).DUPLICATE_PALETTE.isNew(),
-                                action: () => {
-                                  this.setState({
-                                    isContextActionLoading:
-                                      this.state.isContextActionLoading.map(
-                                        (loading, i) =>
-                                          i === index ? true : loading
-                                      ),
-                                  })
-                                  this.onDuplicatePalette(palette.meta.id)
-                                },
-                              },
-                              {
-                                label:
-                                  this.props.locales.browse.actions
-                                    .deletePalette,
-                                type: 'OPTION',
-                                isActive: PagePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service
-                                ).DELETE_PALETTE.isActive(),
-                                isBlocked: PagePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service
-                                ).DELETE_PALETTE.isBlocked(),
-                                isNew: PagePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service
-                                ).DELETE_PALETTE.isNew(),
-                                action: () =>
-                                  this.setState({
-                                    isDeleteDialogOpen: true,
-                                    targetedPaletteId: palette.meta.id,
-                                    targetedPaletteName: palette.base.name,
-                                  }),
-                              },
-                            ]}
-                            alignment="BOTTOM_RIGHT"
-                            state={
-                              this.state.isContextActionLoading[index]
-                                ? 'LOADING'
-                                : 'DEFAULT'
-                            }
-                            helper={{
+                        <Menu
+                          id={`more-actions-${palette.meta.id}`}
+                          icon="ellipses"
+                          options={[
+                            {
                               label:
                                 this.props.locales.browse.actions
-                                  .moreParameters,
-                            }}
-                          />
-                        </Feature>
+                                  .duplicatePalette,
+                              type: 'OPTION',
+                              isActive: PagePalettes.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).DUPLICATE_PALETTE.isActive(),
+                              isBlocked:
+                                PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).DUPLICATE_PALETTE.isBlocked() ||
+                                PagePalettes.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).LOCAL_PALETTES.isReached(
+                                  this.props.localPalettesList.length
+                                ),
+                              isNew: PagePalettes.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).DUPLICATE_PALETTE.isNew(),
+                              action: () => {
+                                this.setState({
+                                  isContextActionLoading:
+                                    this.state.isContextActionLoading.map(
+                                      (loading, i) =>
+                                        i === index ? true : loading
+                                    ),
+                                })
+                                this.onDuplicatePalette(palette.meta.id)
+                              },
+                            },
+                            {
+                              label:
+                                this.props.locales.browse.actions.deletePalette,
+                              type: 'OPTION',
+                              isActive: PagePalettes.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).DELETE_PALETTE.isActive(),
+                              isBlocked: PagePalettes.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).DELETE_PALETTE.isBlocked(),
+                              isNew: PagePalettes.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).DELETE_PALETTE.isNew(),
+                              action: () =>
+                                this.setState({
+                                  isDeleteDialogOpen: true,
+                                  targetedPaletteId: palette.meta.id,
+                                  targetedPaletteName: palette.base.name,
+                                }),
+                            },
+                          ]}
+                          alignment="BOTTOM_RIGHT"
+                          state={
+                            this.state.isContextActionLoading[index]
+                              ? 'LOADING'
+                              : 'DEFAULT'
+                          }
+                          helper={{
+                            label:
+                              this.props.locales.browse.actions.moreParameters,
+                          }}
+                        />
                         <Feature
                           isActive={PagePalettes.features(
                             this.props.planStatus,
                             this.props.config,
-                            this.props.service
+                            this.props.service,
+                            this.props.editor
                           ).OPEN_PALETTE.isActive()}
                         >
                           <Button
                             type="secondary"
                             label={
-                              !this.props.editor.includes('dev')
-                                ? this.props.locales.browse.actions.editPalette
-                                : this.props.locales.browse.actions.openPalette
+                              this.props.locales.browse.actions.openPalette
                             }
                             isBlocked={PagePalettes.features(
                               this.props.planStatus,
                               this.props.config,
-                              this.props.service
+                              this.props.service,
+                              this.props.editor
                             ).OPEN_PALETTE.isBlocked()}
                             isNew={PagePalettes.features(
                               this.props.planStatus,
                               this.props.config,
-                              this.props.service
+                              this.props.service,
+                              this.props.editor
                             ).OPEN_PALETTE.isNew()}
                             action={() => this.onEditPalette(palette.meta.id)}
                           />
@@ -457,7 +468,8 @@ export default class PagePalettes extends PureComponent<
                 isNew={PagePalettes.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).CREATE_PALETTE.isNew()}
                 action={this.props.onCreatePalette}
               />
@@ -484,7 +496,8 @@ export default class PagePalettes extends PureComponent<
         {PagePalettes.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).LOCAL_PALETTES.isReached(this.props.localPalettesList.length) &&
           !this.props.editor.includes('dev') && (
             <div
@@ -500,7 +513,8 @@ export default class PagePalettes extends PureComponent<
                     PagePalettes.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).LOCAL_PALETTES.limit ?? 0
                   ).toString()
                 )}

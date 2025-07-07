@@ -23,7 +23,13 @@ import {
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { trackImportEvent } from '../../utils/eventsTracker'
-import { BaseProps, ImportUrl, PlanStatus, Service } from '../../types/app'
+import {
+  BaseProps,
+  Editor,
+  ImportUrl,
+  PlanStatus,
+  Service,
+} from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps extends BaseProps, WithConfigProps {
@@ -43,50 +49,54 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     SOURCE: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SOURCE_CANVAS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_CANVAS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SOURCE_COOLORS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_COOLORS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SOURCE_REALTIME_COLORS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_REALTIME_COLORS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SOURCE_COLOUR_LOVERS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_COLOUR_LOVERS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SOURCE_EXPLORE: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_EXPLORE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
   constructor(props: OverviewProps) {
@@ -333,7 +343,8 @@ export default class Overview extends PureComponent<
         isActive={Overview.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SOURCE_CANVAS.isActive()}
       >
         <SimpleItem
@@ -353,7 +364,8 @@ export default class Overview extends PureComponent<
         {Overview.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SOURCE.isReached(this.props.sourceColors.length - 1) && (
           <div
             style={{
@@ -368,7 +380,8 @@ export default class Overview extends PureComponent<
                   Overview.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SOURCE.limit ?? 0
                 ).toString()
               )}
@@ -458,7 +471,8 @@ export default class Overview extends PureComponent<
         isActive={Overview.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SOURCE_COOLORS.isActive()}
       >
         <Accordion
@@ -475,12 +489,14 @@ export default class Overview extends PureComponent<
           isBlocked={Overview.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SOURCE_COOLORS.isBlocked()}
           isNew={Overview.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SOURCE_COOLORS.isNew()}
           onAdd={() => {
             this.setState({ isCoolorsImportOpen: true })
@@ -554,7 +570,8 @@ export default class Overview extends PureComponent<
         isActive={Overview.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SOURCE_REALTIME_COLORS.isActive()}
       >
         <Accordion
@@ -571,12 +588,14 @@ export default class Overview extends PureComponent<
           isBlocked={Overview.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SOURCE_REALTIME_COLORS.isBlocked()}
           isNew={Overview.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SOURCE_REALTIME_COLORS.isNew()}
           onAdd={() => {
             this.setState({ isRealtimeColorsImportOpen: true })
@@ -652,7 +671,8 @@ export default class Overview extends PureComponent<
         isActive={Overview.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SOURCE_COLOUR_LOVERS.isActive()}
       >
         <Accordion
@@ -670,12 +690,14 @@ export default class Overview extends PureComponent<
           isBlocked={Overview.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SOURCE_EXPLORE.isBlocked()}
           isNew={Overview.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SOURCE_EXPLORE.isNew()}
           onAdd={this.props.onChangeContexts}
           onEmpty={() => {

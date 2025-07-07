@@ -18,6 +18,7 @@ import {
   ContextItem,
   PlanStatus,
   Service,
+  Editor,
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -42,37 +43,43 @@ export default class BrowsePalettes extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     REMOTE_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'REMOTE_PALETTES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DOCUMENT_OPEN: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_OPEN',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DOCUMENT_CREATE: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_CREATE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -206,7 +213,8 @@ export default class BrowsePalettes extends PureComponent<
             isActive={BrowsePalettes.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_OPEN.isActive()}
           >
             <Button
@@ -215,12 +223,14 @@ export default class BrowsePalettes extends PureComponent<
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).DOCUMENT_OPEN.isBlocked()}
               isNew={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).DOCUMENT_OPEN.isNew()}
               action={this.onEditPalette}
             />
@@ -229,13 +239,12 @@ export default class BrowsePalettes extends PureComponent<
       else
         buttons.push(
           <Feature
-            isActive={
-              BrowsePalettes.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service
-              ).DOCUMENT_CREATE.isActive() && !this.props.editor.includes('dev')
-            }
+            isActive={BrowsePalettes.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).DOCUMENT_CREATE.isActive()}
           >
             <Button
               type="secondary"
@@ -243,12 +252,14 @@ export default class BrowsePalettes extends PureComponent<
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).DOCUMENT_CREATE.isBlocked()}
               isNew={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).DOCUMENT_CREATE.isNew()}
               action={this.onCreateFromDocument}
             />
@@ -259,9 +270,9 @@ export default class BrowsePalettes extends PureComponent<
       BrowsePalettes.features(
         this.props.planStatus,
         this.props.config,
-        this.props.service
-      ).CREATE_PALETTE.isActive() &&
-      !this.props.editor.includes('dev')
+        this.props.service,
+        this.props.editor
+      ).CREATE_PALETTE.isActive()
     )
       buttons.push(
         <Button
@@ -272,18 +283,21 @@ export default class BrowsePalettes extends PureComponent<
             BrowsePalettes.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).CREATE_PALETTE.isBlocked() ||
             BrowsePalettes.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).LOCAL_PALETTES.isReached(this.state.localPalettesList.length)
           }
           isNew={BrowsePalettes.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).CREATE_PALETTE.isNew()}
           action={this.onCreatePalette}
         />

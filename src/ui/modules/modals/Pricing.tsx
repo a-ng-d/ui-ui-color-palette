@@ -4,7 +4,13 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Card, Dialog } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, Plans, PlanStatus, Service } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  Plans,
+  PlanStatus,
+  Service,
+} from '../../../types/app'
 import uicpo from '../../../content/images/uicp_one.webp'
 import uicp from '../../../content/images/uicp_figma.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -25,13 +31,15 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     PRO_PLAN: new FeatureStatus({
       features: config.features,
       featureName: 'PRO_PLAN',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -82,7 +90,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         isActive={Pricing.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).PRO_PLAN.isActive()}
       >
         <Dialog

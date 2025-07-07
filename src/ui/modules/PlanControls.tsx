@@ -3,7 +3,7 @@ import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface PlanControlsProps extends BaseProps, WithConfigProps {
@@ -14,19 +14,22 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     ACTIVITIES_RUN: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIVITIES_RUN',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     INVOLVE_FEEDBACK: new FeatureStatus({
       features: config.features,
       featureName: 'INVOLVE_FEEDBACK',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -130,7 +133,8 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         isActive={PlanControls.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).INVOLVE_FEEDBACK.isActive()}
       >
         <span className={doClassnames([texts.type, texts['type--secondary']])}>
@@ -142,12 +146,14 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
           isBlocked={PlanControls.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).INVOLVE_FEEDBACK.isBlocked()}
           isNew={PlanControls.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).INVOLVE_FEEDBACK.isNew()}
           action={() =>
             window

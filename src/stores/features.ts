@@ -9,7 +9,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'BACKSTAGE_MONITORING',
@@ -18,7 +19,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
   },
   {
     name: 'BACKSTAGE_AUTHENTICATION',
@@ -27,7 +29,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
   },
   // Services
   {
@@ -37,7 +40,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    service: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
+    proForServices: ['BROWSE'],
   },
   {
     name: 'CREATE',
@@ -47,7 +51,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    service: ['CREATE'],
+    availabilityForEditors: ['dev', 'dev_vscode'],
+    proForServices: ['CREATE'],
   },
   {
     name: 'EDIT',
@@ -56,25 +61,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    service: ['EDIT'],
-  },
-  {
-    name: 'TRANSFER',
-    description: 'Service for transfering a palette into code',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'SERVICE',
-    service: ['BROWSE'],
-  },
-  {
-    name: 'PROPERTIES',
-    description: 'Provides shades information and WCAG scores',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
+    proForServices: ['EDIT'],
   },
   {
     name: 'RESIZE_UI',
@@ -83,7 +71,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT', 'BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
+    proForServices: ['CREATE', 'EDIT', 'BROWSE'],
   },
   // Modules
   {
@@ -93,7 +82,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRO_PLAN',
@@ -102,7 +92,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'USER_CONSENT',
@@ -111,7 +102,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'NOTIFICATIONS',
@@ -120,7 +112,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   // Contexts
   {
@@ -130,7 +123,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
     limit: 3,
   },
   {
@@ -140,7 +134,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'REMOTE_PALETTES',
@@ -149,7 +144,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'REMOTE_PALETTES_SELF',
@@ -158,7 +154,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'REMOTE_PALETTES_COMMUNITY',
@@ -167,7 +164,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'OPEN_PALETTE',
@@ -176,7 +174,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'DUPLICATE_PALETTE',
@@ -185,7 +184,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'DELETE_PALETTE',
@@ -194,7 +194,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'EDIT'],
+    proForServices: ['BROWSE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'DOCUMENT_OPEN',
@@ -203,7 +204,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'DOCUMENT_CREATE',
@@ -212,7 +214,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SOURCE',
@@ -221,7 +224,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
     limit: 5,
   },
   {
@@ -231,7 +235,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SOURCE_EXPLORE',
@@ -240,7 +245,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SOURCE_CANVAS',
@@ -249,7 +255,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SOURCE_COOLORS',
@@ -258,7 +265,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SOURCE_REALTIME_COLORS',
@@ -267,7 +275,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SOURCE_COLOUR_LOVERS',
@@ -276,7 +285,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE',
@@ -285,7 +295,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_PRESETS',
@@ -294,16 +305,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE'],
-  },
-  {
-    name: 'SCALE_PRESETS_NAMING_CONVENTION',
-    description: 'Naming convention pattern',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'ACTION',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_MATERIAL',
@@ -312,7 +315,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_MATERIAL_3',
@@ -321,7 +325,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_TAILWIND',
@@ -330,7 +335,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_ANT',
@@ -339,7 +345,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_ADS',
@@ -348,7 +355,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_ADS_NEUTRAL',
@@ -357,7 +365,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_CARBON',
@@ -366,7 +375,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_BASE',
@@ -375,7 +385,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_POLARIS',
@@ -384,7 +395,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_CUSTOM_1_10',
@@ -393,7 +405,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_CUSTOM_10_100',
@@ -402,7 +415,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_CUSTOM_100_1000',
@@ -411,7 +425,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PRESETS_CUSTOM_ADD',
@@ -420,7 +435,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
     limit: 8,
   },
   {
@@ -430,7 +446,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_CONTRAST_RATIO',
@@ -439,7 +456,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_CHROMA',
@@ -448,7 +466,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_RESET',
@@ -457,7 +476,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER',
@@ -466,7 +486,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION',
@@ -475,7 +496,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_LINEAR',
@@ -484,7 +506,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_IN',
@@ -493,7 +516,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
@@ -502,7 +526,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
@@ -511,7 +536,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_SINE',
@@ -520,7 +546,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_QUAD',
@@ -529,7 +556,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_DISTRIBUTION_CUBIC',
@@ -538,7 +566,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SCALE_HELPER_TIPS',
@@ -547,7 +576,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'COLORS',
@@ -556,7 +586,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
     limit: 5,
   },
   {
@@ -566,7 +597,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'COLORS_PARAMS',
@@ -575,7 +607,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'COLORS_HUE_SHIFTING',
@@ -584,7 +617,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'COLORS_CHROMA_SHIFTING',
@@ -593,7 +627,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'COLORS_DESCRIPTION',
@@ -602,7 +637,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'COLORS_ALPHA',
@@ -611,7 +647,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'COLORS_BACKGROUND_COLOR',
@@ -620,7 +657,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'THEMES',
@@ -629,7 +667,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'THEMES_NAME',
@@ -638,7 +677,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'THEMES_PARAMS',
@@ -647,7 +687,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'THEMES_DESCRIPTION',
@@ -656,7 +697,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'EXPORT',
@@ -665,7 +707,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TOKENS',
@@ -674,7 +717,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TOKENS_JSON',
@@ -683,7 +727,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
@@ -692,7 +737,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
@@ -701,7 +747,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_DTCG',
@@ -710,7 +757,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_DTCG_RGB',
@@ -719,7 +767,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TOKENS_JSON_DTCG_OKLCH',
@@ -728,7 +777,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_CSS',
@@ -737,7 +787,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_CSS_RGB',
@@ -746,7 +797,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_CSS_HEX',
@@ -755,7 +807,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_CSS_HSL',
@@ -764,7 +817,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_CSS_LCH',
@@ -773,7 +827,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_CSS_P3',
@@ -782,7 +837,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_TAILWIND',
@@ -791,7 +847,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_APPLE',
@@ -800,7 +857,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_APPLE_SWIFTUI',
@@ -809,7 +867,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_APPLE_UIKIT',
@@ -818,7 +877,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_ANDROID',
@@ -827,7 +887,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_ANDROID_COMPOSE',
@@ -836,7 +897,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_ANDROID_XML',
@@ -845,7 +907,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'EXPORT_CSV',
@@ -854,7 +917,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'SETTINGS',
@@ -863,7 +927,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_GLOBAL',
@@ -872,7 +937,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_NAME',
@@ -881,7 +947,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_DESCRIPTION',
@@ -890,7 +957,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'VIEWS',
@@ -899,7 +967,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'VIEWS_PALETTE',
@@ -908,7 +977,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'VIEWS_PALETTE_WITH_PROPERTIES',
@@ -917,7 +987,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'VIEWS_SHEET',
@@ -926,7 +997,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_MANAGEMENT',
@@ -935,7 +1007,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_SPACE',
@@ -944,7 +1017,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_SPACE_LCH',
@@ -953,7 +1027,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_SPACE_OKLCH',
@@ -962,7 +1037,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_SPACE_LAB',
@@ -971,7 +1047,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_SPACE_OKLAB',
@@ -980,7 +1057,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_SPACE_HSL',
@@ -989,7 +1067,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_COLOR_SPACE_HSLUV',
@@ -998,7 +1077,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE',
@@ -1007,7 +1087,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
@@ -1016,7 +1097,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
@@ -1025,7 +1107,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
@@ -1034,7 +1117,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
@@ -1043,7 +1127,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
@@ -1052,7 +1137,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
@@ -1061,7 +1147,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
@@ -1070,7 +1157,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
@@ -1079,7 +1167,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
@@ -1088,7 +1177,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_ALGORITHM',
@@ -1097,7 +1187,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_ALGORITHM_V1',
@@ -1107,7 +1198,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_ALGORITHM_V2',
@@ -1117,7 +1209,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_ALGORITHM_V3',
@@ -1127,7 +1220,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_CONTRAST_MANAGEMENT',
@@ -1136,7 +1230,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SETTINGS_TEXT_COLORS_THEME',
@@ -1145,7 +1240,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'ACTIONS',
@@ -1154,7 +1250,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'CREATE_PALETTE',
@@ -1163,7 +1260,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE'],
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'SYNC_LOCAL_STYLES',
@@ -1172,7 +1270,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'penpot'],
   },
   {
     name: 'SYNC_LOCAL_VARIABLES',
@@ -1181,7 +1280,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'penpot'],
   },
   {
     name: 'PUBLISH_PALETTE',
@@ -1190,7 +1290,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'DOCUMENT',
@@ -1199,7 +1300,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'DOCUMENT_SHEET',
@@ -1208,7 +1310,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'DOCUMENT_PALETTE',
@@ -1217,7 +1320,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'DOCUMENT_PALETTE_PROPERTIES',
@@ -1226,7 +1330,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'DOCUMENT_PUSH_UPDATES',
@@ -1235,7 +1340,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
     name: 'PREVIEW',
@@ -1244,7 +1350,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'PREVIEW_SCORES',
@@ -1253,7 +1360,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'PREVIEW_SCORES_WCAG',
@@ -1262,7 +1370,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'PREVIEW_SCORES_APCA',
@@ -1271,7 +1380,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'PREVIEW_LOCK_SOURCE_COLORS',
@@ -1280,7 +1390,38 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
+  },
+  {
+    name: 'PALETTE_NAME',
+    description: 'Palette name',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['dev', 'dev_vscode'],
+  },
+  {
+    name: 'EDITOR_MESSAGES',
+    description: 'Messages from the editor',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
+  },
+  {
+    name: 'WATCHER_MESSAGES',
+    description: 'Messages from the watcher',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['dev', 'dev_vscode'],
   },
   // Shortcuts
   {
@@ -1290,7 +1431,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'USER',
@@ -1299,7 +1441,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'USER_PREFERENCES',
@@ -1308,7 +1451,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'penpot'],
   },
   {
     name: 'USER_PREFERENCES_SYNC_DEEP_STYLES',
@@ -1317,7 +1461,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'penpot'],
   },
   {
     name: 'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
@@ -1326,7 +1471,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'penpot'],
   },
   {
     name: 'USER_LICENSE',
@@ -1335,7 +1481,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'HELP_ANNOUNCEMENTS',
@@ -1344,7 +1491,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'HELP_ONBOARDING',
@@ -1353,7 +1501,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'HELP_DOCUMENTATION',
@@ -1362,7 +1511,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'INVOLVE_REPOSITORY',
@@ -1371,7 +1521,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'HELP_EMAIL',
@@ -1380,7 +1531,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'HELP_CHAT',
@@ -1389,7 +1541,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'INVOLVE_FEEDBACK',
@@ -1398,7 +1551,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'INVOLVE_ISSUES',
@@ -1407,7 +1561,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'INVOLVE_COMMUNITY',
@@ -1416,7 +1571,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'INVOLVE_REQUESTS',
@@ -1425,7 +1581,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'MORE_STORE',
@@ -1434,7 +1591,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'MORE_ABOUT',
@@ -1443,7 +1601,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'MORE_NETWORK',
@@ -1452,7 +1611,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
   {
     name: 'MORE_AUTHOR',
@@ -1461,7 +1621,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    service: ['BROWSE', 'CREATE', 'EDIT'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'penpot'],
   },
 ]
 

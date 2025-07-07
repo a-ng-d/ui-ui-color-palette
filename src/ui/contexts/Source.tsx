@@ -12,6 +12,7 @@ import {
   BaseProps,
   Context,
   ContextItem,
+  Editor,
   FilterOptions,
   PlanStatus,
   Service,
@@ -41,13 +42,15 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 

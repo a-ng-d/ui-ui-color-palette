@@ -52,6 +52,7 @@ import {
   ContextItem,
   PlanStatus,
   Service,
+  Editor,
 } from '../../types/app'
 import { defaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
@@ -113,25 +114,36 @@ export default class EditPalette extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
+    PALETTE_NAME: new FeatureStatus({
+      features: config.features,
+      featureName: 'PALETTE_NAME',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     THEMES: new FeatureStatus({
       features: config.features,
       featureName: 'THEMES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     ACTIONS: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIONS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -624,17 +636,20 @@ export default class EditPalette extends PureComponent<
         isActive: EditPalette.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).THEMES.isActive(),
         isBlocked: EditPalette.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).THEMES.isBlocked(),
         isNew: EditPalette.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).THEMES.isNew(),
         action: () => {
           this.setState({ context: 'THEMES' })
@@ -736,11 +751,18 @@ export default class EditPalette extends PureComponent<
                 }}
                 action={this.props.onUnloadPalette}
               />
-              {this.props.editor.includes('dev') && (
+              <Feature
+                isActive={EditPalette.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).PALETTE_NAME.isActive()}
+              >
                 <span className={doClassnames([texts.type])}>
                   {this.props.name}
                 </span>
-              )}
+              </Feature>
               <Tabs
                 tabs={this.contexts}
                 active={this.state.context ?? ''}
@@ -751,13 +773,12 @@ export default class EditPalette extends PureComponent<
           }
           rightPartSlot={
             <Feature
-              isActive={
-                EditPalette.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service
-                ).THEMES.isActive() && !this.props.editor.includes('dev')
-              }
+              isActive={EditPalette.features(
+                this.props.planStatus,
+                this.props.config,
+                this.props.service,
+                this.props.editor
+              ).THEMES.isActive()}
             >
               <FormItem
                 id="switch-theme"
@@ -784,7 +805,8 @@ export default class EditPalette extends PureComponent<
             EditPalette.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).PREVIEW.isActive() &&
             (this.state.context !== 'EXPORT' ||
               this.props.editor.includes('dev'))
@@ -799,7 +821,8 @@ export default class EditPalette extends PureComponent<
           isActive={EditPalette.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).ACTIONS.isActive()}
         >
           <Actions

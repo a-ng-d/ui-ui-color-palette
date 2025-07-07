@@ -25,6 +25,7 @@ import { trackPublicationEvent } from '../../../utils/eventsTracker'
 import {
   BaseProps,
   Context,
+  Editor,
   FetchStatus,
   PlanStatus,
   Service,
@@ -62,13 +63,15 @@ export default class SelfPalettes extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -586,7 +589,8 @@ export default class SelfPalettes extends PureComponent<
                       isBlocked={SelfPalettes.features(
                         this.props.planStatus,
                         this.props.config,
-                        this.props.service
+                        this.props.service,
+                        this.props.editor
                       ).LOCAL_PALETTES.isReached(
                         this.props.localPalettesList.length
                       )}

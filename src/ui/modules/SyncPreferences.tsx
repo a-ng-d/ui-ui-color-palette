@@ -11,7 +11,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
@@ -37,19 +37,22 @@ export default class SyncPreferences extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     USER_PREFERENCES_SYNC_DEEP_STYLES: new FeatureStatus({
       features: config.features,
       featureName: 'USER_PREFERENCES_SYNC_DEEP_STYLES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     USER_PREFERENCES_SYNC_DEEP_VARIABLES: new FeatureStatus({
       features: config.features,
       featureName: 'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -87,7 +90,8 @@ export default class SyncPreferences extends PureComponent<
         isActive={SyncPreferences.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()}
       >
         <Select
@@ -99,12 +103,14 @@ export default class SyncPreferences extends PureComponent<
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).USER_PREFERENCES_SYNC_DEEP_STYLES.isBlocked()}
           isNew={SyncPreferences.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
           action={() => {
@@ -135,7 +141,8 @@ export default class SyncPreferences extends PureComponent<
         isActive={SyncPreferences.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive()}
       >
         <Select
@@ -147,12 +154,14 @@ export default class SyncPreferences extends PureComponent<
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isBlocked()}
           isNew={SyncPreferences.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
           action={() => {

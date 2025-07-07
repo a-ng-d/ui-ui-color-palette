@@ -11,7 +11,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface DangerZoneProps extends BaseProps, WithConfigProps {
@@ -26,20 +26,19 @@ interface DangerZoneState {
   isDestructiveActionLoading: boolean
 }
 
-export default class DangerZone extends PureComponent<
-  DangerZoneProps,
-  DangerZoneState
-> {
+export default class DangerZone extends PureComponent<DangerZoneProps, DangerZoneState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     DELETE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DELETE_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -154,7 +153,8 @@ export default class DangerZone extends PureComponent<
         isActive={DangerZone.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).DELETE_PALETTE.isActive()}
       >
         <Section

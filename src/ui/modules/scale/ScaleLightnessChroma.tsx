@@ -27,7 +27,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { trackScaleManagementEvent } from '../../../utils/eventsTracker'
 import { ScaleMessage } from '../../../types/messages'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { defaultPreset, presets } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -61,43 +61,43 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     SCALE_PRESETS: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_PRESETS',
       planStatus: planStatus,
       currentService: service,
-    }),
-    SCALE_PRESETS_NAMING_CONVENTION: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_PRESETS_NAMING_CONVENTION',
-      planStatus: planStatus,
-      currentService: service,
+      currentEditor: editor,
     }),
     SCALE_CONFIGURATION: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CONFIGURATION',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_CONTRAST_RATIO: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CONTRAST_RATIO',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_CHROMA: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CHROMA',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_RESET: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_RESET',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     PRESETS: (() => {
       return Object.fromEntries(
@@ -108,6 +108,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             featureName: `PRESETS_${preset.id}`,
             planStatus: planStatus,
             currentService: service,
+            currentEditor: editor,
           }),
         ])
       )
@@ -117,6 +118,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       featureName: 'PRESETS_CUSTOM_ADD',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -700,17 +702,20 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               isActive: ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).PRESETS[`PRESETS_${preset.id}`].isActive(),
               isBlocked: ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).PRESETS[`PRESETS_${preset.id}`].isBlocked(),
               isNew: ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).PRESETS[`PRESETS_${preset.id}`].isNew(),
               action: this.presetsHandler,
             })),
@@ -724,17 +729,20 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             isActive: ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).PRESETS[`PRESETS_${preset[1][0].id}`].isActive(),
             isBlocked: ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).PRESETS[`PRESETS_${preset[1][0].id}`].isBlocked(),
             isNew: ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).PRESETS[`PRESETS_${preset[1][0].id}`].isNew(),
             action: this.presetsHandler,
           }
@@ -852,7 +860,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_PRESETS.isActive()}
                 >
                   <Dropdown
@@ -867,7 +876,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_PRESETS.isActive()}
                 >
                   {this.props.preset.id.includes('CUSTOM') && (
@@ -887,7 +897,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                         isActive={ScaleLightnessChroma.features(
                           this.props.planStatus,
                           this.props.config,
-                          this.props.service
+                          this.props.service,
+                          this.props.editor
                         ).PRESETS_CUSTOM_ADD.isActive()}
                       >
                         <Button
@@ -912,7 +923,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_RESET.isActive()}
                 >
                   <Button
@@ -925,12 +937,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_RESET.isBlocked()}
                     isNew={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_RESET.isNew()}
                     action={this.onResetScale}
                   />
@@ -939,7 +953,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_CONTRAST_RATIO.isActive()}
                 >
                   <Select
@@ -950,12 +965,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />
@@ -968,7 +985,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           {ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length - 1) &&
             this.props.preset.id.includes('CUSTOM') && (
               <div
@@ -984,7 +1002,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       ScaleLightnessChroma.features(
                         this.props.planStatus,
                         this.props.config,
-                        this.props.service
+                        this.props.service,
+                        this.props.editor
                       ).PRESETS_CUSTOM_ADD.limit ?? 0
                     ).toString()
                   )}
@@ -1022,7 +1041,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           isActive={ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SCALE_CONFIGURATION.isActive()}
         >
           <MultipleSlider
@@ -1047,12 +1067,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             isBlocked={ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_CONFIGURATION.isBlocked()}
             isNew={ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_CONFIGURATION.isNew()}
             onChange={this.lightnessHandler}
           />
@@ -1061,7 +1083,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           isActive={ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SCALE_CHROMA.isActive()}
         >
           <SimpleSlider
@@ -1080,7 +1103,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                'EDIT'
+                'EDIT',
+                this.props.editor
               ).SCALE_CHROMA.isBlocked()
                 ? {
                     label: this.props.locales.scale.shift.chroma.warning,
@@ -1093,12 +1117,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             isBlocked={ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_CHROMA.isBlocked()}
             isNew={ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_CHROMA.isNew()}
             onChange={this.shiftHandler}
           />
@@ -1132,7 +1158,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_PRESETS.isActive()}
                 >
                   <Dropdown
@@ -1147,7 +1174,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_RESET.isActive()}
                 >
                   <Button
@@ -1160,12 +1188,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_RESET.isBlocked()}
                     isNew={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_RESET.isNew()}
                     action={this.onResetScale}
                   />
@@ -1174,7 +1204,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SCALE_CONTRAST_RATIO.isActive()}
                 >
                   <Select
@@ -1185,12 +1216,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />
@@ -1203,7 +1236,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           {ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length) &&
             this.props.preset.id.includes('CUSTOM') && (
               <div
@@ -1219,7 +1253,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       ScaleLightnessChroma.features(
                         this.props.planStatus,
                         this.props.config,
-                        this.props.service
+                        this.props.service,
+                        this.props.editor
                       ).PRESETS_CUSTOM_ADD.limit ?? 0
                     ).toString()
                   )}
@@ -1257,7 +1292,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           isActive={ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SCALE_CONFIGURATION.isActive()}
         >
           {this.props.preset.id.includes('CUSTOM') ? (
@@ -1270,12 +1306,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 max: ScaleLightnessChroma.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length)
                   ? ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).PRESETS_CUSTOM_ADD.limit
                   : 24,
               }}
@@ -1294,12 +1332,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               isBlocked={ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SCALE_CONFIGURATION.isBlocked()}
               isNew={ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SCALE_CONFIGURATION.isNew()}
               onChange={this.lightnessHandler}
             />
@@ -1326,12 +1366,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               isBlocked={ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SCALE_CONFIGURATION.isBlocked()}
               isNew={ScaleLightnessChroma.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SCALE_CONFIGURATION.isNew()}
               onChange={this.lightnessHandler}
             />
@@ -1341,7 +1383,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           isActive={ScaleLightnessChroma.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SCALE_CHROMA.isActive()}
         >
           <SimpleSlider
@@ -1358,12 +1401,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             isBlocked={ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_CHROMA.isBlocked()}
             isNew={ScaleLightnessChroma.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SCALE_CHROMA.isNew()}
             onChange={this.shiftHandler}
           />

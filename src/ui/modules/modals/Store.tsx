@@ -4,7 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Card, Dialog, List } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import isb from '../../../content/images/isb_product_thumbnail.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -18,13 +18,15 @@ export default class Store extends PureComponent<StoreProps> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     MORE_STORE: new FeatureStatus({
       features: config.features,
       featureName: 'MORE_STORE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -53,7 +55,8 @@ export default class Store extends PureComponent<StoreProps> {
         isActive={Store.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).MORE_STORE.isActive()}
       >
         <Dialog

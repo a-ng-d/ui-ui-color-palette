@@ -9,6 +9,7 @@ import {
   AnnouncementsDigest,
   PlanStatus,
   Service,
+  Editor,
 } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -32,13 +33,15 @@ export default class Announcements extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     HELP_ANNOUNCEMENTS: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_ANNOUNCEMENTS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -120,7 +123,8 @@ export default class Announcements extends PureComponent<
           isActive={Announcements.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
@@ -136,7 +140,8 @@ export default class Announcements extends PureComponent<
           isActive={Announcements.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
@@ -157,7 +162,8 @@ export default class Announcements extends PureComponent<
           isActive={Announcements.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog

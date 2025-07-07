@@ -12,7 +12,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import validateUserLicenseKey from '../../../external/license/validateUserLicenseKey '
 import desactivateUserLicenseKey from '../../../external/license/desactivateUserLicenseKey'
 import activateUserLicenseKey from '../../../external/license/activateUserLicenseKey'
@@ -33,22 +33,21 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<
-  LicenseProps,
-  LicenseStates
-> {
+export default class License extends PureComponent<LicenseProps, LicenseStates> {
   private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     USER_LICENSE: new FeatureStatus({
       features: config.features,
       featureName: 'USER_LICENSE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -288,7 +287,8 @@ export default class License extends PureComponent<
         isActive={License.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).USER_LICENSE.isActive()}
       >
         <Dialog

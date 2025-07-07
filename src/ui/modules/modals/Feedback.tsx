@@ -4,7 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface FeedbackProps extends BaseProps, WithConfigProps {
@@ -15,13 +15,15 @@ export default class Feedback extends PureComponent<FeedbackProps> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     INVOLVES_FEEDBACK: new FeatureStatus({
       features: config.features,
       featureName: 'INVOLVES_FEEDBACK',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -32,7 +34,8 @@ export default class Feedback extends PureComponent<FeedbackProps> {
         isActive={Feedback.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).INVOLVES_FEEDBACK.isActive()}
       >
         <Dialog

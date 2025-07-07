@@ -5,7 +5,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, FormItem, Input } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ReportProps extends BaseProps, WithConfigProps {
@@ -24,13 +24,15 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     INVOLVE_ISSUES: new FeatureStatus({
       features: config.features,
       featureName: 'INVOLVE_ISSUES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -117,7 +119,8 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
         isActive={Report.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).INVOLVE_ISSUES.isActive()}
       >
         <Dialog

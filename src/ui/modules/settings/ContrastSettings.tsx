@@ -12,7 +12,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ContrastSettingsProps extends BaseProps, WithConfigProps {
@@ -29,13 +29,15 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     SETTINGS_TEXT_COLORS_THEME: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_TEXT_COLORS_THEME',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -50,7 +52,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
         isActive={ContrastSettings.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SETTINGS_TEXT_COLORS_THEME.isActive()}
       >
         <FormItem
@@ -59,7 +62,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
         >
           <Input
@@ -69,12 +73,14 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
             isBlocked={ContrastSettings.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
             isNew={ContrastSettings.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_LIGHT_COLOR"
             onChange={this.props.onChangeSettings}
@@ -92,7 +98,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
         isActive={ContrastSettings.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).SETTINGS_TEXT_COLORS_THEME.isActive()}
       >
         <FormItem
@@ -101,7 +108,8 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
         >
           <Input
@@ -111,12 +119,14 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
             isBlocked={ContrastSettings.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
             isNew={ContrastSettings.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_DARK_COLOR"
             onChange={this.props.onChangeSettings}

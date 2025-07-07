@@ -5,7 +5,7 @@ import { Dialog, Layout, layouts, texts } from '@a_ng_d/figmug-ui'
 import Icon from '../Icon'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { BaseProps, PlanStatus, Service } from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 import package_json from './../../../../package.json'
 
@@ -17,13 +17,15 @@ export default class About extends PureComponent<AboutProps> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     PRO_PLAN: new FeatureStatus({
       features: config.features,
       featureName: 'PRO_PLAN',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -34,7 +36,8 @@ export default class About extends PureComponent<AboutProps> {
         isActive={About.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).PRO_PLAN.isActive()}
       >
         <Dialog
@@ -67,7 +70,8 @@ export default class About extends PureComponent<AboutProps> {
                               About.features(
                                 this.props.planStatus,
                                 this.props.config,
-                                this.props.service
+                                this.props.service,
+                                this.props.editor
                               ).PRO_PLAN.isActive() &&
                               this.props.config.plan.isProEnabled
                             }

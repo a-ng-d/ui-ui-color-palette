@@ -25,7 +25,7 @@ import {
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
-import { BaseProps, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -85,181 +85,211 @@ export default class Actions extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     GET_PRO_PLAN: new FeatureStatus({
       features: config.features,
       featureName: 'GET_PRO_PLAN',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SOURCE: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SYNC_LOCAL_STYLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_STYLES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SYNC_LOCAL_VARIABLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_VARIABLES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DOCUMENT_SHEET: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_SHEET',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DOCUMENT_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DOCUMENT_PALETTE_PROPERTIES: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PALETTE_PROPERTIES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     DOCUMENT_PUSH_UPDATES: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PUSH_UPDATES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_NAME: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_NAME',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     PRESETS_CUSTOM_ADD: new FeatureStatus({
       features: config.features,
       featureName: 'PRESETS_CUSTOM_ADD',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     VIEWS: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     VIEWS_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     VIEWS_PALETTE_WITH_PROPERTIES: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_PALETTE_WITH_PROPERTIES',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     VIEWS_SHEET: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_SHEET',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     PUBLISH_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'PUBLISH_PALETTE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     PUBLICATION: new FeatureStatus({
       features: config.features,
       featureName: 'PUBLICATION',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     SCALE_CHROMA: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CHROMA',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -330,17 +360,20 @@ export default class Actions extends PureComponent<
         isActive: Actions.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).PUBLISH_PALETTE.isActive(),
         isBlocked: Actions.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).PUBLISH_PALETTE.isBlocked(),
         isNew: Actions.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).PUBLISH_PALETTE.isNew(),
         action: this.props.onPublishPalette,
       },
@@ -356,17 +389,20 @@ export default class Actions extends PureComponent<
             isActive: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_PALETTE.isActive(),
             isBlocked: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_PALETTE.isBlocked(),
             isNew: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_PALETTE.isNew(),
             action: this.props.onGenerateDocument,
           },
@@ -378,17 +414,20 @@ export default class Actions extends PureComponent<
             isActive: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_PALETTE_PROPERTIES.isActive(),
             isBlocked: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
             isNew: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_PALETTE_PROPERTIES.isNew(),
             action: this.props.onGenerateDocument,
           },
@@ -399,17 +438,20 @@ export default class Actions extends PureComponent<
             isActive: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_SHEET.isActive(),
             isBlocked: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_SHEET.isBlocked(),
             isNew: Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).DOCUMENT_SHEET.isNew(),
             action: this.props.onGenerateDocument,
           },
@@ -425,12 +467,14 @@ export default class Actions extends PureComponent<
         isActive: Actions.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).DOCUMENT_PUSH_UPDATES.isActive(),
         isBlocked: Actions.features(
           this.props.planStatus,
           this.props.config,
-          this.props.service
+          this.props.service,
+          this.props.editor
         ).DOCUMENT_PUSH_UPDATES.isBlocked(),
         isNew: true,
         action: this.props.onGenerateDocument,
@@ -494,7 +538,8 @@ export default class Actions extends PureComponent<
       Actions.features(
         this.props.planStatus,
         this.props.config,
-        this.props.service
+        this.props.service,
+        this.props.editor
       ).SOURCE.isReached(this.props.sourceColors.length - 1)
     )
       return true
@@ -503,7 +548,8 @@ export default class Actions extends PureComponent<
       Actions.features(
         this.props.planStatus,
         this.props.config,
-        this.props.service
+        this.props.service,
+        this.props.editor
       ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
     )
       return true
@@ -512,7 +558,8 @@ export default class Actions extends PureComponent<
       Actions.features(
         this.props.planStatus,
         this.props.config,
-        'EDIT'
+        'EDIT',
+        this.props.editor
       ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
     )
       return true
@@ -521,13 +568,19 @@ export default class Actions extends PureComponent<
       Actions.features(
         this.props.planStatus,
         this.props.config,
-        'EDIT'
+        'EDIT',
+        this.props.editor
       ).SCALE_CHROMA.isBlocked()
     )
       return true
     if (
       $palette.get().visionSimulationMode !== 'NONE' &&
-      Actions.features(this.props.planStatus, this.props.config, 'EDIT')[
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      )[
         `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
       ].isBlocked()
     )
@@ -555,12 +608,14 @@ export default class Actions extends PureComponent<
               isBlocked={Actions.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SETTINGS_NAME.isBlocked()}
               isNew={Actions.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SETTINGS_NAME.isNew()}
               feature="RENAME_PALETTE"
               onChange={this.nameHandler}
@@ -589,7 +644,8 @@ export default class Actions extends PureComponent<
             {Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).SOURCE.isReached(this.props.sourceColors.length - 1) && (
               <div
                 style={{
@@ -618,7 +674,8 @@ export default class Actions extends PureComponent<
                         Actions.features(
                           this.props.planStatus,
                           this.props.config,
-                          this.props.service
+                          this.props.service,
+                          this.props.editor
                         ).SOURCE.limit ?? 0
                       )
                     )}
@@ -633,7 +690,8 @@ export default class Actions extends PureComponent<
             isActive={Actions.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).CREATE_PALETTE.isActive()}
           >
             <Button
@@ -663,7 +721,8 @@ export default class Actions extends PureComponent<
                 Actions.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).PUBLICATION.isActive() &&
                 this.props.publicationStatus?.isPublished
               }
@@ -686,12 +745,14 @@ export default class Actions extends PureComponent<
               isBlocked={Actions.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SETTINGS_NAME.isBlocked()}
               isNew={Actions.features(
                 this.props.planStatus,
                 this.props.config,
-                this.props.service
+                this.props.service,
+                this.props.editor
               ).SETTINGS_NAME.isNew()}
               feature="RENAME_PALETTE"
               onChange={this.nameHandler}
@@ -709,17 +770,20 @@ export default class Actions extends PureComponent<
                     isActive: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_PALETTE.isActive(),
                     isBlocked: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_PALETTE.isBlocked(),
                     isNew: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_PALETTE.isNew(),
                     action: this.props.onChangeView,
                   },
@@ -730,17 +794,20 @@ export default class Actions extends PureComponent<
                     isActive: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
                     isBlocked: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_PALETTE_WITH_PROPERTIES.isBlocked(),
                     isNew: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
                     action: this.props.onChangeView,
                   },
@@ -751,17 +818,20 @@ export default class Actions extends PureComponent<
                     isActive: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_SHEET.isActive(),
                     isBlocked: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_SHEET.isBlocked(),
                     isNew: Actions.features(
                       this.props.planStatus,
                       this.props.config,
-                      this.props.service
+                      this.props.service,
+                      this.props.editor
                     ).VIEWS_SHEET.isNew(),
                     action: this.props.onChangeView,
                   },
@@ -770,12 +840,14 @@ export default class Actions extends PureComponent<
                 isBlocked={Actions.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).VIEWS.isBlocked()}
                 isNew={Actions.features(
                   this.props.planStatus,
                   this.props.config,
-                  this.props.service
+                  this.props.service,
+                  this.props.editor
                 ).VIEWS.isNew()}
               />
             )}
@@ -810,17 +882,20 @@ export default class Actions extends PureComponent<
                   isActive: Actions.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SYNC_LOCAL_STYLES.isActive(),
                   isBlocked: Actions.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SYNC_LOCAL_STYLES.isBlocked(),
                   isNew: Actions.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SYNC_LOCAL_STYLES.isNew(),
                   action: (e) => this.props.onSyncLocalStyles?.(e),
                 },
@@ -832,17 +907,20 @@ export default class Actions extends PureComponent<
                   isActive: Actions.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SYNC_LOCAL_VARIABLES.isActive(),
                   isBlocked: Actions.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SYNC_LOCAL_VARIABLES.isBlocked(),
                   isNew: Actions.features(
                     this.props.planStatus,
                     this.props.config,
-                    this.props.service
+                    this.props.service,
+                    this.props.editor
                   ).SYNC_LOCAL_VARIABLES.isNew(),
                   action: (e) => this.props.onSyncLocalVariables?.(e),
                 },

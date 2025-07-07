@@ -14,6 +14,7 @@ import {
   BaseProps,
   Context,
   ContextItem,
+  Editor,
   FetchStatus,
   PlanStatus,
   Service,
@@ -45,19 +46,22 @@ export default class RemotePalettes extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     REMOTE_PALETTES_SELF: new FeatureStatus({
       features: config.features,
       featureName: 'REMOTE_PALETTES_SELF',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     REMOTE_PALETTES_COMMUNITY: new FeatureStatus({
       features: config.features,
       featureName: 'REMOTE_PALETTES_COMMUNITY',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 

@@ -33,6 +33,7 @@ import {
   PlanStatus,
   Service,
   ThirdParty,
+  Editor,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -83,19 +84,22 @@ export default class CreatePalette extends PureComponent<
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
-    service: Service
+    service: Service,
+    editor: Editor
   ) => ({
     ACTIONS: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIONS',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
       planStatus: planStatus,
       currentService: service,
+      currentEditor: editor,
     }),
   })
 
@@ -339,7 +343,8 @@ export default class CreatePalette extends PureComponent<
             CreatePalette.features(
               this.props.planStatus,
               this.props.config,
-              this.props.service
+              this.props.service,
+              this.props.editor
             ).PREVIEW.isActive() && this.props.sourceColors.length > 0
           }
         >
@@ -354,7 +359,8 @@ export default class CreatePalette extends PureComponent<
           isActive={CreatePalette.features(
             this.props.planStatus,
             this.props.config,
-            this.props.service
+            this.props.service,
+            this.props.editor
           ).ACTIONS.isActive()}
         >
           <Actions
