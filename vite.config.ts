@@ -4,7 +4,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import preact from '@preact/preset-vite'
 
 const excludeUnwantedCssPlugin = (): Plugin => {
-  const excludePattern = /figma-colors|figma-types|all/
+  const excludePattern = /all/
 
   return {
     name: 'exclude-unwanted-css',
@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
-      excludeUnwantedCssPlugin(),
+      //excludeUnwantedCssPlugin(),
       preact(),
       sentryVitePlugin({
         org: 'yelbolt',
