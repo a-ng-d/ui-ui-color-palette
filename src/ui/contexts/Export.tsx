@@ -757,7 +757,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.locales.export.format}
-                      indicator="10"
+                      indicator="11"
                     />
                   }
                   rightPartSlot={
