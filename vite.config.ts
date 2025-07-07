@@ -1,6 +1,38 @@
-import { defineConfig, loadEnv } from 'vite'
+import path from 'path'
+import { defineConfig, loadEnv, Plugin } from 'vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import preact from '@preact/preset-vite'
+
+const excludeUnwantedCssPlugin = (): Plugin => {
+  const excludePattern = /figma-colors|figma-types|all/
+
+  return {
+    name: 'exclude-unwanted-css',
+    enforce: 'pre',
+
+    resolveId(id, importer) {
+      if (id.endsWith('.css')) {
+        const testPath = importer
+          ? path.resolve(path.dirname(importer), id)
+          : id
+
+        if (excludePattern.test(testPath))
+          return { id: '\0empty-module', external: false }
+      }
+      return null
+    },
+
+    load(id) {
+      if (id === '\0empty-module')
+        return { code: 'export default ""', map: null }
+      return null
+    },
+
+    transformIndexHtml(html) {
+      return html.replace(/<style[^>]*>\s*<\/style>/g, '')
+    },
+  }
+}
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -11,6 +43,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
+      excludeUnwantedCssPlugin(),
       preact(),
       sentryVitePlugin({
         org: 'yelbolt',
@@ -33,6 +66,24 @@ export default defineConfig(({ mode }) => {
       },
     },
 
+    build: {
+      sourcemap: isDev,
+      minify: !isDev,
+      outDir: 'dist',
+      emptyOutDir: true,
+      rollupOptions: {
+        input: {
+          main: 'index.html',
+          iframe: 'iframe.html',
+        },
+        output: {
+          dir: 'dist',
+          entryFileNames: '[name].js',
+          assetFileNames: 'assets/[name].[hash][extname]',
+        },
+      },
+    },
+
     server: {
       port: 4400,
       watch: {
@@ -50,24 +101,6 @@ export default defineConfig(({ mode }) => {
       },
       headers: {
         'Access-Control-Allow-Origin': '*',
-      },
-    },
-
-    build: {
-      sourcemap: isDev,
-      minify: !isDev,
-      outDir: 'dist',
-      emptyOutDir: true,
-      rollupOptions: {
-        input: {
-          main: 'index.html',
-          iframe: 'iframe.html',
-        },
-        output: {
-          dir: 'dist',
-          entryFileNames: '[name].js',
-          assetFileNames: 'assets/[name].[hash][extname]',
-        },
       },
     },
   }
