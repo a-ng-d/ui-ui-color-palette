@@ -308,6 +308,7 @@ export default class Themes extends PureComponent<ThemesProps> {
     const hasAlreadyNewUITheme = this.props.themes.filter((color) =>
       color.name.includes(this.props.locales.themes.actions.new)
     )
+
     this.themesMessage.data = this.props.themes.map((theme) => {
       theme.isEnabled = false
       return theme
@@ -322,15 +323,27 @@ export default class Themes extends PureComponent<ThemesProps> {
       ),
       paletteBackground: '#FFFFFF',
       visionSimulationMode: 'NONE',
-      textColorsTheme: this.props.textColorsTheme,
+      textColorsTheme: {
+        lightColor: '#FFFFFF',
+        darkColor: '#000000',
+      },
       isEnabled: true,
       id: uid(),
       type: 'custom theme',
     })
+
+    const enabledTheme = this.themesMessage.data.find(
+      (theme) => theme.isEnabled
+    )
+
     this.props.onChangeThemes({
-      scale:
-        this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
+      scale: enabledTheme?.scale ?? {},
       themes: this.themesMessage.data,
+      visionSimulationMode: enabledTheme?.visionSimulationMode ?? 'NONE',
+      textColorsTheme: enabledTheme?.textColorsTheme ?? {
+        lightColor: '#FFFFFF',
+        darkColor: '#000000',
+      },
       onGoingStep: 'themes changed',
     })
 
