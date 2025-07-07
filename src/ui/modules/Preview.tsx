@@ -734,7 +734,12 @@ export default class Preview extends PureComponent<
                     }}
                     warning={
                       this.props.service === 'CREATE' &&
-                      this.props.areSourceColorsLocked
+                      this.props.areSourceColorsLocked &&
+                      Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        'EDIT'
+                      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
                         ? {
                             label: this.props.locales.preview.lock.warning,
                             pin: 'BOTTOM',
@@ -1162,7 +1167,13 @@ export default class Preview extends PureComponent<
                     containerId="app"
                     warning={
                       this.props.service === 'CREATE' &&
-                      this.props.visionSimulationMode !== 'NONE'
+                      Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        'EDIT'
+                      )[
+                        `SETTINGS_VISION_SIMULATION_MODE_${this.props.visionSimulationMode}`
+                      ].isBlocked()
                         ? {
                             label:
                               this.props.locales.settings.color

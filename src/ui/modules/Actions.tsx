@@ -189,6 +189,78 @@ export default class Actions extends PureComponent<
       planStatus: planStatus,
       currentService: service,
     }),
+    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+      planStatus: planStatus,
+      currentService: service,
+    }),
+    SCALE_CHROMA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_CHROMA',
+      planStatus: planStatus,
+      currentService: service,
+    }),
   })
 
   constructor(props: ActionsProps) {
@@ -417,6 +489,52 @@ export default class Actions extends PureComponent<
     else return this.props.locales.actions.publishPalette
   }
 
+  canSavePalette = (): boolean => {
+    if (
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service
+      ).SOURCE.isReached(this.props.sourceColors.length - 1)
+    )
+      return true
+    if (
+      $palette.get().preset.id.includes('CUSTOM') &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service
+      ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
+    )
+      return true
+    if (
+      $palette.get().areSourceColorsLocked &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT'
+      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
+    )
+      return true
+    if (
+      $palette.get().shift.chroma !== 100 &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT'
+      ).SCALE_CHROMA.isBlocked()
+    )
+      return true
+    if (
+      $palette.get().visionSimulationMode !== 'NONE' &&
+      Actions.features(this.props.planStatus, this.props.config, 'EDIT')[
+        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+      ].isBlocked()
+    )
+      return true
+    return false
+  }
+
   // Templates
   Create = () => {
     return (
@@ -523,24 +641,7 @@ export default class Actions extends PureComponent<
               label={this.props.locales.actions.savePalette}
               feature="CREATE_PALETTE"
               isDisabled={this.props.sourceColors.length === 0}
-              isBlocked={
-                Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service
-                ).SOURCE.isReached(this.props.sourceColors.length - 1) ||
-                ($palette.get().preset.id.includes('CUSTOM') &&
-                  Actions.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service
-                  ).PRESETS_CUSTOM_ADD.isReached(
-                    Object.keys(this.props.scale).length - 1
-                  )) ||
-                $palette.get().areSourceColorsLocked ||
-                $palette.get().shift.chroma !== 100 ||
-                $palette.get().visionSimulationMode !== 'NONE'
-              }
+              isBlocked={this.canSavePalette()}
               isLoading={this.props.isPrimaryLoading}
               action={this.props.onCreatePalette}
             />

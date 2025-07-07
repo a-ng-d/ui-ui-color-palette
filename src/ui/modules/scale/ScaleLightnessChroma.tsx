@@ -1075,7 +1075,13 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               max: 'hsl(187, 100%, 75%)',
             }}
             warning={
-              this.props.service === 'CREATE' && this.props.shift.chroma !== 100
+              this.props.service === 'CREATE' &&
+              this.props.shift.chroma !== 100 &&
+              ScaleLightnessChroma.features(
+                this.props.planStatus,
+                this.props.config,
+                'EDIT'
+              ).SCALE_CHROMA.isBlocked()
                 ? {
                     label: this.props.locales.scale.shift.chroma.warning,
                     pin: 'BOTTOM',
