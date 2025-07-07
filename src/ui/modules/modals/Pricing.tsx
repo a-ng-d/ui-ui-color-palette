@@ -65,7 +65,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   // Render
   render() {
     let padding
-    console.log('Pricing', this.props.plans)
 
     switch (this.theme) {
       case 'penpot':
