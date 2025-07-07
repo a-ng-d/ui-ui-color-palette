@@ -128,7 +128,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 action={() => {
                   parent.postMessage(
                     {
-                      type: 'PAY_PRO_PLAN',
+                      pluginMessage: {
+                        type: 'PAY_PRO_PLAN',
+                      },
                     },
                     '*'
                   )
@@ -140,7 +142,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   action={() => {
                     parent.postMessage(
                       {
-                        type: 'PAY_PRO_PLAN',
+                        pluginMessage: {
+                          type: 'PAY_PRO_PLAN',
+                        },
                       },
                       '*'
                     )
