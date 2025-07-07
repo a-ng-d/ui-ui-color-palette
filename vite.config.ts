@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
-      //excludeUnwantedCssPlugin(),
+      excludeUnwantedCssPlugin(),
       preact(),
       sentryVitePlugin({
         org: 'yelbolt',
