@@ -51,7 +51,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    availabilityForEditors: ['dev', 'dev_vscode'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot'],
     proForServices: ['CREATE'],
   },
   {
@@ -1107,7 +1107,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
@@ -1117,7 +1117,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
@@ -1127,7 +1127,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
@@ -1137,7 +1137,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
@@ -1147,7 +1147,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
@@ -1157,7 +1157,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
@@ -1167,7 +1167,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
@@ -1177,7 +1177,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'figjam', 'penpot'],
   },
   {
