@@ -71,11 +71,13 @@ export default class DangerZone extends PureComponent<
     const actions: {
       [key: string]: () => void
     } = {
-      STOP_LOADER: () =>
+      STOP_LOADER: () => {
         this.setState({
           isDestructiveActionLoading: false,
           isDeleteDialogOpen: false,
-        }),
+        })
+        this.props.onDeletePalette()
+      },
       DEFAULT: () => null,
     }
 
@@ -87,8 +89,6 @@ export default class DangerZone extends PureComponent<
     this.setState({
       isDestructiveActionLoading: true,
     })
-
-    this.props.onDeletePalette()
 
     parent.postMessage(
       {
