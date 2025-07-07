@@ -23,6 +23,7 @@ interface DangerZoneProps extends BaseProps, WithConfigProps {
 
 interface DangerZoneState {
   isDeleteDialogOpen: boolean
+  isDestructiveActionLoading: false
 }
 
 export default class DangerZone extends PureComponent<
@@ -50,7 +51,35 @@ export default class DangerZone extends PureComponent<
     super(props)
     this.state = {
       isDeleteDialogOpen: false,
+      isDestructiveActionLoading: false,
     }
+  }
+
+  // Lifecycle
+  componentDidMount = async () => {
+    window.addEventListener('message', this.handleMessage)
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('message', this.handleMessage)
+  }
+
+  // Handlers
+  handleMessage = (e: MessageEvent) => {
+    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+
+    const actions: {
+      [key: string]: () => void
+    } = {
+      STOP_LOADER: () =>
+        this.setState({
+          isDestructiveActionLoading: false,
+          isDeleteDialogOpen: false,
+        }),
+      DEFAULT: () => null,
+    }
+
+    return actions[path.type ?? 'DEFAULT']?.()
   }
 
   // Direct Actions
@@ -84,6 +113,9 @@ export default class DangerZone extends PureComponent<
                 destructive: {
                   label: this.props.locales.browse.deletePaletteDialog.delete,
                   feature: 'DELETE_PALETTE',
+                  state: this.state.isDestructiveActionLoading
+                    ? 'LOADING'
+                    : 'DEFAULT',
                   action: this.onDeletePalette,
                 },
                 secondary: {
