@@ -4,7 +4,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import preact from '@preact/preset-vite'
 
 const excludeUnwantedCssPlugin = (): Plugin => {
-  const excludePattern = /all/
+  const excludePattern = /all\.css$/
 
   return {
     name: 'exclude-unwanted-css',
