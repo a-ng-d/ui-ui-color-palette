@@ -19,7 +19,6 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
-import { trackPublicationEvent } from '../../../utils/eventsTracker'
 import {
   BaseProps,
   Context,
@@ -29,6 +28,7 @@ import {
   Service,
 } from '../../../types/app'
 import { ConfigContextType } from '../../../index'
+import { trackPublicationEvent } from '../../../external/tracking/eventsTracker'
 import { getSupabase } from '../../../external/auth/client'
 
 interface CommunityPalettesProps extends BaseProps, WithConfigProps {

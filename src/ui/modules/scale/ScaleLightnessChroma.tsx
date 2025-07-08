@@ -25,11 +25,11 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { trackScaleManagementEvent } from '../../../utils/eventsTracker'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { defaultPreset, presets } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
+import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 import type { AppStates } from '../../App'
 

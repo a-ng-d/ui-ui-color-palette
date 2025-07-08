@@ -19,13 +19,13 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
-import { trackImportEvent } from '../../utils/eventsTracker'
 import {
   BaseProps,
   FetchStatus,
   FilterOptions,
   ThirdParty,
 } from '../../types/app'
+import { trackImportEvent } from '../../external/tracking/eventsTracker'
 
 interface ExploreProps extends BaseProps, WithConfigProps {
   colourLoversPaletteList: Array<ColourLovers>

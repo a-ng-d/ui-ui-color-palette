@@ -23,9 +23,9 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { trackSourceColorsManagementEvent } from '../../utils/eventsTracker'
 import { ColorsMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { trackSourceColorsManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 

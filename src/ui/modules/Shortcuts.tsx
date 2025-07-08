@@ -5,7 +5,6 @@ import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
-import { trackSignInEvent, trackSignOutEvent } from '../../utils/eventsTracker'
 import {
   BaseProps,
   AnnouncementsDigest,
@@ -13,6 +12,10 @@ import {
   Service,
   Editor,
 } from '../../types/app'
+import {
+  trackSignInEvent,
+  trackSignOutEvent,
+} from '../../external/tracking/eventsTracker'
 import { signIn, signOut } from '../../external/auth/authentication'
 import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'

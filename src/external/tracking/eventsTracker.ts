@@ -11,8 +11,8 @@ import {
   SettingEvent,
   SourceColorEvent,
   TrialEvent,
-} from '../types/events'
-import { getMixpanel } from '../external/tracking/client'
+} from '../../types/events'
+import { getMixpanel } from './client'
 
 const eventsRecurringProperties = {
   Env: import.meta.env.MODE === 'development' ? 'Dev' : 'Prod',

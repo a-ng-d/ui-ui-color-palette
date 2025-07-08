@@ -40,10 +40,6 @@ import Colors from '../contexts/Colors'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
-import {
-  trackActionEvent,
-  trackSourceColorsManagementEvent,
-} from '../../utils/eventsTracker'
 import { ColorsMessage, ThemesMessage } from '../../types/messages'
 import { SourceColorEvent } from '../../types/events'
 import {
@@ -56,6 +52,10 @@ import {
 } from '../../types/app'
 import { defaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
+import {
+  trackActionEvent,
+  trackSourceColorsManagementEvent,
+} from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 

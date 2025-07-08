@@ -22,7 +22,6 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { trackImportEvent } from '../../utils/eventsTracker'
 import {
   BaseProps,
   Editor,
@@ -30,6 +29,7 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
+import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps extends BaseProps, WithConfigProps {

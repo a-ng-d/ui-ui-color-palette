@@ -21,7 +21,6 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
-import { trackPublicationEvent } from '../../../utils/eventsTracker'
 import {
   BaseProps,
   Context,
@@ -31,6 +30,7 @@ import {
   Service,
 } from '../../../types/app'
 import { ConfigContextType } from '../../../index'
+import { trackPublicationEvent } from '../../../external/tracking/eventsTracker'
 import unpublishPalette from '../../../external/publication/unpublishPalette'
 import sharePalette from '../../../external/publication/sharePalette'
 import { getSupabase } from '../../../external/auth/client'

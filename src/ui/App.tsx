@@ -32,13 +32,6 @@ import {
 } from '@a_ng_d/figmug-ui'
 import './stylesheets/app.css'
 import { userConsent } from '../utils/userConsent'
-import {
-  trackEditorEvent,
-  trackExportEvent,
-  trackPurchaseEvent,
-  trackTrialEnablementEvent,
-  trackUserConsentEvent,
-} from '../utils/eventsTracker'
 import { UserSession } from '../types/user'
 import { NotificationMessage } from '../types/messages'
 import {
@@ -61,6 +54,13 @@ import {
   $userLanguage,
 } from '../stores/preferences'
 import { $palette } from '../stores/palette'
+import {
+  trackEditorEvent,
+  trackExportEvent,
+  trackPurchaseEvent,
+  trackTrialEnablementEvent,
+  trackUserConsentEvent,
+} from '../external/tracking/eventsTracker'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
 import { getSupabase } from '../external/auth/client'

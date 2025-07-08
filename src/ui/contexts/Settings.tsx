@@ -17,7 +17,6 @@ import ColorSettings from '../modules/settings/ColorSettings'
 import DangerZone from '../modules/DangerZone'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { trackSettingsManagementEvent } from '../../utils/eventsTracker'
 import { SettingsMessage } from '../../types/messages'
 import {
   BaseProps,
@@ -27,6 +26,7 @@ import {
   Service,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
+import { trackSettingsManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 

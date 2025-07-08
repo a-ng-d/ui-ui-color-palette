@@ -25,7 +25,6 @@ import Scale from '../contexts/Scale'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
-import { trackActionEvent } from '../../utils/eventsTracker'
 import {
   BaseProps,
   Context,
@@ -36,6 +35,7 @@ import {
   Editor,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
+import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 

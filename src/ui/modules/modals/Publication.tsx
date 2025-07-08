@@ -6,12 +6,12 @@ import { Avatar, Chip, Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { ConfigContextType } from '../../../index'
 import {
   trackPublicationEvent,
   trackSignInEvent,
-} from '../../../utils/eventsTracker'
-import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
-import { ConfigContextType } from '../../../index'
+} from '../../../external/tracking/eventsTracker'
 import unpublishPalette from '../../../external/publication/unpublishPalette'
 import pushPalette from '../../../external/publication/pushPalette'
 import pullPalette from '../../../external/publication/pullPalette'
