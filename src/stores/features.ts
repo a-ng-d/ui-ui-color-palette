@@ -1421,7 +1421,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     isNew: false,
     type: 'ACTION',
     proForServices: ['BROWSE', 'CREATE', 'EDIT'],
-    availabilityForEditors: ['dev', 'dev_vscode'],
+    availabilityForEditors: ['dev'],
   },
   // Shortcuts
   {
