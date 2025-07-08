@@ -395,6 +395,13 @@ class App extends Component<AppProps, AppStates> {
       }
 
       const checkUserAuthentication = async () => {
+        this.setState({
+          userIdentity: {
+            id: path.data.id,
+            fullName: path.data.fullName,
+            avatar: path.data.avatar,
+          }
+        })
         if (
           App.features(
             this.state.planStatus,
@@ -407,13 +414,6 @@ class App extends Component<AppProps, AppStates> {
             path.data.accessToken,
             path.data.refreshToken
           )
-        this.setState({
-          userIdentity: {
-            id: path.data.id,
-            fullName: path.data.fullName,
-            avatar: path.data.avatar,
-          },
-        })
       }
 
       const checkUserConsent = () => {
