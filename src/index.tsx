@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import React from 'react'
-import mixpanel from 'mixpanel-figma'
+import mixpanel from 'mixpanel-browser'
 import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
@@ -11,13 +11,17 @@ import { ConfigProvider } from './config/ConfigContext'
 const container = document.getElementById('app'),
   root = createRoot(container)
 
-if (globalConfig.env.isMixpanelEnabled)
+if (globalConfig.env.isMixpanelEnabled) {
   mixpanel.init(import.meta.env.VITE_MIXPANEL_TOKEN as string, {
+    api_host: 'https://api-eu.mixpanel.com',
     debug: globalConfig.env.isDev,
     disable_persistence: true,
     disable_cookie: true,
+    ignore_dnt: true,
     opt_out_tracking_by_default: true,
   })
+  mixpanel.opt_in_tracking()
+}
 
 if (globalConfig.env.isMixpanelEnabled && !globalConfig.env.isDev)
   Sentry.init({

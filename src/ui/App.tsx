@@ -451,7 +451,11 @@ class App extends Component<AppProps, AppStates> {
           () =>
             trackEditorEvent(
               this.props.config.env.isMixpanelEnabled,
-              this.state.userIdentity.id,
+              this.state.userSession.userId === ''
+                ? this.state.userIdentity.id === ''
+                  ? ''
+                  : this.state.userIdentity.id
+                : this.state.userSession.userId,
               this.state.userConsent.find(
                 (consent) => consent.id === 'mixpanel'
               )?.isConsented ?? false,
@@ -663,10 +667,14 @@ class App extends Component<AppProps, AppStates> {
           onGoingStep: 'export previewed',
         })
 
-        if (path.data.context !== 'TOKENS_GLOBAL')
+        if (path.data.context !== 'TOKENS_TOKENS_STUDIO')
           trackExportEvent(
             this.props.config.env.isMixpanelEnabled,
-            this.state.userIdentity.id,
+            this.state.userSession.userId === ''
+              ? this.state.userIdentity.id === ''
+                ? ''
+                : this.state.userIdentity.id
+              : this.state.userSession.userId,
             this.state.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
             {
@@ -692,7 +700,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -723,7 +735,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -749,7 +765,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -775,7 +795,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -801,7 +825,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -827,7 +855,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -853,7 +885,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackExportEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -886,7 +922,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackTrialEnablementEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -920,7 +960,11 @@ class App extends Component<AppProps, AppStates> {
 
         trackPurchaseEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.state.userIdentity.id,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false
         )

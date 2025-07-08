@@ -1,4 +1,4 @@
-import mixpanel from 'mixpanel-figma'
+import mixpanel from 'mixpanel-browser'
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import {
   ActionEvent,
@@ -13,9 +13,10 @@ import {
   SourceColorEvent,
   TrialEvent,
 } from '../types/events'
+import globalConfig from '../global.config'
 
 const eventsRecurringProperties = {
-  Env: process.env.NODE_ENV === 'development' ? 'Dev' : 'Prod',
+  Env: globalConfig.env.isDev ? 'Dev' : 'Prod',
 }
 
 export const trackUserConsentEvent = (
@@ -40,11 +41,13 @@ export const trackEditorEvent = (
   options: EditorEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Editor Run', {
     Editor: options.editor,
     ...eventsRecurringProperties,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackSignInEvent = (
@@ -53,8 +56,10 @@ export const trackSignInEvent = (
   consent: boolean
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Signed In', { ...eventsRecurringProperties })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackSignOutEvent = (
@@ -63,8 +68,10 @@ export const trackSignOutEvent = (
   consent: boolean
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Signed Out', { ...eventsRecurringProperties })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackTrialEnablementEvent = (
@@ -74,7 +81,6 @@ export const trackTrialEnablementEvent = (
   options: TrialEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Trial Enabled', {
     'Trial Start Date': new Date(options.date).toISOString(),
     'Trial End Date': new Date(
@@ -84,6 +90,9 @@ export const trackTrialEnablementEvent = (
     'Trial Version': '3.2.0',
     ...eventsRecurringProperties,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackPurchaseEvent = (
@@ -92,8 +101,10 @@ export const trackPurchaseEvent = (
   consent: boolean
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Purchase Enabled', { ...eventsRecurringProperties })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackPublicationEvent = (
@@ -103,11 +114,13 @@ export const trackPublicationEvent = (
   options: PublicationEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Palette Managed', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackImportEvent = (
@@ -117,11 +130,13 @@ export const trackImportEvent = (
   options: ImportEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Colors Imported', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackScaleManagementEvent = (
@@ -131,11 +146,13 @@ export const trackScaleManagementEvent = (
   options: ScaleEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Scale Updated', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackPreviewManagementEvent = (
@@ -145,11 +162,13 @@ export const trackPreviewManagementEvent = (
   options: PreviewEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Preview Updated', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackSourceColorsManagementEvent = (
@@ -159,11 +178,13 @@ export const trackSourceColorsManagementEvent = (
   options: SourceColorEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Source Color Updated', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackColorThemesManagementEvent = (
@@ -173,11 +194,13 @@ export const trackColorThemesManagementEvent = (
   options: ColorThemeEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Color Theme Updated', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackSettingsManagementEvent = (
@@ -187,11 +210,13 @@ export const trackSettingsManagementEvent = (
   options: SettingEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Setting Updated', {
     ...eventsRecurringProperties,
     Feature: options.feature,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackExportEvent = (
@@ -201,12 +226,14 @@ export const trackExportEvent = (
   options: ExportEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Color Shades Exported', {
     ...eventsRecurringProperties,
     Feature: options.feature,
     'Color Space': options.colorSpace ?? 'NC',
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }
 
 export const trackActionEvent = (
@@ -216,11 +243,13 @@ export const trackActionEvent = (
   options: ActionEvent
 ) => {
   if (!consent || !isEnabled) return
-  mixpanel.identify(id)
   mixpanel.track('Action Triggered', {
     ...eventsRecurringProperties,
     Feature: options.feature,
     Colors: options.colors === undefined ? 0 : options.colors,
     Stops: options.stops === undefined ? 0 : options.stops,
   })
+
+  if (id === '') return
+  mixpanel.identify(id)
 }

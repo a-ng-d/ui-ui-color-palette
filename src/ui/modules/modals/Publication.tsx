@@ -277,7 +277,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -341,7 +345,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -400,7 +408,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -461,7 +473,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -508,7 +524,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -555,7 +575,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -602,7 +626,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -659,7 +687,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -718,7 +750,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -767,7 +803,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -803,7 +843,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -860,7 +904,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                 })
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -895,7 +943,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
                 trackPublicationEvent(
                   this.props.config.env.isMixpanelEnabled,
-                  this.props.userIdentity.id,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
                   this.props.userConsent.find(
                     (consent) => consent.id === 'mixpanel'
                   )?.isConsented ?? false,
@@ -1121,7 +1173,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                   .then(() => {
                     trackSignInEvent(
                       this.props.config.env.isMixpanelEnabled,
-                      this.props.userIdentity.id,
+                      this.props.userSession.userId === ''
+                        ? this.props.userIdentity.id === ''
+                          ? ''
+                          : this.props.userIdentity.id
+                        : this.props.userSession.userId,
                       this.props.userConsent.find(
                         (consent) => consent.id === 'mixpanel'
                       )?.isConsented ?? false

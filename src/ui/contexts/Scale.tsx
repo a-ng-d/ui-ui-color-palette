@@ -205,7 +205,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userIdentity.id,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -228,7 +232,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userIdentity.id,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -244,7 +252,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userIdentity.id,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -515,7 +527,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userIdentity.id,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
