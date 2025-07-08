@@ -31,6 +31,8 @@ interface BrowsePalettesStates {
   context: Context | ''
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
+  isPrimaryActionLoading: boolean
+  isSecondaryActionLoading: boolean
 }
 
 export default class BrowsePalettes extends PureComponent<
@@ -96,6 +98,8 @@ export default class BrowsePalettes extends PureComponent<
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       localPalettesListStatus: 'LOADING',
       localPalettesList: [],
+      isPrimaryActionLoading: false,
+      isSecondaryActionLoading: false,
     }
     this.theme = document.documentElement.getAttribute('data-theme')
   }
@@ -125,6 +129,11 @@ export default class BrowsePalettes extends PureComponent<
         }),
       LOAD_PALETTES: () =>
         this.setState({ localPalettesListStatus: 'LOADING' }),
+      STOP_LOADER: () =>
+        this.setState({
+          isPrimaryActionLoading: false,
+          isSecondaryActionLoading: false,
+        }),
       DEFAULT: () => null,
     }
 
@@ -249,6 +258,7 @@ export default class BrowsePalettes extends PureComponent<
             <Button
               type="secondary"
               label={this.props.locales.browse.document.create}
+              isLoading={this.state.isSecondaryActionLoading}
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config,
