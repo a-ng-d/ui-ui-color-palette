@@ -53,27 +53,7 @@ export default class Modal extends PureComponent<ModalProps> {
           {this.props.context === 'ANNOUNCEMENTS' && (
             <Announcements
               {...this.props}
-              onCloseAnnouncements={() => {
-                if (
-                  this.props.announcements.version !== undefined ||
-                  this.props.announcements.version !== ''
-                )
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'SET_ITEMS',
-                        items: [
-                          {
-                            key: 'announcements_version',
-                            value: this.props.announcements.version,
-                          },
-                        ],
-                      },
-                    },
-                    '*'
-                  )
-                this.props.onClose()
-              }}
+              onCloseAnnouncements={this.props.onClose}
             />
           )}
           {this.props.context === 'ONBOARDING' && (

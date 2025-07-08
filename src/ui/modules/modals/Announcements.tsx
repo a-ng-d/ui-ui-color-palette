@@ -209,8 +209,9 @@ export default class Announcements extends PureComponent<
             }
             onClose={(e: MouseEvent) => {
               if (
-                this.props.announcements.version !== undefined ||
-                this.props.announcements.version !== ''
+                this.props.announcements.version !== undefined &&
+                this.props.announcements.version !== '' &&
+                this.props.announcements.version !== null
               )
                 parent.postMessage(
                   {
