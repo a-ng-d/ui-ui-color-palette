@@ -400,7 +400,7 @@ class App extends Component<AppProps, AppStates> {
             id: path.data.id,
             fullName: path.data.fullName,
             avatar: path.data.avatar,
-          }
+          },
         })
         if (
           App.features(
@@ -632,7 +632,6 @@ class App extends Component<AppProps, AppStates> {
             lightColor: '#FFFFFF',
             darkColor: '#000000',
           },
-          distributionEasing: 'LINEAR',
           dates: {
             createdAt: path.data.meta.dates.createdAt,
             updatedAt: path.data.meta.dates.updatedAt,
@@ -1092,7 +1091,6 @@ class App extends Component<AppProps, AppStates> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      distributionEasing: 'LINEAR',
       dates: {
         createdAt: '',
         updatedAt: '',
