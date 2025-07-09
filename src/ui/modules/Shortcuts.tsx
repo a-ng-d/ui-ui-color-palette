@@ -880,9 +880,9 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).INVOLVE_FEEDBACK.isNew(),
                       action: () =>
-                        this.props.onReOpenFeedback({
-                          modalContext: 'FEEDBACK',
-                        }),
+                        window
+                          .open(this.props.config.urls.feedbackUrl, '_blank')
+                          ?.focus(),
                     },
                     {
                       label: this.props.locales.shortcuts.repository,
