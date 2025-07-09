@@ -279,6 +279,7 @@ export default class Explore extends PureComponent<
                 </div>
               )
             }
+            isCentered
             padding="var(--size-xxsmall) var(--size-xsmall)"
           />
         </>
