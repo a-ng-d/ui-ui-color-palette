@@ -216,7 +216,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
     const onChangeStop = () => {
       this.palette.setKey('scale', results.scale)
-      this.palette.setKey('preset.stops', results.stops ?? [])
 
       const lightForegroundRatio = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
