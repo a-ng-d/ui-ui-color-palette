@@ -89,6 +89,7 @@ const unpublishPalette = async ({
       },
       '*'
     )
+    parent.postMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
 
     return meta
   } else throw error
