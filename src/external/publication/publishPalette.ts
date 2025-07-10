@@ -18,7 +18,7 @@ const publishPalette = async ({
   const name =
     rawData.name === '' || rawData.name === locales.settings.global.name.default
       ? locales.settings.global.name.self.replace(
-          '$1',
+          '{$1}',
           rawData.userSession.userFullName
         )
       : rawData.name
