@@ -26,7 +26,7 @@ const desactivateUserLicenseKey = async ({
           parent.postMessage(
             {
               pluginMessage: {
-                type: 'DELETE_DATA',
+                type: 'DELETE_ITEMS',
                 items: [
                   'user_license_key',
                   'user_license_instance_id',

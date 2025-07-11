@@ -187,8 +187,8 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
           parent.postMessage(
             {
               pluginMessage: {
-                type: 'DELETE_DATA',
-                items: ['user_license_key', 'user_license_instance_id'],
+                type: 'DELETE_ITEMS',
+                items: ['user_license_key', 'user_license_instance_id', 'user_license_instance_name'],
               },
             },
             '*'

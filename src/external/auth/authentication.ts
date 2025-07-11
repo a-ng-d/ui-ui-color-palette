@@ -116,7 +116,7 @@ export const signOut = async ({
     {
       pluginMessage: {
         type: 'DELETE_ITEMS',
-        items: ['supabase_access_token'],
+        items: ['supabase_access_token', 'supabase_refresh_token'],
       },
       pluginId: pluginId,
     },
