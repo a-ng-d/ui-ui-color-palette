@@ -204,24 +204,22 @@ export default class SyncPreferences extends PureComponent<
         body={[
           {
             node: (
-              <FormItem shouldFill>
+              <FormItem helper={{
+                type: "INFO",
+                message :this.props.locales.user.preferences.sync.styles.message
+              }} shouldFill>
                 <this.StylesDeepSync />
               </FormItem>
             ),
           },
           {
             node: (
-              <FormItem shouldFill>
+              <FormItem helper={{
+                type: "INFO",
+                message :this.props.locales.user.preferences.sync.variables.message
+              }} shouldFill>
                 <this.VariablesDeepSync />
               </FormItem>
-            ),
-          },
-          {
-            node: (
-              <SemanticMessage
-                type="INFO"
-                message={this.props.locales.user.preferences.sync.message}
-              />
             ),
           },
         ]}
