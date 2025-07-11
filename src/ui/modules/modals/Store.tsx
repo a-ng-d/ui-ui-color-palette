@@ -1,7 +1,7 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, Card, Dialog, List } from '@a_ng_d/figmug-ui'
+import { Button, Card, Dialog, List, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -70,20 +70,29 @@ export default class Store extends PureComponent<StoreProps> {
           >
             <Card
               src={isb}
-              label={this.props.locales.store.isb.label}
+              title={this.props.locales.store.isb.title}
+              subtitle={this.props.locales.store.isb.subtitle}
+              richText={
+                <span className={texts.type}>
+                  {this.props.locales.store.isb.text}
+                </span>
+              }
+              actions={
+                <Button
+                  type="primary"
+                  label={this.props.locales.store.isb.cta}
+                  action={() => {
+                    window
+                      .open(this.props.config.urls.isbUrl, '_blank')
+                      ?.focus()
+                  }}
+                />
+              }
               shouldFill
               action={() => {
                 window.open(this.props.config.urls.isbUrl, '_blank')?.focus()
               }}
-            >
-              <Button
-                type="primary"
-                label={this.props.locales.store.isb.cta}
-                action={() => {
-                  window.open(this.props.config.urls.isbUrl, '_blank')?.focus()
-                }}
-              />
-            </Card>
+            />
           </List>
         </Dialog>
       </Feature>

@@ -378,11 +378,15 @@
     "title": "Subscribe to UI Color Palette Pro",
     "one": {
       "cta": "Get your license",
-      "message": "UI Color Palette Pro/One: Your multi-platform license, working on Figma, Penpot and soon Sketch, to create unlimited palettes with unlimited source colors, stops, and color modes what ever the platform you are using."
+      "title": "UI Color Palette Pro/One",
+      "subtitle": "$5/month via Lemon Squeezy",
+      "text": "Your multi-platform license working on:{br}◻ Figma{br}◻ Penpot{br}◻ Sketch (soon){br}◻ Framer (soon)"
     },
     "figma": {
       "cta": "Get Pro for Figma only",
-      "message": "UI Color Palette Pro/Figma: Upgrade to the Pro plan to create unlimited palettes with unlimited source colors, stops, and color modes. You will also be able to export your palette to more formats, and synchronize it with the local library."
+      "title": "UI Color Palette Pro/Figma",
+      "subtitle": "$5/month via Figma",
+      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Export and Sync with library"
     }
   },
   "proPlan": {
@@ -675,7 +679,9 @@
   "store": {
     "isb": {
       "cta": "Try it now",
-      "label": "Ideas Spark Booth・Private Brainstorming & Retrospective Sessions"
+      "title": "Ideas Spark Booth",
+      "subtitle": "Private Brainstorming & Retrospective Sessions",
+      "text": "Engage & Enable your participants through private team sessions for brainstorming and retrospectives"
     },
     "title": "More products from Yelbolt"
   },

@@ -1,7 +1,7 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, Card, Dialog } from '@a_ng_d/figmug-ui'
+import { Button, Card, Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import {
@@ -70,8 +70,31 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }
   }
 
+  // Direct Actions
+  createTextWithBreaks = (text: string) => {
+    return text.split(/{br}/g).map((segment, index, array) =>
+      index < array.length - 1 ? (
+        <span
+          className={texts.type}
+          key={index}
+        >
+          {segment}
+          <br />
+        </span>
+      ) : (
+        <span
+          className={texts.type}
+          key={index}
+        >
+          {segment}
+        </span>
+      )
+    )
+  }
+
   // Render
   render() {
+    console.log(this.createTextWithBreaks(this.props.locales.pricing.one.text))
     let padding
 
     switch (this.theme) {
@@ -109,29 +132,54 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             {this.props.plans.includes('ONE') && (
               <Card
                 src={uicpo}
-                label={this.props.locales.pricing.one.message}
+                title={this.props.locales.pricing.one.title}
+                subtitle={this.props.locales.pricing.one.subtitle}
+                richText={this.createTextWithBreaks(
+                  this.props.locales.pricing.one.text
+                )}
+                actions={
+                  <Button
+                    type="primary"
+                    label={this.props.locales.pricing.one.cta}
+                    action={() => {
+                      window
+                        .open(this.props.config.urls.storeUrl, '_blank')
+                        ?.focus()
+                    }}
+                  />
+                }
                 shouldFill
                 action={() => {
                   window
                     .open(this.props.config.urls.storeUrl, '_blank')
                     ?.focus()
                 }}
-              >
-                <Button
-                  type="primary"
-                  label={this.props.locales.pricing.one.cta}
-                  action={() => {
-                    window
-                      .open(this.props.config.urls.storeUrl, '_blank')
-                      ?.focus()
-                  }}
-                />
-              </Card>
+              />
             )}
             {this.props.plans.includes('FIGMA') && (
               <Card
                 src={uicp}
-                label={this.props.locales.pricing.figma.message}
+                title={this.props.locales.pricing.figma.title}
+                subtitle={this.props.locales.pricing.figma.subtitle}
+                richText={this.createTextWithBreaks(
+                  this.props.locales.pricing.figma.text
+                )}
+                actions={
+                  <Button
+                    type="primary"
+                    label={this.props.locales.pricing.figma.cta}
+                    action={() => {
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'PAY_PRO_PLAN',
+                          },
+                        },
+                        '*'
+                      )
+                    }}
+                  />
+                }
                 shouldFill
                 action={() => {
                   parent.postMessage(
@@ -143,22 +191,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                     '*'
                   )
                 }}
-              >
-                <Button
-                  type="primary"
-                  label={this.props.locales.pricing.figma.cta}
-                  action={() => {
-                    parent.postMessage(
-                      {
-                        pluginMessage: {
-                          type: 'PAY_PRO_PLAN',
-                        },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-              </Card>
+              />
             )}
           </div>
         </Dialog>
