@@ -472,12 +472,14 @@ class App extends Component<AppProps, AppStates> {
           planStatus: path.data.planStatus,
         })
 
-      const checkTrialStatus = () =>
+      const checkTrialStatus = () => {
+        console.log(path.data)
         this.setState({
           planStatus: path.data.planStatus,
           trialStatus: path.data.trialStatus,
           trialRemainingTime: path.data.trialRemainingTime,
         })
+      }
 
       const checkAnnouncements = () => {
         checkAnnouncementsVersion(

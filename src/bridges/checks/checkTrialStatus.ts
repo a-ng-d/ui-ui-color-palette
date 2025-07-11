@@ -1,16 +1,6 @@
 import globalConfig from '../../global.config'
 
 const checkTrialStatus = async () => {
-  // figma.clientStorage.deleteAsync('trial_start_date')
-  // figma.clientStorage.deleteAsync('trial_version')
-  // window.localStorage.setItem(
-  //  'trial_start_date',
-  //  (new Date().getTime() - 72 * 60 * 60 * 1000).toString()
-  // )
-  // figma.payments?.setPaymentStatusInDevelopment({
-  //   type: 'UNPAID',
-  // })
-
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
@@ -33,11 +23,7 @@ const checkTrialStatus = async () => {
       1000 /
       (60 * 60)
 
-    if (
-      consumedTime <= currentTrialTime &&
-      currentTrialVersion !== globalConfig.versions.trialVersion &&
-      globalConfig.plan.isTrialEnabled
-    )
+    if (consumedTime <= currentTrialTime && globalConfig.plan.isTrialEnabled)
       trialStatus = 'PENDING'
     else if (
       consumedTime >= globalConfig.plan.trialTime &&

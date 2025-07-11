@@ -383,7 +383,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
             <SemanticMessage
               type="INFO"
               message={this.props.locales.info.maxNumberOfSourceColors.replace(
-                '{$1}',
+                '{maxCount}',
                 (
                   Overview.features(
                     this.props.planStatus,
@@ -457,13 +457,13 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
             messages={[
               this.props.locales.source.canvas.tip
                 .replace(
-                  '{$1}',
+                  '{element}',
                   this.props.locales.source.nodes[
                     this.props.config.env.platform
                   ]
                 )
                 .replace(
-                  '{$2}',
+                  '{canvas}',
                   this.props.locales.platform[this.props.config.env.platform]
                 ),
             ]}

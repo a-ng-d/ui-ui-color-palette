@@ -716,7 +716,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                     <SemanticMessage
                       type="INFO"
                       message={this.props.locales.info.maxNumberOfSourceColors.replace(
-                        '{$1}',
+                        '{maxCount}',
                         (
                           Colors.features(
                             this.props.planStatus,
@@ -924,7 +924,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
                       return {
                         title: this.props.locales.colors.moreParameters.replace(
-                          '{$1}',
+                          '{count}',
                           color.name
                         ),
                         node: (() => (

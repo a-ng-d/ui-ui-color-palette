@@ -399,7 +399,7 @@ const globalConfig: Config = {
   plan: {
     isProEnabled: true,
     isTrialEnabled: true,
-    trialTime: 72,
+    trialTime: 192,
   },
   dbs: {
     palettesDbTableName: 'sandbox.palettes',
@@ -438,7 +438,7 @@ const globalConfig: Config = {
   },
   versions: {
     userConsentVersion: '2024.01',
-    trialVersion: '2024.03',
+    trialVersion: '2024.04',
     algorithmVersion: 'v3',
     paletteVersion: '2025.06',
   },

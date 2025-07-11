@@ -337,7 +337,7 @@ export default class Shortcuts extends PureComponent<
                       options={[
                         {
                           label: this.props.locales.user.welcomeMessage.replace(
-                            '{$1}',
+                            '{username}',
                             this.props.userSession.userFullName
                           ),
                           type: 'TITLE',
@@ -533,7 +533,7 @@ export default class Shortcuts extends PureComponent<
                                         type: 'SUCCESS',
                                         message:
                                           this.props.locales.user.welcomeMessage.replace(
-                                            '{$1}',
+                                            '{username}',
                                             this.props.userSession.userFullName
                                           ),
                                       },

@@ -665,7 +665,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                         return {
                           title:
                             this.props.locales.themes.moreParameters.replace(
-                              '{$1}',
+                              '{count}',
                               theme.name
                             ),
                           node: (() => (

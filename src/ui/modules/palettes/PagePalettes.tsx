@@ -220,7 +220,7 @@ export default class PagePalettes extends PureComponent<
               <div className="dialog__text">
                 <p className={texts.type}>
                   {this.props.locales.browse.deletePaletteDialog.message.replace(
-                    '{$1}',
+                    '{name}',
                     this.state.targetedPaletteName
                   )}
                 </p>
@@ -508,7 +508,7 @@ export default class PagePalettes extends PureComponent<
               <SemanticMessage
                 type="INFO"
                 message={this.props.locales.info.maxNumberOfLocalPalettes.replace(
-                  '{$1}',
+                  '{maxCount}',
                   (
                     PagePalettes.features(
                       this.props.planStatus,

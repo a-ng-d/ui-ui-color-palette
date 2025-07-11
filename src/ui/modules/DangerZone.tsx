@@ -134,7 +134,7 @@ export default class DangerZone extends PureComponent<DangerZoneProps, DangerZon
               <div className="dialog__text">
                 <p className={texts.type}>
                   {this.props.locales.browse.deletePaletteDialog.message.replace(
-                    '{$1}',
+                    '{name}',
                     this.props.name
                   )}
                 </p>

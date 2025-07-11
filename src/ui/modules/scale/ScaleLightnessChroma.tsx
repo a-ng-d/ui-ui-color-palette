@@ -1036,7 +1036,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 <SemanticMessage
                   type="INFO"
                   message={this.props.locales.info.maxNumberOfStops.replace(
-                    '{$1}',
+                    '{maxCount}',
                     (
                       ScaleLightnessChroma.features(
                         this.props.planStatus,
@@ -1287,7 +1287,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 <SemanticMessage
                   type="INFO"
                   message={this.props.locales.info.maxNumberOfStops.replace(
-                    '{$1}',
+                    '{maxCount}',
                     (
                       ScaleLightnessChroma.features(
                         this.props.planStatus,

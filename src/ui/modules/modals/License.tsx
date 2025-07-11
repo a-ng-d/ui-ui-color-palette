@@ -223,7 +223,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                       type: 'SUCCESS',
                       message:
                         this.props.locales.success.unlinkedLicense.replace(
-                          '{$1}',
+                          '{licenseKey}',
                           this.state.userInstanceName
                         ),
                     },
@@ -380,7 +380,7 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
                   <SemanticMessage
                     type="ERROR"
                     message={this.props.locales.error.unlinkedLicense.replace(
-                      '{$1}',
+                      '{licenseKey}',
                       this.state.userInstanceName
                     )}
                   />

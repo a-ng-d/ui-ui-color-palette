@@ -20,14 +20,14 @@ const getPaletteMeta = (
     colorLabel = locales
       .get()
       .actions.sourceColorsNumber.several.replace(
-        '{$1}',
+        '{count}',
         colorsNumber.toString()
       )
   else
     colorLabel = locales
       .get()
       .actions.sourceColorsNumber.single.replace(
-        '{$1}',
+        '{count}',
         colorsNumber.toString()
       )
 
@@ -35,22 +35,25 @@ const getPaletteMeta = (
     themeLabel = locales
       .get()
       .actions.colorThemesNumber.several.replace(
-        '{$1}',
+        '{count}',
         themesNumber.toString()
       )
   else
     themeLabel = locales
       .get()
-      .actions.colorThemesNumber.single.replace('{$1}', themesNumber.toString())
+      .actions.colorThemesNumber.single.replace(
+        '{count}',
+        themesNumber.toString()
+      )
 
   if (shadeNumber > 1)
     shadeLabel = locales
       .get()
-      .actions.shadesNumber.several.replace('{$1}', shadeNumber.toString())
+      .actions.shadesNumber.several.replace('{count}', shadeNumber.toString())
   else
     shadeLabel = locales
       .get()
-      .actions.shadesNumber.single.replace('{$1}', shadeNumber.toString())
+      .actions.shadesNumber.single.replace('{count}', shadeNumber.toString())
 
   return `${colorLabel}${locales.get().separator}${shadeLabel}${locales.get().separator}${themeLabel}`
 }

@@ -13,7 +13,7 @@ const createPaletteFromDuplication = async (id: string) => {
 
   palette.base.name = locales
     .get()
-    .browse.copy.replace('{$1}', palette.base.name)
+    .browse.copy.replace('{name}', palette.base.name)
   palette.meta.id = uid()
   palette.meta.publicationStatus.isPublished = false
   palette.meta.publicationStatus.isShared = false
