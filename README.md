@@ -1,48 +1,147 @@
-![GitHub package.json version](https://img.shields.io/github/package-json/v/a-ng-d/figma-ui-color-palette?color=informational) ![GitHub last commit](https://img.shields.io/github/last-commit/a-ng-d/figma-ui-color-palette?color=informational) ![GitHub](https://img.shields.io/github/license/a-ng-d/figma-ui-color-palette?color=informational)
+# UI for UI Color Palette
 
-# UI Color Palette
-UI Color Palette is a Figma and FigJam plugin that creates consistent and accessible color palettes specifically for UI. The plugin uses alternative color spaces, like `LCH`, `OKLCH`, `CIELAB`, `OKLAB`, and `HSLuv`, to create color shades based on the configured lightness scale. These spaces ensure [WCAG standards](https://www.w3.org/WAI/standards-guidelines/wcag/) compliance and sufficient contrast between information and background color.
+A unified UI component library for color palette functionality across multiple design platforms. This project serves as a common UI foundation that adapts to different platforms (Figma, Penpot) while maintaining a consistent experience.
 
-The idea to make this Figma plugin comes from the article: [Accessible Palette: stop using HSL for color systems](https://wildbit.com/blog/accessible-palette-stop-using-hsl-for-color-systems).
+## Project Description
 
-This plugin will allow you to:
-- Create a complete palette from any existing color to help you build a color scaling (or Primitive colors).
-- Manage the color palette in real-time to control the contrast.
-- Sync the color shades with local styles, variables, and third-party plugins.
-- Generate code in various languages.
-- Publish the palette for reuse across multiple documents or add shared palettes from the community.
+This project implements a color palette plugin that works across different design platforms. It uses a shared UI codebase with platform-specific adaptations to ensure consistent functionality across:
 
-## Documentation
-The full documentation can be consulted on [docs.ui-color-palette.com](https://uicp.ylb.lt/docs).
+- Figma (light/dark modes)
+- Penpot (light/dark modes)
+- Development environments
 
-## Contribution
-### Community
-Ask questions, submit your ideas or requests on [Canny](https://uicp.ylb.lt/ideas).
+The architecture is built around a modular approach with shared core components and platform-specific bridges to handle the unique requirements of each design tool.
 
-### Issues
-Have you encountered a bug? Could a feature be improved?
-Go to the [Issues](https://uicp.ylb.lt/report) section and browse the existing tickets or create a new one.
+## Dependencies
 
-### Development
-- Clone this repository (or fork it).
-- Install dependencies with `npm install`.
-- Run `npm run start` to watch in development mode.
-- Go to Figma, then `Plugins` > `Development` > `Import plugin from manifest…` and choose `manifest.json` in the repository.
-- Create a `Branch` and open a `Pull Request`.
-- _Let's do this._
+### External Packages
 
-### Beta test
-- Go to the [Actions](https://github.com/a-ng-d/figma-ui-color-palette/actions) sections and access the `Build and Download UI Color Palette` tab.
-- Click `Run workflow`, then select a branch and confirm.
-- Wait a minute, and once finished, download the artifact (which is a ZIP file containing the plugin).
-- Go to Figma, then `Plugins` > `Development` > `Import plugin from manifest…` and choose `manifest.json` in the unzipped folder.
-- _Enjoy!_
+The project relies on several external packages and modules:
 
-## Attribution
-- The colors are managed thanks to the [chroma.js](https://github.com/gka/chroma.js) library by [Gregor Aisch](https://github.com/gka).
-- The APCA algorithm is provided thanks to the [apca-w3](https://www.npmjs.com/package/apca-w3) module by [Andrew Somers](https://github.com/Myndex).
-- The Figma components are emulated thanks to the [Figma Plugin DS](https://github.com/thomas-lowry/figma-plugin-ds) stylesheet by [Tom Lowry](https://github.com/thomas-lowry).
+- **@a_ng_d/figmug-ui**: UI components library
+- **@a_ng_d/figmug-utils**: Utility functions
+- **@a_ng_d/utils-ui-color-palette**: Color palette specific utilities
+- **@supabase/supabase-js**: Backend database integration
+- **chroma-js**: Color manipulation library
+- **JSZip**: File compression for exports
+- **Mixpanel**: Analytics tracking
+- **Preact**: Lightweight React alternative
 
-## Support
-- [Follow the plugin LinkedIn page](https://uicp.ylb.lt/network).
-- [Connect to my Figma resources page](https://uicp.ylb.lt/author).
+### Workspace Packages
+
+The project includes several workspace packages:
+
+- **announcements-yelbolt-worker**: Worker service for announcements
+- **auth-yelbolt-worker**: Worker service for authentication
+- **auth-yelbolt**: Authentication service including UI components
+  - **ideas-spark-booth**: Ideas platform module
+  - **ui-color-palette**: Color palette UI module
+
+## Development Setup
+
+### Prerequisites
+
+- Node.js (latest LTS version recommended)
+- npm
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/a-ng-d/ui-ui-color-palette.git
+cd ui-ui-color-palette
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Install workspace packages:
+```bash
+npm run install:packages
+```
+
+### Available Commands
+
+#### Package Management
+
+```bash
+# Install dependencies for all workspaces
+npm run install:packages
+
+# Update submodules
+npm run update:packages
+
+# Update Figmug UI and utils
+npm run update:figmug
+
+# Update color palette utils
+npm run update:uicp
+```
+
+#### Starting Services
+
+```bash
+# Start announcements worker (port 8888)
+npm run start:announcements
+
+# Start authentication service
+npm run start:auth
+
+# Start all package services
+npm run start:packages
+```
+
+#### Platform Development
+
+```bash
+# Figma - Dark Mode (Figma editor)
+npm run start:figma:dark:figma
+
+# Figma - Light Mode (Figma editor)
+npm run start:figma:light:figma
+
+# Figma - Dark Mode (Development editor)
+npm run start:figma:dark:dev
+
+# Figma - Light Mode (Development editor)
+npm run start:figma:light:dev
+
+# Penpot - Dark Mode (Penpot editor)
+npm run start:penpot:dark:penpot
+
+# Penpot - Light Mode (Penpot editor)
+npm run start:penpot:light:penpot
+```
+
+#### Code Quality
+
+```bash
+# Type checking
+npm run typecheck
+npm run typecheck:watch
+
+# Linting
+npm run lint
+npm run lint:watch
+
+# Formatting
+npm run format
+```
+
+## Project Structure
+
+- `/src`: Main source code
+  - `/bridges`: Platform-specific bridge code
+  - `/config`: Configuration context
+  - `/content`: Localization and media assets
+  - `/external`: External service integrations
+  - `/stores`: State management
+  - `/types`: TypeScript type definitions
+  - `/ui`: UI components and modules
+  - `/utils`: Utility functions
+
+## License
+
+MIT © Aurélien Grimaud
