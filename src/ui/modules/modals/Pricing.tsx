@@ -94,7 +94,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   // Render
   render() {
-    console.log(this.createTextWithBreaks(this.props.locales.pricing.one.text))
     let padding
 
     switch (this.theme) {
