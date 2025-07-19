@@ -755,6 +755,7 @@
     "welcomeMessage": "Hello {username}",
     "preferences": {
       "sync": {
+        "message": "When enabled, the palette will be synchronized with the local library, so the local items will be updated , but could be removed.",
         "palette": {
           "label": "Synchronize your changes in real time with the palette"
         },

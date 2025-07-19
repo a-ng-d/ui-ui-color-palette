@@ -6,6 +6,7 @@ import {
   Section,
   SectionTitle,
   Select,
+  SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
@@ -203,28 +204,22 @@ export default class SyncPreferences extends PureComponent<
         body={[
           {
             node: (
-              <FormItem
-                helper={{
-                  type: 'INFO',
-                  message:
-                    this.props.locales.user.preferences.sync.styles.message,
-                }}
-                shouldFill
-              >
+              <SemanticMessage
+                type="INFO"
+                message={this.props.locales.user.preferences.sync.message}
+              />
+            ),
+          },
+          {
+            node: (
+              <FormItem shouldFill>
                 <this.StylesDeepSync />
               </FormItem>
             ),
           },
           {
             node: (
-              <FormItem
-                helper={{
-                  type: 'INFO',
-                  message:
-                    this.props.locales.user.preferences.sync.variables.message,
-                }}
-                shouldFill
-              >
+              <FormItem shouldFill>
                 <this.VariablesDeepSync />
               </FormItem>
             ),

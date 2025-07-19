@@ -380,7 +380,7 @@ export default class Actions extends PureComponent<
       {
         label: this.props.locales.actions.generateDocument.label,
         value: 'DOCUMENT',
-        type: 'OPTION',
+        type: 'GROUP',
         children: [
           {
             label: this.props.locales.actions.generateDocument.palette,
