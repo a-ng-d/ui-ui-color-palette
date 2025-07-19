@@ -19,6 +19,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
+import { PluginMessageData } from '../../../types/messages'
 import {
   BaseProps,
   Context,
@@ -80,7 +81,10 @@ export default class CommunityPalettes extends PureComponent<
 
   // Lifecycle
   componentDidMount = async () => {
-    window.addEventListener('message', this.handleMessage)
+    window.addEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
 
     const actions: {
       [key: string]: () => void
@@ -107,12 +111,15 @@ export default class CommunityPalettes extends PureComponent<
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener('message', this.handleMessage)
+    window.removeEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+  handleMessage = (e: CustomEvent<PluginMessageData>) => {
+    const path = e.detail
 
     const actions: {
       [key: string]: () => void

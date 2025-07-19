@@ -40,7 +40,11 @@ import Colors from '../contexts/Colors'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
-import { ColorsMessage, ThemesMessage } from '../../types/messages'
+import {
+  ColorsMessage,
+  PluginMessageData,
+  ThemesMessage,
+} from '../../types/messages'
 import { SourceColorEvent } from '../../types/events'
 import {
   BaseProps,
@@ -182,16 +186,22 @@ export default class EditPalette extends PureComponent<
 
   // Lifecycle
   componentDidMount = () => {
-    window.addEventListener('message', this.handleMessage)
+    window.addEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener('message', this.handleMessage)
+    window.removeEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+  handleMessage = (e: CustomEvent<PluginMessageData>) => {
+    const path = e.detail
 
     const actions: {
       [action: string]: () => void

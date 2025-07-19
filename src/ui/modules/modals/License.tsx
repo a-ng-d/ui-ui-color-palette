@@ -12,6 +12,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import validateUserLicenseKey from '../../../external/license/validateUserLicenseKey '
 import desactivateUserLicenseKey from '../../../external/license/desactivateUserLicenseKey'
@@ -33,7 +34,10 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<LicenseProps, LicenseStates> {
+export default class License extends PureComponent<
+  LicenseProps,
+  LicenseStates
+> {
   private theme: string | null
 
   static features = (
@@ -81,46 +85,52 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
       },
       '*'
     )
-    window.addEventListener('message', this.handleMessage)
+    window.addEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener('message', this.handleMessage)
+    window.removeEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+  handleMessage = (e: CustomEvent<PluginMessageData>) => {
+    const path = e.detail
 
     const actions: {
       [action: string]: () => void
     } = {
       GET_ITEM_USER_LICENSE_KEY: () => {
         if (
-          path.value !== null &&
-          path.value !== undefined &&
-          path.value !== ''
+          path.data.value !== null &&
+          path.data.value !== undefined &&
+          path.data.value !== ''
         )
-          this.setState({ userLicenseKey: path.value, hasLicense: true })
+          this.setState({ userLicenseKey: path.data.value, hasLicense: true })
         else this.setState({ userLicenseKey: '', hasLicense: false })
       },
       GET_ITEM_USER_LICENSE_INSTANCE_ID: () => {
         if (
-          path.value !== null &&
-          path.value !== undefined &&
-          path.value !== '' &&
+          path.data.value !== null &&
+          path.data.value !== undefined &&
+          path.data.value !== '' &&
           this.state.userLicenseKey !== ''
         )
-          this.setState({ userInstanceId: path.value, hasLicense: true })
+          this.setState({ userInstanceId: path.data.value, hasLicense: true })
         else this.setState({ userInstanceId: '', hasLicense: false })
       },
       GET_ITEM_USER_LICENSE_INSTANCE_NAME: () => {
         if (
-          path.value !== null &&
-          path.value !== undefined &&
-          path.value !== ''
+          path.data.value !== null &&
+          path.data.value !== undefined &&
+          path.data.value !== ''
         )
-          this.setState({ userInstanceName: path.value })
+          this.setState({ userInstanceName: path.data.value })
       },
       DEFAULT: () => null,
     }
@@ -188,7 +198,11 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
             {
               pluginMessage: {
                 type: 'DELETE_ITEMS',
-                items: ['user_license_key', 'user_license_instance_id', 'user_license_instance_name'],
+                items: [
+                  'user_license_key',
+                  'user_license_instance_id',
+                  'user_license_instance_name',
+                ],
               },
             },
             '*'

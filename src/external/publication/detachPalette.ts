@@ -55,8 +55,8 @@ const detachPalette = async ({
   parent.postMessage(
     {
       pluginMessage: {
-        type: 'DELETE_DATA',
-        items: [`palette_${meta.id}`],
+        type: 'DELETE_PALETTE',
+        id: meta.id,
       },
     },
     '*'

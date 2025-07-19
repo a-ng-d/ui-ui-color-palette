@@ -33,7 +33,7 @@ import {
 import './stylesheets/app.css'
 import { userConsent } from '../utils/userConsent'
 import { UserSession } from '../types/user'
-import { NotificationMessage } from '../types/messages'
+import { NotificationMessage, PluginMessageData } from '../types/messages'
 import {
   BaseProps,
   Editor,
@@ -364,18 +364,24 @@ class App extends Component<AppProps, AppStates> {
       })
 
     // Listener
-    window.addEventListener('message', this.handleMessage)
+    window.addEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   componentWillUnmount = () => {
     if (this.subscribeLanguage) this.subscribeLanguage()
     if (this.subsscribeVsCodeMessage) this.subsscribeVsCodeMessage()
-    window.removeEventListener('message', this.handleMessage)
+    window.removeEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+  handleMessage = (e: CustomEvent<PluginMessageData>) => {
+    const path = e.detail
 
     try {
       const switchService = () => {

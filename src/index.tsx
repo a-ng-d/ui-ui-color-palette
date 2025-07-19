@@ -66,6 +66,17 @@ if (globalConfig.env.isSupabaseEnabled)
     import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
   )
 
+window.addEventListener(
+  'message',
+  (event: MessageEvent) => {
+    const pluginEvent = new CustomEvent('pluginMessage', {
+      detail: event.data,
+    })
+    window.dispatchEvent(pluginEvent)
+  },
+  false
+)
+
 root.render(
   <ConfigProvider
     limits={{

@@ -202,33 +202,13 @@ window.addEventListener('message', async (msg: any) => {
       path.items.map(async (item: string) =>
         iframe?.contentWindow?.postMessage({
           type: `GET_ITEM_${item.toUpperCase()}`,
-          value: window.localStorage.getItem(item),
+          data: {
+            value: window.localStorage.getItem(item),
+          },
         })
       ),
     DELETE_ITEMS: () =>
       path.items.forEach(async (item: string) =>
-        window.localStorage.removeItem(item)
-      ),
-    SET_DATA: () =>
-      path.items.forEach((item: { key: string; value: string }) => {
-        if (typeof item.value === 'object')
-          window.localStorage.setItem(item.key, JSON.stringify(item.value))
-        else if (
-          typeof item.value === 'boolean' ||
-          typeof item.value === 'number'
-        )
-          window.localStorage.setItem(item.key, String(item.value))
-        else window.localStorage.setItem(item.key, item.value as string)
-      }),
-    GET_DATA: () =>
-      path.items.map((item: string) =>
-        iframe?.contentWindow?.postMessage({
-          type: `GET_DATA_${item.toUpperCase()}`,
-          value: window.localStorage.getItem(item),
-        })
-      ),
-    DELETE_DATA: () =>
-      path.items.forEach((item: string) =>
         window.localStorage.removeItem(item)
       ),
     //

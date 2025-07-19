@@ -16,6 +16,7 @@ import {
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
+import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -93,7 +94,10 @@ export default class PagePalettes extends PureComponent<
 
   // Lifecycle
   componentDidMount = async () => {
-    window.addEventListener('message', this.handleMessage)
+    window.addEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   componentDidUpdate = (prevProps: Readonly<PagePalettesProps>): void => {
@@ -108,12 +112,15 @@ export default class PagePalettes extends PureComponent<
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener('message', this.handleMessage)
+    window.removeEventListener(
+      'pluginMessage',
+      this.handleMessage as EventListener
+    )
   }
 
   // Handlers
-  handleMessage = (e: MessageEvent) => {
-    const path = e.data.type === undefined ? e.data.pluginMessage : e.data
+  handleMessage = (e: CustomEvent<PluginMessageData>) => {
+    const path = e.detail
 
     const actions: {
       [key: string]: () => void
