@@ -4,7 +4,7 @@ import mixpanel from 'mixpanel-browser'
 import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
-import { initMixpanel } from './external/tracking/client'
+import { initMixpanel, setMixpanelEnv } from './external/tracking/client'
 import { initSupabase } from './external/auth/client'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
@@ -24,6 +24,7 @@ if (globalConfig.env.isMixpanelEnabled) {
   mixpanel.opt_in_tracking()
 
   initMixpanel(mixpanel)
+  setMixpanelEnv(import.meta.env.MODE as 'development' | 'production')
 }
 
 if (globalConfig.env.isMixpanelEnabled && !globalConfig.env.isDev)
