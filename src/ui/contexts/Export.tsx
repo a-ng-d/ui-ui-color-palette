@@ -769,7 +769,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             label: this.props.locales.export.tokens.label,
                             value: 'TOKENS_GROUP',
                             feature: 'SELECT_EXPORT_FILE',
-                            type: 'OPTION',
+                            type: 'GROUP',
                             isActive: Export.features(
                               this.props.planStatus,
                               this.props.config,
@@ -943,7 +943,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           {
                             label: this.props.locales.export.apple.label,
                             value: 'APPLE_GROUP',
-                            type: 'OPTION',
+                            type: 'GROUP',
                             isActive: Export.features(
                               this.props.planStatus,
                               this.props.config,
@@ -1017,7 +1017,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           {
                             label: this.props.locales.export.android.label,
                             value: 'ANDROID_GROUP',
-                            type: 'OPTION',
+                            type: 'GROUP',
                             isActive: Export.features(
                               this.props.planStatus,
                               this.props.config,

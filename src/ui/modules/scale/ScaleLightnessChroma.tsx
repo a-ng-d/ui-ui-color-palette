@@ -732,7 +732,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           return {
             label: preset[0],
             value: preset[0].toUpperCase().split(' ').join('_'),
-            type: 'OPTION',
+            type: 'GROUP',
             children: preset[1].map((preset: PresetConfiguration) => ({
               label: preset.name,
               value: preset.id,
