@@ -129,6 +129,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               display: 'flex',
               flexDirection: this.state.isMobile ? 'column' : 'row',
               gap: 'var(--size-xxxsmall)',
+              width: '100%',
             }}
           >
             {this.props.plans.includes('ONE') && (
