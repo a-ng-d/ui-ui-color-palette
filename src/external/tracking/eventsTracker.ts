@@ -12,10 +12,10 @@ import {
   SourceColorEvent,
   TrialEvent,
 } from '../../types/events'
-import { getMixpanel } from './client'
+import { getMixpanel, getMixpanelEnv } from './client'
 
 const eventsRecurringProperties = {
-  Env: import.meta.env.MODE === 'development' ? 'Dev' : 'Prod',
+  Env: getMixpanelEnv(),
 }
 
 export const trackUserConsentEvent = (
