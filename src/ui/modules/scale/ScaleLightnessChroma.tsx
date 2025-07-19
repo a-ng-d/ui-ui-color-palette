@@ -206,6 +206,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     },
     feature?: string
   ) => {
+    console.log(state, results, feature)
     const onReleaseStop = () => {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
@@ -216,6 +217,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
     const onChangeStop = () => {
       this.palette.setKey('scale', results.scale)
+      if (feature === 'ADD_STOP' || feature === 'DELETE_STOP')
+        this.palette.setKey('preset.stops', results.stops ?? [])
 
       const lightForegroundRatio = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
