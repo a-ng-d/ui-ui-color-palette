@@ -42,7 +42,10 @@ interface ScaleStates {
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class ScaleContrastRatio extends PureComponent<ScaleProps, ScaleStates> {
+export default class ScaleContrastRatio extends PureComponent<
+  ScaleProps,
+  ScaleStates
+> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette

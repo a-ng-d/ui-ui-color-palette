@@ -63,7 +63,10 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
+export default class Publication extends PureComponent<
+  PublicationProps,
+  PublicationStates
+> {
   private data: PaletteData
   private enabledThemeIndex: number
 

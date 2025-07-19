@@ -27,7 +27,10 @@ interface DangerZoneState {
   isDestructiveActionLoading: boolean
 }
 
-export default class DangerZone extends PureComponent<DangerZoneProps, DangerZoneState> {
+export default class DangerZone extends PureComponent<
+  DangerZoneProps,
+  DangerZoneState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
