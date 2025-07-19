@@ -1127,14 +1127,6 @@ class App extends Component<AppProps, AppStates> {
 
   // Render
   render() {
-    console.log(
-      App.features(
-        this.state.planStatus,
-        this.props.config,
-        this.state.service,
-        this.state.editor
-      ).BROWSE
-    )
     if (this.state.isLoaded)
       return (
         <main className="ui">
