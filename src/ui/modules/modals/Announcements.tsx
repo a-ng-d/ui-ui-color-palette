@@ -92,6 +92,14 @@ export default class Announcements extends PureComponent<
                   )
               )
               break
+            case 'sketch':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Plateformes'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Sketch'
+                  )
+              )
+              break
           }
 
           this.setState({

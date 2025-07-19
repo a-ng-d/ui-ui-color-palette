@@ -273,10 +273,13 @@ export default class CreatePalette extends PureComponent<
     let isFlex = true
 
     switch (this.theme) {
+      case 'figma-ui3':
+        isFlex = false
+        break
       case 'penpot':
         isFlex = true
         break
-      case 'figma-ui3':
+      case 'sketch':
         isFlex = false
         break
       default:

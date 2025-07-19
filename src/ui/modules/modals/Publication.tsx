@@ -1040,7 +1040,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
             <div className="dialog__cover dialog__cover--padding">
               <div
                 style={{
-                  borderRadius: 'var(--border-radius-med)',
+                  borderRadius: 'var(--border-radius-medium)',
                   overflow: 'hidden',
                   height: '100%',
                 }}

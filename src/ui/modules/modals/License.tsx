@@ -272,11 +272,14 @@ export default class License extends PureComponent<LicenseProps, LicenseStates> 
     let padding
 
     switch (this.theme) {
+      case 'figma-ui3':
+        padding = '0'
+        break
       case 'penpot':
         padding = '0 var(--size-xsmall)'
         break
-      case 'figma-ui3':
-        padding = '0'
+      case 'sketch':
+        padding = 'var(--size-xsmall) var(--size-xsmall)'
         break
       default:
         padding = '0'

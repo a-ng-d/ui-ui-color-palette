@@ -416,7 +416,7 @@ export default class CommunityPalettes extends PureComponent<
                 complementSlot={
                   <div
                     style={{
-                      borderRadius: 'var(--border-radius-med)',
+                      borderRadius: 'var(--border-radius-medium)',
                       overflow: 'hidden',
                     }}
                     className="preview__rows"

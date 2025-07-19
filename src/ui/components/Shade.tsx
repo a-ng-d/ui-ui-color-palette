@@ -142,19 +142,6 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
   )
 
   lockColorTag = () => {
-    let size
-
-    switch (this.theme) {
-      case 'penpot':
-        size = 'var(--size-xmsmall)'
-        break
-      case 'figma-ui3':
-        size = 'var(--size-small)'
-        break
-      default:
-        size = 'var(--size-small)'
-    }
-
     return (
       <Chip
         state="ON_BACKGROUND"
@@ -167,8 +154,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': size,
-              '--icon-height': size,
+              '--icon-width': 'var(--size-small)',
+              '--icon-height': 'var(--size-small)',
             }}
           >
             <Icon
@@ -184,19 +171,6 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
   }
 
   closestColorTag = () => {
-    let size
-
-    switch (this.theme) {
-      case 'penpot':
-        size = 'var(--size-xmsmall)'
-        break
-      case 'figma-ui3':
-        size = 'var(--size-small)'
-        break
-      default:
-        size = 'var(--size-small)'
-    }
-
     return (
       <Chip
         state="ON_BACKGROUND"
@@ -209,8 +183,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': size,
-              '--icon-height': size,
+              '--icon-width': 'var(--size-small)',
+              '--icon-height': 'var(--size-small)',
             }}
           >
             <Icon

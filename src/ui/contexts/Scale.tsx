@@ -512,10 +512,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     let padding
 
     switch (this.theme) {
+      case 'figma-ui3':
+        padding = '0 var(--size-xxsmall)'
+        break
       case 'penpot':
         padding = '0 var(--size-xxsmall)'
         break
-      case 'figma-ui3':
+      case 'sketch':
         padding = '0 var(--size-xxsmall)'
         break
       default:

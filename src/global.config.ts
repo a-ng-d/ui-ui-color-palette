@@ -14,14 +14,16 @@ interface SpecConfig {
     [colorMode: string]: {
       [editor: string]: {
         env: {
-          platform: 'figma' | 'penpot'
-          editor: 'figma' | 'dev' | 'penpot'
-          ui: 'figma-ui3' | 'penpot'
+          platform: 'figma' | 'penpot' | 'sketch'
+          editor: 'figma' | 'dev' | 'penpot' | 'sketch'
+          ui: 'figma-ui3' | 'penpot' | 'sketch'
           colorMode:
             | 'figma-dark'
             | 'figma-light'
             | 'penpot-dark'
             | 'penpot-light'
+            | 'sketch-dark'
+            | 'sketch-light'
         }
         features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
       }
@@ -368,6 +370,122 @@ const specConfig: SpecConfig = {
             'EXPORT_ANDROID_COMPOSE',
             'EXPORT_ANDROID_XML',
             'EXPORT_CSV',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+          ],
+          ['SCALE_CONTRAST_RATIO']
+        ),
+      },
+    },
+  },
+  sketch: {
+    dark: {
+      sketch: {
+        env: {
+          platform: 'sketch',
+          editor: 'sketch',
+          ui: 'sketch',
+          colorMode: 'sketch-dark',
+        },
+        features: doSpecificMode(
+          [],
+          [
+            'LOCAL_PALETTES',
+            'SYNC_LOCAL_STYLES',
+            'SYNC_LOCAL_VARIABLES',
+            'USER_PREFERENCES_SYNC_DEEP_STYLES',
+            'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
+            'PREVIEW_LOCK_SOURCE_COLORS',
+            'SOURCE',
+            'PRESETS_MATERIAL_3',
+            'PRESETS_TAILWIND',
+            'PRESETS_ADS',
+            'PRESETS_ADS_NEUTRAL',
+            'PRESETS_CARBON',
+            'PRESETS_BASE',
+            'PRESETS_POLARIS',
+            'PRESETS_CUSTOM_ADD',
+            'SCALE_CHROMA',
+            'SCALE_HELPER_DISTRIBUTION',
+            'THEMES',
+            'THEMES_NAME',
+            'THEMES_PARAMS',
+            'THEMES_DESCRIPTION',
+            'COLORS',
+            'COLORS_HUE_SHIFTING',
+            'COLORS_CHROMA_SHIFTING',
+            'COLORS_ALPHA',
+            'COLORS_BACKGROUND_COLOR',
+            'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
+            'EXPORT_TAILWIND',
+            'EXPORT_APPLE_SWIFTUI',
+            'EXPORT_APPLE_UIKIT',
+            'EXPORT_ANDROID_COMPOSE',
+            'EXPORT_ANDROID_XML',
+            'EXPORT_CSV',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+          ],
+          ['SCALE_CONTRAST_RATIO']
+        ),
+      },
+    },
+    light: {
+      sketch: {
+        env: {
+          platform: 'sketch',
+          editor: 'sketch',
+          ui: 'sketch',
+          colorMode: 'sketch-light',
+        },
+        features: doSpecificMode(
+          [],
+          [
+            'LOCAL_PALETTES',
+            'SYNC_LOCAL_STYLES',
+            'SYNC_LOCAL_VARIABLES',
+            'USER_PREFERENCES_SYNC_DEEP_STYLES',
+            'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
+            'PREVIEW_LOCK_SOURCE_COLORS',
+            'SOURCE',
+            'PRESETS_MATERIAL_3',
+            'PRESETS_TAILWIND',
+            'PRESETS_ADS',
+            'PRESETS_ADS_NEUTRAL',
+            'PRESETS_CARBON',
+            'PRESETS_BASE',
+            'PRESETS_POLARIS',
+            'PRESETS_CUSTOM_ADD',
+            'SCALE_CHROMA',
+            'SCALE_HELPER_DISTRIBUTION',
+            'THEMES',
+            'THEMES_NAME',
+            'THEMES_PARAMS',
+            'THEMES_DESCRIPTION',
+            'COLORS',
+            'COLORS_HUE_SHIFTING',
+            'COLORS_CHROMA_SHIFTING',
+            'COLORS_ALPHA',
+            'COLORS_BACKGROUND_COLOR',
+            'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
+            'EXPORT_TAILWIND',
+            'EXPORT_APPLE_SWIFTUI',
+            'EXPORT_APPLE_UIKIT',
+            'EXPORT_ANDROID_COMPOSE',
+            'EXPORT_ANDROID_XML',
+            'EXPORT_CSV',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
             'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
             'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',

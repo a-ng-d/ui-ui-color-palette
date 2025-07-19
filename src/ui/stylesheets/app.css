@@ -147,5 +147,8 @@ div.export-palette__preview .input--code .input__wrapper textarea {
   background-color: var(--figma-color-bg);
 }
 :root[data-theme='penpot'] #app {
-  background-color: var(--color-background-primary);
+  background-color: var(--penpot-color-background-primary);
+}
+:root[data-theme='sketch'] #app {
+  background-color: var(--sketch-color-background-primary);
 }

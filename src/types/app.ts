@@ -3,7 +3,7 @@ import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
 import { Language, Translations } from './translations'
 
-export type Platform = 'figma' | 'penpot'
+export type Platform = 'figma' | 'penpot' | 'sketch'
 
 export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'
 
@@ -54,7 +54,13 @@ export type PlanStatus = 'UNPAID' | 'PAID' | 'NOT_SUPPORTED'
 
 export type TrialStatus = 'UNUSED' | 'PENDING' | 'EXPIRED'
 
-export type Editor = 'figma' | 'figjam' | 'dev' | 'dev_vscode' | 'penpot'
+export type Editor =
+  | 'figma'
+  | 'figjam'
+  | 'dev'
+  | 'dev_vscode'
+  | 'penpot'
+  | 'sketch'
 
 export type FetchStatus =
   | 'UNLOADED'

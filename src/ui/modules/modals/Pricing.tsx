@@ -97,11 +97,14 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     let padding
 
     switch (this.theme) {
+      case 'figma-ui3':
+        padding = 'var(--size-xxsmall)'
+        break
       case 'penpot':
         padding = 'var(--size-xxsmall) var(--size-small)'
         break
-      case 'figma-ui3':
-        padding = 'var(--size-xxsmall)'
+      case 'sketch':
+        padding = 'var(--size-xxsmall) var(--size-small)'
         break
       default:
         padding = 'var(--size-xxsmall)'
