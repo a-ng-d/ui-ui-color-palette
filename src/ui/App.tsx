@@ -387,6 +387,7 @@ class App extends Component<AppProps, AppStates> {
       const switchService = () => {
         this.setState({
           service: path.data.service,
+          onGoingStep: `service switched to ${path.data.service}`,
         })
       }
 
@@ -669,10 +670,12 @@ class App extends Component<AppProps, AppStates> {
             mimeType: 'application/json',
             data: path.data.code,
           },
-          onGoingStep: 'export previewed',
         })
 
-        if (path.data.context !== 'TOKENS_TOKENS_STUDIO')
+        if (path.data.context !== 'TOKENS_TOKENS_STUDIO') {
+          this.setState({
+            onGoingStep: 'export previewed',
+          })
           trackExportEvent(
             this.props.config.env.isMixpanelEnabled,
             this.state.userSession.userId === ''
@@ -686,6 +689,7 @@ class App extends Component<AppProps, AppStates> {
               feature: path.data.context,
             }
           )
+        }
       }
 
       const exportPaletteToCss = () => {
@@ -1112,6 +1116,7 @@ class App extends Component<AppProps, AppStates> {
         creatorFullName: '',
         creatorAvatar: '',
       },
+      onGoingStep: 'palette reset',
     })
 
     this.palette.setKey('name', this.state.locales.settings.global.name.default)
@@ -1133,6 +1138,7 @@ class App extends Component<AppProps, AppStates> {
 
   // Render
   render() {
+    console.log(this.state.onGoingStep)
     if (this.state.isLoaded)
       return (
         <main className="ui">

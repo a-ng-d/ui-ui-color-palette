@@ -156,6 +156,7 @@ export default class BrowsePalettes extends PureComponent<
   onCreatePalette = () => {
     this.props.onCreatePalette({
       service: 'CREATE',
+      onGoingStep: 'palette creation opened',
     })
   }
 

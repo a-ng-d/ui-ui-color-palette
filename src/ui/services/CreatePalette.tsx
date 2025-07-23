@@ -175,6 +175,7 @@ export default class CreatePalette extends PureComponent<
             sourceColors.source !== source
         )
         .concat(sourceColorsFromImport),
+      onGoingStep: 'source colors imported',
     })
   }
 
@@ -184,6 +185,7 @@ export default class CreatePalette extends PureComponent<
         (sourceColors: SourceColorConfiguration) =>
           sourceColors.source === 'CANVAS'
       ),
+      onGoingStep: 'source colors reset',
     })
   }
 
