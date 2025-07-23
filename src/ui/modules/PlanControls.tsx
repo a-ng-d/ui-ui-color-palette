@@ -52,6 +52,9 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
           parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
+      <span className={doClassnames([texts.type, texts['type--secondary']])}>
+        {this.props.locales.separator}
+      </span>
       <div
         className={doClassnames([
           texts.type,

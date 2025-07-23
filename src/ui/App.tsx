@@ -448,6 +448,7 @@ class App extends Component<AppProps, AppStates> {
         }).then((isValid: boolean) => {
           this.setState({
             planStatus: isValid ? 'PAID' : 'UNPAID',
+            trialStatus: isValid ? 'SUSPENDED' : this.state.trialStatus,
           })
         })
       }
@@ -965,6 +966,10 @@ class App extends Component<AppProps, AppStates> {
         this.setState({
           planStatus: 'PAID',
           modalContext: 'WELCOME_TO_PRO',
+          trialStatus:
+            this.state.trialStatus !== 'UNUSED'
+              ? 'SUSPENDED'
+              : this.state.trialStatus,
         })
 
         trackPurchaseEvent(

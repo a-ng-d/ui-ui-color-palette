@@ -519,7 +519,7 @@ const globalConfig: Config = {
   plan: {
     isProEnabled: true,
     isTrialEnabled: true,
-    trialTime: 192,
+    trialTime: 72,
   },
   dbs: {
     palettesDbTableName: 'sandbox.palettes',

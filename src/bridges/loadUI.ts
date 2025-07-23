@@ -266,10 +266,12 @@ window.addEventListener('message', async (msg: any) => {
       iframe?.contentWindow?.postMessage({
         type: 'ENABLE_PRO_PLAN',
       }),
-    LEAVE_PRO_PLAN: async () =>
+    LEAVE_PRO_PLAN: async () => {
       iframe?.contentWindow?.postMessage({
         type: 'LEAVE_PRO_PLAN',
-      }),
+      })
+      checkTrialStatus()
+    },
     WELCOME_TO_PRO: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'WELCOME_TO_PRO',

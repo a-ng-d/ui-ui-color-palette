@@ -53,7 +53,7 @@ export type FilterOptions =
 
 export type PlanStatus = 'UNPAID' | 'PAID' | 'NOT_SUPPORTED'
 
-export type TrialStatus = 'UNUSED' | 'PENDING' | 'EXPIRED'
+export type TrialStatus = 'UNUSED' | 'PENDING' | 'EXPIRED' | 'SUSPENDED'
 
 export type Editor =
   | 'figma'
