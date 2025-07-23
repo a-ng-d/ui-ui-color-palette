@@ -467,7 +467,7 @@ export default class FilePalettes extends PureComponent<
         {this.props.localPalettesListStatus === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={`${this.props.locales.warning.noPaletteOnCurrrentPage}`}
+            message={`${this.props.locales.warning.noPaletteOnCurrrentFile}`}
             actionsSlot={
               <Button
                 type="primary"
