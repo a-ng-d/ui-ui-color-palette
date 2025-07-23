@@ -70,10 +70,7 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -287,6 +284,13 @@ export default class Actions extends PureComponent<
     SCALE_CHROMA: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CHROMA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DOWNLOAD_EXPORT: new FeatureStatus({
+      features: config.features,
+      featureName: 'DOWNLOAD_EXPORT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -938,20 +942,29 @@ export default class Actions extends PureComponent<
 
   Export = () => {
     return (
-      <Bar
-        rightPartSlot={
-          <Button
-            type="primary"
-            label={this.props.exportType}
-            feature="EXPORT_PALETTE"
-            action={this.props.onExportPalette}
-          >
-            <a></a>
-          </Button>
-        }
-        padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
-        border={['TOP']}
-      />
+      <Feature
+        isActive={Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOWNLOAD_EXPORT.isActive()}
+      >
+        <Bar
+          rightPartSlot={
+            <Button
+              type="primary"
+              label={this.props.exportType}
+              feature="EXPORT_PALETTE"
+              action={this.props.onExportPalette}
+            >
+              <a></a>
+            </Button>
+          }
+          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          border={['TOP']}
+        />
+      </Feature>
     )
   }
 

@@ -1606,6 +1606,23 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch'],
   },
   {
+    name: 'DOWNLOAD_EXPORT',
+    description: 'Downloads the export file',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['EDIT'],
+    availabilityForEditors: [
+      'figma',
+      'figjam',
+      'dev',
+      'dev_vscode',
+      'penpot',
+      'sketch',
+    ],
+  },
+  {
     name: 'PREVIEW',
     description: 'Quick glance at the palette',
     isActive: true,
