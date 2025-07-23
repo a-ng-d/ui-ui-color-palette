@@ -261,7 +261,7 @@ class App extends Component<AppProps, AppStates> {
       isVsCodeMessageDisplayed: true,
       isLoaded: false,
       isNotificationDisplayed: false,
-      onGoingStep: '',
+      onGoingStep: 'app started',
     }
   }
 
@@ -1138,7 +1138,6 @@ class App extends Component<AppProps, AppStates> {
 
   // Render
   render() {
-    console.log(this.state.onGoingStep)
     if (this.state.isLoaded)
       return (
         <main className="ui">

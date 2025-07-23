@@ -88,6 +88,14 @@
       "signIn": "Sign in to fetch your palettes"
     }
   },
+  "create": {
+    "leavePaletteDialog": {
+      "cancel": "Cancel",
+      "leave": "Leave and return to palettes",
+      "message": "You have unsaved changes in this palette. Are you sure you want to leave?",
+      "title": "Unsaved changes"
+    }
+  },
   "colors": {
     "actions": {
       "moreParameters": "More parameters",

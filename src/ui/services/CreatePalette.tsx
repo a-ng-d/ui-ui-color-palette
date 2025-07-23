@@ -1,6 +1,6 @@
 import { uid } from 'uid'
 import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent, createPortal } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
   HexModel,
@@ -16,7 +16,7 @@ import {
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Bar, Button, Tabs } from '@a_ng_d/figmug-ui'
+import { Bar, Button, Dialog, Tabs, texts } from '@a_ng_d/figmug-ui'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Source from '../contexts/Source'
@@ -54,6 +54,7 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  onGoingStep: string
   onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>
   onChangeScale: React.Dispatch<Partial<AppStates>>
   onChangePreset: React.Dispatch<Partial<AppStates>>
@@ -72,6 +73,7 @@ interface CreatePaletteStates {
   context: Context | ''
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
+  isLeaveDialogOpen: boolean
 }
 
 export default class CreatePalette extends PureComponent<
@@ -121,6 +123,7 @@ export default class CreatePalette extends PureComponent<
           : '',
       isPrimaryLoading: false,
       isSecondaryLoading: false,
+      isLeaveDialogOpen: false,
     }
     this.theme = document.documentElement.getAttribute('data-theme')
   }
@@ -276,6 +279,49 @@ export default class CreatePalette extends PureComponent<
     this.props.onCancelPalette()
   }
 
+  // Templates
+  Modals = () => {
+    return (
+      <Feature isActive={this.state.isLeaveDialogOpen}>
+        {document.getElementById('modal') &&
+          createPortal(
+            <Dialog
+              title={this.props.locales.create.leavePaletteDialog.title}
+              actions={{
+                destructive: {
+                  label: this.props.locales.create.leavePaletteDialog.leave,
+                  feature: 'DELETE_PALETTE',
+                  action: this.onCancelPalette,
+                },
+                secondary: {
+                  label: this.props.locales.create.leavePaletteDialog.cancel,
+                  action: () =>
+                    this.setState({
+                      isLeaveDialogOpen: false,
+                    }),
+                },
+              }}
+              onClose={() =>
+                this.setState({
+                  isLeaveDialogOpen: false,
+                })
+              }
+            >
+              <div className="dialog__text">
+                <p className={texts.type}>
+                  {this.props.locales.create.leavePaletteDialog.message.replace(
+                    '{name}',
+                    this.props.name
+                  )}
+                </p>
+              </div>
+            </Dialog>,
+            document.getElementById('modal') ?? document.createElement('app')
+          )}
+      </Feature>
+    )
+  }
+
   // Renders
   render() {
     let fragment
@@ -339,7 +385,13 @@ export default class CreatePalette extends PureComponent<
               helper={{
                 label: this.props.locales.contexts.back,
               }}
-              action={this.onCancelPalette}
+              action={() =>
+                this.props.onGoingStep === 'palette creation opened'
+                  ? this.onCancelPalette()
+                  : this.setState({
+                      isLeaveDialogOpen: true,
+                    })
+              }
             />
           }
           rightPartSlot={
@@ -387,6 +439,7 @@ export default class CreatePalette extends PureComponent<
             onCreatePalette={this.onCreatePalette}
           />
         </Feature>
+        <this.Modals />
       </>
     )
   }
