@@ -208,6 +208,23 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     ],
   },
   {
+    name: 'LOCAL_PALETTES_FILE',
+    description: 'Saved palettes in the file',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'CONTEXT',
+    proForServices: ['BROWSE'],
+    availabilityForEditors: [
+      'figma',
+      'figjam',
+      'dev',
+      'dev_vscode',
+      'penpot',
+      'sketch',
+    ],
+  },
+  {
     name: 'REMOTE_PALETTES',
     description: 'Published palettes',
     isActive: true,

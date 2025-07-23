@@ -4,6 +4,7 @@ import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout } from '@a_ng_d/figmug-ui'
 import PagePalettes from '../modules/palettes/PagePalettes'
+import FilePalettes from '../modules/palettes/FilePalettes'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import {
@@ -45,12 +46,19 @@ export default class LocalPalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    LOCAL_PALETTES_FILE: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES_FILE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: LocalPalettesProps) {
     super(props)
     this.contexts = setContexts(
-      ['LOCAL_PALETTES_PAGE'],
+      ['LOCAL_PALETTES_PAGE', 'LOCAL_PALETTES_FILE'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -70,10 +78,15 @@ export default class LocalPalettes extends PureComponent<
   // Render
   render() {
     let fragment
+    console.log('LocalPalettes render', this.state.context)
 
     switch (this.state.context) {
       case 'LOCAL_PALETTES_PAGE': {
         fragment = <PagePalettes {...this.props} />
+        break
+      }
+      case 'LOCAL_PALETTES_FILE': {
+        fragment = <FilePalettes {...this.props} />
         break
       }
     }

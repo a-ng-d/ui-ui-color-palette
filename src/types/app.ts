@@ -29,6 +29,7 @@ export interface BaseProps {
 export type Context =
   | 'LOCAL_PALETTES'
   | 'LOCAL_PALETTES_PAGE'
+  | 'LOCAL_PALETTES_FILE'
   | 'REMOTE_PALETTES'
   | 'REMOTE_PALETTES_SELF'
   | 'REMOTE_PALETTES_COMMUNITY'

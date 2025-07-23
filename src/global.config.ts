@@ -42,7 +42,7 @@ const specConfig: SpecConfig = {
           colorMode: 'figma-dark',
         },
         features: doSpecificMode(
-          [],
+          ['LOCAL_PALETTES_FILE'],
           [
             'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
@@ -97,7 +97,7 @@ const specConfig: SpecConfig = {
           colorMode: 'figma-dark',
         },
         features: doSpecificMode(
-          [],
+          ['LOCAL_PALETTES_FILE'],
           [
             'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
@@ -154,7 +154,7 @@ const specConfig: SpecConfig = {
           colorMode: 'figma-light',
         },
         features: doSpecificMode(
-          [],
+          ['LOCAL_PALETTES_FILE'],
           [
             'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
@@ -209,7 +209,7 @@ const specConfig: SpecConfig = {
           colorMode: 'figma-light',
         },
         features: doSpecificMode(
-          [],
+          ['LOCAL_PALETTES_FILE'],
           [
             'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
@@ -275,6 +275,7 @@ const specConfig: SpecConfig = {
             'PUBLICATION',
             'PUBLISH_PALETTE',
             'REMOTE_PALETTES',
+            'LOCAL_PALETTES_FILE',
           ],
           [
             'LOCAL_PALETTES',
@@ -337,6 +338,7 @@ const specConfig: SpecConfig = {
             'PUBLICATION',
             'PUBLISH_PALETTE',
             'REMOTE_PALETTES',
+            'LOCAL_PALETTES_FILE',
           ],
           [
             'LOCAL_PALETTES',
@@ -392,7 +394,7 @@ const specConfig: SpecConfig = {
           colorMode: 'sketch-dark',
         },
         features: doSpecificMode(
-          [],
+          ['LOCAL_PALETTES_PAGE'],
           [
             'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
@@ -449,7 +451,7 @@ const specConfig: SpecConfig = {
           colorMode: 'sketch-light',
         },
         features: doSpecificMode(
-          [],
+          ['LOCAL_PALETTES_PAGE'],
           [
             'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
