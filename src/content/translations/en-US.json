@@ -692,7 +692,8 @@
     "title": "Source colors",
     "nodes": {
       "penpot": "shape/board",
-      "figma": "shape/frame"
+      "figma": "shape/frame",
+      "sketch": "shape/frame"
     }
   },
   "store": {
@@ -822,6 +823,7 @@
   },
   "platform": {
     "figma": "Figma",
-    "penpot": "Penpot"
+    "penpot": "Penpot",
+    "sketch": "Sketch"
   }
 }
