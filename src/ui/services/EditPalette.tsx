@@ -1,8 +1,8 @@
 import type { DropdownOption } from '@a_ng_d/figmug-ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import JSZip from 'jszip'
 import FileSaver from 'file-saver'
+import * as fflate from 'fflate'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -592,38 +592,39 @@ export default class EditPalette extends PureComponent<
       type: this.props.export.mimeType,
     })
     if (this.props.export.format === 'CSV') {
-      const zip = new JSZip()
+      const zipEntries: Record<string, Uint8Array> = {}
+      const encoder = new TextEncoder()
+
       this.props.export.data.forEach(
         (theme: {
           name: string
           type: string
           colors: Array<{ name: string; csv: string }>
         }) => {
-          if (theme.type !== 'default theme') {
-            const folder = zip.folder(theme.name) ?? zip
+          if (theme.type !== 'default theme')
             theme.colors.forEach((color) => {
-              folder.file(
-                `${new Case(color.name).doSnakeCase()}.csv`,
-                color.csv
-              )
+              const fileName = `${theme.name}/${new Case(color.name).doSnakeCase()}.csv`
+              zipEntries[fileName] = encoder.encode(color.csv)
             })
-          } else
+          else
             theme.colors.forEach((color) => {
-              zip.file(`${new Case(color.name).doSnakeCase()}.csv`, color.csv)
+              const fileName = `${new Case(color.name).doSnakeCase()}.csv`
+              zipEntries[fileName] = encoder.encode(color.csv)
             })
         }
       )
-      zip
-        .generateAsync({ type: 'blob' })
-        .then((content: string | Blob) =>
-          FileSaver.saveAs(
-            content,
-            this.props.name === ''
-              ? new Case(this.props.locales.name).doSnakeCase()
-              : new Case(this.props.name).doSnakeCase()
-          )
-        )
-        .catch(() => this.props.locales.error.generic)
+
+      const zipData = fflate.zipSync(zipEntries)
+      const zipBlob = new Blob([zipData], { type: 'application/zip' })
+
+      FileSaver.saveAs(
+        zipBlob,
+        `${
+          this.props.name === ''
+            ? new Case(this.props.locales.name).doSnakeCase()
+            : new Case(this.props.name).doSnakeCase()
+        }.zip`
+      )
     } else if (this.props.export.format === 'TAILWIND')
       FileSaver.saveAs(blob, 'tailwind.config.js')
     else if (this.props.export.format === 'SWIFT')
