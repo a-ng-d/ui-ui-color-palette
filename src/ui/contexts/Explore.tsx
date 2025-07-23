@@ -280,7 +280,7 @@ export default class Explore extends PureComponent<
               )
             }
             isCentered
-            padding="var(--size-xxsmall) var(--size-xsmall)"
+            padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
           />
         </>
       )

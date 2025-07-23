@@ -43,13 +43,13 @@ export default class Preferences extends PureComponent<PreferencesProps> {
         padding = '0'
         break
       case 'penpot':
-        padding = '0 var(--size-xxsmall)'
+        padding = '0 var(--size-pos-xxsmall)'
         break
       case 'sketch':
-        padding = '0 var(--size-xxsmall)'
+        padding = '0 var(--size-pos-xxsmall)'
         break
       default:
-        padding = 'var(--size-xxsmall)'
+        padding = 'var(--size-pos-xxsmall)'
     }
 
     return (

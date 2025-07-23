@@ -87,8 +87,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       leftSlot={
         <ColorChip
           color={color}
-          width="var(--size-xxsmall)"
-          height="var(--size-xxsmall)"
+          width="var(--size-pos-xxsmall)"
+          height="var(--size-pos-xxsmall)"
           isRounded
         />
       }
@@ -122,8 +122,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       leftSlot={
         <ColorChip
           color={color}
-          width="var(--size-xxsmall)"
-          height="var(--size-xxsmall)"
+          width="var(--size-pos-xxsmall)"
+          height="var(--size-pos-xxsmall)"
           isRounded
         />
       }
@@ -148,14 +148,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         leftSlot={
           <div
             style={{
-              width: 'var(--size-xxsmall)',
-              height: 'var(--size-xxsmall)',
+              width: 'var(--size-pos-xxsmall)',
+              height: 'var(--size-pos-xxsmall)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-small)',
-              '--icon-height': 'var(--size-small)',
+              '--icon-width': 'var(--size-pos-small)',
+              '--icon-height': 'var(--size-pos-small)',
             }}
           >
             <Icon
@@ -177,14 +177,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         leftSlot={
           <div
             style={{
-              width: 'var(--size-xxsmall)',
-              height: 'var(--size-xxsmall)',
+              width: 'var(--size-pos-xxsmall)',
+              height: 'var(--size-pos-xxsmall)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-small)',
-              '--icon-height': 'var(--size-small)',
+              '--icon-width': 'var(--size-pos-small)',
+              '--icon-height': 'var(--size-pos-small)',
             }}
           >
             <Icon

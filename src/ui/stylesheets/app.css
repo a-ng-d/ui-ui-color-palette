@@ -59,11 +59,11 @@ section.context {
 div.export-palette__preview {
   display: grid;
   flex: 1;
-  padding: 0 var(--size-xsmall);
+  padding: 0 var(--size-pos-xsmall);
 }
 
 div.export-palette__info {
-  padding: 0 var(--size-xsmall) var(--size-xxsmall);
+  padding: 0 var(--size-pos-xsmall) var(--size-pos-xxsmall);
 }
 
 div.export-palette__preview .input--code .input__wrapper {
@@ -105,10 +105,10 @@ div.export-palette__preview .input--code .input__wrapper textarea {
   flex: 1;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--size-xxxsmall);
+  gap: var(--size-pos-xxxsmall);
   box-sizing: border-box;
-  padding: var(--size-xxxsmall);
-  min-height: var(--size-medium);
+  padding: var(--size-pos-xxxsmall);
+  min-height: var(--size-pos-medium);
   overflow: hidden;
 }
 
@@ -117,11 +117,11 @@ div.export-palette__preview .input--code .input__wrapper textarea {
 }
 
 .preview__cell--compact {
-  min-height: var(--size-small);
+  min-height: var(--size-pos-small);
 }
 
 .preview__cell--medium {
-  min-height: var(--size-xxlarge);
+  min-height: var(--size-pos-xxlarge);
 }
 
 .preview__cell--large {
@@ -137,9 +137,9 @@ div.export-palette__preview .input--code .input__wrapper textarea {
   justify-content: end;
   align-items: end;
   cursor: nwse-resize;
-  padding: var(--size-xxxsmall);
-  width: var(--size-xxsmall);
-  height: var(--size-xsmall);
+  padding: var(--size-pos-xxxsmall);
+  width: var(--size-pos-xxsmall);
+  height: var(--size-pos-xsmall);
 }
 
 /* Background */

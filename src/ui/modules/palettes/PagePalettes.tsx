@@ -509,7 +509,7 @@ export default class PagePalettes extends PureComponent<
           !this.props.editor.includes('dev') && (
             <div
               style={{
-                padding: '0 var(--size-xsmall) var(--size-xxxsmall)',
+                padding: '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall)',
               }}
             >
               <SemanticMessage

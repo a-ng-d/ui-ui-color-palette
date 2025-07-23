@@ -319,7 +319,7 @@ export default class Shortcuts extends PureComponent<
                           <img
                             src={this.props.userSession.userAvatar}
                             style={{
-                              width: 'calc(100% - var(--size-xxsmall))',
+                              width: 'calc(100% - var(--size-pos-xxsmall))',
                               borderRadius: 'var(--border-radius-full)',
                               lineHeight: '0',
                               verticalAlign: 'middle',

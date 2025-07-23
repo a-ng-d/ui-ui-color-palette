@@ -290,10 +290,10 @@ export default class License extends PureComponent<
         padding = '0'
         break
       case 'penpot':
-        padding = '0 var(--size-xsmall)'
+        padding = '0 var(--size-pos-xsmall)'
         break
       case 'sketch':
-        padding = 'var(--size-xsmall) var(--size-xsmall)'
+        padding = 'var(--size-pos-xsmall) var(--size-pos-xsmall)'
         break
       default:
         padding = '0'

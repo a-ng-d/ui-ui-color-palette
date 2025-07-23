@@ -1103,7 +1103,7 @@ export default class Publication extends PureComponent<
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'var(--size-xxsmall)',
+                  gap: 'var(--size-pos-xxsmall)',
                 }}
               >
                 <div>

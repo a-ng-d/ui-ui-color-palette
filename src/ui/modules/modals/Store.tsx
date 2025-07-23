@@ -41,16 +41,16 @@ export default class Store extends PureComponent<StoreProps> {
 
     switch (this.theme) {
       case 'figma-ui3':
-        padding = 'var(--size-xxsmall)'
+        padding = 'var(--size-pos-xxsmall)'
         break
       case 'penpot':
-        padding = 'var(--size-xxsmall) var(--size-small)'
+        padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
         break
       case 'sketch':
-        padding = 'var(--size-xxsmall) var(--size-small)'
+        padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
         break
       default:
-        padding = 'var(--size-xxsmall)'
+        padding = 'var(--size-pos-xxsmall)'
     }
 
     return (

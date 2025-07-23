@@ -380,7 +380,7 @@ export default class Overview extends PureComponent<
         ).SOURCE.isReached(this.props.sourceColors.length - 1) && (
           <div
             style={{
-              padding: '0 var(--size-xsmall) var(--size-xxsmall)',
+              padding: '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
             }}
           >
             <SemanticMessage
@@ -525,7 +525,7 @@ export default class Overview extends PureComponent<
             })
           }}
         >
-          <div style={{ padding: '0 var(--size-xsmall)' }}>
+          <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
             <FormItem
               id="update-coolors-url"
               helper={this.state.coolorsUrl.helper}
@@ -624,7 +624,7 @@ export default class Overview extends PureComponent<
             })
           }}
         >
-          <div style={{ padding: '0 var(--size-xsmall)' }}>
+          <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
             <FormItem
               id="update-realtime-colors-url"
               helper={this.state.realtimeColorsUrl.helper}
