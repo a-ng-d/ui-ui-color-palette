@@ -78,7 +78,6 @@ export default class LocalPalettes extends PureComponent<
   // Render
   render() {
     let fragment
-    console.log('LocalPalettes render', this.state.context)
 
     switch (this.state.context) {
       case 'LOCAL_PALETTES_PAGE': {
