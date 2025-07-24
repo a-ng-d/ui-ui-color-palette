@@ -3,6 +3,9 @@
   "version": "1.4.9",
   "private": true,
   "description": "",
+  "author": "Aurélien Grimaud",
+  "license": "MIT",
+  "repository": "https://github.com/a-ng-d/ui-ui-color-palette",
   "type": "module",
   "workspaces": [
     "packages/announcements-yelbolt-worker",
@@ -26,14 +29,9 @@
     "start:sketch:dark:sketch": "PLATFORM=sketch COLOR_MODE=dark EDITOR=sketch vite --mode development",
     "start:sketch:light:sketch": "PLATFORM=sketch COLOR_MODE=light EDITOR=sketch vite --mode development",
     "typecheck": "npx tsc --noEmit",
-    "typecheck:watch": "npx tsc --noEmit --watch",
     "lint": "npx eslint ./src/** --fix --ext .ts,.tsx .",
-    "lint:watch": "esw ./src/** --fix --watch --ext .ts,.tsx .",
     "format": "npx prettier './src' --write"
   },
-  "author": "Aurélien Grimaud",
-  "licence": "MIT",
-  "repository": "https://github.com/a-ng-d/ui-ui-color-palette",
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
     "@sentry/vite-plugin": "^3.3.1",
