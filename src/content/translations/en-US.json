@@ -49,7 +49,7 @@
       "openPalette": "Open palette",
       "new": "New UI Color Palette",
       "moreParameters": "More parameters",
-            "managePalette": "Manage palette",
+      "managePalette": "Manage palette",
       "selectPalette": "Select palette"
     },
     "deletePaletteDialog": {
@@ -350,10 +350,10 @@
   },
   "dev": {
     "vscode": {
-        "cta": "Try it out",
-        "message": "UI Color Palette is also available for Visual Studio Code"
-      },
-      "readyForDev": "Ready for development"
+      "cta": "Try it out",
+      "message": "UI Color Palette is also available for Visual Studio Code"
+    },
+    "readyForDev": "Ready for development"
   },
   "pending": {
     "announcements": "Pending announcements…",
@@ -531,7 +531,6 @@
       "customHundreds": "Custom, 100-1000",
       "atlassian": "Atlassian",
       "google": "Google"
-
     },
     "shift": {
       "chroma": {
@@ -779,10 +778,9 @@
           "message": "If a style is not in the palette, it will be removed."
         },
         "variables": {
-            "label":
-              "Deeply synchronize the local variables in the collection with the palette",
-              "message": "If a variable is not in the palette, it will be removed."
-          },
+          "label": "Deeply synchronize the local variables in the collection with the palette",
+          "message": "If a variable is not in the palette, it will be removed."
+        },
         "title": "Synchronization"
       }
     },
