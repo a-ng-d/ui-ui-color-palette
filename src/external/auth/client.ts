@@ -9,6 +9,5 @@ export const initSupabase = (url: string, key: string) => {
 }
 
 export const getSupabase = () => {
-  if (!supabaseInstance) throw new Error('Supabase client not initialized')
   return supabaseInstance
 }

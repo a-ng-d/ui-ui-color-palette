@@ -9,7 +9,6 @@ export const initMixpanel = (instance: any) => {
 }
 
 export const getMixpanel = () => {
-  if (!mixpanelInstance) throw new Error('Mixpanel client not initialized')
   return mixpanelInstance
 }
 

@@ -311,7 +311,7 @@ class App extends Component<AppProps, AppStates> {
 
     // Authentication
     if (
-      getSupabase() !== undefined &&
+      getSupabase() !== null &&
       App.features(
         this.state.planStatus,
         this.props.config,
@@ -319,7 +319,7 @@ class App extends Component<AppProps, AppStates> {
         this.state.editor
       ).BACKSTAGE_AUTHENTICATION.isActive()
     )
-      getSupabase().auth.onAuthStateChange((event, session) => {
+      getSupabase()?.auth.onAuthStateChange((event, session) => {
         const actions: {
           [action: string]: () => void
         } = {
