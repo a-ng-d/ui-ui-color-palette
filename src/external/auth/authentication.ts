@@ -131,7 +131,7 @@ export const signOut = async ({
     '*'
   )
 
-  await getSupabase().auth.signOut({
+  await getSupabase()?.auth.signOut({
     scope: 'local',
   })
 }
