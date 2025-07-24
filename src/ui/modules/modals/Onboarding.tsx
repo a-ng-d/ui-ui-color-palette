@@ -218,7 +218,23 @@ export default class Onboarding extends PureComponent<
           <Dialog
             title={this.props.locales.shortcuts.onboarding}
             isMessage
-            onClose={this.props.onCloseOnboarding}
+            onClose={(e: MouseEvent) => {
+              parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: 'SET_ITEMS',
+                      items: [
+                        {
+                          key: 'is_onboarding_read',
+                          value: 'true',
+                        },
+                      ],
+                    },
+                  },
+                  '*'
+                )
+              this.props.onCloseOnboarding(e)
+            }}
           >
             <SemanticMessage
               type="INFO"
@@ -278,7 +294,23 @@ export default class Onboarding extends PureComponent<
                 ? `${this.state.position + 1} of ${this.state.announcements.length}`
                 : undefined
             }
-            onClose={(e: MouseEvent) => this.props.onCloseOnboarding(e)}
+            onClose={(e: MouseEvent) => {
+              parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: 'SET_ITEMS',
+                      items: [
+                        {
+                          key: 'is_onboarding_read',
+                          value: 'true',
+                        },
+                      ],
+                    },
+                  },
+                  '*'
+                )
+              this.props.onCloseOnboarding(e)
+            }}
           >
             <div
               className="dialog__cover"

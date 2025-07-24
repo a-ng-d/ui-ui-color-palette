@@ -125,7 +125,6 @@ export default class Announcements extends PureComponent<
 
   // Render
   render() {
-    console.log(this.state.announcements)
     if (this.state.status === 'LOADING')
       return (
         <Feature
@@ -178,7 +177,28 @@ export default class Announcements extends PureComponent<
           <Dialog
             title={this.props.locales.shortcuts.news}
             isMessage
-            onClose={this.props.onCloseAnnouncements}
+            onClose={(e: MouseEvent) => {
+              if (
+                this.props.announcements.version !== undefined &&
+                this.props.announcements.version !== '' &&
+                this.props.announcements.version !== null
+              )
+                parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: 'SET_ITEMS',
+                      items: [
+                        {
+                          key: 'announcements_version',
+                          value: this.props.announcements.version,
+                        },
+                      ],
+                    },
+                  },
+                  '*'
+                )
+              this.props.onCloseAnnouncements(e)
+            }}
           >
             <SemanticMessage
               type="INFO"

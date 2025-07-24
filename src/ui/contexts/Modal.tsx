@@ -59,23 +59,7 @@ export default class Modal extends PureComponent<ModalProps> {
           {this.props.context === 'ONBOARDING' && (
             <Onboarding
               {...this.props}
-              onCloseOnboarding={() => {
-                parent.postMessage(
-                  {
-                    pluginMessage: {
-                      type: 'SET_ITEMS',
-                      items: [
-                        {
-                          key: 'is_onboarding_read',
-                          value: 'true',
-                        },
-                      ],
-                    },
-                  },
-                  '*'
-                )
-                this.props.onClose()
-              }}
+              onCloseOnboarding={this.props.onClose}
             />
           )}
           {this.props.context === 'PREFERENCES' && (
