@@ -11,7 +11,11 @@ const sharePalette = async ({
 }): Promise<void> => {
   const now = new Date().toISOString()
 
-  const { error } = await getSupabase()
+  const supabase = getSupabase()
+
+  if (!supabase) throw new Error('Supabase client is not initialized')
+
+  const { error } = await supabase
     .from(palettesDbTableName)
     .update([
       {

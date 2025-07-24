@@ -15,7 +15,11 @@ const unpublishPalette = async ({
   const id = rawData.id ?? uid()
   const now = new Date().toISOString()
 
-  const { error } = await getSupabase()
+  const supabase = getSupabase()
+
+  if (!supabase) throw new Error('Supabase client is not initialized')
+
+  const { error } = await supabase
     .from(palettesDbTableName)
     .delete()
     .match({ palette_id: id })

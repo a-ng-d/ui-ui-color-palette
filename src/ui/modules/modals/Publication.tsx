@@ -159,7 +159,28 @@ export default class Publication extends PureComponent<
       localPublicationDate = new Date(this.props.rawData.dates.publishedAt),
       localUpdatedDate = new Date(this.props.rawData.dates.updatedAt)
 
-    const { data, error } = await getSupabase()
+    const supabase = getSupabase()
+
+    if (!supabase) {
+      this.setState({
+        publicationStatus: 'WAITING',
+      })
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'POST_MESSAGE',
+            data: {
+              type: 'ERROR',
+              message: this.props.locales.error.noInternetConnection,
+            },
+          },
+        },
+        '*'
+      )
+      return
+    }
+
+    const { data, error } = await supabase
       .from(this.props.config.dbs.palettesDbTableName)
       .select('*')
       .eq('palette_id', this.props.rawData.id)
@@ -969,12 +990,12 @@ export default class Publication extends PureComponent<
       WAITING: {
         primary: {
           label: this.props.locales.pending.primaryAction,
-          state: 'DISABLED',
+          state: 'LOADING',
           action: () => null,
         },
         secondary: {
           label: this.props.locales.pending.secondaryAction,
-          state: 'DISABLED',
+          state: 'LOADING',
           action: () => null,
         },
       },
@@ -1107,7 +1128,9 @@ export default class Publication extends PureComponent<
                 }}
               >
                 <div>
-                  <div className={texts.type}>
+                  <div
+                    className={doClassnames([texts.type, texts['type--large']])}
+                  >
                     {this.props.rawData.name === ''
                       ? this.props.locales.name
                       : this.props.rawData.name}

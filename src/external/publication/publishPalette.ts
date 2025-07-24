@@ -23,7 +23,11 @@ const publishPalette = async ({
         )
       : rawData.name
 
-  const { error } = await getSupabase()
+  const supabase = getSupabase()
+
+  if (!supabase) throw new Error('Supabase client is not initialized')
+
+  const { error } = await supabase
     .from(palettesDbTableName)
     .insert([
       {

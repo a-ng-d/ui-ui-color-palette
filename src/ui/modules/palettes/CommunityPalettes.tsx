@@ -153,9 +153,16 @@ export default class CommunityPalettes extends PureComponent<
   callUICPAgent = async (currentPage: number, searchQuery: string) => {
     let data, error
 
+    const supabase = getSupabase()
+
+    if (!supabase) {
+      this.props.onChangeStatus('ERROR')
+      return
+    }
+
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await getSupabase()
+      ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
@@ -168,7 +175,7 @@ export default class CommunityPalettes extends PureComponent<
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await getSupabase()
+      ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbTableName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
@@ -201,7 +208,11 @@ export default class CommunityPalettes extends PureComponent<
   }
 
   onSelectPalette = async (id: string) => {
-    const { data, error } = await getSupabase()
+    const supabase = getSupabase()
+
+    if (!supabase) throw new Error('Supabase client is not initialized')
+
+    const { data, error } = await supabase
       .from(this.props.config.dbs.palettesDbTableName)
       .select('*')
       .eq('palette_id', id)

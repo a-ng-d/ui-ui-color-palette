@@ -9,7 +9,11 @@ const pullPalette = async ({
   rawData: AppStates
   palettesDbTableName: string
 }): Promise<Partial<AppStates>> => {
-  const { data, error } = await getSupabase()
+  const supabase = getSupabase()
+
+  if (!supabase) throw new Error('Supabase client is not initialized')
+
+  const { data, error } = await supabase
     .from(palettesDbTableName)
     .select('*')
     .eq('palette_id', rawData.id)
