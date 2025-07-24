@@ -220,19 +220,19 @@ export default class Onboarding extends PureComponent<
             isMessage
             onClose={(e: MouseEvent) => {
               parent.postMessage(
-                  {
-                    pluginMessage: {
-                      type: 'SET_ITEMS',
-                      items: [
-                        {
-                          key: 'is_onboarding_read',
-                          value: 'true',
-                        },
-                      ],
-                    },
+                {
+                  pluginMessage: {
+                    type: 'SET_ITEMS',
+                    items: [
+                      {
+                        key: 'is_onboarding_read',
+                        value: 'true',
+                      },
+                    ],
                   },
-                  '*'
-                )
+                },
+                '*'
+              )
               this.props.onCloseOnboarding(e)
             }}
           >
@@ -296,19 +296,19 @@ export default class Onboarding extends PureComponent<
             }
             onClose={(e: MouseEvent) => {
               parent.postMessage(
-                  {
-                    pluginMessage: {
-                      type: 'SET_ITEMS',
-                      items: [
-                        {
-                          key: 'is_onboarding_read',
-                          value: 'true',
-                        },
-                      ],
-                    },
+                {
+                  pluginMessage: {
+                    type: 'SET_ITEMS',
+                    items: [
+                      {
+                        key: 'is_onboarding_read',
+                        value: 'true',
+                      },
+                    ],
                   },
-                  '*'
-                )
+                },
+                '*'
+              )
               this.props.onCloseOnboarding(e)
             }}
           >

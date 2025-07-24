@@ -70,7 +70,10 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
+export default class Actions extends PureComponent<
+  ActionsProps,
+  ActionsStates
+> {
   private palette: typeof $palette
 
   static defaultProps = {
