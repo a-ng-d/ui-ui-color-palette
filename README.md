@@ -1,6 +1,6 @@
 # UI for UI Color Palette
 
-A unified UI component library for color palette functionality across multiple design platforms. This project serves as a common UI foundation that adapts to different platforms (Figma, Penpot) while maintaining a consistent experience.
+A unified UI component library for color palette functionality across multiple design platforms. This project serves as a common UI foundation that adapts to different platforms (Figma, Penpot, Sketch) while maintaining a consistent experience.
 
 ## Project Description
 
@@ -8,6 +8,7 @@ This project implements a color palette plugin that works across different desig
 
 - Figma (light/dark modes)
 - Penpot (light/dark modes)
+- Sketch (light/dark modes)
 - Development environments
 
 The architecture is built around a modular approach with shared core components and platform-specific bridges to handle the unique requirements of each design tool.
@@ -113,6 +114,12 @@ npm run start:penpot:dark:penpot
 
 # Penpot - Light Mode (Penpot editor)
 npm run start:penpot:light:penpot
+
+# Sketch - Dark Mode (Sketch editor)
+npm run start:sketch:dark:sketch
+
+# Sketch - Light Mode (Sketch editor)
+npm run start:sketch:light:sketch
 ```
 
 #### Code Quality
