@@ -125,6 +125,7 @@ export default class Announcements extends PureComponent<
 
   // Render
   render() {
+    console.log(this.state.announcements)
     if (this.state.status === 'LOADING')
       return (
         <Feature
@@ -160,6 +161,28 @@ export default class Announcements extends PureComponent<
             <SemanticMessage
               type="WARNING"
               message={this.props.locales.error.announcements}
+            />
+          </Dialog>
+        </Feature>
+      )
+    else if (this.state.announcements.length === 0)
+      return (
+        <Feature
+          isActive={Announcements.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).HELP_ANNOUNCEMENTS.isActive()}
+        >
+          <Dialog
+            title={this.props.locales.shortcuts.news}
+            isMessage
+            onClose={this.props.onCloseAnnouncements}
+          >
+            <SemanticMessage
+              type="INFO"
+              message={this.props.locales.info.announcements}
             />
           </Dialog>
         </Feature>

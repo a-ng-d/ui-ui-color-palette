@@ -205,6 +205,28 @@ export default class Onboarding extends PureComponent<
           </Dialog>
         </Feature>
       )
+    else if (this.state.announcements.length === 0)
+      return (
+        <Feature
+          isActive={Onboarding.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).HELP_ONBOARDING.isActive()}
+        >
+          <Dialog
+            title={this.props.locales.shortcuts.onboarding}
+            isMessage
+            onClose={this.props.onCloseOnboarding}
+          >
+            <SemanticMessage
+              type="INFO"
+              message={this.props.locales.info.onboarding}
+            />
+          </Dialog>
+        </Feature>
+      )
     else
       return (
         <Feature
