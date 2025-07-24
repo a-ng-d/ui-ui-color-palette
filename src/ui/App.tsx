@@ -167,9 +167,9 @@ class App extends Component<AppProps, AppStates> {
       currentService: service,
       currentEditor: editor,
     }),
-    WATCHER_MESSAGES: new FeatureStatus({
+    VSCODE_MESSAGE: new FeatureStatus({
       features: config.features,
-      featureName: 'WATCHER_MESSAGES',
+      featureName: 'VSCODE_MESSAGE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -1316,8 +1316,7 @@ class App extends Component<AppProps, AppStates> {
                 this.props.config,
                 this.state.service,
                 this.state.editor
-              ).WATCHER_MESSAGES.isActive() &&
-              this.state.isVsCodeMessageDisplayed
+              ).VSCODE_MESSAGE.isActive() && this.state.isVsCodeMessageDisplayed
             }
           >
             <SemanticMessage
