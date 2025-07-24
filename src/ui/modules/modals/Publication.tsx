@@ -63,11 +63,7 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
-  private data: PaletteData
+export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
   private enabledThemeIndex: number
 
   static features = (
@@ -87,37 +83,6 @@ export default class Publication extends PureComponent<
 
   constructor(props: PublicationProps) {
     super(props)
-    this.data = new Data({
-      base: {
-        name: this.props.rawData.name,
-        description: this.props.rawData.description,
-        preset: this.props.rawData.preset,
-        shift: this.props.rawData.shift,
-        areSourceColorsLocked: this.props.rawData.areSourceColorsLocked,
-        colors: this.props.rawData.colors,
-        colorSpace: this.props.rawData.colorSpace,
-        algorithmVersion: this.props.rawData.algorithmVersion,
-      },
-      themes: this.props.rawData.themes,
-      meta: {
-        id: this.props.rawData.id,
-        dates: {
-          createdAt: this.props.rawData.dates.createdAt,
-          updatedAt: this.props.rawData.dates.updatedAt,
-          publishedAt: this.props.rawData.dates.publishedAt,
-          openedAt: this.props.rawData.dates.openedAt,
-        },
-        creatorIdentity: {
-          creatorId: this.props.rawData.creatorIdentity.creatorId,
-          creatorFullName: this.props.rawData.creatorIdentity.creatorFullName,
-          creatorAvatar: this.props.rawData.creatorIdentity.creatorAvatar,
-        },
-        publicationStatus: {
-          isShared: this.props.rawData.publicationStatus.isShared,
-          isPublished: this.props.rawData.publicationStatus.isPublished,
-        },
-      },
-    }).makePaletteData()
     this.enabledThemeIndex = this.props.rawData.themes.findIndex(
       (theme) => theme.isEnabled
     )
@@ -154,6 +119,40 @@ export default class Publication extends PureComponent<
   }
 
   // Direct Actions
+  buildPaletteData = (): PaletteData => {
+    return new Data({
+      base: {
+        name: this.props.rawData.name,
+        description: this.props.rawData.description,
+        preset: this.props.rawData.preset,
+        shift: this.props.rawData.shift,
+        areSourceColorsLocked: this.props.rawData.areSourceColorsLocked,
+        colors: this.props.rawData.colors,
+        colorSpace: this.props.rawData.colorSpace,
+        algorithmVersion: this.props.rawData.algorithmVersion,
+      },
+      themes: this.props.rawData.themes,
+      meta: {
+        id: this.props.rawData.id,
+        dates: {
+          createdAt: this.props.rawData.dates.createdAt,
+          updatedAt: this.props.rawData.dates.updatedAt,
+          publishedAt: this.props.rawData.dates.publishedAt,
+          openedAt: this.props.rawData.dates.openedAt,
+        },
+        creatorIdentity: {
+          creatorId: this.props.rawData.creatorIdentity.creatorId,
+          creatorFullName: this.props.rawData.creatorIdentity.creatorFullName,
+          creatorAvatar: this.props.rawData.creatorIdentity.creatorAvatar,
+        },
+        publicationStatus: {
+          isShared: this.props.rawData.publicationStatus.isShared,
+          isPublished: this.props.rawData.publicationStatus.isPublished,
+        },
+      },
+    }).makePaletteData()
+  }
+
   callUICPAgent = async () => {
     const localUserId = this.props.userSession.userId,
       localPublicationDate = new Date(this.props.rawData.dates.publishedAt),
@@ -1070,53 +1069,53 @@ export default class Publication extends PureComponent<
                 }}
                 className="preview__rows"
               >
-                {this.data.themes[this.enabledThemeIndex].colors.map(
-                  (color, index) => (
-                    <div
-                      key={`color-${index}`}
-                      className="preview__row"
-                    >
-                      {color.shades.map((shade, shadeIndex) => (
+                {this.buildPaletteData().themes[
+                  this.enabledThemeIndex
+                ].colors.map((color, index) => (
+                  <div
+                    key={`color-${index}`}
+                    className="preview__row"
+                  >
+                    {color.shades.map((shade, shadeIndex) => (
+                      <div
+                        key={`color-${index}-${shadeIndex}`}
+                        className="preview__cell"
+                        style={{
+                          minHeight: 'unset',
+                        }}
+                      >
                         <div
-                          key={`color-${index}-${shadeIndex}`}
-                          className="preview__cell"
                           style={{
-                            minHeight: 'unset',
+                            width: '100%',
+                            height: '100%',
+                            position: 'absolute',
+                            zIndex: '1',
+                            top: 0,
+                            left: 0,
+                            backgroundColor: shade.hex,
                           }}
-                        >
+                        />
+                        {shade.backgroundColor !== undefined && (
                           <div
                             style={{
                               width: '100%',
                               height: '100%',
                               position: 'absolute',
-                              zIndex: '1',
+                              zIndex: '0',
                               top: 0,
                               left: 0,
-                              backgroundColor: shade.hex,
+                              backgroundColor: Array.isArray(
+                                shade.backgroundColor
+                              )
+                                ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
+                                : undefined,
                             }}
                           />
-                          {shade.backgroundColor !== undefined && (
-                            <div
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                position: 'absolute',
-                                zIndex: '0',
-                                top: 0,
-                                left: 0,
-                                backgroundColor: Array.isArray(
-                                  shade.backgroundColor
-                                )
-                                  ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
-                                  : undefined,
-                              }}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )
-                )}
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="dialog__text">
