@@ -79,6 +79,10 @@ const publishPalette = async ({
           id: meta.id,
           items: [
             {
+              key: 'base.name',
+              value: name,
+            },
+            {
               key: 'meta.dates.updatedAt',
               value: meta.dates.updatedAt,
             },
