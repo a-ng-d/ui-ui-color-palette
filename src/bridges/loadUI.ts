@@ -283,7 +283,7 @@ window.addEventListener('message', async (msg: any) => {
           connectionStatus: 'UNCONNECTED',
           userFullName: '',
           userAvatar: '',
-          userId: undefined,
+          userId: '',
         },
       }),
     //
