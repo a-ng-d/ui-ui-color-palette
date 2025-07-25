@@ -56,7 +56,8 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
           name: this.state.userFullName,
           email: this.state.userEmail,
           message: this.state.userMessage,
-          url: window.location.href,
+          url: this.props.config.urls.platformUrl,
+          tags: { platform: this.props.config.env.platform },
         },
         {
           includeReplay: true,
