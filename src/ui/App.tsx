@@ -1281,7 +1281,17 @@ class App extends Component<AppProps, AppStates> {
               privacyPolicy={{
                 label: this.state.locales.user.cookies.privacyPolicy,
                 action: () =>
-                  window.open(this.props.config.urls.privacyUrl, '_blank'),
+                  parent.postMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.privacyUrl,
+                        },
+                      },
+                    },
+                    '*'
+                  ),
               }}
               moreDetailsLabel={this.state.locales.user.cookies.customize}
               lessDetailsLabel={this.state.locales.user.cookies.back}
@@ -1328,9 +1338,16 @@ class App extends Component<AppProps, AppStates> {
                     type="secondary"
                     label={this.state.locales.dev.vscode.cta}
                     action={() =>
-                      window.open(
-                        this.props.config.urls.vsCodeFigmaPluginUrl,
-                        '_blank'
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            data: {
+                              url: this.props.config.urls.vsCodeFigmaPluginUrl,
+                            },
+                          },
+                        },
+                        '*'
                       )
                     }
                   />

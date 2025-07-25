@@ -93,7 +93,17 @@ export default class Store extends PureComponent<StoreProps> {
               }
               shouldFill
               action={() => {
-                window.open(this.props.config.urls.isbUrl, '_blank')?.focus()
+                parent.postMessage(
+                  {
+                    pluginMessage: {
+                      type: 'OPEN_IN_BROWSER',
+                      data: {
+                        url: this.props.config.urls.isbUrl,
+                      },
+                    },
+                  },
+                  '*'
+                )
               }}
             />
           </List>

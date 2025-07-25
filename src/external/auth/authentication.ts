@@ -31,7 +31,17 @@ export const signIn = async ({
         else throw new Error('Failed to fetch passkey')
       })
       .then((result) => {
-        window.open(`${authUrl}/?passkey=${result.passkey}`, '_blank')?.focus()
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'OPEN_IN_BROWSER',
+              data: {
+                url: `${authUrl}/?passkey=${result.passkey}`,
+              },
+            },
+          },
+          '*'
+        )
         const poll = setInterval(async () => {
           fetch(authWorkerUrl, {
             method: 'GET',
@@ -112,9 +122,7 @@ export const signOut = async ({
   pluginId: string
 }) => {
   const supabase = getSupabase()
-  if (!supabase) {
-    throw new Error('Supabase client is not initialized')
-  }
+  if (!supabase) throw new Error('Supabase client is not initialized')
 
   const { error } = await supabase.auth.signOut({
     scope: 'local',
@@ -123,7 +131,17 @@ export const signOut = async ({
   console.log(error)
 
   if (!error) {
-    window.open(`${authUrl}/?action=sign_out`, '_blank')?.focus()
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'OPEN_IN_BROWSER',
+          data: {
+            url: `${authUrl}/?action=sign_out`,
+          },
+        },
+      },
+      '*'
+    )
     parent.postMessage(
       {
         pluginMessage: {
