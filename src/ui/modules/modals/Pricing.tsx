@@ -144,7 +144,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   <Button
                     type="primary"
                     label={this.props.locales.pricing.one.cta}
-                    action={() => {
+                    action={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation()
                       parent.postMessage(
                         {
                           pluginMessage: {
@@ -187,7 +188,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   <Button
                     type="primary"
                     label={this.props.locales.pricing.figma.cta}
-                    action={() => {
+                    action={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation()
                       parent.postMessage(
                         {
                           pluginMessage: {

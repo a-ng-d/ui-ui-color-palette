@@ -84,7 +84,8 @@ export default class Store extends PureComponent<StoreProps> {
                 <Button
                   type="primary"
                   label={this.props.locales.store.isb.cta}
-                  action={() => {
+                  action={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.stopPropagation()
                     parent.postMessage(
                       {
                         pluginMessage: {
