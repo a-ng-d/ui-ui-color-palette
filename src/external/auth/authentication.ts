@@ -92,7 +92,7 @@ export const signIn = async ({
           () => {
             if (!isAuthenticated) {
               clearInterval(poll)
-              throw new Error('Authentication timeout')
+              reject('Authentication timeout')
             }
           },
           2 * 60 * 1000
@@ -111,27 +111,39 @@ export const signOut = async ({
   platformUrl: string
   pluginId: string
 }) => {
-  window.open(`${authUrl}/?action=sign_out`, '_blank')?.focus()
-  parent.postMessage(
-    {
-      pluginMessage: {
-        type: 'DELETE_ITEMS',
-        items: ['supabase_access_token', 'supabase_refresh_token'],
-      },
-      pluginId: pluginId,
-    },
-    platformUrl
-  )
-  parent.postMessage(
-    {
-      pluginMessage: {
-        type: 'SIGN_OUT',
-      },
-    },
-    '*'
-  )
+  const supabase = getSupabase()
+  if (!supabase) {
+    throw new Error('Supabase client is not initialized')
+  }
 
-  await getSupabase()?.auth.signOut({
+  const { error } = await supabase.auth.signOut({
     scope: 'local',
   })
+
+  console.log(error)
+
+  if (!error) {
+    window.open(`${authUrl}/?action=sign_out`, '_blank')?.focus()
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'DELETE_ITEMS',
+          items: ['supabase_access_token', 'supabase_refresh_token'],
+        },
+        pluginId: pluginId,
+      },
+      platformUrl
+    )
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'SIGN_OUT',
+        },
+      },
+      '*'
+    )
+    isAuthenticated = false
+
+    return true
+  } else throw new Error()
 }
