@@ -1,11 +1,11 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import * as Sentry from '@sentry/browser'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, FormItem, Input } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { getSentry } from '../../../external/monitoring/client'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ReportProps extends BaseProps, WithConfigProps {
@@ -50,66 +50,52 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
   // Handlers
   reportHandler = () => {
     this.setState({ isPrimaryActionLoading: true })
-    try {
-      Sentry.sendFeedback(
+    getSentry()
+      .sendFeedback(
         {
           name: this.state.userFullName,
           email: this.state.userEmail,
           message: this.state.userMessage,
+          url: window.location.href,
         },
         {
           includeReplay: true,
         }
       )
-        .then(() => {
-          this.setState({
-            userFullName: '',
-            userEmail: '',
-            userMessage: '',
-          })
-          parent.postMessage(
-            {
-              pluginMessage: {
-                type: 'POST_MESSAGE',
-                data: {
-                  type: 'SUCCESS',
-                  message: this.props.locales.success.report,
-                },
-              },
-            },
-            '*'
-          )
+      .then(() => {
+        this.setState({
+          userFullName: '',
+          userEmail: '',
+          userMessage: '',
         })
-        .finally(() => this.setState({ isPrimaryActionLoading: false }))
-        .catch(() => {
-          parent.postMessage(
-            {
-              pluginMessage: {
-                type: 'POST_MESSAGE',
-                data: {
-                  type: 'ERROR',
-                  message: this.props.locales.error.generic,
-                },
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'SUCCESS',
+                message: this.props.locales.success.report,
               },
-            },
-            '*'
-          )
-        })
-    } catch (error) {
-      this.setState({ isPrimaryActionLoading: false })
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              type: 'ERROR',
-              message: this.props.locales.error.generic,
             },
           },
-        },
-        '*'
-      )
-    }
+          '*'
+        )
+      })
+      .finally(() => this.setState({ isPrimaryActionLoading: false }))
+      .catch(() => {
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.locales.error.generic,
+              },
+            },
+          },
+          '*'
+        )
+      })
   }
 
   // Render

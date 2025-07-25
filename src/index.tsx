@@ -5,6 +5,7 @@ import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
 import { initMixpanel, setMixpanelEnv } from './external/tracking/client'
+import { initSentry } from './external/monitoring/client'
 import { initSupabase } from './external/auth/client'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
@@ -27,9 +28,9 @@ if (globalConfig.env.isMixpanelEnabled) {
   setMixpanelEnv(import.meta.env.MODE as 'development' | 'production')
 }
 
-if (globalConfig.env.isMixpanelEnabled && !globalConfig.env.isDev)
+if (globalConfig.env.isSentryEnabled) {
   Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_AUTH_TOKEN as string,
+    dsn: import.meta.env.VITE_SENTRY_DSN as string,
     environment: 'production',
     integrations: [
       Sentry.browserTracingIntegration(),
@@ -41,9 +42,11 @@ if (globalConfig.env.isMixpanelEnabled && !globalConfig.env.isDev)
     ],
     tracesSampleRate: 0.1,
     replaysSessionSampleRate: 0.05,
-    replaysOnErrorSampleRate: 0.5,
+    replaysOnErrorSampleRate: 0.1,
   })
-else if (globalConfig.env.isDev) {
+
+  initSentry(Sentry)
+} else {
   const devLogger = {
     captureException: (error: Error) => {
       console.group('🐛 Dev Error Logger')
