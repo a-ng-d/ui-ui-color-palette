@@ -1,5 +1,7 @@
+import { OverridedMixpanel } from 'mixpanel-browser'
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let mixpanelInstance: any | null = null
+let mixpanelInstance: OverridedMixpanel | null = null
 let mixpanelEnv: 'Dev' | 'Prod' = 'Dev'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
