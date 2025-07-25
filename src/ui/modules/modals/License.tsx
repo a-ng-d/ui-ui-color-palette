@@ -318,9 +318,17 @@ export default class License extends PureComponent<
                 return {
                   label: this.props.locales.user.license.cta.manage,
                   action: () => {
-                    window
-                      .open('https://app.lemonsqueezy.com/my-orders', '_blank')
-                      ?.focus()
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'OPEN_IN_BROWSER',
+                          data: {
+                            url: 'https://app.lemonsqueezy.com/my-orders',
+                          },
+                        },
+                      },
+                      '*'
+                    )
                   },
                 }
               return undefined

@@ -145,17 +145,33 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                     type="primary"
                     label={this.props.locales.pricing.one.cta}
                     action={() => {
-                      window
-                        .open(this.props.config.urls.storeUrl, '_blank')
-                        ?.focus()
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            data: {
+                              url: this.props.config.urls.storeUrl,
+                            },
+                          },
+                        },
+                        '*'
+                      )
                     }}
                   />
                 }
                 shouldFill
                 action={() => {
-                  window
-                    .open(this.props.config.urls.storeUrl, '_blank')
-                    ?.focus()
+                  parent.postMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.storeUrl,
+                        },
+                      },
+                    },
+                    '*'
+                  )
                 }}
               />
             )}

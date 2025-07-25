@@ -297,9 +297,17 @@ export default class Shortcuts extends PureComponent<
                       this.props.editor
                     ).HELP_DOCUMENTATION.isNew()}
                     action={() =>
-                      window
-                        .open(this.props.config.urls.documentationUrl, '_blank')
-                        ?.focus()
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            data: {
+                              url: this.props.config.urls.documentationUrl,
+                            },
+                          },
+                        },
+                        '*'
+                      )
                     }
                   />
                 </Feature>
@@ -562,8 +570,7 @@ export default class Shortcuts extends PureComponent<
                                       data: {
                                         type: 'ERROR',
                                         message:
-                                          error ===
-                                          'Authentication timeout'
+                                          error === 'Authentication timeout'
                                             ? this.props.locales.error.timeout
                                             : this.props.locales.error
                                                 .authentication,
@@ -742,9 +749,17 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).HELP_EMAIL.isNew(),
                       action: () =>
-                        window
-                          .open(this.props.config.urls.supportEmail, '_blank')
-                          ?.focus(),
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              data: {
+                                url: this.props.config.urls.supportEmail,
+                              },
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       label: this.props.locales.shortcuts.chat,
@@ -797,9 +812,17 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).INVOLVE_COMMUNITY.isNew(),
                       action: () =>
-                        window
-                          .open(this.props.config.urls.communityUrl, '_blank')
-                          ?.focus(),
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              data: {
+                                url: this.props.config.urls.communityUrl,
+                              },
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       label: this.props.locales.shortcuts.request,
@@ -823,9 +846,17 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).INVOLVE_REQUESTS.isNew(),
                       action: () =>
-                        window
-                          .open(this.props.config.urls.requestsUrl, '_blank')
-                          ?.focus(),
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              data: {
+                                url: this.props.config.urls.requestsUrl,
+                              },
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       label: this.props.locales.report.title,
@@ -877,9 +908,17 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).INVOLVE_FEEDBACK.isNew(),
                       action: () =>
-                        window
-                          .open(this.props.config.urls.feedbackUrl, '_blank')
-                          ?.focus(),
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              data: {
+                                url: this.props.config.urls.feedbackUrl,
+                              },
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       label: this.props.locales.shortcuts.repository,
@@ -903,9 +942,17 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).INVOLVE_REPOSITORY.isNew(),
                       action: () =>
-                        window
-                          .open(this.props.config.urls.repositoryUrl, '_blank')
-                          ?.focus(),
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              data: {
+                                url: this.props.config.urls.repositoryUrl,
+                              },
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       type: 'SEPARATOR',
@@ -985,9 +1032,17 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).MORE_NETWORK.isNew(),
                       action: () =>
-                        window
-                          .open(this.props.config.urls.networkUrl, '_blank')
-                          ?.focus(),
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              data: {
+                                url: this.props.config.urls.networkUrl,
+                              },
+                            },
+                          },
+                          '*'
+                        ),
                     },
                     {
                       label: this.props.locales.shortcuts.author,
@@ -1011,9 +1066,17 @@ export default class Shortcuts extends PureComponent<
                         this.props.editor
                       ).MORE_AUTHOR.isNew(),
                       action: () =>
-                        window
-                          .open(this.props.config.urls.authorUrl, '_blank')
-                          ?.focus(),
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'OPEN_IN_BROWSER',
+                              data: {
+                                url: this.props.config.urls.authorUrl,
+                              },
+                            },
+                          },
+                          '*'
+                        ),
                     },
                   ]}
                   alignment="TOP_RIGHT"

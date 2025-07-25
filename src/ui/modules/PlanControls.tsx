@@ -159,9 +159,17 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
             this.props.editor
           ).INVOLVE_FEEDBACK.isNew()}
           action={() =>
-            window
-              .open(this.props.config.urls.trialFeedbackUrl, '_blank')
-              ?.focus()
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: 'OPEN_IN_BROWSER',
+                  data: {
+                    url: this.props.config.urls.trialFeedbackUrl,
+                  },
+                },
+              },
+              '*'
+            )
           }
         />
       </Feature>

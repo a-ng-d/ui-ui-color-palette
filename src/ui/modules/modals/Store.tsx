@@ -85,9 +85,17 @@ export default class Store extends PureComponent<StoreProps> {
                   type="primary"
                   label={this.props.locales.store.isb.cta}
                   action={() => {
-                    window
-                      .open(this.props.config.urls.isbUrl, '_blank')
-                      ?.focus()
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'OPEN_IN_BROWSER',
+                          data: {
+                            url: this.props.config.urls.isbUrl,
+                          },
+                        },
+                      },
+                      '*'
+                    )
                   }}
                 />
               }

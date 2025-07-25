@@ -692,12 +692,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                             type="tertiary"
                             label={this.props.locales.scale.howTo}
                             action={() =>
-                              window
-                                .open(
-                                  'https://uicp.ylb.lt/how-to-adjust',
-                                  '_blank'
-                                )
-                                ?.focus()
+                              parent.postMessage(
+                                {
+                                  pluginMessage: {
+                                    type: 'OPEN_IN_BROWSER',
+                                    data: {
+                                      url: 'https://uicp.ylb.lt/how-to-adjust',
+                                    },
+                                  },
+                                },
+                                '*'
+                              )
                             }
                           />
                           <span
@@ -790,12 +795,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                             type="tertiary"
                             label={this.props.locales.scale.howTo}
                             action={() =>
-                              window
-                                .open(
-                                  'https://uicp.ylb.lt/how-to-adjust',
-                                  '_blank'
-                                )
-                                ?.focus()
+                              parent.postMessage(
+                                {
+                                  pluginMessage: {
+                                    type: 'OPEN_IN_BROWSER',
+                                    data: {
+                                      url: 'https://uicp.ylb.lt/how-to-adjust',
+                                    },
+                                  },
+                                },
+                                '*'
+                              )
                             }
                           />
                           <span

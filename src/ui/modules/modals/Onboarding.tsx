@@ -278,13 +278,18 @@ export default class Onboarding extends PureComponent<
                   return {
                     label: this.props.locales.onboarding.cta.learnMore,
                     action: () =>
-                      window
-                        .open(
-                          this.state.announcements[this.state.position]
-                            .properties.URL.url,
-                          '_blank'
-                        )
-                        ?.focus(),
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            data: {
+                              url: this.state.announcements[this.state.position]
+                                .properties.URL.url,
+                            },
+                          },
+                        },
+                        '*'
+                      ),
                   }
                 else return undefined
               })(),

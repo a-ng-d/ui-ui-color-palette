@@ -202,9 +202,17 @@ export default class Explore extends PureComponent<
                       label: this.props.locales.source.actions.openPalette,
                     }}
                     action={() =>
-                      window
-                        .open(palette.url?.replace('http', 'https'), '_blank')
-                        ?.focus()
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            data: {
+                              url: palette.url?.replace('http', 'https'),
+                            },
+                          },
+                        },
+                        '*'
+                      )
                     }
                   />
                   <Button
