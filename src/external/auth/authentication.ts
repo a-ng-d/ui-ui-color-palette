@@ -128,8 +128,6 @@ export const signOut = async ({
     scope: 'local',
   })
 
-  console.log(error)
-
   if (!error) {
     parent.postMessage(
       {
