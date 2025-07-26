@@ -283,20 +283,27 @@ export default class License extends PureComponent<
 
   // Render
   render() {
-    let padding
+    let modalPadding, messagePadding
 
     switch (this.theme) {
       case 'figma-ui3':
-        padding = '0'
+        modalPadding = 'var(--size-pos-xxsmall) 0'
+        messagePadding =
+          '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall) var(--size-pos-xsmall)'
         break
       case 'penpot':
-        padding = '0 var(--size-pos-xsmall)'
+        modalPadding = 'var(--size-pos-xxsmall) var(--size-pos-xsmall)'
+        messagePadding =
+          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
         break
       case 'sketch':
-        padding = 'var(--size-pos-xsmall) var(--size-pos-xsmall)'
+        modalPadding = 'var(--size-pos-xsmall) var(--size-pos-xsmall)'
+        messagePadding =
+          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
         break
       default:
-        padding = '0'
+        modalPadding = '0'
+        messagePadding = '0'
     }
 
     return (
@@ -360,6 +367,7 @@ export default class License extends PureComponent<
                   id="type-license-key"
                   value={this.state.userLicenseKey}
                   placeholder={this.props.locales.user.license.key.placeholder}
+                  isAutoFocus
                   onChange={(e) =>
                     this.setState({
                       userLicenseKey: (e.target as HTMLInputElement).value,
@@ -397,11 +405,15 @@ export default class License extends PureComponent<
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                padding: padding,
+                padding: modalPadding,
               }}
             >
               {this.state.licenseStatus === 'ERROR' && (
-                <div className="dialog__form">
+                <div
+                  style={{
+                    padding: messagePadding,
+                  }}
+                >
                   <SemanticMessage
                     type="ERROR"
                     message={this.props.locales.error.unlinkedLicense.replace(
