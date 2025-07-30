@@ -17,7 +17,7 @@ export const signIn = async ({
   pluginId: string
 }) => {
   return new Promise((resolve, reject) => {
-    fetch(authWorkerUrl, {
+    fetch('https://corsproxy.io/?' + encodeURIComponent(authWorkerUrl), {
       method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
@@ -43,7 +43,7 @@ export const signIn = async ({
           '*'
         )
         const poll = setInterval(async () => {
-          fetch(authWorkerUrl, {
+          fetch('https://corsproxy.io/?' + encodeURIComponent(authWorkerUrl), {
             method: 'GET',
             cache: 'no-cache',
             credentials: 'omit',

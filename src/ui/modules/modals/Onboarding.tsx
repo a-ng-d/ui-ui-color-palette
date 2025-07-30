@@ -51,7 +51,10 @@ export default class Onboarding extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     fetch(
-      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.onboardingDbId}`
+      'https://corsproxy.io/?' +
+        encodeURIComponent(
+          `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.onboardingDbId}`
+        )
     )
       .then((response) => response.json())
       .then((data) => {

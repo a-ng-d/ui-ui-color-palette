@@ -58,7 +58,10 @@ export default class Announcements extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     fetch(
-      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.announcementsDbId}`
+      'https://corsproxy.io/?' +
+        encodeURIComponent(
+          `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.announcementsDbId}`
+        )
     )
       .then((response) => response.json())
       .then((data) => {
