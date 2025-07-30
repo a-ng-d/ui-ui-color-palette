@@ -17,7 +17,10 @@ const activateUserLicenseKey = async ({
 }> => {
   return new Promise((resolve, reject) => {
     fetch(
-      `${storeApiUrl}/licenses/activate?license_key=${licenseKey}&instance_name=${encodeURI(instanceName + ' - ' + platform)}`,
+      'https://corsproxy.io/?' +
+        encodeURIComponent(
+          `${storeApiUrl}/licenses/activate?license_key=${licenseKey}&instance_name=${encodeURI(instanceName + ' - ' + platform)}`
+        ),
       {
         method: 'POST',
         headers: {

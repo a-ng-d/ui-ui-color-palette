@@ -9,7 +9,10 @@ const desactivateUserLicenseKey = async ({
 }): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     fetch(
-      `${storeApiUrl}/licenses/deactivate?license_key=${licenseKey}&instance_id=${instanceId}`,
+      'https://corsproxy.io/?' +
+        encodeURIComponent(
+          `${storeApiUrl}/licenses/deactivate?license_key=${licenseKey}&instance_id=${instanceId}`
+        ),
       {
         method: 'POST',
         headers: {
