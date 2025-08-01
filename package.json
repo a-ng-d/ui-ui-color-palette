@@ -9,6 +9,7 @@
   "type": "module",
   "workspaces": [
     "packages/announcements-yelbolt-worker",
+    "packages/auth-yelbolt-worker",
     "packages/auth-yelbolt",
     "packages/auth-yelbolt/ui-color-palette"
   ],
