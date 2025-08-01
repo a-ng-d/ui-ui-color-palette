@@ -9,8 +9,9 @@
   "type": "module",
   "workspaces": [
     "packages/announcements-yelbolt-worker",
-    "packages/auth-yelbolt-worker",
-    "packages/auth-yelbolt"
+    "packages/auth-yelbolt",
+    "packages/auth-yelbolt/packages/auth-yelbolt-worker",
+    "packages/auth-yelbolt/ui-color-palette"
   ],
   "scripts": {
     "install:packages": "npm install --workspaces",
@@ -18,8 +19,8 @@
     "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest",
     "update:uicp": "npm i @a_ng_d/utils-ui-color-palette@latest",
     "start:announcements": "npm run start:8888 -w announcements-yelbolt-worker",
-    "start:auth": "npm run ui-color-palette -w auth-yelbolt",
-    "start:packages": "npm run start:announcements & npm run start:auth",
+    "start:auth": "npm run uicp -w auth-yelbolt",
+    "start:ext": "npm run start:announcements & npm run start:auth",
     "start:figma:dark:figma": "PLATFORM=figma COLOR_MODE=dark EDITOR=figma vite --mode development",
     "start:figma:light:figma": "PLATFORM=figma COLOR_MODE=light EDITOR=figma vite --mode development",
     "start:figma:dark:dev": "PLATFORM=figma COLOR_MODE=dark EDITOR=dev vite --mode development",
@@ -30,7 +31,8 @@
     "start:sketch:light:sketch": "PLATFORM=sketch COLOR_MODE=light EDITOR=sketch vite --mode development",
     "typecheck": "npx tsc --noEmit",
     "lint": "npx eslint ./src/** --fix --ext .ts,.tsx .",
-    "format": "npx prettier './src' --write"
+    "format": "npx prettier './src' --write",
+    "stop": "pkill -f 'node'"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
