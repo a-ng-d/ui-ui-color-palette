@@ -10,8 +10,8 @@
   "workspaces": [
     "packages/announcements-yelbolt-worker",
     "packages/auth-yelbolt",
-    "packages/auth-yelbolt/packages/auth-yelbolt-worker",
-    "packages/auth-yelbolt/ui-color-palette"
+    "packages/auth-yelbolt/ui-color-palette",
+    "packages/auth-yelbolt/packages/auth-yelbolt-worker"
   ],
   "scripts": {
     "install:packages": "npm install --workspaces",
@@ -32,7 +32,7 @@
     "typecheck": "npx tsc --noEmit",
     "lint": "npx eslint ./src/** --fix --ext .ts,.tsx .",
     "format": "npx prettier './src' --write",
-    "stop": "pkill -f 'node'"
+    "clean": "pkill -f 'next dev' && pkill -f 'esbuild' && pkill -f 'workerd'"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
