@@ -21,7 +21,7 @@
     "start:announcements": "npm run start:8888 -w announcements-yelbolt-worker",
     "start:token": "npm run start:8787 -w auth-yelbolt-worker",
     "start:auth": "npm run dev:uicp -w auth-yelbolt",
-    "start:ext": "npm run start:announcements & npm run start:worker & npm run start:auth",
+    "start:ext": "npm run start:announcements & npm run start:token & npm run start:auth",
     "poststart:announcements": "npm run clean:port:8888",
     "poststart:token": "npm run clean:port:8787",
     "poststart:auth": "npm run clean:port:3000",
