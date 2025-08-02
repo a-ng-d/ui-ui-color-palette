@@ -19,9 +19,13 @@
     "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest",
     "update:uicp": "npm i @a_ng_d/utils-ui-color-palette@latest",
     "start:announcements": "npm run start:8888 -w announcements-yelbolt-worker",
-    "start:worker": "npm run start:8787 -w auth-yelbolt-worker",
+    "start:token": "npm run start:8787 -w auth-yelbolt-worker",
     "start:auth": "npm run dev:uicp -w auth-yelbolt",
     "start:ext": "npm run start:announcements & npm run start:worker & npm run start:auth",
+    "poststart:announcements": "npm run clean:port:8888",
+    "poststart:token": "npm run clean:port:8787",
+    "poststart:auth": "npm run clean:port:3000",
+    "poststart:ext": "npm run clean:port:8888 & npm run clean:port:8787 & npm run clean:port:3000",
     "start:figma:dark:figma": "PLATFORM=figma COLOR_MODE=dark EDITOR=figma vite --mode development",
     "start:figma:light:figma": "PLATFORM=figma COLOR_MODE=light EDITOR=figma vite --mode development",
     "start:figma:dark:dev": "PLATFORM=figma COLOR_MODE=dark EDITOR=dev vite --mode development",
@@ -33,7 +37,9 @@
     "typecheck": "npx tsc --noEmit",
     "lint": "npx eslint ./src/** --fix --ext .ts,.tsx .",
     "format": "npx prettier './src' --write",
-    "clean": "pkill -f 'next dev' && pkill -f 'esbuild' && pkill -f 'workerd'"
+    "clean:port:8888": "lsof -ti:8888 | xargs kill -9 2>/dev/null || true",
+    "clean:port:8787": "lsof -ti:8787 | xargs kill -9 2>/dev/null || true",
+    "clean:port:3000": "lsof -ti:3000 | xargs kill -9 2>/dev/null || true"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
