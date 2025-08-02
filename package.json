@@ -14,8 +14,8 @@
     "packages/auth-yelbolt/ui-color-palette"
   ],
   "scripts": {
-    "install:packages": "npm install --workspaces",
-    "update:packages": "git submodule update --remote --merge",
+    "install:ext": "npm install --workspaces",
+    "update:ext": "git submodule update --remote --merge",
     "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest",
     "update:uicp": "npm i @a_ng_d/utils-ui-color-palette@latest",
     "start:announcements": "npm run start:8888 -w announcements-yelbolt-worker",
