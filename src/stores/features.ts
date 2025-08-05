@@ -1437,7 +1437,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
   },
   {
     name: 'SETTINGS_ALGORITHM',
-    description: 'Color shades generation algorithm settings',
+    description: 'Color shades/tints generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1448,7 +1448,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
   {
     name: 'SETTINGS_ALGORITHM_V1',
     description:
-      'First version of the color shades generation algorithm settings',
+      'First version of the color shades/tints generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1459,7 +1459,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
   {
     name: 'SETTINGS_ALGORITHM_V2',
     description:
-      'Second version of the color shades generation algorithm settings',
+      'Second version of the color shades/tints generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -1470,7 +1470,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
   {
     name: 'SETTINGS_ALGORITHM_V3',
     description:
-      'Third version of the color shades generation algorithm settings',
+      'Third version of the color shades/tints generation algorithm settings',
     isActive: true,
     isPro: false,
     isNew: false,
