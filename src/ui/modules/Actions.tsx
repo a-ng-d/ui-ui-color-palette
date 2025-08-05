@@ -70,10 +70,7 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -310,6 +307,22 @@ export default class Actions extends PureComponent<
   }
 
   // Lifecycle
+  componentDidMount = () => {
+    if (
+      this.props.document &&
+      Object.entries(this.props.document).length > 0 &&
+      this.props.document.updatedAt !== this.props.dates?.updatedAt &&
+      this.props.document.id === this.props.id
+    )
+      this.setState({
+        canUpdateDocument: true,
+      })
+    else
+      this.setState({
+        canUpdateDocument: false,
+      })
+  }
+
   componentDidUpdate = () => {
     if (
       this.props.document &&
