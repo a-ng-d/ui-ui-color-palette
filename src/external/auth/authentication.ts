@@ -28,7 +28,7 @@ export const signIn = async ({
     })
       .then((response) => {
         if (response.ok) return response.json()
-        else reject()
+        else return reject(new Error('Failed to fetch passkey'))
       })
       .then((result) => {
         parent.postMessage(
@@ -55,7 +55,7 @@ export const signIn = async ({
           })
             .then((response) => {
               if (response.body) return response.json()
-              else reject(new Error('Failed to fetch tokens'))
+              else return reject(new Error('Failed to fetch tokens'))
             })
             .then(async (result) => {
               if (result.message !== 'No token found') {

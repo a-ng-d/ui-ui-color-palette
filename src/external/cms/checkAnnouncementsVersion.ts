@@ -11,9 +11,7 @@ const checkAnnouncementsVersion = async (
         if (data.message !== 'The database is not found')
           return resolve(data.version as string)
       })
-      .catch((error) => {
-        reject(error)
-      })
+      .catch((error) => reject(error))
   })
 }
 
