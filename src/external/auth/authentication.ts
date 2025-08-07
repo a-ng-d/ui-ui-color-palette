@@ -1,3 +1,4 @@
+import { getProxiedUrl } from '../../utils/url'
 import { getSupabase } from './client'
 import checkConnectionStatus from './checkConnectionStatus'
 
@@ -17,7 +18,7 @@ export const signIn = async ({
   pluginId: string
 }) => {
   return new Promise((resolve, reject) => {
-    fetch('https://corsproxy.io/?' + encodeURIComponent(authWorkerUrl), {
+    fetch(getProxiedUrl(authWorkerUrl), {
       method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
@@ -43,7 +44,7 @@ export const signIn = async ({
           '*'
         )
         const poll = setInterval(async () => {
-          fetch('https://corsproxy.io/?' + encodeURIComponent(authWorkerUrl), {
+          fetch(getProxiedUrl(authWorkerUrl), {
             method: 'GET',
             cache: 'no-cache',
             credentials: 'omit',

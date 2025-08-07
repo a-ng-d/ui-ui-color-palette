@@ -4,6 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { getProxiedUrl } from '../../../utils/url'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -51,10 +52,9 @@ export default class Onboarding extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     fetch(
-      'https://corsproxy.io/?' +
-        encodeURIComponent(
-          `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.onboardingDbId}`
-        )
+      getProxiedUrl(
+        `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.onboardingDbId}`
+      )
     )
       .then((response) => response.json())
       .then((data) => {
