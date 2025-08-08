@@ -29,7 +29,9 @@ interface ExportStates {
     | 'EXPORT_TOKENS_GLOBAL'
     | 'EXPORT_TOKENS_AMZN_STYLE_DICTIONARY'
     | 'EXPORT_TOKENS_TOKENS_STUDIO'
-    | 'EXPORT_CSS'
+    | 'EXPORT_STYLESHEET_CSS'
+    | 'EXPORT_STYLESHEET_SCSS'
+    | 'EXPORT_STYLESHEET_LESS'
     | 'EXPORT_TAILWIND'
     | 'EXPORT_APPLE_SWIFTUI'
     | 'EXPORT_APPLE_UIKIT'
@@ -55,37 +57,51 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     service: Service,
     editor: Editor
   ) => ({
-    EXPORT_CSS_RGB: new FeatureStatus({
+    EXPORT_COLOR_SPACE: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_CSS_RGB',
+      featureName: 'EXPORT_COLOR_SPACE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_CSS_HEX: new FeatureStatus({
+    EXPORT_COLOR_SPACE_RGB: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_CSS_HEX',
+      featureName: 'EXPORT_COLOR_SPACE_RGB',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_CSS_HSL: new FeatureStatus({
+    EXPORT_COLOR_SPACE_HEX: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_CSS_HSL',
+      featureName: 'EXPORT_COLOR_SPACE_HEX',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_CSS_LCH: new FeatureStatus({
+    EXPORT_COLOR_SPACE_HSL: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_CSS_LCH',
+      featureName: 'EXPORT_COLOR_SPACE_HSL',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_CSS_P3: new FeatureStatus({
+    EXPORT_COLOR_SPACE_LCH: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_CSS_P3',
+      featureName: 'EXPORT_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT_COLOR_SPACE_P3: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT_COLOR_SPACE_P3',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -125,23 +141,30 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_TOKENS_JSON_DTCG_RGB: new FeatureStatus({
+    EXPORT_STYLESHEET: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_TOKENS_JSON_DTCG_RGB',
+      featureName: 'EXPORT_STYLESHEET',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_TOKENS_JSON_DTCG_OKLCH: new FeatureStatus({
+    EXPORT_STYLESHEET_CSS: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_TOKENS_JSON_DTCG_OKLCH',
+      featureName: 'EXPORT_STYLESHEET_CSS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_CSS: new FeatureStatus({
+    EXPORT_STYLESHEET_SCSS: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_CSS',
+      featureName: 'EXPORT_STYLESHEET_SCSS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT_STYLESHEET_LESS: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT_STYLESHEET_LESS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -241,62 +264,10 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           format: 'EXPORT_TOKENS_DTCG',
           colorSpace: {
             selected: 'RGB',
-            options: [
-              {
-                label: this.props.locales.export.colorSpace.label,
-                type: 'TITLE',
-              },
-              {
-                label: this.props.locales.export.colorSpace.rgb,
-                value: 'EXPORT_TOKENS_DTCG_RGB',
-                feature: 'SELECT_COLOR_SPACE',
-                type: 'OPTION',
-                isActive: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_TOKENS_JSON_DTCG_RGB.isActive(),
-                isBlocked: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_TOKENS_JSON_DTCG_RGB.isBlocked(),
-                isNew: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_TOKENS_JSON_DTCG_RGB.isNew(),
-                action: this.exportHandler,
-              },
-              {
-                label: this.props.locales.export.colorSpace.oklch,
-                value: 'EXPORT_TOKENS_DTCG_OKLCH',
-                feature: 'SELECT_COLOR_SPACE',
-                type: 'OPTION',
-                isActive: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_TOKENS_JSON_DTCG_OKLCH.isActive(),
-                isBlocked: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_TOKENS_JSON_DTCG_OKLCH.isBlocked(),
-                isNew: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_TOKENS_JSON_DTCG_OKLCH.isNew(),
-                action: this.exportHandler,
-              },
-            ],
+            options: this.colorSpaceHandler('EXPORT_TOKENS_DTCG', [
+              'rgb',
+              'oklch',
+            ]),
           },
         })
         parent.postMessage(
@@ -379,142 +350,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_CSS: () => {
+      EXPORT_STYLESHEET_CSS: () => {
         this.setState({
-          format: 'EXPORT_CSS',
+          format: 'EXPORT_STYLESHEET_CSS',
           colorSpace: {
             selected: 'RGB',
-            options: [
-              {
-                label: this.props.locales.export.colorSpace.label,
-                type: 'TITLE',
-              },
-              {
-                label: this.props.locales.export.colorSpace.rgb,
-                value: 'EXPORT_CSS_RGB',
-                feature: 'SELECT_COLOR_SPACE',
-                type: 'OPTION',
-                isActive: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_RGB.isActive(),
-                isBlocked: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_RGB.isBlocked(),
-                isNew: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_RGB.isNew(),
-                action: this.exportHandler,
-              },
-              {
-                label: this.props.locales.export.colorSpace.hex,
-                value: 'EXPORT_CSS_HEX',
-                feature: 'SELECT_COLOR_SPACE',
-                type: 'OPTION',
-                isActive: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_HEX.isActive(),
-                isBlocked: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_HEX.isBlocked(),
-                isNew: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_HEX.isNew(),
-                action: this.exportHandler,
-              },
-              {
-                label: this.props.locales.export.colorSpace.hsl,
-                value: 'EXPORT_CSS_HSL',
-                feature: 'SELECT_COLOR_SPACE',
-                type: 'OPTION',
-                isActive: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_HSL.isActive(),
-                isBlocked: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_HSL.isBlocked(),
-                isNew: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_HSL.isNew(),
-                action: this.exportHandler,
-              },
-              {
-                label: this.props.locales.export.colorSpace.lch,
-                value: 'EXPORT_CSS_LCH',
-                feature: 'SELECT_COLOR_SPACE',
-                type: 'OPTION',
-                isActive: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_LCH.isActive(),
-                isBlocked: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_LCH.isBlocked(),
-                isNew: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_LCH.isNew(),
-                action: this.exportHandler,
-              },
-              {
-                label: this.props.locales.export.colorSpace.p3,
-                value: 'EXPORT_CSS_P3',
-                feature: 'SELECT_COLOR_SPACE',
-                type: 'OPTION',
-                isActive: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_P3.isActive(),
-                isBlocked: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_P3.isBlocked(),
-                isNew: Export.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).EXPORT_CSS_P3.isNew(),
-                action: this.exportHandler,
-              },
-            ],
+            options: this.colorSpaceHandler('EXPORT_STYLESHEET_CSS', [
+              'rgb',
+              'hex',
+              'hsl',
+              'lch',
+              'p3',
+            ]),
           },
         })
         parent.postMessage(
@@ -529,7 +376,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_CSS_RGB: () => {
+      EXPORT_STYLESHEET_CSS_RGB: () => {
         this.setState({
           colorSpace: {
             selected: 'RGB',
@@ -548,7 +395,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_CSS_HEX: () => {
+      EXPORT_STYLESHEET_CSS_HEX: () => {
         this.setState({
           colorSpace: {
             selected: 'HEX',
@@ -567,7 +414,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_CSS_HSL: () => {
+      EXPORT_STYLESHEET_CSS_HSL: () => {
         this.setState({
           colorSpace: {
             selected: 'HSL',
@@ -586,7 +433,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_CSS_LCH: () => {
+      EXPORT_STYLESHEET_CSS_LCH: () => {
         this.setState({
           colorSpace: {
             selected: 'LCH',
@@ -605,7 +452,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_CSS_P3: () => {
+      EXPORT_STYLESHEET_CSS_P3: () => {
         this.setState({
           colorSpace: {
             selected: 'P3',
@@ -618,6 +465,248 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
               export: 'CSS',
+              colorSpace: 'P3',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_SCSS: () => {
+        this.setState({
+          format: 'EXPORT_STYLESHEET_SCSS',
+          colorSpace: {
+            selected: 'RGB',
+            options: this.colorSpaceHandler('EXPORT_STYLESHEET_SCSS', [
+              'rgb',
+              'hex',
+              'hsl',
+              'lch',
+              'p3',
+            ]),
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'SCSS',
+              colorSpace: 'RGB',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_SCSS_RGB: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'RGB',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'SCSS',
+              colorSpace: 'RGB',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_SCSS_HEX: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'HEX',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'SCSS',
+              colorSpace: 'HEX',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_SCSS_HSL: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'HSL',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'SCSS',
+              colorSpace: 'HSL',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_SCSS_LCH: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'LCH',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'SCSS',
+              colorSpace: 'LCH',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_SCSS_P3: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'P3',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'SCSS',
+              colorSpace: 'P3',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_LESS: () => {
+        this.setState({
+          format: 'EXPORT_STYLESHEET_LESS',
+          colorSpace: {
+            selected: 'RGB',
+            options: this.colorSpaceHandler('EXPORT_STYLESHEET_LESS', [
+              'rgb',
+              'hex',
+              'hsl',
+              'lch',
+              'p3',
+            ]),
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'LESS',
+              colorSpace: 'RGB',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_LESS_RGB: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'RGB',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'LESS',
+              colorSpace: 'RGB',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_LESS_HEX: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'HEX',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'LESS',
+              colorSpace: 'HEX',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_LESS_HSL: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'HSL',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'LESS',
+              colorSpace: 'HSL',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_LESS_LCH: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'LCH',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'LESS',
+              colorSpace: 'LCH',
+            },
+          },
+          '*'
+        )
+      },
+      EXPORT_STYLESHEET_LESS_P3: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'P3',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'LESS',
               colorSpace: 'P3',
             },
           },
@@ -718,6 +807,104 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     }
 
     return actions[(e.target as HTMLElement).dataset.value ?? 'DEFAULT']?.()
+  }
+
+  colorSpaceHandler = (
+    exportType: string,
+    spaces: Array<'rgb' | 'hex' | 'hsl' | 'lch' | 'oklch' | 'p3'>
+  ): Array<DropdownOption> => {
+    const model = (
+      label: string,
+      value: string,
+      feature: string
+    ): DropdownOption => {
+      return {
+        label: label,
+        value: value,
+        feature: 'SELECT_COLOR_SPACE',
+        type: 'OPTION',
+        isActive: Export.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        )[feature as keyof ReturnType<typeof Export.features>].isActive(),
+        isBlocked: Export.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        )[feature as keyof ReturnType<typeof Export.features>].isBlocked(),
+        isNew: Export.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        )[feature as keyof ReturnType<typeof Export.features>].isNew(),
+        action: this.exportHandler,
+      }
+    }
+
+    return [
+      {
+        label: this.props.locales.export.colorSpace.label,
+        type: 'TITLE',
+      },
+      ...(spaces.includes('rgb')
+        ? [
+            model(
+              this.props.locales.export.colorSpace.rgb,
+              `${exportType}_RGB`,
+              'EXPORT_COLOR_SPACE_RGB'
+            ),
+          ]
+        : []),
+      ...(spaces.includes('hex')
+        ? [
+            model(
+              this.props.locales.export.colorSpace.hex,
+              `${exportType}_HEX`,
+              'EXPORT_COLOR_SPACE_HEX'
+            ),
+          ]
+        : []),
+      ...(spaces.includes('hsl')
+        ? [
+            model(
+              this.props.locales.export.colorSpace.hsl,
+              `${exportType}_HSL`,
+              'EXPORT_COLOR_SPACE_HSL'
+            ),
+          ]
+        : []),
+      ...(spaces.includes('lch')
+        ? [
+            model(
+              this.props.locales.export.colorSpace.lch,
+              `${exportType}_LCH`,
+              'EXPORT_COLOR_SPACE_LCH'
+            ),
+          ]
+        : []),
+      ...(spaces.includes('oklch')
+        ? [
+            model(
+              this.props.locales.export.colorSpace.oklch,
+              `${exportType}_OKLCH`,
+              'EXPORT_COLOR_SPACE_OKLCH'
+            ),
+          ]
+        : []),
+      ...(spaces.includes('p3')
+        ? [
+            model(
+              this.props.locales.export.colorSpace.p3,
+              `${exportType}_P3`,
+              'EXPORT_COLOR_SPACE_P3'
+            ),
+          ]
+        : []),
+    ]
   }
 
   // Direct Actions
@@ -892,29 +1079,103 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ],
                           },
                           {
-                            label:
-                              this.props.locales.export.css.customProperties,
-                            value: 'EXPORT_CSS',
-                            type: 'OPTION',
+                            label: 'Stylesheet',
+                            value: 'STYLESHEET_GROUP',
+                            type: 'GROUP',
                             isActive: Export.features(
                               this.props.planStatus,
                               this.props.config,
                               this.props.service,
                               this.props.editor
-                            ).EXPORT_CSS.isActive(),
+                            ).EXPORT_STYLESHEET.isActive(),
                             isBlocked: Export.features(
                               this.props.planStatus,
                               this.props.config,
                               this.props.service,
                               this.props.editor
-                            ).EXPORT_CSS.isBlocked(),
+                            ).EXPORT_STYLESHEET.isBlocked(),
                             isNew: Export.features(
                               this.props.planStatus,
                               this.props.config,
                               this.props.service,
                               this.props.editor
-                            ).EXPORT_CSS.isNew(),
-                            action: this.exportHandler,
+                            ).EXPORT_STYLESHEET.isNew(),
+                            children: [
+                              {
+                                label:
+                                  this.props.locales.export.css
+                                    .customProperties,
+                                value: 'EXPORT_STYLESHEET_CSS',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_CSS.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_CSS.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_CSS.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label: 'SCSS Variables',
+                                value: 'EXPORT_STYLESHEET_SCSS',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_SCSS.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_SCSS.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_SCSS.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label: 'LESS Variables',
+                                value: 'EXPORT_STYLESHEET_LESS',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_LESS.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_LESS.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_STYLESHEET_LESS.isNew(),
+                                action: this.exportHandler,
+                              },
+                            ],
                           },
                           {
                             label: this.props.locales.export.tailwind.config,
@@ -1119,7 +1380,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                         alignment="RIGHT"
                         pin="TOP"
                       />
-                      {this.state.format === 'EXPORT_CSS' && (
+                      {(this.state.format === 'EXPORT_STYLESHEET_CSS' ||
+                        this.state.format === 'EXPORT_STYLESHEET_SCSS' ||
+                        this.state.format === 'EXPORT_STYLESHEET_LESS') && (
                         <Menu
                           icon="adjust"
                           id="color-space"

@@ -10,6 +10,8 @@ import exportXml from './exports/exportXml'
 import exportUIKit from './exports/exportUIKit'
 import exportTailwind from './exports/exportTailwind'
 import exportSwiftUI from './exports/exportSwiftUI'
+import exportScss from './exports/exportScss'
+import exportLess from './exports/exportLess'
 import exportKt from './exports/exportKt'
 import exportJsonTokensStudio from './exports/exportJsonTokensStudio'
 import exportJsonDtcg from './exports/exportJsonDtcg'
@@ -169,6 +171,8 @@ window.addEventListener('message', async (msg: any) => {
         exportJsonAmznStyleDictionary(path.id)
       path.export === 'TOKENS_TOKENS_STUDIO' && exportJsonTokensStudio(path.id)
       path.export === 'CSS' && exportCss(path.id, path.colorSpace)
+      path.export === 'SCSS' && exportScss(path.id, path.colorSpace)
+      path.export === 'LESS' && exportLess(path.id, path.colorSpace)
       path.export === 'TAILWIND' && exportTailwind(path.id)
       path.export === 'APPLE_SWIFTUI' && exportSwiftUI(path.id)
       path.export === 'APPLE_UIKIT' && exportUIKit(path.id)

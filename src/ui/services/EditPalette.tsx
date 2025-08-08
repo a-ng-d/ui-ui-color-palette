@@ -645,6 +645,24 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.kt`
       )
+    else if (this.props.export.format === 'SCSS')
+      FileSaver.saveAs(
+        blob,
+        `${
+          this.props.name === ''
+            ? new Case(this.props.locales.name).doSnakeCase()
+            : new Case(this.props.name).doSnakeCase()
+        }.scss`
+      )
+    else if (this.props.export.format === 'LESS')
+      FileSaver.saveAs(
+        blob,
+        `${
+          this.props.name === ''
+            ? new Case(this.props.locales.name).doSnakeCase()
+            : new Case(this.props.name).doSnakeCase()
+        }.less`
+      )
     else
       FileSaver.saveAs(
         blob,

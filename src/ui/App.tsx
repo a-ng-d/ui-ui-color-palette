@@ -724,6 +724,68 @@ class App extends Component<AppProps, AppStates> {
         )
       }
 
+      const exportPaletteToScss = () => {
+        this.setState({
+          export: {
+            format: 'SCSS',
+            colorSpace: path.data.colorSpace,
+            context: path.data.context,
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.css.customProperties
+            }`,
+            mimeType: 'text/scss',
+            data: path.data.code,
+          },
+          onGoingStep: 'export previewed',
+        })
+
+        trackExportEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
+          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: path.data.context,
+            colorSpace: path.data.colorSpace,
+          }
+        )
+      }
+
+      const exportPaletteToLess = () => {
+        this.setState({
+          export: {
+            format: 'LESS',
+            colorSpace: path.data.colorSpace,
+            context: path.data.context,
+            label: `${this.state.locales.actions.export} ${
+              this.state.locales.export.css.customProperties
+            }`,
+            mimeType: 'text/less',
+            data: path.data.code,
+          },
+          onGoingStep: 'export previewed',
+        })
+
+        trackExportEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.state.userSession.userId === ''
+            ? this.state.userIdentity.id === ''
+              ? ''
+              : this.state.userIdentity.id
+            : this.state.userSession.userId,
+          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: path.data.context,
+            colorSpace: path.data.colorSpace,
+          }
+        )
+      }
+
       const exportPaletteToTaiwind = () => {
         this.setState({
           export: {
@@ -1013,6 +1075,8 @@ class App extends Component<AppProps, AppStates> {
         RESET_PALETTE: () => this.onReset(),
         EXPORT_PALETTE_JSON: () => exportPaletteToJson(),
         EXPORT_PALETTE_CSS: () => exportPaletteToCss(),
+        EXPORT_PALETTE_SCSS: () => exportPaletteToScss(),
+        EXPORT_PALETTE_LESS: () => exportPaletteToLess(),
         EXPORT_PALETTE_TAILWIND: () => exportPaletteToTaiwind(),
         EXPORT_PALETTE_SWIFTUI: () => exportPaletteToSwiftUI(),
         EXPORT_PALETTE_UIKIT: () => exportPaletteToUIKit(),
