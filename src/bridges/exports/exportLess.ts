@@ -12,7 +12,7 @@ const exportLess = (id: string, colorSpace: ColorSpaceConfiguration) => {
       type: 'EXPORT_PALETTE_LESS',
       data: {
         id: '',
-        context: 'LESS',
+        context: 'STYLESHEET_LESS',
         colorSpace: colorSpace,
         code: locales.get().error.export,
       },
@@ -21,7 +21,7 @@ const exportLess = (id: string, colorSpace: ColorSpaceConfiguration) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_LESS',
     data: {
-      context: 'LESS',
+      context: 'STYLESHEET_LESS',
       colorSpace: colorSpace,
       code: new Data(JSON.parse(rawPalette)).makeLessVariables(colorSpace),
     },

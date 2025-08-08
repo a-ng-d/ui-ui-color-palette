@@ -1,7 +1,7 @@
 import { Data } from '@a_ng_d/utils-ui-color-palette'
 import { locales } from '../../content/locales'
 
-const exportJsonTokensStudio = (id: string) => {
+const exportTailwindV4 = (id: string) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
@@ -9,21 +9,21 @@ const exportJsonTokensStudio = (id: string) => {
 
   if (rawPalette === undefined || rawPalette === null)
     return iframe?.contentWindow?.postMessage({
-      type: 'EXPORT_PALETTE_JSON',
+      type: 'EXPORT_PALETTE_CSS',
       data: {
         id: '',
-        context: 'TOKENS_AMZN_STYLE_DICTIONARY',
+        context: 'TAILWIND_V4',
         code: locales.get().error.export,
       },
     })
 
   return iframe?.contentWindow?.postMessage({
-    type: 'EXPORT_PALETTE_JSON',
+    type: 'EXPORT_PALETTE_CSS',
     data: {
-      context: 'TOKENS_TOKENS_STUDIO',
-      code: new Data(JSON.parse(rawPalette)).makeNativeTokens(),
+      context: 'TAILWIND_V4',
+      code: new Data(JSON.parse(rawPalette)).makeTailwindV4Config(),
     },
   })
 }
 
-export default exportJsonTokensStudio
+export default exportTailwindV4

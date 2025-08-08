@@ -12,7 +12,7 @@ const exportJson = (id: string) => {
       type: 'EXPORT_PALETTE_JSON',
       data: {
         id: '',
-        context: 'TOKENS_GLOBAL',
+        context: 'TOKENS_UNIVERSAL',
         code: locales.get().error.export,
       },
     })
@@ -20,7 +20,7 @@ const exportJson = (id: string) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_JSON',
     data: {
-      context: 'TOKENS_GLOBAL',
+      context: 'TOKENS_UNIVERSAL',
       code: new Data(JSON.parse(rawPalette)).makeUniversalJson(),
     },
   })

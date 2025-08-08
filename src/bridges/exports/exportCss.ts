@@ -18,6 +18,8 @@ const exportCss = (id: string, colorSpace: ColorSpaceConfiguration) => {
       },
     })
 
+    console.log('exportCss', id, colorSpace)
+
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_CSS',
     data: {

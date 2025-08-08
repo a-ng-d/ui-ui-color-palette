@@ -12,7 +12,7 @@ const exportScss = (id: string, colorSpace: ColorSpaceConfiguration) => {
       type: 'EXPORT_PALETTE_SCSS',
       data: {
         id: '',
-        context: 'SCSS',
+        context: 'STYLESHEET_SCSS',
         colorSpace: colorSpace,
         code: locales.get().error.export,
       },
@@ -21,9 +21,9 @@ const exportScss = (id: string, colorSpace: ColorSpaceConfiguration) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_SCSS',
     data: {
-      context: 'SCSS',
+      context: 'STYLESHEET_SCSS',
       colorSpace: colorSpace,
-      code: new Data(JSON.parse(rawPalette)).makeScssVariable(colorSpace),
+      code: new Data(JSON.parse(rawPalette)).makeScssVariables(colorSpace),
     },
   })
 }

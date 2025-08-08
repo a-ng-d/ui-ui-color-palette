@@ -625,8 +625,10 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.zip`
       )
-    } else if (this.props.export.format === 'TAILWIND')
+    } else if (this.props.export.context === 'TAILWIND_V3')
       FileSaver.saveAs(blob, 'tailwind.config.js')
+    else if (this.props.export.context === 'TAILWIND_V4')
+      FileSaver.saveAs(blob, 'tailwind.theme.css')
     else if (this.props.export.format === 'SWIFT')
       FileSaver.saveAs(
         blob,

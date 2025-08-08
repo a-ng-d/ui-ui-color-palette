@@ -12,7 +12,7 @@ const exportJsonDtcg = (id: string, colorSpace: ColorSpaceConfiguration) => {
       type: 'EXPORT_PALETTE_JSON',
       data: {
         id: '',
-        context: 'TOKENS_AMZN_STYLE_DICTIONARY',
+        context: 'TOKENS_DTCG',
         code: locales.get().error.export,
       },
     })

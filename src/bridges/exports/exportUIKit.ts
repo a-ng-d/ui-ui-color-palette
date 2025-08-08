@@ -18,7 +18,7 @@ const exportUIKit = (id: string) => {
     })
 
   return iframe?.contentWindow?.postMessage({
-    type: 'EXPORT_PALETTE_UIKIT',
+    type: 'EXPORT_PALETTE_SWIFT',
     data: {
       context: 'APPLE_UIKIT',
       code: new Data(JSON.parse(rawPalette)).makeUIKit(),

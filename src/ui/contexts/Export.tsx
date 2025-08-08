@@ -25,19 +25,20 @@ interface ExportProps extends BaseProps, WithConfigProps {
 
 interface ExportStates {
   format:
-    | 'EXPORT_TOKENS_DTCG'
-    | 'EXPORT_TOKENS_GLOBAL'
-    | 'EXPORT_TOKENS_AMZN_STYLE_DICTIONARY'
-    | 'EXPORT_TOKENS_TOKENS_STUDIO'
-    | 'EXPORT_STYLESHEET_CSS'
-    | 'EXPORT_STYLESHEET_SCSS'
-    | 'EXPORT_STYLESHEET_LESS'
-    | 'EXPORT_TAILWIND'
-    | 'EXPORT_APPLE_SWIFTUI'
-    | 'EXPORT_APPLE_UIKIT'
-    | 'EXPORT_ANDROID_COMPOSE'
-    | 'EXPORT_ANDROID_XML'
-    | 'EXPORT_CSV'
+    | 'TOKENS_NATIVE'
+    | 'TOKENS_DTCG'
+    | 'TOKENS_UNIVERSAL'
+    | 'TOKENS_STYLE_DICTIONARY_V3'
+    | 'STYLESHEET_CSS'
+    | 'STYLESHEET_SCSS'
+    | 'STYLESHEET_LESS'
+    | 'TAILWIND_V3'
+    | 'TAILWIND_V4'
+    | 'APPLE_SWIFTUI'
+    | 'APPLE_UIKIT'
+    | 'ANDROID_COMPOSE'
+    | 'ANDROID_XML'
+    | 'CSV'
   colorSpace: {
     selected: ColorSpaceConfiguration
     options: Array<DropdownOption>
@@ -113,30 +114,30 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_TOKENS_JSON: new FeatureStatus({
+    EXPORT_TOKENS_UNIVERSAL: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_TOKENS_JSON',
+      featureName: 'EXPORT_TOKENS_UNIVERSAL',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY: new FeatureStatus({
+    EXPORT_TOKENS_STYLE_DICTIONARY_V3: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY',
+      featureName: 'EXPORT_TOKENS_STYLE_DICTIONARY_V3',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_TOKENS_JSON_TOKENS_STUDIO: new FeatureStatus({
+    EXPORT_TOKENS_NATIVE: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_TOKENS_JSON_TOKENS_STUDIO',
+      featureName: 'EXPORT_TOKENS_NATIVE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EXPORT_TOKENS_JSON_DTCG: new FeatureStatus({
+    EXPORT_TOKENS_DTCG: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_TOKENS_JSON_DTCG',
+      featureName: 'EXPORT_TOKENS_DTCG',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -172,6 +173,20 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     EXPORT_TAILWIND: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_TAILWIND',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT_TAILWIND_V3: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT_TAILWIND_V3',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT_TAILWIND_V4: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT_TAILWIND_V4',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -231,7 +246,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     super(props)
     this.counter = 0
     this.state = {
-      format: 'EXPORT_TOKENS_TOKENS_STUDIO',
+      format: 'TOKENS_NATIVE',
       colorSpace: {
         selected: 'RGB',
         options: [],
@@ -244,30 +259,27 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     const actions: {
       [key: string]: () => void
     } = {
-      EXPORT_TOKENS_TOKENS_STUDIO: () => {
+      TOKENS_NATIVE: () => {
         this.setState({
-          format: 'EXPORT_TOKENS_TOKENS_STUDIO',
+          format: 'TOKENS_NATIVE',
         })
         parent.postMessage(
           {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'TOKENS_TOKENS_STUDIO',
+              export: 'TOKENS_NATIVE',
             },
           },
           '*'
         )
       },
-      EXPORT_TOKENS_DTCG: () => {
+      TOKENS_DTCG: () => {
         this.setState({
-          format: 'EXPORT_TOKENS_DTCG',
+          format: 'TOKENS_DTCG',
           colorSpace: {
             selected: 'RGB',
-            options: this.colorSpaceHandler('EXPORT_TOKENS_DTCG', [
-              'rgb',
-              'oklch',
-            ]),
+            options: this.colorSpaceHandler('TOKENS_DTCG', ['rgb', 'oklch']),
           },
         })
         parent.postMessage(
@@ -282,7 +294,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_TOKENS_DTCG_RGB: () => {
+      TOKENS_DTCG_RGB: () => {
         this.setState({
           colorSpace: {
             selected: 'RGB',
@@ -301,7 +313,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_TOKENS_DTCG_OKLCH: () => {
+      TOKENS_DTCG_OKLCH: () => {
         this.setState({
           colorSpace: {
             selected: 'OKLCH',
@@ -320,42 +332,43 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_TOKENS_AMZN_STYLE_DICTIONARY: () => {
+      TOKENS_STYLE_DICTIONARY_V3: () => {
         this.setState({
-          format: 'EXPORT_TOKENS_AMZN_STYLE_DICTIONARY',
+          format: 'TOKENS_STYLE_DICTIONARY_V3',
         })
         parent.postMessage(
           {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'TOKENS_AMZN_STYLE_DICTIONARY',
+              export: 'TOKENS_STYLE_DICTIONARY_V3',
             },
           },
           '*'
         )
       },
-      EXPORT_TOKENS_GLOBAL: () => {
+      TOKENS_UNIVERSAL: () => {
         this.setState({
-          format: 'EXPORT_TOKENS_GLOBAL',
+          format: 'TOKENS_UNIVERSAL',
         })
         parent.postMessage(
           {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'TOKENS_GLOBAL',
+              export: 'TOKENS_UNIVERSAL',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_CSS: () => {
+      STYLESHEET_CSS: () => {
+        console.log('STYLESHEET_CSS')
         this.setState({
-          format: 'EXPORT_STYLESHEET_CSS',
+          format: 'STYLESHEET_CSS',
           colorSpace: {
             selected: 'RGB',
-            options: this.colorSpaceHandler('EXPORT_STYLESHEET_CSS', [
+            options: this.colorSpaceHandler('STYLESHEET_CSS', [
               'rgb',
               'hex',
               'hsl',
@@ -369,14 +382,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'CSS',
+              export: 'STYLESHEET_CSS',
               colorSpace: 'RGB',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_CSS_RGB: () => {
+      STYLESHEET_CSS_RGB: () => {
         this.setState({
           colorSpace: {
             selected: 'RGB',
@@ -388,14 +401,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'CSS',
+              export: 'STYLESHEET_CSS',
               colorSpace: 'RGB',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_CSS_HEX: () => {
+      STYLESHEET_CSS_HEX: () => {
         this.setState({
           colorSpace: {
             selected: 'HEX',
@@ -407,14 +420,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'CSS',
+              export: 'STYLESHEET_CSS',
               colorSpace: 'HEX',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_CSS_HSL: () => {
+      STYLESHEET_CSS_HSL: () => {
         this.setState({
           colorSpace: {
             selected: 'HSL',
@@ -426,14 +439,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'CSS',
+              export: 'STYLESHEET_CSS',
               colorSpace: 'HSL',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_CSS_LCH: () => {
+      STYLESHEET_CSS_LCH: () => {
         this.setState({
           colorSpace: {
             selected: 'LCH',
@@ -445,14 +458,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'CSS',
+              export: 'STYLESHEET_CSS',
               colorSpace: 'LCH',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_CSS_P3: () => {
+      STYLESHEET_CSS_P3: () => {
         this.setState({
           colorSpace: {
             selected: 'P3',
@@ -464,24 +477,24 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'CSS',
+              export: 'STYLESHEET_CSS',
               colorSpace: 'P3',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_SCSS: () => {
+      STYLESHEET_SCSS: () => {
         this.setState({
-          format: 'EXPORT_STYLESHEET_SCSS',
+          format: 'STYLESHEET_SCSS',
           colorSpace: {
             selected: 'RGB',
-            options: this.colorSpaceHandler('EXPORT_STYLESHEET_SCSS', [
+            options: this.colorSpaceHandler('STYLESHEET_SCSS', [
               'rgb',
               'hex',
               'hsl',
               'lch',
-              'p3',
+              'oklch',
             ]),
           },
         })
@@ -490,14 +503,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'SCSS',
+              export: 'STYLESHEET_SCSS',
               colorSpace: 'RGB',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_SCSS_RGB: () => {
+      STYLESHEET_SCSS_RGB: () => {
         this.setState({
           colorSpace: {
             selected: 'RGB',
@@ -509,14 +522,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'SCSS',
+              export: 'STYLESHEET_SCSS',
               colorSpace: 'RGB',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_SCSS_HEX: () => {
+      STYLESHEET_SCSS_HEX: () => {
         this.setState({
           colorSpace: {
             selected: 'HEX',
@@ -528,14 +541,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'SCSS',
+              export: 'STYLESHEET_SCSS',
               colorSpace: 'HEX',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_SCSS_HSL: () => {
+      STYLESHEET_SCSS_HSL: () => {
         this.setState({
           colorSpace: {
             selected: 'HSL',
@@ -547,14 +560,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'SCSS',
+              export: 'STYLESHEET_SCSS',
               colorSpace: 'HSL',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_SCSS_LCH: () => {
+      STYLESHEET_SCSS_LCH: () => {
         this.setState({
           colorSpace: {
             selected: 'LCH',
@@ -566,17 +579,17 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'SCSS',
+              export: 'STYLESHEET_SCSS',
               colorSpace: 'LCH',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_SCSS_P3: () => {
+      STYLESHEET_SCSS_OKLCH: () => {
         this.setState({
           colorSpace: {
-            selected: 'P3',
+            selected: 'OKLCH',
             options: this.state.colorSpace.options,
           },
         })
@@ -585,24 +598,24 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'SCSS',
-              colorSpace: 'P3',
+              export: 'STYLESHEET_SCSS',
+              colorSpace: 'OKLCH',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_LESS: () => {
+      STYLESHEET_LESS: () => {
         this.setState({
-          format: 'EXPORT_STYLESHEET_LESS',
+          format: 'STYLESHEET_LESS',
           colorSpace: {
             selected: 'RGB',
-            options: this.colorSpaceHandler('EXPORT_STYLESHEET_LESS', [
+            options: this.colorSpaceHandler('STYLESHEET_LESS', [
               'rgb',
               'hex',
               'hsl',
               'lch',
-              'p3',
+              'oklch',
             ]),
           },
         })
@@ -611,14 +624,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'LESS',
+              export: 'STYLESHEET_LESS',
               colorSpace: 'RGB',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_LESS_RGB: () => {
+      STYLESHEET_LESS_RGB: () => {
         this.setState({
           colorSpace: {
             selected: 'RGB',
@@ -630,14 +643,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'LESS',
+              export: 'STYLESHEET_LESS',
               colorSpace: 'RGB',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_LESS_HEX: () => {
+      STYLESHEET_LESS_HEX: () => {
         this.setState({
           colorSpace: {
             selected: 'HEX',
@@ -649,14 +662,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'LESS',
+              export: 'STYLESHEET_LESS',
               colorSpace: 'HEX',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_LESS_HSL: () => {
+      STYLESHEET_LESS_HSL: () => {
         this.setState({
           colorSpace: {
             selected: 'HSL',
@@ -668,14 +681,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'LESS',
+              export: 'STYLESHEET_LESS',
               colorSpace: 'HSL',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_LESS_LCH: () => {
+      STYLESHEET_LESS_LCH: () => {
         this.setState({
           colorSpace: {
             selected: 'LCH',
@@ -687,17 +700,17 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'LESS',
+              export: 'STYLESHEET_LESS',
               colorSpace: 'LCH',
             },
           },
           '*'
         )
       },
-      EXPORT_STYLESHEET_LESS_P3: () => {
+      STYLESHEET_LESS_OKLCH: () => {
         this.setState({
           colorSpace: {
-            selected: 'P3',
+            selected: 'OKLCH',
             options: this.state.colorSpace.options,
           },
         })
@@ -706,31 +719,46 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'LESS',
-              colorSpace: 'P3',
+              export: 'STYLESHEET_LESS',
+              colorSpace: 'OKLCH',
             },
           },
           '*'
         )
       },
-      EXPORT_TAILWIND: () => {
+      TAILWIND_V3: () => {
         this.setState({
-          format: 'EXPORT_TAILWIND',
+          format: 'TAILWIND_V3',
         })
         parent.postMessage(
           {
             pluginMessage: {
               type: 'EXPORT_PALETTE',
               id: this.props.id,
-              export: 'TAILWIND',
+              export: 'TAILWIND_V3',
             },
           },
           '*'
         )
       },
-      EXPORT_APPLE_SWIFTUI: () => {
+      TAILWIND_V4: () => {
         this.setState({
-          format: 'EXPORT_APPLE_SWIFTUI',
+          format: 'TAILWIND_V4',
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'TAILWIND_V4',
+            },
+          },
+          '*'
+        )
+      },
+      APPLE_SWIFTUI: () => {
+        this.setState({
+          format: 'APPLE_SWIFTUI',
         })
         parent.postMessage(
           {
@@ -743,9 +771,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_APPLE_UIKIT: () => {
+      APPLE_UIKIT: () => {
         this.setState({
-          format: 'EXPORT_APPLE_UIKIT',
+          format: 'APPLE_UIKIT',
         })
         parent.postMessage(
           {
@@ -758,9 +786,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_ANDROID_COMPOSE: () => {
+      ANDROID_COMPOSE: () => {
         this.setState({
-          format: 'EXPORT_ANDROID_COMPOSE',
+          format: 'ANDROID_COMPOSE',
         })
         parent.postMessage(
           {
@@ -773,9 +801,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_ANDROID_XML: () => {
+      ANDROID_XML: () => {
         this.setState({
-          format: 'EXPORT_ANDROID_XML',
+          format: 'ANDROID_XML',
         })
         parent.postMessage(
           {
@@ -788,9 +816,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           '*'
         )
       },
-      EXPORT_CSV: () => {
+      CSV: () => {
         this.setState({
-          format: 'EXPORT_CSV',
+          format: 'CSV',
         })
         parent.postMessage(
           {
@@ -915,7 +943,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           pluginMessage: {
             type: 'EXPORT_PALETTE',
             id: this.props.id,
-            export: this.state.format.replace('EXPORT_', ''),
+            export: this.state.format,
           },
         },
         '*'
@@ -980,101 +1008,101 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 label:
                                   this.props.locales.export.tokens.nativeTokens
                                     .label,
-                                value: 'EXPORT_TOKENS_TOKENS_STUDIO',
+                                value: 'TOKENS_NATIVE',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isActive(),
+                                ).EXPORT_TOKENS_NATIVE.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isBlocked(),
+                                ).EXPORT_TOKENS_NATIVE.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_TOKENS_STUDIO.isNew(),
+                                ).EXPORT_TOKENS_NATIVE.isNew(),
                                 action: this.exportHandler,
                               },
                               {
                                 label:
                                   this.props.locales.export.tokens.dtcg.label,
-                                value: 'EXPORT_TOKENS_DTCG',
+                                value: 'TOKENS_DTCG',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_DTCG.isActive(),
+                                ).EXPORT_TOKENS_DTCG.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_DTCG.isBlocked(),
+                                ).EXPORT_TOKENS_DTCG.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_DTCG.isNew(),
+                                ).EXPORT_TOKENS_DTCG.isNew(),
                                 action: this.exportHandler,
                               },
                               {
                                 label:
                                   this.props.locales.export.tokens
-                                    .amznStyleDictionary,
-                                value: 'EXPORT_TOKENS_AMZN_STYLE_DICTIONARY',
+                                    .styleDictionary,
+                                value: 'TOKENS_STYLE_DICTIONARY_V3',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isActive(),
+                                ).EXPORT_TOKENS_STYLE_DICTIONARY_V3.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isBlocked(),
+                                ).EXPORT_TOKENS_STYLE_DICTIONARY_V3.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON_AMZN_STYLE_DICTIONARY.isNew(),
+                                ).EXPORT_TOKENS_STYLE_DICTIONARY_V3.isNew(),
                                 action: this.exportHandler,
                               },
                               {
                                 label: this.props.locales.export.tokens.global,
-                                value: 'EXPORT_TOKENS_GLOBAL',
+                                value: 'TOKENS_UNIVERSAL',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON.isActive(),
+                                ).EXPORT_TOKENS_UNIVERSAL.isActive(),
                                 isBlocked: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON.isBlocked(),
+                                ).EXPORT_TOKENS_UNIVERSAL.isBlocked(),
                                 isNew: Export.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).EXPORT_TOKENS_JSON.isNew(),
+                                ).EXPORT_TOKENS_UNIVERSAL.isNew(),
                                 action: this.exportHandler,
                               },
                             ],
@@ -1106,7 +1134,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 label:
                                   this.props.locales.export.stylesheet
                                     .customProperties,
-                                value: 'EXPORT_STYLESHEET_CSS',
+                                value: 'STYLESHEET_CSS',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
@@ -1131,7 +1159,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                               {
                                 label:
                                   this.props.locales.export.stylesheet.scss,
-                                value: 'EXPORT_STYLESHEET_SCSS',
+                                value: 'STYLESHEET_SCSS',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
@@ -1156,7 +1184,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                               {
                                 label:
                                   this.props.locales.export.stylesheet.less,
-                                value: 'EXPORT_STYLESHEET_LESS',
+                                value: 'STYLESHEET_LESS',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
@@ -1181,9 +1209,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ],
                           },
                           {
-                            label: this.props.locales.export.tailwind.config,
-                            value: 'EXPORT_TAILWIND',
-                            type: 'OPTION',
+                            label: this.props.locales.export.tailwind.label,
+                            value: 'TAILWIND',
+                            type: 'GROUP',
                             isActive: Export.features(
                               this.props.planStatus,
                               this.props.config,
@@ -1202,7 +1230,56 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                               this.props.service,
                               this.props.editor
                             ).EXPORT_TAILWIND.isNew(),
-                            action: this.exportHandler,
+                            children: [
+                              {
+                                label: this.props.locales.export.tailwind.v3,
+                                value: 'TAILWIND_V3',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_TAILWIND_V3.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_TAILWIND_V3.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_TAILWIND_V3.isNew(),
+                                action: this.exportHandler,
+                              },
+                              {
+                                label: this.props.locales.export.tailwind.v4,
+                                value: 'TAILWIND_V4',
+                                type: 'OPTION',
+                                isActive: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_TAILWIND_V4.isActive(),
+                                isBlocked: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_TAILWIND_V4.isBlocked(),
+                                isNew: Export.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).EXPORT_TAILWIND_V4.isNew(),
+                                action: this.exportHandler,
+                              },
+                            ],
                           },
                           {
                             label: this.props.locales.export.apple.label,
@@ -1229,7 +1306,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             children: [
                               {
                                 label: this.props.locales.export.apple.swiftui,
-                                value: 'EXPORT_APPLE_SWIFTUI',
+                                value: 'APPLE_SWIFTUI',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
@@ -1253,7 +1330,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                               },
                               {
                                 label: this.props.locales.export.apple.uikit,
-                                value: 'EXPORT_APPLE_UIKIT',
+                                value: 'APPLE_UIKIT',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
@@ -1304,7 +1381,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                               {
                                 label:
                                   this.props.locales.export.android.compose,
-                                value: 'EXPORT_ANDROID_COMPOSE',
+                                value: 'ANDROID_COMPOSE',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
@@ -1329,7 +1406,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                               {
                                 label:
                                   this.props.locales.export.android.resources,
-                                value: 'EXPORT_ANDROID_XML',
+                                value: 'ANDROID_XML',
                                 type: 'OPTION',
                                 isActive: Export.features(
                                   this.props.planStatus,
@@ -1356,7 +1433,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           },
                           {
                             label: this.props.locales.export.csv.spreadsheet,
-                            value: 'EXPORT_CSV',
+                            value: 'CSV',
                             type: 'OPTION',
                             isActive: Export.features(
                               this.props.planStatus,
@@ -1383,9 +1460,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                         alignment="RIGHT"
                         pin="TOP"
                       />
-                      {(this.state.format === 'EXPORT_STYLESHEET_CSS' ||
-                        this.state.format === 'EXPORT_STYLESHEET_SCSS' ||
-                        this.state.format === 'EXPORT_STYLESHEET_LESS') && (
+                      {(this.state.format === 'STYLESHEET_CSS' ||
+                        this.state.format === 'STYLESHEET_SCSS' ||
+                        this.state.format === 'STYLESHEET_LESS') && (
                         <Menu
                           icon="adjust"
                           id="color-space"
@@ -1399,7 +1476,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           }}
                         />
                       )}
-                      {this.state.format === 'EXPORT_TOKENS_DTCG' && (
+                      {this.state.format === 'TOKENS_DTCG' && (
                         <Menu
                           icon="adjust"
                           id="color-space"
@@ -1416,7 +1493,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     </div>
                   }
                 />
-                {this.state.format === 'EXPORT_TOKENS_DTCG' && (
+                {this.state.format === 'TOKENS_DTCG' && (
                   <div className="export-palette__info">
                     <SemanticMessage
                       type="INFO"
@@ -1424,7 +1501,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     />
                   </div>
                 )}
-                {this.state.format === 'EXPORT_TOKENS_TOKENS_STUDIO' && (
+                {this.state.format === 'TOKENS_NATIVE' && (
                   <div className="export-palette__info">
                     <SemanticMessage
                       type="INFO"
