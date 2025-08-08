@@ -11,7 +11,6 @@ const exportUIKit = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_UIKIT',
       data: {
-        id: '',
         context: 'APPLE_UIKIT',
         code: locales.get().error.export,
       },

@@ -11,7 +11,6 @@ const exportTailwindV3 = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_JS',
       data: {
-        id: '',
         context: 'TAILWIND_V3',
         code: locales.get().error.export,
       },

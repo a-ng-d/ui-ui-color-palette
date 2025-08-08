@@ -11,7 +11,6 @@ const exportXml = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_XML',
       data: {
-        id: '',
         context: 'ANDROID_XML',
         code: locales.get().error.export,
       },

@@ -11,7 +11,6 @@ const exportJsonNative = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_JSON',
       data: {
-        id: '',
         context: 'TOKENS_NATIVE',
         code: locales.get().error.export,
       },

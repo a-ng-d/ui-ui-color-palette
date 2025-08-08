@@ -11,7 +11,6 @@ const exportSwiftUI = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_SWIFTUI',
       data: {
-        id: '',
         context: 'APPLE_SWIFTUI',
         code: locales.get().error.export,
       },

@@ -11,7 +11,6 @@ const exportLess = (id: string, colorSpace: ColorSpaceConfiguration) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_LESS',
       data: {
-        id: '',
         context: 'STYLESHEET_LESS',
         colorSpace: colorSpace,
         code: locales.get().error.export,

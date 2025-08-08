@@ -11,7 +11,6 @@ const exportTailwindV4 = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_CSS',
       data: {
-        id: '',
         context: 'TAILWIND_V4',
         code: locales.get().error.export,
       },

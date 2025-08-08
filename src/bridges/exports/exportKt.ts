@@ -11,7 +11,6 @@ const exportKt = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_KT',
       data: {
-        id: '',
         context: 'ANDROID_COMPOSE',
         code: locales.get().error.export,
       },

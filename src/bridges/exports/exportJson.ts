@@ -11,7 +11,6 @@ const exportJson = (id: string) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_JSON',
       data: {
-        id: '',
         context: 'TOKENS_UNIVERSAL',
         code: locales.get().error.export,
       },

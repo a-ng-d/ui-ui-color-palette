@@ -11,7 +11,6 @@ const exportJsonDtcg = (id: string, colorSpace: ColorSpaceConfiguration) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_JSON',
       data: {
-        id: '',
         context: 'TOKENS_DTCG',
         code: locales.get().error.export,
       },

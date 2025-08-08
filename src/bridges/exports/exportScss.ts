@@ -11,7 +11,6 @@ const exportScss = (id: string, colorSpace: ColorSpaceConfiguration) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_SCSS',
       data: {
-        id: '',
         context: 'STYLESHEET_SCSS',
         colorSpace: colorSpace,
         code: locales.get().error.export,
