@@ -700,7 +700,7 @@ class App extends Component<AppProps, AppStates> {
             colorSpace: path.data.colorSpace,
             context: path.data.context,
             label: `${this.state.locales.actions.export} ${
-              this.state.locales.export.css.customProperties
+              this.state.locales.export.stylesheet.customProperties
             }`,
             mimeType: 'text/css',
             data: path.data.code,
@@ -731,7 +731,7 @@ class App extends Component<AppProps, AppStates> {
             colorSpace: path.data.colorSpace,
             context: path.data.context,
             label: `${this.state.locales.actions.export} ${
-              this.state.locales.export.css.customProperties
+              this.state.locales.export.stylesheet.scss
             }`,
             mimeType: 'text/scss',
             data: path.data.code,
@@ -762,7 +762,7 @@ class App extends Component<AppProps, AppStates> {
             colorSpace: path.data.colorSpace,
             context: path.data.context,
             label: `${this.state.locales.actions.export} ${
-              this.state.locales.export.css.customProperties
+              this.state.locales.export.stylesheet.less
             }`,
             mimeType: 'text/less',
             data: path.data.code,

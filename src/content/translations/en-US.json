@@ -186,8 +186,11 @@
       "p3": "P3",
       "rgb": "RGB"
     },
-    "css": {
-      "customProperties": "Custom Properties (CSS)"
+    "stylesheet": {
+      "label": "Stylesheet",
+      "customProperties": "Custom Properties (CSS)",
+      "scss": "SCSS Variables (SCSS)",
+      "less": "Less Variables (LESS)"
     },
     "csv": {
       "spreadsheet": "Spreadsheet (CSV)"
@@ -198,15 +201,17 @@
       "config": "Tailwind (JS)"
     },
     "tokens": {
-      "amznStyleDictionary": "Amazon Style Dictionary v3 (JSON)",
+      "amznStyleDictionary": "Style Dictionary v3 (JSON)",
       "dtcg": {
-        "label": "DTCG format (JSON)",
+        "label": "DTCG tokens (JSON)",
         "message": "DTCG tokens format is an ongoing work in progress led by a W3C group and can be changed in the future"
       },
-      "global": "Global (JSON)",
-      "label": "Tokens (JSON)",
-      "nativeTokens": "Native tokens (JSON)",
-      "tokensStudio": "Tokens Studio (JSON)"
+      "global": "Universal (JSON)",
+      "label": "Tokens",
+      "nativeTokens": {
+        "label": "Native tokens (JSON)",
+        "message": "Native tokens can be imported on Tokens Studio or Penpot"
+      } 
     }
   },
   "events": {

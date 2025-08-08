@@ -944,7 +944,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.locales.export.format}
-                      indicator="11"
+                      indicator="13"
                     />
                   }
                   rightPartSlot={
@@ -978,7 +978,8 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             children: [
                               {
                                 label:
-                                  this.props.locales.export.tokens.nativeTokens,
+                                  this.props.locales.export.tokens.nativeTokens
+                                    .label,
                                 value: 'EXPORT_TOKENS_TOKENS_STUDIO',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1079,7 +1080,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ],
                           },
                           {
-                            label: 'Stylesheet',
+                            label: this.props.locales.export.stylesheet.label,
                             value: 'STYLESHEET_GROUP',
                             type: 'GROUP',
                             isActive: Export.features(
@@ -1103,7 +1104,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             children: [
                               {
                                 label:
-                                  this.props.locales.export.css
+                                  this.props.locales.export.stylesheet
                                     .customProperties,
                                 value: 'EXPORT_STYLESHEET_CSS',
                                 type: 'OPTION',
@@ -1128,7 +1129,8 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label: 'SCSS Variables',
+                                label:
+                                  this.props.locales.export.stylesheet.scss,
                                 value: 'EXPORT_STYLESHEET_SCSS',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1152,7 +1154,8 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label: 'LESS Variables',
+                                label:
+                                  this.props.locales.export.stylesheet.less,
                                 value: 'EXPORT_STYLESHEET_LESS',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1418,6 +1421,16 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     <SemanticMessage
                       type="INFO"
                       message={this.props.locales.export.tokens.dtcg.message}
+                    />
+                  </div>
+                )}
+                {this.state.format === 'EXPORT_TOKENS_TOKENS_STUDIO' && (
+                  <div className="export-palette__info">
+                    <SemanticMessage
+                      type="INFO"
+                      message={
+                        this.props.locales.export.tokens.nativeTokens.message
+                      }
                     />
                   </div>
                 )}
