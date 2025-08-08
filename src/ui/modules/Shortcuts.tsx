@@ -570,7 +570,8 @@ export default class Shortcuts extends PureComponent<
                                       data: {
                                         type: 'ERROR',
                                         message:
-                                          error.message === 'Authentication timeout'
+                                          error.message ===
+                                          'Authentication timeout'
                                             ? this.props.locales.error.timeout
                                             : this.props.locales.error
                                                 .authentication,
