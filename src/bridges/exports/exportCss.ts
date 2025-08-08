@@ -11,7 +11,7 @@ const exportCss = (id: string, colorSpace: ColorSpaceConfiguration) => {
     return iframe?.contentWindow?.postMessage({
       type: 'EXPORT_PALETTE_CSS',
       data: {
-        context: 'CSS',
+        context: 'STYLESHEET_CSS',
         colorSpace: colorSpace,
         code: locales.get().error.export,
       },
@@ -20,7 +20,7 @@ const exportCss = (id: string, colorSpace: ColorSpaceConfiguration) => {
   return iframe?.contentWindow?.postMessage({
     type: 'EXPORT_PALETTE_CSS',
     data: {
-      context: 'CSS',
+      context: 'STYLESHEET_CSS',
       colorSpace: colorSpace,
       code: new Data(JSON.parse(rawPalette)).makeCssCustomProps(colorSpace),
     },
