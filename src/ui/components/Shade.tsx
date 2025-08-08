@@ -255,8 +255,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       <div
         className={doClassnames([
           'preview__cell',
-          this.props.isAPCADisplayed ||
-            (this.props.isWCAGDisplayed && 'preview__cell--medium'),
+          (this.props.isAPCADisplayed || this.props.isWCAGDisplayed) &&
+            'preview__cell--medium',
           this.props.isAPCADisplayed &&
             this.props.isWCAGDisplayed &&
             'preview__cell--large',
