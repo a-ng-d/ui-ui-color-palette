@@ -363,7 +363,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
         )
       },
       STYLESHEET_CSS: () => {
-        console.log('STYLESHEET_CSS')
         this.setState({
           format: 'STYLESHEET_CSS',
           colorSpace: {
