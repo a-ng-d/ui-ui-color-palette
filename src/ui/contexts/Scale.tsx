@@ -664,7 +664,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.editor
                   ).SCALE_HELPER.isActive()}
                 >
-                  <Bar
+                  <SimpleItem
                     id="update-easing"
                     leftPartSlot={
                       <Feature
@@ -725,7 +725,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
-                    shouldReflow
+                    alignment="CENTER"
+                    isListItem={false}
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>
@@ -767,7 +768,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.editor
                   ).SCALE_HELPER.isActive()}
                 >
-                  <Bar
+                  <SimpleItem
                     id="update-easing"
                     leftPartSlot={
                       <Feature
@@ -828,7 +829,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
-                    shouldReflow
+                    alignment="CENTER"
+                    isListItem={false}
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>

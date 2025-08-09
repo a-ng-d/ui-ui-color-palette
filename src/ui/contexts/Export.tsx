@@ -9,7 +9,6 @@ import { PureComponent } from 'preact/compat'
 import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
-  Bar,
   Button,
   Dropdown,
   Layout,
@@ -17,6 +16,7 @@ import {
   Menu,
   SectionTitle,
   SemanticMessage,
+  SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
@@ -1058,7 +1058,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
           {
             node: (
               <>
-                <Bar
+                <SimpleItem
                   id="export-palette"
                   leftPartSlot={
                     <SectionTitle
@@ -1578,9 +1578,16 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                       />
                     </div>
                   }
+                  alignment="CENTER"
+                  isListItem={false}
                 />
                 {this.state.format === 'TOKENS_DTCG' && (
-                  <div className="export-palette__info">
+                  <div
+                    style={{
+                      padding:
+                        '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                    }}
+                  >
                     <SemanticMessage
                       type="INFO"
                       message={this.props.locales.export.tokens.dtcg.message}
@@ -1588,7 +1595,12 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   </div>
                 )}
                 {this.state.format === 'TOKENS_NATIVE' && (
-                  <div className="export-palette__info">
+                  <div
+                    style={{
+                      padding:
+                        '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                    }}
+                  >
                     <SemanticMessage
                       type="INFO"
                       message={

@@ -371,6 +371,7 @@ export default class Overview extends PureComponent<
             />
           }
           alignment="CENTER"
+          isListItem={false}
         />
         {Overview.features(
           this.props.planStatus,

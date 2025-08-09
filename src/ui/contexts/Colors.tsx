@@ -701,6 +701,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                     />
                   }
                   alignment="CENTER"
+                  isListItem={false}
                 />
                 {Colors.features(
                   this.props.planStatus,

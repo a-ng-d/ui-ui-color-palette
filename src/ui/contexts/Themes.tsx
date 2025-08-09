@@ -459,6 +459,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                     />
                   }
                   alignment="CENTER"
+                  isListItem={false}
                 />
                 {customThemes.length === 0 ? (
                   <div className={layouts.centered}>
