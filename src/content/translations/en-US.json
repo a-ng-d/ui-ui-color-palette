@@ -165,7 +165,8 @@
   },
   "export": {
     "actions": {
-      "selectColorSpace": "Select a color space"
+      "selectColorSpace": "Select a color space",
+      "copyCode": "Copy code to the clipboard"
     },
     "android": {
       "compose": "Compose (KT)",
@@ -318,7 +319,8 @@
       "singlePlural": "1 variable and {modeCount} modes removed",
       "pluralSingle": "{variableCount} variables and 1 mode removed",
       "pluralPlural": "{variableCount} variables and {modeCount} modes removed"
-    }
+    },
+    "copiedCode": "The code has been copied to the clipboard"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -835,7 +837,8 @@
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "paletteNameRecommendation": "64 characters max is recommended",
     "tooManyThemesToCreateModes": "You cannot create more than 4 modes in the current plan",
-    "unselectedColor": "Select a layer that is filled with at least one solid color"
+    "unselectedColor": "Select a layer that is filled with at least one solid color",
+    "uncopiedCode": "The code has not been copied to the clipboard"
   },
   "platform": {
     "figma": "Figma",

@@ -1,12 +1,17 @@
 import type { DropdownOption } from '@a_ng_d/figmug-ui'
+import {
+  docco,
+  atomOneDark,
+} from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import SyntaxHighlighter from 'react-syntax-highlighter'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Bar,
+  Button,
   Dropdown,
-  Input,
   Layout,
   layouts,
   Menu,
@@ -47,6 +52,8 @@ interface ExportStates {
 
 export default class Export extends PureComponent<ExportProps, ExportStates> {
   private counter: number
+  private theme: string | null
+  private mode: string | null
 
   static defaultProps = {
     exportPreview: '',
@@ -245,6 +252,8 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
   constructor(props: ExportProps) {
     super(props)
     this.counter = 0
+    this.theme = document.documentElement.getAttribute('data-theme')
+    this.mode = document.documentElement.getAttribute('data-mode')
     this.state = {
       format: 'TOKENS_NATIVE',
       colorSpace: {
@@ -950,14 +959,97 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     this.counter = 1
   }
 
-  selectPreview = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => (e.target as HTMLInputElement).select()
+  copyCode = () => {
+    if (!this.props.exportPreview) return
 
-  deSelectPreview = () => window.getSelection()?.removeAllRanges()
+    navigator.clipboard
+      .writeText(this.props.exportPreview)
+      .then(() => {
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'INFO',
+                message: this.props.locales.info.copiedCode,
+              },
+            },
+          },
+          '*'
+        )
+      })
+      .catch(() => {
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                style: 'WARNING',
+                message: this.props.locales.warning.uncopiedCode,
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  handleCodeSyntaxTheme = () => {
+    //const figmaMode = document.documentElement.getAttribute('class')
+
+    //if (this.theme === 'figma-ui3' || this.theme === 'figma-ui2')
+    //  return figmaMode?.includes('dark') ? atomOneDark : docco
+
+    return this.mode?.includes('dark') ? atomOneDark : docco
+  }
+
+  getLanguageFromFormat = (format: string): string => {
+    if (format.includes('STYLESHEET_CSS')) return 'css'
+    if (format.includes('STYLESHEET_SCSS')) return 'scss'
+    if (format.includes('STYLESHEET_LESS')) return 'less'
+    if (format.includes('TOKENS_')) return 'json'
+    if (format.includes('APPLE_SWIFTUI')) return 'swift'
+    if (format.includes('APPLE_UIKIT')) return 'objectivec'
+    if (format.includes('ANDROID_COMPOSE')) return 'kotlin'
+    if (format.includes('ANDROID_XML')) return 'xml'
+    if (format.includes('TAILWIND')) return 'javascript'
+    if (format.includes('CSV')) return 'csv'
+    return 'text'
+  }
 
   // Render
   render() {
+    let border
+    let radius
+    let selectionBackground
+    let textColor
+
+    switch (this.theme) {
+      case 'figma-ui3':
+        border = '1px solid var(--figma-color-border)'
+        radius = 'var(--border-radius-medium)'
+        selectionBackground = 'var(--figma-color-bg-selected)'
+        textColor = 'var(--figma-color-text-disabled)'
+        break
+      case 'penpot':
+        border = '1px solid var(--penpot-color-background-quaternary)'
+        radius = 'var(--border-radius-xlarge)'
+        selectionBackground = 'var(--penpot-color-accent-primary-muted)'
+        textColor = 'var(--penpot-color-foreground-disabled)'
+        break
+      case 'sketch':
+        border = '1px solid var(--sketch-color-border-primary)'
+        radius = 'var(--border-radius-large)'
+        selectionBackground = 'var(--sketch-color-accent-disabled)'
+        textColor = 'var(--sketch-color-foreground-disabled)'
+        break
+      default:
+        border = '1px solid var(--figma-color-border)'
+        radius = 'var(--border-radius-large)'
+        selectionBackground = 'var(--figma-color-bg-selected)'
+        textColor = 'var(--figma-color-text-disabled)'
+    }
+
     this.setFirstPreview()
     return (
       <Layout
@@ -971,7 +1063,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.locales.export.format}
-                      indicator="13"
+                      indicator="14"
                     />
                   }
                   rightPartSlot={
@@ -1461,7 +1553,8 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                       />
                       {(this.state.format === 'STYLESHEET_CSS' ||
                         this.state.format === 'STYLESHEET_SCSS' ||
-                        this.state.format === 'STYLESHEET_LESS') && (
+                        this.state.format === 'STYLESHEET_LESS' ||
+                        this.state.format === 'TOKENS_DTCG') && (
                         <Menu
                           icon="adjust"
                           id="color-space"
@@ -1475,20 +1568,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           }}
                         />
                       )}
-                      {this.state.format === 'TOKENS_DTCG' && (
-                        <Menu
-                          icon="adjust"
-                          id="color-space"
-                          options={this.state.colorSpace.options}
-                          selected={`${this.state.format}_${this.state.colorSpace.selected}`}
-                          alignment="BOTTOM_RIGHT"
-                          helper={{
-                            label:
-                              this.props.locales.export.actions
-                                .selectColorSpace,
-                          }}
-                        />
-                      )}
+                      <Button
+                        type="icon"
+                        icon="draft"
+                        helper={{
+                          label: this.props.locales.export.actions.copyCode,
+                        }}
+                        action={this.copyCode}
+                      />
                     </div>
                   }
                 />
@@ -1511,11 +1598,38 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   </div>
                 )}
                 <div className="export-palette__preview">
-                  <Input
-                    id="code-snippet-dragging"
-                    type="CODE"
-                    value={this.props.exportPreview}
-                  />
+                  <style>
+                    {`
+                      .export-palette__preview pre ::selection {
+                        background-color: ${selectionBackground};
+                      }
+                    `}
+                  </style>
+                  <SyntaxHighlighter
+                    language={this.getLanguageFromFormat(this.state.format)}
+                    style={this.handleCodeSyntaxTheme()}
+                    showLineNumbers={true}
+                    lineNumberStyle={{
+                      minWidth: 'var(--size-pos-small)',
+                      paddingRight: 'var(--size-pos-xsmall)',
+                      color: textColor,
+                      borderRight: border,
+                      marginRight: 'var(--size-pos-xxsmall)',
+                    }}
+                    customStyle={{
+                      borderRadius: radius,
+                      fontSize: 'var(--font-size-small)',
+                      margin: 0,
+                      overflow: 'auto',
+                      height: '100%',
+                      backgroundColor: 'transparent',
+                      border: border,
+                      userSelect: 'text',
+                    }}
+                    wrapLongLines={true}
+                  >
+                    {this.props.exportPreview}
+                  </SyntaxHighlighter>
                 </div>
               </>
             ),
