@@ -962,36 +962,48 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
   copyCode = () => {
     if (!this.props.exportPreview) return
 
-    navigator.clipboard
-      .writeText(this.props.exportPreview)
-      .then(() => {
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'POST_MESSAGE',
-              data: {
-                type: 'INFO',
-                message: this.props.locales.info.copiedCode,
-              },
+    try {
+      const textarea = document.createElement('textarea')
+      textarea.value = this.props.exportPreview
+
+      textarea.style.position = 'absolute'
+      textarea.style.left = '-9999px'
+      textarea.style.top = '0'
+      textarea.setAttribute('readonly', '')
+      
+      document.body.appendChild(textarea)
+      
+      textarea.select()
+      
+      const successful = document.execCommand('copy')
+      document.body.removeChild(textarea)
+      
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'POST_MESSAGE',
+            data: {
+              type: 'INFO',
+              message: this.props.locales.info.copiedCode,
             },
           },
-          '*'
-        )
-      })
-      .catch(() => {
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'POST_MESSAGE',
-              data: {
-                style: 'WARNING',
-                message: this.props.locales.warning.uncopiedCode,
-              },
+        },
+        '*'
+      )
+    } catch (err) {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'POST_MESSAGE',
+            data: {
+              style: 'WARNING',
+              message: this.props.locales.warning.uncopiedCode,
             },
           },
-          '*'
-        )
-      })
+        },
+        '*'
+      )
+    }
   }
 
   handleCodeSyntaxTheme = () => {
