@@ -11,7 +11,6 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
-  Bar,
   Button,
   Dialog,
   Dropdown,
