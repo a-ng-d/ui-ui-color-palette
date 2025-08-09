@@ -995,10 +995,11 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
   }
 
   handleCodeSyntaxTheme = () => {
-    //const figmaMode = document.documentElement.getAttribute('class')
+    const figmaMode = document.documentElement.getAttribute('class')
 
-    //if (this.theme === 'figma-ui3' || this.theme === 'figma-ui2')
-    //  return figmaMode?.includes('dark') ? atomOneDark : docco
+    if (figmaMode !== null)
+      if (this.theme === 'figma-ui3' || this.theme === 'figma-ui2')
+        return figmaMode?.includes('dark') ? atomOneDark : docco
 
     return this.mode?.includes('dark') ? atomOneDark : docco
   }
