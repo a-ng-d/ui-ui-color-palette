@@ -970,14 +970,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       textarea.style.left = '-9999px'
       textarea.style.top = '0'
       textarea.setAttribute('readonly', '')
-      
+
       document.body.appendChild(textarea)
-      
+
       textarea.select()
-      
+
       const successful = document.execCommand('copy')
       document.body.removeChild(textarea)
-      
+
       parent.postMessage(
         {
           pluginMessage: {

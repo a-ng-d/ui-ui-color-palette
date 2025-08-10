@@ -59,9 +59,9 @@ section.context {
 div.export-palette__preview {
   display: flex;
   flex: 1;
+  flex-direction: column;
   padding: 0 var(--size-pos-xsmall);
   overflow: auto;
-  flex-direction: column;
 }
 
 /* Preview */
