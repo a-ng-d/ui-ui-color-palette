@@ -268,7 +268,7 @@ export default class BrowsePalettes extends PureComponent<
           >
             <Button
               type="secondary"
-              label={this.props.locales.browse.document.create}
+              label={this.props.locales.browse.document.restore}
               isLoading={this.state.isSecondaryActionLoading}
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
