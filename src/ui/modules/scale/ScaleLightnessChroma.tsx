@@ -386,7 +386,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.palette.setKey('preset', preset)
       this.palette.setKey(
         'preset.name',
-        `${this.palette.get().preset.name} (${this.palette.get().preset.family}')`
+        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
       )
       this.palette.setKey('scale', scale(preset))
 
