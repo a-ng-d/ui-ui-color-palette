@@ -381,6 +381,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
               'hex',
               'hsl',
               'lch',
+              'oklch',
               'p3',
             ]),
           },
@@ -468,6 +469,25 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
               id: this.props.id,
               export: 'STYLESHEET_CSS',
               colorSpace: 'LCH',
+            },
+          },
+          '*'
+        )
+      },
+      STYLESHEET_CSS_OKLCH: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'OKLCH',
+            options: this.state.colorSpace.options,
+          },
+        })
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'EXPORT_PALETTE',
+              id: this.props.id,
+              export: 'STYLESHEET_CSS',
+              colorSpace: 'OKLCH',
             },
           },
           '*'
