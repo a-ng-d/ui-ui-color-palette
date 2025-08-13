@@ -372,7 +372,7 @@
   },
   "plan": {
     "dev": "Developer plan",
-    "free": "Free plan",
+    "free": "Basic plan",
     "getPro": "Get Pro",
     "pro": "Pro plan",
     "trial": "Trial",
