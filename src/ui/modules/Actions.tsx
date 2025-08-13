@@ -617,34 +617,40 @@ export default class Actions extends PureComponent<
       <Bar
         leftPartSlot={
           <div className={layouts['snackbar--medium']}>
-            <Input
-              id="update-palette-name"
-              type="TEXT"
-              placeholder={this.props.locales.name}
-              value={this.props.name !== '' ? this.props.name : ''}
-              charactersLimit={64}
-              helper={{
-                label: this.props.locales.settings.actions.paletteName,
-                pin: 'TOP',
-                type: 'SINGLE_LINE',
+            <div
+              style={{
+                width: '200px',
               }}
-              isBlocked={Actions.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SETTINGS_NAME.isBlocked()}
-              isNew={Actions.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SETTINGS_NAME.isNew()}
-              feature="RENAME_PALETTE"
-              onChange={this.nameHandler}
-              onFocus={this.nameHandler}
-              onBlur={this.nameHandler}
-            />
+            >
+              <Input
+                id="update-palette-name"
+                type="TEXT"
+                placeholder={this.props.locales.name}
+                value={this.props.name !== '' ? this.props.name : ''}
+                charactersLimit={64}
+                helper={{
+                  label: this.props.locales.settings.actions.paletteName,
+                  pin: 'TOP',
+                  type: 'SINGLE_LINE',
+                }}
+                isBlocked={Actions.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).SETTINGS_NAME.isBlocked()}
+                isNew={Actions.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).SETTINGS_NAME.isNew()}
+                feature="RENAME_PALETTE"
+                onChange={this.nameHandler}
+                onFocus={this.nameHandler}
+                onBlur={this.nameHandler}
+              />
+            </div>
             <span
               className={doClassnames([
                 texts['type'],
@@ -754,34 +760,41 @@ export default class Actions extends PureComponent<
                 {this.props.locales.publication.statusPublished}
               </Chip>
             </Feature>
-            <Input
-              id="update-palette-name"
-              type="TEXT"
-              placeholder={this.props.locales.name}
-              value={this.props.name !== '' ? this.props.name : ''}
-              charactersLimit={64}
-              helper={{
-                label: this.props.locales.settings.actions.paletteName,
-                pin: 'TOP',
-                type: 'SINGLE_LINE',
+            <div
+              style={{
+                width: '200px',
               }}
-              isBlocked={Actions.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SETTINGS_NAME.isBlocked()}
-              isNew={Actions.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SETTINGS_NAME.isNew()}
-              feature="RENAME_PALETTE"
-              onChange={this.nameHandler}
-              onFocus={this.nameHandler}
-              onBlur={this.nameHandler}
-            />
+            >
+              <Input
+                id="update-palette-name"
+                type="TEXT"
+                placeholder={this.props.locales.name}
+                value={this.props.name !== '' ? this.props.name : ''}
+                charactersLimit={64}
+                helper={{
+                  label: this.props.locales.settings.actions.paletteName,
+                  pin: 'TOP',
+                  type: 'SINGLE_LINE',
+                }}
+                isBlocked={Actions.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).SETTINGS_NAME.isBlocked()}
+                isNew={Actions.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).SETTINGS_NAME.isNew()}
+                feature="RENAME_PALETTE"
+                onChange={this.nameHandler}
+                onFocus={this.nameHandler}
+                onBlur={this.nameHandler}
+              />
+            </div>
+
             {this.props.document?.id === this.props.id && (
               <Dropdown
                 id="views"
