@@ -349,9 +349,6 @@ export default class Shortcuts extends PureComponent<
                           action: () => null,
                         },
                         {
-                          type: 'SEPARATOR',
-                        },
-                        {
                           label: this.props.locales.user.signOut,
                           type: 'OPTION',
                           action: async () => {
@@ -407,6 +404,9 @@ export default class Shortcuts extends PureComponent<
                                 )
                               })
                           },
+                        },
+                        {
+                          type: 'SEPARATOR',
                         },
                         {
                           label: this.props.locales.user.updateConsent,
@@ -582,6 +582,9 @@ export default class Shortcuts extends PureComponent<
                                 )
                               })
                           },
+                        },
+                        {
+                          type: 'SEPARATOR',
                         },
                         {
                           label: this.props.locales.user.updateConsent,
