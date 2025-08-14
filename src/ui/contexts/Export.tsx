@@ -6,7 +6,19 @@ import {
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { ColorSpaceConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  AlgorithmVersionConfiguration,
+  BaseConfiguration,
+  ColorConfiguration,
+  ColorSpaceConfiguration,
+  Data,
+  ExportConfiguration,
+  LockedSourceColorsConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,
@@ -19,31 +31,30 @@ import {
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
+import { ExportEvent } from '../../types/events'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { trackExportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ExportProps extends BaseProps, WithConfigProps {
   id: string
-  exportPreview: string
-  exportType: string
+  name: string
+  description: string
+  preset: PresetConfiguration
+  scale: ScaleConfiguration
+  shift: ShiftConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
+  colors: Array<ColorConfiguration>
+  colorSpace: ColorSpaceConfiguration
+  themes: Array<ThemeConfiguration>
+  algorithmVersion: AlgorithmVersionConfiguration
+  context: ExportConfiguration['context']
+  code: ExportConfiguration['data']
+  onChangeExport: (args: { export: ExportConfiguration }) => void
+  onCopyCode: () => void
 }
 
 interface ExportStates {
-  format:
-    | 'TOKENS_NATIVE'
-    | 'TOKENS_DTCG'
-    | 'TOKENS_UNIVERSAL'
-    | 'TOKENS_STYLE_DICTIONARY_V3'
-    | 'STYLESHEET_CSS'
-    | 'STYLESHEET_SCSS'
-    | 'STYLESHEET_LESS'
-    | 'TAILWIND_V3'
-    | 'TAILWIND_V4'
-    | 'APPLE_SWIFTUI'
-    | 'APPLE_UIKIT'
-    | 'ANDROID_COMPOSE'
-    | 'ANDROID_XML'
-    | 'CSV'
   colorSpace: {
     selected: ColorSpaceConfiguration
     options: Array<DropdownOption>
@@ -51,13 +62,8 @@ interface ExportStates {
 }
 
 export default class Export extends PureComponent<ExportProps, ExportStates> {
-  private counter: number
   private theme: string | null
   private mode: string | null
-
-  static defaultProps = {
-    exportPreview: '',
-  }
 
   static features = (
     planStatus: PlanStatus,
@@ -251,11 +257,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
 
   constructor(props: ExportProps) {
     super(props)
-    this.counter = 0
     this.theme = document.documentElement.getAttribute('data-theme')
     this.mode = document.documentElement.getAttribute('data-mode')
     this.state = {
-      format: 'TOKENS_NATIVE',
       colorSpace: {
         selected: 'RGB',
         options: [],
@@ -265,43 +269,49 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
 
   // Handlers
   exportHandler = (e: Event) => {
+    const args = {
+      base: {
+        name: this.props.name,
+        description: this.props.description,
+        preset: this.props.preset,
+        shift: this.props.shift,
+        areSourceColorsLocked: this.props.areSourceColorsLocked,
+        colors: this.props.colors,
+        colorSpace: this.props.colorSpace,
+        algorithmVersion: this.props.algorithmVersion,
+      } as BaseConfiguration,
+      themes: this.props.themes,
+    }
+
     const actions: {
       [key: string]: () => void
     } = {
       TOKENS_NATIVE: () => {
-        this.setState({
-          format: 'TOKENS_NATIVE',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TOKENS_NATIVE',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'TOKENS_NATIVE',
+            mimeType: 'application/json',
+            data: new Data(args).makeNativeTokens(),
           },
-          '*'
-        )
+        })
       },
       TOKENS_DTCG: () => {
         this.setState({
-          format: 'TOKENS_DTCG',
           colorSpace: {
             selected: 'RGB',
             options: this.colorSpaceHandler('TOKENS_DTCG', ['rgb', 'oklch']),
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TOKENS_DTCG',
-              colorSpace: 'RGB',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'TOKENS_DTCG',
+            mimeType: 'application/json',
+            data: new Data(args).makeDtcgTokens('RGB'),
           },
-          '*'
-        )
+        })
       },
       TOKENS_DTCG_RGB: () => {
         this.setState({
@@ -310,17 +320,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TOKENS_DTCG',
-              colorSpace: 'RGB',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'TOKENS_DTCG',
+            mimeType: 'application/json',
+            data: new Data(args).makeDtcgTokens('RGB'),
           },
-          '*'
-        )
+        })
       },
       TOKENS_DTCG_OKLCH: () => {
         this.setState({
@@ -329,51 +336,38 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TOKENS_DTCG',
-              colorSpace: 'OKLCH',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'TOKENS_DTCG',
+            mimeType: 'application/json',
+            data: new Data(args).makeDtcgTokens('OKLCH'),
           },
-          '*'
-        )
+        })
       },
       TOKENS_STYLE_DICTIONARY_V3: () => {
-        this.setState({
-          format: 'TOKENS_STYLE_DICTIONARY_V3',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TOKENS_STYLE_DICTIONARY_V3',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'TOKENS_STYLE_DICTIONARY_V3',
+            mimeType: 'application/json',
+            data: new Data(args).makeStyleDictionaryV3Tokens(),
           },
-          '*'
-        )
+        })
       },
       TOKENS_UNIVERSAL: () => {
-        this.setState({
-          format: 'TOKENS_UNIVERSAL',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TOKENS_UNIVERSAL',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'TOKENS_UNIVERSAL',
+            mimeType: 'application/json',
+            data: new Data(args).makeUniversalJson(),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_CSS: () => {
         this.setState({
-          format: 'STYLESHEET_CSS',
           colorSpace: {
             selected: 'RGB',
             options: this.colorSpaceHandler('STYLESHEET_CSS', [
@@ -386,17 +380,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             ]),
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_CSS',
-              colorSpace: 'RGB',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'STYLESHEET_CSS',
+            mimeType: 'text/css',
+            data: new Data(args).makeCssCustomProps('RGB'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_CSS_RGB: () => {
         this.setState({
@@ -405,17 +397,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_CSS',
-              colorSpace: 'RGB',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'STYLESHEET_CSS',
+            mimeType: 'text/css',
+            data: new Data(args).makeCssCustomProps('RGB'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_CSS_HEX: () => {
         this.setState({
@@ -424,17 +414,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_CSS',
-              colorSpace: 'HEX',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'JSON',
+            context: 'STYLESHEET_CSS',
+            mimeType: 'text/css',
+            data: new Data(args).makeCssCustomProps('HEX'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_CSS_HSL: () => {
         this.setState({
@@ -443,17 +431,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_CSS',
-              colorSpace: 'HSL',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'STYLESHEET_CSS',
+            mimeType: 'text/css',
+            data: new Data(args).makeCssCustomProps('HSL'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_CSS_LCH: () => {
         this.setState({
@@ -462,17 +448,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_CSS',
-              colorSpace: 'LCH',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'STYLESHEET_CSS',
+            mimeType: 'text/css',
+            data: new Data(args).makeCssCustomProps('LCH'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_CSS_OKLCH: () => {
         this.setState({
@@ -481,17 +465,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_CSS',
-              colorSpace: 'OKLCH',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'STYLESHEET_CSS',
+            mimeType: 'text/css',
+            data: new Data(args).makeCssCustomProps('OKLCH'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_CSS_P3: () => {
         this.setState({
@@ -500,21 +482,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_CSS',
-              colorSpace: 'P3',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'STYLESHEET_CSS',
+            mimeType: 'text/css',
+            data: new Data(args).makeCssCustomProps('P3'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_SCSS: () => {
         this.setState({
-          format: 'STYLESHEET_SCSS',
           colorSpace: {
             selected: 'RGB',
             options: this.colorSpaceHandler('STYLESHEET_SCSS', [
@@ -526,17 +505,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             ]),
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_SCSS',
-              colorSpace: 'RGB',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'SCSS',
+            context: 'STYLESHEET_SCSS',
+            mimeType: 'text/x-scss',
+            data: new Data(args).makeScssVariables('RGB'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_SCSS_RGB: () => {
         this.setState({
@@ -545,17 +522,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_SCSS',
-              colorSpace: 'RGB',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'SCSS',
+            context: 'STYLESHEET_SCSS',
+            mimeType: 'text/x-scss',
+            data: new Data(args).makeScssVariables('RGB'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_SCSS_HEX: () => {
         this.setState({
@@ -564,17 +539,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_SCSS',
-              colorSpace: 'HEX',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'SCSS',
+            context: 'STYLESHEET_SCSS',
+            mimeType: 'text/x-scss',
+            data: new Data(args).makeScssVariables('HEX'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_SCSS_HSL: () => {
         this.setState({
@@ -583,17 +556,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_SCSS',
-              colorSpace: 'HSL',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'SCSS',
+            context: 'STYLESHEET_SCSS',
+            mimeType: 'text/x-scss',
+            data: new Data(args).makeScssVariables('HSL'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_SCSS_LCH: () => {
         this.setState({
@@ -602,17 +573,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_SCSS',
-              colorSpace: 'LCH',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'SCSS',
+            context: 'STYLESHEET_SCSS',
+            mimeType: 'text/x-scss',
+            data: new Data(args).makeScssVariables('LCH'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_SCSS_OKLCH: () => {
         this.setState({
@@ -621,21 +590,18 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_SCSS',
-              colorSpace: 'OKLCH',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'SCSS',
+            context: 'STYLESHEET_SCSS',
+            mimeType: 'text/x-scss',
+            data: new Data(args).makeScssVariables('OKLCH'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_LESS: () => {
         this.setState({
-          format: 'STYLESHEET_LESS',
           colorSpace: {
             selected: 'RGB',
             options: this.colorSpaceHandler('STYLESHEET_LESS', [
@@ -647,17 +613,14 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             ]),
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_LESS',
-              colorSpace: 'RGB',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'LESS',
+            context: 'STYLESHEET_LESS',
+            mimeType: 'text/x-less',
+            data: new Data(args).makeLessVariables('RGB'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_LESS_RGB: () => {
         this.setState({
@@ -666,17 +629,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_LESS',
-              colorSpace: 'RGB',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'LESS',
+            context: 'STYLESHEET_LESS',
+            mimeType: 'text/x-less',
+            data: new Data(args).makeLessVariables('RGB'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_LESS_HEX: () => {
         this.setState({
@@ -685,17 +646,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_LESS',
-              colorSpace: 'HEX',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'LESS',
+            context: 'STYLESHEET_LESS',
+            mimeType: 'text/x-less',
+            data: new Data(args).makeLessVariables('HEX'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_LESS_HSL: () => {
         this.setState({
@@ -704,17 +663,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_LESS',
-              colorSpace: 'HSL',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'LESS',
+            context: 'STYLESHEET_LESS',
+            mimeType: 'text/x-less',
+            data: new Data(args).makeLessVariables('HSL'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_LESS_LCH: () => {
         this.setState({
@@ -723,17 +680,15 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_LESS',
-              colorSpace: 'LCH',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'LESS',
+            context: 'STYLESHEET_LESS',
+            mimeType: 'text/x-less',
+            data: new Data(args).makeLessVariables('LCH'),
           },
-          '*'
-        )
+        })
       },
       STYLESHEET_LESS_OKLCH: () => {
         this.setState({
@@ -742,125 +697,103 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
             options: this.state.colorSpace.options,
           },
         })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'STYLESHEET_LESS',
-              colorSpace: 'OKLCH',
-            },
+
+        this.props.onChangeExport({
+          export: {
+            format: 'LESS',
+            context: 'STYLESHEET_LESS',
+            mimeType: 'text/x-less',
+            data: new Data(args).makeLessVariables('OKLCH'),
           },
-          '*'
-        )
+        })
       },
       TAILWIND_V3: () => {
-        this.setState({
-          format: 'TAILWIND_V3',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TAILWIND_V3',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'JS',
+            context: 'TAILWIND_V3',
+            mimeType: 'text/javascript',
+            data: new Data(args).makeTailwindV3Config(),
           },
-          '*'
-        )
+        })
       },
       TAILWIND_V4: () => {
-        this.setState({
-          format: 'TAILWIND_V4',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'TAILWIND_V4',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'TAILWIND_V4',
+            mimeType: 'text/css',
+            data: new Data(args).makeTailwindV4Config(),
           },
-          '*'
-        )
+        })
       },
       APPLE_SWIFTUI: () => {
-        this.setState({
-          format: 'APPLE_SWIFTUI',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'APPLE_SWIFTUI',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'SWIFT',
+            context: 'APPLE_SWIFTUI',
+            mimeType: 'text/swift',
+            data: new Data(args).makeSwiftUI(),
           },
-          '*'
-        )
+        })
       },
       APPLE_UIKIT: () => {
-        this.setState({
-          format: 'APPLE_UIKIT',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'APPLE_UIKIT',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'SWIFT',
+            context: 'APPLE_UIKIT',
+            mimeType: 'text/swift',
+            data: new Data(args).makeUIKit(),
           },
-          '*'
-        )
+        })
       },
       ANDROID_COMPOSE: () => {
-        this.setState({
-          format: 'ANDROID_COMPOSE',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'ANDROID_COMPOSE',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'KT',
+            context: 'ANDROID_COMPOSE',
+            mimeType: 'text/x-kotlin',
+            data: new Data(args).makeCompose(),
           },
-          '*'
-        )
+        })
       },
       ANDROID_XML: () => {
-        this.setState({
-          format: 'ANDROID_XML',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'ANDROID_XML',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'XML',
+            context: 'ANDROID_XML',
+            mimeType: 'text/xml',
+            data: new Data(args).makeResources(),
           },
-          '*'
-        )
+        })
       },
       CSV: () => {
-        this.setState({
-          format: 'CSV',
-        })
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: this.props.id,
-              export: 'CSV',
-            },
+        this.props.onChangeExport({
+          export: {
+            format: 'CSV',
+            context: 'CSV',
+            mimeType: 'text/csv',
+            data: new Data(args).makeCsv(),
           },
-          '*'
-        )
+        })
       },
       DEFAULT: () => null,
     }
+
+    trackExportEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: (e.target as HTMLElement).dataset
+          .value as ExportEvent['feature'],
+      }
+    )
 
     return actions[(e.target as HTMLElement).dataset.value ?? 'DEFAULT']?.()
   }
@@ -963,69 +896,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     ]
   }
 
-  // Direct Actions
-  setFirstPreview = () => {
-    this.counter === 0 &&
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'EXPORT_PALETTE',
-            id: this.props.id,
-            export: this.state.format,
-          },
-        },
-        '*'
-      )
-    this.counter = 1
-  }
-
-  copyCode = () => {
-    if (!this.props.exportPreview) return
-
-    try {
-      const textarea = document.createElement('textarea')
-      textarea.value = this.props.exportPreview
-
-      textarea.style.position = 'absolute'
-      textarea.style.left = '-9999px'
-      textarea.style.top = '0'
-      textarea.setAttribute('readonly', '')
-
-      document.body.appendChild(textarea)
-
-      textarea.select()
-
-      const successful = document.execCommand('copy')
-      document.body.removeChild(textarea)
-
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              type: 'INFO',
-              message: this.props.locales.info.copiedCode,
-            },
-          },
-        },
-        '*'
-      )
-    } catch (err) {
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              style: 'WARNING',
-              message: this.props.locales.warning.uncopiedCode,
-            },
-          },
-        },
-        '*'
-      )
-    }
-  }
-
   handleCodeSyntaxTheme = () => {
     const figmaMode = document.documentElement.getAttribute('class')
 
@@ -1042,7 +912,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     if (format.includes('STYLESHEET_LESS')) return 'less'
     if (format.includes('TOKENS_')) return 'json'
     if (format.includes('APPLE_SWIFTUI')) return 'swift'
-    if (format.includes('APPLE_UIKIT')) return 'objectivec'
+    if (format.includes('APPLE_UIKIT')) return 'swift'
     if (format.includes('ANDROID_COMPOSE')) return 'kotlin'
     if (format.includes('ANDROID_XML')) return 'xml'
     if (format.includes('TAILWIND')) return 'javascript'
@@ -1083,7 +953,6 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
         textColor = 'var(--figma-color-text-disabled)'
     }
 
-    this.setFirstPreview()
     return (
       <Layout
         id="export"
@@ -1580,19 +1449,19 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             action: this.exportHandler,
                           },
                         ]}
-                        selected={this.state.format ?? ''}
+                        selected={this.props.context ?? ''}
                         alignment="RIGHT"
                         pin="TOP"
                       />
-                      {(this.state.format === 'STYLESHEET_CSS' ||
-                        this.state.format === 'STYLESHEET_SCSS' ||
-                        this.state.format === 'STYLESHEET_LESS' ||
-                        this.state.format === 'TOKENS_DTCG') && (
+                      {(this.props.context === 'STYLESHEET_CSS' ||
+                        this.props.context === 'STYLESHEET_SCSS' ||
+                        this.props.context === 'STYLESHEET_LESS' ||
+                        this.props.context === 'TOKENS_DTCG') && (
                         <Menu
                           icon="adjust"
                           id="color-space"
                           options={this.state.colorSpace.options}
-                          selected={`${this.state.format}_${this.state.colorSpace.selected}`}
+                          selected={`${this.props.context}_${this.state.colorSpace.selected}`}
                           alignment="BOTTOM_RIGHT"
                           helper={{
                             label:
@@ -1601,20 +1470,22 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           }}
                         />
                       )}
-                      <Button
-                        type="icon"
-                        icon="draft"
-                        helper={{
-                          label: this.props.locales.export.actions.copyCode,
-                        }}
-                        action={this.copyCode}
-                      />
+                      {this.props.context !== 'CSV' && (
+                        <Button
+                          type="icon"
+                          icon="draft"
+                          helper={{
+                            label: this.props.locales.export.actions.copyCode,
+                          }}
+                          action={this.props.onCopyCode}
+                        />
+                      )}
                     </div>
                   }
                   alignment="CENTER"
                   isListItem={false}
                 />
-                {this.state.format === 'TOKENS_DTCG' && (
+                {this.props.context === 'TOKENS_DTCG' && (
                   <div
                     style={{
                       padding:
@@ -1627,7 +1498,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     />
                   </div>
                 )}
-                {this.state.format === 'TOKENS_NATIVE' && (
+                {this.props.context === 'TOKENS_NATIVE' && (
                   <div
                     style={{
                       padding:
@@ -1651,7 +1522,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     `}
                   </style>
                   <SyntaxHighlighter
-                    language={this.getLanguageFromFormat(this.state.format)}
+                    language={this.getLanguageFromFormat(this.props.context)}
                     style={this.handleCodeSyntaxTheme()}
                     showLineNumbers={true}
                     lineNumberStyle={{
@@ -1673,7 +1544,10 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                     }}
                     wrapLongLines={true}
                   >
-                    {this.props.exportPreview}
+                    {this.props.context === 'CSV'
+                      ? (this.props.code[0].colors[0].csv ??
+                        this.props.locales.warning.emptySourceColors)
+                      : this.props.code}
                   </SyntaxHighlighter>
                 </div>
               </>

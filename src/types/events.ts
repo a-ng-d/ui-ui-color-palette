@@ -94,10 +94,10 @@ export interface ColorThemeEvent {
 
 export interface ExportEvent {
   feature:
-    | 'TOKENS_DTCG'
-    | 'TOKENS_GLOBAL'
-    | 'TOKENS_STYLE_DICTIONARY_V3'
     | 'TOKENS_NATIVE'
+    | 'TOKENS_DTCG'
+    | 'TOKENS_STYLE_DICTIONARY_V3'
+    | 'TOKENS_UNIVERSAL'
     | 'STYLESHEET_CSS'
     | 'STYLESHEET_SCSS'
     | 'STYLESHEET_LESS'

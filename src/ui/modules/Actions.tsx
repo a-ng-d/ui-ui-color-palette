@@ -36,7 +36,7 @@ interface ActionsProps extends BaseProps, WithConfigProps {
   name?: string
   dates?: DatesConfiguration
   creatorIdentity?: CreatorConfiguration
-  exportType?: string
+  format?: string
   document?: DocumentConfiguration
   publicationStatus?: PublicationConfiguration
   isPrimaryLoading?: boolean
@@ -986,7 +986,10 @@ export default class Actions extends PureComponent<
           rightPartSlot={
             <Button
               type="primary"
-              label={this.props.exportType}
+              label={this.props.locales.actions.export.replace(
+                '{format}',
+                this.props.format || 'JSON'
+              )}
               feature="EXPORT_PALETTE"
               action={this.props.onExportPalette}
             >

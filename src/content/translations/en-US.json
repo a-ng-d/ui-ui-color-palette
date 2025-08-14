@@ -19,7 +19,7 @@
     "createPalette": "Create a UI Color Palette",
     "savePalette": "Save the UI Color Palette",
     "duplicate": "Duplicate",
-    "export": "Export ({format})",
+    "export": "Export palette as {format}",
     "generateDocument": {
       "label": "Generate a document",
       "palette": "Generate a color palette",

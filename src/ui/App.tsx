@@ -7,7 +7,6 @@ import {
   CreatorConfiguration,
   DocumentConfiguration,
   EasingConfiguration,
-  ExportConfiguration,
   ExtractOfBaseConfiguration,
   LockedSourceColorsConfiguration,
   PublicationConfiguration,
@@ -56,7 +55,6 @@ import {
 import { $palette } from '../stores/palette'
 import {
   trackEditorEvent,
-  trackExportEvent,
   trackPurchaseEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
@@ -94,7 +92,6 @@ export interface AppStates extends BaseProps {
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   dates: DatesConfiguration
-  export: ExportConfiguration
   palettesList: Array<ExtractOfBaseConfiguration>
   document: DocumentConfiguration
   planStatus: PlanStatus
@@ -202,14 +199,6 @@ class App extends Component<AppProps, AppStates> {
       textColorsTheme: {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
-      },
-      export: {
-        format: 'JSON',
-        context: 'TOKENS_NATIVE',
-        label: '',
-        colorSpace: 'HEX',
-        mimeType: 'application/json',
-        data: '',
       },
       palettesList: [],
       document: {},
@@ -617,18 +606,6 @@ class App extends Component<AppProps, AppStates> {
           }
         )
 
-        parent.postMessage(
-          {
-            pluginMessage: {
-              type: 'EXPORT_PALETTE',
-              id: path.data.meta.id,
-              export: this.state.export.context,
-              colorSpace: this.state.export.colorSpace,
-            },
-          },
-          '*'
-        )
-
         this.setState({
           service: 'EDIT',
           id: path.data.meta.id,
@@ -665,263 +642,6 @@ class App extends Component<AppProps, AppStates> {
           },
           onGoingStep: 'palette loaded',
         })
-      }
-
-      const exportPaletteToJson = () => {
-        this.setState({
-          export: {
-            format: 'JSON',
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace(
-              '{format}',
-              'JSON'
-            ),
-            colorSpace: path.data.colorSpace,
-            mimeType: 'application/json',
-            data: path.data.code,
-          },
-        })
-
-        if (path.data.context !== 'TOKENS_NATIVE') {
-          this.setState({
-            onGoingStep: 'export previewed',
-          })
-          trackExportEvent(
-            this.props.config.env.isMixpanelEnabled,
-            this.state.userSession.userId === ''
-              ? this.state.userIdentity.id === ''
-                ? ''
-                : this.state.userIdentity.id
-              : this.state.userSession.userId,
-            this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-              ?.isConsented ?? false,
-            {
-              feature: path.data.context,
-            }
-          )
-        }
-      }
-
-      const exportPaletteToCss = () => {
-        this.setState({
-          export: {
-            format: 'CSS',
-            colorSpace: path.data.colorSpace,
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace('{format}', 'CSS'),
-            mimeType: 'text/css',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-
-        trackExportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.state.userSession.userId === ''
-            ? this.state.userIdentity.id === ''
-              ? ''
-              : this.state.userIdentity.id
-            : this.state.userSession.userId,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: path.data.context,
-            colorSpace: path.data.colorSpace,
-          }
-        )
-      }
-
-      const exportPaletteToScss = () => {
-        this.setState({
-          export: {
-            format: 'SCSS',
-            colorSpace: path.data.colorSpace,
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace(
-              '{format}',
-              'SCSS'
-            ),
-            mimeType: 'text/x-scss',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-
-        trackExportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.state.userSession.userId === ''
-            ? this.state.userIdentity.id === ''
-              ? ''
-              : this.state.userIdentity.id
-            : this.state.userSession.userId,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: path.data.context,
-            colorSpace: path.data.colorSpace,
-          }
-        )
-      }
-
-      const exportPaletteToLess = () => {
-        this.setState({
-          export: {
-            format: 'LESS',
-            colorSpace: path.data.colorSpace,
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace(
-              '{format}',
-              'LESS'
-            ),
-            mimeType: 'text/x-less',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-
-        trackExportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.state.userSession.userId === ''
-            ? this.state.userIdentity.id === ''
-              ? ''
-              : this.state.userIdentity.id
-            : this.state.userSession.userId,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: path.data.context,
-            colorSpace: path.data.colorSpace,
-          }
-        )
-      }
-
-      const exportPaletteToJs = () => {
-        this.setState({
-          export: {
-            format: 'JS',
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace('{format}', 'JS'),
-            colorSpace: 'HEX',
-            mimeType: 'text/javascript',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-      }
-
-      const exportPaletteToSwift = () => {
-        this.setState({
-          export: {
-            format: 'SWIFT',
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace(
-              '{format}',
-              'SWIFT'
-            ),
-            colorSpace: 'HEX',
-            mimeType: 'text/swift',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-
-        trackExportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.state.userSession.userId === ''
-            ? this.state.userIdentity.id === ''
-              ? ''
-              : this.state.userIdentity.id
-            : this.state.userSession.userId,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: path.data.context,
-          }
-        )
-      }
-
-      const exportPaletteToKt = () => {
-        this.setState({
-          export: {
-            format: 'KT',
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace('{format}', 'KT'),
-            colorSpace: 'HEX',
-            mimeType: 'text/x-kotlin',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-
-        trackExportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.state.userSession.userId === ''
-            ? this.state.userIdentity.id === ''
-              ? ''
-              : this.state.userIdentity.id
-            : this.state.userSession.userId,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: path.data.context,
-          }
-        )
-      }
-
-      const exportPaletteToXml = () => {
-        this.setState({
-          export: {
-            format: 'XML',
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace('{format}', 'XML'),
-            colorSpace: 'HEX',
-            mimeType: 'text/xml',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-
-        trackExportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.state.userSession.userId === ''
-            ? this.state.userIdentity.id === ''
-              ? ''
-              : this.state.userIdentity.id
-            : this.state.userSession.userId,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: path.data.context,
-          }
-        )
-      }
-
-      const exportPaletteToCsv = () => {
-        this.setState({
-          export: {
-            format: 'CSV',
-            context: path.data.context,
-            label: this.state.locales.actions.export.replace('{format}', 'CSV'),
-            colorSpace: 'HEX',
-            mimeType: 'text/csv',
-            data: path.data.code,
-          },
-          onGoingStep: 'export previewed',
-        })
-
-        trackExportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.state.userSession.userId === ''
-            ? this.state.userIdentity.id === ''
-              ? ''
-              : this.state.userIdentity.id
-            : this.state.userSession.userId,
-          this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: path.data.context,
-          }
-        )
       }
 
       const updatePaletteDate = (date: Date) =>
@@ -1031,15 +751,6 @@ class App extends Component<AppProps, AppStates> {
         DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
         LOAD_PALETTE: () => loadPalette(),
         RESET_PALETTE: () => this.onReset(),
-        EXPORT_PALETTE_JSON: () => exportPaletteToJson(),
-        EXPORT_PALETTE_CSS: () => exportPaletteToCss(),
-        EXPORT_PALETTE_SCSS: () => exportPaletteToScss(),
-        EXPORT_PALETTE_LESS: () => exportPaletteToLess(),
-        EXPORT_PALETTE_JS: () => exportPaletteToJs(),
-        EXPORT_PALETTE_SWIFT: () => exportPaletteToSwift(),
-        EXPORT_PALETTE_KT: () => exportPaletteToKt(),
-        EXPORT_PALETTE_XML: () => exportPaletteToXml(),
-        EXPORT_PALETTE_CSV: () => exportPaletteToCsv(),
         UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),

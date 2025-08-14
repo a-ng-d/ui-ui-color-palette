@@ -18,6 +18,8 @@ import {
   ThemeConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
+  BaseConfiguration,
+  Data,
 } from '@a_ng_d/utils-ui-color-palette'
 import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { doScale } from '@a_ng_d/figmug-utils'
@@ -78,7 +80,6 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   view: ViewConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  export: ExportConfiguration
   document: DocumentConfiguration
   dates: DatesConfiguration
   onChangeScale: React.Dispatch<Partial<AppStates>>
@@ -100,6 +101,7 @@ interface EditPaletteStates {
     id: string
     position: number | null
   }
+  export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
 }
@@ -176,6 +178,24 @@ export default class EditPalette extends PureComponent<
       selectedElement: {
         id: '',
         position: null,
+      },
+      export: {
+        format: 'JSON',
+        context: 'TOKENS_NATIVE',
+        mimeType: 'application/json',
+        data: new Data({
+          base: {
+            name: this.props.name,
+            description: this.props.description,
+            preset: this.props.preset,
+            shift: this.props.shift,
+            areSourceColorsLocked: this.props.areSourceColorsLocked,
+            colors: this.props.colors,
+            colorSpace: this.props.colorSpace,
+            algorithmVersion: this.props.algorithmVersion,
+          } as BaseConfiguration,
+          themes: this.props.themes,
+        }).makeNativeTokens(),
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
@@ -588,14 +608,14 @@ export default class EditPalette extends PureComponent<
   }
 
   onExport = () => {
-    const blob = new Blob([this.props.export.data], {
-      type: this.props.export.mimeType,
+    const blob = new Blob([this.state.export.data], {
+      type: this.state.export.mimeType,
     })
-    if (this.props.export.format === 'CSV') {
+    if (this.state.export.mimeType === 'text/csv') {
       const zipEntries: Record<string, Uint8Array> = {}
       const encoder = new TextEncoder()
 
-      this.props.export.data.forEach(
+      this.state.export.data.forEach(
         (theme: {
           name: string
           type: string
@@ -615,7 +635,9 @@ export default class EditPalette extends PureComponent<
       )
 
       const zipData = fflate.zipSync(zipEntries)
-      const zipBlob = new Blob([zipData], { type: 'application/zip' })
+      const zipBlob = new Blob([new Uint8Array(zipData)], {
+        type: 'application/zip',
+      })
 
       FileSaver.saveAs(
         zipBlob,
@@ -625,11 +647,11 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.zip`
       )
-    } else if (this.props.export.context === 'TAILWIND_V3')
+    } else if (this.state.export.context === 'TAILWIND_V3')
       FileSaver.saveAs(blob, 'tailwind.config.js')
-    else if (this.props.export.context === 'TAILWIND_V4')
+    else if (this.state.export.context === 'TAILWIND_V4')
       FileSaver.saveAs(blob, 'tailwind.theme.css')
-    else if (this.props.export.format === 'SWIFT')
+    else if (this.state.export.format === 'SWIFT')
       FileSaver.saveAs(
         blob,
         `${
@@ -638,7 +660,7 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.swift`
       )
-    else if (this.props.export.format === 'KT')
+    else if (this.state.export.mimeType === 'text/x-kotlin')
       FileSaver.saveAs(
         blob,
         `${
@@ -647,7 +669,7 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.kt`
       )
-    else if (this.props.export.format === 'SCSS')
+    else if (this.state.export.mimeType === 'text/x-scss')
       FileSaver.saveAs(
         blob,
         `${
@@ -656,7 +678,7 @@ export default class EditPalette extends PureComponent<
             : new Case(this.props.name).doSnakeCase()
         }.scss`
       )
-    else if (this.props.export.format === 'LESS')
+    else if (this.state.export.mimeType === 'text/x-less')
       FileSaver.saveAs(
         blob,
         `${
@@ -672,6 +694,53 @@ export default class EditPalette extends PureComponent<
           ? new Case(this.props.locales.name).doSnakeCase()
           : new Case(this.props.name).doSnakeCase()
       )
+  }
+
+  onCopyCode = () => {
+    if (!this.state.export.data) return
+
+    try {
+      const textarea = document.createElement('textarea')
+      textarea.value = this.state.export.data
+
+      textarea.style.position = 'absolute'
+      textarea.style.left = '-9999px'
+      textarea.style.top = '0'
+      textarea.setAttribute('readonly', '')
+
+      document.body.appendChild(textarea)
+
+      textarea.select()
+
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'POST_MESSAGE',
+            data: {
+              type: 'INFO',
+              message: this.props.locales.info.copiedCode,
+            },
+          },
+        },
+        '*'
+      )
+    } catch (err) {
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'POST_MESSAGE',
+            data: {
+              style: 'WARNING',
+              message: this.props.locales.warning.uncopiedCode,
+            },
+          },
+        },
+        '*'
+      )
+    }
   }
 
   setThemes = (): Array<DropdownOption> => {
@@ -775,12 +844,15 @@ export default class EditPalette extends PureComponent<
         fragment = (
           <Export
             {...this.props}
-            exportPreview={
-              this.props.export.format === 'CSV'
-                ? this.props.export.data[0].colors[0].csv
-                : this.props.export.data
-            }
-            exportType={this.props.export.label}
+            context={this.state.export.context}
+            code={this.state.export.data}
+            onChangeExport={(exp) => {
+              console.log('onChangeExport', exp)
+              this.setState({
+                export: exp.export,
+              })
+            }}
+            onCopyCode={this.onCopyCode}
           />
         )
         break
@@ -891,7 +963,7 @@ export default class EditPalette extends PureComponent<
             {...this.props}
             {...this.state}
             service={this.state.context === 'EXPORT' ? 'TRANSFER' : 'EDIT'}
-            exportType={this.props.export.label}
+            format={this.state.export.format}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
             onPublishPalette={this.onPublishPalette}
