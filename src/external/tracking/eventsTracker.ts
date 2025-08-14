@@ -1,12 +1,14 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import {
   ActionEvent,
+  AuthenticationEvent,
   ColorThemeEvent,
   EditorEvent,
   ExportEvent,
   ImportEvent,
   PreviewEvent,
   PublicationEvent,
+  PurchaseEvent,
   ScaleEvent,
   SettingEvent,
   SourceColorEvent,
@@ -59,12 +61,17 @@ export const trackEditorEvent = (
 export const trackSignInEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean
+  consent: boolean,
+  options: AuthenticationEvent
 ) => {
   const mixpanel = getMixpanel()
 
   if (!consent || !isEnabled) return
-  if (mixpanel) mixpanel.track('Signed In', { ...eventsRecurringProperties })
+  if (mixpanel)
+    mixpanel.track('Signed In', {
+      Editor: options.editor,
+      ...eventsRecurringProperties,
+    })
 
   if (id === '') return
   if (mixpanel) mixpanel.identify(id)
@@ -73,12 +80,17 @@ export const trackSignInEvent = (
 export const trackSignOutEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean
+  consent: boolean,
+  options: AuthenticationEvent
 ) => {
   const mixpanel = getMixpanel()
 
   if (!consent || !isEnabled) return
-  if (mixpanel) mixpanel.track('Signed Out', { ...eventsRecurringProperties })
+  if (mixpanel)
+    mixpanel.track('Signed Out', {
+      Editor: options.editor,
+      ...eventsRecurringProperties,
+    })
 
   if (id === '') return
   if (mixpanel) mixpanel.identify(id)
@@ -95,6 +107,7 @@ export const trackTrialEnablementEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Trial Enabled', {
+      Editor: options.editor,
       'Trial Start Date': new Date(options.date).toISOString(),
       'Trial End Date': new Date(
         options.date + options.trialTime * 3600 * 1000
@@ -111,13 +124,17 @@ export const trackTrialEnablementEvent = (
 export const trackPurchaseEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean
+  consent: boolean,
+  options: PurchaseEvent
 ) => {
   const mixpanel = getMixpanel()
 
   if (!consent || !isEnabled) return
   if (mixpanel)
-    mixpanel.track('Purchase Enabled', { ...eventsRecurringProperties })
+    mixpanel.track('Purchase Enabled', {
+      Editor: options.editor,
+      ...eventsRecurringProperties,
+    })
 
   if (id === '') return
   if (mixpanel) mixpanel.identify(id)
