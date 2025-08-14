@@ -847,7 +847,6 @@ export default class EditPalette extends PureComponent<
             context={this.state.export.context}
             code={this.state.export.data}
             onChangeExport={(exp) => {
-              console.log('onChangeExport', exp)
               this.setState({
                 export: exp.export,
               })
