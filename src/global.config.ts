@@ -88,7 +88,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
       dev: {
@@ -144,7 +144,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
     },
@@ -203,7 +203,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
       dev: {
@@ -260,7 +260,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
     },
@@ -327,7 +327,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
     },
@@ -390,7 +390,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
     },
@@ -451,7 +451,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
     },
@@ -508,7 +508,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          ['SCALE_CONTRAST_RATIO']
+          []
         ),
       },
     },
@@ -530,7 +530,7 @@ const globalConfig: Config = {
     pluginId: '123456789',
   },
   plan: {
-    isProEnabled: true,
+    isProEnabled: false,
     isTrialEnabled: true,
     trialTime: 72,
   },
