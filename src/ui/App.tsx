@@ -328,8 +328,12 @@ class App extends Component<AppProps, AppStates> {
               userSession: {
                 connectionStatus: 'CONNECTED',
                 userId: session?.user.id || '',
-                userFullName: session?.user.user_metadata.full_name || 'Anonymous Palette Wizard',
-                userAvatar: session?.user.user_metadata.avatar_url || `https://www.gravatar.com/avatar/${session?.user.id}?d=identicon`,
+                userFullName:
+                  session?.user.user_metadata.full_name ||
+                  'Anonymous Palette Wizard',
+                userAvatar:
+                  session?.user.user_metadata.avatar_url ||
+                  `https://www.gravatar.com/avatar/${session?.user.id}?d=identicon`,
               },
             })
           },
@@ -338,8 +342,12 @@ class App extends Component<AppProps, AppStates> {
               userSession: {
                 connectionStatus: 'CONNECTED',
                 userId: session?.user.id || '',
-                userFullName: session?.user.user_metadata.full_name || 'Anonymous Palette Wizard',
-                userAvatar: session?.user.user_metadata.avatar_url || `https://www.gravatar.com/avatar/${session?.user.id}?d=identicon`,
+                userFullName:
+                  session?.user.user_metadata.full_name ||
+                  'Anonymous Palette Wizard',
+                userAvatar:
+                  session?.user.user_metadata.avatar_url ||
+                  `https://www.gravatar.com/avatar/${session?.user.id}?d=identicon`,
               },
             })
             parent.postMessage({
