@@ -49,6 +49,10 @@ export default defineConfig(({ mode }) => {
         org: 'yelbolt',
         project: 'ui-color-palette',
         authToken: env.SENTRY_AUTH_TOKEN,
+        sourcemaps: {
+          filesToDeleteAfterUpload: '**/*.map',
+        },
+        telemetry: false,
       }),
     ],
 
@@ -67,7 +71,7 @@ export default defineConfig(({ mode }) => {
     },
 
     build: {
-      sourcemap: isDev,
+      sourcemap: true,
       minify: !isDev,
       outDir: 'dist',
       emptyOutDir: true,
