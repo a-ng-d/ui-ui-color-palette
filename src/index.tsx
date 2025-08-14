@@ -28,7 +28,7 @@ if (globalConfig.env.isMixpanelEnabled) {
   setMixpanelEnv(import.meta.env.MODE as 'development' | 'production')
 }
 
-if (globalConfig.env.isSentryEnabled) {
+if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN as string,
     environment: 'production',
