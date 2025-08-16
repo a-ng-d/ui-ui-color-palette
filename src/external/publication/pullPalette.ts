@@ -4,17 +4,17 @@ import type { AppStates } from '../../ui/App'
 
 const pullPalette = async ({
   rawData,
-  palettesDbTableName,
+  palettesDbViewName,
 }: {
   rawData: AppStates
-  palettesDbTableName: string
+  palettesDbViewName: string
 }): Promise<Partial<AppStates>> => {
   const supabase = getSupabase()
 
   if (!supabase) throw new Error('Supabase client is not initialized')
 
   const { data, error } = await supabase
-    .from(palettesDbTableName)
+    .from(palettesDbViewName)
     .select('*')
     .eq('palette_id', rawData.id)
 
@@ -95,7 +95,7 @@ const pullPalette = async ({
             },
             {
               key: 'meta.creatorIdentity.creatorAvatar',
-              value: data[0].creator_avatar,
+              value: data[0].creator_avatar_url,
             },
           ],
           isAlreadyUpdated: true,
@@ -130,7 +130,7 @@ const pullPalette = async ({
       },
       creatorIdentity: {
         creatorFullName: data[0].creator_full_name,
-        creatorAvatar: data[0].creator_avatar,
+        creatorAvatar: data[0].creator_avatar_url,
         creatorId: data[0].creator_id,
       },
     }

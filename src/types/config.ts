@@ -31,8 +31,8 @@ export interface Config {
     trialTime: number
   }
   dbs: {
+    palettesDbViewName: string
     palettesDbTableName: string
-    palettesStorageName: string
   }
   urls: {
     authWorkerUrl: string

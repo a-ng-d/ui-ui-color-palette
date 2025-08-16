@@ -40,8 +40,6 @@ const pushPalette = async ({
         themes: rawData.themes,
         algorithm_version: rawData.algorithmVersion,
         is_shared: isShared,
-        creator_full_name: rawData.userSession.userFullName,
-        creator_avatar: rawData.userSession.userAvatar,
         creator_id: rawData.userSession.userId,
         updated_at: now,
         published_at: now,

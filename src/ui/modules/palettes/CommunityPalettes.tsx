@@ -163,9 +163,9 @@ export default class CommunityPalettes extends PureComponent<
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;({ data, error } = await supabase
-        .from(this.props.config.dbs.palettesDbTableName)
+        .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared'
         )
         .eq('is_shared', true)
         .order('published_at', { ascending: false })
@@ -176,9 +176,9 @@ export default class CommunityPalettes extends PureComponent<
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;({ data, error } = await supabase
-        .from(this.props.config.dbs.palettesDbTableName)
+        .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar, creator_full_name, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared'
         )
         .eq('is_shared', true)
         .order('published_at', { ascending: false })
@@ -213,7 +213,7 @@ export default class CommunityPalettes extends PureComponent<
     if (!supabase) throw new Error('Supabase client is not initialized')
 
     const { data, error } = await supabase
-      .from(this.props.config.dbs.palettesDbTableName)
+      .from(this.props.config.dbs.palettesDbViewName)
       .select('*')
       .eq('palette_id', id)
 
@@ -248,7 +248,7 @@ export default class CommunityPalettes extends PureComponent<
                   },
                   creatorIdentity: {
                     creatorFullName: data[0].creator_full_name,
-                    creatorAvatar: data[0].creator_avatar,
+                    creatorAvatar: data[0].creator_avatar_url,
                     creatorId: data[0].creator_id,
                   },
                 } as MetaConfiguration,
@@ -383,7 +383,7 @@ export default class CommunityPalettes extends PureComponent<
                   palette.themes ?? []
                 )}
                 user={{
-                  avatar: palette.creator_avatar ?? '',
+                  avatar: palette.creator_avatar_url ?? '',
                   name: palette.creator_full_name ?? '',
                 }}
                 actionsSlot={

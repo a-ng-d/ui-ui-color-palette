@@ -183,7 +183,7 @@ export default class Publication extends PureComponent<
     }
 
     const { data, error } = await supabase
-      .from(this.props.config.dbs.palettesDbTableName)
+      .from(this.props.config.dbs.palettesDbViewName)
       .select('*')
       .eq('palette_id', this.props.rawData.id)
 
@@ -410,7 +410,7 @@ export default class Publication extends PureComponent<
             this.setState({ isSecondaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
-              palettesDbTableName: this.props.config.dbs.palettesDbTableName,
+              palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
                 this.props.onChangePublication(data)
@@ -475,7 +475,7 @@ export default class Publication extends PureComponent<
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
-              palettesDbTableName: this.props.config.dbs.palettesDbTableName,
+              palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
                 this.props.onChangePublication(data)
@@ -577,7 +577,7 @@ export default class Publication extends PureComponent<
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
-              palettesDbTableName: this.props.config.dbs.palettesDbTableName,
+              palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
                 this.props.onChangePublication(data)
@@ -857,7 +857,7 @@ export default class Publication extends PureComponent<
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
               rawData: this.props.rawData,
-              palettesDbTableName: this.props.config.dbs.palettesDbTableName,
+              palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
                 this.props.onChangePublication(data)

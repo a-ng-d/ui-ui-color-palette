@@ -535,8 +535,8 @@ const globalConfig: Config = {
     trialTime: 72,
   },
   dbs: {
-    palettesDbTableName: 'sandbox.palettes',
-    palettesStorageName: 'palette.screenshots',
+    palettesDbViewName: 'sandbox_palettes_with_creators',
+    palettesDbTableName: 'sandbox_palettes',
   },
   urls: {
     authWorkerUrl: 'http://localhost:8787',
