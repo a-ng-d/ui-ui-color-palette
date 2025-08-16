@@ -20,6 +20,7 @@ import {
   VisionSimulationModeConfiguration,
   BaseConfiguration,
   Data,
+  Code,
 } from '@a_ng_d/utils-ui-color-palette'
 import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { doScale } from '@a_ng_d/figmug-utils'
@@ -183,19 +184,21 @@ export default class EditPalette extends PureComponent<
         format: 'JSON',
         context: 'TOKENS_NATIVE',
         mimeType: 'application/json',
-        data: new Data({
-          base: {
-            name: this.props.name,
-            description: this.props.description,
-            preset: this.props.preset,
-            shift: this.props.shift,
-            areSourceColorsLocked: this.props.areSourceColorsLocked,
-            colors: this.props.colors,
-            colorSpace: this.props.colorSpace,
-            algorithmVersion: this.props.algorithmVersion,
-          } as BaseConfiguration,
-          themes: this.props.themes,
-        }).makeNativeTokens(),
+        data: new Code(
+          new Data({
+            base: {
+              name: this.props.name,
+              description: this.props.description,
+              preset: this.props.preset,
+              shift: this.props.shift,
+              areSourceColorsLocked: this.props.areSourceColorsLocked,
+              colors: this.props.colors,
+              colorSpace: this.props.colorSpace,
+              algorithmVersion: this.props.algorithmVersion,
+            } as BaseConfiguration,
+            themes: this.props.themes,
+          }).makePaletteData()
+        ).makeNativeTokens(),
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
