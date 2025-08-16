@@ -7,7 +7,6 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
-import package_json from './../../../../package.json'
 
 interface AboutProps extends BaseProps, WithConfigProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
@@ -64,7 +63,7 @@ export default class About extends PureComponent<AboutProps> {
                         <div className={layouts.snackbar}>
                           <span
                             className={texts.type}
-                          >{`Version ${package_json.version}`}</span>
+                          >{`Version ${this.props.config.versions.pluginVersion}`}</span>
                           <Feature
                             isActive={
                               About.features(
