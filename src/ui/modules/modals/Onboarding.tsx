@@ -162,8 +162,22 @@ export default class Onboarding extends PureComponent<
     if (this.state.position + 1 < this.state.announcements.length)
       this.setState({ position: this.state.position + 1, isImageLoaded: false })
     else {
-      this.props.onCloseOnboarding(e as MouseEvent)
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: 'SET_ITEMS',
+            items: [
+              {
+                key: 'is_onboarding_read',
+                value: 'true',
+              },
+            ],
+          },
+        },
+        '*'
+      )
       this.setState({ position: 0 })
+      this.props.onCloseOnboarding(e as MouseEvent)
     }
   }
 

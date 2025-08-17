@@ -121,8 +121,27 @@ export default class Announcements extends PureComponent<
     if (this.state.position + 1 < this.state.announcements.length)
       this.setState({ position: this.state.position + 1, isImageLoaded: false })
     else {
-      this.props.onCloseAnnouncements(e as MouseEvent)
+      if (
+        this.props.announcements.version !== undefined &&
+        this.props.announcements.version !== '' &&
+        this.props.announcements.version !== null
+      )
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'SET_ITEMS',
+              items: [
+                {
+                  key: 'announcements_version',
+                  value: this.props.announcements.version,
+                },
+              ],
+            },
+          },
+          '*'
+        )
       this.setState({ position: 0 })
+      this.props.onCloseAnnouncements(e as MouseEvent)
     }
   }
 
