@@ -35,7 +35,7 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
     initialScope: {
       tags: {
         platform: globalConfig.env.platform,
-        version: import.meta.env.VITE_APP_VERSION,
+        version: globalConfig.versions.pluginVersion,
       },
     },
     integrations: [
@@ -53,7 +53,7 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
     tracesSampleRate: 1.0,
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
-    release: import.meta.env.VITE_APP_VERSION,
+    release: globalConfig.versions.pluginVersion,
   })
 
   initSentry(Sentry)
