@@ -48,7 +48,6 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
     maxValueLength: 1000,
     normalizeDepth: 10,
     maxBreadcrumbs: 100,
-
     release: import.meta.env.VITE_APP_VERSION,
   })
 
