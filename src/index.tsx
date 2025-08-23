@@ -32,6 +32,12 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN as string,
     environment: 'production',
+    initialScope: {
+      tags: {
+        platform: globalConfig.env.platform,
+        version: import.meta.env.VITE_APP_VERSION,
+      },
+    },
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
@@ -40,14 +46,13 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
         autoInject: false,
       }),
     ],
-    tracesSampleRate: 0.5,
-    replaysSessionSampleRate: 0.05,
-    replaysOnErrorSampleRate: 0.1,
-    debug: true,
     attachStacktrace: true,
-    maxValueLength: 1000,
-    normalizeDepth: 10,
-    maxBreadcrumbs: 100,
+    normalizeDepth: 15,
+    maxValueLength: 5000,
+    maxBreadcrumbs: 150,
+    tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
     release: import.meta.env.VITE_APP_VERSION,
   })
 

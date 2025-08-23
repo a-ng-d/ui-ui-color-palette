@@ -54,10 +54,16 @@ export default defineConfig(({ mode }) => {
           filesToDeleteAfterUpload: isDev ? undefined : '**/*.map',
         },
         release: {
-          name: import.meta.env.VITE_APP_VERSION,
+          name: env.VITE_APP_VERSION,
+          setCommits: {
+            auto: true,
+          },
+          finalize: true,
+          deploy: {
+            env: 'production',
+          },
         },
         telemetry: false,
-        debug: true,
       }),
     ],
 
@@ -76,7 +82,7 @@ export default defineConfig(({ mode }) => {
     },
 
     build: {
-      sourcemap: 'hidden',
+      sourcemap: true,
       minify: !isDev,
       outDir: 'dist',
       emptyOutDir: true,
