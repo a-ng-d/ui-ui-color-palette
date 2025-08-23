@@ -50,9 +50,14 @@ export default defineConfig(({ mode }) => {
         project: 'ui-color-palette',
         authToken: env.SENTRY_AUTH_TOKEN,
         sourcemaps: {
-          filesToDeleteAfterUpload: '**/*.map',
+          assets: './dist/**',
+          filesToDeleteAfterUpload: isDev ? undefined : '**/*.map',
+        },
+        release: {
+          name: import.meta.env.VITE_APP_VERSION,
         },
         telemetry: false,
+        debug: true,
       }),
     ],
 
@@ -71,7 +76,7 @@ export default defineConfig(({ mode }) => {
     },
 
     build: {
-      sourcemap: true,
+      sourcemap: 'hidden',
       minify: !isDev,
       outDir: 'dist',
       emptyOutDir: true,
@@ -84,6 +89,7 @@ export default defineConfig(({ mode }) => {
           dir: 'dist',
           entryFileNames: '[name].js',
           assetFileNames: 'assets/[name].[hash][extname]',
+          sourcemapExcludeSources: false,
         },
       },
     },

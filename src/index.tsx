@@ -40,9 +40,16 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
         autoInject: false,
       }),
     ],
-    tracesSampleRate: 0.1,
+    tracesSampleRate: 0.5,
     replaysSessionSampleRate: 0.05,
     replaysOnErrorSampleRate: 0.1,
+    debug: true,
+    attachStacktrace: true,
+    maxValueLength: 1000,
+    normalizeDepth: 10,
+    maxBreadcrumbs: 100,
+
+    release: import.meta.env.VITE_APP_VERSION,
   })
 
   initSentry(Sentry)
