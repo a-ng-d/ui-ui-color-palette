@@ -469,17 +469,42 @@ export default class FilePalettes extends PureComponent<
             type="NEUTRAL"
             message={`${this.props.locales.warning.noPaletteOnCurrrentFile}`}
             actionsSlot={
-              <Button
-                type="primary"
-                label={this.props.locales.actions.createPalette}
-                isNew={FilePalettes.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).CREATE_PALETTE.isNew()}
-                action={this.props.onCreatePalette}
-              />
+              <>
+                <Feature
+                  isActive={FilePalettes.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).CREATE_PALETTE.isActive()}
+                >
+                  <Button
+                    type="primary"
+                    label={this.props.locales.actions.createPalette}
+                    isNew={FilePalettes.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).CREATE_PALETTE.isNew()}
+                    action={this.props.onCreatePalette}
+                  />
+                </Feature>
+                <Feature
+                  isActive={
+                    !FilePalettes.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).CREATE_PALETTE.isActive()
+                  }
+                >
+                  <span className={doClassnames([texts.type, texts.label])}>
+                    {this.props.locales.info.askDesigner}
+                  </span>
+                </Feature>
+              </>
             }
             orientation="VERTICAL"
           />
