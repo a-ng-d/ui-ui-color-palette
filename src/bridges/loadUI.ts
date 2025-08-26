@@ -1,3 +1,4 @@
+import globalConfig from '../global.config'
 import { locales } from '../content/locales'
 import updateThemes from './updates/updateThemes'
 import updateSettings from './updates/updateSettings'
@@ -235,7 +236,8 @@ window.addEventListener('message', async (msg: any) => {
           plans: ['ONE', 'FIGMA'],
         },
       }),
-    PAY_PRO_PLAN: async () => console.log('Pay Pro Plan', path),
+    GO_TO_ONE: async () => window.open(globalConfig.urls.storeUrl, '_blank'),
+    GO_TO_CHECKOUT: async () => console.log('Pay Pro Plan', path),
     ENABLE_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
         type: 'ENABLE_PRO_PLAN',

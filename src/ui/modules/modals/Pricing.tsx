@@ -132,88 +132,86 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               width: '100%',
             }}
           >
-            {this.props.plans.includes('ONE') && (
-              <Card
-                src={uicpo}
-                title={this.props.locales.pricing.one.title}
-                subtitle={this.props.locales.pricing.one.subtitle}
-                richText={this.createTextWithBreaks(
-                  this.props.locales.pricing.one.text
-                )}
-                actions={
-                  <Button
-                    type="primary"
-                    label={this.props.locales.pricing.one.cta}
-                    action={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      e.stopPropagation()
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'OPEN_IN_BROWSER',
-                            data: {
-                              url: this.props.config.urls.storeUrl,
+            {
+              this.props.plans.includes('ONE') && (
+                <Card
+                  src={uicpo}
+                  title={this.props.locales.pricing.one.title}
+                  subtitle={this.props.locales.pricing.one.subtitle}
+                  richText={this.createTextWithBreaks(
+                    this.props.locales.pricing.one.text
+                  )}
+                  actions={
+                    <Button
+                      type="primary"
+                      label={this.props.locales.pricing.one.cta}
+                      action={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.stopPropagation()
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'GO_TO_ONE',
                             },
                           },
-                        },
-                        '*'
-                      )
-                    }}
-                  />
-                }
-                shouldFill
-                action={() => {
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'OPEN_IN_BROWSER',
-                        data: {
-                          url: this.props.config.urls.storeUrl,
+                          '*'
+                        )
+                      }}
+                    />
+                  }
+                  shouldFill
+                  action={() => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'GO_TO_ONE',
                         },
                       },
-                    },
-                    '*'
-                  )
-                }}
-              />
-            )}
-            {this.props.plans.includes('FIGMA') && (
-              <Card
-                src={uicp}
-                title={this.props.locales.pricing.figma.title}
-                subtitle={this.props.locales.pricing.figma.subtitle}
-                richText={this.createTextWithBreaks(
-                  this.props.locales.pricing.figma.text
-                )}
-                actions={
-                  <Button
-                    type="primary"
-                    label={this.props.locales.pricing.figma.cta}
-                    action={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      e.stopPropagation()
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'PAY_PRO_PLAN',
+                      '*'
+                    )
+                  }}
+                />
+              )
+            }
+            {
+              this.props.plans.includes('FIGMA') && (
+                <Card
+                  src={uicp}
+                  title={this.props.locales.pricing.figma.title}
+                  subtitle={this.props.locales.pricing.figma.subtitle}
+                  richText={this.createTextWithBreaks(
+                    this.props.locales.pricing.figma.text
+                  )}
+                  actions={
+                    <Button
+                      type="primary"
+                      label={this.props.locales.pricing.figma.cta}
+                      action={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.stopPropagation()
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'GO_TO_CHECKOUT',
+                            },
                           },
+                          '*'
+                        )
+                      }}
+                    />
+                  }
+                  shouldFill
+                  action={() => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: {
+                          type: 'GO_TO_CHECKOUT',
                         },
-                        '*'
-                      )
-                    }}
-                  />
-                }
-                shouldFill
-                action={() => {
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'PAY_PRO_PLAN',
                       },
-                    },
-                    '*'
-                  )
-                }}
-              />
-            )}
+                      '*'
+                    )
+                  }}
+                />
+              )
+            }
           </div>
         </Dialog>
       </Feature>
