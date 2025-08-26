@@ -565,7 +565,7 @@ export default class Actions extends PureComponent<
         this.props.editor
       ).SOURCE.isReached(this.props.sourceColors.length - 1)
     )
-      return true
+      return false
     if (
       $palette.get().preset.id.includes('CUSTOM') &&
       Actions.features(
@@ -575,7 +575,7 @@ export default class Actions extends PureComponent<
         this.props.editor
       ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
     )
-      return true
+      return false
     if (
       $palette.get().areSourceColorsLocked &&
       Actions.features(
@@ -585,7 +585,7 @@ export default class Actions extends PureComponent<
         this.props.editor
       ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
     )
-      return true
+      return false
     if (
       $palette.get().shift.chroma !== 100 &&
       Actions.features(
@@ -595,7 +595,7 @@ export default class Actions extends PureComponent<
         this.props.editor
       ).SCALE_CHROMA.isBlocked()
     )
-      return true
+      return false
     if (
       $palette.get().visionSimulationMode !== 'NONE' &&
       Actions.features(
@@ -607,8 +607,76 @@ export default class Actions extends PureComponent<
         `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
       ].isBlocked()
     )
-      return true
-    return false
+      return false
+    return true
+  }
+
+  proWarning = (): string => {
+    const warningMessage = []
+
+    if (
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).SOURCE.isReached(this.props.sourceColors.length - 1)
+    )
+      warningMessage.push(
+        this.props.locales.info.multipleBlockingMessages.sourceColors
+      )
+    if (
+      $palette.get().preset.id.includes('CUSTOM') &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
+    )
+      warningMessage.push(
+        this.props.locales.info.multipleBlockingMessages.stops
+      )
+    if (
+      $palette.get().areSourceColorsLocked &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
+    )
+      warningMessage.push(
+        this.props.locales.info.multipleBlockingMessages.lockedSourceColors
+      )
+    if (
+      $palette.get().shift.chroma !== 100 &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      ).SCALE_CHROMA.isBlocked()
+    )
+      warningMessage.push(
+        this.props.locales.info.multipleBlockingMessages.chroma
+      )
+    if (
+      $palette.get().visionSimulationMode !== 'NONE' &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      )[
+        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+      ].isBlocked()
+    )
+      warningMessage.push(
+        this.props.locales.info.multipleBlockingMessages.visionSimulationMode
+      )
+
+    return warningMessage.join(', ')
   }
 
   // Templates
@@ -727,8 +795,21 @@ export default class Actions extends PureComponent<
               type="primary"
               label={this.props.locales.actions.savePalette}
               feature="CREATE_PALETTE"
+              warning={
+                !this.canSavePalette()
+                  ? {
+                      label:
+                        this.props.locales.info.multipleBlockingMessages.head.replace(
+                          '{messages}',
+                          this.proWarning()
+                        ),
+                      pin: 'TOP',
+                      type: 'MULTI_LINE',
+                    }
+                  : undefined
+              }
               isDisabled={this.props.sourceColors.length === 0}
-              isBlocked={this.canSavePalette()}
+              isBlocked={!this.canSavePalette()}
               isLoading={this.props.isPrimaryLoading}
               action={this.props.onCreatePalette}
             />

@@ -264,6 +264,14 @@
     "maxNumberOfSourceColors": "Upgrade to /pro to add more than {maxCount} source colors",
     "maxNumberOfStops": "Upgrade to /pro to add more than {maxCount} stops",
     "maxNumberOfLocalPalettes": "Upgrade to /pro to add more than {maxCount} local palettes",
+    "multipleBlockingMessages": {
+      "head": "Upgrade to /pro or: {messages}",
+      "sourceColors": "decrease source colors",
+      "stops": "decrease stops",
+      "lockedSourceColors": "unlock source colors",
+      "chroma": "reset chroma",
+      "visionSimulationMode": "reset vision simulation"
+    },
     "noResult": "No palette matches your search",
     "paletteCreated": "{name} palette created",
     "removedLocalStyles": {
@@ -605,7 +613,7 @@
         "protanopia": "Protanopia (red-blind)",
         "tritanomaly": "Tritanomaly (blue-weak)",
         "tritanopia": "Tritanopia (blue-blind)",
-        "warning": "Update to /pro to save a palette with this vision simulation mode"
+        "warning": "Upgrade to /pro to save a palette with this vision simulation mode"
       }
     },
     "contexts": {
