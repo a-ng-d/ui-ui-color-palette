@@ -8,6 +8,7 @@ declare const __COLOR_MODE__: 'dark' | 'light'
 declare const __EDITOR__: 'figma' | 'dev' | 'penpot'
 
 const isDev = import.meta.env.MODE === 'development'
+declare const __APP_VERSION__: string
 
 interface SpecConfig {
   [platform: string]: {
@@ -574,7 +575,7 @@ const globalConfig: Config = {
     trialVersion: '2024.04',
     algorithmVersion: 'v3',
     paletteVersion: '2025.06',
-    pluginVersion: import.meta.env.VITE_APP_VERSION,
+    pluginVersion: __APP_VERSION__,
   },
   features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
   locales: locales.get(),

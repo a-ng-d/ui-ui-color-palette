@@ -71,6 +71,7 @@ export default defineConfig(({ mode }) => {
       __PLATFORM__: JSON.stringify(platform),
       __COLOR_MODE__: JSON.stringify(colorMode),
       __EDITOR__: JSON.stringify(editor),
+      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
     },
 
     resolve: {
