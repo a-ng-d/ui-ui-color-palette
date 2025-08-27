@@ -16,10 +16,6 @@ import {
 } from '../../types/events'
 import { getMixpanel, getMixpanelEnv } from './client'
 
-const eventsRecurringProperties = {
-  Env: getMixpanelEnv(),
-}
-
 export const trackUserConsentEvent = (
   isEnabled: boolean,
   version: string,
@@ -32,10 +28,10 @@ export const trackUserConsentEvent = (
   if (mixpanel)
     mixpanel.track('Consent Proof Sent', {
       'User Consent Version': version,
+      Env: getMixpanelEnv(),
       Consent: consent.map((c) => {
         return { [c.name]: c.isConsented }
       }),
-      ...eventsRecurringProperties,
     })
 }
 
@@ -51,7 +47,7 @@ export const trackEditorEvent = (
   if (mixpanel)
     mixpanel.track('Editor Run', {
       Editor: options.editor,
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
     })
 
   if (id === '') return
@@ -69,8 +65,8 @@ export const trackSignInEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Signed In', {
+      Env: getMixpanelEnv(),
       Editor: options.editor,
-      ...eventsRecurringProperties,
     })
 
   if (id === '') return
@@ -89,7 +85,7 @@ export const trackSignOutEvent = (
   if (mixpanel)
     mixpanel.track('Signed Out', {
       Editor: options.editor,
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
     })
 
   if (id === '') return
@@ -107,6 +103,7 @@ export const trackTrialEnablementEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Trial Enabled', {
+      Env: getMixpanelEnv(),
       Editor: options.editor,
       'Trial Start Date': new Date(options.date).toISOString(),
       'Trial End Date': new Date(
@@ -114,7 +111,6 @@ export const trackTrialEnablementEvent = (
       ).toISOString(),
       'Trial Time': options.trialTime + ' hours',
       'Trial Version': '3.2.0',
-      ...eventsRecurringProperties,
     })
 
   if (id === '') return
@@ -132,8 +128,8 @@ export const trackPurchaseEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Purchase Enabled', {
+      Env: getMixpanelEnv(),
       Editor: options.editor,
-      ...eventsRecurringProperties,
     })
 
   if (id === '') return
@@ -151,7 +147,7 @@ export const trackPublicationEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Palette Managed', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
     })
 
@@ -170,7 +166,7 @@ export const trackImportEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Colors Imported', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
     })
 
@@ -189,7 +185,7 @@ export const trackScaleManagementEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Scale Updated', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
     })
 
@@ -208,7 +204,7 @@ export const trackPreviewManagementEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Preview Updated', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
     })
 
@@ -227,7 +223,7 @@ export const trackSourceColorsManagementEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Source Color Updated', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
     })
 
@@ -246,7 +242,7 @@ export const trackColorThemesManagementEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Color Theme Updated', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
     })
 
@@ -265,7 +261,7 @@ export const trackSettingsManagementEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Setting Updated', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
     })
 
@@ -284,7 +280,7 @@ export const trackExportEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Color Shades Exported', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
       'Color Space': options.colorSpace ?? 'NC',
     })
@@ -304,7 +300,7 @@ export const trackActionEvent = (
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Action Triggered', {
-      ...eventsRecurringProperties,
+      Env: getMixpanelEnv(),
       Feature: options.feature,
       Colors: options.colors === undefined ? 0 : options.colors,
       Stops: options.stops === undefined ? 0 : options.stops,
