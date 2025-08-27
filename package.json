@@ -1,6 +1,6 @@
 {
   "name": "ui-ui-color-palette",
-  "version": "1.7.4",
+  "version": "1.8.0",
   "private": true,
   "description": "A unified UI component library for color palette functionality across multiple design platforms. This project serves as a common UI foundation that adapts to different platforms (Figma, Penpot, Sketch) while maintaining a consistent experience.",
   "author": "Aurélien Grimaud",
