@@ -39,8 +39,6 @@ const checkTrialStatus = async () => {
     planStatus = 'PAID'
   else planStatus = undefined
 
-  console.log(planStatus)
-
   iframe?.contentWindow?.postMessage({
     type: 'CHECK_TRIAL_STATUS',
     data: {
