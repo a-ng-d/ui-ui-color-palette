@@ -261,7 +261,7 @@ export default class License extends PureComponent<
             })
             .finally(() => {
               this.setState({
-                isSecondaryActionLoading: false,
+                isPrimaryActionLoading: false,
               })
             })
             .catch(() => {
