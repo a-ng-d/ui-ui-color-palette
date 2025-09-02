@@ -59,6 +59,7 @@ import {
   trackTrialEnablementEvent,
   trackUserConsentEvent,
 } from '../external/tracking/eventsTracker'
+import { setEditor } from '../external/tracking/client'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
 import { getSupabase } from '../external/auth/client'
@@ -452,6 +453,7 @@ class App extends Component<AppProps, AppStates> {
 
       const checkEditor = () => {
         this.setState({ editor: path.data.editor })
+        setEditor(path.data.editor)
         setTimeout(
           () =>
             trackEditorEvent(
