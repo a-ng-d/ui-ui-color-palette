@@ -240,10 +240,12 @@ window.addEventListener('message', async (msg: any) => {
       iframe?.contentWindow?.postMessage({
         type: 'GET_PRICING',
         data: {
-          plans: ['ONE', 'FIGMA'],
+          plans: ['ONE', 'ONE_FIGMA', 'FIGMA'],
         },
       }),
     GO_TO_ONE: async () => window.open(globalConfig.urls.storeUrl, '_blank'),
+    GO_TO_ONE_FIGMA: async () =>
+      window.open('https://uicp.ylb.lt/run-figma-plugin', '_blank'),
     GO_TO_CHECKOUT: async () => console.log('Pay Pro Plan', path),
     ENABLE_PRO_PLAN: async () =>
       iframe?.contentWindow?.postMessage({
