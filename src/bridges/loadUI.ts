@@ -58,6 +58,13 @@ if (iframe) {
     iframe?.contentWindow?.postMessage({
       type: 'CHECK_ANNOUNCEMENTS_VERSION',
     })
+    iframe?.contentWindow?.postMessage({
+      type: 'CHECK_EDITOR',
+      data: {
+        id: '',
+        editor: globalConfig.env.editor,
+      },
+    })
   }
 }
 

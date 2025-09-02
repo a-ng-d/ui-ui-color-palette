@@ -1,20 +1,17 @@
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import {
   ActionEvent,
-  AuthenticationEvent,
   ColorThemeEvent,
-  EditorEvent,
   ExportEvent,
   ImportEvent,
   PreviewEvent,
   PublicationEvent,
-  PurchaseEvent,
   ScaleEvent,
   SettingEvent,
   SourceColorEvent,
   TrialEvent,
 } from '../../types/events'
-import { getMixpanel, getMixpanelEnv } from './client'
+import { getEditor, getMixpanel, getMixpanelEnv } from './client'
 
 export const trackUserConsentEvent = (
   isEnabled: boolean,
@@ -29,6 +26,7 @@ export const trackUserConsentEvent = (
     mixpanel.track('Consent Proof Sent', {
       'User Consent Version': version,
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Consent: consent.map((c) => {
         return { [c.name]: c.isConsented }
       }),
@@ -38,16 +36,15 @@ export const trackUserConsentEvent = (
 export const trackEditorEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean,
-  options: EditorEvent
+  consent: boolean
 ) => {
   const mixpanel = getMixpanel()
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Editor Run', {
-      Editor: options.editor,
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
     })
 
   if (id === '') return
@@ -57,8 +54,7 @@ export const trackEditorEvent = (
 export const trackSignInEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean,
-  options: AuthenticationEvent
+  consent: boolean
 ) => {
   const mixpanel = getMixpanel()
 
@@ -66,7 +62,7 @@ export const trackSignInEvent = (
   if (mixpanel)
     mixpanel.track('Signed In', {
       Env: getMixpanelEnv(),
-      Editor: options.editor,
+      Editor: getEditor(),
     })
 
   if (id === '') return
@@ -76,16 +72,15 @@ export const trackSignInEvent = (
 export const trackSignOutEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean,
-  options: AuthenticationEvent
+  consent: boolean
 ) => {
   const mixpanel = getMixpanel()
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Signed Out', {
-      Editor: options.editor,
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
     })
 
   if (id === '') return
@@ -104,7 +99,7 @@ export const trackTrialEnablementEvent = (
   if (mixpanel)
     mixpanel.track('Trial Enabled', {
       Env: getMixpanelEnv(),
-      Editor: options.editor,
+      Editor: getEditor(),
       'Trial Start Date': new Date(options.date).toISOString(),
       'Trial End Date': new Date(
         options.date + options.trialTime * 3600 * 1000
@@ -120,8 +115,7 @@ export const trackTrialEnablementEvent = (
 export const trackPurchaseEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean,
-  options: PurchaseEvent
+  consent: boolean
 ) => {
   const mixpanel = getMixpanel()
 
@@ -129,7 +123,7 @@ export const trackPurchaseEvent = (
   if (mixpanel)
     mixpanel.track('Purchase Enabled', {
       Env: getMixpanelEnv(),
-      Editor: options.editor,
+      Editor: getEditor(),
     })
 
   if (id === '') return
@@ -148,6 +142,7 @@ export const trackPublicationEvent = (
   if (mixpanel)
     mixpanel.track('Palette Managed', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
     })
 
@@ -167,6 +162,7 @@ export const trackImportEvent = (
   if (mixpanel)
     mixpanel.track('Colors Imported', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
     })
 
@@ -186,6 +182,7 @@ export const trackScaleManagementEvent = (
   if (mixpanel)
     mixpanel.track('Scale Updated', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
     })
 
@@ -205,6 +202,7 @@ export const trackPreviewManagementEvent = (
   if (mixpanel)
     mixpanel.track('Preview Updated', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
     })
 
@@ -224,6 +222,7 @@ export const trackSourceColorsManagementEvent = (
   if (mixpanel)
     mixpanel.track('Source Color Updated', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
     })
 
@@ -243,6 +242,7 @@ export const trackColorThemesManagementEvent = (
   if (mixpanel)
     mixpanel.track('Color Theme Updated', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
     })
 
@@ -262,6 +262,7 @@ export const trackSettingsManagementEvent = (
   if (mixpanel)
     mixpanel.track('Setting Updated', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
     })
 
@@ -281,6 +282,7 @@ export const trackExportEvent = (
   if (mixpanel)
     mixpanel.track('Color Shades Exported', {
       Env: getMixpanelEnv(),
+      Editor: getEditor(),
       Feature: options.feature,
       'Color Space': options.colorSpace ?? 'NC',
     })
@@ -302,6 +304,7 @@ export const trackActionEvent = (
     mixpanel.track('Action Triggered', {
       Env: getMixpanelEnv(),
       Feature: options.feature,
+      Editor: getEditor(),
       Colors: options.colors === undefined ? 0 : options.colors,
       Stops: options.stops === undefined ? 0 : options.stops,
     })

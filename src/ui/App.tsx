@@ -463,10 +463,7 @@ class App extends Component<AppProps, AppStates> {
                 : this.state.userSession.userId,
               this.state.userConsent.find(
                 (consent) => consent.id === 'mixpanel'
-              )?.isConsented ?? false,
-              {
-                editor: path.data.editor,
-              }
+              )?.isConsented ?? false
             ),
           1000
         )
@@ -681,7 +678,6 @@ class App extends Component<AppProps, AppStates> {
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
-            editor: this.state.editor,
             date: path.data.date,
             trialTime: path.data.trialTime,
           }
@@ -722,10 +718,7 @@ class App extends Component<AppProps, AppStates> {
               : this.state.userIdentity.id
             : this.state.userSession.userId,
           this.state.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            editor: this.state.editor,
-          }
+            ?.isConsented ?? false
         )
       }
 

@@ -2,20 +2,10 @@ import {
   ColorSpaceConfiguration,
   EasingConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { Editor } from './app'
-
-export interface EditorEvent {
-  editor: Editor
-}
 
 export interface TrialEvent {
-  editor: Editor
   date: number
   trialTime: number
-}
-
-export interface PurchaseEvent {
-  editor: Editor
 }
 
 export interface PublicationEvent {
@@ -136,8 +126,4 @@ export interface ActionEvent {
     | 'UPDATE_DOCUMENT'
   colors?: number
   stops?: number
-}
-
-export interface AuthenticationEvent {
-  editor: Editor
 }

@@ -4,7 +4,11 @@ import mixpanel from 'mixpanel-browser'
 import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
-import { initMixpanel, setMixpanelEnv } from './external/tracking/client'
+import {
+  initMixpanel,
+  setEditor,
+  setMixpanelEnv,
+} from './external/tracking/client'
 import { initSentry } from './external/monitoring/client'
 import { initSupabase } from './external/auth/client'
 import { ThemeProvider } from './config/ThemeContext'
@@ -26,6 +30,7 @@ if (globalConfig.env.isMixpanelEnabled) {
 
   initMixpanel(mixpanel)
   setMixpanelEnv(import.meta.env.MODE as 'development' | 'production')
+  setEditor(globalConfig.env.editor)
 }
 
 if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {

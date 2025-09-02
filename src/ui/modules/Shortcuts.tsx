@@ -382,10 +382,7 @@ export default class Shortcuts extends PureComponent<
                                     : this.props.userSession.userId,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'
-                                  )?.isConsented ?? false,
-                                  {
-                                    editor: this.props.editor,
-                                  }
+                                  )?.isConsented ?? false
                                 )
                               })
                               .finally(() => {
@@ -559,10 +556,7 @@ export default class Shortcuts extends PureComponent<
                                     : this.props.userSession.userId,
                                   this.props.userConsent.find(
                                     (consent) => consent.id === 'mixpanel'
-                                  )?.isConsented ?? false,
-                                  {
-                                    editor: this.props.editor,
-                                  }
+                                  )?.isConsented ?? false
                                 )
                               })
                               .finally(() => {
