@@ -96,7 +96,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   One = () => {
     return (
       <Card
-        src={uicp}
+        src={uicpo}
         title={this.props.locales.pricing.one.title}
         subtitle={this.props.locales.pricing.one.subtitle}
         richText={this.createTextWithBreaks(
