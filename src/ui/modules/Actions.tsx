@@ -16,6 +16,7 @@ import {
   Dropdown,
   DropdownOption,
   Icon,
+  IconList,
   Input,
   layouts,
   Menu,
@@ -374,111 +375,80 @@ export default class Actions extends PureComponent<
       )
   }
 
-  optionsHandler = () => {
+  documentOptionsHandler = () => {
     const options = [
       {
-        label: this.publicationLabel(),
-        feature: 'PUBLISH_PALETTE',
+        label: this.props.locales.actions.generateDocument.palette,
+        feature: 'GENERATE_PALETTE',
         type: 'OPTION',
         isActive: Actions.features(
           this.props.planStatus,
           this.props.config,
           this.props.service,
           this.props.editor
-        ).PUBLISH_PALETTE.isActive(),
+        ).DOCUMENT_PALETTE.isActive(),
         isBlocked: Actions.features(
           this.props.planStatus,
           this.props.config,
           this.props.service,
           this.props.editor
-        ).PUBLISH_PALETTE.isBlocked(),
+        ).DOCUMENT_PALETTE.isBlocked(),
         isNew: Actions.features(
           this.props.planStatus,
           this.props.config,
           this.props.service,
           this.props.editor
-        ).PUBLISH_PALETTE.isNew(),
-        action: this.props.onPublishPalette,
+        ).DOCUMENT_PALETTE.isNew(),
+        action: this.props.onGenerateDocument,
       },
       {
-        label: this.props.locales.actions.generateDocument.label,
-        value: 'DOCUMENT',
-        type: 'GROUP',
-        children: [
-          {
-            label: this.props.locales.actions.generateDocument.palette,
-            feature: 'GENERATE_PALETTE',
-            type: 'OPTION',
-            isActive: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_PALETTE.isActive(),
-            isBlocked: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_PALETTE.isBlocked(),
-            isNew: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_PALETTE.isNew(),
-            action: this.props.onGenerateDocument,
-          },
-          {
-            label:
-              this.props.locales.actions.generateDocument.paletteWithProperties,
-            feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
-            type: 'OPTION',
-            isActive: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_PALETTE_PROPERTIES.isActive(),
-            isBlocked: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
-            isNew: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_PALETTE_PROPERTIES.isNew(),
-            action: this.props.onGenerateDocument,
-          },
-          {
-            label: this.props.locales.actions.generateDocument.sheet,
-            feature: 'GENERATE_SHEET',
-            type: 'OPTION',
-            isActive: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_SHEET.isActive(),
-            isBlocked: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_SHEET.isBlocked(),
-            isNew: Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_SHEET.isNew(),
-            action: this.props.onGenerateDocument,
-          },
-        ],
+        label:
+          this.props.locales.actions.generateDocument.paletteWithProperties,
+        feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
+        type: 'OPTION',
+        isActive: Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_PALETTE_PROPERTIES.isActive(),
+        isBlocked: Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
+        isNew: Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_PALETTE_PROPERTIES.isNew(),
+        action: this.props.onGenerateDocument,
+      },
+      {
+        label: this.props.locales.actions.generateDocument.sheet,
+        feature: 'GENERATE_SHEET',
+        type: 'OPTION',
+        isActive: Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_SHEET.isActive(),
+        isBlocked: Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_SHEET.isBlocked(),
+        isNew: Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_SHEET.isNew(),
+        action: this.props.onGenerateDocument,
       },
     ] as Array<DropdownOption>
 
@@ -554,6 +524,22 @@ export default class Actions extends PureComponent<
     )
       return this.props.locales.actions.syncPalette
     else return this.props.locales.actions.publishPalette
+  }
+
+  publicationIcon = (): IconList => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return 'library'
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return 'library'
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return 'swap'
+    else return 'library'
   }
 
   canSavePalette = (): boolean => {
@@ -972,13 +958,25 @@ export default class Actions extends PureComponent<
         }
         rightPartSlot={
           <div className={layouts['snackbar--medium']}>
-            <Menu
-              id="more-actions"
-              type="ICON"
-              icon="ellipses"
-              options={this.optionsHandler()}
+            <Button
+              type="icon"
+              icon={this.publicationIcon()}
               helper={{
-                label: this.props.locales.actions.moreActions,
+                label: this.publicationLabel(),
+                pin: 'TOP',
+                type: 'SINGLE_LINE',
+              }}
+              action={(
+                e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+              ) => this.props.onPublishPalette?.(e)}
+            />
+            <Menu
+              id="generate-documentation"
+              type="ICON"
+              icon="draft"
+              options={this.documentOptionsHandler()}
+              helper={{
+                label: this.props.locales.actions.generateDocument.label,
                 pin: 'TOP',
                 isSingleLine: true,
               }}

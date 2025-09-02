@@ -21,10 +21,10 @@
     "duplicate": "Duplicate",
     "export": "Export palette as {format}",
     "generateDocument": {
-      "label": "Generate a document",
-      "palette": "Generate a color palette",
-      "paletteWithProperties": "Generate a detailed color palette",
-      "sheet": "Generate a color sheet"
+      "label": "Generate documentation",
+      "palette": "Simple color palette",
+      "paletteWithProperties": "Detailed color palette",
+      "sheet": "Full color sheet"
     },
     "moreActions": "More actions",
     "publishOrSyncPalette": "Publish or Synchronize palette",
