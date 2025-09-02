@@ -278,7 +278,7 @@ export default class Shortcuts extends PureComponent<
                 >
                   <Button
                     type="icon"
-                    icon="library"
+                    icon="repository"
                     helper={{
                       label:
                         this.props.locales.shortcuts.tooltips.documentation,
