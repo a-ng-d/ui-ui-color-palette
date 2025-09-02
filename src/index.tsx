@@ -25,7 +25,11 @@ if (globalConfig.env.isMixpanelEnabled) {
     disable_cookie: true,
     ignore_dnt: true,
     opt_out_tracking_by_default: true,
+    record_sessions_percent: 50,
+    record_mask_text_selector: '*',
+    record_block_selector: 'img',
   })
+  mixpanel.config.record_heatmap_data = true
   mixpanel.opt_in_tracking()
 
   initMixpanel(mixpanel)
@@ -56,7 +60,7 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
     maxValueLength: 5000,
     maxBreadcrumbs: 150,
     tracesSampleRate: 1.0,
-    replaysSessionSampleRate: 0.1,
+    replaysSessionSampleRate: 0.01,
     replaysOnErrorSampleRate: 1.0,
     release: globalConfig.versions.pluginVersion,
   })
