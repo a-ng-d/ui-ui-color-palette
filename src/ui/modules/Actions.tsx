@@ -460,25 +460,30 @@ export default class Actions extends PureComponent<
     ] as Array<DropdownOption>
 
     if (this.state.canUpdateDocument)
-      options.push({
-        label: this.props.locales.actions.pushUpdates,
-        feature: 'PUSH_UPDATES',
-        type: 'OPTION',
-        isActive: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PUSH_UPDATES.isActive(),
-        isBlocked: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PUSH_UPDATES.isBlocked(),
-        isNew: true,
-        action: this.props.onGenerateDocument,
-      })
+      options.push(
+        {
+          type: 'SEPARATOR',
+        },
+        {
+          label: this.props.locales.actions.pushUpdates,
+          feature: 'PUSH_UPDATES',
+          type: 'OPTION',
+          isActive: Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).DOCUMENT_PUSH_UPDATES.isActive(),
+          isBlocked: Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).DOCUMENT_PUSH_UPDATES.isBlocked(),
+          isNew: true,
+          action: this.props.onGenerateDocument,
+        }
+      )
 
     return options
   }
