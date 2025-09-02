@@ -380,8 +380,8 @@
     "secondaryAction": "………"
   },
   "plan": {
-    "dev": "Developer plan",
-    "free": "Basic plan",
+    "dev": "/dev plan",
+    "free": "/basic plan",
     "getPro": "Go /pro",
     "pro": "/pro plan",
     "trial": "Trial",
