@@ -40,13 +40,18 @@ const checkUserPreferences = async () => {
     {
       type: 'CHECK_USER_PREFERENCES',
       data: {
-        isWCAGDisplayed: isWCAGDisplayed === 'true',
-        isAPCADisplayed: isAPCADisplayed === 'true',
-        canDeepSyncStyles: canDeepSyncStyles === 'true',
-        canDeepSyncVariables: canDeepSyncVariables === 'true',
+        isWCAGDisplayed:
+          isWCAGDisplayed === null ? true : isWCAGDisplayed === 'true',
+        isAPCADisplayed:
+          isAPCADisplayed === null ? true : isAPCADisplayed === 'true',
+        canDeepSyncStyles:
+          canDeepSyncStyles === null ? false : canDeepSyncStyles === 'true',
+        canDeepSyncVariables:
+          canDeepSyncVariables === null
+            ? false
+            : canDeepSyncVariables === 'true',
         isVsCodeMessageDisplayed:
-          isVsCodeMessageDisplayed === null ||
-          isVsCodeMessageDisplayed === undefined
+          isVsCodeMessageDisplayed === null
             ? true
             : isVsCodeMessageDisplayed === 'true',
         userLanguage: userLanguage ?? 'en-US',
