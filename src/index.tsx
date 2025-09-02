@@ -28,8 +28,8 @@ if (globalConfig.env.isMixpanelEnabled) {
     record_sessions_percent: 50,
     record_mask_text_selector: '*',
     record_block_selector: 'img',
+    record_heatmap_data: true,
   })
-  mixpanel.config.record_heatmap_data = true
   mixpanel.opt_in_tracking()
 
   initMixpanel(mixpanel)
