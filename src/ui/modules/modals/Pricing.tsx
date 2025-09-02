@@ -92,6 +92,130 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     )
   }
 
+  // Templates
+  One = () => {
+    return (
+      <Card
+        src={uicp}
+        title={this.props.locales.pricing.one.title}
+        subtitle={this.props.locales.pricing.one.subtitle}
+        richText={this.createTextWithBreaks(
+          this.props.locales.pricing.one.text
+        )}
+        actions={
+          <Button
+            type="primary"
+            label={this.props.locales.pricing.one.cta}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'GO_TO_ONE',
+                  },
+                },
+                '*'
+              )
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: 'GO_TO_ONE',
+              },
+            },
+            '*'
+          )
+        }}
+      />
+    )
+  }
+
+  OneFigma = () => {
+    return (
+      <Card
+        src={uicpo}
+        title={this.props.locales.pricing.oneFigma.title}
+        subtitle={this.props.locales.pricing.oneFigma.subtitle}
+        richText={this.createTextWithBreaks(
+          this.props.locales.pricing.oneFigma.text
+        )}
+        actions={
+          <Button
+            type="primary"
+            label={this.props.locales.pricing.oneFigma.cta}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'GO_TO_ONE_FIGMA',
+                  },
+                },
+                '*'
+              )
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: 'GO_TO_ONE_FIGMA',
+              },
+            },
+            '*'
+          )
+        }}
+      />
+    )
+  }
+
+  Figma = () => {
+    return (
+      <Card
+        src={uicp}
+        title={this.props.locales.pricing.figma.title}
+        subtitle={this.props.locales.pricing.figma.subtitle}
+        richText={this.createTextWithBreaks(
+          this.props.locales.pricing.figma.text
+        )}
+        actions={
+          <Button
+            type="primary"
+            label={this.props.locales.pricing.figma.cta}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: 'GO_TO_CHECKOUT',
+                  },
+                },
+                '*'
+              )
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: 'GO_TO_CHECKOUT',
+              },
+            },
+            '*'
+          )
+        }}
+      />
+    )
+  }
+
   // Render
   render() {
     let padding
@@ -132,120 +256,18 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               width: '100%',
             }}
           >
-            {this.props.plans.includes('ONE') && (
-              <Card
-                src={uicpo}
-                title={this.props.locales.pricing.one.title}
-                subtitle={this.props.locales.pricing.one.subtitle}
-                richText={this.createTextWithBreaks(
-                  this.props.locales.pricing.one.text
-                )}
-                actions={
-                  <Button
-                    type="primary"
-                    label={this.props.locales.pricing.one.cta}
-                    action={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      e.stopPropagation()
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'GO_TO_ONE',
-                          },
-                        },
-                        '*'
-                      )
-                    }}
-                  />
-                }
-                shouldFill
-                action={() => {
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'GO_TO_ONE',
-                      },
-                    },
-                    '*'
-                  )
-                }}
-              />
-            )}
-            {this.props.plans.includes('FIGMA') && (
-              <Card
-                src={uicp}
-                title={this.props.locales.pricing.figma.title}
-                subtitle={this.props.locales.pricing.figma.subtitle}
-                richText={this.createTextWithBreaks(
-                  this.props.locales.pricing.figma.text
-                )}
-                actions={
-                  <Button
-                    type="primary"
-                    label={this.props.locales.pricing.figma.cta}
-                    action={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      e.stopPropagation()
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'GO_TO_CHECKOUT',
-                          },
-                        },
-                        '*'
-                      )
-                    }}
-                  />
-                }
-                shouldFill
-                action={() => {
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'GO_TO_CHECKOUT',
-                      },
-                    },
-                    '*'
-                  )
-                }}
-              />
-            )}
-            {this.props.plans.includes('ONE_FIGMA') && (
-              <Card
-                src={uicp}
-                title={this.props.locales.pricing.oneFigma.title}
-                subtitle={this.props.locales.pricing.oneFigma.subtitle}
-                richText={this.createTextWithBreaks(
-                  this.props.locales.pricing.oneFigma.text
-                )}
-                actions={
-                  <Button
-                    type="primary"
-                    label={this.props.locales.pricing.oneFigma.cta}
-                    action={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      e.stopPropagation()
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'GO_TO_ONE_FIGMA',
-                          },
-                        },
-                        '*'
-                      )
-                    }}
-                  />
-                }
-                shouldFill
-                action={() => {
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'GO_TO_CHECKOUT',
-                      },
-                    },
-                    '*'
-                  )
-                }}
-              />
-            )}
+            {this.props.plans.map((plan) => {
+              switch (plan) {
+                case 'ONE':
+                  return <this.One />
+                case 'ONE_FIGMA':
+                  return <this.OneFigma />
+                case 'FIGMA':
+                  return <this.Figma />
+                default:
+                  return null
+              }
+            })}
           </div>
         </Dialog>
       </Feature>
