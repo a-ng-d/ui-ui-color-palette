@@ -71,10 +71,7 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -120,6 +117,13 @@ export default class Actions extends PureComponent<
     SYNC_LOCAL_VARIABLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_VARIABLES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DOCUMENT: new FeatureStatus({
+      features: config.features,
+      featureName: 'DOCUMENT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -958,32 +962,50 @@ export default class Actions extends PureComponent<
         }
         rightPartSlot={
           <div className={layouts['snackbar--medium']}>
-            <Button
-              type="icon"
-              icon={this.publicationIcon()}
-              helper={{
-                label: this.publicationLabel(),
-                pin: 'TOP',
-                type: 'SINGLE_LINE',
-              }}
-              action={(
-                e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
-              ) => this.props.onPublishPalette?.(e)}
-            />
-            <Menu
-              id="generate-documentation"
-              type="ICON"
-              icon="draft"
-              options={this.documentOptionsHandler()}
-              helper={{
-                label: this.props.locales.actions.generateDocument.label,
-                pin: 'TOP',
-                isSingleLine: true,
-              }}
-              alignment="TOP_RIGHT"
-              state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
-              isNew={this.state.canUpdateDocument}
-            />
+            <Feature
+              isActive={Actions.features(
+                this.props.planStatus,
+                this.props.config,
+                this.props.service,
+                this.props.editor
+              ).PUBLICATION.isActive()}
+            >
+              <Button
+                type="icon"
+                icon={this.publicationIcon()}
+                helper={{
+                  label: this.publicationLabel(),
+                  pin: 'TOP',
+                  type: 'SINGLE_LINE',
+                }}
+                action={(
+                  e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+                ) => this.props.onPublishPalette?.(e)}
+              />
+            </Feature>
+            <Feature
+              isActive={Actions.features(
+                this.props.planStatus,
+                this.props.config,
+                this.props.service,
+                this.props.editor
+              ).DOCUMENT.isActive()}
+            >
+              <Menu
+                id="generate-documentation"
+                type="ICON"
+                icon="draft"
+                options={this.documentOptionsHandler()}
+                helper={{
+                  label: this.props.locales.actions.generateDocument.label,
+                  pin: 'TOP',
+                  isSingleLine: true,
+                }}
+                alignment="TOP_RIGHT"
+                state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
+                isNew={this.state.canUpdateDocument}
+              />
+            </Feature>
             <Menu
               id="main-actions"
               type="PRIMARY"
