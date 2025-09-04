@@ -195,7 +195,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       explodedEasing[0] = value
     else {
       explodedEasing[0] = 'LINEAR'
-      explodedEasing.pop()
+      if (explodedEasing.length > 1) explodedEasing.pop()
     }
 
     this.props.onChangeDistributionEasing({
