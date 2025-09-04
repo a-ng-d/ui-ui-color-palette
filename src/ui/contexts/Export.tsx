@@ -1536,8 +1536,38 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                 <div className="export-palette__preview">
                   <style>
                     {`
-                      .export-palette__preview pre ::selection {
-                        background-color: ${selectionBackground};
+                      .export-palette__preview pre,
+                      .export-palette__preview pre code,
+                      .export-palette__preview pre span {
+                        -webkit-user-select: text !important;
+                        -moz-user-select: text !important;
+                        -ms-user-select: text !important;
+                        user-select: text !important;
+                      }
+                      
+                      .export-palette__preview pre span.react-syntax-highlighter-line-number {
+                        -webkit-user-select: none !important;
+                        -moz-user-select: none !important;
+                        -ms-user-select: none !important;
+                        user-select: none !important;
+                      }
+                      
+                      .export-palette__preview pre *::selection {
+                        background-color: ${selectionBackground} !important;
+                      }
+                      
+                      .export-palette__preview pre *::-webkit-selection {
+                        background-color: ${selectionBackground} !important;
+                      }
+                      
+                      .export-palette__preview pre *::-moz-selection {
+                        background-color: ${selectionBackground} !important;
+                      }
+                      
+                      @media screen and (-webkit-min-device-pixel-ratio:0) {
+                        .export-palette__preview pre *::selection {
+                          background-color: ${selectionBackground} !important;
+                        }
                       }
                     `}
                   </style>
@@ -1561,6 +1591,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                       backgroundColor: 'transparent',
                       border: border,
                       userSelect: 'text',
+                      WebkitUserSelect: 'text',
+                      MozUserSelect: 'text',
+                      msUserSelect: 'text',
                     }}
                     wrapLongLines={true}
                   >
