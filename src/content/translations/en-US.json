@@ -369,7 +369,7 @@
   "dev": {
     "vscode": {
       "cta": "Try it out",
-      "message": "UI Color Palette is also available for Visual Studio Code"
+      "message": "UI Color Palette is also available on the Figma VS Code plugin"
     },
     "readyForDev": "Ready for development"
   },
