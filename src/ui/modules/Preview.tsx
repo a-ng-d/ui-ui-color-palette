@@ -305,7 +305,7 @@ export default class Preview extends PureComponent<
     )
     const maxHeight = parentHeight - siblingsHeight
 
-    drawerEl.style.maxHeight = `${maxHeight}px`
+    drawerEl.style.maxHeight = `${maxHeight - 28}px`
     this.setState({ drawerMaxHeight: maxHeight })
   }
 
