@@ -678,7 +678,7 @@ export default class Shortcuts extends PureComponent<
                 </Feature>
                 <Menu
                   id="help-support-menu"
-                  icon="ellipses"
+                  icon="help"
                   options={[
                     {
                       label: this.props.locales.shortcuts.news,
