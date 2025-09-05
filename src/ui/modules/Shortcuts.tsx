@@ -39,10 +39,7 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -254,6 +251,21 @@ export default class Shortcuts extends PureComponent<
   }
 
   onRelease = () => (window.onmousemove = null)
+
+  onDoubleClick = () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'RESIZE_UI',
+          data: {
+            width: 640,
+            height: 420,
+          },
+        },
+      },
+      '*'
+    )
+  }
 
   // Render
   render() {
@@ -1107,6 +1119,9 @@ export default class Shortcuts extends PureComponent<
                 <div
                   className="box-resizer-grip"
                   onMouseDown={this.onHold.bind(this)}
+                  onClick={(e) => {
+                    if (e.detail === 2) this.onDoubleClick()
+                  }}
                 >
                   <Icon
                     type="PICTO"
