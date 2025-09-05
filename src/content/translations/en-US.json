@@ -102,10 +102,8 @@
       "removeColor": "Remove color",
       "new": "New UI Color",
       "colorName": "Color name",
-      "shiftHue": "Shift hue"
-    },
-    "backgroundColor": {
-      "label": "Background"
+      "alphaBackground": "Alpha background color",
+      "sourceColor": "Source color"
     },
     "callout": {
       "cta": "Create a source color",

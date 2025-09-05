@@ -7,7 +7,7 @@ import {
   HexModel,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,
   FormItem,
@@ -120,7 +120,10 @@ export default class Colors extends PureComponent<ColorsProps> {
       ),
       currentElement = e.currentTarget as HTMLInputElement
 
-    element !== null ? (id = element.getAttribute('data-id')) : (id = null)
+    id = currentElement.getAttribute('data-color-id')
+
+    if (id === null)
+      element !== null ? (id = element.getAttribute('data-id')) : (id = null)
 
     const addColor = () => {
       const hasAlreadyNewUIColor = this.props.colors.filter((color) =>
@@ -533,8 +536,11 @@ export default class Colors extends PureComponent<ColorsProps> {
     }
 
     const switchAlphaMode = () => {
+      let colorId = currentElement.getAttribute('data-color-id')
+      if (!colorId) colorId = id
+
       this.colorsMessage.data = this.props.colors.map((item) => {
-        if (item.id === id) item.alpha.isEnabled = !item.alpha.isEnabled
+        if (item.id === colorId) item.alpha.isEnabled = !item.alpha.isEnabled
         return item
       })
 
@@ -833,6 +839,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 type="COLOR"
                                 value={hex}
                                 feature="UPDATE_HEX"
+                                helper={{
+                                  label:
+                                    this.props.locales.colors.actions
+                                      .sourceColor,
+                                  type: 'SINGLE_LINE',
+                                }}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
@@ -856,62 +868,88 @@ export default class Colors extends PureComponent<ColorsProps> {
                               this.props.config,
                               this.props.service,
                               this.props.editor
-                            ).COLORS_CHROMA_SHIFTING.isActive()}
+                            ).COLORS_ALPHA.isActive()}
                           >
-                            <div
-                              className={doClassnames([
-                                'draggable-item__param',
-                                layouts['snackbar--tight'],
-                              ])}
-                            >
-                              <Input
-                                id="shift-chroma"
-                                type="NUMBER"
-                                icon={{ type: 'LETTER', value: 'C' }}
-                                unit="%"
-                                value={
-                                  color.chroma.shift !== undefined
-                                    ? color.chroma.shift.toString()
-                                    : '100'
+                            <div className="draggable-item__param">
+                              <FormItem
+                                id={`switch-alpha-mode-${color.id}`}
+                                label={this.props.locales.colors.alpha.label}
+                                isMultiLine
+                                isBlocked={
+                                  Colors.features(
+                                    this.props.planStatus,
+                                    this.props.config,
+                                    this.props.service,
+                                    this.props.editor
+                                  ).COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
                                 }
-                                min="0"
-                                max="200"
-                                feature="SHIFT_CHROMA"
+                              >
+                                <Select
+                                  id={`switch-alpha-mode-${color.id}`}
+                                  type="SWITCH_BUTTON"
+                                  feature="SWITCH_ALPHA_MODE"
+                                  data-color-id={color.id}
+                                  isChecked={color.alpha.isEnabled}
+                                  isBlocked={
+                                    Colors.features(
+                                      this.props.planStatus,
+                                      this.props.config,
+                                      this.props.service,
+                                      this.props.editor
+                                    ).COLORS_ALPHA.isBlocked() &&
+                                    !color.alpha.isEnabled
+                                  }
+                                  isNew={Colors.features(
+                                    this.props.planStatus,
+                                    this.props.config,
+                                    this.props.service,
+                                    this.props.editor
+                                  ).COLORS_ALPHA.isNew()}
+                                  action={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </div>
+                          </Feature>
+                          <Feature
+                            isActive={
+                              Colors.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).COLORS_BACKGROUND_COLOR.isActive() &&
+                              color.alpha.isEnabled
+                            }
+                          >
+                            <div className="draggable-item__param">
+                              <Input
+                                id="update-color-background"
+                                type="COLOR"
+                                value={color.alpha.backgroundColor}
+                                feature="UPDATE_BACKGROUND_COLOR"
                                 helper={{
                                   label:
-                                    this.props.locales.colors.chromaShifting
-                                      .label,
+                                    this.props.locales.colors.actions
+                                      .alphaBackground,
                                   type: 'SINGLE_LINE',
                                 }}
+                                data-color-id={color.id}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                                ).COLORS_BACKGROUND_COLOR.isBlocked()}
                                 isNew={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).COLORS_CHROMA_SHIFTING.isNew()}
+                                ).COLORS_BACKGROUND_COLOR.isNew()}
+                                onChange={this.colorsHandler}
                                 onBlur={this.colorsHandler}
-                                onShift={this.colorsHandler}
                               />
-                              {!Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_CHROMA_SHIFTING.isBlocked() && (
-                                <Button
-                                  type="icon"
-                                  icon="reset"
-                                  feature="RESET_CHROMA"
-                                  isDisabled={!color.chroma.isLocked}
-                                  action={this.colorsHandler}
-                                />
-                              )}
                             </div>
                           </Feature>
                         </>
@@ -937,12 +975,84 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 this.props.config,
                                 this.props.service,
                                 this.props.editor
+                              ).COLORS_CHROMA_SHIFTING.isActive()}
+                            >
+                              <FormItem
+                                id="shift-chroma"
+                                label={
+                                  this.props.locales.colors.chromaShifting.label
+                                }
+                                isBlocked={Colors.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                              >
+                                <div className={layouts['snackbar--tight']}>
+                                  <Input
+                                    id="shift-chroma"
+                                    type="NUMBER"
+                                    icon={{ type: 'LETTER', value: 'C' }}
+                                    unit="%"
+                                    value={
+                                      color.chroma.shift !== undefined
+                                        ? color.chroma.shift.toString()
+                                        : '100'
+                                    }
+                                    min="0"
+                                    max="200"
+                                    feature="SHIFT_CHROMA"
+                                    helper={{
+                                      label:
+                                        this.props.locales.colors.chromaShifting
+                                          .label,
+                                      type: 'SINGLE_LINE',
+                                    }}
+                                    isBlocked={Colors.features(
+                                      this.props.planStatus,
+                                      this.props.config,
+                                      this.props.service,
+                                      this.props.editor
+                                    ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                                    isNew={Colors.features(
+                                      this.props.planStatus,
+                                      this.props.config,
+                                      this.props.service,
+                                      this.props.editor
+                                    ).COLORS_CHROMA_SHIFTING.isNew()}
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                  {!Colors.features(
+                                    this.props.planStatus,
+                                    this.props.config,
+                                    this.props.service,
+                                    this.props.editor
+                                  ).COLORS_CHROMA_SHIFTING.isBlocked() && (
+                                    <Button
+                                      type="icon"
+                                      icon="reset"
+                                      feature="RESET_CHROMA"
+                                      isDisabled={!color.chroma.isLocked}
+                                      action={this.colorsHandler}
+                                    />
+                                  )}
+                                </div>
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={Colors.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
                               ).COLORS_HUE_SHIFTING.isActive()}
                             >
                               <FormItem
                                 id="shift-hue"
                                 label={
-                                  this.props.locales.colors.actions.shiftHue
+                                  this.props.locales.colors.hueShifting.label
                                 }
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
@@ -995,103 +1105,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     />
                                   )}
                                 </div>
-                              </FormItem>
-                            </Feature>
-                            <Feature
-                              isActive={Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_ALPHA.isActive()}
-                            >
-                              <FormItem
-                                id="switch-alpha-mode"
-                                label={this.props.locales.colors.alpha.label}
-                                helper={{
-                                  type: 'INFO',
-                                  message:
-                                    this.props.locales.colors.alpha.message,
-                                }}
-                                isMultiLine
-                                isBlocked={
-                                  Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_ALPHA.isBlocked() &&
-                                  !color.alpha.isEnabled
-                                }
-                              >
-                                <Select
-                                  id="switch-alpha-mode"
-                                  type="SWITCH_BUTTON"
-                                  feature="SWITCH_ALPHA_MODE"
-                                  isChecked={color.alpha.isEnabled}
-                                  isBlocked={
-                                    Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_ALPHA.isBlocked() &&
-                                    !color.alpha.isEnabled
-                                  }
-                                  isNew={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_ALPHA.isNew()}
-                                  action={this.colorsHandler}
-                                />
-                              </FormItem>
-                            </Feature>
-                            <Feature
-                              isActive={
-                                Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_BACKGROUND_COLOR.isActive() &&
-                                color.alpha.isEnabled
-                              }
-                            >
-                              <FormItem
-                                id="update-color-background"
-                                label={
-                                  this.props.locales.colors.backgroundColor
-                                    .label
-                                }
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_BACKGROUND_COLOR.isBlocked()}
-                              >
-                                <Input
-                                  id="update-color-background"
-                                  type="COLOR"
-                                  value={color.alpha.backgroundColor}
-                                  feature="UPDATE_BACKGROUND_COLOR"
-                                  isBlocked={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_BACKGROUND_COLOR.isBlocked()}
-                                  isNew={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_BACKGROUND_COLOR.isNew()}
-                                  onChange={this.colorsHandler}
-                                  onBlur={this.colorsHandler}
-                                />
                               </FormItem>
                             </Feature>
                             <Feature
