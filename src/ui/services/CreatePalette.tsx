@@ -112,17 +112,14 @@ export default class CreatePalette extends PureComponent<
     super(props)
     this.palette = $palette
     this.contexts = setContexts(
-      ['SOURCE', 'SCALE', 'SETTINGS'],
+      ['SCALE', 'SOURCE', 'SETTINGS'],
       props.planStatus,
       props.config.features,
       props.editor,
       props.service
     )
     this.state = {
-      context:
-        this.contexts[0] !== undefined
-          ? this.contexts[this.props.sourceColors.length === 0 ? 0 : 1].id
-          : '',
+      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       isPrimaryLoading: false,
       isSecondaryLoading: false,
       isLeaveDialogOpen: false,
@@ -364,16 +361,6 @@ export default class CreatePalette extends PureComponent<
     }
 
     switch (this.state.context) {
-      case 'SOURCE': {
-        fragment = (
-          <Source
-            {...this.props}
-            onChangeDefaultColor={this.defaultColorHandler}
-            onChangeColorsFromImport={this.colorsFromImportHandler}
-          />
-        )
-        break
-      }
       case 'SCALE': {
         fragment = (
           <Scale
@@ -383,6 +370,16 @@ export default class CreatePalette extends PureComponent<
             onRemoveStop={this.props.onCustomPreset}
             onChangeScale={this.slideHandler}
             onChangeShift={this.shiftHandler}
+          />
+        )
+        break
+      }
+      case 'SOURCE': {
+        fragment = (
+          <Source
+            {...this.props}
+            onChangeDefaultColor={this.defaultColorHandler}
+            onChangeColorsFromImport={this.colorsFromImportHandler}
           />
         )
         break

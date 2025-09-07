@@ -195,7 +195,11 @@ export const setContexts = (
     },
   ]
 
-  return contexts.filter((context) => {
+  const filteredContexts = contexts.filter((context) => {
     return contextList.includes(context.id) && context.isActive
+  })
+
+  return filteredContexts.sort((a, b) => {
+    return contextList.indexOf(a.id) - contextList.indexOf(b.id)
   })
 }
