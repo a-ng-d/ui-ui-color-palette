@@ -14,7 +14,7 @@
       "several": "{count} color modes",
       "single": "{count} color mode"
     },
-    "explorePalettes": "Explore community's palettes",
+    "explorePalettes": "Explore palettes from community",
     "syncLocalStyles": "Sync with the local styles",
     "syncLocalVariables": "Sync with the local variables",
     "createPalette": "Create a UI Color Palette",
