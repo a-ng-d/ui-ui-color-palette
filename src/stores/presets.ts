@@ -83,7 +83,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: locales.get().scale.presets.customOnes,
-    stops: [1, 2],
+    stops: [1, 2, 3, 4, 5, 6],
     min: 10,
     max: 90,
     easing: 'LINEAR',
@@ -92,7 +92,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: locales.get().scale.presets.customTens,
-    stops: [10, 20],
+    stops: [10, 20, 30, 40, 50, 60],
     min: 10,
     max: 90,
     easing: 'LINEAR',
@@ -101,7 +101,7 @@ export const presets: Array<PresetConfiguration> = [
   },
   {
     name: locales.get().scale.presets.customHundreds,
-    stops: [100, 200],
+    stops: [100, 200, 300, 400, 500, 600],
     min: 10,
     max: 90,
     easing: 'LINEAR',
