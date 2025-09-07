@@ -809,6 +809,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   label:
                                     this.props.locales.colors.actions.colorName,
                                 }}
+                                canBeEmpty={false}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
