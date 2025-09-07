@@ -36,7 +36,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>
-  onChangeDefaultColor: (defaultColor: RgbModel) => void
+  onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
@@ -52,7 +52,10 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -487,7 +490,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
   defaultColor = () => {
     const defaultColor = this.props.sourceColors.find(
       (color) => color.source === 'DEFAULT'
-    )?.rgb
+    )
 
     return (
       <Feature
@@ -499,7 +502,6 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
         ).SOURCE_DEFAULT.isActive()}
       >
         <Section
-          id="change-default-color"
           title={
             <SimpleItem
               leftPartSlot={
@@ -515,28 +517,69 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
           body={[
             {
               node: (
-                <Input
-                  id="change-default-color"
-                  type="COLOR"
-                  value={chroma([
-                    (defaultColor?.r ?? 1) * 255,
-                    (defaultColor?.g ?? 1) * 255,
-                    (defaultColor?.b ?? 1) * 255,
-                  ])
-                    .hex()
-                    .toUpperCase()}
-                  onChange={(e) => {
-                    const target = e.target as HTMLInputElement | null
-                    if (target && chroma.valid(target.value))
-                      this.props.onChangeDefaultColor({
-                        r: chroma(target.value).get('rgb.r') / 255,
-                        g: chroma(target.value).get('rgb.g') / 255,
-                        b: chroma(target.value).get('rgb.b') / 255,
-                      })
-                  }}
+                <SimpleItem
+                  leftPartSlot={
+                    <Input
+                      type="TEXT"
+                      value={
+                        defaultColor?.name ??
+                        this.props.locales.colors.defaultName
+                      }
+                      canBeEmpty={false}
+                      helper={{
+                        label: this.props.locales.colors.actions.colorName,
+                      }}
+                      isDisabled={this.props.sourceColors.length > 1}
+                      onBlur={(e) => {
+                        const target = e.target as HTMLInputElement | null
+
+                        if (target)
+                          this.props.onChangeDefaultColor(
+                            target.value,
+                            defaultColor?.rgb ?? {
+                              r: 0.533,
+                              g: 0.921,
+                              b: 0.976,
+                            }
+                          )
+                      }}
+                    />
+                  }
+                  rightPartSlot={
+                    <Input
+                      type="COLOR"
+                      value={chroma([
+                        (defaultColor?.rgb.r ?? 1) * 255,
+                        (defaultColor?.rgb.g ?? 1) * 255,
+                        (defaultColor?.rgb.b ?? 1) * 255,
+                      ])
+                        .hex()
+                        .toUpperCase()}
+                      helper={{
+                        label: this.props.locales.colors.actions.sourceColor,
+                      }}
+                      isDisabled={this.props.sourceColors.length > 1}
+                      onChange={(e) => {
+                        const target = e.target as HTMLInputElement | null
+
+                        if (target)
+                          this.props.onChangeDefaultColor(
+                            defaultColor?.name ??
+                              this.props.locales.colors.defaultName,
+                            {
+                              r: chroma(target.value).get('rgb.r') / 255,
+                              g: chroma(target.value).get('rgb.g') / 255,
+                              b: chroma(target.value).get('rgb.b') / 255,
+                            }
+                          )
+                      }}
+                    />
+                  }
+                  isListItem={false}
+                  alignment="CENTER"
                 />
               ),
-              spacingModifier: 'LARGE',
+              spacingModifier: 'TIGHT',
             },
           ]}
           border={['BOTTOM']}

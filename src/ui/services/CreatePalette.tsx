@@ -169,14 +169,15 @@ export default class CreatePalette extends PureComponent<
       context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
-  defaultColorHandler = (defaultColor: RgbModel) => {
+  defaultColorHandler = (name: string, rgb: RgbModel) => {
     this.props.onChangeDefaultColor({
       sourceColors: this.props.sourceColors.map(
         (sourceColors: SourceColorConfiguration) => {
           if (sourceColors.source !== 'DEFAULT') return sourceColors
           return {
             ...sourceColors,
-            rgb: defaultColor,
+            name: name,
+            rgb: rgb,
           }
         }
       ),

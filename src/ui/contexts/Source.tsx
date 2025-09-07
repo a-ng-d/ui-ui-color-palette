@@ -25,7 +25,7 @@ import Explore from './Explore'
 
 interface SourceProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>
-  onChangeDefaultColor: (defaultColor: RgbModel) => void
+  onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
