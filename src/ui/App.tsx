@@ -1049,6 +1049,9 @@ class App extends Component<AppProps, AppStates> {
                 isConsented: true,
               }}
               vendorsList={this.state.userConsent}
+              canBeClosed
+              closeLabel={this.state.locales.user.cookies.close}
+              onClose={() => this.setState({ mustUserConsent: false })}
             />
           </Feature>
           <Feature

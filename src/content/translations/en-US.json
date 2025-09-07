@@ -775,6 +775,7 @@
   "user": {
     "cookies": {
       "back": "Back",
+      "close": "Continue without accepting",
       "consent": "Accept all",
       "customize": "Customize cookies",
       "deny": "Deny all",
