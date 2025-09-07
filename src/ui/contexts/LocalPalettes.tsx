@@ -21,6 +21,7 @@ interface LocalPalettesProps extends BaseProps, WithConfigProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
+  onExplorePalettes: () => void
 }
 
 interface LocalPalettesStates {

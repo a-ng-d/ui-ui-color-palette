@@ -42,6 +42,7 @@ export default class BrowsePalettes extends PureComponent<
 > {
   private contexts: Array<ContextItem>
   private theme: string | null
+  private remotePalettesRef = React.createRef<RemotePalettes>()
 
   static features = (
     planStatus: PlanStatus,
@@ -183,6 +184,20 @@ export default class BrowsePalettes extends PureComponent<
     )
   }
 
+  onExplorePalettes = () => {
+    this.setState(
+      {
+        context: 'REMOTE_PALETTES',
+      },
+      () => {
+        if (this.remotePalettesRef.current)
+          this.remotePalettesRef.current.setState({
+            context: 'REMOTE_PALETTES_COMMUNITY',
+          })
+      }
+    )
+  }
+
   // Renders
   render() {
     let fragment
@@ -209,6 +224,7 @@ export default class BrowsePalettes extends PureComponent<
             {...this.props}
             {...this.state}
             onCreatePalette={this.onCreatePalette}
+            onExplorePalettes={this.onExplorePalettes}
           />
         )
         break
@@ -216,6 +232,7 @@ export default class BrowsePalettes extends PureComponent<
       case 'REMOTE_PALETTES': {
         fragment = (
           <RemotePalettes
+            ref={this.remotePalettesRef}
             {...this.props}
             {...this.state}
           />

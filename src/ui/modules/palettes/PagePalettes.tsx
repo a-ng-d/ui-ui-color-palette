@@ -24,6 +24,7 @@ interface PagePalettesProps extends BaseProps, WithConfigProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
+  onExplorePalettes: () => void
 }
 
 interface PagePalettesStates {
@@ -75,6 +76,13 @@ export default class PagePalettes extends PureComponent<
     DELETE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DELETE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    REMOTE_PALETTES_COMMUNITY: new FeatureStatus({
+      features: config.features,
+      featureName: 'REMOTE_PALETTES_COMMUNITY',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -488,6 +496,34 @@ export default class PagePalettes extends PureComponent<
                       this.props.editor
                     ).CREATE_PALETTE.isNew()}
                     action={this.props.onCreatePalette}
+                  />
+                </Feature>
+                <Feature
+                  isActive={
+                    PagePalettes.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).CREATE_PALETTE.isActive() &&
+                    PagePalettes.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).REMOTE_PALETTES_COMMUNITY.isActive()
+                  }
+                >
+                  <Button
+                    type="secondary"
+                    label={this.props.locales.actions.explorePalettes}
+                    isNew={PagePalettes.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).REMOTE_PALETTES_COMMUNITY.isNew()}
+                    action={this.props.onExplorePalettes}
                   />
                 </Feature>
                 <Feature
