@@ -809,6 +809,12 @@ export default class Actions extends PureComponent<
               isBlocked={!this.canSavePalette()}
               isLoading={this.props.isPrimaryLoading}
               action={this.props.onCreatePalette}
+              onUnblock={() => {
+                parent.postMessage(
+                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                  '*'
+                )
+              }}
             />
           </Feature>
         }

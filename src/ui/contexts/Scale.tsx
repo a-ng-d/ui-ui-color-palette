@@ -29,7 +29,6 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
-import de from '../../content/images/distribution_easing.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
@@ -386,11 +385,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             ]}
             selected={this.props.distributionEasing.split('_')[0]}
             pin="BOTTOM"
-            preview={{
-              image: de,
-              text: this.props.locales.scale.easing.preview,
-              pin: 'TOP',
-            }}
             isBlocked={Scale.features(
               this.props.planStatus,
               this.props.config,
@@ -483,11 +477,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               ]}
               selected={this.props.distributionEasing.split('_')[1]}
               pin="BOTTOM"
-              preview={{
-                image: de,
-                text: this.props.locales.scale.easing.preview,
-                pin: 'TOP',
-              }}
               isBlocked={Scale.features(
                 this.props.planStatus,
                 this.props.config,
