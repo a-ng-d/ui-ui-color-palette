@@ -596,7 +596,6 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     label:
                                       this.props.locales.themes.actions
                                         .themeName,
-                                    type: 'SINGLE_LINE',
                                   }}
                                   isBlocked={Themes.features(
                                     this.props.planStatus,

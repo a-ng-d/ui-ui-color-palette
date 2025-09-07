@@ -1149,8 +1149,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               ).SCALE_CHROMA.isBlocked()
                 ? {
                     label: this.props.locales.scale.shift.chroma.warning,
-                    pin: 'BOTTOM',
-                    type: 'SINGLE_LINE',
                   }
                 : undefined
             }

@@ -808,7 +808,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 helper={{
                                   label:
                                     this.props.locales.colors.actions.colorName,
-                                  type: 'SINGLE_LINE',
                                 }}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
@@ -843,7 +842,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   label:
                                     this.props.locales.colors.actions
                                       .sourceColor,
-                                  type: 'SINGLE_LINE',
                                 }}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
@@ -932,7 +930,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   label:
                                     this.props.locales.colors.actions
                                       .alphaBackground,
-                                  type: 'SINGLE_LINE',
                                 }}
                                 data-color-id={color.id}
                                 isBlocked={Colors.features(
@@ -1007,7 +1004,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                       label:
                                         this.props.locales.colors.chromaShifting
                                           .label,
-                                      type: 'SINGLE_LINE',
+
                                     }}
                                     isBlocked={Colors.features(
                                       this.props.planStatus,

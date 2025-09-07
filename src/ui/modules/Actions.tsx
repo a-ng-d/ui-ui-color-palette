@@ -697,7 +697,6 @@ export default class Actions extends PureComponent<
                 helper={{
                   label: this.props.locales.settings.actions.paletteName,
                   pin: 'TOP',
-                  type: 'SINGLE_LINE',
                 }}
                 isBlocked={Actions.features(
                   this.props.planStatus,
@@ -853,7 +852,6 @@ export default class Actions extends PureComponent<
                 helper={{
                   label: this.props.locales.settings.actions.paletteName,
                   pin: 'TOP',
-                  type: 'SINGLE_LINE',
                 }}
                 isBlocked={Actions.features(
                   this.props.planStatus,
@@ -984,7 +982,6 @@ export default class Actions extends PureComponent<
                 helper={{
                   label: this.publicationLabel(),
                   pin: 'TOP',
-                  type: 'SINGLE_LINE',
                 }}
                 action={(
                   e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
