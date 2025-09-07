@@ -839,11 +839,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 type="COLOR"
                                 value={hex}
                                 feature="UPDATE_HEX"
-                                helper={{
-                                  label:
-                                    this.props.locales.colors.actions
-                                      .sourceColor,
-                                }}
                                 isBlocked={Colors.features(
                                   this.props.planStatus,
                                   this.props.config,
@@ -889,6 +884,10 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   type="SWITCH_BUTTON"
                                   feature="SWITCH_ALPHA_MODE"
                                   data-color-id={color.id}
+                                  helper={{
+                                    label:
+                                      this.props.locales.colors.alpha.message,
+                                  }}
                                   isChecked={color.alpha.isEnabled}
                                   isBlocked={
                                     Colors.features(
@@ -1001,12 +1000,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     min="0"
                                     max="200"
                                     feature="SHIFT_CHROMA"
-                                    helper={{
-                                      label:
-                                        this.props.locales.colors.chromaShifting
-                                          .label,
-
-                                    }}
                                     isBlocked={Colors.features(
                                       this.props.planStatus,
                                       this.props.config,

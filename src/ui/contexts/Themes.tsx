@@ -641,6 +641,11 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     id={`update-palette-background-color-${index}`}
                                     type="COLOR"
                                     value={theme.paletteBackground}
+                                    helper={{
+                                      label:
+                                        this.props.locales.themes.actions
+                                          .documentBackground,
+                                    }}
                                     feature="UPDATE_PALETTE_BACKGROUND"
                                     isBlocked={Themes.features(
                                       this.props.planStatus,

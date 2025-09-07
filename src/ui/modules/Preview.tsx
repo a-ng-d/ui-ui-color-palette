@@ -972,6 +972,9 @@ export default class Preview extends PureComponent<
                   ]}
                   selected={this.props.colorSpace}
                   alignment="RIGHT"
+                  helper={{
+                    label: this.props.locales.preview.actions.colorSpace,
+                  }}
                   containerId="app"
                   isBlocked={Preview.features(
                     this.props.planStatus,
@@ -1253,6 +1256,10 @@ export default class Preview extends PureComponent<
                   ]}
                   selected={this.props.visionSimulationMode}
                   alignment="RIGHT"
+                  helper={{
+                    label:
+                      this.props.locales.preview.actions.visionSimulationMode,
+                  }}
                   containerId="app"
                   warning={
                     this.props.service === 'CREATE' &&
