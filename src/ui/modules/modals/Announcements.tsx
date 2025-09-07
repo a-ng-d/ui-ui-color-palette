@@ -12,6 +12,7 @@ import {
   Service,
   Editor,
 } from '../../../types/app'
+import { trackAnnouncementsEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface AnnouncementsProps extends BaseProps, WithConfigProps {
@@ -118,9 +119,23 @@ export default class Announcements extends PureComponent<
 
   // Direct Actions
   goNextSlide = (e: MouseEvent) => {
-    if (this.state.position + 1 < this.state.announcements.length)
+    if (this.state.position + 1 < this.state.announcements.length) {
       this.setState({ position: this.state.position + 1, isImageLoaded: false })
-    else {
+
+      trackAnnouncementsEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'NEXT_STEP',
+        }
+      )
+    } else {
       if (
         this.props.announcements.version !== undefined &&
         this.props.announcements.version !== '' &&
@@ -263,7 +278,7 @@ export default class Announcements extends PureComponent<
                 )
                   return {
                     label: this.props.locales.announcements.cta.learnMore,
-                    action: () =>
+                    action: () => {
                       parent.postMessage(
                         {
                           pluginMessage: {
@@ -275,7 +290,23 @@ export default class Announcements extends PureComponent<
                           },
                         },
                         '*'
-                      ),
+                      )
+
+                      trackAnnouncementsEvent(
+                        this.props.config.env.isMixpanelEnabled,
+                        this.props.userSession.userId === ''
+                          ? this.props.userIdentity.id === ''
+                            ? ''
+                            : this.props.userIdentity.id
+                          : this.props.userSession.userId,
+                        this.props.userConsent.find(
+                          (consent) => consent.id === 'mixpanel'
+                        )?.isConsented ?? false,
+                        {
+                          feature: 'LEARN_MORE',
+                        }
+                      )
+                    },
                   }
                 else return undefined
               })(),

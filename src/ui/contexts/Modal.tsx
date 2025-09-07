@@ -23,6 +23,10 @@ import {
   ModalContext,
   Plans,
 } from '../../types/app'
+import {
+  trackAnnouncementsEvent,
+  trackOnboardingEvent,
+} from '../../external/tracking/eventsTracker'
 import type { AppStates } from '../App'
 
 interface ModalProps extends BaseProps, WithConfigProps {
@@ -53,13 +57,47 @@ export default class Modal extends PureComponent<ModalProps> {
           {this.props.context === 'ANNOUNCEMENTS' && (
             <Announcements
               {...this.props}
-              onCloseAnnouncements={this.props.onClose}
+              onCloseAnnouncements={() => {
+                this.props.onClose()
+
+                trackAnnouncementsEvent(
+                  this.props.config.env.isMixpanelEnabled,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
+                  this.props.userConsent.find(
+                    (consent) => consent.id === 'mixpanel'
+                  )?.isConsented ?? false,
+                  {
+                    feature: 'END_TOUR',
+                  }
+                )
+              }}
             />
           )}
           {this.props.context === 'ONBOARDING' && (
             <Onboarding
               {...this.props}
-              onCloseOnboarding={this.props.onClose}
+              onCloseOnboarding={() => {
+                this.props.onClose()
+
+                trackOnboardingEvent(
+                  this.props.config.env.isMixpanelEnabled,
+                  this.props.userSession.userId === ''
+                    ? this.props.userIdentity.id === ''
+                      ? ''
+                      : this.props.userIdentity.id
+                    : this.props.userSession.userId,
+                  this.props.userConsent.find(
+                    (consent) => consent.id === 'mixpanel'
+                  )?.isConsented ?? false,
+                  {
+                    feature: 'END_TOUR',
+                  }
+                )
+              }}
             />
           )}
           {this.props.context === 'PREFERENCES' && (

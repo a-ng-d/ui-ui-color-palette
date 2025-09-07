@@ -9,6 +9,7 @@ import {
   ScaleEvent,
   SettingEvent,
   SourceColorEvent,
+  TourEvent,
   TrialEvent,
 } from '../../types/events'
 import { getEditor, getMixpanel, getMixpanelEnv } from './client'
@@ -307,6 +308,46 @@ export const trackActionEvent = (
       Editor: getEditor(),
       Colors: options.colors === undefined ? 0 : options.colors,
       Stops: options.stops === undefined ? 0 : options.stops,
+    })
+
+  if (id === '') return
+  if (mixpanel) mixpanel.identify(id)
+}
+
+export const trackOnboardingEvent = (
+  isEnabled: boolean,
+  id: string,
+  consent: boolean,
+  options: TourEvent
+) => {
+  const mixpanel = getMixpanel()
+
+  if (!consent || !isEnabled) return
+  if (mixpanel)
+    mixpanel.track('Onboarding Consulted', {
+      Env: getMixpanelEnv(),
+      Feature: options.feature,
+      Editor: getEditor(),
+    })
+
+  if (id === '') return
+  if (mixpanel) mixpanel.identify(id)
+}
+
+export const trackAnnouncementsEvent = (
+  isEnabled: boolean,
+  id: string,
+  consent: boolean,
+  options: TourEvent
+) => {
+  const mixpanel = getMixpanel()
+
+  if (!consent || !isEnabled) return
+  if (mixpanel)
+    mixpanel.track('Announcements Consulted', {
+      Env: getMixpanelEnv(),
+      Feature: options.feature,
+      Editor: getEditor(),
     })
 
   if (id === '') return

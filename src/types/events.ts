@@ -127,3 +127,7 @@ export interface ActionEvent {
   colors?: number
   stops?: number
 }
+
+export interface TourEvent {
+  feature: 'NEXT_STEP' | 'LEARN_MORE' | 'END_TOUR'
+}

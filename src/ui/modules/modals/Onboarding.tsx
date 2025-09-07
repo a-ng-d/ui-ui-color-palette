@@ -6,6 +6,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { getProxiedUrl } from '../../../utils/url'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { trackOnboardingEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface OnboardingProps extends BaseProps, WithConfigProps {
@@ -159,9 +160,23 @@ export default class Onboarding extends PureComponent<
 
   // Direct Actions
   goNextSlide = (e: MouseEvent) => {
-    if (this.state.position + 1 < this.state.announcements.length)
+    if (this.state.position + 1 < this.state.announcements.length) {
       this.setState({ position: this.state.position + 1, isImageLoaded: false })
-    else {
+
+      trackOnboardingEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'NEXT_STEP',
+        }
+      )
+    } else {
       parent.postMessage(
         {
           pluginMessage: {
@@ -294,7 +309,7 @@ export default class Onboarding extends PureComponent<
                 )
                   return {
                     label: this.props.locales.onboarding.cta.learnMore,
-                    action: () =>
+                    action: () => {
                       parent.postMessage(
                         {
                           pluginMessage: {
@@ -306,7 +321,23 @@ export default class Onboarding extends PureComponent<
                           },
                         },
                         '*'
-                      ),
+                      )
+
+                      trackOnboardingEvent(
+                        this.props.config.env.isMixpanelEnabled,
+                        this.props.userSession.userId === ''
+                          ? this.props.userIdentity.id === ''
+                            ? ''
+                            : this.props.userIdentity.id
+                          : this.props.userSession.userId,
+                        this.props.userConsent.find(
+                          (consent) => consent.id === 'mixpanel'
+                        )?.isConsented ?? false,
+                        {
+                          feature: 'LEARN_MORE',
+                        }
+                      )
+                    },
                   }
                 else return undefined
               })(),
