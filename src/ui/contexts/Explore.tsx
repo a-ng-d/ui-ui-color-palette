@@ -224,7 +224,7 @@ export default class Explore extends PureComponent<
                         palette.colors.map((color) => {
                           const gl = chroma(color).gl()
                           return {
-                            name: color,
+                            name: color.toUpperCase(),
                             rgb: {
                               r: gl[0],
                               g: gl[1],

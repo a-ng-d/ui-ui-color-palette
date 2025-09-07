@@ -233,7 +233,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
         hexs[0].split('-').map((hex) => {
           const gl = chroma(hex).gl()
           return {
-            name: hex,
+            name: hex.toUpperCase(),
             rgb: {
               r: gl[0],
               g: gl[1],
@@ -298,7 +298,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
         hexs[0].split('-').map((hex) => {
           const gl = chroma(hex).gl()
           return {
-            name: hex,
+            name: hex.toUpperCase(),
             rgb: {
               r: gl[0],
               g: gl[1],
@@ -830,6 +830,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
           {
             node: (
               <>
+                <this.defaultColor />
                 <this.CoolorsColors />
                 <this.RealtimeColorsColors />
                 <this.ColourLoversColors />
