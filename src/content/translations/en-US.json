@@ -400,7 +400,7 @@
       "collapsePreview": "Collapse preview",
       "displayScores": "Display scores",
       "expandPreview": "Expand preview",
-      "resetImportedColors": "Reset the imported colors"
+      "resetImportedColors": "Reset imported colors"
     },
     "closest": {
       "tag": "Closest"
@@ -673,7 +673,7 @@
       "openPalette": "Open palette"
     },
     "canvas": {
-      "tip": "Select a {element} (filled with color) on the {canvas} canvas, then create a UI Color Palette.",
+      "tip": "Select a {element} (filled with color) on the {canvas} canvas",
       "title": "Selected colors"
     },
     "colourLovers": {
