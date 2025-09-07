@@ -555,9 +555,6 @@ export default class Overview extends PureComponent<
                       ])
                         .hex()
                         .toUpperCase()}
-                      helper={{
-                        label: this.props.locales.colors.actions.sourceColor,
-                      }}
                       isDisabled={this.props.sourceColors.length > 1}
                       onChange={(e) => {
                         const target = e.target as HTMLInputElement | null
