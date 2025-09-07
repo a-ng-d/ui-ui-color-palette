@@ -3,6 +3,7 @@ import { PureComponent } from 'preact/compat'
 import {
   SourceColorConfiguration,
   ColourLovers,
+  RgbModel,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
@@ -24,6 +25,7 @@ import Explore from './Explore'
 
 interface SourceProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>
+  onChangeDefaultColor: (defaultColor: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty

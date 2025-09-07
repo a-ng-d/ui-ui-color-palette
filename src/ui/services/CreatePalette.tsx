@@ -14,6 +14,7 @@ import {
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   VisionSimulationModeConfiguration,
+  RgbModel,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, Dialog, Tabs, texts } from '@a_ng_d/figmug-ui'
@@ -55,6 +56,7 @@ interface CreatePaletteProps extends BaseProps, WithConfigProps {
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onGoingStep: string
+  onChangeDefaultColor: React.Dispatch<Partial<AppStates>>
   onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>
   onChangeScale: React.Dispatch<Partial<AppStates>>
   onChangePreset: React.Dispatch<Partial<AppStates>>
@@ -167,6 +169,21 @@ export default class CreatePalette extends PureComponent<
       context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
+  defaultColorHandler = (defaultColor: RgbModel) => {
+    this.props.onChangeDefaultColor({
+      sourceColors: this.props.sourceColors.map(
+        (sourceColors: SourceColorConfiguration) => {
+          if (sourceColors.source !== 'DEFAULT') return sourceColors
+          return {
+            ...sourceColors,
+            rgb: defaultColor,
+          }
+        }
+      ),
+      onGoingStep: 'default color updated',
+    })
+  }
+
   colorsFromImportHandler = (
     sourceColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
@@ -186,7 +203,7 @@ export default class CreatePalette extends PureComponent<
     this.props.onResetSourceColors({
       sourceColors: this.props.sourceColors.filter(
         (sourceColors: SourceColorConfiguration) =>
-          sourceColors.source === 'CANVAS'
+          sourceColors.source === 'CANVAS' || sourceColors.source === 'DEFAULT'
       ),
       onGoingStep: 'source colors reset',
     })
@@ -215,7 +232,11 @@ export default class CreatePalette extends PureComponent<
         pluginMessage: {
           type: 'CREATE_PALETTE',
           data: {
-            sourceColors: this.props.sourceColors,
+            sourceColors: this.props.sourceColors.filter((sourceColor) => {
+              if (this.props.sourceColors.length > 1)
+                return sourceColor.source !== 'DEFAULT'
+              return true
+            }),
             exchange: {
               ...this.palette.value,
             },
@@ -346,6 +367,7 @@ export default class CreatePalette extends PureComponent<
         fragment = (
           <Source
             {...this.props}
+            onChangeDefaultColor={this.defaultColorHandler}
             onChangeColorsFromImport={this.colorsFromImportHandler}
           />
         )

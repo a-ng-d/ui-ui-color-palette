@@ -179,7 +179,15 @@ class App extends Component<AppProps, AppStates> {
     this.palette = $palette
     this.state = {
       service: 'BROWSE',
-      sourceColors: [],
+      sourceColors: [
+        {
+          name: props.config.locales.colors.defaultName,
+          rgb: { r: 0.533, g: 0.921, b: 0.976 },
+          source: 'DEFAULT',
+          id: '00000000000',
+          isRemovable: false,
+        },
+      ],
       id: '',
       name: props.config.locales.settings.global.name.default,
       description: '',
@@ -818,7 +826,7 @@ class App extends Component<AppProps, AppStates> {
       id: '',
       sourceColors: this.state.sourceColors.filter(
         (sourceColor: SourceColorConfiguration) =>
-          sourceColor.source === 'CANVAS'
+          sourceColor.source === 'CANVAS' || sourceColor.source === 'DEFAULT'
       ),
       name: this.state.locales.settings.global.name.default,
       description: '',
@@ -907,6 +915,7 @@ class App extends Component<AppProps, AppStates> {
             <CreatePalette
               {...this.props}
               {...this.state}
+              onChangeDefaultColor={(e) => this.setState({ ...e })}
               onChangeColorsFromImport={(e) => this.setState({ ...e })}
               onResetSourceColors={(e) => this.setState({ ...e })}
               onLockSourceColors={(e) => this.setState({ ...e })}

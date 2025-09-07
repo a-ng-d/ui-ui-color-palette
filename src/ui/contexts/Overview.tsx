@@ -3,6 +3,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
+  RgbModel,
   SourceColorConfiguration,
   ThirdParty,
 } from '@a_ng_d/utils-ui-color-palette'
@@ -16,6 +17,7 @@ import {
   Layout,
   List,
   Message,
+  Section,
   SectionTitle,
   SemanticMessage,
   SimpleItem,
@@ -34,6 +36,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>
+  onChangeDefaultColor: (defaultColor: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
@@ -49,10 +52,7 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -69,6 +69,13 @@ export default class Overview extends PureComponent<
     SOURCE_CANVAS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_CANVAS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_DEFAULT: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_DEFAULT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -473,6 +480,67 @@ export default class Overview extends PureComponent<
             ]}
           />
         )}
+      </Feature>
+    )
+  }
+
+  defaultColor = () => {
+    const defaultColor = this.props.sourceColors.find(
+      (color) => color.source === 'DEFAULT'
+    )?.rgb
+
+    return (
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_DEFAULT.isActive()}
+      >
+        <Section
+          id="change-default-color"
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={this.props.locales.source.default.title}
+                  helper={this.props.locales.source.default.helper}
+                />
+              }
+              isListItem={false}
+              alignment="CENTER"
+            />
+          }
+          body={[
+            {
+              node: (
+                <Input
+                  id="change-default-color"
+                  type="COLOR"
+                  value={chroma([
+                    (defaultColor?.r ?? 1) * 255,
+                    (defaultColor?.g ?? 1) * 255,
+                    (defaultColor?.b ?? 1) * 255,
+                  ])
+                    .hex()
+                    .toUpperCase()}
+                  onChange={(e) => {
+                    const target = e.target as HTMLInputElement | null
+                    if (target && chroma.valid(target.value))
+                      this.props.onChangeDefaultColor({
+                        r: chroma(target.value).get('rgb.r') / 255,
+                        g: chroma(target.value).get('rgb.g') / 255,
+                        b: chroma(target.value).get('rgb.b') / 255,
+                      })
+                  }}
+                />
+              ),
+              spacingModifier: 'LARGE',
+            },
+          ]}
+          border={['BOTTOM']}
+        ></Section>
       </Feature>
     )
   }

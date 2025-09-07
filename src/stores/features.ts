@@ -360,6 +360,16 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch'],
   },
   {
+    name: 'SOURCE_DEFAULT',
+    description: 'Default colors when no color is selected or imported',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch'],
+  },
+  {
     name: 'SOURCE_COOLORS',
     description: 'Import colors from a Coolors palette',
     isActive: true,

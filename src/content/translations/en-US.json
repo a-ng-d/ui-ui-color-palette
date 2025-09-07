@@ -696,6 +696,10 @@
       "explore": "Explore",
       "overview": "Overview"
     },
+    "default": {
+      "title": "Default color",
+      "helper": "This color is used when no color is selected or imported"
+    },
     "coolors": {
       "add": "Add a Coolors palette",
       "empty": "Remove the Coolors palette",

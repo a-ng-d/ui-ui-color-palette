@@ -1345,6 +1345,13 @@ export default class Preview extends PureComponent<
             </div>
             <div className="preview__rows">
               {this.props.colors
+                .filter((color) => {
+                  if (this.props.colors.length > 1) {
+                    if ('source' in color) return color.source !== 'DEFAULT'
+                    return true
+                  }
+                  return true
+                })
                 .sort((a, b) => {
                   if (this.props.service === 'EDIT') return 0
                   if (a.name.localeCompare(b.name) > 0) return 1
