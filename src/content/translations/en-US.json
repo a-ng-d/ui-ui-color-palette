@@ -760,7 +760,7 @@
       "removeColor": "Remove mode",
       "new": "New UI Mode",
       "themeName": "Mode name",
-      "documentBackground": "The color is used for the generated documents"
+      "documentBackground": "This color is used for the generated documents"
     },
     "callout": {
       "cta": "Create a color mode",
