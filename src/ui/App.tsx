@@ -192,7 +192,8 @@ class App extends Component<AppProps, AppStates> {
       name: props.config.locales.settings.global.name.default,
       description: '',
       preset:
-        presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset,
+        presets.find((preset) => preset.id === 'CUSTOM_10_100') ??
+        defaultPreset,
       distributionEasing: 'LINEAR',
       scale: {},
       shift: {
@@ -818,7 +819,7 @@ class App extends Component<AppProps, AppStates> {
 
   onReset = () => {
     const preset =
-      presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
+      presets.find((preset) => preset.id === 'CUSTOM_10_100') ?? defaultPreset
     const scale = doScale(preset.stops, preset.min, preset.max, preset.easing)
 
     this.setState({

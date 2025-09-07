@@ -537,7 +537,7 @@
     },
     "presets": {
       "more": "More presets",
-      "custom": "Make your own preset",
+      "custom": "Custom sets",
       "legacy": "Custom (Legacy)",
       "material": "Material Design, 50-900",
       "material3": "Material 3, 0-100",

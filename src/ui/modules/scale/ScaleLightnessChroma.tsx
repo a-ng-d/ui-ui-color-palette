@@ -801,7 +801,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         ...(options[options.length - 1].children ?? []),
       ]
 
-    options.splice(options.length - 1, 0, {
+    options.splice(1, 0, {
       type: 'SEPARATOR',
     })
 

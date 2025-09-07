@@ -3,6 +3,33 @@ import { locales } from '../content/locales'
 
 export const presets: Array<PresetConfiguration> = [
   {
+    name: locales.get().scale.presets.customOnes,
+    stops: [1, 2, 3, 4, 5, 6],
+    min: 10,
+    max: 90,
+    easing: 'LINEAR',
+    family: locales.get().scale.presets.custom,
+    id: 'CUSTOM_1_10',
+  },
+  {
+    name: locales.get().scale.presets.customTens,
+    stops: [10, 20, 30, 40, 50, 60],
+    min: 10,
+    max: 90,
+    easing: 'LINEAR',
+    family: locales.get().scale.presets.custom,
+    id: 'CUSTOM_10_100',
+  },
+  {
+    name: locales.get().scale.presets.customHundreds,
+    stops: [100, 200, 300, 400, 500, 600],
+    min: 10,
+    max: 90,
+    easing: 'LINEAR',
+    family: locales.get().scale.presets.custom,
+    id: 'CUSTOM_100_1000',
+  },
+  {
     name: locales.get().scale.presets.material,
     stops: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
     min: 24,
@@ -80,33 +107,6 @@ export const presets: Array<PresetConfiguration> = [
     easing: 'EASEOUT_QUAD',
     family: locales.get().scale.presets.more,
     id: 'POLARIS',
-  },
-  {
-    name: locales.get().scale.presets.customOnes,
-    stops: [1, 2, 3, 4, 5, 6],
-    min: 10,
-    max: 90,
-    easing: 'LINEAR',
-    family: locales.get().scale.presets.custom,
-    id: 'CUSTOM_1_10',
-  },
-  {
-    name: locales.get().scale.presets.customTens,
-    stops: [10, 20, 30, 40, 50, 60],
-    min: 10,
-    max: 90,
-    easing: 'LINEAR',
-    family: locales.get().scale.presets.custom,
-    id: 'CUSTOM_10_100',
-  },
-  {
-    name: locales.get().scale.presets.customHundreds,
-    stops: [100, 200, 300, 400, 500, 600],
-    min: 10,
-    max: 90,
-    easing: 'LINEAR',
-    family: locales.get().scale.presets.custom,
-    id: 'CUSTOM_100_1000',
   },
 ]
 
