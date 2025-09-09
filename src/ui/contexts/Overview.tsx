@@ -52,10 +52,7 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -357,6 +354,15 @@ export default class Overview extends PureComponent<
       })
   }
 
+  // Direct Actions
+  refinedNumberOfSourceColors = (): number => {
+    if (this.props.sourceColors.length > 1)
+      return this.props.sourceColors.filter(
+        (color) => color.source !== 'DEFAULT'
+      ).length
+    return this.props.sourceColors.length
+  }
+
   // Templates
   SelectedColors = () => {
     return (
@@ -388,7 +394,7 @@ export default class Overview extends PureComponent<
           this.props.config,
           this.props.service,
           this.props.editor
-        ).SOURCE.isReached(this.props.sourceColors.length - 1) && (
+        ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1) && (
           <div
             style={{
               padding: '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',

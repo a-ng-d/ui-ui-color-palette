@@ -561,7 +561,7 @@ export default class Actions extends PureComponent<
         this.props.config,
         this.props.service,
         this.props.editor
-      ).SOURCE.isReached(this.props.sourceColors.length - 1)
+      ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
     )
       return false
     if (
@@ -618,7 +618,7 @@ export default class Actions extends PureComponent<
         this.props.config,
         this.props.service,
         this.props.editor
-      ).SOURCE.isReached(this.props.sourceColors.length - 1)
+      ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
     )
       warningMessage.push(
         this.props.locales.info.multipleBlockingMessages.sourceColors
@@ -677,6 +677,14 @@ export default class Actions extends PureComponent<
     return warningMessage.join(', ')
   }
 
+  refinedNumberOfSourceColors = (): number => {
+    if (this.props.sourceColors.length > 1)
+      return this.props.sourceColors.filter(
+        (color) => color.source !== 'DEFAULT'
+      ).length
+    return this.props.sourceColors.length
+  }
+
   // Templates
   Create = () => {
     return (
@@ -725,14 +733,14 @@ export default class Actions extends PureComponent<
               {this.props.locales.separator}
             </span>
             <div className={texts.type}>
-              {this.props.sourceColors.length > 1
+              {this.refinedNumberOfSourceColors() > 1
                 ? this.props.locales.actions.sourceColorsNumber.several.replace(
                     '{count}',
-                    this.props.sourceColors.length.toString()
+                    this.refinedNumberOfSourceColors().toString()
                   )
                 : this.props.locales.actions.sourceColorsNumber.single.replace(
                     '{count}',
-                    this.props.sourceColors.length.toString()
+                    this.refinedNumberOfSourceColors().toString()
                   )}
             </div>
             {Actions.features(
@@ -740,7 +748,7 @@ export default class Actions extends PureComponent<
               this.props.config,
               this.props.service,
               this.props.editor
-            ).SOURCE.isReached(this.props.sourceColors.length - 1) && (
+            ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1) && (
               <div
                 style={{
                   position: 'relative',
