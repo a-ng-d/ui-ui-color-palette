@@ -479,26 +479,6 @@ export default class FilePalettes extends PureComponent<
             actionsSlot={
               <>
                 <Feature
-                  isActive={FilePalettes.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).CREATE_PALETTE.isActive()}
-                >
-                  <Button
-                    type="primary"
-                    label={this.props.locales.actions.createPalette}
-                    isNew={FilePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).CREATE_PALETTE.isNew()}
-                    action={this.props.onCreatePalette}
-                  />
-                </Feature>
-                <Feature
                   isActive={
                     FilePalettes.features(
                       this.props.planStatus,
@@ -524,6 +504,26 @@ export default class FilePalettes extends PureComponent<
                       this.props.editor
                     ).REMOTE_PALETTES_COMMUNITY.isNew()}
                     action={this.props.onExplorePalettes}
+                  />
+                </Feature>
+                <Feature
+                  isActive={FilePalettes.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).CREATE_PALETTE.isActive()}
+                >
+                  <Button
+                    type="primary"
+                    label={this.props.locales.actions.createPalette}
+                    isNew={FilePalettes.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).CREATE_PALETTE.isNew()}
+                    action={this.props.onCreatePalette}
                   />
                 </Feature>
                 <Feature
