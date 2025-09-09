@@ -154,8 +154,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-pos-small)',
-              '--icon-height': 'var(--size-pos-small)',
+              '--icon-width': 'var(--size-pos-xsmall)',
+              '--icon-height': 'var(--size-pos-xsmall)',
             }}
           >
             <Icon
@@ -183,8 +183,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-pos-small)',
-              '--icon-height': 'var(--size-pos-small)',
+              '--icon-width': 'var(--size-pos-xsmall)',
+              '--icon-height': 'var(--size-pos-xsmall)',
             }}
           >
             <Icon
