@@ -643,110 +643,121 @@ export default class Preview extends PureComponent<
                   else this.drawerRef.current?.expandDrawer()
                 }}
               />
-              <Menu
-                id="score-display"
-                type="ICON"
-                icon="visible"
-                options={[
-                  {
-                    label: this.props.locales.preview.score.wcag,
-                    value: 'ENABLE_WCAG_SCORE',
-                    type: 'OPTION',
-                    isActive: Preview.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PREVIEW_SCORES_WCAG.isActive(),
-                    isBlocked: Preview.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PREVIEW_SCORES_WCAG.isBlocked(),
-                    isNew: Preview.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PREVIEW_SCORES_WCAG.isNew(),
-                    action: () => {
-                      $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'SET_ITEMS',
-                            items: [
-                              {
-                                key: 'is_wcag_displayed',
-                                value: !this.state.isWCAGDisplayed,
-                              },
-                            ],
+              <Feature
+                isActive={
+                  Preview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).PREVIEW_SCORES.isActive() && !this.state.isDrawerCollapsed
+                }
+              >
+                <Menu
+                  id="score-display"
+                  type="ICON"
+                  icon="visible"
+                  options={[
+                    {
+                      label: this.props.locales.preview.score.wcag,
+                      value: 'ENABLE_WCAG_SCORE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_WCAG.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_WCAG.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_WCAG.isNew(),
+                      action: () => {
+                        $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'SET_ITEMS',
+                              items: [
+                                {
+                                  key: 'is_wcag_displayed',
+                                  value: !this.state.isWCAGDisplayed,
+                                },
+                              ],
+                            },
                           },
-                        },
-                        '*'
-                      )
+                          '*'
+                        )
+                      },
                     },
-                  },
-                  {
-                    label: this.props.locales.preview.score.apca,
-                    value: 'ENABLE_APCA_SCORE',
-                    type: 'OPTION',
-                    isActive: Preview.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PREVIEW_SCORES_APCA.isActive(),
-                    isBlocked: Preview.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PREVIEW_SCORES_APCA.isBlocked(),
-                    isNew: Preview.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PREVIEW_SCORES_APCA.isNew(),
-                    action: () => {
-                      $isAPCADisplayed.set(!this.state.isAPCADisplayed)
-                      parent.postMessage(
-                        {
-                          pluginMessage: {
-                            type: 'SET_ITEMS',
-                            items: [
-                              {
-                                key: 'is_apca_displayed',
-                                value: !this.state.isAPCADisplayed,
-                              },
-                            ],
+                    {
+                      label: this.props.locales.preview.score.apca,
+                      value: 'ENABLE_APCA_SCORE',
+                      type: 'OPTION',
+                      isActive: Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_APCA.isActive(),
+                      isBlocked: Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_APCA.isBlocked(),
+                      isNew: Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_APCA.isNew(),
+                      action: () => {
+                        $isAPCADisplayed.set(!this.state.isAPCADisplayed)
+                        parent.postMessage(
+                          {
+                            pluginMessage: {
+                              type: 'SET_ITEMS',
+                              items: [
+                                {
+                                  key: 'is_apca_displayed',
+                                  value: !this.state.isAPCADisplayed,
+                                },
+                              ],
+                            },
                           },
-                        },
-                        '*'
-                      )
+                          '*'
+                        )
+                      },
                     },
-                  },
-                ]}
-                selected={this.displayHandler()}
-                alignment="TOP_LEFT"
-                helper={{
-                  label: this.props.locales.preview.actions.displayScores,
-                }}
-                isBlocked={Preview.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).PREVIEW_SCORES.isBlocked()}
-                isNew={Preview.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).PREVIEW_SCORES.isNew()}
-              />
+                  ]}
+                  selected={this.displayHandler()}
+                  alignment="TOP_LEFT"
+                  helper={{
+                    label: this.props.locales.preview.actions.displayScores,
+                  }}
+                  isBlocked={Preview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).PREVIEW_SCORES.isBlocked()}
+                  isNew={Preview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).PREVIEW_SCORES.isNew()}
+                />
+              </Feature>
             </div>
           }
           rightPartSlot={
@@ -757,12 +768,15 @@ export default class Preview extends PureComponent<
               }}
             >
               <Feature
-                isActive={Preview.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).PREVIEW_LOCK_SOURCE_COLORS.isActive()}
+                isActive={
+                  Preview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
+                  !this.state.isDrawerCollapsed
+                }
               >
                 <Select
                   id="lock-source-colors"
@@ -803,12 +817,15 @@ export default class Preview extends PureComponent<
                 />
               </Feature>
               <Feature
-                isActive={Preview.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE.isActive()}
+                isActive={
+                  Preview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).SETTINGS_COLOR_SPACE.isActive() &&
+                  !this.state.isDrawerCollapsed
+                }
               >
                 <Dropdown
                   id="update-color-space"
@@ -985,12 +1002,15 @@ export default class Preview extends PureComponent<
                 />
               </Feature>
               <Feature
-                isActive={Preview.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE.isActive()}
+                isActive={
+                  Preview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).SETTINGS_VISION_SIMULATION_MODE.isActive() &&
+                  !this.state.isDrawerCollapsed
+                }
               >
                 <Dropdown
                   id="update-color-blind-mode"
@@ -1286,40 +1306,42 @@ export default class Preview extends PureComponent<
                   ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
                 />
               </Feature>
-              {this.props.onResetSourceColors && (
-                <div className={layouts['snackbar--medium']}>
-                  <span
-                    className={doClassnames([
-                      texts['type'],
-                      texts['type--secondary'],
-                    ])}
-                  >
-                    {this.props.locales.separator}
-                  </span>
-                  <Button
-                    type="icon"
-                    icon="trash"
-                    action={this.props.onResetSourceColors}
-                    isDisabled={
-                      this.props.colors.some(
-                        (color) =>
-                          (color as SourceColorConfiguration).source ===
-                            'COOLORS' ||
-                          (color as SourceColorConfiguration).source ===
-                            'REALTIME_COLORS' ||
-                          (color as SourceColorConfiguration).source ===
-                            'COLOUR_LOVERS'
-                      )
-                        ? false
-                        : true
-                    }
-                    helper={{
-                      label:
-                        this.props.locales.preview.actions.resetImportedColors,
-                    }}
-                  />
-                </div>
-              )}
+              {this.props.onResetSourceColors &&
+                !this.state.isDrawerCollapsed && (
+                  <div className={layouts['snackbar--medium']}>
+                    <span
+                      className={doClassnames([
+                        texts['type'],
+                        texts['type--secondary'],
+                      ])}
+                    >
+                      {this.props.locales.separator}
+                    </span>
+                    <Button
+                      type="icon"
+                      icon="trash"
+                      action={this.props.onResetSourceColors}
+                      isDisabled={
+                        this.props.colors.some(
+                          (color) =>
+                            (color as SourceColorConfiguration).source ===
+                              'COOLORS' ||
+                            (color as SourceColorConfiguration).source ===
+                              'REALTIME_COLORS' ||
+                            (color as SourceColorConfiguration).source ===
+                              'COLOUR_LOVERS'
+                        )
+                          ? false
+                          : true
+                      }
+                      helper={{
+                        label:
+                          this.props.locales.preview.actions
+                            .resetImportedColors,
+                      }}
+                    />
+                  </div>
+                )}
             </div>
           }
           isInverted
