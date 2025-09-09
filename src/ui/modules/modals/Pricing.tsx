@@ -253,7 +253,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               display: 'flex',
               flexDirection: this.state.isMobile ? 'column' : 'row',
               gap: 'var(--size-pos-xxxsmall)',
-              width: '100%',
             }}
           >
             {this.props.plans.map((plan) => {
