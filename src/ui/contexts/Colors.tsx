@@ -1224,6 +1224,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       remove: this.props.locales.colors.actions.removeColor,
                       more: this.props.locales.colors.actions.moreParameters,
                     }}
+                    canBeEmpty={false}
                     isScrollable
                     isTopBorderEnabled
                     onChangeSortableList={this.onChangeOrder}
