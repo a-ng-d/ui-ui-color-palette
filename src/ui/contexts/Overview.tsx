@@ -529,6 +529,7 @@ export default class Overview extends PureComponent<
                       helper={{
                         label: this.props.locales.colors.actions.colorName,
                       }}
+                      isFlex
                       isDisabled={this.props.sourceColors.length > 1}
                       onBlur={(e) => {
                         const target = e.target as HTMLInputElement | null
