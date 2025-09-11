@@ -22,6 +22,7 @@ import {
   SemanticMessage,
   SimpleItem,
   SimpleSlider,
+  texts,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -818,13 +819,62 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   customHandler = (e: Event) => {
     const stops = this.props.preset?.['stops'] ?? [1, 2]
     const preset = this.props.preset ?? defaultPreset
-    const scale = (stps = stops) =>
-      doScale(
-        stps,
-        Math.min(...Object.values(this.props.scale ?? {})),
-        Math.max(...Object.values(this.props.scale ?? {})),
-        this.props.distributionEasing
+
+    const scale = (stps = stops) => {
+      const currentScale = this.props.scale ?? {}
+
+      const currentStops = Object.keys(currentScale)
+        .map((id) => parseFloat(id))
+        .sort((a, b) => a - b)
+
+      if (currentStops.length < 2)
+        return doScale(stps, 0, 100, this.props.distributionEasing)
+
+      const minId = currentStops[0]
+      const maxId = currentStops[currentStops.length - 1]
+
+      const minIdValue = parseFloat(currentScale[minId].toString())
+      const maxIdValue = parseFloat(currentScale[maxId].toString())
+
+      const isInverted = minIdValue < maxIdValue
+
+      const allValues = Object.values(currentScale).map((value) =>
+        parseFloat(value.toString())
       )
+      const scaleMin = Math.min(...allValues)
+      const scaleMax = Math.max(...allValues)
+
+      let tempEasing = this.props.distributionEasing
+
+      if (
+        isInverted &&
+        tempEasing.includes('EASEIN_') &&
+        !tempEasing.includes('INOUT')
+      )
+        tempEasing = tempEasing.replace(
+          'EASEIN_',
+          'EASEOUT_'
+        ) as EasingConfiguration
+      else if (
+        isInverted &&
+        tempEasing.includes('EASEOUT_') &&
+        !tempEasing.includes('INOUT')
+      )
+        tempEasing = tempEasing.replace(
+          'EASEOUT_',
+          'EASEIN_'
+        ) as EasingConfiguration
+
+      const calculatedScale = doScale(stps, scaleMin, scaleMax, tempEasing)
+
+      return isInverted
+        ? Object.fromEntries(
+            Object.entries(calculatedScale).map(([id, value]) => {
+              return [id, scaleMax - (parseFloat(value.toString()) - scaleMin)]
+            })
+          )
+        : calculatedScale
+    }
 
     const addStop = () => {
       if (stops.length < 24) {
