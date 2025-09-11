@@ -788,7 +788,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                                   pluginMessage: {
                                     type: 'OPEN_IN_BROWSER',
                                     data: {
-                                      url: 'https://uicp.ylb.lt/how-to-adjust',
+                                      url: this.props.config.urls.howToUseUrl,
                                     },
                                   },
                                 },
@@ -892,7 +892,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                                   pluginMessage: {
                                     type: 'OPEN_IN_BROWSER',
                                     data: {
-                                      url: 'https://uicp.ylb.lt/how-to-adjust',
+                                      url: this.props.config.urls.howToUseUrl,
                                     },
                                   },
                                 },
