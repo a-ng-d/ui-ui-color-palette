@@ -353,3 +353,21 @@ export const trackAnnouncementsEvent = (
   if (id === '') return
   if (mixpanel) mixpanel.identify(id)
 }
+
+export const trackPricingViewEvent = (
+  isEnabled: boolean,
+  id: string,
+  consent: boolean
+) => {
+  const mixpanel = getMixpanel()
+
+  if (!consent || !isEnabled) return
+  if (mixpanel)
+    mixpanel.track('Pricing Consulted', {
+      Env: getMixpanelEnv(),
+      Editor: getEditor(),
+    })
+
+  if (id === '') return
+  if (mixpanel) mixpanel.identify(id)
+}

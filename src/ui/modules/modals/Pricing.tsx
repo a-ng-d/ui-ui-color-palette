@@ -11,6 +11,7 @@ import {
   PlanStatus,
   Service,
 } from '../../../types/app'
+import { trackPricingViewEvent } from '../../../external/tracking/eventsTracker'
 import uicpo from '../../../content/images/uicp_one.webp'
 import uicp from '../../../content/images/uicp_figma.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -58,6 +59,17 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.setState({ isMobile: event.matches })
     }
     this.mediaQueryList.addEventListener('change', handleMediaQueryChange)
+
+    trackPricingViewEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false
+    )
   }
 
   componentWillUnmount() {

@@ -814,9 +814,27 @@ export default class Actions extends PureComponent<
                   : undefined
               }
               isDisabled={this.props.sourceColors.length === 0}
-              isBlocked={!this.canSavePalette()}
               isLoading={this.props.isPrimaryLoading}
-              action={this.props.onCreatePalette}
+              action={(
+                e:
+                  | React.MouseEvent<HTMLButtonElement>
+                  | React.KeyboardEvent<HTMLButtonElement>
+              ) => {
+                if (this.canSavePalette())
+                  if ('key' in e)
+                    this.props.onCreatePalette?.(
+                      e as React.KeyboardEvent<HTMLButtonElement>
+                    )
+                  else
+                    this.props.onCreatePalette?.(
+                      e as React.MouseEvent<HTMLButtonElement>
+                    )
+                else
+                  parent.postMessage(
+                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                    '*'
+                  )
+              }}
               onUnblock={() => {
                 parent.postMessage(
                   { pluginMessage: { type: 'GET_PRO_PLAN' } },
