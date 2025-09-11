@@ -9,7 +9,7 @@ import {
   ShiftConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,
   Dialog,
@@ -28,6 +28,7 @@ import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
@@ -127,6 +128,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     SCALE_HELPER_DISTRIBUTION_CUBIC: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER_DISTRIBUTION_CUBIC',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SCALE_HELPER_DISTRIBUTION_APPLY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_HELPER_DISTRIBUTION_APPLY',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -263,6 +271,60 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
           : 'CONTRAST_MODE_OFF',
       }
     )
+  }
+
+  onApplyDistributionEasing = (
+    scale: ScaleConfiguration,
+    distributionEasing: EasingConfiguration
+  ) => {
+    const stops = Object.keys(scale)
+      .map((id) => parseFloat(id))
+      .sort((a, b) => a - b)
+
+    const minId = stops[0]
+    const maxId = stops[stops.length - 1]
+
+    const minIdValue = parseFloat(scale[minId].toString())
+    const maxIdValue = parseFloat(scale[maxId].toString())
+
+    const isInverted = minIdValue < maxIdValue
+
+    let tempEasing = distributionEasing
+
+    if (
+      isInverted &&
+      tempEasing.includes('EASEIN_') &&
+      !tempEasing.includes('INOUT')
+    )
+      tempEasing = tempEasing.replace(
+        'EASEIN_',
+        'EASEOUT_'
+      ) as EasingConfiguration
+    else if (
+      isInverted &&
+      tempEasing.includes('EASEOUT_') &&
+      !tempEasing.includes('INOUT')
+    )
+      tempEasing = tempEasing.replace(
+        'EASEOUT_',
+        'EASEIN_'
+      ) as EasingConfiguration
+
+    const allValues = Object.values(scale).map((value) =>
+      parseFloat(value.toString())
+    )
+    const scaleMin = Math.min(...allValues)
+    const scaleMax = Math.max(...allValues)
+
+    const calculatedScale = doScale(stops, scaleMin, scaleMax, tempEasing)
+
+    return isInverted
+      ? Object.fromEntries(
+          Object.entries(calculatedScale).map(([id, value]) => {
+            return [id, scaleMax - (parseFloat(value.toString()) - scaleMin)]
+          })
+        )
+      : calculatedScale
   }
 
   // Templates
@@ -491,6 +553,33 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               ).SCALE_HELPER_DISTRIBUTION.isNew()}
             />
           )}
+          <Feature
+            isActive={Scale.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SCALE_HELPER_DISTRIBUTION_APPLY.isActive()}
+          >
+            <Button
+              type="icon"
+              icon="refresh"
+              helper={{
+                label: this.props.locales.scale.actions.applyEasing,
+                pin: 'TOP',
+              }}
+              action={() => {
+                $palette.setKey(
+                  'scale',
+                  this.onApplyDistributionEasing(
+                    this.props.scale,
+                    this.props.distributionEasing
+                  )
+                )
+                this.props.onChangeScale()
+              }}
+            />
+          </Feature>
         </div>
       </FormItem>
     )

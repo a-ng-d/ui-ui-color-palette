@@ -691,6 +691,16 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch'],
   },
   {
+    name: 'SCALE_HELPER_DISTRIBUTION_APPLY',
+    description: 'Apply distribution easing to the lightness scale',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch'],
+  },
+  {
     name: 'SCALE_HELPER_TIPS',
     description: 'Keyboard shortcuts for scaling',
     isActive: true,
