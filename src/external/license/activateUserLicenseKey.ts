@@ -63,7 +63,10 @@ const activateUserLicenseKey = async ({
           })
         }
       })
-      .catch((error) => reject(error))
+      .catch((error) => {
+        console.log(error)
+        return reject(error)
+      })
   })
 }
 

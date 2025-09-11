@@ -319,7 +319,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isPrimaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -387,7 +388,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isPrimaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -450,7 +452,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isSecondaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -515,7 +518,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isPrimaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -617,7 +621,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isPrimaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -729,7 +734,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isPrimaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -792,7 +798,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isSecondaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -897,7 +904,8 @@ export default class Publication extends PureComponent<
               .finally(() => {
                 this.setState({ isPrimaryActionLoading: false })
               })
-              .catch(() => {
+              .catch((error) => {
+                console.log(error)
                 parent.postMessage(
                   {
                     pluginMessage: {

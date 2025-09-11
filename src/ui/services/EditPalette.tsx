@@ -730,7 +730,8 @@ export default class EditPalette extends PureComponent<
         },
         '*'
       )
-    } catch (err) {
+    } catch (error) {
+      console.log(error)
       parent.postMessage(
         {
           pluginMessage: {

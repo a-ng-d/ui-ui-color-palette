@@ -293,7 +293,8 @@ export default class SelfPalettes extends PureComponent<
         )
 
         return
-      } catch {
+      } catch (error) {
+        console.log(error)
         throw error
       }
     else throw error
@@ -491,7 +492,8 @@ export default class SelfPalettes extends PureComponent<
                                     ),
                                 })
                               })
-                              .catch(() => {
+                              .catch((error) => {
+                                console.log(error)
                                 parent.postMessage(
                                   {
                                     pluginMessage: {
@@ -583,7 +585,8 @@ export default class SelfPalettes extends PureComponent<
                                     ),
                                 })
                               })
-                              .catch(() => {
+                              .catch((error) => {
+                                console.log(error)
                                 parent.postMessage(
                                   {
                                     pluginMessage: {
@@ -638,7 +641,8 @@ export default class SelfPalettes extends PureComponent<
                               ).fill(false),
                             })
                           })
-                          .catch(() =>
+                          .catch((error) => {
+                            console.log(error)
                             parent.postMessage(
                               {
                                 pluginMessage: {
@@ -653,7 +657,7 @@ export default class SelfPalettes extends PureComponent<
                               },
                               '*'
                             )
-                          )
+                          })
                       }}
                     />
                   </>

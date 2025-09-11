@@ -134,11 +134,12 @@ export default class Explore extends PureComponent<
           isLoadMoreActionLoading: false,
         })
       )
-      .catch(() =>
+      .catch((error) => {
+        console.log(error)
         this.setState({
           colourLoversPalettesListStatus: 'ERROR',
         })
-      )
+      })
   }
 
   setFilters = () => {

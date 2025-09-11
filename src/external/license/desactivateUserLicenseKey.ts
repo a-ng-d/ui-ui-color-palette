@@ -42,7 +42,10 @@ const desactivateUserLicenseKey = async ({
           return resolve(data.valid)
         }
       })
-      .catch((error) => reject(error))
+      .catch((error) => {
+        console.log(error)
+        return reject(error)
+      })
   })
 }
 

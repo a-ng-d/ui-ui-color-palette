@@ -414,7 +414,8 @@ export default class CommunityPalettes extends PureComponent<
                             ).fill(false),
                           })
                         )
-                        .catch(() =>
+                        .catch((error) => {
+                          console.log(error)
                           parent.postMessage(
                             {
                               pluginMessage: {
@@ -427,7 +428,7 @@ export default class CommunityPalettes extends PureComponent<
                             },
                             '*'
                           )
-                        )
+                        })
                     }}
                   />
                 }

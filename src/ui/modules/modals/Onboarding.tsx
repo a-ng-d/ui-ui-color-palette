@@ -153,7 +153,8 @@ export default class Onboarding extends PureComponent<
           })
         } else this.setState({ status: 'ERROR' })
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error)
         this.setState({ status: 'ERROR' })
       })
   }

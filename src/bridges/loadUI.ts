@@ -120,7 +120,7 @@ window.addEventListener('message', async (msg: any) => {
       console.log('Create palette from document', path),
     CREATE_PALETTE_FROM_REMOTE: () =>
       createFromRemote(path)
-        .catch((error) =>
+        .catch((error) => {
           iframe?.contentWindow?.postMessage({
             type: 'POST_MESSAGE',
             data: {
@@ -128,10 +128,10 @@ window.addEventListener('message', async (msg: any) => {
               message: error.message,
             },
           })
-        )
-        .finally(() =>
+        })
+        .finally(() => {
           iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
-        ),
+        }),
     SYNC_LOCAL_STYLES: () => {
       iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
       iframe?.contentWindow?.postMessage({

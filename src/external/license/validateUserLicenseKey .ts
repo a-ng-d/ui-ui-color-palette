@@ -27,7 +27,10 @@ const validateUserLicenseKey = async ({
         if (data.valid) return resolve(data.valid)
         if (data.error) throw new Error(data.error)
       })
-      .catch((error) => reject(error))
+      .catch((error) => {
+        console.log(error)
+        return reject(error)
+      })
   })
 }
 
