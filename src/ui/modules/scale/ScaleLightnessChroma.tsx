@@ -92,6 +92,13 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       currentService: service,
       currentEditor: editor,
     }),
+    SCALE_REVERSE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_REVERSE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SCALE_RESET: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_RESET',
@@ -875,6 +882,36 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
   }
 
+  onReverseLightness = () => {
+    const currentScale = this.props.scale ?? {}
+
+    const entries = Object.entries(currentScale).map(([key, value]) => ({
+      id: parseFloat(key),
+      value: parseFloat(value.toString()),
+    }))
+
+    const values = entries.map((entry) => entry.value)
+    const scaleMin = Math.min(...values)
+    const scaleMax = Math.max(...values)
+
+    const invertedScale = Object.fromEntries(
+      entries.map((entry) => {
+        const invertedValue = scaleMin + scaleMax - entry.value
+        return [entry.id, invertedValue]
+      })
+    )
+
+    this.palette.setKey('scale', invertedScale)
+
+    this.props.onChangeScale()
+
+    if (this.props.service === 'EDIT') {
+      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+      this.scaleMessage.feature = 'TOGGLE_SCALE'
+      parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+    }
+  }
+
   // Templates
   Create = () => {
     return (
@@ -959,6 +996,36 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       </Feature>
                     </>
                   )}
+                </Feature>
+                <Feature
+                  isActive={ScaleLightnessChroma.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).SCALE_REVERSE.isActive()}
+                >
+                  <Button
+                    type="icon"
+                    icon="reverse"
+                    helper={{
+                      label: this.props.locales.scale.actions.reverseLightness,
+                    }}
+                    feature="REVERSE_SCALE"
+                    isBlocked={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).SCALE_REVERSE.isBlocked()}
+                    isNew={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).SCALE_REVERSE.isNew()}
+                    action={this.onReverseLightness}
+                  />
                 </Feature>
                 <Feature
                   isActive={ScaleLightnessChroma.features(
@@ -1207,6 +1274,36 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     selected={this.props.preset.id}
                     alignment="RIGHT"
                     pin="TOP"
+                  />
+                </Feature>
+                <Feature
+                  isActive={ScaleLightnessChroma.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).SCALE_REVERSE.isActive()}
+                >
+                  <Button
+                    type="icon"
+                    icon="reverse"
+                    helper={{
+                      label: this.props.locales.scale.actions.reverseLightness,
+                    }}
+                    feature="REVERSE_SCALE"
+                    isBlocked={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).SCALE_REVERSE.isBlocked()}
+                    isNew={ScaleLightnessChroma.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).SCALE_REVERSE.isNew()}
+                    action={this.onReverseLightness}
                   />
                 </Feature>
                 <Feature

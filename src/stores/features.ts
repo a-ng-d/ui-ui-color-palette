@@ -581,6 +581,16 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch'],
   },
   {
+    name: 'SCALE_REVERSE',
+    description: 'Reverse the lightness scale',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch'],
+  },
+  {
     name: 'SCALE_RESET',
     description: 'Reset the lightness scale',
     isActive: true,

@@ -513,7 +513,9 @@
       "addStop": "Add stop",
       "removeStop": "Remove stop",
       "resetScale": "Reset lightness and chroma",
-      "resetLightness": "Reset lightness"
+      "resetLightness": "Reset lightness",
+      "reverseLightness": "Reverse lightness",
+      "applyEasing": "Apply directly the easing to the stops"
     },
     "contrast": {
       "label": "Contrast mode",
