@@ -236,7 +236,9 @@ export default class PagePalettes extends PureComponent<
                 <p className={texts.type}>
                   {this.props.locales.browse.deletePaletteDialog.message.replace(
                     '{name}',
-                    this.state.targetedPaletteName
+                    this.state.targetedPaletteName === ''
+                      ? this.props.locales.name
+                      : this.state.targetedPaletteName
                   )}
                 </p>
               </div>
