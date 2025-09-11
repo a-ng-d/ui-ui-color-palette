@@ -123,7 +123,7 @@
     "title": "Source colors",
     "alpha": {
       "label": "Alpha mode",
-      "message": "The scale is applied to the color alpha channel instead of the lightness"
+      "helper": "The scale is applied to the color alpha channel instead of the lightness"
     }
   },
   "contexts": {

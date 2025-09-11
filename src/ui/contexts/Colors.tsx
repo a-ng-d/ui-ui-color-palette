@@ -26,6 +26,7 @@ import Feature from '../components/Feature'
 import { ColorsMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackSourceColorsManagementEvent } from '../../external/tracking/eventsTracker'
+import am from '../../content/images/alpha_mode.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
@@ -886,7 +887,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   data-color-id={color.id}
                                   helper={{
                                     label:
-                                      this.props.locales.colors.alpha.message,
+                                      this.props.locales.colors.alpha.helper,
+                                  }}
+                                  preview={{
+                                    image: am,
+                                    text: this.props.locales.colors.alpha
+                                      .helper,
                                   }}
                                   isChecked={color.alpha.isEnabled}
                                   isBlocked={
@@ -905,6 +911,14 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     this.props.editor
                                   ).COLORS_ALPHA.isNew()}
                                   action={this.colorsHandler}
+                                  onUnblock={() => {
+                                    parent.postMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO_PLAN' },
+                                      },
+                                      '*'
+                                    )
+                                  }}
                                 />
                               </FormItem>
                             </div>

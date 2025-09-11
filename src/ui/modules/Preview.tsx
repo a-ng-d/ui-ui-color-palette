@@ -36,6 +36,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
+import lsc from '../../content/images/lock_source_colors.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface PreviewProps extends BaseProps, WithConfigProps {
@@ -782,6 +783,11 @@ export default class Preview extends PureComponent<
                   id="lock-source-colors"
                   label={this.props.locales.preview.lock.label}
                   type="SWITCH_BUTTON"
+                  preview={{
+                    image: lsc,
+                    text: this.props.locales.preview.lock.preview,
+                    pin: 'TOP',
+                  }}
                   warning={
                     this.props.service === 'CREATE' &&
                     this.props.areSourceColorsLocked &&
@@ -814,6 +820,14 @@ export default class Preview extends PureComponent<
                     this.props.editor
                   ).PREVIEW_LOCK_SOURCE_COLORS.isNew()}
                   action={this.colorSettingsHandler}
+                  onUnblock={() => {
+                    parent.postMessage(
+                      {
+                        pluginMessage: { type: 'GET_PRO_PLAN' },
+                      },
+                      '*'
+                    )
+                  }}
                 />
               </Feature>
               <Feature
