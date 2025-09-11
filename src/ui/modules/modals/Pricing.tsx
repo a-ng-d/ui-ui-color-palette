@@ -11,7 +11,7 @@ import {
   PlanStatus,
   Service,
 } from '../../../types/app'
-import { trackPricingViewEvent } from '../../../external/tracking/eventsTracker'
+import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import uicpo from '../../../content/images/uicp_one.webp'
 import uicp from '../../../content/images/uicp_figma.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -60,7 +60,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }
     this.mediaQueryList.addEventListener('change', handleMediaQueryChange)
 
-    trackPricingViewEvent(
+    trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId === ''
         ? this.props.userIdentity.id === ''
@@ -68,7 +68,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           : this.props.userIdentity.id
         : this.props.userSession.userId,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false
+        ?.isConsented ?? false,
+      { feature: 'VIEW_PRICING' }
     )
   }
 
@@ -128,6 +129,19 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 },
                 '*'
               )
+
+              trackPricingEvent(
+                this.props.config.env.isMixpanelEnabled,
+                this.props.userSession.userId === ''
+                  ? this.props.userIdentity.id === ''
+                    ? ''
+                    : this.props.userIdentity.id
+                  : this.props.userSession.userId,
+                this.props.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                { feature: 'GO_TO_ONE' }
+              )
             }}
           />
         }
@@ -140,6 +154,18 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               },
             },
             '*'
+          )
+
+          trackPricingEvent(
+            this.props.config.env.isMixpanelEnabled,
+            this.props.userSession.userId === ''
+              ? this.props.userIdentity.id === ''
+                ? ''
+                : this.props.userIdentity.id
+              : this.props.userSession.userId,
+            this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false,
+            { feature: 'GO_TO_ONE' }
           )
         }}
       />
@@ -169,6 +195,19 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 },
                 '*'
               )
+
+              trackPricingEvent(
+                this.props.config.env.isMixpanelEnabled,
+                this.props.userSession.userId === ''
+                  ? this.props.userIdentity.id === ''
+                    ? ''
+                    : this.props.userIdentity.id
+                  : this.props.userSession.userId,
+                this.props.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                { feature: 'GO_TO_ONE_FIGMA' }
+              )
             }}
           />
         }
@@ -181,6 +220,18 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               },
             },
             '*'
+          )
+
+          trackPricingEvent(
+            this.props.config.env.isMixpanelEnabled,
+            this.props.userSession.userId === ''
+              ? this.props.userIdentity.id === ''
+                ? ''
+                : this.props.userIdentity.id
+              : this.props.userSession.userId,
+            this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false,
+            { feature: 'GO_TO_ONE_FIGMA' }
           )
         }}
       />
@@ -210,6 +261,19 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 },
                 '*'
               )
+
+              trackPricingEvent(
+                this.props.config.env.isMixpanelEnabled,
+                this.props.userSession.userId === ''
+                  ? this.props.userIdentity.id === ''
+                    ? ''
+                    : this.props.userIdentity.id
+                  : this.props.userSession.userId,
+                this.props.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                { feature: 'GO_TO_CHECKOUT' }
+              )
             }}
           />
         }
@@ -222,6 +286,18 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               },
             },
             '*'
+          )
+
+          trackPricingEvent(
+            this.props.config.env.isMixpanelEnabled,
+            this.props.userSession.userId === ''
+              ? this.props.userIdentity.id === ''
+                ? ''
+                : this.props.userIdentity.id
+              : this.props.userSession.userId,
+            this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false,
+            { feature: 'GO_TO_CHECKOUT' }
           )
         }}
       />

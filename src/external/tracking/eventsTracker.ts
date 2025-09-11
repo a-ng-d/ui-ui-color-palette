@@ -5,6 +5,7 @@ import {
   ExportEvent,
   ImportEvent,
   PreviewEvent,
+  PricingEvent,
   PublicationEvent,
   ScaleEvent,
   SettingEvent,
@@ -354,10 +355,11 @@ export const trackAnnouncementsEvent = (
   if (mixpanel) mixpanel.identify(id)
 }
 
-export const trackPricingViewEvent = (
+export const trackPricingEvent = (
   isEnabled: boolean,
   id: string,
-  consent: boolean
+  consent: boolean,
+  options: PricingEvent
 ) => {
   const mixpanel = getMixpanel()
 
@@ -366,6 +368,7 @@ export const trackPricingViewEvent = (
     mixpanel.track('Pricing Consulted', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Feature: options.feature,
     })
 
   if (id === '') return
