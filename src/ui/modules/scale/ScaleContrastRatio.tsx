@@ -16,6 +16,7 @@ import {
   SectionTitle,
   Select,
   SimpleItem,
+  texts,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -532,6 +533,9 @@ export default class ScaleContrastRatio extends PureComponent<
                     action={this.onResetScale}
                   />
                 </Feature>
+                <span className={texts.type}>
+                  {this.props.locales.separator}
+                </span>
                 <Feature
                   isActive={ScaleContrastRatio.features(
                     this.props.planStatus,

@@ -1057,6 +1057,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     action={this.onResetScale}
                   />
                 </Feature>
+                <span className={texts.type}>
+                  {this.props.locales.separator}
+                </span>
                 <Feature
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
@@ -1336,6 +1339,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     action={this.onResetScale}
                   />
                 </Feature>
+                <span className={texts.type}>
+                  {this.props.locales.separator}
+                </span>
                 <Feature
                   isActive={ScaleLightnessChroma.features(
                     this.props.planStatus,
