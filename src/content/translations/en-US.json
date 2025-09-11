@@ -512,9 +512,9 @@
     "actions": {
       "addStop": "Add stop",
       "removeStop": "Remove stop",
-      "resetScale": "Reset lightness and chroma",
-      "resetLightness": "Reset lightness",
-      "reverseLightness": "Reverse lightness",
+      "resetScale": "Reset stops and chroma",
+      "resetStops": "Reset stops",
+      "reverseStops": "Reverse stops",
       "applyEasing": "Apply directly the easing to the stops"
     },
     "contrast": {
@@ -784,7 +784,7 @@
   "user": {
     "cookies": {
       "back": "Back",
-      "close": "Continue without accepting",
+      "close": "Close",
       "consent": "Accept all",
       "customize": "Customize cookies",
       "deny": "Deny all",

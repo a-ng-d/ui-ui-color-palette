@@ -932,7 +932,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
   }
 
-  onReverseLightness = () => {
+  onReverseStops = () => {
     const currentScale = this.props.scale ?? {}
 
     const entries = Object.entries(currentScale).map(([key, value]) => ({
@@ -1059,7 +1059,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     type="icon"
                     icon="reverse"
                     helper={{
-                      label: this.props.locales.scale.actions.reverseLightness,
+                      label: this.props.locales.scale.actions.reverseStops,
                     }}
                     feature="REVERSE_SCALE"
                     isBlocked={ScaleLightnessChroma.features(
@@ -1074,7 +1074,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       this.props.service,
                       this.props.editor
                     ).SCALE_REVERSE.isNew()}
-                    action={this.onReverseLightness}
+                    action={this.onReverseStops}
                   />
                 </Feature>
                 <Feature
@@ -1341,7 +1341,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     type="icon"
                     icon="reverse"
                     helper={{
-                      label: this.props.locales.scale.actions.reverseLightness,
+                      label: this.props.locales.scale.actions.reverseStops,
                     }}
                     feature="REVERSE_SCALE"
                     isBlocked={ScaleLightnessChroma.features(
@@ -1356,7 +1356,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       this.props.service,
                       this.props.editor
                     ).SCALE_REVERSE.isNew()}
-                    action={this.onReverseLightness}
+                    action={this.onReverseStops}
                   />
                 </Feature>
                 <Feature

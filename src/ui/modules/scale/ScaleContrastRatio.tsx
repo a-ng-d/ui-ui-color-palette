@@ -43,10 +43,7 @@ interface ScaleStates {
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class ScaleContrastRatio extends PureComponent<
-  ScaleProps,
-  ScaleStates
-> {
+export default class ScaleContrastRatio extends PureComponent<ScaleProps, ScaleStates> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
@@ -467,7 +464,7 @@ export default class ScaleContrastRatio extends PureComponent<
   }
 
   // Direct Actions
-  onResetScale = () => {
+  onResetStops = () => {
     const preset = this.props.preset ?? defaultPreset
 
     this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
@@ -515,7 +512,7 @@ export default class ScaleContrastRatio extends PureComponent<
                     type="icon"
                     icon="reset"
                     helper={{
-                      label: this.props.locales.scale.actions.resetLightness,
+                      label: this.props.locales.scale.actions.resetStops,
                     }}
                     feature="RESET_SCALE"
                     isBlocked={ScaleContrastRatio.features(
@@ -530,7 +527,7 @@ export default class ScaleContrastRatio extends PureComponent<
                       this.props.service,
                       this.props.editor
                     ).SCALE_RESET.isNew()}
-                    action={this.onResetScale}
+                    action={this.onResetStops}
                   />
                 </Feature>
                 <span className={texts.type}>
