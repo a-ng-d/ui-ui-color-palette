@@ -930,6 +930,20 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
     if (this.props.service === 'EDIT')
       parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+
+    trackScaleManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'RESET_SCALE',
+      }
+    )
   }
 
   onReverseStops = () => {
@@ -957,9 +971,22 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
     if (this.props.service === 'EDIT') {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-      this.scaleMessage.feature = 'TOGGLE_SCALE'
       parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
     }
+
+    trackScaleManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'REVERSE_STOPS',
+      }
+    )
   }
 
   // Templates

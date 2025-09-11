@@ -45,6 +45,9 @@ export interface ScaleEvent {
     | 'CONTRAST_MODE_ON'
     | 'CONTRAST_MODE_OFF'
     | EasingConfiguration
+    | 'APPLY_EASING'
+    | 'REVERSE_STOPS'
+    | 'RESET_SCALE'
 }
 
 export interface PreviewEvent {

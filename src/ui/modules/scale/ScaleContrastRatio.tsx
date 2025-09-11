@@ -22,9 +22,10 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { defaultPreset } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
+import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
-import { defaultPreset } from '../../..//stores/presets'
 
 interface ScaleProps extends BaseProps, WithConfigProps {
   id: string
@@ -43,7 +44,10 @@ interface ScaleStates {
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class ScaleContrastRatio extends PureComponent<ScaleProps, ScaleStates> {
+export default class ScaleContrastRatio extends PureComponent<
+  ScaleProps,
+  ScaleStates
+> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
@@ -476,6 +480,20 @@ export default class ScaleContrastRatio extends PureComponent<ScaleProps, ScaleS
 
     if (this.props.service === 'EDIT')
       parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+
+    trackScaleManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'RESET_SCALE',
+      }
+    )
   }
 
   // Render
