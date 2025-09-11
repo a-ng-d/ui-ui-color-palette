@@ -885,10 +885,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   type="SWITCH_BUTTON"
                                   feature="SWITCH_ALPHA_MODE"
                                   data-color-id={color.id}
-                                  helper={{
-                                    label:
-                                      this.props.locales.colors.alpha.helper,
-                                  }}
                                   preview={{
                                     image: am,
                                     text: this.props.locales.colors.alpha
