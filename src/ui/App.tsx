@@ -887,7 +887,12 @@ class App extends Component<AppProps, AppStates> {
   render() {
     if (this.state.isLoaded)
       return (
-        <main className="ui">
+        <main
+          className="ui"
+          inert={
+            this.state.modalContext !== 'EMPTY' || this.state.mustUserConsent
+          }
+        >
           <Feature
             isActive={
               App.features(
@@ -1018,52 +1023,58 @@ class App extends Component<AppProps, AppStates> {
               ).USER_CONSENT.isActive()
             }
           >
-            <Consent
-              welcomeMessage={this.state.locales.user.cookies.welcome}
-              vendorsMessage={this.state.locales.user.cookies.vendors}
-              privacyPolicy={{
-                label: this.state.locales.user.cookies.privacyPolicy,
-                action: () =>
-                  parent.postMessage(
-                    {
-                      pluginMessage: {
-                        type: 'OPEN_IN_BROWSER',
-                        data: {
-                          url: this.props.config.urls.privacyUrl,
+            {document.getElementById('modal') &&
+              createPortal(
+                <Consent
+                  welcomeMessage={this.state.locales.user.cookies.welcome}
+                  vendorsMessage={this.state.locales.user.cookies.vendors}
+                  privacyPolicy={{
+                    label: this.state.locales.user.cookies.privacyPolicy,
+                    action: () =>
+                      parent.postMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            data: {
+                              url: this.props.config.urls.privacyUrl,
+                            },
+                          },
                         },
-                      },
+                        '*'
+                      ),
+                  }}
+                  moreDetailsLabel={this.state.locales.user.cookies.customize}
+                  lessDetailsLabel={this.state.locales.user.cookies.back}
+                  consentActions={{
+                    consent: {
+                      label: this.state.locales.user.cookies.consent,
+                      action: this.userConsentHandler,
                     },
-                    '*'
-                  ),
-              }}
-              moreDetailsLabel={this.state.locales.user.cookies.customize}
-              lessDetailsLabel={this.state.locales.user.cookies.back}
-              consentActions={{
-                consent: {
-                  label: this.state.locales.user.cookies.consent,
-                  action: this.userConsentHandler,
-                },
-                deny: {
-                  label: this.state.locales.user.cookies.deny,
-                  action: this.userConsentHandler,
-                },
-                save: {
-                  label: this.state.locales.user.cookies.save,
-                  action: this.userConsentHandler,
-                },
-              }}
-              validVendor={{
-                name: this.state.locales.vendors.functional.name,
-                id: 'functional',
-                icon: '',
-                description: this.state.locales.vendors.functional.description,
-                isConsented: true,
-              }}
-              vendorsList={this.state.userConsent}
-              canBeClosed
-              closeLabel={this.state.locales.user.cookies.close}
-              onClose={() => this.setState({ mustUserConsent: false })}
-            />
+                    deny: {
+                      label: this.state.locales.user.cookies.deny,
+                      action: this.userConsentHandler,
+                    },
+                    save: {
+                      label: this.state.locales.user.cookies.save,
+                      action: this.userConsentHandler,
+                    },
+                  }}
+                  validVendor={{
+                    name: this.state.locales.vendors.functional.name,
+                    id: 'functional',
+                    icon: '',
+                    description:
+                      this.state.locales.vendors.functional.description,
+                    isConsented: true,
+                  }}
+                  vendorsList={this.state.userConsent}
+                  canBeClosed
+                  closeLabel={this.state.locales.user.cookies.close}
+                  onClose={() => this.setState({ mustUserConsent: false })}
+                />,
+                document.getElementById('modal') ??
+                  document.createElement('app')
+              )}
           </Feature>
           <Feature
             isActive={
