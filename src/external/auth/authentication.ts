@@ -90,14 +90,14 @@ export const signIn = async ({
                   })
                   .catch((error) => {
                     clearInterval(poll)
-                    console.log(error)
+                    console.error(error)
                     return reject(error)
                   })
               }
             })
             .catch((error) => {
               clearInterval(poll)
-              console.log(error)
+              console.error(error)
               return reject(error)
             })
         }, 5000)
@@ -112,7 +112,7 @@ export const signIn = async ({
         )
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
         return reject(error)
       })
   })

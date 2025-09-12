@@ -12,7 +12,7 @@ const checkAnnouncementsVersion = async (
           return resolve(data.version as string)
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
         return reject(error)
       })
   })

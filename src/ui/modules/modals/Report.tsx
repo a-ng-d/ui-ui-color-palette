@@ -84,7 +84,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
       })
       .finally(() => this.setState({ isPrimaryActionLoading: false }))
       .catch((error: Error) => {
-        console.log(error)
+        console.error(error)
         parent.postMessage(
           {
             pluginMessage: {

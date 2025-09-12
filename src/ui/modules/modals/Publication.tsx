@@ -322,7 +322,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isPrimaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -392,7 +392,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isPrimaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -456,7 +456,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isSecondaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -523,7 +523,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isPrimaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -627,7 +627,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isPrimaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -740,7 +740,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isPrimaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -804,7 +804,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isSecondaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {
@@ -910,7 +910,7 @@ export default class Publication extends PureComponent<
                 this.setState({ isPrimaryActionLoading: false })
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
                 parent.postMessage(
                   {
                     pluginMessage: {

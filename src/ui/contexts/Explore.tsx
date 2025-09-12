@@ -135,7 +135,7 @@ export default class Explore extends PureComponent<
         })
       )
       .catch((error) => {
-        console.log(error)
+        console.error(error)
         this.setState({
           colourLoversPalettesListStatus: 'ERROR',
         })

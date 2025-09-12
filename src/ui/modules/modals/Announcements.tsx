@@ -113,7 +113,7 @@ export default class Announcements extends PureComponent<
         } else this.setState({ status: 'ERROR' })
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
         this.setState({ status: 'ERROR' })
       })
   }

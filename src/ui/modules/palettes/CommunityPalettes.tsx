@@ -415,7 +415,7 @@ export default class CommunityPalettes extends PureComponent<
                           })
                         )
                         .catch((error) => {
-                          console.log(error)
+                          console.error(error)
                           parent.postMessage(
                             {
                               pluginMessage: {

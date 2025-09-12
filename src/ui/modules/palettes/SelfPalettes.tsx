@@ -294,7 +294,7 @@ export default class SelfPalettes extends PureComponent<
 
         return
       } catch (error) {
-        console.log(error)
+        console.error(error)
         throw error
       }
     else throw error
@@ -493,7 +493,7 @@ export default class SelfPalettes extends PureComponent<
                                 })
                               })
                               .catch((error) => {
-                                console.log(error)
+                                console.error(error)
                                 parent.postMessage(
                                   {
                                     pluginMessage: {
@@ -586,7 +586,7 @@ export default class SelfPalettes extends PureComponent<
                                 })
                               })
                               .catch((error) => {
-                                console.log(error)
+                                console.error(error)
                                 parent.postMessage(
                                   {
                                     pluginMessage: {
@@ -642,7 +642,7 @@ export default class SelfPalettes extends PureComponent<
                             })
                           })
                           .catch((error) => {
-                            console.log(error)
+                            console.error(error)
                             parent.postMessage(
                               {
                                 pluginMessage: {
