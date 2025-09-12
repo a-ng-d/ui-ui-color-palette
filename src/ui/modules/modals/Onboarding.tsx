@@ -301,6 +301,7 @@ export default class Onboarding extends PureComponent<
                   this.state.position + 1 < this.state.announcements.length
                     ? this.props.locales.onboarding.cta.next
                     : this.props.locales.onboarding.cta.gotIt,
+                isAutofocus: true,
                 action: (e: MouseEvent) => this.goNextSlide(e),
               },
               secondary: (() => {

@@ -270,6 +270,7 @@ export default class Announcements extends PureComponent<
                   this.state.position + 1 < this.state.announcements.length
                     ? this.props.locales.announcements.cta.next
                     : this.props.locales.announcements.cta.gotIt,
+                isAutofocus: true,
                 action: (e: MouseEvent) => this.goNextSlide(e),
               },
               secondary: (() => {

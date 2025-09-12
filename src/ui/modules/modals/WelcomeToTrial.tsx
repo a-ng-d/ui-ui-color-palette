@@ -44,6 +44,7 @@ export default class WelcomeToTrial extends PureComponent<WelcomeToTrialProps> {
           actions={{
             primary: {
               label: this.props.locales.proPlan.welcome.cta,
+              isAutofocus: true,
               action: this.props.onClose,
             },
           }}

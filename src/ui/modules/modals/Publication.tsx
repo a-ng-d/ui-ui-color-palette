@@ -49,6 +49,7 @@ interface PublicationStates {
 interface PublicationAction {
   label: string
   state: 'LOADING' | 'DEFAULT' | 'DISABLED'
+  isAutofocus?: boolean
   action: () => void
 }
 
@@ -274,6 +275,7 @@ export default class Publication extends PureComponent<
         primary: {
           label: this.props.locales.publication.publish,
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          isAutofocus: true,
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             publishPalette({
@@ -342,6 +344,7 @@ export default class Publication extends PureComponent<
         primary: {
           label: this.props.locales.publication.publish,
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          isAutofocus: true,
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pushPalette({
@@ -474,6 +477,7 @@ export default class Publication extends PureComponent<
         primary: {
           label: this.props.locales.publication.synchronize,
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          isAutofocus: true,
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
@@ -577,6 +581,7 @@ export default class Publication extends PureComponent<
         primary: {
           label: this.props.locales.publication.synchronize,
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+          isAutofocus: true,
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
