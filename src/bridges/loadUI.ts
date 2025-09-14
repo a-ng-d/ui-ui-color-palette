@@ -40,11 +40,7 @@ if (iframe) {
   iframe.height = windowSize.height.toString()
 
   iframe.onload = () => {
-    checkUserConsent()
-      .then(() => checkTrialStatus())
-      .then(() => checkUserPreferences())
-      .then(() => checkUserLicense())
-
+    // Canvas > UI
     iframe?.contentWindow?.postMessage({
       type: 'CHECK_USER_AUTHENTICATION',
       data: {
@@ -65,6 +61,12 @@ if (iframe) {
         editor: globalConfig.env.editor,
       },
     })
+
+    // Checks
+    checkUserConsent()
+      .then(() => checkTrialStatus())
+      .then(() => checkUserPreferences())
+      .then(() => checkUserLicense())
   }
 }
 
