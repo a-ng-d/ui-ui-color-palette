@@ -17,9 +17,13 @@ import { ConfigProvider } from './config/ConfigContext'
 const container = document.getElementById('app'),
   root = createRoot(container)
 
+const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN
+const sentryDsn = import.meta.env.VITE_SENTRY_DSN
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
+
 // Mixpanel
 if (globalConfig.env.isMixpanelEnabled) {
-  mixpanel.init(import.meta.env.VITE_MIXPANEL_TOKEN as string, {
+  mixpanel.init(mixpanelToken as string, {
     api_host: 'https://api-eu.mixpanel.com',
     debug: globalConfig.env.isDev,
     disable_persistence: true,
@@ -41,7 +45,7 @@ if (globalConfig.env.isMixpanelEnabled) {
 // Sentry
 if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
   Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN as string,
+    dsn: sentryDsn as string,
     environment: 'production',
     initialScope: {
       tags: {
@@ -88,10 +92,7 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
 
 // Supabase
 if (globalConfig.env.isSupabaseEnabled)
-  initSupabase(
-    globalConfig.urls.databaseUrl,
-    import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
-  )
+  initSupabase(globalConfig.urls.databaseUrl, supabaseAnonKey)
 
 
 // Bridge Canvas <> UI
