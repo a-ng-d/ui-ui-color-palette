@@ -32,6 +32,7 @@ import Source from '../components/Source'
 import Shade from '../components/Shade'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
@@ -328,7 +329,7 @@ export default class Preview extends PureComponent<
       })
 
       if (this.props.service === 'EDIT')
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'UPDATE_PALETTE',
@@ -371,7 +372,7 @@ export default class Preview extends PureComponent<
       })
 
       if (this.props.service === 'EDIT')
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'UPDATE_PALETTE',
@@ -416,7 +417,7 @@ export default class Preview extends PureComponent<
       })
 
       if (this.props.service === 'EDIT' && this.props.themes !== undefined)
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'UPDATE_PALETTE',
@@ -683,7 +684,7 @@ export default class Preview extends PureComponent<
                       ).PREVIEW_SCORES_WCAG.isNew(),
                       action: () => {
                         $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'SET_ITEMS',
@@ -723,7 +724,7 @@ export default class Preview extends PureComponent<
                       ).PREVIEW_SCORES_APCA.isNew(),
                       action: () => {
                         $isAPCADisplayed.set(!this.state.isAPCADisplayed)
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'SET_ITEMS',
@@ -821,7 +822,7 @@ export default class Preview extends PureComponent<
                   ).PREVIEW_LOCK_SOURCE_COLORS.isNew()}
                   action={this.colorSettingsHandler}
                   onUnblock={() => {
-                    parent.postMessage(
+                    sendPluginMessage(
                       {
                         pluginMessage: { type: 'GET_PRO_PLAN' },
                       },

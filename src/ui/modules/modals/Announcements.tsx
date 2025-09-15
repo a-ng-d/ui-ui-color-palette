@@ -5,6 +5,7 @@ import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { getProxiedUrl } from '../../../utils/url'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import {
   BaseProps,
   AnnouncementsDigest,
@@ -142,7 +143,7 @@ export default class Announcements extends PureComponent<
         this.props.announcements.version !== '' &&
         this.props.announcements.version !== null
       )
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'SET_ITEMS',
@@ -221,7 +222,7 @@ export default class Announcements extends PureComponent<
                 this.props.announcements.version !== '' &&
                 this.props.announcements.version !== null
               )
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'SET_ITEMS',
@@ -281,7 +282,7 @@ export default class Announcements extends PureComponent<
                   return {
                     label: this.props.locales.announcements.cta.learnMore,
                     action: () => {
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'OPEN_IN_BROWSER',
@@ -324,7 +325,7 @@ export default class Announcements extends PureComponent<
                 this.props.announcements.version !== '' &&
                 this.props.announcements.version !== null
               )
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'SET_ITEMS',

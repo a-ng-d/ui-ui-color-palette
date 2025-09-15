@@ -99,13 +99,20 @@ if (globalConfig.env.isSupabaseEnabled)
 window.addEventListener(
   'message',
   (event: MessageEvent) => {
-    const pluginEvent = new CustomEvent('pluginMessage', {
+    const pluginEvent = new CustomEvent('platformMessage', {
       detail: event.data,
     })
     window.dispatchEvent(pluginEvent)
   },
   false
 )
+
+window.addEventListener('pluginMessage', ((event: MessageEvent) => {
+  if (event instanceof CustomEvent && window.parent !== window) {
+    const { message, targetOrigin } = event.detail
+    parent.postMessage(message, targetOrigin)
+  }
+}) as EventListener)
 
 // Render
 root.render(

@@ -26,6 +26,7 @@ import {
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -365,7 +366,7 @@ export default class Actions extends PureComponent<
       (e.type === 'focusout' || ('key' in e && e.key === 'Enter')) &&
       this.props.service === 'EDIT'
     )
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'UPDATE_PALETTE',
@@ -830,13 +831,13 @@ export default class Actions extends PureComponent<
                       e as React.MouseEvent<HTMLButtonElement>
                     )
                 else
-                  parent.postMessage(
+                  sendPluginMessage(
                     { pluginMessage: { type: 'GET_PRO_PLAN' } },
                     '*'
                   )
               }}
               onUnblock={() => {
-                parent.postMessage(
+                sendPluginMessage(
                   { pluginMessage: { type: 'GET_PRO_PLAN' } },
                   '*'
                 )

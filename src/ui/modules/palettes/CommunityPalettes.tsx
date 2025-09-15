@@ -19,6 +19,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { PluginMessageData } from '../../../types/messages'
 import {
   BaseProps,
@@ -82,7 +83,7 @@ export default class CommunityPalettes extends PureComponent<
   // Lifecycle
   componentDidMount = async () => {
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
 
@@ -112,7 +113,7 @@ export default class CommunityPalettes extends PureComponent<
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -219,7 +220,7 @@ export default class CommunityPalettes extends PureComponent<
 
     if (!error && data.length > 0)
       try {
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'CREATE_PALETTE_FROM_REMOTE',
@@ -416,7 +417,7 @@ export default class CommunityPalettes extends PureComponent<
                         )
                         .catch((error) => {
                           console.error(error)
-                          parent.postMessage(
+                          sendPluginMessage(
                             {
                               pluginMessage: {
                                 type: 'POST_MESSAGE',

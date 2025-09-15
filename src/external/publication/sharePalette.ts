@@ -1,4 +1,5 @@
 import { getSupabase } from '../auth/client'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 
 const sharePalette = async ({
   id,
@@ -27,7 +28,7 @@ const sharePalette = async ({
     .match({ palette_id: id })
 
   if (!error)
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'UPDATE_PALETTE',

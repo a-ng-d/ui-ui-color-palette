@@ -26,6 +26,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { defaultPreset, presets } from '../../../stores/presets'
@@ -160,7 +161,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.props.onChangeShift(feature, state, value)
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -172,7 +173,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.props.onChangeShift(feature, state, value)
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -183,7 +184,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.props.onChangeShift(feature, state, value)
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -219,7 +220,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.scaleMessage.feature = feature
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -258,7 +259,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -294,7 +295,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -368,7 +369,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -405,7 +406,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -438,7 +439,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -471,7 +472,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -508,7 +509,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -545,7 +546,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -578,7 +579,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -611,7 +612,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -644,7 +645,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -680,7 +681,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       })
 
       if (this.props.service === 'EDIT') {
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
       }
 
@@ -929,7 +930,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     this.props.onChangeShift('shift.chroma', 'SHIFTED', 100)
 
     if (this.props.service === 'EDIT')
-      parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -971,7 +972,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
     if (this.props.service === 'EDIT') {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-      parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     trackScaleManagementEvent(
@@ -1202,7 +1203,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                         type="secondary"
                         label={this.props.locales.plan.tryPro}
                         action={() =>
-                          parent.postMessage(
+                          sendPluginMessage(
                             { pluginMessage: { type: 'GET_TRIAL' } },
                             '*'
                           )
@@ -1213,7 +1214,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                         type="secondary"
                         label={this.props.locales.plan.getPro}
                         action={() =>
-                          parent.postMessage(
+                          sendPluginMessage(
                             { pluginMessage: { type: 'GET_PRO_PLAN' } },
                             '*'
                           )
@@ -1484,7 +1485,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                         type="secondary"
                         label={this.props.locales.plan.tryPro}
                         action={() =>
-                          parent.postMessage(
+                          sendPluginMessage(
                             { pluginMessage: { type: 'GET_TRIAL' } },
                             '*'
                           )
@@ -1495,7 +1496,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                         type="secondary"
                         label={this.props.locales.plan.getPro}
                         action={() =>
-                          parent.postMessage(
+                          sendPluginMessage(
                             { pluginMessage: { type: 'GET_PRO_PLAN' } },
                             '*'
                           )

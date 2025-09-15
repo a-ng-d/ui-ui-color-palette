@@ -4,6 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Card, Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import {
   BaseProps,
   Editor,
@@ -121,7 +122,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             label={this.props.locales.pricing.one.cta}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'GO_TO_ONE',
@@ -147,7 +148,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
-          parent.postMessage(
+          sendPluginMessage(
             {
               pluginMessage: {
                 type: 'GO_TO_ONE',
@@ -187,7 +188,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             label={this.props.locales.pricing.oneFigma.cta}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'GO_TO_ONE_FIGMA',
@@ -213,7 +214,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
-          parent.postMessage(
+          sendPluginMessage(
             {
               pluginMessage: {
                 type: 'GO_TO_ONE_FIGMA',
@@ -253,7 +254,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             label={this.props.locales.pricing.figma.cta}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'GO_TO_CHECKOUT',
@@ -279,7 +280,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
-          parent.postMessage(
+          sendPluginMessage(
             {
               pluginMessage: {
                 type: 'GO_TO_CHECKOUT',

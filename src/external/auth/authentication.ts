@@ -1,4 +1,5 @@
 import { getProxiedUrl } from '../../utils/url'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getSupabase } from './client'
 import checkConnectionStatus from './checkConnectionStatus'
 
@@ -32,7 +33,18 @@ export const signIn = async ({
         else return reject(new Error('Failed to fetch passkey'))
       })
       .then((result) => {
-        parent.postMessage(
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'OPEN_IN_BROWSER',
+              data: {
+                url: `${authUrl}/?passkey=${result.passkey}`,
+              },
+            },
+          },
+          '*'
+        )
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'OPEN_IN_BROWSER',
@@ -61,7 +73,7 @@ export const signIn = async ({
             .then(async (result) => {
               if (result.message !== 'No token found') {
                 isAuthenticated = true
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'SET_ITEMS',
@@ -135,7 +147,7 @@ export const signOut = async ({
   })
 
   if (!error) {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'OPEN_IN_BROWSER',
@@ -146,7 +158,7 @@ export const signOut = async ({
       },
       '*'
     )
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'DELETE_ITEMS',
@@ -156,7 +168,7 @@ export const signOut = async ({
       },
       platformUrl
     )
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'SIGN_OUT',

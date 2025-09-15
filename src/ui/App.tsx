@@ -31,6 +31,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import './stylesheets/app.css'
 import { userConsent } from '../utils/userConsent'
+import { sendPluginMessage } from '../utils/pluginMessage'
 import { UserSession } from '../types/user'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
 import {
@@ -271,7 +272,7 @@ class App extends Component<AppProps, AppStates> {
         lang: value,
       })
 
-      parent.postMessage({
+      sendPluginMessage({
         pluginMessage: {
           type: 'UPDATE_LANGUAGE',
           data: {
@@ -349,7 +350,7 @@ class App extends Component<AppProps, AppStates> {
                   `https://www.gravatar.com/avatar/${session?.user.id}?d=identicon`,
               },
             })
-            parent.postMessage({
+            sendPluginMessage({
               pluginMessage: {
                 type: 'SET_ITEMS',
                 items: [
@@ -372,7 +373,7 @@ class App extends Component<AppProps, AppStates> {
 
     // Listener
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -381,7 +382,7 @@ class App extends Component<AppProps, AppStates> {
     if (this.subscribeLanguage) this.subscribeLanguage()
     if (this.subsscribeVsCodeMessage) this.subsscribeVsCodeMessage()
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -508,7 +509,7 @@ class App extends Component<AppProps, AppStates> {
               status: 'NO_ANNOUNCEMENTS',
             },
           })
-          parent.postMessage(
+          sendPluginMessage(
             {
               pluginMessage: {
                 type: 'CHECK_ANNOUNCEMENTS_STATUS',
@@ -783,7 +784,7 @@ class App extends Component<AppProps, AppStates> {
       userConsent: e,
       mustUserConsent: false,
     })
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'SET_ITEMS',
@@ -803,7 +804,7 @@ class App extends Component<AppProps, AppStates> {
       },
       this.props.config.urls.platformUrl
     )
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'CHECK_USER_CONSENT',
@@ -1031,7 +1032,7 @@ class App extends Component<AppProps, AppStates> {
                   privacyPolicy={{
                     label: this.state.locales.user.cookies.privacyPolicy,
                     action: () =>
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'OPEN_IN_BROWSER',
@@ -1095,7 +1096,7 @@ class App extends Component<AppProps, AppStates> {
                     type="secondary"
                     label={this.state.locales.dev.vscode.cta}
                     action={() =>
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'OPEN_IN_BROWSER',
@@ -1114,7 +1115,7 @@ class App extends Component<AppProps, AppStates> {
                     action={() => {
                       $isVsCodeMessageDisplayed.set(false)
                       this.setState({ isVsCodeMessageDisplayed: false })
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'SET_ITEMS',

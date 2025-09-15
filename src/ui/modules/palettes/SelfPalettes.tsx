@@ -21,6 +21,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { PluginMessageData } from '../../../types/messages'
 import {
   BaseProps,
@@ -89,7 +90,7 @@ export default class SelfPalettes extends PureComponent<
   // Lifecycle
   componentDidMount = async () => {
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
 
@@ -129,7 +130,7 @@ export default class SelfPalettes extends PureComponent<
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -236,7 +237,7 @@ export default class SelfPalettes extends PureComponent<
 
     if (!error && data.length > 0)
       try {
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'CREATE_PALETTE_FROM_REMOTE',
@@ -442,7 +443,7 @@ export default class SelfPalettes extends PureComponent<
                                       pal.palette_id !== palette.palette_id
                                   )
 
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -494,7 +495,7 @@ export default class SelfPalettes extends PureComponent<
                               })
                               .catch((error) => {
                                 console.error(error)
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -533,7 +534,7 @@ export default class SelfPalettes extends PureComponent<
                               isShared: !palette.is_shared,
                             })
                               .then(() => {
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -587,7 +588,7 @@ export default class SelfPalettes extends PureComponent<
                               })
                               .catch((error) => {
                                 console.error(error)
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -643,7 +644,7 @@ export default class SelfPalettes extends PureComponent<
                           })
                           .catch((error) => {
                             console.error(error)
-                            parent.postMessage(
+                            sendPluginMessage(
                               {
                                 pluginMessage: {
                                   type: 'POST_MESSAGE',
@@ -755,7 +756,7 @@ export default class SelfPalettes extends PureComponent<
                       this.setState({ isSignInActionLoading: false })
                     })
                     .catch((error) => {
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'POST_MESSAGE',

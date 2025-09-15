@@ -5,6 +5,7 @@ import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { getProxiedUrl } from '../../../utils/url'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { trackOnboardingEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -178,7 +179,7 @@ export default class Onboarding extends PureComponent<
         }
       )
     } else {
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'SET_ITEMS',
@@ -252,7 +253,7 @@ export default class Onboarding extends PureComponent<
             title={this.props.locales.shortcuts.onboarding}
             isMessage
             onClose={(e: MouseEvent) => {
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'SET_ITEMS',
@@ -312,7 +313,7 @@ export default class Onboarding extends PureComponent<
                   return {
                     label: this.props.locales.onboarding.cta.learnMore,
                     action: () => {
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'OPEN_IN_BROWSER',
@@ -350,7 +351,7 @@ export default class Onboarding extends PureComponent<
                 : undefined
             }
             onClose={(e: MouseEvent) => {
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'SET_ITEMS',

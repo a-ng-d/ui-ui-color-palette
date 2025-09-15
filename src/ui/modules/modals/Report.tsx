@@ -4,6 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, FormItem, Input } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { getSentry } from '../../../external/monitoring/client'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -69,7 +70,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
           userEmail: '',
           userMessage: '',
         })
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'POST_MESSAGE',
@@ -85,7 +86,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
       .finally(() => this.setState({ isPrimaryActionLoading: false }))
       .catch((error: Error) => {
         console.error(error)
-        parent.postMessage(
+        sendPluginMessage(
           {
             pluginMessage: {
               type: 'POST_MESSAGE',

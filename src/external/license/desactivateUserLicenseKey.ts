@@ -1,3 +1,5 @@
+import { sendPluginMessage } from '../../utils/pluginMessage'
+
 const desactivateUserLicenseKey = async ({
   storeApiUrl,
   licenseKey,
@@ -26,7 +28,7 @@ const desactivateUserLicenseKey = async ({
       .then((data) => {
         if (data.error) throw new Error(data.error)
         if (data.deactivated) {
-          parent.postMessage(
+          sendPluginMessage(
             {
               pluginMessage: {
                 type: 'DELETE_ITEMS',

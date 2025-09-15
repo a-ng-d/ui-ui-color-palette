@@ -23,6 +23,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ColorsMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackSourceColorsManagementEvent } from '../../external/tracking/eventsTracker'
@@ -160,7 +161,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -197,7 +198,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       })
 
       if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
-        parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
         trackSourceColorsManagementEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -244,7 +245,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       }
 
       if (e.type === 'focusout') {
-        parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
         trackSourceColorsManagementEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -281,7 +282,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -317,7 +318,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -353,7 +354,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -391,7 +392,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -429,7 +430,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -460,7 +461,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userSession.userId === ''
@@ -490,7 +491,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userSession.userId === ''
@@ -518,7 +519,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       })
 
       if (e.type === 'focusout') {
-        parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
         trackSourceColorsManagementEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -550,7 +551,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -579,7 +580,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       })
 
       if (e.type === 'focusout') {
-        parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
         trackSourceColorsManagementEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -607,7 +608,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -656,7 +657,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       onGoingStep: 'colors changed',
     })
 
-    parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+    sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
     trackSourceColorsManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -742,7 +743,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                             type="secondary"
                             label={this.props.locales.plan.tryPro}
                             action={() =>
-                              parent.postMessage(
+                              sendPluginMessage(
                                 { pluginMessage: { type: 'GET_TRIAL' } },
                                 '*'
                               )
@@ -753,7 +754,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                             type="secondary"
                             label={this.props.locales.plan.getPro}
                             action={() =>
-                              parent.postMessage(
+                              sendPluginMessage(
                                 { pluginMessage: { type: 'GET_PRO_PLAN' } },
                                 '*'
                               )
@@ -908,7 +909,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   ).COLORS_ALPHA.isNew()}
                                   action={this.colorsHandler}
                                   onUnblock={() => {
-                                    parent.postMessage(
+                                    sendPluginMessage(
                                       {
                                         pluginMessage: { type: 'GET_PRO_PLAN' },
                                       },

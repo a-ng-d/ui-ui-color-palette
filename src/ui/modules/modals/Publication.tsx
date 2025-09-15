@@ -6,6 +6,7 @@ import { Avatar, Chip, Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../index'
 import {
@@ -168,7 +169,7 @@ export default class Publication extends PureComponent<
       this.setState({
         publicationStatus: 'WAITING',
       })
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'POST_MESSAGE',
@@ -211,7 +212,7 @@ export default class Publication extends PureComponent<
       this.setState({
         publicationStatus: 'WAITING',
       })
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'POST_MESSAGE',
@@ -290,7 +291,7 @@ export default class Publication extends PureComponent<
                   publicationStatus: 'PUBLISHED',
                 })
 
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -323,7 +324,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -360,7 +361,7 @@ export default class Publication extends PureComponent<
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
 
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -393,7 +394,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -424,7 +425,7 @@ export default class Publication extends PureComponent<
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
 
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -457,7 +458,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -491,7 +492,7 @@ export default class Publication extends PureComponent<
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
 
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -524,7 +525,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -595,7 +596,7 @@ export default class Publication extends PureComponent<
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
 
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -628,7 +629,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -708,7 +709,7 @@ export default class Publication extends PureComponent<
                   isPaletteShared: data.publicationStatus?.isShared ?? false,
                 })
 
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -741,7 +742,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -772,7 +773,7 @@ export default class Publication extends PureComponent<
                   isPaletteShared: false,
                 })
 
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -805,7 +806,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -893,7 +894,7 @@ export default class Publication extends PureComponent<
                     feature: 'REVERT_PALETTE',
                   }
                 )
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -911,7 +912,7 @@ export default class Publication extends PureComponent<
               })
               .catch((error) => {
                 console.error(error)
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'POST_MESSAGE',
@@ -1228,7 +1229,7 @@ export default class Publication extends PureComponent<
                     this.setState({ isPrimaryActionLoading: false })
                   })
                   .catch((error) => {
-                    parent.postMessage(
+                    sendPluginMessage(
                       {
                         pluginMessage: {
                           type: 'POST_MESSAGE',

@@ -4,6 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import cp from '../../../content/images/choose_plan.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -51,7 +52,7 @@ export default class TryPro extends PureComponent<TryProProps> {
                 this.props.config.plan.trialTime.toString()
               ),
               action: () =>
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'ENABLE_TRIAL',
@@ -67,7 +68,7 @@ export default class TryPro extends PureComponent<TryProProps> {
             secondary: {
               label: this.props.locales.proPlan.trial.option,
               action: () =>
-                parent.postMessage(
+                sendPluginMessage(
                   { pluginMessage: { type: 'GET_PRO_PLAN' } },
                   '*'
                 ),

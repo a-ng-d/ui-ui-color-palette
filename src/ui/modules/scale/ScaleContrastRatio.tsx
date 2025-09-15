@@ -20,6 +20,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { defaultPreset } from '../../../stores/presets'
@@ -144,7 +145,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.scaleMessage.feature = feature
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -182,7 +183,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -215,7 +216,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -274,7 +275,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.scaleMessage.feature = feature
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -312,7 +313,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -349,7 +350,7 @@ export default class ScaleContrastRatio extends PureComponent<
       this.props.onChangeScale()
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -479,7 +480,7 @@ export default class ScaleContrastRatio extends PureComponent<
     this.props.onChangeScale()
 
     if (this.props.service === 'EDIT')
-      parent.postMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,

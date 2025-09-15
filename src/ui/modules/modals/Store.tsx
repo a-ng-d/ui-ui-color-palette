@@ -4,6 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Card, Dialog, List, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import isb from '../../../content/images/isb_product_thumbnail.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -86,7 +87,7 @@ export default class Store extends PureComponent<StoreProps> {
                   label={this.props.locales.store.isb.cta}
                   action={(e: React.MouseEvent<HTMLButtonElement>) => {
                     e.stopPropagation()
-                    parent.postMessage(
+                    sendPluginMessage(
                       {
                         pluginMessage: {
                           type: 'OPEN_IN_BROWSER',
@@ -102,7 +103,7 @@ export default class Store extends PureComponent<StoreProps> {
               }
               shouldFill
               action={() => {
-                parent.postMessage(
+                sendPluginMessage(
                   {
                     pluginMessage: {
                       type: 'OPEN_IN_BROWSER',

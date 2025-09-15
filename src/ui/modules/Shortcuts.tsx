@@ -5,6 +5,7 @@ import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
   AnnouncementsDigest,
@@ -39,7 +40,10 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -236,7 +240,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
     if (scaleY > 420) windowSize.h = scaleY
     else windowSize.h = 420
 
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'RESIZE_UI',
@@ -253,7 +257,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
   onRelease = () => (window.onmousemove = null)
 
   onDoubleClick = () => {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'RESIZE_UI',
@@ -309,7 +313,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                       this.props.editor
                     ).HELP_DOCUMENTATION.isNew()}
                     action={() =>
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'OPEN_IN_BROWSER',
@@ -371,7 +375,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                               pluginId: this.props.config.env.pluginId,
                             })
                               .then(() => {
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -401,7 +405,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                                 this.setState({ isUserMenuLoading: false })
                               })
                               .catch(() => {
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -542,7 +546,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                               pluginId: this.props.config.env.pluginId,
                             })
                               .then(() => {
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -575,7 +579,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                                 this.setState({ isUserMenuLoading: false })
                               })
                               .catch((error) => {
-                                parent.postMessage(
+                                sendPluginMessage(
                                   {
                                     pluginMessage: {
                                       type: 'POST_MESSAGE',
@@ -765,7 +769,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.editor
                       ).HELP_EMAIL.isNew(),
                       action: () =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
@@ -828,7 +832,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.editor
                       ).INVOLVE_COMMUNITY.isNew(),
                       action: () =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
@@ -862,7 +866,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.editor
                       ).INVOLVE_REQUESTS.isNew(),
                       action: () =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
@@ -924,7 +928,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.editor
                       ).INVOLVE_FEEDBACK.isNew(),
                       action: () =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
@@ -958,7 +962,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.editor
                       ).INVOLVE_REPOSITORY.isNew(),
                       action: () =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
@@ -1048,7 +1052,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.editor
                       ).MORE_NETWORK.isNew(),
                       action: () =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',
@@ -1082,7 +1086,7 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                         this.props.editor
                       ).MORE_AUTHOR.isNew(),
                       action: () =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           {
                             pluginMessage: {
                               type: 'OPEN_IN_BROWSER',

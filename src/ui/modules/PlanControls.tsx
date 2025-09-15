@@ -3,6 +3,7 @@ import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -49,7 +50,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         icon="lock-off"
         label={this.props.locales.plan.getPro}
         action={() =>
-          parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
       <span className={doClassnames([texts.type, texts['type--secondary']])}>
@@ -97,8 +98,8 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         label={this.props.locales.plan.tryPro}
         action={() => {
           this.props.config.plan.isTrialEnabled
-            ? parent.postMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
-            : parent.postMessage(
+            ? sendPluginMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
+            : sendPluginMessage(
                 { pluginMessage: { type: 'GET_PRO_PLAN' } },
                 '*'
               )
@@ -117,7 +118,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
         icon="lock-off"
         label={this.props.locales.plan.getPro}
         action={() =>
-          parent.postMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
       <span className={doClassnames([texts.type, texts['type--secondary']])}>
@@ -159,7 +160,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
             this.props.editor
           ).INVOLVE_FEEDBACK.isNew()}
           action={() =>
-            parent.postMessage(
+            sendPluginMessage(
               {
                 pluginMessage: {
                   type: 'OPEN_IN_BROWSER',
@@ -200,7 +201,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
                 icon="lock-off"
                 label={this.props.locales.plan.getPro}
                 action={() =>
-                  parent.postMessage(
+                  sendPluginMessage(
                     { pluginMessage: { type: 'GET_PRO_PLAN' } },
                     '*'
                   )

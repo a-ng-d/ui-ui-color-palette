@@ -11,6 +11,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -61,14 +62,14 @@ export default class DangerZone extends PureComponent<
   // Lifecycle
   componentDidMount = async () => {
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -99,7 +100,7 @@ export default class DangerZone extends PureComponent<
       isDestructiveActionLoading: true,
     })
 
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'DELETE_PALETTE',

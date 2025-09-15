@@ -22,6 +22,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ThemesMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackColorThemesManagementEvent } from '../../external/tracking/eventsTracker'
@@ -138,7 +139,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
       trackColorThemesManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -177,7 +178,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       })
 
       if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
-        parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
         trackColorThemesManagementEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -217,7 +218,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       }
 
       if (e.type === 'focusout') {
-        parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
         trackColorThemesManagementEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -249,7 +250,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       })
 
       if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
-        parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
         trackColorThemesManagementEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -297,7 +298,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
       trackColorThemesManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -372,7 +373,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       onGoingStep: 'themes changed',
     })
 
-    parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
     trackColorThemesManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -403,7 +404,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       onGoingStep: 'themes changed',
     })
 
-    parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
     trackColorThemesManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -481,7 +482,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 type="secondary"
                                 label={this.props.locales.plan.tryPro}
                                 action={() =>
-                                  parent.postMessage(
+                                  sendPluginMessage(
                                     {
                                       pluginMessage: { type: 'GET_TRIAL' },
                                     },
@@ -494,7 +495,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 type="secondary"
                                 label={this.props.locales.plan.getPro}
                                 action={() =>
-                                  parent.postMessage(
+                                  sendPluginMessage(
                                     {
                                       pluginMessage: {
                                         type: 'GET_PRO_PLAN',
@@ -545,7 +546,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 type="secondary"
                                 label={this.props.locales.plan.tryPro}
                                 action={() =>
-                                  parent.postMessage(
+                                  sendPluginMessage(
                                     {
                                       pluginMessage: { type: 'GET_TRIAL' },
                                     },
@@ -558,7 +559,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 type="secondary"
                                 label={this.props.locales.plan.getPro}
                                 action={() =>
-                                  parent.postMessage(
+                                  sendPluginMessage(
                                     {
                                       pluginMessage: {
                                         type: 'GET_PRO_PLAN',

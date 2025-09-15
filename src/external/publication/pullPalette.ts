@@ -1,5 +1,6 @@
 import { ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth/client'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import type { AppStates } from '../../ui/App'
 
 const pullPalette = async ({
@@ -19,7 +20,7 @@ const pullPalette = async ({
     .eq('palette_id', rawData.id)
 
   if (!error && data.length === 1) {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'UPDATE_PALETTE',

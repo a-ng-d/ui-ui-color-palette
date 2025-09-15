@@ -1,5 +1,6 @@
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth/client'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { AppStates } from '../../ui/App'
 
 const publishPalette = async ({
@@ -70,7 +71,7 @@ const publishPalette = async ({
       },
     }
 
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'UPDATE_PALETTE',

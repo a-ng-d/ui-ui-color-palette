@@ -1,3 +1,4 @@
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { Platform } from '../../types/app'
 
 const activateUserLicenseKey = async ({
@@ -34,7 +35,7 @@ const activateUserLicenseKey = async ({
       .then((data) => {
         if (data.error) throw new Error(data.error)
         if (data.activated) {
-          parent.postMessage(
+          sendPluginMessage(
             {
               pluginMessage: {
                 type: 'SET_ITEMS',

@@ -26,6 +26,7 @@ import Scale from '../contexts/Scale'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
@@ -130,14 +131,14 @@ export default class CreatePalette extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -225,7 +226,7 @@ export default class CreatePalette extends PureComponent<
       isPrimaryLoading: true,
     })
 
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'CREATE_PALETTE',

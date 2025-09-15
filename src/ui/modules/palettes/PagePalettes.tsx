@@ -16,6 +16,7 @@ import {
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -103,7 +104,7 @@ export default class PagePalettes extends PureComponent<
   // Lifecycle
   componentDidMount = async () => {
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -121,7 +122,7 @@ export default class PagePalettes extends PureComponent<
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -151,7 +152,7 @@ export default class PagePalettes extends PureComponent<
 
   // Direct Actions
   onEditPalette = (id: string) => {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
@@ -163,7 +164,7 @@ export default class PagePalettes extends PureComponent<
   }
 
   onDuplicatePalette = (id: string) => {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'DUPLICATE_PALETTE',
@@ -177,7 +178,7 @@ export default class PagePalettes extends PureComponent<
   onDeletePalette = () => {
     this.setState({ isDestructiveActionLoading: true })
 
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'DELETE_PALETTE',
@@ -596,7 +597,7 @@ export default class PagePalettes extends PureComponent<
                       type="secondary"
                       label={this.props.locales.plan.tryPro}
                       action={() =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           { pluginMessage: { type: 'GET_TRIAL' } },
                           '*'
                         )
@@ -607,7 +608,7 @@ export default class PagePalettes extends PureComponent<
                       type="secondary"
                       label={this.props.locales.plan.getPro}
                       action={() =>
-                        parent.postMessage(
+                        sendPluginMessage(
                           { pluginMessage: { type: 'GET_PRO_PLAN' } },
                           '*'
                         )

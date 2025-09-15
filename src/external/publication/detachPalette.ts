@@ -1,5 +1,6 @@
 import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import type { AppStates } from '../../ui/App'
 
 const detachPalette = async ({
@@ -31,7 +32,7 @@ const detachPalette = async ({
     },
   }
 
-  parent.postMessage(
+  sendPluginMessage(
     {
       pluginMessage: {
         type: 'POST_MESSAGE',
@@ -43,7 +44,7 @@ const detachPalette = async ({
     },
     '*'
   )
-  parent.postMessage(
+  sendPluginMessage(
     {
       pluginMessage: {
         type: 'DUPLICATE_PALETTE',
@@ -52,7 +53,7 @@ const detachPalette = async ({
     },
     '*'
   )
-  parent.postMessage(
+  sendPluginMessage(
     {
       pluginMessage: {
         type: 'DELETE_PALETTE',

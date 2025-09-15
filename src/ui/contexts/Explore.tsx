@@ -19,6 +19,7 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
   FetchStatus,
@@ -203,7 +204,7 @@ export default class Explore extends PureComponent<
                       label: this.props.locales.source.actions.openPalette,
                     }}
                     action={() =>
-                      parent.postMessage(
+                      sendPluginMessage(
                         {
                           pluginMessage: {
                             type: 'OPEN_IN_BROWSER',

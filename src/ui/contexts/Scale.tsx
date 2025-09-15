@@ -27,6 +27,7 @@ import ScaleLightnessChroma from '../modules/scale/ScaleLightnessChroma'
 import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
@@ -171,7 +172,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       themes: newThemes,
     })
 
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'UPDATE_PALETTE',
@@ -783,7 +784,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                             type="tertiary"
                             label={this.props.locales.scale.howTo}
                             action={() =>
-                              parent.postMessage(
+                              sendPluginMessage(
                                 {
                                   pluginMessage: {
                                     type: 'OPEN_IN_BROWSER',
@@ -887,7 +888,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                             type="tertiary"
                             label={this.props.locales.scale.howTo}
                             action={() =>
-                              parent.postMessage(
+                              sendPluginMessage(
                                 {
                                   pluginMessage: {
                                     type: 'OPEN_IN_BROWSER',

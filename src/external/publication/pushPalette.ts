@@ -1,4 +1,5 @@
 import { getSupabase } from '../auth/client'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import type { AppStates } from '../../ui/App'
 
 const pushPalette = async ({
@@ -48,7 +49,7 @@ const pushPalette = async ({
     .match({ palette_id: rawData.id })
 
   if (!error) {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'UPDATE_PALETTE',

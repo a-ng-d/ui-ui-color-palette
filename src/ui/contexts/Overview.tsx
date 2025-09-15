@@ -24,6 +24,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
   Editor,
@@ -52,7 +53,10 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -420,7 +424,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
                     type="secondary"
                     label={this.props.locales.plan.tryPro}
                     action={() =>
-                      parent.postMessage(
+                      sendPluginMessage(
                         { pluginMessage: { type: 'GET_TRIAL' } },
                         '*'
                       )
@@ -431,7 +435,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
                     type="secondary"
                     label={this.props.locales.plan.getPro}
                     action={() =>
-                      parent.postMessage(
+                      sendPluginMessage(
                         { pluginMessage: { type: 'GET_PRO_PLAN' } },
                         '*'
                       )

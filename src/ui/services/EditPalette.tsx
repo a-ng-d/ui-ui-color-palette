@@ -43,6 +43,7 @@ import Colors from '../contexts/Colors'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   ColorsMessage,
   PluginMessageData,
@@ -210,14 +211,14 @@ export default class EditPalette extends PureComponent<
   // Lifecycle
   componentDidMount = () => {
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -266,7 +267,7 @@ export default class EditPalette extends PureComponent<
 
     this.palette.setKey('scale', newScale)
 
-    parent.postMessage({ pluginMessage: this.themesMessage }, '*')
+    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
     this.props.onChangeThemes({
       scale: newScale,
@@ -291,7 +292,7 @@ export default class EditPalette extends PureComponent<
   shiftHandler = (feature?: string, state?: string, value?: number) => {
     const onReleaseStop = () => {
       setData()
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -310,12 +311,12 @@ export default class EditPalette extends PureComponent<
 
     const onChangeStop = () => {
       setData()
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
     }
 
     const onTypeStopValue = () => {
       setData()
-      parent.postMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -369,7 +370,7 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'CREATE_DOCUMENT',
@@ -389,7 +390,7 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'CREATE_DOCUMENT',
@@ -423,7 +424,7 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'CREATE_DOCUMENT',
@@ -457,7 +458,7 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'UPDATE_DOCUMENT',
@@ -502,7 +503,7 @@ export default class EditPalette extends PureComponent<
       isPrimaryLoading: true,
     })
 
-    parent.postMessage(
+    sendPluginMessage(
       { pluginMessage: { type: 'SYNC_LOCAL_STYLES', id: this.props.id } },
       '*'
     )
@@ -531,7 +532,7 @@ export default class EditPalette extends PureComponent<
       isPrimaryLoading: true,
     })
 
-    parent.postMessage(
+    sendPluginMessage(
       { pluginMessage: { type: 'SYNC_LOCAL_VARIABLES', id: this.props.id } },
       '*'
     )
@@ -572,7 +573,7 @@ export default class EditPalette extends PureComponent<
       },
     })
 
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'UPDATE_DOCUMENT',
@@ -718,7 +719,7 @@ export default class EditPalette extends PureComponent<
       document.execCommand('copy')
       document.body.removeChild(textarea)
 
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'POST_MESSAGE',
@@ -732,7 +733,7 @@ export default class EditPalette extends PureComponent<
       )
     } catch (error) {
       console.error(error)
-      parent.postMessage(
+      sendPluginMessage(
         {
           pluginMessage: {
             type: 'POST_MESSAGE',

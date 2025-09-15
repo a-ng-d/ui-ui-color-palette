@@ -12,6 +12,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
 import { setContexts } from '../../utils/setContexts'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
@@ -108,17 +109,17 @@ export default class BrowsePalettes extends PureComponent<
 
   // Lifecycle
   componentDidMount = () => {
-    parent.postMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
+    sendPluginMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
 
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -162,7 +163,7 @@ export default class BrowsePalettes extends PureComponent<
   }
 
   onEditPalette = () => {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
@@ -174,7 +175,7 @@ export default class BrowsePalettes extends PureComponent<
   }
 
   onCreateFromDocument = () => {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'CREATE_PALETTE_FROM_DOCUMENT',

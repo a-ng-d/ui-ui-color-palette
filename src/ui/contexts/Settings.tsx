@@ -17,6 +17,7 @@ import ColorSettings from '../modules/settings/ColorSettings'
 import DangerZone from '../modules/DangerZone'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { SettingsMessage } from '../../types/messages'
 import {
   BaseProps,
@@ -136,7 +137,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') &&
         this.props.service === 'EDIT'
       )
-        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -172,7 +173,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       })
 
       if (e.type === 'focusout' && this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -212,7 +213,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       })
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -257,7 +258,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       })
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -295,7 +296,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       })
 
       if (this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -345,7 +346,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       })
 
       if (e.type === 'focusout' && this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       if (e.type === 'focusout')
         trackSettingsManagementEvent(
@@ -396,7 +397,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       })
 
       if (e.type === 'focusout' && this.props.service === 'EDIT')
-        parent.postMessage({ pluginMessage: this.settingsMessage }, '*')
+        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       if (e.type === 'focusout')
         trackSettingsManagementEvent(

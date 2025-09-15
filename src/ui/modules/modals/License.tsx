@@ -12,6 +12,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import validateUserLicenseKey from '../../../external/license/validateUserLicenseKey '
@@ -72,7 +73,7 @@ export default class License extends PureComponent<
 
   // Lifecycle
   componentDidMount = () => {
-    parent.postMessage(
+    sendPluginMessage(
       {
         pluginMessage: {
           type: 'GET_ITEMS',
@@ -86,14 +87,14 @@ export default class License extends PureComponent<
       '*'
     )
     window.addEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
 
   componentWillUnmount = () => {
     window.removeEventListener(
-      'pluginMessage',
+      'platformMessage',
       this.handleMessage as EventListener
     )
   }
@@ -166,7 +167,7 @@ export default class License extends PureComponent<
                 userInstanceName: data.instance_name,
                 licenseStatus: 'VALID',
               })
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'WELCOME_TO_PRO',
@@ -194,7 +195,7 @@ export default class License extends PureComponent<
       return {
         label: this.props.locales.user.license.cta.unlinkLocally,
         action: () => {
-          parent.postMessage(
+          sendPluginMessage(
             {
               pluginMessage: {
                 type: 'DELETE_ITEMS',
@@ -229,7 +230,7 @@ export default class License extends PureComponent<
             instanceId: this.state.userInstanceId,
           })
             .then(() => {
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'POST_MESSAGE',
@@ -245,7 +246,7 @@ export default class License extends PureComponent<
                 },
                 '*'
               )
-              parent.postMessage(
+              sendPluginMessage(
                 {
                   pluginMessage: {
                     type: 'LEAVE_PRO_PLAN',
@@ -325,7 +326,7 @@ export default class License extends PureComponent<
                 return {
                   label: this.props.locales.user.license.cta.manage,
                   action: () => {
-                    parent.postMessage(
+                    sendPluginMessage(
                       {
                         pluginMessage: {
                           type: 'OPEN_IN_BROWSER',
@@ -462,7 +463,7 @@ export default class License extends PureComponent<
                             licenseStatus: 'VALID',
                             checkingButtonStatus: 'VALID',
                           })
-                          parent.postMessage(
+                          sendPluginMessage(
                             {
                               pluginMessage: {
                                 type: 'ENABLE_PRO_PLAN',
@@ -486,7 +487,7 @@ export default class License extends PureComponent<
                             licenseStatus: 'ERROR',
                             checkingButtonStatus: 'UNVALID',
                           })
-                          parent.postMessage(
+                          sendPluginMessage(
                             {
                               pluginMessage: {
                                 type: 'LEAVE_PRO_PLAN',

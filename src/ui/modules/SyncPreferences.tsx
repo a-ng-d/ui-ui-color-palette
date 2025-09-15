@@ -11,6 +11,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import {
   $canStylesDeepSync,
@@ -115,7 +116,7 @@ export default class SyncPreferences extends PureComponent<
           feature="UPDATE_STYLES_DEEP_SYNC"
           action={() => {
             $canStylesDeepSync.set(!this.state.canStylesDeepSync)
-            parent.postMessage(
+            sendPluginMessage(
               {
                 pluginMessage: {
                   type: 'SET_ITEMS',
@@ -166,7 +167,7 @@ export default class SyncPreferences extends PureComponent<
           feature="UPDATE_VARIABLES_DEEP_SYNC"
           action={() => {
             $canVariablesDeepSync.set(!this.state.canVariablesDeepSync)
-            parent.postMessage(
+            sendPluginMessage(
               {
                 pluginMessage: {
                   type: 'SET_ITEMS',
