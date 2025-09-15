@@ -94,7 +94,6 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
 if (globalConfig.env.isSupabaseEnabled)
   initSupabase(globalConfig.urls.databaseUrl, supabaseAnonKey)
 
-
 // Bridge Canvas <> UI
 window.addEventListener(
   'message',
