@@ -99,19 +99,12 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
 
 interface EditPaletteStates {
   context: Context | ''
-  selectedElement: {
-    id: string
-    position: number | null
-  }
   export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
@@ -177,10 +170,6 @@ export default class EditPalette extends PureComponent<
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
-      selectedElement: {
-        id: '',
-        position: null,
-      },
       export: {
         format: 'JSON',
         context: 'TOKENS_NATIVE',
@@ -496,10 +485,6 @@ export default class EditPalette extends PureComponent<
   // Direct Actions
   onSyncStyles = () => {
     this.setState({
-      selectedElement: {
-        id: '',
-        position: null,
-      },
       isPrimaryLoading: true,
     })
 
@@ -525,10 +510,6 @@ export default class EditPalette extends PureComponent<
 
   onSyncVariables = () => {
     this.setState({
-      selectedElement: {
-        id: '',
-        position: null,
-      },
       isPrimaryLoading: true,
     })
 
