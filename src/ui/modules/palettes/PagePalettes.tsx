@@ -217,7 +217,7 @@ export default class PagePalettes extends PureComponent<
                 },
                 secondary: {
                   label: this.props.locales.browse.deletePaletteDialog.cancel,
-                  isAutofocus: false,
+                  isAutofocus: true,
                   action: () =>
                     this.setState({
                       isDeleteDialogOpen: false,

@@ -321,7 +321,7 @@ export default class CreatePalette extends PureComponent<
                 },
                 secondary: {
                   label: this.props.locales.create.leavePaletteDialog.cancel,
-                  isAutofocus: false,
+                  isAutofocus: true,
                   action: () =>
                     this.setState({
                       isLeaveDialogOpen: false,
