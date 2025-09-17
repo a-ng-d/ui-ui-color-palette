@@ -801,6 +801,12 @@ export default class EditPalette extends PureComponent<
       return this.props.themes.filter((theme) => theme.type === 'default theme')
   }
 
+  onJumpToSourceColor = () => {
+    this.setState({
+      context: 'COLORS',
+    })
+  }
+
   // Render
   render() {
     let fragment
@@ -953,6 +959,7 @@ export default class EditPalette extends PureComponent<
           <Preview
             {...this.props}
             service="EDIT"
+            onInteractWithSourceColor={() => this.onJumpToSourceColor()}
           />
         </Feature>
         <Feature

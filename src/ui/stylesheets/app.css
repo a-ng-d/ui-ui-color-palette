@@ -97,7 +97,7 @@ div.export-palette__preview {
   gap: var(--size-pos-xxxsmall);
   box-sizing: border-box;
   padding: var(--size-pos-xxxsmall);
-  min-height: var(--size-pos-medium);
+  min-height: 44px;
   overflow: hidden;
 }
 
@@ -115,6 +115,13 @@ div.export-palette__preview {
 
 .preview__cell--large {
   min-height: 104px;
+}
+
+.preview__cell__stack {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  gap: var(--size-pos-xxxsmall);
 }
 
 /* Box resizer grip */

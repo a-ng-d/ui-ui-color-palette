@@ -54,6 +54,7 @@ interface PreviewProps extends BaseProps, WithConfigProps {
   onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onResetSourceColors?: () => void
   onChangeSettings: React.Dispatch<Partial<AppStates>>
+  onInteractWithSourceColor: (colorId: string) => void
 }
 
 interface PreviewStates {
@@ -1411,11 +1412,16 @@ export default class Preview extends PureComponent<
                       <Source
                         {...this.props}
                         key="source"
+                        id={color.id}
                         name={color.name}
                         color={color.rgb}
                         isTransparent={
                           'alpha' in color ? color.alpha.isEnabled : false
                         }
+                        action={(event) => {
+                          event.stopPropagation()
+                          this.props.onInteractWithSourceColor(color.id)
+                        }}
                       />
                       {Object.values(scaledColors).map((scaledColor, index) => {
                         return (

@@ -295,6 +295,12 @@ export default class CreatePalette extends PureComponent<
     })
   }
 
+  onJumpToSourceColor = () => {
+    this.setState({
+      context: 'SOURCE',
+    })
+  }
+
   onCancelPalette = () => {
     this.props.onCancelPalette()
   }
@@ -443,6 +449,7 @@ export default class CreatePalette extends PureComponent<
             service="CREATE"
             colors={this.props.sourceColors}
             onResetSourceColors={this.resetSourceColorsHandler}
+            onInteractWithSourceColor={() => this.onJumpToSourceColor()}
           />
         </Feature>
         <Feature
