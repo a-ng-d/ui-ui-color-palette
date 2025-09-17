@@ -730,9 +730,9 @@
     },
     "title": "Source colors",
     "nodes": {
-      "penpot": "shape/board",
-      "figma": "shape/frame",
-      "sketch": "shape/frame"
+      "penpot": "shapes/boards",
+      "figma": "shapes/frames",
+      "sketch": "shapes/frames"
     }
   },
   "store": {
