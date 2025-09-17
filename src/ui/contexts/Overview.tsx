@@ -446,9 +446,23 @@ export default class Overview extends PureComponent<
             />
           </div>
         )}
+        <Message
+          icon="info"
+          messages={[
+            this.props.locales.source.canvas.tip
+              .replace(
+                '{element}',
+                this.props.locales.source.nodes[this.props.config.env.platform]
+              )
+              .replace(
+                '{canvas}',
+                this.props.locales.platform[this.props.config.env.platform]
+              ),
+          ]}
+        />
         {this.props.sourceColors.filter(
           (sourceColor) => sourceColor.source === 'CANVAS'
-        ).length > 0 ? (
+        ).length > 0 && (
           <List isTopBorderEnabled>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'CANVAS')
@@ -475,23 +489,6 @@ export default class Overview extends PureComponent<
                 )
               })}
           </List>
-        ) : (
-          <Message
-            icon="info"
-            messages={[
-              this.props.locales.source.canvas.tip
-                .replace(
-                  '{element}',
-                  this.props.locales.source.nodes[
-                    this.props.config.env.platform
-                  ]
-                )
-                .replace(
-                  '{canvas}',
-                  this.props.locales.platform[this.props.config.env.platform]
-                ),
-            ]}
-          />
         )}
       </Feature>
     )
@@ -567,7 +564,21 @@ export default class Overview extends PureComponent<
                         .hex()
                         .toUpperCase()}
                       isDisabled={this.props.sourceColors.length > 1}
-                      onChange={(e) => {
+                      onPick={(e) => {
+                        const target = e.target as HTMLInputElement | null
+
+                        if (target)
+                          this.props.onChangeDefaultColor(
+                            defaultColor?.name ??
+                              this.props.locales.colors.defaultName,
+                            {
+                              r: chroma(target.value).get('rgb.r') / 255,
+                              g: chroma(target.value).get('rgb.g') / 255,
+                              b: chroma(target.value).get('rgb.b') / 255,
+                            }
+                          )
+                      }}
+                      onBlur={(e) => {
                         const target = e.target as HTMLInputElement | null
 
                         if (target)
