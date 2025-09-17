@@ -853,7 +853,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   this.props.service,
                                   this.props.editor
                                 ).COLORS_PARAMS.isNew()}
-                                onChange={this.colorsHandler}
+                                onPick={this.colorsHandler}
                                 onBlur={this.colorsHandler}
                               />
                             </div>
@@ -955,7 +955,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   this.props.service,
                                   this.props.editor
                                 ).COLORS_BACKGROUND_COLOR.isNew()}
-                                onChange={this.colorsHandler}
+                                onPick={this.colorsHandler}
                                 onBlur={this.colorsHandler}
                               />
                             </div>

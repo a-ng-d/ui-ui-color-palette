@@ -83,8 +83,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
               this.props.editor
             ).SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_LIGHT_COLOR"
-            onChange={this.props.onChangeSettings}
-            onFocus={this.props.onChangeSettings}
+            onPick={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}
           />
         </FormItem>
@@ -129,8 +128,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
               this.props.editor
             ).SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_DARK_COLOR"
-            onChange={this.props.onChangeSettings}
-            onFocus={this.props.onChangeSettings}
+            onPick={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}
           />
         </FormItem>

@@ -660,7 +660,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                       this.props.service,
                                       this.props.editor
                                     ).THEMES_PARAMS.isNew()}
-                                    onChange={this.themesHandler}
+                                    onPick={this.themesHandler}
                                     onBlur={this.themesHandler}
                                   />
                                 </FormItem>
