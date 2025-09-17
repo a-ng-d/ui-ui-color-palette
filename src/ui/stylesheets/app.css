@@ -118,10 +118,10 @@ div.export-palette__preview {
 }
 
 .preview__cell__stack {
-  width: 100%;
   display: flex;
   justify-content: end;
   gap: var(--size-pos-xxxsmall);
+  width: 100%;
 }
 
 /* Box resizer grip */
