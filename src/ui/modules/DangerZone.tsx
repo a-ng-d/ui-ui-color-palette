@@ -188,6 +188,7 @@ export default class DangerZone extends PureComponent<
                   action={() => this.setState({ isDeleteDialogOpen: true })}
                 />
               ),
+              spacingModifier: 'LARGE',
             },
           ]}
           border={!this.props.isLast ? ['BOTTOM'] : undefined}
