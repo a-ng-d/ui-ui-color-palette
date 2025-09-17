@@ -55,6 +55,8 @@ export interface PreviewEvent {
     | 'LOCK_SOURCE_COLORS'
     | 'UPDATE_COLOR_SPACE'
     | 'UPDATE_VISION_SIMULATION_MODE'
+    | 'DISPLAY_WCAG_SCORES'
+    | 'DISPLAY_APCA_SCORES'
 }
 
 export interface SourceColorEvent {

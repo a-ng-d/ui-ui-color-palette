@@ -699,6 +699,21 @@ export default class Preview extends PureComponent<
                           },
                           '*'
                         )
+
+                        trackPreviewManagementEvent(
+                          this.props.config.env.isMixpanelEnabled,
+                          this.props.userSession.userId === ''
+                            ? this.props.userIdentity.id === ''
+                              ? ''
+                              : this.props.userIdentity.id
+                            : this.props.userSession.userId,
+                          this.props.userConsent.find(
+                            (consent) => consent.id === 'mixpanel'
+                          )?.isConsented ?? false,
+                          {
+                            feature: 'DISPLAY_WCAG_SCORES',
+                          }
+                        )
                       },
                     },
                     {
@@ -738,6 +753,21 @@ export default class Preview extends PureComponent<
                             },
                           },
                           '*'
+                        )
+
+                        trackPreviewManagementEvent(
+                          this.props.config.env.isMixpanelEnabled,
+                          this.props.userSession.userId === ''
+                            ? this.props.userIdentity.id === ''
+                              ? ''
+                              : this.props.userIdentity.id
+                            : this.props.userSession.userId,
+                          this.props.userConsent.find(
+                            (consent) => consent.id === 'mixpanel'
+                          )?.isConsented ?? false,
+                          {
+                            feature: 'DISPLAY_APCA_SCORES',
+                          }
                         )
                       },
                     },
