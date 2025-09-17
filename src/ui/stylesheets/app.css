@@ -117,6 +117,10 @@ div.export-palette__preview {
   min-height: 104px;
 }
 
+.preview__cell--frozen {
+  max-width: 96px;
+}
+
 .preview__cell__stack {
   display: flex;
   justify-content: end;

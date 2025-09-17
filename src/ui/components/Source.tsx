@@ -33,7 +33,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   render() {
     return (
       <div
-        className="preview__cell"
+        className="preview__cell preview__cell--frozen"
         style={{
           backgroundColor: chroma([
             this.props.color.r * 255,

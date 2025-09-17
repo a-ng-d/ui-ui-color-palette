@@ -1396,7 +1396,7 @@ export default class Preview extends PureComponent<
         {!this.state.isDrawerCollapsed && (
           <div className="preview__palette">
             <div className="preview__header">
-              <div className="preview__cell preview__cell--no-height">
+              <div className="preview__cell preview__cell--no-height preview__cell--frozen">
                 <this.stopTag stop={this.props.locales.preview.source.tag} />
               </div>
               {Object.keys(this.props.scale)
