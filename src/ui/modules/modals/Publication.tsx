@@ -1203,6 +1203,7 @@ export default class Publication extends PureComponent<
             primary: {
               label: this.props.locales.publication.signIn,
               state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
+              isAutofocus: true,
               action: async () => {
                 this.setState({ isPrimaryActionLoading: true })
                 signIn({
