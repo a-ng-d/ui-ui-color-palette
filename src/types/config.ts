@@ -8,16 +8,18 @@ export interface Config {
   }
   env: {
     isDev: boolean
-    platform: 'figma' | 'penpot' | 'sketch'
-    editor: 'figma' | 'figjam' | 'dev' | 'penpot' | 'sketch'
-    ui: 'figma-ui3' | 'penpot' | 'sketch'
+    platform: 'figma' | 'penpot' | 'sketch' | 'framer'
+    editor: 'figma' | 'figjam' | 'dev' | 'penpot' | 'sketch' | 'framer'
+    ui: 'figma' | 'penpot' | 'sketch' | 'framer'
     colorMode:
-      | 'figma-dark'
       | 'figma-light'
-      | 'penpot-dark'
+      | 'figma-dark'
       | 'penpot-light'
-      | 'sketch-dark'
+      | 'penpot-dark'
       | 'sketch-light'
+      | 'sketch-dark'
+      | 'framer-light'
+      | 'framer-dark'
     isSupabaseEnabled: boolean
     isMixpanelEnabled: boolean
     isSentryEnabled: boolean

@@ -3,7 +3,7 @@ import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
 import { Language, Translations } from './translations'
 
-export type Platform = 'figma' | 'penpot' | 'sketch'
+export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
 export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'
 
@@ -62,6 +62,7 @@ export type Editor =
   | 'dev_vscode'
   | 'penpot'
   | 'sketch'
+  | 'framer'
 
 export type FetchStatus =
   | 'UNLOADED'

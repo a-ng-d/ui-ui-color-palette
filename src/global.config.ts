@@ -15,16 +15,18 @@ interface SpecConfig {
     [colorMode: string]: {
       [editor: string]: {
         env: {
-          platform: 'figma' | 'penpot' | 'sketch'
-          editor: 'figma' | 'dev' | 'penpot' | 'sketch'
-          ui: 'figma-ui3' | 'penpot' | 'sketch'
+          platform: 'figma' | 'penpot' | 'sketch' | 'framer'
+          editor: 'figma' | 'dev' | 'penpot' | 'sketch' | 'framer'
+          ui: 'figma' | 'penpot' | 'sketch' | 'framer'
           colorMode:
-            | 'figma-dark'
             | 'figma-light'
-            | 'penpot-dark'
+            | 'figma-dark'
             | 'penpot-light'
-            | 'sketch-dark'
+            | 'penpot-dark'
             | 'sketch-light'
+            | 'sketch-dark'
+            | 'framer-light'
+            | 'framer-dark'
         }
         features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
       }
@@ -34,13 +36,13 @@ interface SpecConfig {
 
 const specConfig: SpecConfig = {
   figma: {
-    dark: {
+    light: {
       figma: {
         env: {
           platform: 'figma',
           editor: 'figma',
-          ui: 'figma-ui3',
-          colorMode: 'figma-dark',
+          ui: 'figma',
+          colorMode: 'figma-light',
         },
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE'],
@@ -95,8 +97,8 @@ const specConfig: SpecConfig = {
         env: {
           platform: 'figma',
           editor: 'dev',
-          ui: 'figma-ui3',
-          colorMode: 'figma-dark',
+          ui: 'figma',
+          colorMode: 'figma-light',
         },
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE'],
@@ -129,6 +131,7 @@ const specConfig: SpecConfig = {
             'EXPORT_STYLESHEET_SCSS',
             'EXPORT_STYLESHEET_LESS',
             'EXPORT_TAILWIND_V3',
+            'EXPORT_TAILWIND_V4',
             'EXPORT_APPLE_SWIFTUI',
             'EXPORT_APPLE_UIKIT',
             'EXPORT_ANDROID_COMPOSE',
@@ -147,13 +150,13 @@ const specConfig: SpecConfig = {
         ),
       },
     },
-    light: {
+    dark: {
       figma: {
         env: {
           platform: 'figma',
           editor: 'figma',
-          ui: 'figma-ui3',
-          colorMode: 'figma-light',
+          ui: 'figma',
+          colorMode: 'figma-dark',
         },
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE'],
@@ -208,8 +211,8 @@ const specConfig: SpecConfig = {
         env: {
           platform: 'figma',
           editor: 'dev',
-          ui: 'figma-ui3',
-          colorMode: 'figma-light',
+          ui: 'figma',
+          colorMode: 'figma-dark',
         },
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE'],
@@ -242,7 +245,6 @@ const specConfig: SpecConfig = {
             'EXPORT_STYLESHEET_SCSS',
             'EXPORT_STYLESHEET_LESS',
             'EXPORT_TAILWIND_V3',
-            'EXPORT_TAILWIND_V4',
             'EXPORT_APPLE_SWIFTUI',
             'EXPORT_APPLE_UIKIT',
             'EXPORT_ANDROID_COMPOSE',
@@ -263,6 +265,68 @@ const specConfig: SpecConfig = {
     },
   },
   penpot: {
+    light: {
+      penpot: {
+        env: {
+          platform: 'penpot',
+          editor: 'penpot',
+          ui: 'penpot',
+          colorMode: 'penpot-light',
+        },
+        features: doSpecificMode(
+          [
+            'SYNC_LOCAL_VARIABLES',
+            'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
+            'BACKSTAGE_AUTHENTICATION',
+            'PUBLICATION',
+            'PUBLISH_PALETTE',
+            'REMOTE_PALETTES',
+            'LOCAL_PALETTES_FILE',
+          ],
+          [
+            'LOCAL_PALETTES',
+            'SYNC_LOCAL_STYLES',
+            'USER_PREFERENCES_SYNC_DEEP_STYLES',
+            'PREVIEW_LOCK_SOURCE_COLORS',
+            'SOURCE',
+            'PRESETS_MATERIAL_3',
+            'PRESETS_TAILWIND',
+            'PRESETS_ADS',
+            'PRESETS_ADS_NEUTRAL',
+            'PRESETS_CARBON',
+            'PRESETS_BASE',
+            'PRESETS_POLARIS',
+            'PRESETS_CUSTOM_ADD',
+            'SCALE_CHROMA',
+            'THEMES',
+            'THEMES_NAME',
+            'THEMES_PARAMS',
+            'THEMES_DESCRIPTION',
+            'COLORS',
+            'COLORS_HUE_SHIFTING',
+            'COLORS_CHROMA_SHIFTING',
+            'COLORS_ALPHA',
+            'COLORS_BACKGROUND_COLOR',
+            'EXPORT_STYLESHEET_SCSS',
+            'EXPORT_STYLESHEET_LESS',
+            'EXPORT_TAILWIND_V3',
+            'EXPORT_TAILWIND_V4',
+            'EXPORT_APPLE_SWIFTUI',
+            'EXPORT_APPLE_UIKIT',
+            'EXPORT_ANDROID_COMPOSE',
+            'EXPORT_ANDROID_XML',
+            'EXPORT_CSV',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+          ],
+          []
+        ),
+      },
+    },
     dark: {
       penpot: {
         env: {
@@ -327,28 +391,24 @@ const specConfig: SpecConfig = {
         ),
       },
     },
+  },
+  sketch: {
     light: {
-      penpot: {
+      sketch: {
         env: {
-          platform: 'penpot',
-          editor: 'penpot',
-          ui: 'penpot',
-          colorMode: 'penpot-light',
+          platform: 'sketch',
+          editor: 'sketch',
+          ui: 'sketch',
+          colorMode: 'sketch-light',
         },
         features: doSpecificMode(
-          [
-            'SYNC_LOCAL_VARIABLES',
-            'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
-            'BACKSTAGE_AUTHENTICATION',
-            'PUBLICATION',
-            'PUBLISH_PALETTE',
-            'REMOTE_PALETTES',
-            'LOCAL_PALETTES_FILE',
-          ],
+          ['LOCAL_PALETTES_PAGE'],
           [
             'LOCAL_PALETTES',
             'SYNC_LOCAL_STYLES',
+            'SYNC_LOCAL_VARIABLES',
             'USER_PREFERENCES_SYNC_DEEP_STYLES',
+            'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
             'PREVIEW_LOCK_SOURCE_COLORS',
             'SOURCE',
             'PRESETS_MATERIAL_3',
@@ -369,8 +429,6 @@ const specConfig: SpecConfig = {
             'COLORS_CHROMA_SHIFTING',
             'COLORS_ALPHA',
             'COLORS_BACKGROUND_COLOR',
-            'EXPORT_STYLESHEET_SCSS',
-            'EXPORT_STYLESHEET_LESS',
             'EXPORT_TAILWIND_V3',
             'EXPORT_TAILWIND_V4',
             'EXPORT_APPLE_SWIFTUI',
@@ -378,6 +436,8 @@ const specConfig: SpecConfig = {
             'EXPORT_ANDROID_COMPOSE',
             'EXPORT_ANDROID_XML',
             'EXPORT_CSV',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
             'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
             'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
@@ -389,8 +449,6 @@ const specConfig: SpecConfig = {
         ),
       },
     },
-  },
-  sketch: {
     dark: {
       sketch: {
         env: {
@@ -449,13 +507,15 @@ const specConfig: SpecConfig = {
         ),
       },
     },
+  },
+  framer: {
     light: {
-      sketch: {
+      framer: {
         env: {
-          platform: 'sketch',
-          editor: 'sketch',
-          ui: 'sketch',
-          colorMode: 'sketch-light',
+          platform: 'framer',
+          editor: 'framer',
+          ui: 'framer',
+          colorMode: 'framer-light',
         },
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE'],
@@ -485,6 +545,64 @@ const specConfig: SpecConfig = {
             'COLORS_CHROMA_SHIFTING',
             'COLORS_ALPHA',
             'COLORS_BACKGROUND_COLOR',
+            'EXPORT_TAILWIND_V3',
+            'EXPORT_TAILWIND_V4',
+            'EXPORT_APPLE_SWIFTUI',
+            'EXPORT_APPLE_UIKIT',
+            'EXPORT_ANDROID_COMPOSE',
+            'EXPORT_ANDROID_XML',
+            'EXPORT_CSV',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+            'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+          ],
+          []
+        ),
+      },
+    },
+    dark: {
+      framer: {
+        env: {
+          platform: 'framer',
+          editor: 'framer',
+          ui: 'framer',
+          colorMode: 'framer-dark',
+        },
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_PAGE'],
+          [
+            'LOCAL_PALETTES',
+            'SYNC_LOCAL_STYLES',
+            'SYNC_LOCAL_VARIABLES',
+            'USER_PREFERENCES_SYNC_DEEP_STYLES',
+            'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
+            'PREVIEW_LOCK_SOURCE_COLORS',
+            'SOURCE',
+            'PRESETS_MATERIAL_3',
+            'PRESETS_TAILWIND',
+            'PRESETS_ADS',
+            'PRESETS_ADS_NEUTRAL',
+            'PRESETS_CARBON',
+            'PRESETS_BASE',
+            'PRESETS_POLARIS',
+            'PRESETS_CUSTOM_ADD',
+            'SCALE_CHROMA',
+            'THEMES',
+            'THEMES_NAME',
+            'THEMES_PARAMS',
+            'THEMES_DESCRIPTION',
+            'COLORS',
+            'COLORS_HUE_SHIFTING',
+            'COLORS_CHROMA_SHIFTING',
+            'COLORS_ALPHA',
+            'COLORS_BACKGROUND_COLOR',
+            'EXPORT_STYLESHEET_SCSS',
+            'EXPORT_STYLESHEET_LESS',
             'EXPORT_TAILWIND_V3',
             'EXPORT_TAILWIND_V4',
             'EXPORT_APPLE_SWIFTUI',
