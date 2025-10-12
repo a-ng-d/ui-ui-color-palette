@@ -3,7 +3,7 @@ import { OverridedMixpanel } from 'mixpanel-browser'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let mixpanelInstance: OverridedMixpanel | null = null
 let mixpanelEnv: 'development' | 'production' = 'development'
-let editor: 'figma' | 'figjam' | 'dev' | 'penpot' | 'sketch'
+let editor: 'figma' | 'figjam' | 'dev' | 'penpot' | 'sketch' | 'framer'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const initMixpanel = (instance: any) => {
@@ -26,7 +26,7 @@ export const getMixpanelEnv = () => {
 }
 
 export const setEditor = (
-  editorType: 'figma' | 'figjam' | 'dev' | 'penpot' | 'sketch'
+  editorType: 'figma' | 'figjam' | 'dev' | 'penpot' | 'sketch' | 'framer'
 ) => {
   editor = editorType
   return editor

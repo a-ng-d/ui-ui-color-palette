@@ -3,9 +3,9 @@ import { Config } from './types/config'
 import { doSpecificMode } from './stores/features'
 import { locales } from './content/locales'
 
-declare const __PLATFORM__: 'figma' | 'penpot'
+declare const __PLATFORM__: 'figma' | 'penpot' | 'sketch' | 'framer'
 declare const __COLOR_MODE__: 'dark' | 'light'
-declare const __EDITOR__: 'figma' | 'dev' | 'penpot'
+declare const __EDITOR__: 'figma' | 'dev' | 'penpot' | 'framer'
 
 const isDev = import.meta.env.MODE === 'development'
 declare const __APP_VERSION__: string

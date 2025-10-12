@@ -97,29 +97,36 @@ npm run start:packages
 #### Platform Development
 
 ```bash
-# Figma - Dark Mode (Figma editor)
-npm run start:figma:dark:figma
-
 # Figma - Light Mode (Figma editor)
 npm run start:figma:light:figma
 
-# Figma - Dark Mode (Development editor)
-npm run start:figma:dark:dev
+# Figma - Dark Mode (Figma editor)
+npm run start:figma:dark:figma
 
 # Figma - Light Mode (Development editor)
 npm run start:figma:light:dev
 
-# Penpot - Dark Mode (Penpot editor)
-npm run start:penpot:dark:penpot
+# Figma - Dark Mode (Development editor)
+npm run start:figma:dark:dev
 
 # Penpot - Light Mode (Penpot editor)
 npm run start:penpot:light:penpot
 
-# Sketch - Dark Mode (Sketch editor)
-npm run start:sketch:dark:sketch
+# Penpot - Dark Mode (Penpot editor)
+npm run start:penpot:dark:penpot
 
 # Sketch - Light Mode (Sketch editor)
 npm run start:sketch:light:sketch
+
+# Sketch - Dark Mode (Sketch editor)
+npm run start:sketch:dark:sketch
+
+# Framer - Light Mode (Framer editor)
+npm run start:framer:light:framer
+
+# Framer - Dark Mode (Framer editor)
+npm run start:skframeretch:dark:framer
+
 ```
 
 #### Code Quality

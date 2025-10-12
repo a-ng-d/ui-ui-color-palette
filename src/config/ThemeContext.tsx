@@ -1,14 +1,16 @@
 import React, { createContext, ReactNode, useContext } from 'react'
 
-export type Theme = 'figma' | 'penpot' | 'sketch'
+export type Theme = 'figma' | 'penpot' | 'sketch' | 'framer'
 export type Mode =
   | 'figma-light'
   | 'figma-dark'
   | 'figjam'
-  | 'penpot-dark'
   | 'penpot-light'
-  | 'sketch-dark'
+  | 'penpot-dark'
   | 'sketch-light'
+  | 'sketch-dark'
+  | 'framer-light'
+  | 'framer-dark'
 
 interface ThemeContextType {
   theme: Theme
