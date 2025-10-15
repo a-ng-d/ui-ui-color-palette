@@ -73,6 +73,7 @@ export default class Preview extends PureComponent<
   private palette: typeof $palette
   private drawerRef: React.RefObject<Drawer>
   private resizeObserver: ResizeObserver | null
+  private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
@@ -237,6 +238,7 @@ export default class Preview extends PureComponent<
   constructor(props: PreviewProps) {
     super(props)
     this.palette = $palette
+    this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
@@ -597,6 +599,25 @@ export default class Preview extends PureComponent<
 
   // Render
   render() {
+    let minHeight: string | number = 40
+
+    switch (this.theme) {
+      case 'figma':
+        minHeight = 40
+        break
+      case 'penpot':
+        minHeight = 40
+        break
+      case 'sketch':
+        minHeight = 40
+        break
+      case 'framer':
+        minHeight = 48
+        break
+      default:
+        minHeight = 40
+    }
+
     return (
       <Drawer
         id="preview"
@@ -617,7 +638,7 @@ export default class Preview extends PureComponent<
               }
         }
         minSize={{
-          value: 40,
+          value: minHeight,
           unit: 'PIXEL',
         }}
         border={['TOP']}
