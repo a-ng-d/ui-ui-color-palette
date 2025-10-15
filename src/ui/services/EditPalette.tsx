@@ -797,7 +797,7 @@ export default class EditPalette extends PureComponent<
     let isFlex = true
 
     switch (this.theme) {
-      case 'figma-ui3':
+      case 'figma':
         isFlex = false
         break
       case 'penpot':
@@ -805,6 +805,9 @@ export default class EditPalette extends PureComponent<
         break
       case 'sketch':
         isFlex = false
+        break
+      case 'framer':
+        isFlex = true
         break
       default:
         isFlex = true

@@ -899,7 +899,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     const figmaMode = document.documentElement.getAttribute('class')
 
     if (figmaMode !== null)
-      if (this.theme === 'figma-ui3' || this.theme === 'figma-ui2')
+      if (this.theme === 'figma')
         return figmaMode?.includes('dark') ? atomOneDark : docco
 
     return this.mode?.includes('dark') ? atomOneDark : docco
@@ -948,7 +948,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
     let textColor
 
     switch (this.theme) {
-      case 'figma-ui3':
+      case 'figma':
         border = '1px solid var(--figma-color-border)'
         radius = 'var(--border-radius-medium)'
         selectionBackground = 'var(--figma-color-bg-selected)'
@@ -965,6 +965,12 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
         radius = 'var(--border-radius-large)'
         selectionBackground = 'var(--sketch-color-accent-disabled)'
         textColor = 'var(--sketch-color-foreground-disabled)'
+        break
+      case 'framer':
+        border = '1px solid var(--framer-color-divider)'
+        radius = 'var(--border-radius-xlarge)'
+        selectionBackground = 'var(--framer-color-tint-dimmed)'
+        textColor = 'var(--framer-color-text-tertiary)'
         break
       default:
         border = '1px solid var(--figma-color-border)'

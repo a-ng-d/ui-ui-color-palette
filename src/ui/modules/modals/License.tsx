@@ -287,7 +287,7 @@ export default class License extends PureComponent<
     let modalPadding, messagePadding
 
     switch (this.theme) {
-      case 'figma-ui3':
+      case 'figma':
         modalPadding = 'var(--size-pos-xxsmall) 0'
         messagePadding =
           '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall) var(--size-pos-xsmall)'
@@ -299,6 +299,11 @@ export default class License extends PureComponent<
         break
       case 'sketch':
         modalPadding = 'var(--size-pos-xsmall) var(--size-pos-xsmall)'
+        messagePadding =
+          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        modalPadding = 'var(--size-pos-xsmall) var(--size-pos-xxxsmall)'
         messagePadding =
           '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
         break

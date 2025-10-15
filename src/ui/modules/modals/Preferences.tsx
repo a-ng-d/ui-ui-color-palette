@@ -39,7 +39,7 @@ export default class Preferences extends PureComponent<PreferencesProps> {
     let padding
 
     switch (this.theme) {
-      case 'figma-ui3':
+      case 'figma':
         padding = '0'
         break
       case 'penpot':
@@ -47,6 +47,9 @@ export default class Preferences extends PureComponent<PreferencesProps> {
         break
       case 'sketch':
         padding = '0 var(--size-pos-xxsmall)'
+        break
+      case 'framer':
+        padding = '0 var(--size-pos-xxxsmall)'
         break
       default:
         padding = 'var(--size-pos-xxsmall)'
