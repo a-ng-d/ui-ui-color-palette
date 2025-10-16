@@ -770,7 +770,7 @@ export default class Actions extends PureComponent<
                   iconName="warning"
                 />
                 {this.state.isTooltipVisible && (
-                  <Tooltip>
+                  <Tooltip pin="TOP">
                     {this.props.locales.info.maxNumberOfSourceColors.replace(
                       '{maxCount}',
                       String(
