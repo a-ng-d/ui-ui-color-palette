@@ -44,6 +44,8 @@ export default class Shortcuts extends PureComponent<
   ShortcutsProps,
   ShortcutsStates
 > {
+  private theme: string | null
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -201,6 +203,7 @@ export default class Shortcuts extends PureComponent<
 
   constructor(props: ShortcutsProps) {
     super(props)
+    this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       isUserMenuLoading: false,
     }
@@ -273,6 +276,30 @@ export default class Shortcuts extends PureComponent<
 
   // Render
   render() {
+    let height, radius
+
+    switch (this.theme) {
+      case 'figma':
+        height = 'calc(100% - var(--size-pos-xxsmall))'
+        radius = 'var(--border-radius-full)'
+        break
+      case 'penpot':
+        height = 'calc(100% - var(--size-pos-xxsmall))'
+        radius = 'var(--border-radius-full)'
+        break
+      case 'sketch':
+        height = 'calc(100% - var(--size-pos-xxsmall))'
+        radius = 'var(--border-radius-full)'
+        break
+      case 'framer':
+        height = 'calc(100% - var(--size-pos-xxsmall))'
+        radius = 'var(--border-radius-xlarge)'
+        break
+      default:
+        height = 'calc(100% - var(--size-pos-xxsmall))'
+        radius = 'var(--border-radius-full)'
+    }
+
     return (
       <>
         <Bar
@@ -343,8 +370,8 @@ export default class Shortcuts extends PureComponent<
                           <img
                             src={this.props.userSession.userAvatar}
                             style={{
-                              height: 'calc(100% - var(--size-pos-xxsmall))',
-                              borderRadius: 'var(--border-radius-full)',
+                              height: height,
+                              borderRadius: radius,
                             }}
                             alt="User Avatar"
                           />
