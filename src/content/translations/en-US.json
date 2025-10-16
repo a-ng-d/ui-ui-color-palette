@@ -733,7 +733,8 @@
     "nodes": {
       "penpot": "shapes/boards",
       "figma": "shapes/frames",
-      "sketch": "shapes/frames"
+      "sketch": "shapes/frames",
+      "framer": "shapes/frames"
     }
   },
   "store": {
@@ -867,6 +868,7 @@
   "platform": {
     "figma": "Figma",
     "penpot": "Penpot",
-    "sketch": "Sketch"
+    "sketch": "Sketch",
+    "framer": "Framer"
   }
 }
