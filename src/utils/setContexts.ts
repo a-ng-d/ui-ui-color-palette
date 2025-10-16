@@ -59,6 +59,13 @@ export const setContexts = (
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_OVERVIEW: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_OVERVIEW',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SOURCE_EXPLORE: new FeatureStatus({
       features: features,
       featureName: 'SOURCE_EXPLORE',
