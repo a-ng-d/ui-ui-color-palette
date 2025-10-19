@@ -60,7 +60,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   constructor(props: SourceProps) {
     super(props)
     this.contexts = setContexts(
-      ['SOURCE_OVERVIEW', 'SOURCE_EXPLORE', 'SOURCE_IMAGE'],
+      ['SOURCE_OVERVIEW', 'SOURCE_IMAGE', 'SOURCE_EXPLORE'],
       props.planStatus,
       props.config.features,
       props.editor,

@@ -714,14 +714,14 @@
     },
     "imagePalette": {
       "title": "Dominant colors",
-      "emptyMessage": "Upload or select an image in your document to extract its 5 dominant colors",
+      "emptyMessage": "Upload an image or select it in your document to extract its 5 dominant colors",
       "addColors": "Add to sources {cost}",
       "removeImage": "Remove image",
       "warningMessage": "The new dominant colors will replace those already present in the source colors",
       "dropzone": {
         "message": "Drag & drop your .png file here",
-        "warning": "Some files were not imported. Supported file types are .png",
-        "error": "The image could not be loaded. Please try with another image.",
+        "warning": "The file was not imported. Supported image is .png",
+        "error": "The image could not be loaded. Please try with another image, or make sure this is a .png",
         "cta": "or click to browse"
       }
     },

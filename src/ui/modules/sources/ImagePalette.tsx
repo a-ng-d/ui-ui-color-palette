@@ -252,6 +252,11 @@ export default class ImagePalette extends PureComponent<
                   <Button
                     type="primary"
                     label={this.props.locales.source.imagePalette.addColors}
+                    warning={{
+                      label:
+                        this.props.locales.source.imagePalette.warningMessage,
+                      type: 'MULTI_LINE',
+                    }}
                     isBlocked={ImagePalette.features(
                       this.props.planStatus,
                       this.props.config,
@@ -364,7 +369,7 @@ export default class ImagePalette extends PureComponent<
           },
           {
             node: <this.ExtractedColor />,
-            typeModifier: 'LIST',
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight
