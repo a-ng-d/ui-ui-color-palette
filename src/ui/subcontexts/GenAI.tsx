@@ -486,9 +486,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                             }
                             isLoading={this.state.isLoading}
                             isDisabled={
-                              this.state.isLoading ||
-                              !this.state.prompt.trim() ||
-                              !mistralClient
+                              !this.state.prompt.trim() || !mistralClient
                             }
                             action={this.generatePalette}
                           />
