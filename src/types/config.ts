@@ -23,6 +23,7 @@ export interface Config {
     isSupabaseEnabled: boolean
     isMixpanelEnabled: boolean
     isSentryEnabled: boolean
+    isMistralAiEnabled: boolean
     announcementsDbId: string
     onboardingDbId: string
     readonly pluginId: string
@@ -42,6 +43,7 @@ export interface Config {
     databaseUrl: string
     authUrl: string
     storeApiUrl: string
+    aiApiUrl: string
     platformUrl: string
     uiUrl: string
     documentationUrl: string

@@ -29,6 +29,7 @@ export interface ImportEvent {
     | 'IMPORT_COLOUR_LOVERS'
     | 'EXTRACT_DOMINANT_COLORS'
     | 'CREATE_COLOR_HARMONY'
+    | 'GENERATE_AI_COLORS'
 }
 
 export interface ScaleEvent {

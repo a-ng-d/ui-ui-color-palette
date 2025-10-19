@@ -87,6 +87,13 @@ export const setContexts = (
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_AI: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_AI',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SCALE: new FeatureStatus({
       features: features,
       featureName: 'SCALE',
@@ -207,6 +214,13 @@ export const setContexts = (
       isUpdated: false,
       isNew: featuresList.SOURCE_HARMONY.isNew(),
       isActive: featuresList.SOURCE_HARMONY.isActive(),
+    },
+    {
+      label: locales.get().source.contexts.ai,
+      id: 'SOURCE_AI',
+      isUpdated: false,
+      isNew: featuresList.SOURCE_AI.isNew(),
+      isActive: featuresList.SOURCE_AI.isActive(),
     },
     {
       label: locales.get().contexts.scale,

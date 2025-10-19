@@ -10,6 +10,7 @@ import {
   setMixpanelEnv,
 } from './external/tracking/client'
 import { initSentry } from './external/monitoring/client'
+import { initMistral } from './external/mistral'
 import { initSupabase } from './external/auth/client'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
@@ -20,6 +21,7 @@ const container = document.getElementById('app'),
 const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
+const mistralApiKey = import.meta.env.VITE_MISTRAL_AI_API_KEY
 
 // Mixpanel
 if (globalConfig.env.isMixpanelEnabled) {
@@ -94,6 +96,10 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
 if (globalConfig.env.isSupabaseEnabled)
   initSupabase(globalConfig.urls.databaseUrl, supabaseAnonKey)
 
+// Mistral AI
+if (globalConfig.env.isMistralAiEnabled)
+  initMistral(globalConfig.urls.aiApiUrl, mistralApiKey)
+
 // Bridge Canvas <> UI
 window.addEventListener(
   'message',
@@ -128,6 +134,7 @@ root.render(
       isSupabaseEnabled: globalConfig.env.isSupabaseEnabled,
       isMixpanelEnabled: globalConfig.env.isMixpanelEnabled,
       isSentryEnabled: globalConfig.env.isSentryEnabled,
+      isMistralAiEnabled: globalConfig.env.isMistralAiEnabled,
       announcementsDbId: globalConfig.env.announcementsDbId,
       onboardingDbId: globalConfig.env.onboardingDbId,
       pluginId: globalConfig.env.pluginId,
@@ -147,6 +154,7 @@ root.render(
       databaseUrl: globalConfig.urls.databaseUrl,
       authUrl: globalConfig.urls.authUrl,
       storeApiUrl: globalConfig.urls.storeApiUrl,
+      aiApiUrl: globalConfig.urls.aiApiUrl,
       platformUrl: globalConfig.urls.platformUrl,
       uiUrl: globalConfig.urls.uiUrl,
       documentationUrl: globalConfig.urls.documentationUrl,
