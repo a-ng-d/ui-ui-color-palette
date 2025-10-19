@@ -160,7 +160,8 @@
     "timeout": "The authentication has been timed out",
     "unshare": "The palette has not been removed from the community",
     "activatedLicense": "This license key is not valid and cannot be activated. Please check it and try again. If the problem persists, please contact support.",
-    "unlinkedLicense": "Your license key \"{licenseKey}\" is no longer valid or cannot be unlinked remotely. Please unlink it locally in order to replace it with a new one. If the problem persists, please contact support."
+    "unlinkedLicense": "Your license key \"{licenseKey}\" is no longer valid or cannot be unlinked remotely. Please unlink it locally in order to replace it with a new one. If the problem persists, please contact support.",
+    "unavailableAi": "The AI service is currently unavailable. Please try again later."
   },
   "export": {
     "actions": {
@@ -701,7 +702,8 @@
       "explore": "Explore",
       "image": "Extractor",
       "overview": "Overview",
-      "harmony": "Studio"
+      "harmony": "Studio",
+      "ai": "AI"
     },
     "default": {
       "title": "Default color",
@@ -718,6 +720,50 @@
       "empty": "Remove the color harmony",
       "helper": "Create harmonious colors based on color wheel (complementary, triadic, etc.)",
       "title": "Color harmony"
+    },
+    "ai": {
+      "add": "Generate AI colors",
+      "empty": "Remove the AI colors",
+      "helper": "Generate intelligent colors based on creative prompts, using Mistral AI",
+      "title": "AI Colors"
+    },
+    "genAi": {
+      "title": "AI-Generated colors",
+      "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
+      "form": {
+        "prompt": {
+          "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
+        },
+        "presets": {
+          "vibes": {
+            "cyberpunk": "Cyberpunk futuristic interface with neon accents",
+            "minimalist": "Clean minimalist design with subtle contrasts",
+            "pastel": "Soft pastel colors for gentle, friendly interface",
+            "corporate": "Professional corporate design with trustworthy colors",
+            "nature": "Natural earth tones inspired by forest and mountains",
+            "vintage": "Retro vintage aesthetic with warm, muted colors"
+          },
+          "usecases": {
+            "landing": "Modern landing page for tech startup",
+            "blog": "Personal blog with warm, readable typography",
+            "resume": "Professional resume with clean, confident colors",
+            "portfolio": "Creative portfolio showcasing artistic work",
+            "documentation": "Technical documentation with clear hierarchy",
+            "ecommerce": "E-commerce store with conversion-focused colors"
+          }
+        }
+      },
+      "actions": {
+        "generate": "Generate colors ⌃⏎ or ⌘⏎",
+        "addColors": "Add to source {cost}. Those colors will replace the previously added."
+      },
+      "colorTypes": {
+        "primary": "Primary",
+        "text": "Text", 
+        "success": "Success",
+        "warning": "Warning",
+        "alert": "Alert"
+      }
     },
     "imagePalette": {
       "title": "Dominant colors",

@@ -41,7 +41,7 @@ interface OverviewProps extends BaseProps, WithConfigProps {
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty | 'IMAGE' | 'HARMONY'
+    source: ThirdParty | 'IMAGE' | 'HARMONY' | 'AI'
   ) => void
   onChangeContexts: (context: Context) => void
 }
@@ -54,12 +54,10 @@ interface OverviewStates {
   isColourLoversImportOpen: boolean
   isImagePaletteOpen: boolean
   isColorHarmonyOpen: boolean
+  isGenAIOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -129,6 +127,13 @@ export default class Overview extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_AI: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_AI',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: OverviewProps) {
@@ -163,6 +168,9 @@ export default class Overview extends PureComponent<
       isColorHarmonyOpen:
         this.props.sourceColors.filter((color) => color.source === 'HARMONY')
           .length > 0,
+      isGenAIOpen:
+        this.props.sourceColors.filter((color) => color.source === 'AI')
+          .length > 0,
     }
   }
 
@@ -186,6 +194,9 @@ export default class Overview extends PureComponent<
             .length > 0,
         isColorHarmonyOpen:
           this.props.sourceColors.filter((color) => color.source === 'HARMONY')
+            .length > 0,
+        isGenAIOpen:
+          this.props.sourceColors.filter((color) => color.source === 'AI')
             .length > 0,
       })
   }
@@ -1053,6 +1064,78 @@ export default class Overview extends PureComponent<
     )
   }
 
+  GenAi = () => {
+    return (
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_HARMONY.isActive()}
+      >
+        <Accordion
+          label={this.props.locales.source.ai.title}
+          indicator={this.props.sourceColors
+            .filter((sourceColor) => sourceColor.source === 'AI')
+            .length.toString()}
+          icon="adjust"
+          helper={this.props.locales.source.ai.helper}
+          helpers={{
+            add: this.props.locales.source.ai.add,
+            empty: this.props.locales.source.ai.empty,
+          }}
+          isExpanded={this.state.isGenAIOpen}
+          isBlocked={Overview.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_AI.isBlocked()}
+          isNew={Overview.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_AI.isNew()}
+          onAdd={() => this.props.onChangeContexts('SOURCE_AI')}
+          onEmpty={() => {
+            this.props.onChangeColorsFromImport([], 'AI')
+            this.setState({
+              isGenAIOpen: false,
+            })
+          }}
+        >
+          <List>
+            {this.props.sourceColors
+              .filter((sourceColor) => sourceColor.source === 'AI')
+              .sort((a, b) => {
+                if (a.name.localeCompare(b.name) > 0) return 1
+                else if (a.name.localeCompare(b.name) < 0) return -1
+                else return 0
+              })
+              .map((sourceColor) => {
+                return (
+                  <ColorItem
+                    key={sourceColor.id}
+                    name={sourceColor.name}
+                    hex={chroma(
+                      sourceColor.rgb.r * 255,
+                      sourceColor.rgb.g * 255,
+                      sourceColor.rgb.b * 255
+                    )
+                      .hex()
+                      .toUpperCase()}
+                    id={sourceColor.id}
+                  />
+                )
+              })}
+          </List>
+        </Accordion>
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     return (
@@ -1067,6 +1150,7 @@ export default class Overview extends PureComponent<
             node: (
               <>
                 <this.defaultColor />
+                <this.GenAi />
                 <this.ImagePalette />
                 <this.ColorHarmony />
                 <this.CoolorsColors />

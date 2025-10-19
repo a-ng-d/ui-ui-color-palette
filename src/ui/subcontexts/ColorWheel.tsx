@@ -24,7 +24,6 @@ import {
   Editor,
   PlanStatus,
   Service,
-  ThirdParty,
 } from '../../types/app'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -33,7 +32,7 @@ interface ColorWheelProps extends BaseProps, WithConfigProps {
   baseColor: RgbModel
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty | 'IMAGE' | 'HARMONY'
+    source: SourceColorConfiguration['source']
   ) => void
   onChangeContexts: (context: Context) => void
 }

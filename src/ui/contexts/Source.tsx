@@ -8,6 +8,7 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
 import Overview from '../subcontexts/Overview'
+import MistralAI from '../subcontexts/MistralAI'
 import ImagePalette from '../subcontexts/ImagePalette'
 import Explore from '../subcontexts/Explore'
 import ColorWheel from '../subcontexts/ColorWheel'
@@ -21,7 +22,6 @@ import {
   FilterOptions,
   PlanStatus,
   Service,
-  ThirdParty,
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -30,7 +30,7 @@ interface SourceProps extends BaseProps, WithConfigProps {
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty | 'IMAGE' | 'HARMONY'
+    source: SourceColorConfiguration['source']
   ) => void
 }
 
@@ -61,7 +61,13 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   constructor(props: SourceProps) {
     super(props)
     this.contexts = setContexts(
-      ['SOURCE_OVERVIEW', 'SOURCE_IMAGE', 'SOURCE_HARMONY', 'SOURCE_EXPLORE'],
+      [
+        'SOURCE_OVERVIEW',
+        'SOURCE_IMAGE',
+        'SOURCE_HARMONY',
+        'SOURCE_AI',
+        'SOURCE_EXPLORE',
+      ],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -142,6 +148,18 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
             }
           />
         )
+        break
+      }
+      case 'SOURCE_AI': {
+        fragment = (
+          <MistralAI
+            {...this.props}
+            onChangeContexts={(context: Context) =>
+              this.setState({ context: context })
+            }
+          />
+        )
+        break
       }
     }
 

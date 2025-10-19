@@ -6,7 +6,6 @@ import {
   DominantColorResult,
   DominantColors,
   SourceColorConfiguration,
-  ThirdParty,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
@@ -15,7 +14,6 @@ import {
   Layout,
   List,
   Message,
-  Section,
   SectionTitle,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
@@ -38,7 +36,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 interface ImagePaletteProps extends BaseProps, WithConfigProps {
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty | 'IMAGE'
+    source: SourceColorConfiguration['source']
   ) => void
   onChangeContexts: (context: Context) => void
 }
@@ -240,135 +238,119 @@ export default class ImagePalette extends PureComponent<
   ExtractedColor = () => {
     return (
       <>
-        <Section
-          title={
-            <SimpleItem
-              id="image-palette-list"
-              leftPartSlot={
-                <SectionTitle
-                  label={this.props.locales.source.imagePalette.title}
-                  indicator={this.state.dominantColors.length.toString()}
-                />
-              }
-              rightPartSlot={
-                <Feature
-                  isActive={ImagePalette.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SOURCE_IMAGE_ADD.isActive()}
-                >
-                  <Button
-                    type="icon"
-                    icon="plus"
-                    helper={{
-                      label: this.props.locales.source.imagePalette.addColors,
-                      type: 'MULTI_LINE',
-                    }}
-                    isDisabled={this.state.dominantColors.length === 0}
-                    isBlocked={ImagePalette.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SOURCE_IMAGE_ADD.isBlocked()}
-                    isNew={ImagePalette.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SOURCE_IMAGE_ADD.isNew()}
-                    action={() => {
-                      this.props.onChangeColorsFromImport(
-                        this.state.dominantColors.map((color) => {
-                          const gl = chroma(color.hex).gl()
-                          return {
-                            name: color.hex.toUpperCase().replace('#', ''),
-                            rgb: {
-                              r: gl[0],
-                              g: gl[1],
-                              b: gl[2],
-                            },
-                            hue: {
-                              shift: 0,
-                              isLocked: false,
-                            },
-                            chroma: {
-                              shift: 0,
-                              isLocked: false,
-                            },
-                            source: 'IMAGE',
-                            id: uid(),
-                            isRemovable: false,
-                          }
-                        }),
-                        'IMAGE'
-                      )
-
-                      this.props.onChangeContexts('SOURCE_OVERVIEW')
-
-                      trackImportEvent(
-                        this.props.config.env.isMixpanelEnabled,
-                        this.props.userSession.userId === ''
-                          ? this.props.userIdentity.id === ''
-                            ? ''
-                            : this.props.userIdentity.id
-                          : this.props.userSession.userId,
-                        this.props.userConsent.find(
-                          (consent) => consent.id === 'mixpanel'
-                        )?.isConsented ?? false,
-                        {
-                          feature: 'EXTRACT_DOMINANT_COLORS',
-                        }
-                      )
-                    }}
-                  />
-                </Feature>
-              }
+        <SimpleItem
+          id="image-palette-list"
+          leftPartSlot={
+            <SectionTitle
+              label={this.props.locales.source.imagePalette.title}
+              indicator={this.state.dominantColors.length.toString()}
             />
           }
-          body={[
-            {
-              node:
-                this.state.dominantColors.length === 0 ? (
-                  <Message
-                    icon="info"
-                    messages={[
-                      this.props.locales.source.imagePalette.emptyMessage,
-                    ]}
-                  />
-                ) : undefined,
-              spacingModifier: 'NONE',
-            },
-            {
-              node:
-                this.state.dominantColors.length > 0 ? (
-                  <List>
-                    {this.state.dominantColors
-                      .sort((a, b) => {
-                        if (a.hex.localeCompare(b.hex) > 0) return 1
-                        else if (a.hex.localeCompare(b.hex) < 0) return -1
-                        else return 0
-                      })
-                      .map((sourceColor) => {
-                        return (
-                          <ColorItem
-                            key={sourceColor.hex}
-                            name={sourceColor.hex
-                              .toUpperCase()
-                              .replace('#', '')}
-                            hex={sourceColor.hex}
-                            id={sourceColor.hex}
-                          />
-                        )
-                      })}
-                  </List>
-                ) : undefined,
-              spacingModifier: 'NONE',
-            },
-          ]}
+          rightPartSlot={
+            <Feature
+              isActive={ImagePalette.features(
+                this.props.planStatus,
+                this.props.config,
+                this.props.service,
+                this.props.editor
+              ).SOURCE_IMAGE_ADD.isActive()}
+            >
+              ;
+              <Button
+                type="icon"
+                icon="plus"
+                helper={{
+                  label: this.props.locales.source.imagePalette.addColors,
+                  type: 'MULTI_LINE',
+                }}
+                isDisabled={this.state.dominantColors.length === 0}
+                isBlocked={ImagePalette.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).SOURCE_IMAGE_ADD.isBlocked()}
+                isNew={ImagePalette.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).SOURCE_IMAGE_ADD.isNew()}
+                action={() => {
+                  this.props.onChangeColorsFromImport(
+                    this.state.dominantColors.map((color) => {
+                      const gl = chroma(color.hex).gl()
+                      return {
+                        name: color.hex.toUpperCase().replace('#', ''),
+                        rgb: {
+                          r: gl[0],
+                          g: gl[1],
+                          b: gl[2],
+                        },
+                        hue: {
+                          shift: 0,
+                          isLocked: false,
+                        },
+                        chroma: {
+                          shift: 0,
+                          isLocked: false,
+                        },
+                        source: 'IMAGE',
+                        id: uid(),
+                        isRemovable: false,
+                      }
+                    }),
+                    'IMAGE'
+                  )
+
+                  this.props.onChangeContexts('SOURCE_OVERVIEW')
+
+                  trackImportEvent(
+                    this.props.config.env.isMixpanelEnabled,
+                    this.props.userSession.userId === ''
+                      ? this.props.userIdentity.id === ''
+                        ? ''
+                        : this.props.userIdentity.id
+                      : this.props.userSession.userId,
+                    this.props.userConsent.find(
+                      (consent) => consent.id === 'mixpanel'
+                    )?.isConsented ?? false,
+                    {
+                      feature: 'EXTRACT_DOMINANT_COLORS',
+                    }
+                  )
+                }}
+              />
+            </Feature>
+          }
+          alignment="CENTER"
+          isListItem={false}
         />
+        {this.state.dominantColors.length === 0 ? (
+          <Message
+            icon="info"
+            messages={[this.props.locales.source.imagePalette.emptyMessage]}
+          />
+        ) : (
+          <List isTopBorderEnabled>
+            {this.state.dominantColors
+              .sort((a, b) => {
+                if (a.hex.localeCompare(b.hex) > 0) return 1
+                else if (a.hex.localeCompare(b.hex) < 0) return -1
+                else return 0
+              })
+              .map((sourceColor, index) => {
+                return (
+                  <ColorItem
+                    key={sourceColor.hex}
+                    name={sourceColor.hex.toUpperCase().replace('#', '')}
+                    hex={sourceColor.hex}
+                    id={`color-${index}`}
+                  />
+                )
+              })}
+          </List>
+        )}
       </>
     )
   }
@@ -385,7 +367,8 @@ export default class ImagePalette extends PureComponent<
           },
           {
             node: <this.ExtractedColor />,
-            typeModifier: 'BLANK',
+            typeModifier: 'FIXED',
+            fixedWidth: '272px',
           },
         ]}
         isFullHeight
