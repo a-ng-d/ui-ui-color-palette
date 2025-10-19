@@ -255,7 +255,6 @@ export default class ImagePalette extends PureComponent<
                 this.props.editor
               ).SOURCE_IMAGE_ADD.isActive()}
             >
-              ;
               <Button
                 type="icon"
                 icon="plus"

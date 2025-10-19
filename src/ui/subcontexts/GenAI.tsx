@@ -418,7 +418,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                 ).SOURCE_AI_REQUEST.isActive()}
               >
                 <Section
-                  title={<br></br>}
                   body={[
                     ...(this.state.error
                       ? [
