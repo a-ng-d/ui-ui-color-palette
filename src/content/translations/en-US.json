@@ -722,9 +722,8 @@
     "imagePalette": {
       "title": "Dominant colors",
       "emptyMessage": "Upload an image or select it in your document to extract its 5 dominant colors",
-      "addColors": "Add to source {cost}",
+      "addColors": "Add to source {cost}. Those colors will replace the previously added.",
       "removeImage": "Remove image",
-      "warningMessage": "The new dominant colors will replace those already present in the source colors",
       "dropzone": {
         "message": "Drag & drop your .png file here",
         "warning": "The file was not imported. Supported image is .png",
@@ -742,8 +741,7 @@
         "triadic": "Triadic",
         "tetradic": "Tetradic"
       },
-      "addColors": "Add to source {cost}",
-      "warningMessage": "The new color harmony color will replace that already present in the source colors"
+      "addColors": "Add to source {cost}. Those colors will replace the previously added."
     },
     "coolors": {
       "add": "Add a Coolors palette",

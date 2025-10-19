@@ -9,12 +9,13 @@ import {
   Channel,
 } from '@a_ng_d/utils-ui-color-palette'
 import { ColorHarmony } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Dropdown, FormItem, Layout } from '@a_ng_d/figmug-ui'
 import { Input } from '@a_ng_d/figmug-ui'
 import { layouts } from '@a_ng_d/figmug-ui'
 import { Chip } from '@a_ng_d/figmug-ui'
 import { Button } from '@a_ng_d/figmug-ui'
+import { texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import {
@@ -425,6 +426,14 @@ export default class ColorWheel extends PureComponent<
                           />
                         </FormItem>
                       </Feature>
+                      <span
+                        className={doClassnames([
+                          texts['type'],
+                          texts['type--secondary'],
+                        ])}
+                      >
+                        {this.props.locales.separator}
+                      </span>
                       <Feature
                         isActive={ColorWheel.features(
                           this.props.planStatus,
@@ -434,11 +443,10 @@ export default class ColorWheel extends PureComponent<
                         ).SOURCE_HARMONY_ADD.isActive()}
                       >
                         <Button
-                          type="primary"
-                          label={this.props.locales.source.wheel.addColors}
-                          warning={{
-                            label:
-                              this.props.locales.source.wheel.warningMessage,
+                          type="icon"
+                          icon="plus"
+                          helper={{
+                            label: this.props.locales.source.wheel.addColors,
                             type: 'MULTI_LINE',
                           }}
                           isBlocked={ColorWheel.features(

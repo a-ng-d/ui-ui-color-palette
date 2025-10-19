@@ -292,11 +292,10 @@ export default class ImagePalette extends PureComponent<
                   }
                 >
                   <Button
-                    type="primary"
-                    label={this.props.locales.source.imagePalette.addColors}
-                    warning={{
-                      label:
-                        this.props.locales.source.imagePalette.warningMessage,
+                    type="icon"
+                    icon="plus"
+                    helper={{
+                      label: this.props.locales.source.imagePalette.addColors,
                       type: 'MULTI_LINE',
                     }}
                     isBlocked={ImagePalette.features(
