@@ -7,8 +7,10 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
-import ImagePalette from '../modules/sources/ImagePalette'
-import ColorWheel from '../modules/sources/ColorWheel'
+import Overview from '../subcontexts/Overview'
+import ImagePalette from '../subcontexts/ImagePalette'
+import Explore from '../subcontexts/Explore'
+import ColorWheel from '../subcontexts/ColorWheel'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import {
@@ -22,8 +24,6 @@ import {
   ThirdParty,
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
-import Overview from './Overview'
-import Explore from './Explore'
 
 interface SourceProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>

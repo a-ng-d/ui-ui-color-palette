@@ -22,18 +22,18 @@ import {
 import { Dropzone } from '@a_ng_d/figmug-ui'
 import { Card } from '@a_ng_d/figmug-ui'
 import { texts } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../../components/WithConfig'
-import Feature from '../../components/Feature'
-import { PluginMessageData } from '../../../types/messages'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
   Context,
   Editor,
   PlanStatus,
   Service,
-} from '../../../types/app'
-import { trackImportEvent } from '../../../external/tracking/eventsTracker'
-import { ConfigContextType } from '../../../config/ConfigContext'
+} from '../../types/app'
+import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ImagePaletteProps extends BaseProps, WithConfigProps {
   onChangeColorsFromImport: (

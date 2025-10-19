@@ -16,8 +16,8 @@ import { layouts } from '@a_ng_d/figmug-ui'
 import { Chip } from '@a_ng_d/figmug-ui'
 import { Button } from '@a_ng_d/figmug-ui'
 import { texts } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../../components/WithConfig'
-import Feature from '../../components/Feature'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
 import {
   BaseProps,
   Context,
@@ -25,9 +25,9 @@ import {
   PlanStatus,
   Service,
   ThirdParty,
-} from '../../../types/app'
-import { trackImportEvent } from '../../../external/tracking/eventsTracker'
-import { ConfigContextType } from '../../../config/ConfigContext'
+} from '../../types/app'
+import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ColorWheelProps extends BaseProps, WithConfigProps {
   baseColor: RgbModel
