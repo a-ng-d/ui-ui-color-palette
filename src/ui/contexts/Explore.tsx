@@ -22,6 +22,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
+  Context,
   FetchStatus,
   FilterOptions,
   ThirdParty,
@@ -35,7 +36,7 @@ interface ExploreProps extends BaseProps, WithConfigProps {
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
   ) => void
-  onChangeContexts: () => void
+  onChangeContexts: (context: Context) => void
   onLoadColourLoversPalettesList: (
     palettes: Array<ColourLovers>,
     shouldBeEmpty: boolean
@@ -221,7 +222,7 @@ export default class Explore extends PureComponent<
                     type="secondary"
                     label={this.props.locales.actions.addToSource}
                     action={() => {
-                      this.props.onChangeContexts()
+                      this.props.onChangeContexts('SOURCE_OVERVIEW')
                       this.props.onChangeColorsFromImport(
                         palette.colors.map((color) => {
                           const gl = chroma(color).gl()

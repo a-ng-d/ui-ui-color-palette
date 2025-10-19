@@ -413,6 +413,16 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT'>> = [
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
   },
   {
+    name: 'SOURCE_IMAGE',
+    description: 'Import colors from an image file',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    proForServices: ['CREATE'],
+    availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
+  },
+  {
     name: 'SCALE',
     description: 'Lightness scale configuration',
     isActive: true,

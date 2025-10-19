@@ -7,6 +7,7 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
+import ImagePalette from '../modules/sources/ImagePalette'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import {
@@ -28,7 +29,7 @@ interface SourceProps extends BaseProps, WithConfigProps {
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty
+    source: ThirdParty | 'IMAGE'
   ) => void
 }
 
@@ -59,7 +60,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   constructor(props: SourceProps) {
     super(props)
     this.contexts = setContexts(
-      ['SOURCE_OVERVIEW', 'SOURCE_EXPLORE'],
+      ['SOURCE_OVERVIEW', 'SOURCE_EXPLORE', 'SOURCE_IMAGE'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -87,8 +88,8 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
         fragment = (
           <Overview
             {...this.props}
-            onChangeContexts={() =>
-              this.setState({ context: 'SOURCE_EXPLORE' })
+            onChangeContexts={(context: Context) =>
+              this.setState({ context: context })
             }
           />
         )
@@ -114,6 +115,16 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
           />
         )
         break
+      }
+      case 'SOURCE_IMAGE': {
+        fragment = (
+          <ImagePalette
+            {...this.props}
+            onChangeContexts={(context: Context) =>
+              this.setState({ context: context })
+            }
+          />
+        )
       }
     }
 

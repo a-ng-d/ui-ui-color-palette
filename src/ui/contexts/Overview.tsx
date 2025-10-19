@@ -27,6 +27,7 @@ import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
+  Context,
   Editor,
   ImportUrl,
   PlanStatus,
@@ -40,9 +41,9 @@ interface OverviewProps extends BaseProps, WithConfigProps {
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty
+    source: ThirdParty | 'IMAGE'
   ) => void
-  onChangeContexts: () => void
+  onChangeContexts: (context: Context) => void
 }
 
 interface OverviewStates {
@@ -51,12 +52,10 @@ interface OverviewStates {
   isCoolorsImportOpen: boolean
   isRealtimeColorsImportOpen: boolean
   isColourLoversImportOpen: boolean
+  isImagePaletteOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -112,7 +111,15 @@ export default class Overview extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_IMAGE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_IMAGE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
+
   constructor(props: OverviewProps) {
     super(props)
     this.state = {
@@ -139,6 +146,9 @@ export default class Overview extends PureComponent<
         this.props.sourceColors.filter(
           (color) => color.source === 'COLOUR_LOVERS'
         ).length > 0,
+      isImagePaletteOpen:
+        this.props.sourceColors.filter((color) => color.source === 'IMAGE')
+          .length > 0,
     }
   }
 
@@ -157,6 +167,9 @@ export default class Overview extends PureComponent<
           this.props.sourceColors.filter(
             (color) => color.source === 'COLOUR_LOVERS'
           ).length > 0,
+        isImagePaletteOpen:
+          this.props.sourceColors.filter((color) => color.source === 'IMAGE')
+            .length > 0,
       })
   }
 
@@ -841,7 +854,7 @@ export default class Overview extends PureComponent<
             this.props.service,
             this.props.editor
           ).SOURCE_EXPLORE.isNew()}
-          onAdd={this.props.onChangeContexts}
+          onAdd={() => this.props.onChangeContexts('SOURCE_EXPLORE')}
           onEmpty={() => {
             this.props.onChangeColorsFromImport([], 'COLOUR_LOVERS')
             this.setState({
@@ -852,6 +865,78 @@ export default class Overview extends PureComponent<
           <List>
             {this.props.sourceColors
               .filter((sourceColor) => sourceColor.source === 'COLOUR_LOVERS')
+              .sort((a, b) => {
+                if (a.name.localeCompare(b.name) > 0) return 1
+                else if (a.name.localeCompare(b.name) < 0) return -1
+                else return 0
+              })
+              .map((sourceColor) => {
+                return (
+                  <ColorItem
+                    key={sourceColor.id}
+                    name={sourceColor.name}
+                    hex={chroma(
+                      sourceColor.rgb.r * 255,
+                      sourceColor.rgb.g * 255,
+                      sourceColor.rgb.b * 255
+                    )
+                      .hex()
+                      .toUpperCase()}
+                    id={sourceColor.id}
+                  />
+                )
+              })}
+          </List>
+        </Accordion>
+      </Feature>
+    )
+  }
+
+  ImagePalette = () => {
+    return (
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_COLOUR_LOVERS.isActive()}
+      >
+        <Accordion
+          label={this.props.locales.source.image.title}
+          indicator={this.props.sourceColors
+            .filter((sourceColor) => sourceColor.source === 'IMAGE')
+            .length.toString()}
+          icon="adjust"
+          helper={this.props.locales.source.image.helper}
+          helpers={{
+            add: this.props.locales.source.image.add,
+            empty: this.props.locales.source.image.empty,
+          }}
+          isExpanded={this.state.isImagePaletteOpen}
+          isBlocked={Overview.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_IMAGE.isBlocked()}
+          isNew={Overview.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_IMAGE.isNew()}
+          onAdd={() => this.props.onChangeContexts('SOURCE_IMAGE')}
+          onEmpty={() => {
+            this.props.onChangeColorsFromImport([], 'IMAGE')
+            this.setState({
+              isImagePaletteOpen: false,
+            })
+          }}
+        >
+          <List>
+            {this.props.sourceColors
+              .filter((sourceColor) => sourceColor.source === 'IMAGE')
               .sort((a, b) => {
                 if (a.name.localeCompare(b.name) > 0) return 1
                 else if (a.name.localeCompare(b.name) < 0) return -1
@@ -893,6 +978,7 @@ export default class Overview extends PureComponent<
             node: (
               <>
                 <this.defaultColor />
+                <this.ImagePalette />
                 <this.CoolorsColors />
                 <this.RealtimeColorsColors />
                 <this.ColourLoversColors />

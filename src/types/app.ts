@@ -11,6 +11,7 @@ export interface ContextItem {
   label: string
   id: Context
   isUpdated: boolean
+  isNew?: boolean
   isActive: boolean
 }
 
@@ -36,6 +37,7 @@ export type Context =
   | 'SOURCE'
   | 'SOURCE_OVERVIEW'
   | 'SOURCE_EXPLORE'
+  | 'SOURCE_IMAGE'
   | 'SCALE'
   | 'COLORS'
   | 'THEMES'

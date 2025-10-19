@@ -699,11 +699,31 @@
     },
     "contexts": {
       "explore": "Explore",
+      "image": "Image palette",
       "overview": "Overview"
     },
     "default": {
       "title": "Default color",
       "helper": "This color is used when no color is selected or imported"
+    },
+    "image": {
+      "add": "Add an image",
+      "empty": "Remove the colors",
+      "helper": "Extract 5 dominant colors from any image",
+      "title": "Image palette"
+    },
+    "imagePalette": {
+      "title": "Dominant colors",
+      "emptyMessage": "Upload or select an image in your document to extract its 5 dominant colors",
+      "addColors": "Add to sources {cost}",
+      "removeImage": "Remove image",
+      "warningMessage": "The new dominant colors will replace those already present in the source colors",
+      "dropzone": {
+        "message": "Drag & drop your .png file here",
+        "warning": "Some files were not imported. Supported file types are .png",
+        "error": "The image could not be loaded. Please try with another image.",
+        "cta": "or click to browse"
+      }
     },
     "coolors": {
       "add": "Add a Coolors palette",

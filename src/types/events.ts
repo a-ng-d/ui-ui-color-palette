@@ -23,7 +23,12 @@ export interface PublicationEvent {
 }
 
 export interface ImportEvent {
-  feature: 'IMPORT_COOLORS' | 'IMPORT_REALTIME_COLORS' | 'IMPORT_COLOUR_LOVERS'
+  feature:
+    | 'IMPORT_COOLORS'
+    | 'IMPORT_REALTIME_COLORS'
+    | 'IMPORT_COLOUR_LOVERS'
+    | 'UPLOAD_IMAGE'
+    | 'IMPORT_DOMINANT_COLORS'
 }
 
 export interface ScaleEvent {
