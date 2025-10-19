@@ -699,23 +699,30 @@
     },
     "contexts": {
       "explore": "Explore",
-      "image": "Image palette",
-      "overview": "Overview"
+      "image": "Extractor",
+      "overview": "Overview",
+      "harmony": "Studio"
     },
     "default": {
       "title": "Default color",
       "helper": "This color is used when no color is selected or imported"
     },
     "image": {
-      "add": "Add an image",
-      "empty": "Remove the colors",
+      "add": "Extract colors from image",
+      "empty": "Remove the image palette",
       "helper": "Extract 5 dominant colors from any image",
       "title": "Image palette"
+    },
+    "harmony": {
+      "add": "Create a color harmony",
+      "empty": "Remove the color harmony",
+      "helper": "Create harmonious colors based on color wheel (complementary, triadic, etc.)",
+      "title": "Color harmony"
     },
     "imagePalette": {
       "title": "Dominant colors",
       "emptyMessage": "Upload an image or select it in your document to extract its 5 dominant colors",
-      "addColors": "Add to sources {cost}",
+      "addColors": "Add to source {cost}",
       "removeImage": "Remove image",
       "warningMessage": "The new dominant colors will replace those already present in the source colors",
       "dropzone": {
@@ -724,6 +731,19 @@
         "error": "The image could not be loaded. Please try with another image, or make sure this is a .png",
         "cta": "or click to browse"
       }
+    },
+    "wheel": {
+      "base": "Base color",
+      "algorithm": {
+        "title": "Color wheel",
+        "analogous": "Analogous",
+        "complementary": "Complementary",
+        "compound": "Compound",
+        "triadic": "Triadic",
+        "tetradic": "Tetradic"
+      },
+      "addColors": "Add to source {cost}",
+      "warningMessage": "The new color harmony color will replace that already present in the source colors"
     },
     "coolors": {
       "add": "Add a Coolors palette",

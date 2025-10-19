@@ -41,7 +41,7 @@ interface OverviewProps extends BaseProps, WithConfigProps {
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty | 'IMAGE'
+    source: ThirdParty | 'IMAGE' | 'HARMONY'
   ) => void
   onChangeContexts: (context: Context) => void
 }
@@ -53,9 +53,13 @@ interface OverviewStates {
   isRealtimeColorsImportOpen: boolean
   isColourLoversImportOpen: boolean
   isImagePaletteOpen: boolean
+  isColorHarmonyOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -118,6 +122,13 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_HARMONY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_HARMONY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: OverviewProps) {
@@ -149,6 +160,9 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
       isImagePaletteOpen:
         this.props.sourceColors.filter((color) => color.source === 'IMAGE')
           .length > 0,
+      isColorHarmonyOpen:
+        this.props.sourceColors.filter((color) => color.source === 'HARMONY')
+          .length > 0,
     }
   }
 
@@ -169,6 +183,9 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
           ).length > 0,
         isImagePaletteOpen:
           this.props.sourceColors.filter((color) => color.source === 'IMAGE')
+            .length > 0,
+        isColorHarmonyOpen:
+          this.props.sourceColors.filter((color) => color.source === 'HARMONY')
             .length > 0,
       })
   }
@@ -964,6 +981,78 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
     )
   }
 
+  ColorHarmony = () => {
+    return (
+      <Feature
+        isActive={Overview.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_HARMONY.isActive()}
+      >
+        <Accordion
+          label={this.props.locales.source.harmony.title}
+          indicator={this.props.sourceColors
+            .filter((sourceColor) => sourceColor.source === 'HARMONY')
+            .length.toString()}
+          icon="adjust"
+          helper={this.props.locales.source.harmony.helper}
+          helpers={{
+            add: this.props.locales.source.harmony.add,
+            empty: this.props.locales.source.harmony.empty,
+          }}
+          isExpanded={this.state.isColorHarmonyOpen}
+          isBlocked={Overview.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_HARMONY.isBlocked()}
+          isNew={Overview.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_HARMONY.isNew()}
+          onAdd={() => this.props.onChangeContexts('SOURCE_HARMONY')}
+          onEmpty={() => {
+            this.props.onChangeColorsFromImport([], 'HARMONY')
+            this.setState({
+              isColorHarmonyOpen: false,
+            })
+          }}
+        >
+          <List>
+            {this.props.sourceColors
+              .filter((sourceColor) => sourceColor.source === 'HARMONY')
+              .sort((a, b) => {
+                if (a.name.localeCompare(b.name) > 0) return 1
+                else if (a.name.localeCompare(b.name) < 0) return -1
+                else return 0
+              })
+              .map((sourceColor) => {
+                return (
+                  <ColorItem
+                    key={sourceColor.id}
+                    name={sourceColor.name}
+                    hex={chroma(
+                      sourceColor.rgb.r * 255,
+                      sourceColor.rgb.g * 255,
+                      sourceColor.rgb.b * 255
+                    )
+                      .hex()
+                      .toUpperCase()}
+                    id={sourceColor.id}
+                  />
+                )
+              })}
+          </List>
+        </Accordion>
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     return (
@@ -979,6 +1068,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
               <>
                 <this.defaultColor />
                 <this.ImagePalette />
+                <this.ColorHarmony />
                 <this.CoolorsColors />
                 <this.RealtimeColorsColors />
                 <this.ColourLoversColors />

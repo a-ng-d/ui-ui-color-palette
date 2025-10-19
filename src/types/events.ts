@@ -28,7 +28,8 @@ export interface ImportEvent {
     | 'IMPORT_REALTIME_COLORS'
     | 'IMPORT_COLOUR_LOVERS'
     | 'UPLOAD_IMAGE'
-    | 'IMPORT_DOMINANT_COLORS'
+    | 'EXTRACT_DOMINANT_COLORS'
+    | 'CREATE_COLOR_HARMONY'
 }
 
 export interface ScaleEvent {

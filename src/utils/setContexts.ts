@@ -80,6 +80,13 @@ export const setContexts = (
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_HARMONY: new FeatureStatus({
+      features: features,
+      featureName: 'SOURCE_HARMONY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SCALE: new FeatureStatus({
       features: features,
       featureName: 'SCALE',
@@ -193,6 +200,13 @@ export const setContexts = (
       isUpdated: false,
       isNew: featuresList.SOURCE_IMAGE.isNew(),
       isActive: featuresList.SOURCE_IMAGE.isActive(),
+    },
+    {
+      label: locales.get().source.contexts.harmony,
+      id: 'SOURCE_HARMONY',
+      isUpdated: false,
+      isNew: featuresList.SOURCE_HARMONY.isNew(),
+      isActive: featuresList.SOURCE_HARMONY.isActive(),
     },
     {
       label: locales.get().contexts.scale,

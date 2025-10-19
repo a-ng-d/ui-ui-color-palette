@@ -8,6 +8,7 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
 import ImagePalette from '../modules/sources/ImagePalette'
+import ColorWheel from '../modules/sources/ColorWheel'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import {
@@ -29,7 +30,7 @@ interface SourceProps extends BaseProps, WithConfigProps {
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty | 'IMAGE'
+    source: ThirdParty | 'IMAGE' | 'HARMONY'
   ) => void
 }
 
@@ -60,7 +61,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   constructor(props: SourceProps) {
     super(props)
     this.contexts = setContexts(
-      ['SOURCE_OVERVIEW', 'SOURCE_IMAGE', 'SOURCE_EXPLORE'],
+      ['SOURCE_OVERVIEW', 'SOURCE_IMAGE', 'SOURCE_HARMONY', 'SOURCE_EXPLORE'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -120,6 +121,22 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
         fragment = (
           <ImagePalette
             {...this.props}
+            onChangeContexts={(context: Context) =>
+              this.setState({ context: context })
+            }
+          />
+        )
+        break
+      }
+      case 'SOURCE_HARMONY': {
+        fragment = (
+          <ColorWheel
+            {...this.props}
+            baseColor={
+              this.props.sourceColors.find(
+                (color) => color.source === 'DEFAULT'
+              )?.rgb || { r: 1, g: 1, b: 1 }
+            }
             onChangeContexts={(context: Context) =>
               this.setState({ context: context })
             }

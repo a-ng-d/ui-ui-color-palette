@@ -38,6 +38,7 @@ export type Context =
   | 'SOURCE_OVERVIEW'
   | 'SOURCE_EXPLORE'
   | 'SOURCE_IMAGE'
+  | 'SOURCE_HARMONY'
   | 'SCALE'
   | 'COLORS'
   | 'THEMES'

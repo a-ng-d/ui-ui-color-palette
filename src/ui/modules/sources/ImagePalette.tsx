@@ -23,6 +23,7 @@ import { Dropzone } from '@a_ng_d/figmug-ui'
 import { Card } from '@a_ng_d/figmug-ui'
 import { texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
 import { PluginMessageData } from '../../../types/messages'
 import {
   BaseProps,
@@ -58,9 +59,16 @@ export default class ImagePalette extends PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    SOURCE_IMAGE: new FeatureStatus({
+    SOURCE_IMAGE_UPLOAD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_IMAGE',
+      featureName: 'SOURCE_IMAGE_UPLOAD',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_IMAGE_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_IMAGE_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -140,97 +148,121 @@ export default class ImagePalette extends PureComponent<
   ImageZone = () => {
     if (this.state.imageUrl)
       return (
+        <Feature
+          isActive={ImagePalette.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_IMAGE_UPLOAD.isActive()}
+        >
+          <div
+            style={{
+              padding: 'var(--size-pos-small)',
+            }}
+          >
+            <Card
+              src={this.state.imageUrl}
+              richText={
+                <span className={texts.type}>{this.state.imageTitle}</span>
+              }
+              shouldFill={true}
+              actions={
+                <Button
+                  type="destructive"
+                  label={this.props.locales.source.imagePalette.removeImage}
+                  action={() => {
+                    this.setState({
+                      imageUrl: '',
+                      dominantColors: [],
+                      imageTitle: '',
+                    })
+                  }}
+                />
+              }
+              action={() => {
+                this.setState({
+                  imageUrl: '',
+                  dominantColors: [],
+                  imageTitle: '',
+                })
+              }}
+            />
+          </div>
+        </Feature>
+      )
+    return (
+      <Feature
+        isActive={ImagePalette.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_IMAGE_UPLOAD.isActive()}
+      >
         <div
           style={{
             padding: 'var(--size-pos-small)',
           }}
         >
-          <Card
-            src={this.state.imageUrl}
-            richText={
-              <span className={texts.type}>{this.state.imageTitle}</span>
+          <Dropzone
+            message={this.props.locales.source.imagePalette.dropzone.message}
+            warningMessage={
+              this.props.locales.source.imagePalette.dropzone.warning
             }
-            shouldFill={true}
-            actions={
-              <Button
-                type="destructive"
-                label={this.props.locales.source.imagePalette.removeImage}
-                action={() => {
-                  this.setState({
-                    imageUrl: '',
-                    dominantColors: [],
-                    imageTitle: '',
-                  })
-                }}
-              />
-            }
-            action={() => {
-              this.setState({
-                imageUrl: '',
-                dominantColors: [],
-                imageTitle: '',
+            errorMessage={this.props.locales.source.imagePalette.dropzone.error}
+            cta={this.props.locales.source.imagePalette.dropzone.cta}
+            acceptedMimeTypes={['image/png']}
+            isMultiple={false}
+            isBlocked={ImagePalette.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SOURCE_IMAGE_UPLOAD.isBlocked()}
+            isNew={ImagePalette.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SOURCE_IMAGE_UPLOAD.isNew()}
+            onImportFiles={async (files) => {
+              const arrayBuffer = files[0].content
+              const blob = new Blob([arrayBuffer as ArrayBuffer], {
+                type: 'image/png',
               })
+              const imageUrl = URL.createObjectURL(blob)
+              const imageTitle = files[0].name
+
+              const dominantColors = await DominantColors.extract(
+                arrayBuffer as ArrayBuffer,
+                5
+              )
+
+              this.setState({
+                dominantColors: dominantColors,
+                imageUrl: imageUrl,
+                imageTitle: imageTitle,
+              })
+
+              trackImportEvent(
+                this.props.config.env.isMixpanelEnabled,
+                this.props.userSession.userId === ''
+                  ? this.props.userIdentity.id === ''
+                    ? ''
+                    : this.props.userIdentity.id
+                  : this.props.userSession.userId,
+                this.props.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                {
+                  feature: 'UPLOAD_IMAGE',
+                }
+              )
             }}
           />
         </div>
-      )
-    return (
-      <div
-        style={{
-          padding: 'var(--size-pos-small)',
-        }}
-      >
-        <Dropzone
-          message={this.props.locales.source.imagePalette.dropzone.message}
-          warningMessage={
-            this.props.locales.source.imagePalette.dropzone.warning
-          }
-          errorMessage={this.props.locales.source.imagePalette.dropzone.error}
-          cta={this.props.locales.source.imagePalette.dropzone.cta}
-          acceptedMimeTypes={['image/png']}
-          isMultiple={false}
-          isBlocked={ImagePalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_IMAGE.isBlocked()}
-          onImportFiles={async (files) => {
-            const arrayBuffer = files[0].content
-            const blob = new Blob([arrayBuffer as ArrayBuffer], {
-              type: 'image/png',
-            })
-            const imageUrl = URL.createObjectURL(blob)
-            const imageTitle = files[0].name
-
-            const dominantColors = await DominantColors.extract(
-              arrayBuffer as ArrayBuffer,
-              5
-            )
-
-            this.setState({
-              dominantColors: dominantColors,
-              imageUrl: imageUrl,
-              imageTitle: imageTitle,
-            })
-
-            trackImportEvent(
-              this.props.config.env.isMixpanelEnabled,
-              this.props.userSession.userId === ''
-                ? this.props.userIdentity.id === ''
-                  ? ''
-                  : this.props.userIdentity.id
-                : this.props.userSession.userId,
-              this.props.userConsent.find(
-                (consent) => consent.id === 'mixpanel'
-              )?.isConsented ?? false,
-              {
-                feature: 'UPLOAD_IMAGE',
-              }
-            )
-          }}
-        />
-      </div>
+      </Feature>
     )
   }
 
@@ -248,7 +280,17 @@ export default class ImagePalette extends PureComponent<
                 />
               }
               rightPartSlot={
-                this.state.dominantColors.length > 0 ? (
+                <Feature
+                  isActive={
+                    ImagePalette.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).SOURCE_IMAGE_ADD.isActive() &&
+                    this.state.dominantColors.length > 0
+                  }
+                >
                   <Button
                     type="primary"
                     label={this.props.locales.source.imagePalette.addColors}
@@ -262,7 +304,13 @@ export default class ImagePalette extends PureComponent<
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SOURCE_IMAGE.isBlocked()}
+                    ).SOURCE_IMAGE_ADD.isBlocked()}
+                    isNew={ImagePalette.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).SOURCE_IMAGE_ADD.isNew()}
                     action={() => {
                       this.props.onChangeColorsFromImport(
                         this.state.dominantColors.map((color) => {
@@ -303,12 +351,12 @@ export default class ImagePalette extends PureComponent<
                           (consent) => consent.id === 'mixpanel'
                         )?.isConsented ?? false,
                         {
-                          feature: 'IMPORT_DOMINANT_COLORS',
+                          feature: 'EXTRACT_DOMINANT_COLORS',
                         }
                       )
                     }}
                   />
-                ) : undefined
+                </Feature>
               }
             />
           }
