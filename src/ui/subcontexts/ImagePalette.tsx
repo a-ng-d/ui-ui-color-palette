@@ -252,15 +252,12 @@ export default class ImagePalette extends PureComponent<
               }
               rightPartSlot={
                 <Feature
-                  isActive={
-                    ImagePalette.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SOURCE_IMAGE_ADD.isActive() &&
-                    this.state.dominantColors.length > 0
-                  }
+                  isActive={ImagePalette.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).SOURCE_IMAGE_ADD.isActive()}
                 >
                   <Button
                     type="icon"
@@ -269,6 +266,7 @@ export default class ImagePalette extends PureComponent<
                       label: this.props.locales.source.imagePalette.addColors,
                       type: 'MULTI_LINE',
                     }}
+                    isDisabled={this.state.dominantColors.length === 0}
                     isBlocked={ImagePalette.features(
                       this.props.planStatus,
                       this.props.config,
