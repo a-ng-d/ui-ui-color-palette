@@ -496,7 +496,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                 />
               </Feature>
             ),
-            typeModifier: 'BLANK',
+            typeModifier: 'LIST',
           },
           {
             node: <this.ColorPreview />,
