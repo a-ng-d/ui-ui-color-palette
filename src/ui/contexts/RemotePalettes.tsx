@@ -6,8 +6,8 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
-import SelfPalettes from '../modules/palettes/SelfPalettes'
-import CommunityPalettes from '../modules/palettes/CommunityPalettes'
+import SelfPalettes from '../subcontexts/SelfPalettes'
+import CommunityPalettes from '../subcontexts/CommunityPalettes'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import {

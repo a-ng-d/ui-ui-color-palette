@@ -19,10 +19,10 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../../components/WithConfig'
-import getPaletteMeta from '../../../utils/setPaletteMeta'
-import { sendPluginMessage } from '../../../utils/pluginMessage'
-import { PluginMessageData } from '../../../types/messages'
+import { WithConfigProps } from '../components/WithConfig'
+import getPaletteMeta from '../../utils/setPaletteMeta'
+import { sendPluginMessage } from '../../utils/pluginMessage'
+import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
   Context,
@@ -30,13 +30,13 @@ import {
   FetchStatus,
   PlanStatus,
   Service,
-} from '../../../types/app'
-import { ConfigContextType } from '../../../index'
-import { trackPublicationEvent } from '../../../external/tracking/eventsTracker'
-import unpublishPalette from '../../../external/publication/unpublishPalette'
-import sharePalette from '../../../external/publication/sharePalette'
-import { getSupabase } from '../../../external/auth/client'
-import { signIn } from '../../../external/auth/authentication'
+} from '../../types/app'
+import { ConfigContextType } from '../../index'
+import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
+import unpublishPalette from '../../external/publication/unpublishPalette'
+import sharePalette from '../../external/publication/sharePalette'
+import { getSupabase } from '../../external/auth/client'
+import { signIn } from '../../external/auth/authentication'
 
 interface SelfPalettesProps extends BaseProps, WithConfigProps {
   context: Context

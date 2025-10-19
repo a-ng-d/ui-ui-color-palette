@@ -17,10 +17,10 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
-import { WithConfigProps } from '../../components/WithConfig'
-import getPaletteMeta from '../../../utils/setPaletteMeta'
-import { sendPluginMessage } from '../../../utils/pluginMessage'
-import { PluginMessageData } from '../../../types/messages'
+import { WithConfigProps } from '../components/WithConfig'
+import getPaletteMeta from '../../utils/setPaletteMeta'
+import { sendPluginMessage } from '../../utils/pluginMessage'
+import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
   Context,
@@ -28,10 +28,10 @@ import {
   FetchStatus,
   PlanStatus,
   Service,
-} from '../../../types/app'
-import { ConfigContextType } from '../../../index'
-import { trackPublicationEvent } from '../../../external/tracking/eventsTracker'
-import { getSupabase } from '../../../external/auth/client'
+} from '../../types/app'
+import { ConfigContextType } from '../../index'
+import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
+import { getSupabase } from '../../external/auth/client'
 
 interface CommunityPalettesProps extends BaseProps, WithConfigProps {
   context: Context
