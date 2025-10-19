@@ -682,7 +682,7 @@
       "title": "Selected colors"
     },
     "colourLovers": {
-      "add": "Add a Colour Lovers palette",
+      "add": "Explore Colour Lovers palettes",
       "empty": "Remove the Colour Lovers palette",
       "filters": {
         "any": "Any",
@@ -734,7 +734,7 @@
     "wheel": {
       "base": "Base color",
       "algorithm": {
-        "title": "Color wheel",
+        "label": "Color wheel",
         "analogous": "Analogous",
         "complementary": "Complementary",
         "compound": "Compound",

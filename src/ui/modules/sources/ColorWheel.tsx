@@ -258,7 +258,7 @@ export default class ColorWheel extends PureComponent<
                         <FormItem
                           id="color-harmony-algorithm"
                           label={
-                            this.props.locales.source.wheel.algorithm.title
+                            this.props.locales.source.wheel.algorithm.label
                           }
                           isBlocked={ColorWheel.features(
                             this.props.planStatus,

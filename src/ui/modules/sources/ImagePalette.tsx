@@ -122,20 +122,6 @@ export default class ImagePalette extends PureComponent<
           imageTitle: imageTitle,
           dominantColors: dominantColors,
         })
-
-        trackImportEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPLOAD_IMAGE',
-          }
-        )
       },
 
       DEFAULT: () => null,
@@ -244,21 +230,6 @@ export default class ImagePalette extends PureComponent<
                 imageUrl: imageUrl,
                 imageTitle: imageTitle,
               })
-
-              trackImportEvent(
-                this.props.config.env.isMixpanelEnabled,
-                this.props.userSession.userId === ''
-                  ? this.props.userIdentity.id === ''
-                    ? ''
-                    : this.props.userIdentity.id
-                  : this.props.userSession.userId,
-                this.props.userConsent.find(
-                  (consent) => consent.id === 'mixpanel'
-                )?.isConsented ?? false,
-                {
-                  feature: 'UPLOAD_IMAGE',
-                }
-              )
             }}
           />
         </div>

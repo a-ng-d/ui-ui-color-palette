@@ -27,7 +27,6 @@ export interface ImportEvent {
     | 'IMPORT_COOLORS'
     | 'IMPORT_REALTIME_COLORS'
     | 'IMPORT_COLOUR_LOVERS'
-    | 'UPLOAD_IMAGE'
     | 'EXTRACT_DOMINANT_COLORS'
     | 'CREATE_COLOR_HARMONY'
 }
