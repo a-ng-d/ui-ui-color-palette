@@ -30,7 +30,7 @@ import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { getMistral, MistralColorPalette } from '../../external/mistral'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface MistralAIProps extends BaseProps, WithConfigProps {
+interface GenAiProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>
   onChangeColorsFromImport: (
     colors: Array<SourceColorConfiguration>,
@@ -39,7 +39,7 @@ interface MistralAIProps extends BaseProps, WithConfigProps {
   onChangeContexts: (context: Context) => void
 }
 
-interface MistralAIStates {
+interface GenAiStates {
   prompt: string
   isLoading: boolean
   error: string | null
@@ -47,10 +47,7 @@ interface MistralAIStates {
   previewPrompt: string | null
 }
 
-export default class MistralAI extends PureComponent<
-  MistralAIProps,
-  MistralAIStates
-> {
+export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -73,7 +70,7 @@ export default class MistralAI extends PureComponent<
     }),
   })
 
-  constructor(props: MistralAIProps) {
+  constructor(props: GenAiProps) {
     super(props)
 
     this.state = {
@@ -278,7 +275,7 @@ export default class MistralAI extends PureComponent<
             }
             rightPartSlot={
               <Feature
-                isActive={MistralAI.features(
+                isActive={GenAi.features(
                   this.props.planStatus,
                   this.props.config,
                   this.props.service,
@@ -293,13 +290,13 @@ export default class MistralAI extends PureComponent<
                     type: 'MULTI_LINE',
                   }}
                   isDisabled={true}
-                  isBlocked={MistralAI.features(
+                  isBlocked={GenAi.features(
                     this.props.planStatus,
                     this.props.config,
                     this.props.service,
                     this.props.editor
                   ).SOURCE_AI_ADD.isBlocked()}
-                  isNew={MistralAI.features(
+                  isNew={GenAi.features(
                     this.props.planStatus,
                     this.props.config,
                     this.props.service,
@@ -350,7 +347,7 @@ export default class MistralAI extends PureComponent<
           }
           rightPartSlot={
             <Feature
-              isActive={MistralAI.features(
+              isActive={GenAi.features(
                 this.props.planStatus,
                 this.props.config,
                 this.props.service,
@@ -365,13 +362,13 @@ export default class MistralAI extends PureComponent<
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
-                isBlocked={MistralAI.features(
+                isBlocked={GenAi.features(
                   this.props.planStatus,
                   this.props.config,
                   this.props.service,
                   this.props.editor
                 ).SOURCE_AI_ADD.isBlocked()}
-                isNew={MistralAI.features(
+                isNew={GenAi.features(
                   this.props.planStatus,
                   this.props.config,
                   this.props.service,
@@ -413,7 +410,7 @@ export default class MistralAI extends PureComponent<
           {
             node: (
               <Feature
-                isActive={MistralAI.features(
+                isActive={GenAi.features(
                   this.props.planStatus,
                   this.props.config,
                   this.props.service,

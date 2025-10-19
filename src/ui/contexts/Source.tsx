@@ -8,8 +8,8 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
 import Overview from '../subcontexts/Overview'
-import MistralAI from '../subcontexts/MistralAI'
 import ImagePalette from '../subcontexts/ImagePalette'
+import GenAI from '../subcontexts/GenAI'
 import Explore from '../subcontexts/Explore'
 import ColorWheel from '../subcontexts/ColorWheel'
 import { WithConfigProps } from '../components/WithConfig'
@@ -152,7 +152,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
       }
       case 'SOURCE_AI': {
         fragment = (
-          <MistralAI
+          <GenAI
             {...this.props}
             onChangeContexts={(context: Context) =>
               this.setState({ context: context })
