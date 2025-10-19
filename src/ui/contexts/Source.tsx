@@ -63,9 +63,9 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
     this.contexts = setContexts(
       [
         'SOURCE_OVERVIEW',
+        'SOURCE_AI',
         'SOURCE_IMAGE',
         'SOURCE_HARMONY',
-        'SOURCE_AI',
         'SOURCE_EXPLORE',
       ],
       props.planStatus,
