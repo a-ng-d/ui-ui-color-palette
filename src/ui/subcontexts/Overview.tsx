@@ -701,51 +701,58 @@ export default class Overview extends PureComponent<
             })
           }}
         >
-          <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
-            <FormItem
-              id="update-coolors-url"
-              helper={this.state.coolorsUrl.helper}
-            >
-              <Input
+          {this.props.sourceColors.filter(
+            (sourceColor) => sourceColor.source === 'COOLORS'
+          ).length === 0 ? (
+            <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+              <FormItem
                 id="update-coolors-url"
-                type="TEXT"
-                state={this.state.coolorsUrl.state}
-                placeholder={this.props.locales.source.coolors.url.placeholder}
-                value={this.state.coolorsUrl.value}
-                isAutoFocus
-                onChange={this.isTypingCoolorsUrlHandler}
-                onBlur={() => {
-                  if (this.state.coolorsUrl.canBeSubmitted)
-                    this.importColorsFromCoolorsHandler()
-                }}
-              />
-            </FormItem>
-          </div>
-          <List>
-            {this.props.sourceColors
-              .filter((sourceColor) => sourceColor.source === 'COOLORS')
-              .sort((a, b) => {
-                if (a.name.localeCompare(b.name) > 0) return 1
-                else if (a.name.localeCompare(b.name) < 0) return -1
-                else return 0
-              })
-              .map((sourceColor) => {
-                return (
-                  <ColorItem
-                    key={sourceColor.id}
-                    name={sourceColor.name}
-                    hex={chroma(
-                      sourceColor.rgb.r * 255,
-                      sourceColor.rgb.g * 255,
-                      sourceColor.rgb.b * 255
-                    )
-                      .hex()
-                      .toUpperCase()}
-                    id={sourceColor.id}
-                  />
-                )
-              })}
-          </List>
+                helper={this.state.coolorsUrl.helper}
+              >
+                <Input
+                  id="update-coolors-url"
+                  type="TEXT"
+                  state={this.state.coolorsUrl.state}
+                  placeholder={
+                    this.props.locales.source.coolors.url.placeholder
+                  }
+                  value={this.state.coolorsUrl.value}
+                  isAutoFocus
+                  onChange={this.isTypingCoolorsUrlHandler}
+                  onBlur={() => {
+                    if (this.state.coolorsUrl.canBeSubmitted)
+                      this.importColorsFromCoolorsHandler()
+                  }}
+                />
+              </FormItem>
+            </div>
+          ) : (
+            <List>
+              {this.props.sourceColors
+                .filter((sourceColor) => sourceColor.source === 'COOLORS')
+                .sort((a, b) => {
+                  if (a.name.localeCompare(b.name) > 0) return 1
+                  else if (a.name.localeCompare(b.name) < 0) return -1
+                  else return 0
+                })
+                .map((sourceColor) => {
+                  return (
+                    <ColorItem
+                      key={sourceColor.id}
+                      name={sourceColor.name}
+                      hex={chroma(
+                        sourceColor.rgb.r * 255,
+                        sourceColor.rgb.g * 255,
+                        sourceColor.rgb.b * 255
+                      )
+                        .hex()
+                        .toUpperCase()}
+                      id={sourceColor.id}
+                    />
+                  )
+                })}
+            </List>
+          )}
         </Accordion>
       </Feature>
     )
@@ -800,53 +807,60 @@ export default class Overview extends PureComponent<
             })
           }}
         >
-          <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
-            <FormItem
-              id="update-realtime-colors-url"
-              helper={this.state.realtimeColorsUrl.helper}
-            >
-              <Input
+          {this.props.sourceColors.filter(
+            (sourceColor) => sourceColor.source === 'REALTIME_COLORS'
+          ).length === 0 ? (
+            <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+              <FormItem
                 id="update-realtime-colors-url"
-                type="TEXT"
-                state={this.state.realtimeColorsUrl.state}
-                placeholder={
-                  this.props.locales.source.realtimeColors.url.placeholder
-                }
-                value={this.state.realtimeColorsUrl.value}
-                isAutoFocus
-                onChange={this.isTypingRealtimeColorsUrlHandler}
-                onBlur={() => {
-                  if (this.state.realtimeColorsUrl.canBeSubmitted)
-                    this.importColorsFromRealtimeColorsHandler()
-                }}
-              />
-            </FormItem>
-          </div>
-          <List>
-            {this.props.sourceColors
-              .filter((sourceColor) => sourceColor.source === 'REALTIME_COLORS')
-              .sort((a, b) => {
-                if (a.name.localeCompare(b.name) > 0) return 1
-                else if (a.name.localeCompare(b.name) < 0) return -1
-                else return 0
-              })
-              .map((sourceColor) => {
-                return (
-                  <ColorItem
-                    key={sourceColor.id}
-                    name={sourceColor.name}
-                    hex={chroma(
-                      sourceColor.rgb.r * 255,
-                      sourceColor.rgb.g * 255,
-                      sourceColor.rgb.b * 255
-                    )
-                      .hex()
-                      .toUpperCase()}
-                    id={sourceColor.id}
-                  />
+                helper={this.state.realtimeColorsUrl.helper}
+              >
+                <Input
+                  id="update-realtime-colors-url"
+                  type="TEXT"
+                  state={this.state.realtimeColorsUrl.state}
+                  placeholder={
+                    this.props.locales.source.realtimeColors.url.placeholder
+                  }
+                  value={this.state.realtimeColorsUrl.value}
+                  isAutoFocus
+                  onChange={this.isTypingRealtimeColorsUrlHandler}
+                  onBlur={() => {
+                    if (this.state.realtimeColorsUrl.canBeSubmitted)
+                      this.importColorsFromRealtimeColorsHandler()
+                  }}
+                />
+              </FormItem>
+            </div>
+          ) : (
+            <List>
+              {this.props.sourceColors
+                .filter(
+                  (sourceColor) => sourceColor.source === 'REALTIME_COLORS'
                 )
-              })}
-          </List>
+                .sort((a, b) => {
+                  if (a.name.localeCompare(b.name) > 0) return 1
+                  else if (a.name.localeCompare(b.name) < 0) return -1
+                  else return 0
+                })
+                .map((sourceColor) => {
+                  return (
+                    <ColorItem
+                      key={sourceColor.id}
+                      name={sourceColor.name}
+                      hex={chroma(
+                        sourceColor.rgb.r * 255,
+                        sourceColor.rgb.g * 255,
+                        sourceColor.rgb.b * 255
+                      )
+                        .hex()
+                        .toUpperCase()}
+                      id={sourceColor.id}
+                    />
+                  )
+                })}
+            </List>
+          )}
         </Accordion>
       </Feature>
     )
