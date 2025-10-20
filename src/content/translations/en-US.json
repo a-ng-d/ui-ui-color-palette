@@ -638,9 +638,9 @@
     },
     "contrast": {
       "textColors": {
-        "textDarkColor": "Dark text color",
-        "textLightColor": "Light text color",
-        "textThemeColorsDescription": "The light and dark text colors serve as a reference to simulate contrast and obtain both WCAG 2.1 and APCA scores"
+        "textDarkColor": "Dark foreground color",
+        "textLightColor": "Light foreground color",
+        "textThemeColorsDescription": "The light and dark foreground colors serve as a reference to simulate contrast and obtain both WCAG 2.1 and APCA scores"
       },
       "title": "Contrast management"
     },
