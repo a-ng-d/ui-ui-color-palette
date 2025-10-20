@@ -64,10 +64,7 @@ interface PreviewStates {
   drawerMaxHeight?: number
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private subscribeWCAG: (() => void) | undefined
   private subscribeAPCA: (() => void) | undefined
   private palette: typeof $palette
@@ -469,6 +466,10 @@ export default class Preview extends PureComponent<
   }
 
   // Direct Actions
+  forceCollapseDrawer = () => {
+    if (this.drawerRef.current) this.drawerRef.current.collapseDrawer()
+  }
+
   setColor = (
     color: ColorConfiguration | SourceColorConfiguration,
     scale: number

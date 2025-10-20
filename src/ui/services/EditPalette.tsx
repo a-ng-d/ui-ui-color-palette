@@ -112,6 +112,7 @@ export default class EditPalette extends PureComponent<
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
   private themesRef: React.RefObject<Themes>
+  private previewRef: React.RefObject<Preview>
   private palette: typeof $palette
   private theme: string | null
 
@@ -197,6 +198,7 @@ export default class EditPalette extends PureComponent<
       isSecondaryLoading: false,
     }
     this.themesRef = React.createRef()
+    this.previewRef = React.createRef()
     this.theme = document.documentElement.getAttribute('data-theme')
   }
 
@@ -233,10 +235,19 @@ export default class EditPalette extends PureComponent<
     return actions[path.type ?? 'DEFAULT']?.()
   }
 
-  navHandler = (e: Event) =>
+  navHandler = (e: Event) => {
+    const newContext = (e.target as HTMLElement).dataset.feature as Context
+
     this.setState({
-      context: (e.target as HTMLElement).dataset.feature as Context,
+      context: newContext,
     })
+
+    if (newContext === 'EXPORT') this.forceCollapsePreview()
+  }
+
+  forceCollapsePreview = () => {
+    if (this.previewRef.current) this.previewRef.current.forceCollapseDrawer()
+  }
 
   switchThemeHandler = (e: Event) => {
     this.themesMessage.data = this.props.themes.map((theme) => {
@@ -932,21 +943,18 @@ export default class EditPalette extends PureComponent<
         />
         <section className="context">{fragment}</section>
         <Feature
-          isActive={
-            EditPalette.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).PREVIEW.isActive() &&
-            (this.state.context !== 'EXPORT' ||
-              this.props.editor.includes('dev'))
-          }
+          isActive={EditPalette.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).PREVIEW.isActive()}
         >
           <Preview
             {...this.props}
             service="EDIT"
             onInteractWithSourceColor={() => this.onJumpToSourceColor()}
+            ref={this.previewRef}
           />
         </Feature>
         <Feature
