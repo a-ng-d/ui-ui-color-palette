@@ -22,6 +22,7 @@ import { Card } from '@a_ng_d/figmug-ui'
 import { texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { getClosestColorName } from '../../utils/colorNameHelper'
 import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
@@ -280,7 +281,7 @@ export default class ImagePalette extends PureComponent<
                     this.state.dominantColors.map((color) => {
                       const gl = chroma(color.hex).gl()
                       return {
-                        name: color.hex.toUpperCase().replace('#', ''),
+                        name: getClosestColorName(color.hex),
                         rgb: {
                           r: gl[0],
                           g: gl[1],
@@ -342,7 +343,7 @@ export default class ImagePalette extends PureComponent<
                 return (
                   <ColorItem
                     key={sourceColor.hex}
-                    name={sourceColor.hex.toUpperCase().replace('#', '')}
+                    name={getClosestColorName(sourceColor.hex)}
                     hex={sourceColor.hex}
                     id={`color-${index}`}
                   />

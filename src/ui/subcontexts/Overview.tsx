@@ -25,6 +25,7 @@ import {
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
   BaseProps,
   Context,
@@ -57,7 +58,10 @@ interface OverviewStates {
   isGenAIOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -278,7 +282,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
         hexs[0].split('-').map((hex) => {
           const gl = chroma(hex).gl()
           return {
-            name: hex.toUpperCase(),
+            name: getClosestColorName(hex),
             rgb: {
               r: gl[0],
               g: gl[1],
@@ -343,7 +347,7 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
         hexs[0].split('-').map((hex) => {
           const gl = chroma(hex).gl()
           return {
-            name: hex.toUpperCase(),
+            name: getClosestColorName(hex),
             rgb: {
               r: gl[0],
               g: gl[1],

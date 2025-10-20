@@ -18,6 +18,7 @@ import { Button } from '@a_ng_d/figmug-ui'
 import { texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
   BaseProps,
   Context,
@@ -178,9 +179,19 @@ export default class ColorWheel extends PureComponent<
                 }}
               >
                 <div className={layouts.centered}>
-                  <Chip state="ON_BACKGROUND">
-                    {color.toUpperCase().replace('#', '')}
-                  </Chip>
+                  <div
+                    className={doClassnames([
+                      layouts['stackbar--tight'],
+                      layouts['stackbar--centered'],
+                    ])}
+                  >
+                    <Chip state="ON_BACKGROUND">
+                      {color.toUpperCase().replace('#', '')}
+                    </Chip>
+                    <Chip state="ON_BACKGROUND">
+                      {getClosestColorName(color)}
+                    </Chip>
+                  </div>
                 </div>
               </div>
             ))}
@@ -465,7 +476,7 @@ export default class ColorWheel extends PureComponent<
                               this.state.colorHarmony.hexColors.map((color) => {
                                 const gl = chroma(color).gl()
                                 return {
-                                  name: color.toUpperCase().replace('#', ''),
+                                  name: getClosestColorName(color),
                                   rgb: {
                                     r: gl[0],
                                     g: gl[1],

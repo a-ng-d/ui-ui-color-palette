@@ -20,6 +20,7 @@ import {
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
   BaseProps,
   Context,
@@ -227,7 +228,7 @@ export default class Explore extends PureComponent<
                         palette.colors.map((color) => {
                           const gl = chroma(color).gl()
                           return {
-                            name: color.toUpperCase(),
+                            name: getClosestColorName(`#${color}`),
                             rgb: {
                               r: gl[0],
                               g: gl[1],
