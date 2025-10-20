@@ -558,7 +558,13 @@
       "customTens": "Custom, 10-100",
       "customHundreds": "Custom, 100-1000",
       "atlassian": "Atlassian",
-      "google": "Google"
+      "google": "Google",
+      "fluent": "Fluent, 10-160 (Microsoft)",
+      "framework": "Frameworks",
+      "radix": "Radix, 1-12",
+      "untitledUI": "Untitled UI, 25-950",
+      "openColor": "Open Color, 0-9",
+      "bootstrap": "Bootstrap, 100-900"
     },
     "shift": {
       "chroma": {

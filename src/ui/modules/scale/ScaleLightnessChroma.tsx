@@ -351,52 +351,60 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         preset.easing
       )
 
-    const setMaterialDesignPreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'MATERIAL') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey(
-        'preset.name',
-        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
-      )
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_MATERIAL',
-        }
-      )
+    const presetConfigs = {
+      MATERIAL: {
+        trackingFeature: 'SWITCH_MATERIAL' as const,
+        updateName: true,
+      },
+      MATERIAL_3: {
+        trackingFeature: 'SWITCH_MATERIAL_3' as const,
+        updateName: true,
+      },
+      TAILWIND: {
+        trackingFeature: 'SWITCH_TAILWIND' as const,
+        updateName: false,
+      },
+      ANT: { trackingFeature: 'SWITCH_ANT' as const, updateName: false },
+      BOOTSTRAP: {
+        trackingFeature: 'SWITCH_BOOTSTRAP' as const,
+        updateName: false,
+      },
+      RADIX: { trackingFeature: 'SWITCH_RADIX' as const, updateName: false },
+      UNTITLED_UI: {
+        trackingFeature: 'SWITCH_UNTITLED_UI' as const,
+        updateName: false,
+      },
+      OPEN_COLOR: {
+        trackingFeature: 'SWITCH_OPEN_COLOR' as const,
+        updateName: false,
+      },
+      ADS: { trackingFeature: 'SWITCH_ADS' as const, updateName: true },
+      ADS_NEUTRAL: {
+        trackingFeature: 'SWITCH_ADS_NEUTRAL' as const,
+        updateName: true,
+      },
+      CARBON: { trackingFeature: 'SWITCH_CARBON' as const, updateName: false },
+      BASE: { trackingFeature: 'SWITCH_BASE' as const, updateName: false },
+      POLARIS: {
+        trackingFeature: 'SWITCH_POLARIS' as const,
+        updateName: false,
+      },
+      FLUENT: { trackingFeature: 'SWITCH_FLUENT' as const, updateName: false },
     }
 
-    const setMaterial3Preset = () => {
+    const setPreset = (presetId: keyof typeof presetConfigs) => {
+      const config = presetConfigs[presetId]
       const preset =
-        presets.find((preset) => preset.id === 'MATERIAL_3') ?? defaultPreset
+        presets.find((preset) => preset.id === presetId) ?? defaultPreset
 
       this.palette.setKey('preset', preset)
-      this.palette.setKey(
-        'preset.name',
-        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
-      )
+
+      if (config.updateName)
+        this.palette.setKey(
+          'preset.name',
+          `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
+        )
+
       this.palette.setKey('scale', scale(preset))
 
       this.props.onChangePreset({
@@ -420,246 +428,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
-          feature: 'SWITCH_MATERIAL_3',
-        }
-      )
-    }
-
-    const setTailwindPreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'TAILWIND') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_MATERIAL',
-        }
-      )
-    }
-
-    const setAntDesignPreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'ANT') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_ANT',
-        }
-      )
-    }
-
-    const setAdsPreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'ADS') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey(
-        'preset.name',
-        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
-      )
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_ADS',
-        }
-      )
-    }
-
-    const setAdsNeutralPreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'ADS_NEUTRAL') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey(
-        'preset.name',
-        `${this.palette.get().preset.name} (${this.palette.get().preset.family})`
-      )
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_ADS_NEUTRAL',
-        }
-      )
-    }
-
-    const setCarbonPreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'CARBON') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_CARBON',
-        }
-      )
-    }
-
-    const setBasePreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'BASE') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_BASE',
-        }
-      )
-    }
-
-    const setPolarisPreset = () => {
-      const preset =
-        presets.find((preset) => preset.id === 'POLARIS') ?? defaultPreset
-
-      this.palette.setKey('preset', preset)
-      this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-        onGoingStep: 'preset changed',
-      })
-
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
-
-      trackScaleManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_POLARIS',
+          feature: config.trackingFeature,
         }
       )
     }
@@ -703,15 +472,20 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const actions: {
       [action: string]: () => void
     } = {
-      MATERIAL: () => setMaterialDesignPreset(),
-      MATERIAL_3: () => setMaterial3Preset(),
-      TAILWIND: () => setTailwindPreset(),
-      ANT: () => setAntDesignPreset(),
-      ADS: () => setAdsPreset(),
-      ADS_NEUTRAL: () => setAdsNeutralPreset(),
-      CARBON: () => setCarbonPreset(),
-      BASE: () => setBasePreset(),
-      POLARIS: () => setPolarisPreset(),
+      MATERIAL: () => setPreset('MATERIAL'),
+      MATERIAL_3: () => setPreset('MATERIAL_3'),
+      TAILWIND: () => setPreset('TAILWIND'),
+      ANT: () => setPreset('ANT'),
+      BOOTSTRAP: () => setPreset('BOOTSTRAP'),
+      RADIX: () => setPreset('RADIX'),
+      UNTITLED_UI: () => setPreset('UNTITLED_UI'),
+      OPEN_COLOR: () => setPreset('OPEN_COLOR'),
+      ADS: () => setPreset('ADS'),
+      ADS_NEUTRAL: () => setPreset('ADS_NEUTRAL'),
+      CARBON: () => setPreset('CARBON'),
+      BASE: () => setPreset('BASE'),
+      POLARIS: () => setPreset('POLARIS'),
+      FLUENT: () => setPreset('FLUENT'),
       CUSTOM_1_10: () => setCustomPreset('_1_10'),
       CUSTOM_10_100: () => setCustomPreset('_10_100'),
       CUSTOM_100_1000: () => setCustomPreset('_100_1000'),

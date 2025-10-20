@@ -52,6 +52,7 @@ export const presets: Array<PresetConfiguration> = [
     stops: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
     min: 16,
     max: 96,
+    family: locales.get().scale.presets.framework,
     easing: 'LINEAR',
     id: 'TAILWIND',
   },
@@ -60,8 +61,45 @@ export const presets: Array<PresetConfiguration> = [
     stops: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     min: 24,
     max: 96,
+    family: locales.get().scale.presets.framework,
     easing: 'LINEAR',
     id: 'ANT',
+  },
+  {
+    name: locales.get().scale.presets.bootstrap,
+    stops: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    min: 15,
+    max: 95,
+    family: locales.get().scale.presets.framework,
+    easing: 'LINEAR',
+    id: 'BOOTSTRAP',
+  },
+  {
+    name: locales.get().scale.presets.radix,
+    stops: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    min: 5,
+    max: 95,
+    family: locales.get().scale.presets.framework,
+    easing: 'LINEAR',
+    id: 'RADIX',
+  },
+  {
+    name: locales.get().scale.presets.untitledUI,
+    stops: [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+    min: 5,
+    max: 100,
+    family: locales.get().scale.presets.framework,
+    easing: 'LINEAR',
+    id: 'UNTITLED_UI',
+  },
+  {
+    name: locales.get().scale.presets.openColor,
+    stops: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    min: 15,
+    max: 100,
+    family: locales.get().scale.presets.framework,
+    easing: 'LINEAR',
+    id: 'OPEN_COLOR',
   },
   {
     name: locales.get().scale.presets.ads,
@@ -108,6 +146,17 @@ export const presets: Array<PresetConfiguration> = [
     family: locales.get().scale.presets.more,
     id: 'POLARIS',
   },
+  {
+    name: locales.get().scale.presets.fluent,
+    stops: [
+      10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
+    ],
+    min: 10,
+    max: 90,
+    easing: 'LINEAR',
+    family: locales.get().scale.presets.more,
+    id: 'FLUENT',
+  },
 ]
 
-export const defaultPreset = presets[0]
+export const defaultPreset = presets[1]
