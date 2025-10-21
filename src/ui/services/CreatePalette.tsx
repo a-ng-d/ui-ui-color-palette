@@ -34,7 +34,6 @@ import {
   ContextItem,
   PlanStatus,
   Service,
-  ThirdParty,
   Editor,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -113,7 +112,7 @@ export default class CreatePalette extends PureComponent<
     super(props)
     this.palette = $palette
     this.contexts = setContexts(
-      ['SCALE', 'SOURCE', 'SETTINGS'],
+      ['SOURCE', 'SCALE', 'SETTINGS'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -185,7 +184,7 @@ export default class CreatePalette extends PureComponent<
 
   colorsFromImportHandler = (
     sourceColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty
+    source: SourceColorConfiguration['source']
   ) => {
     this.props.onChangeColorsFromImport({
       sourceColors: this.props.sourceColors
