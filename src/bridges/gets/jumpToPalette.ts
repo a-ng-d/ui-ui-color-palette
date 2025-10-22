@@ -1,4 +1,4 @@
-import { locales } from '../content/locales'
+import { locales } from '../../content/locales'
 
 const jumpToPalette = async (id: string) => {
   const iframe = document.querySelector(
