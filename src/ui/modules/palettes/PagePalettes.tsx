@@ -67,6 +67,13 @@ export default class PagePalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SEE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SEE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     DUPLICATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DUPLICATE_PALETTE',
@@ -152,6 +159,18 @@ export default class PagePalettes extends PureComponent<
 
   // Direct Actions
   onEditPalette = (id: string) => {
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'JUMP_TO_PALETTE',
+          id: id,
+        },
+      },
+      '*'
+    )
+  }
+
+  onSeePalette = (id: string) => {
     sendPluginMessage(
       {
         pluginMessage: {
@@ -411,6 +430,34 @@ export default class PagePalettes extends PureComponent<
                               this.props.editor
                             ).OPEN_PALETTE.isNew()}
                             action={() => this.onEditPalette(palette.meta.id)}
+                          />
+                        </Feature>
+                        <Feature
+                          isActive={PagePalettes.features(
+                            this.props.planStatus,
+                            this.props.config,
+                            this.props.service,
+                            this.props.editor
+                          ).SEE_PALETTE.isActive()}
+                        >
+                          <Button
+                            type="secondary"
+                            label={
+                              this.props.locales.browse.actions.openPalette
+                            }
+                            isBlocked={PagePalettes.features(
+                              this.props.planStatus,
+                              this.props.config,
+                              this.props.service,
+                              this.props.editor
+                            ).SEE_PALETTE.isBlocked()}
+                            isNew={PagePalettes.features(
+                              this.props.planStatus,
+                              this.props.config,
+                              this.props.service,
+                              this.props.editor
+                            ).SEE_PALETTE.isNew()}
+                            action={() => this.onSeePalette(palette.meta.id)}
                           />
                         </Feature>
                       </>

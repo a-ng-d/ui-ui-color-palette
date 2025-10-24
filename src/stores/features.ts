@@ -1,8 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 
-export const featuresScheme: Array<
-  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
-> = [
+export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',
@@ -347,15 +345,18 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['BROWSE'],
     proForServices: ['BROWSE'],
-    availabilityForEditors: [
-      'figma',
-      'figjam',
-      'dev',
-      'dev_vscode',
-      'penpot',
-      'sketch',
-      'framer',
-    ],
+    availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
+  },
+  {
+    name: 'SEE_PALETTE',
+    description: 'Sees the palette',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    availabilityForServices: ['BROWSE'],
+    proForServices: ['BROWSE'],
+    availabilityForEditors: ['dev', 'dev_vscode'],
   },
   {
     name: 'ADD_PALETTE',

@@ -86,6 +86,13 @@ export default class CommunityPalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SEE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SEE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     ADD_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'ADD_PALETTE',
@@ -291,6 +298,15 @@ export default class CommunityPalettes extends PureComponent<
           },
           '*'
         )
+
+        try {
+          await supabase.rpc('increment_add_count', {
+            p_palette_id: data[0].palette_id,
+            p_by: 1,
+          })
+        } catch (error) {
+          console.error('Failed to sync view count:', error)
+        }
 
         this.setState({ isPaletteGlancing: false, seenPaletteId: '' })
 
@@ -530,7 +546,7 @@ export default class CommunityPalettes extends PureComponent<
                         this.props.config,
                         this.props.service,
                         this.props.editor
-                      ).GLANCE_PALETTE.isActive()}
+                      ).SEE_PALETTE.isActive()}
                     >
                       <Button
                         type="secondary"
@@ -541,13 +557,13 @@ export default class CommunityPalettes extends PureComponent<
                           this.props.config,
                           this.props.service,
                           this.props.editor
-                        ).OPEN_PALETTE.isBlocked()}
+                        ).SEE_PALETTE.isBlocked()}
                         isNew={CommunityPalettes.features(
                           this.props.planStatus,
                           this.props.config,
                           this.props.service,
                           this.props.editor
-                        ).OPEN_PALETTE.isNew()}
+                        ).SEE_PALETTE.isNew()}
                         action={() => {
                           this.setState({
                             isSecondaryActionLoading: this.state[
