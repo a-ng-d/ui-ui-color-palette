@@ -19,6 +19,8 @@ import {
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
   ShiftConfiguration,
+  BaseConfiguration,
+  MetaConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus, doScale } from '@a_ng_d/figmug-utils'
 import {
@@ -598,74 +600,6 @@ class App extends Component<AppProps, AppStates> {
         })
       }
 
-      const loadPalette = () => {
-        const theme: ThemeConfiguration = path.data.themes.find(
-          (theme: ThemeConfiguration) => theme.isEnabled
-        )
-
-        this.palette.setKey('id', path.data.meta.id)
-        this.palette.setKey('name', path.data.base.name)
-        this.palette.setKey('description', path.data.base.description)
-        this.palette.setKey('preset', path.data.base.preset)
-        this.palette.setKey('scale', theme?.scale)
-        this.palette.setKey('shift', path.data.base.shift)
-        this.palette.setKey(
-          'areSourceColorsLocked',
-          path.data.base.areSourceColorsLocked
-        )
-        this.palette.setKey('colors', path.data.base.colors)
-        this.palette.setKey('colorSpace', path.data.base.colorSpace)
-        this.palette.setKey(
-          'visionSimulationMode',
-          theme?.visionSimulationMode ?? 'NONE'
-        )
-        this.palette.setKey('algorithmVersion', path.data.base.algorithmVersion)
-        this.palette.setKey(
-          'textColorsTheme',
-          theme?.textColorsTheme ?? {
-            lightColor: '#FFFFFF',
-            darkColor: '#000000',
-          }
-        )
-
-        this.setState({
-          service: !this.state.editor.includes('dev') ? 'EDIT' : 'SEE',
-          id: path.data.meta.id,
-          name: path.data.base.name,
-          description: path.data.base.description,
-          preset: path.data.base.preset,
-          scale: theme?.scale,
-          shift: path.data.base.shift,
-          areSourceColorsLocked: path.data.base.areSourceColorsLocked,
-          colors: path.data.base.colors,
-          colorSpace: path.data.base.colorSpace,
-          visionSimulationMode: theme?.visionSimulationMode ?? 'NONE',
-          themes: path.data.themes,
-          view: path.data.base.view,
-          algorithmVersion: path.data.base.algorithmVersion,
-          textColorsTheme: theme?.textColorsTheme ?? {
-            lightColor: '#FFFFFF',
-            darkColor: '#000000',
-          },
-          dates: {
-            createdAt: path.data.meta.dates.createdAt,
-            updatedAt: path.data.meta.dates.updatedAt,
-            publishedAt: path.data.meta.dates.publishedAt,
-            openedAt: path.data.meta.dates.openedAt,
-          },
-          publicationStatus: {
-            isPublished: path.data.meta.publicationStatus.isPublished,
-            isShared: path.data.meta.publicationStatus.isShared,
-          },
-          creatorIdentity: {
-            creatorId: path.data.meta.creatorIdentity.creatorId,
-            creatorFullName: path.data.meta.creatorIdentity.creatorFullName,
-            creatorAvatar: path.data.meta.creatorIdentity.creatorAvatar,
-          },
-          onGoingStep: 'palette loaded',
-        })
-      }
-
       const updatePaletteDate = (date: Date) =>
         this.setState({
           dates: {
@@ -767,8 +701,12 @@ class App extends Component<AppProps, AppStates> {
         EMPTY_SELECTION: () => updateWhileEmptySelection(),
         COLOR_SELECTED: () => updateWhileColorSelected(),
         DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
-        LOAD_PALETTE: () => loadPalette(),
-        RESET_PALETTE: () => this.onReset(),
+        LOAD_PALETTE: () =>
+          this.onLoadPalette(
+            path.data,
+            !this.state.editor.includes('dev') ? 'EDIT' : 'SEE'
+          ),
+        RESET_PALETTE: () => this.onResetPalette(),
         UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),
@@ -827,7 +765,7 @@ class App extends Component<AppProps, AppStates> {
     )
   }
 
-  onReset = () => {
+  onResetPalette = () => {
     const preset =
       presets.find((preset) => preset.id === 'CUSTOM_10_100') ?? defaultPreset
     const scale = doScale(preset.stops, preset.min, preset.max, preset.easing)
@@ -892,6 +830,81 @@ class App extends Component<AppProps, AppStates> {
     })
   }
 
+  onLoadPalette = (
+    palette: {
+      base: BaseConfiguration
+      themes: Array<ThemeConfiguration>
+      meta: MetaConfiguration
+    },
+    service: Service
+  ) => {
+    const theme: ThemeConfiguration | undefined = palette.themes.find(
+      (theme: ThemeConfiguration) => theme.isEnabled
+    )
+
+    this.palette.setKey('id', palette.meta.id)
+    this.palette.setKey('name', palette.base.name)
+    this.palette.setKey('description', palette.base.description)
+    this.palette.setKey('preset', palette.base.preset)
+    this.palette.setKey('scale', theme?.scale ?? {})
+    this.palette.setKey('shift', palette.base.shift)
+    this.palette.setKey(
+      'areSourceColorsLocked',
+      palette.base.areSourceColorsLocked
+    )
+    this.palette.setKey('colors', palette.base.colors)
+    this.palette.setKey('colorSpace', palette.base.colorSpace)
+    this.palette.setKey(
+      'visionSimulationMode',
+      theme?.visionSimulationMode ?? 'NONE'
+    )
+    this.palette.setKey('algorithmVersion', palette.base.algorithmVersion)
+    this.palette.setKey(
+      'textColorsTheme',
+      theme?.textColorsTheme ?? {
+        lightColor: '#FFFFFF',
+        darkColor: '#000000',
+      }
+    )
+
+    this.setState({
+      service: service,
+      id: palette.meta.id,
+      name: palette.base.name,
+      description: palette.base.description,
+      preset: palette.base.preset,
+      scale: theme?.scale ?? {},
+      shift: palette.base.shift,
+      areSourceColorsLocked: palette.base.areSourceColorsLocked,
+      colors: palette.base.colors,
+      colorSpace: palette.base.colorSpace,
+      visionSimulationMode: theme?.visionSimulationMode ?? 'NONE',
+      themes: palette.themes,
+      view: (palette.base.view as ViewConfiguration) ?? 'PALETTE',
+      algorithmVersion: palette.base.algorithmVersion,
+      textColorsTheme: theme?.textColorsTheme ?? {
+        lightColor: '#FFFFFF',
+        darkColor: '#000000',
+      },
+      dates: {
+        createdAt: palette.meta.dates.createdAt,
+        updatedAt: palette.meta.dates.updatedAt,
+        publishedAt: palette.meta.dates.publishedAt,
+        openedAt: palette.meta.dates.openedAt,
+      },
+      publicationStatus: {
+        isPublished: palette.meta.publicationStatus.isPublished,
+        isShared: palette.meta.publicationStatus.isShared,
+      },
+      creatorIdentity: {
+        creatorId: palette.meta.creatorIdentity.creatorId,
+        creatorFullName: palette.meta.creatorIdentity.creatorFullName,
+        creatorAvatar: palette.meta.creatorIdentity.creatorAvatar,
+      },
+      onGoingStep: 'palette loaded',
+    })
+  }
+
   // Render
   render() {
     if (this.state.isLoaded)
@@ -916,6 +929,7 @@ class App extends Component<AppProps, AppStates> {
               {...this.props}
               {...this.state}
               onCreatePalette={(e) => this.setState({ ...e })}
+              onSeePalette={(palette) => this.onLoadPalette(palette, 'SEE')}
             />
           </Feature>
           <Feature
@@ -942,7 +956,7 @@ class App extends Component<AppProps, AppStates> {
               onChangeDistributionEasing={(e) => this.setState({ ...e })}
               onChangeSettings={(e) => this.setState({ ...e })}
               onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
-              onCancelPalette={this.onReset}
+              onCancelPalette={this.onResetPalette}
               onSavedPalette={(e) => this.setState({ ...e })}
             />
           </Feature>
@@ -969,9 +983,9 @@ class App extends Component<AppProps, AppStates> {
                 this.setState({ modalContext: 'PUBLICATION' })
               }
               onLockSourceColors={(e) => this.setState({ ...e })}
-              onUnloadPalette={this.onReset}
+              onUnloadPalette={this.onResetPalette}
               onChangeDocument={(e) => this.setState({ ...e })}
-              onDeletePalette={this.onReset}
+              onDeletePalette={this.onResetPalette}
             />
           </Feature>
           <Feature
@@ -988,7 +1002,7 @@ class App extends Component<AppProps, AppStates> {
               {...this.props}
               {...this.state}
               onChangeThemes={(e) => this.setState({ ...e })}
-              onUnloadPalette={this.onReset}
+              onUnloadPalette={this.onResetPalette}
             />
           </Feature>
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>

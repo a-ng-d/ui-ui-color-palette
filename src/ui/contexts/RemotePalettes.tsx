@@ -3,6 +3,9 @@ import { PureComponent } from 'preact/compat'
 import {
   FullConfiguration,
   ExternalPalettes,
+  BaseConfiguration,
+  ThemeConfiguration,
+  MetaConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
@@ -23,6 +26,11 @@ import { ConfigContextType } from '../../config/ConfigContext'
 
 interface RemotePalettesProps extends BaseProps, WithConfigProps {
   localPalettesList: Array<FullConfiguration>
+  onSeePalette: (palette: {
+    base: BaseConfiguration
+    themes: Array<ThemeConfiguration>
+    meta: MetaConfiguration
+  }) => void
 }
 
 interface RemotePalettesStates {

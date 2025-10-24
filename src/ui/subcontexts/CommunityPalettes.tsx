@@ -6,6 +6,7 @@ import {
   FullConfiguration,
   MetaConfiguration,
   ExternalPalettes,
+  ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
@@ -44,12 +45,17 @@ interface CommunityPalettesProps extends BaseProps, WithConfigProps {
   onChangeCurrentPage: (page: number) => void
   onChangeSearchQuery: (query: string) => void
   onLoadPalettesList: (palettes: Array<ExternalPalettes>) => void
+  onSeePalette: (palette: {
+    base: BaseConfiguration
+    themes: Array<ThemeConfiguration>
+    meta: MetaConfiguration
+  }) => void
 }
 
 interface CommunityPalettesStates {
   isLoadMoreActionLoading: boolean
   isSignInLoading: boolean
-  isAddToLocalActionLoading: Array<boolean>
+  isSecondaryActionLoading: Array<boolean>
 }
 
 export default class CommunityPalettes extends PureComponent<
@@ -69,6 +75,13 @@ export default class CommunityPalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    OPEN_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'OPEN_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: CommunityPalettesProps) {
@@ -76,7 +89,7 @@ export default class CommunityPalettes extends PureComponent<
     this.state = {
       isLoadMoreActionLoading: false,
       isSignInLoading: false,
-      isAddToLocalActionLoading: [],
+      isSecondaryActionLoading: [],
     }
   }
 
@@ -105,7 +118,7 @@ export default class CommunityPalettes extends PureComponent<
   componentDidUpdate = (prevProps: Readonly<CommunityPalettesProps>): void => {
     if (prevProps.palettesList.length !== this.props.palettesList.length)
       this.setState({
-        isAddToLocalActionLoading: Array(this.props.palettesList.length).fill(
+        isSecondaryActionLoading: Array(this.props.palettesList.length).fill(
           false
         ),
       })
@@ -127,7 +140,7 @@ export default class CommunityPalettes extends PureComponent<
     } = {
       STOP_LOADER: () =>
         this.setState({
-          isAddToLocalActionLoading: Array(this.props.palettesList.length).fill(
+          isSecondaryActionLoading: Array(this.props.palettesList.length).fill(
             false
           ),
         }),
@@ -283,6 +296,71 @@ export default class CommunityPalettes extends PureComponent<
     else throw error
   }
 
+  onSeePalette = async (id: string) => {
+    const supabase = getSupabase()
+
+    if (!supabase) throw new Error('Supabase client is not initialized')
+
+    const { data, error } = await supabase
+      .from(this.props.config.dbs.palettesDbViewName)
+      .select('*')
+      .eq('palette_id', id)
+
+    if (!error && data.length > 0)
+      try {
+        this.props.onSeePalette({
+          base: {
+            name: data[0].name,
+            description: data[0].description,
+            preset: data[0].preset,
+            shift: data[0].shift,
+            areSourceColorsLocked: data[0].are_source_colors_locked,
+            colors: data[0].colors,
+            colorSpace: data[0].color_space,
+            algorithmVersion: data[0].algorithm_version,
+          } as BaseConfiguration,
+          themes: data[0].themes,
+          meta: {
+            id: data[0].palette_id,
+            dates: {
+              createdAt: data[0].created_at,
+              updatedAt: data[0].updated_at,
+              publishedAt: data[0].published_at,
+              openedAt: new Date().toISOString(),
+            },
+            publicationStatus: {
+              isPublished: true,
+              isShared: data[0].is_shared,
+            },
+            creatorIdentity: {
+              creatorFullName: data[0].creator_full_name,
+              creatorAvatar: data[0].creator_avatar_url,
+              creatorId: data[0].creator_id,
+            },
+          },
+        })
+
+        trackPublicationEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId === ''
+            ? this.props.userIdentity.id === ''
+              ? ''
+              : this.props.userIdentity.id
+            : this.props.userSession.userId,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'SEE_PALETTE',
+          }
+        )
+
+        return
+      } catch {
+        throw error
+      }
+    else throw error
+  }
+
   // Templates
   ExternalPalettesList = () => {
     let fragment
@@ -388,50 +466,99 @@ export default class CommunityPalettes extends PureComponent<
                   name: palette.creator_full_name ?? '',
                 }}
                 actionsSlot={
-                  <Button
-                    type="secondary"
-                    label={this.props.locales.actions.addToLocal}
-                    isLoading={this.state.isAddToLocalActionLoading[index]}
-                    isBlocked={CommunityPalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).LOCAL_PALETTES.isReached(
-                      this.props.localPalettesList.length
-                    )}
-                    action={() => {
-                      this.setState({
-                        isAddToLocalActionLoading: this.state[
-                          'isAddToLocalActionLoading'
-                        ].map((loading, i) => (i === index ? true : loading)),
-                      })
+                  this.props.editor.includes('dev') ? (
+                    <Button
+                      type="secondary"
+                      label={this.props.locales.browse.actions.openPalette}
+                      isLoading={this.state.isSecondaryActionLoading[index]}
+                      isBlocked={CommunityPalettes.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).LOCAL_PALETTES.isReached(
+                        this.props.localPalettesList.length
+                      )}
+                      action={() => {
+                        this.setState({
+                          isSecondaryActionLoading: this.state[
+                            'isSecondaryActionLoading'
+                          ].map((loading, i) => (i === index ? true : loading)),
+                        })
 
-                      this.onSelectPalette(palette.palette_id)
-                        .finally(() =>
-                          this.setState({
-                            isAddToLocalActionLoading: Array(
-                              this.props.palettesList.length
-                            ).fill(false),
-                          })
-                        )
-                        .catch((error) => {
-                          console.error(error)
-                          sendPluginMessage(
-                            {
-                              pluginMessage: {
-                                type: 'POST_MESSAGE',
-                                data: {
-                                  type: 'ERROR',
-                                  message: this.props.locales.error.addToLocal,
+                        this.onSeePalette(palette.palette_id)
+                          .finally(() =>
+                            this.setState({
+                              isSecondaryActionLoading: Array(
+                                this.props.palettesList.length
+                              ).fill(false),
+                            })
+                          )
+                          .catch((error) => {
+                            console.error(error)
+                            sendPluginMessage(
+                              {
+                                pluginMessage: {
+                                  type: 'POST_MESSAGE',
+                                  data: {
+                                    type: 'ERROR',
+                                    message:
+                                      this.props.locales.error.openPalette,
+                                  },
                                 },
                               },
-                            },
-                            '*'
-                          )
+                              '*'
+                            )
+                          })
+                      }}
+                    />
+                  ) : (
+                    <Button
+                      type="secondary"
+                      label={this.props.locales.actions.addToLocal}
+                      isLoading={this.state.isSecondaryActionLoading[index]}
+                      isBlocked={CommunityPalettes.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).LOCAL_PALETTES.isReached(
+                        this.props.localPalettesList.length
+                      )}
+                      action={() => {
+                        this.setState({
+                          isSecondaryActionLoading: this.state[
+                            'isSecondaryActionLoading'
+                          ].map((loading, i) => (i === index ? true : loading)),
                         })
-                    }}
-                  />
+
+                        this.onSelectPalette(palette.palette_id)
+                          .finally(() =>
+                            this.setState({
+                              isSecondaryActionLoading: Array(
+                                this.props.palettesList.length
+                              ).fill(false),
+                            })
+                          )
+                          .catch((error) => {
+                            console.error(error)
+                            sendPluginMessage(
+                              {
+                                pluginMessage: {
+                                  type: 'POST_MESSAGE',
+                                  data: {
+                                    type: 'ERROR',
+                                    message:
+                                      this.props.locales.error.addToLocal,
+                                  },
+                                },
+                              },
+                              '*'
+                            )
+                          })
+                      }}
+                    />
+                  )
                 }
                 complementSlot={
                   <div

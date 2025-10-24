@@ -20,6 +20,7 @@ export interface PublicationEvent {
     | 'DETACH_PALETTE'
     | 'ADD_PALETTE'
     | 'SHARE_PALETTE'
+    | 'SEE_PALETTE'
 }
 
 export interface ImportEvent {

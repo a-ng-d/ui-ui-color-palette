@@ -1,8 +1,11 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
+  BaseConfiguration,
   DocumentConfiguration,
   FullConfiguration,
+  MetaConfiguration,
+  ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
@@ -27,6 +30,11 @@ import { ConfigContextType } from '../../config/ConfigContext'
 interface BrowsePalettesProps extends BaseProps, WithConfigProps {
   document: DocumentConfiguration
   onCreatePalette: React.Dispatch<Partial<AppStates>>
+  onSeePalette: (palette: {
+    base: BaseConfiguration
+    themes: Array<ThemeConfiguration>
+    meta: MetaConfiguration
+  }) => void
 }
 
 interface BrowsePalettesStates {

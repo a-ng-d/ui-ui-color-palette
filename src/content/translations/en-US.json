@@ -138,6 +138,7 @@
   },
   "error": {
     "addToLocal": "The palette cannot be added",
+    "openPalette": "The palette cannot be opened",
     "announcements": "The announcements cannot be loaded",
     "authentication": "The authentication has failed",
     "badResponse": "The response is not valid",
