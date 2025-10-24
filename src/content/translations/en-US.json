@@ -359,12 +359,12 @@
     "sourceColors": "Source colors",
     "spotText": "Spot text",
     "theme": "Mode: {name}",
+    "transparent": "Transparent",
+    "themeDescription": "Mode description: {description}",
     "unknown": "Unknown",
     "updatedAt": "Updated at: {date}",
     "visionSimulation": "Vision simulation: {mode}",
-    "wcag": "WCAG 2.1 scores",
-    "transparent": "Transparent",
-    "themeDescription": "Mode description: {description}"
+    "wcag": "WCAG 2.1 scores"
   },
   "dev": {
     "vscode": {
@@ -478,7 +478,13 @@
     "titleSignIn": "Publish or Synchronize palette",
     "titleSynchronize": "Synchronize palette",
     "unpublish": "Unpublish",
-    "unshare": "Remove from the community"
+    "unshare": "Remove from the community",
+    "createdAt": "Created at",
+    "information": "Information",
+    "published": "Published",
+    "shared": "Shared with community",
+    "publishedAt": "Published at",
+    "createdBy": "Created by"
   },
   "relaunch": {
     "create": {
@@ -542,6 +548,7 @@
       "tens": "10 - 100"
     },
     "presets": {
+      "label": "Preset",
       "more": "More presets",
       "custom": "Custom sets",
       "legacy": "Custom (Legacy)",
@@ -592,6 +599,9 @@
     "title": "Lightness scale"
   },
   "separator": "・",
+  "empty": "-",
+  "pass": "✔",
+  "fail": "✘",
   "settings": {
     "actions": {
       "paletteName": "Palette name"
