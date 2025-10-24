@@ -51,7 +51,8 @@
       "new": "New UI Color Palette",
       "moreParameters": "More parameters",
       "managePalette": "Manage palette",
-      "selectPalette": "Select palette"
+      "selectPalette": "Select palette",
+      "glancePalette": "Glance palette"
     },
     "deletePaletteDialog": {
       "cancel": "Cancel",
@@ -87,6 +88,9 @@
     "signInFirst": {
       "message": "Find and reuse your published palettes once authentified",
       "signIn": "Sign in to fetch your palettes"
+    },
+    "glancePalette": {
+      "title": "Palette at a glance"
     }
   },
   "create": {
@@ -377,6 +381,7 @@
   "pending": {
     "announcements": "Pending announcements…",
     "onboarding": "Pending onboarding…",
+    "fetch": "Fetching palettes…",
     "primaryAction": "………",
     "secondaryAction": "………"
   },
@@ -479,13 +484,7 @@
     "titleSignIn": "Publish or Synchronize palette",
     "titleSynchronize": "Synchronize palette",
     "unpublish": "Unpublish",
-    "unshare": "Remove from the community",
-    "createdAt": "Created at",
-    "information": "Information",
-    "published": "Published",
-    "shared": "Shared with community",
-    "publishedAt": "Published at",
-    "createdBy": "Created by"
+    "unshare": "Remove from the community"
   },
   "relaunch": {
     "create": {
@@ -951,6 +950,44 @@
     "mixpanel": {
       "description": "A top analytics platform for tracking and understanding user interactions",
       "name": "Mixpanel"
+    }
+  },
+  "see": {
+    "properties": {
+      "lightnessScale": "Lightness scale",
+      "default": "Default",
+      "settings": {
+        "title": "Settings",
+        "name": "Palette name",
+        "description": "Description",
+        "preset": "Preset",
+        "colorSpace": "Color space",
+        "algorithmVersion": "Chroma velocity",
+        "lockedSourceColors": "Lock source colors"
+      },
+      "colors": {
+        "title": "Source colors",
+        "chromaShifting": "Shift chroma",
+        "hueShifting": "Shift hue",
+        "alpha": "Alpha mode",
+        "description": "Description"
+      },
+      "themes": {
+        "title": "Color modes",
+        "visionSimulation": "Vision simulation",
+        "textLightColor": "Light foreground color",
+        "textDarkColor": "Dark foreground color",
+        "description": "Description"
+      },
+      "information": {
+        "title": "Information",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at",
+        "publishedAt": "Published at",
+        "createdBy": "Created by",
+        "published": "Published",
+        "shared": "Shared with community"
+      }
     }
   },
   "warning": {

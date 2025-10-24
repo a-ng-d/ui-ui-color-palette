@@ -10,9 +10,9 @@ import {
   LockedSourceColorsConfiguration,
   PresetConfiguration,
   PublicationConfiguration,
-  ScaleConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames } from '@a_ng_d/figmug-utils'
 import {
   ColorItem,
   FormItem,
@@ -31,7 +31,6 @@ interface PropertiesProps extends BaseProps, WithConfigProps {
   description: string
   preset: PresetConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration
-  scale: ScaleConfiguration
   colors: Array<ColorConfiguration>
   themes: Array<ThemeConfiguration>
   colorSpace: ColorSpaceConfiguration
@@ -66,7 +65,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.locales.contexts.settings} />
+              <SectionTitle
+                label={this.props.locales.see.properties.settings.title}
+              />
             }
             isListItem={false}
             alignment="CENTER"
@@ -76,7 +77,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.settings.global.name.label}
+                label={this.props.locales.see.properties.settings.name}
                 isBaseline
               >
                 <span className={texts.type}>{this.props.name}</span>
@@ -86,7 +87,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.global.description.label}
+                label={this.props.locales.see.properties.settings.description}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -100,7 +101,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.scale.presets.label}
+                label={this.props.locales.see.properties.settings.preset}
                 isBaseline
               >
                 <span className={texts.type}>{this.props.preset.name}</span>
@@ -110,7 +111,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.settings.color.colorSpace.label}
+                label={this.props.locales.see.properties.settings.colorSpace}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -130,7 +131,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.settings.color.algorithmVersion.label}
+                label={
+                  this.props.locales.see.properties.settings.algorithmVersion
+                }
                 isBaseline
               >
                 <span className={texts.type}>
@@ -150,7 +153,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.preview.lock.label}
+                label={
+                  this.props.locales.see.properties.settings.lockedSourceColors
+                }
                 isBaseline
               >
                 <span className={texts.type}>
@@ -167,43 +172,15 @@ export default class Properties extends PureComponent<PropertiesProps> {
     )
   }
 
-  Scale = () => {
-    return (
-      <Section
-        title={
-          <SimpleItem
-            leftPartSlot={
-              <SectionTitle label={this.props.locales.scale.title} />
-            }
-            isListItem={false}
-            alignment="CENTER"
-          />
-        }
-        body={Object.entries(this.props.scale).map(([index, value]) => {
-          return {
-            node: (
-              <FormItem
-                label={index}
-                key={index}
-                isBaseline
-              >
-                <span className={texts.type}>{value + '%'}</span>
-              </FormItem>
-            ),
-          }
-        })}
-        border={['BOTTOM']}
-      />
-    )
-  }
-
   Colors = () => {
     return (
       <Section
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.locales.colors.title} />
+              <SectionTitle
+                label={this.props.locales.see.properties.colors.title}
+              />
             }
             isListItem={false}
             alignment="CENTER"
@@ -229,7 +206,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`chroma-${index}`}
-                  label={this.props.locales.colors.chromaShifting.label}
+                  label={
+                    this.props.locales.see.properties.colors.chromaShifting
+                  }
                   isBaseline
                 >
                   <span className={texts.type}>{color.chroma.shift + '%'}</span>
@@ -241,7 +220,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`hue-${index}`}
-                  label={this.props.locales.colors.hueShifting.label}
+                  label={this.props.locales.see.properties.colors.hueShifting}
                   isBaseline
                 >
                   <span className={texts.type}>{color.hue.shift + '°'}</span>
@@ -253,7 +232,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`alpha-${index}`}
-                  label={this.props.locales.colors.alpha.label}
+                  label={this.props.locales.see.properties.colors.alpha}
                   isBaseline
                 >
                   <span className={texts.type}>
@@ -269,7 +248,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`description-${index}`}
-                  label={this.props.locales.global.description.label}
+                  label={this.props.locales.see.properties.colors.description}
                   isBaseline
                 >
                   <span className={texts.type}>
@@ -304,7 +283,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.locales.themes.title} />
+              <SectionTitle
+                label={this.props.locales.see.properties.themes.title}
+              />
             }
             isListItem={false}
             alignment="CENTER"
@@ -314,21 +295,41 @@ export default class Properties extends PureComponent<PropertiesProps> {
           return [
             {
               node: (
+                <span
+                  className={doClassnames([texts.type, texts['type--bold']])}
+                >
+                  {theme.name === 'None'
+                    ? this.props.locales.see.properties.default
+                    : theme.name}
+                </span>
+              ),
+              spacingModifier: 'LARGE',
+            },
+            {
+              node: (
                 <FormItem
-                  key={`name-${index}`}
-                  label={this.props.locales.settings.global.name.label}
+                  label={this.props.locales.see.properties.lightnessScale}
                   isBaseline
                 >
-                  <span className={texts.type}>{theme.name}</span>
+                  <ul className={texts.type}>
+                    {Object.entries(theme.scale || {}).map(
+                      ([scaleIndex, value]) => (
+                        <li key={`scale-${index}-${scaleIndex}`}>
+                          {`${scaleIndex}: ${value + '%'}`}
+                        </li>
+                      )
+                    )}
+                  </ul>
                 </FormItem>
               ),
+              spacingModifier: 'LARGE' as const,
             },
             {
               node: (
                 <FormItem
                   key={`vision-${index}`}
                   label={
-                    this.props.locales.settings.color.visionSimulationMode.label
+                    this.props.locales.see.properties.themes.visionSimulation
                   }
                   isBaseline
                 >
@@ -351,10 +352,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <ColorItem
                   id={`text-light-color-${index}`}
-                  name={
-                    this.props.locales.settings.contrast.textColors
-                      .textLightColor
-                  }
+                  name={this.props.locales.see.properties.themes.textLightColor}
                   hex={theme.textColorsTheme.lightColor}
                 />
               ),
@@ -364,10 +362,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <ColorItem
                   id={`text-dark-color-${index}`}
-                  name={
-                    this.props.locales.settings.contrast.textColors
-                      .textDarkColor
-                  }
+                  name={this.props.locales.see.properties.themes.textDarkColor}
                   hex={theme.textColorsTheme.darkColor}
                 />
               ),
@@ -377,7 +372,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`description-${index}`}
-                  label={this.props.locales.global.description.label}
+                  label={this.props.locales.see.properties.themes.description}
                   isBaseline
                 >
                   <span className={texts.type}>
@@ -403,7 +398,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.publication.information}
+                label={this.props.locales.see.properties.information.title}
               />
             }
             isListItem={false}
@@ -414,7 +409,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.publication.createdAt}
+                label={this.props.locales.see.properties.information.createdAt}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -426,10 +421,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.paletteProperties.updatedAt.replace(
-                  ': {date}',
-                  ''
-                )}
+                label={this.props.locales.see.properties.information.updatedAt}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -441,7 +433,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.publication.publishedAt}
+                label={
+                  this.props.locales.see.properties.information.publishedAt
+                }
                 isBaseline
               >
                 <span className={texts.type}>
@@ -453,7 +447,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.publication.createdBy}
+                label={this.props.locales.see.properties.information.createdBy}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -467,7 +461,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.publication.published}
+                label={this.props.locales.see.properties.information.published}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -481,7 +475,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.publication.shared}
+                label={this.props.locales.see.properties.information.shared}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -508,7 +502,6 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <>
                   <this.Settings />
-                  <this.Scale />
                   <this.Colors />
                   <this.Themes />
                   <this.Information />

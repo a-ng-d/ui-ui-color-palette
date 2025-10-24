@@ -18,7 +18,9 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
+import Glance from '../modules/Glance'
 import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
 import getPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
@@ -56,6 +58,8 @@ interface CommunityPalettesStates {
   isLoadMoreActionLoading: boolean
   isSignInLoading: boolean
   isSecondaryActionLoading: Array<boolean>
+  isPaletteGlancing: boolean
+  seenPaletteId: string
 }
 
 export default class CommunityPalettes extends PureComponent<
@@ -82,6 +86,20 @@ export default class CommunityPalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    ADD_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'ADD_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    GLANCE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'GLANCE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: CommunityPalettesProps) {
@@ -90,6 +108,8 @@ export default class CommunityPalettes extends PureComponent<
       isLoadMoreActionLoading: false,
       isSignInLoading: false,
       isSecondaryActionLoading: [],
+      isPaletteGlancing: false,
+      seenPaletteId: '',
     }
   }
 
@@ -271,6 +291,8 @@ export default class CommunityPalettes extends PureComponent<
           },
           '*'
         )
+
+        this.setState({ isPaletteGlancing: false, seenPaletteId: '' })
 
         trackPublicationEvent(
           this.props.config.env.isMixpanelEnabled,
@@ -466,99 +488,159 @@ export default class CommunityPalettes extends PureComponent<
                   name: palette.creator_full_name ?? '',
                 }}
                 actionsSlot={
-                  this.props.editor.includes('dev') ? (
-                    <Button
-                      type="secondary"
-                      label={this.props.locales.browse.actions.openPalette}
-                      isLoading={this.state.isSecondaryActionLoading[index]}
-                      isBlocked={CommunityPalettes.features(
+                  <>
+                    <Feature
+                      isActive={CommunityPalettes.features(
                         this.props.planStatus,
                         this.props.config,
                         this.props.service,
                         this.props.editor
-                      ).LOCAL_PALETTES.isReached(
-                        this.props.localPalettesList.length
-                      )}
-                      action={() => {
-                        this.setState({
-                          isSecondaryActionLoading: this.state[
-                            'isSecondaryActionLoading'
-                          ].map((loading, i) => (i === index ? true : loading)),
-                        })
-
-                        this.onSeePalette(palette.palette_id)
-                          .finally(() =>
-                            this.setState({
-                              isSecondaryActionLoading: Array(
-                                this.props.palettesList.length
-                              ).fill(false),
-                            })
-                          )
-                          .catch((error) => {
-                            console.error(error)
-                            sendPluginMessage(
-                              {
-                                pluginMessage: {
-                                  type: 'POST_MESSAGE',
-                                  data: {
-                                    type: 'ERROR',
-                                    message:
-                                      this.props.locales.error.openPalette,
-                                  },
-                                },
-                              },
-                              '*'
-                            )
+                      ).GLANCE_PALETTE.isActive()}
+                    >
+                      <Button
+                        type="icon"
+                        icon="visible"
+                        helper={{
+                          label:
+                            this.props.locales.browse.actions.glancePalette,
+                        }}
+                        isBlocked={CommunityPalettes.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).GLANCE_PALETTE.isBlocked()}
+                        isNew={CommunityPalettes.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).GLANCE_PALETTE.isNew()}
+                        action={() => {
+                          this.setState({
+                            isPaletteGlancing: true,
+                            seenPaletteId: palette.palette_id,
                           })
-                      }}
-                    />
-                  ) : (
-                    <Button
-                      type="secondary"
-                      label={this.props.locales.actions.addToLocal}
-                      isLoading={this.state.isSecondaryActionLoading[index]}
-                      isBlocked={CommunityPalettes.features(
+                        }}
+                      />
+                    </Feature>
+                    <Feature
+                      isActive={CommunityPalettes.features(
                         this.props.planStatus,
                         this.props.config,
                         this.props.service,
                         this.props.editor
-                      ).LOCAL_PALETTES.isReached(
-                        this.props.localPalettesList.length
-                      )}
-                      action={() => {
-                        this.setState({
-                          isSecondaryActionLoading: this.state[
-                            'isSecondaryActionLoading'
-                          ].map((loading, i) => (i === index ? true : loading)),
-                        })
+                      ).GLANCE_PALETTE.isActive()}
+                    >
+                      <Button
+                        type="secondary"
+                        label={this.props.locales.browse.actions.openPalette}
+                        isLoading={this.state.isSecondaryActionLoading[index]}
+                        isBlocked={CommunityPalettes.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).OPEN_PALETTE.isBlocked()}
+                        isNew={CommunityPalettes.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).OPEN_PALETTE.isNew()}
+                        action={() => {
+                          this.setState({
+                            isSecondaryActionLoading: this.state[
+                              'isSecondaryActionLoading'
+                            ].map((loading, i) =>
+                              i === index ? true : loading
+                            ),
+                          })
 
-                        this.onSelectPalette(palette.palette_id)
-                          .finally(() =>
-                            this.setState({
-                              isSecondaryActionLoading: Array(
-                                this.props.palettesList.length
-                              ).fill(false),
-                            })
-                          )
-                          .catch((error) => {
-                            console.error(error)
-                            sendPluginMessage(
-                              {
-                                pluginMessage: {
-                                  type: 'POST_MESSAGE',
-                                  data: {
-                                    type: 'ERROR',
-                                    message:
-                                      this.props.locales.error.addToLocal,
+                          this.onSeePalette(palette.palette_id)
+                            .finally(() =>
+                              this.setState({
+                                isSecondaryActionLoading: Array(
+                                  this.props.palettesList.length
+                                ).fill(false),
+                              })
+                            )
+                            .catch((error) => {
+                              console.error(error)
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: {
+                                    type: 'POST_MESSAGE',
+                                    data: {
+                                      type: 'ERROR',
+                                      message:
+                                        this.props.locales.error.openPalette,
+                                    },
                                   },
                                 },
-                              },
-                              '*'
-                            )
+                                '*'
+                              )
+                            })
+                        }}
+                      />
+                    </Feature>
+                    <Feature
+                      isActive={CommunityPalettes.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).ADD_PALETTE.isActive()}
+                    >
+                      <Button
+                        type="secondary"
+                        label={this.props.locales.actions.addToLocal}
+                        isLoading={this.state.isSecondaryActionLoading[index]}
+                        isBlocked={CommunityPalettes.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).LOCAL_PALETTES.isReached(
+                          this.props.localPalettesList.length
+                        )}
+                        action={() => {
+                          this.setState({
+                            isSecondaryActionLoading: this.state[
+                              'isSecondaryActionLoading'
+                            ].map((loading, i) =>
+                              i === index ? true : loading
+                            ),
                           })
-                      }}
-                    />
-                  )
+
+                          this.onSelectPalette(palette.palette_id)
+                            .finally(() =>
+                              this.setState({
+                                isSecondaryActionLoading: Array(
+                                  this.props.palettesList.length
+                                ).fill(false),
+                              })
+                            )
+                            .catch((error) => {
+                              console.error(error)
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: {
+                                    type: 'POST_MESSAGE',
+                                    data: {
+                                      type: 'ERROR',
+                                      message:
+                                        this.props.locales.error.addToLocal,
+                                    },
+                                  },
+                                },
+                                '*'
+                              )
+                            })
+                        }}
+                      />
+                    </Feature>
+                  </>
                 }
                 complementSlot={
                   <div
@@ -662,6 +744,25 @@ export default class CommunityPalettes extends PureComponent<
             />
           )}
         <this.ExternalPalettesList />
+        <Feature
+          isActive={
+            Glance.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).GLANCE_PALETTE.isActive() && this.state.isPaletteGlancing
+          }
+        >
+          <Glance
+            {...this.props}
+            id={this.state.seenPaletteId}
+            onSelectPalette={(id: string) => this.onSelectPalette(id)}
+            onClosePalette={() => {
+              this.setState({ isPaletteGlancing: false, seenPaletteId: '' })
+            }}
+          />
+        </Feature>
       </>
     )
   }
