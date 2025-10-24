@@ -530,20 +530,12 @@ export default class PagePalettes extends PureComponent<
             actionsSlot={
               <>
                 <Feature
-                  isActive={
-                    PagePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).CREATE_PALETTE.isActive() &&
-                    PagePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).REMOTE_PALETTES_COMMUNITY.isActive()
-                  }
+                  isActive={PagePalettes.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).REMOTE_PALETTES_COMMUNITY.isActive()}
                 >
                   <Button
                     type="secondary"

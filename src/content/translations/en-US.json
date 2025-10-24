@@ -252,7 +252,7 @@
     }
   },
   "info": {
-    "askDesigner": "You can ask designers to create a palette or jump to another page",
+    "askDesigner": "or ask designers to create a palette",
     "addToLocal": "The palette already exists",
     "announcements": "There is no announcement for now",
     "onboarding": "There is no onboarding for now",
