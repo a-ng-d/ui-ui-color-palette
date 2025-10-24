@@ -98,7 +98,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
             fontSize: '10px',
           }}
         >
-          {score <= 4.5 ? '✘' : '✔'}
+          {score <= 4.5 ? this.props.locales.fail : this.props.locales.pass}
         </span>
       }
     >
@@ -133,7 +133,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
             fontSize: '10px',
           }}
         >
-          {score <= 45 ? '✘' : '✔'}
+          {score <= 45 ? this.props.locales.fail : this.props.locales.pass}
         </span>
       }
     >
