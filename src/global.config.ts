@@ -28,7 +28,7 @@ interface SpecConfig {
             | 'framer-light'
             | 'framer-dark'
         }
-        features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
+        features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
       }
     }
   }
@@ -572,7 +572,7 @@ const globalConfig: Config = {
     pluginId: '123456789',
   },
   plan: {
-    isProEnabled: true,
+    isProEnabled: false,
     isTrialEnabled: true,
     trialTime: 72,
   },
