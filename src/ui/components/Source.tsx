@@ -2,10 +2,14 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { RgbModel } from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Chip, Icon } from '@a_ng_d/figmug-ui'
-import { BaseProps } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
+import { WithConfigProps } from './WithConfig'
+import Feature from './Feature'
 
-interface SourceProps extends BaseProps {
+interface SourceProps extends BaseProps, WithConfigProps {
   id: string
   name: string
   color: RgbModel
@@ -18,6 +22,21 @@ interface SourceStates {
 }
 
 export default class Source extends PureComponent<SourceProps, SourceStates> {
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service,
+    editor: Editor
+  ) => ({
+    PREVIEW_SOURCE_HELPER: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_SOURCE_HELPER',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+  })
+
   static defaultProps: Partial<SourceProps> = {
     isTransparent: false,
   }
@@ -54,7 +73,17 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
                 {this.props.locales.paletteProperties.transparent}
               </Chip>
             )}
-            {this.state.isHelperRevealer && (
+            <Feature
+              isActive={
+                Source.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).PREVIEW_SOURCE_HELPER.isActive() &&
+                this.state.isHelperRevealer
+              }
+            >
               <Chip
                 state="ON_BACKGROUND"
                 leftSlot={
@@ -77,7 +106,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
                   </div>
                 }
               />
-            )}
+            </Feature>
           </div>
         )}
       </div>

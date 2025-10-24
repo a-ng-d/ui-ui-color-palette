@@ -11,16 +11,16 @@ import {
   ColorConfiguration,
   ColorSpaceConfiguration,
   DatesConfiguration,
-  DocumentConfiguration,
   ExportConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   ThemeConfiguration,
-  ViewConfiguration,
   VisionSimulationModeConfiguration,
   BaseConfiguration,
   Data,
   Code,
+  PublicationConfiguration,
+  CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { doScale } from '@a_ng_d/figmug-utils'
@@ -34,21 +34,13 @@ import {
 } from '@a_ng_d/figmug-ui'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
-import Themes from '../contexts/Themes'
-import Settings from '../contexts/Settings'
-import Scale from '../contexts/Scale'
+import Properties from '../contexts/Properties'
 import Export from '../contexts/Export'
-import Colors from '../contexts/Colors'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import {
-  ColorsMessage,
-  PluginMessageData,
-  ThemesMessage,
-} from '../../types/messages'
-import { SourceColorEvent } from '../../types/events'
+import { PluginMessageData, ThemesMessage } from '../../types/messages'
 import {
   BaseProps,
   Context,
@@ -59,14 +51,10 @@ import {
 } from '../../types/app'
 import { defaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
-import {
-  trackActionEvent,
-  trackSourceColorsManagementEvent,
-} from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
-interface EditPaletteProps extends BaseProps, WithConfigProps {
+interface SeePaletteProps extends BaseProps, WithConfigProps {
   id: string
   name: string
   description: string
@@ -78,36 +66,28 @@ interface EditPaletteProps extends BaseProps, WithConfigProps {
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   themes: Array<ThemeConfiguration>
-  view: ViewConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  document: DocumentConfiguration
   dates: DatesConfiguration
-  onChangeScale: React.Dispatch<Partial<AppStates>>
-  onChangePreset: React.Dispatch<Partial<AppStates>>
-  onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
-  onChangeColors: React.Dispatch<Partial<AppStates>>
+  publicationStatus: PublicationConfiguration
+  creatorIdentity: CreatorConfiguration
   onChangeThemes: React.Dispatch<Partial<AppStates>>
-  onChangeSettings: React.Dispatch<Partial<AppStates>>
-  onPublishPalette: React.Dispatch<Partial<AppStates>>
-  onLockSourceColors: React.Dispatch<Partial<AppStates>>
   onUnloadPalette: () => void
-  onChangeDocument: React.Dispatch<Partial<AppStates>>
-  onDeletePalette: () => void
 }
 
-interface EditPaletteStates {
+interface SeePaletteStates {
   context: Context | ''
   export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
-  private colorsMessage: ColorsMessage
+export default class SeePalette extends PureComponent<
+  SeePaletteProps,
+  SeePaletteStates
+> {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
-  private themesRef: React.RefObject<Themes>
   private previewRef: React.RefObject<Preview>
   private palette: typeof $palette
   private theme: string | null
@@ -141,7 +121,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
     }),
   })
 
-  constructor(props: EditPaletteProps) {
+  constructor(props: SeePaletteProps) {
     super(props)
     this.palette = $palette
     this.themesMessage = {
@@ -149,13 +129,8 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       id: this.props.id,
       data: [],
     }
-    this.colorsMessage = {
-      type: 'UPDATE_COLORS',
-      id: this.props.id,
-      data: [],
-    }
     this.contexts = setContexts(
-      ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
+      ['PROPERTIES', 'EXPORT'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -186,7 +161,6 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       isPrimaryLoading: false,
       isSecondaryLoading: false,
     }
-    this.themesRef = React.createRef()
     this.previewRef = React.createRef()
     this.theme = document.documentElement.getAttribute('data-theme')
   }
@@ -259,8 +233,6 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
 
     this.palette.setKey('scale', newScale)
 
-    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
-
     this.props.onChangeThemes({
       scale: newScale,
       themes: this.themesMessage.data,
@@ -270,331 +242,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
     })
   }
 
-  slideHandler = () =>
-    this.props.onChangeScale({
-      scale: this.palette.get().scale,
-      preset: this.palette.get().preset,
-      themes: this.props.themes.map((theme: ThemeConfiguration) => {
-        if (theme.isEnabled) theme.scale = this.palette.get().scale
-        return theme
-      }),
-      onGoingStep: 'scale changed',
-    })
-
-  shiftHandler = (feature?: string, state?: string, value?: number) => {
-    const onReleaseStop = () => {
-      setData()
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: feature as SourceColorEvent['feature'],
-        }
-      )
-    }
-
-    const onChangeStop = () => {
-      setData()
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-    }
-
-    const onTypeStopValue = () => {
-      setData()
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-    }
-
-    const onUpdatingStop = () => {
-      setData()
-    }
-
-    const setData = () => {
-      const shift: ShiftConfiguration = {
-        chroma:
-          feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
-      }
-
-      this.palette.setKey('shift', shift)
-      this.colorsMessage.data = this.props.colors.map((item) => {
-        if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
-          item.chroma.shift = value ?? this.props.shift.chroma
-        return item
-      })
-
-      this.props.onChangeColors({
-        shift: shift,
-        colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
-      })
-    }
-
-    const actions: {
-      [action: string]: () => void
-    } = {
-      RELEASED: () => onReleaseStop(),
-      SHIFTED: () => onChangeStop(),
-      TYPED: () => onTypeStopValue(),
-      UPDATING: () => onUpdatingStop(),
-      DEFAULT: () => null,
-    }
-
-    return actions[state ?? 'DEFAULT']?.()
-  }
-
-  documentHandler = (e: Event) => {
-    this.setState({
-      isSecondaryLoading: true,
-    })
-    const currentElement = e.currentTarget as HTMLInputElement
-
-    const generatePalette = () => {
-      this.props.onChangeDocument({
-        document: {
-          ...this.props.document,
-          view: 'PALETTE',
-        },
-      })
-
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'CREATE_DOCUMENT',
-            id: this.props.id,
-            view: 'PALETTE',
-          },
-        },
-        '*'
-      )
-    }
-
-    const generateSheet = () => {
-      this.props.onChangeDocument({
-        document: {
-          ...this.props.document,
-          view: 'SHEET',
-        },
-      })
-
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'CREATE_DOCUMENT',
-            id: this.props.id,
-            view: 'SHEET',
-          },
-        },
-        '*'
-      )
-
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'GENERATE_SHEET',
-        }
-      )
-    }
-
-    const generatePaletteWithProperties = () => {
-      this.props.onChangeDocument({
-        document: {
-          ...this.props.document,
-          view: 'PALETTE_WITH_PROPERTIES',
-        },
-      })
-
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'CREATE_DOCUMENT',
-            id: this.props.id,
-            view: 'PALETTE_WITH_PROPERTIES',
-          },
-        },
-        '*'
-      )
-
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
-        }
-      )
-    }
-
-    const pushUpdates = () => {
-      this.props.onChangeDocument({
-        document: {
-          ...this.props.document,
-          view: this.props.document?.view ?? 'PALETTE',
-        },
-      })
-
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_DOCUMENT',
-            view: this.props.document?.view ?? 'PALETTE',
-          },
-        },
-        '*'
-      )
-
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'UPDATE_DOCUMENT',
-        }
-      )
-    }
-
-    const actions: { [action: string]: () => void } = {
-      GENERATE_SHEET: () => generateSheet(),
-      GENERATE_PALETTE_WITH_PROPERTIES: () => generatePaletteWithProperties(),
-      GENERATE_PALETTE: () => generatePalette(),
-      PUSH_UPDATES: () => pushUpdates(),
-    }
-
-    return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
-  }
-
   // Direct Actions
-  onSyncStyles = () => {
-    this.setState({
-      isPrimaryLoading: true,
-    })
-
-    sendPluginMessage(
-      { pluginMessage: { type: 'SYNC_LOCAL_STYLES', id: this.props.id } },
-      '*'
-    )
-
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'SYNC_STYLES',
-      }
-    )
-  }
-
-  onSyncVariables = () => {
-    this.setState({
-      isPrimaryLoading: true,
-    })
-
-    sendPluginMessage(
-      { pluginMessage: { type: 'SYNC_LOCAL_VARIABLES', id: this.props.id } },
-      '*'
-    )
-
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'SYNC_VARIABLES',
-      }
-    )
-  }
-
-  onPublishPalette = () => {
-    this.props.onPublishPalette({ modalContext: 'PUBLICATION' })
-  }
-
-  onChangeView = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    this.setState({
-      isSecondaryLoading: true,
-    })
-    const currentElement = e.currentTarget as HTMLInputElement
-
-    this.props.onChangeDocument({
-      document: {
-        ...this.props.document,
-        view: currentElement.dataset.value as ViewConfiguration,
-      },
-    })
-
-    sendPluginMessage(
-      {
-        pluginMessage: {
-          type: 'UPDATE_DOCUMENT',
-          view: currentElement.dataset.value,
-        },
-      },
-      '*'
-    )
-
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: `SWITCH_${currentElement.dataset.value as ViewConfiguration}`,
-      }
-    )
-  }
-
-  onChangeDocument = (view?: ViewConfiguration) => {
-    this.setState({
-      isSecondaryLoading: true,
-    })
-    if (view !== undefined)
-      this.props.onChangeDocument({
-        document: {
-          ...this.props.document,
-          view: view,
-        },
-      })
-  }
-
   onExport = () => {
     const blob = new Blob([this.state.export.data], {
       type: this.state.export.mimeType,
@@ -742,40 +390,8 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         action: (e: Event) => this.switchThemeHandler(e),
       } as DropdownOption
     })
-    const actions: Array<DropdownOption> = [
-      {
-        type: 'SEPARATOR',
-      },
-      {
-        label: this.props.locales.themes.callout.cta,
-        feature: 'ADD_THEME',
-        type: 'OPTION',
-        isActive: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isActive(),
-        isBlocked: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isBlocked(),
-        isNew: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isNew(),
-        action: () => {
-          this.setState({ context: 'THEMES' })
-          setTimeout(() => this.themesRef.current?.onAddTheme(), 1)
-        },
-      },
-    ]
 
-    return themes.concat(actions)
+    return themes
   }
 
   workingThemes = () => {
@@ -814,28 +430,8 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
     }
 
     switch (this.state.context) {
-      case 'SCALE': {
-        fragment = (
-          <Scale
-            {...this.props}
-            service="EDIT"
-            onChangeScale={this.slideHandler}
-            onChangeShift={this.shiftHandler}
-          />
-        )
-        break
-      }
-      case 'COLORS': {
-        fragment = <Colors {...this.props} />
-        break
-      }
-      case 'THEMES': {
-        fragment = (
-          <Themes
-            {...this.props}
-            ref={this.themesRef}
-          />
-        )
+      case 'PROPERTIES': {
+        fragment = <Properties {...this.props} />
         break
       }
       case 'EXPORT': {
@@ -850,15 +446,6 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
               })
             }}
             onCopyCode={this.onCopyCode}
-          />
-        )
-        break
-      }
-      case 'SETTINGS': {
-        fragment = (
-          <Settings
-            {...this.props}
-            service="EDIT"
           />
         )
         break
@@ -892,7 +479,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
           }
           rightPartSlot={
             <Feature
-              isActive={EditPalette.features(
+              isActive={SeePalette.features(
                 this.props.planStatus,
                 this.props.config,
                 this.props.service,
@@ -920,7 +507,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         />
         <section className="context">{fragment}</section>
         <Feature
-          isActive={EditPalette.features(
+          isActive={SeePalette.features(
             this.props.planStatus,
             this.props.config,
             this.props.service,
@@ -929,29 +516,24 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
         >
           <Preview
             {...this.props}
-            service="EDIT"
-            onInteractWithSourceColor={() => this.onJumpToSourceColor()}
             ref={this.previewRef}
           />
         </Feature>
         <Feature
-          isActive={EditPalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).ACTIONS.isActive()}
+          isActive={
+            SeePalette.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).ACTIONS.isActive() && this.state.context === 'EXPORT'
+          }
         >
           <Actions
             {...this.props}
             {...this.state}
-            service={this.state.context === 'EXPORT' ? 'SEE' : 'EDIT'}
+            service="SEE"
             format={this.state.export.format}
-            onSyncLocalStyles={this.onSyncStyles}
-            onSyncLocalVariables={this.onSyncVariables}
-            onPublishPalette={this.onPublishPalette}
-            onGenerateDocument={this.documentHandler}
-            onChangeView={this.onChangeView}
             onExportPalette={this.onExport}
           />
         </Feature>

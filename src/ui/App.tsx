@@ -66,6 +66,7 @@ import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion
 import { getSupabase } from '../external/auth/client'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { ConfigContextType } from '../config/ConfigContext'
+import SeePalette from './services/SeePalette'
 import EditPalette from './services/EditPalette'
 import CreatePalette from './services/CreatePalette'
 import BrowsePalettes from './services/BrowsePalettes'
@@ -148,6 +149,13 @@ class App extends Component<AppProps, AppStates> {
     EDIT: new FeatureStatus({
       features: config.features,
       featureName: 'EDIT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SEE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SEE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -621,7 +629,7 @@ class App extends Component<AppProps, AppStates> {
         )
 
         this.setState({
-          service: 'EDIT',
+          service: !this.state.editor.includes('dev') ? 'EDIT' : 'SEE',
           id: path.data.meta.id,
           name: path.data.base.name,
           description: path.data.base.description,
@@ -964,6 +972,23 @@ class App extends Component<AppProps, AppStates> {
               onUnloadPalette={this.onReset}
               onChangeDocument={(e) => this.setState({ ...e })}
               onDeletePalette={this.onReset}
+            />
+          </Feature>
+          <Feature
+            isActive={
+              App.features(
+                this.state.planStatus,
+                this.props.config,
+                this.state.service,
+                this.state.editor
+              ).SEE.isActive() && this.state.service === 'SEE'
+            }
+          >
+            <SeePalette
+              {...this.props}
+              {...this.state}
+              onChangeThemes={(e) => this.setState({ ...e })}
+              onUnloadPalette={this.onReset}
             />
           </Feature>
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>

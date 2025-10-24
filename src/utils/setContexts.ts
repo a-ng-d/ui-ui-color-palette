@@ -5,7 +5,7 @@ import { locales } from '../content/locales'
 export const setContexts = (
   contextList: Array<Context>,
   planStatus: PlanStatus,
-  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>,
+  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>,
   editor: Editor,
   service: Service
 ) => {
@@ -125,6 +125,13 @@ export const setContexts = (
     SETTINGS: new FeatureStatus({
       features: features,
       featureName: 'SETTINGS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PROPERTIES: new FeatureStatus({
+      features: features,
+      featureName: 'PROPERTIES',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -256,6 +263,13 @@ export const setContexts = (
       isUpdated: false,
       isNew: featuresList.SETTINGS.isNew(),
       isActive: featuresList.SETTINGS.isActive(),
+    },
+    {
+      label: 'Properties',
+      id: 'PROPERTIES',
+      isUpdated: false,
+      isNew: featuresList.PROPERTIES.isNew(),
+      isActive: featuresList.PROPERTIES.isActive(),
     },
   ]
 

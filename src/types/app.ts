@@ -5,7 +5,7 @@ import { Language, Translations } from './translations'
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
-export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'
+export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'
 
 export interface ContextItem {
   label: string
@@ -40,6 +40,7 @@ export type Context =
   | 'SOURCE_IMAGE'
   | 'SOURCE_HARMONY'
   | 'SOURCE_AI'
+  | 'PROPERTIES'
   | 'SCALE'
   | 'COLORS'
   | 'THEMES'

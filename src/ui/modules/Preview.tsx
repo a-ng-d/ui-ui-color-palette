@@ -51,10 +51,10 @@ interface PreviewProps extends BaseProps, WithConfigProps {
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onLockSourceColors: React.Dispatch<Partial<AppStates>>
+  onLockSourceColors?: React.Dispatch<Partial<AppStates>>
   onResetSourceColors?: () => void
-  onChangeSettings: React.Dispatch<Partial<AppStates>>
-  onInteractWithSourceColor: (colorId: string) => void
+  onChangeSettings?: React.Dispatch<Partial<AppStates>>
+  onInteractWithSourceColor?: (colorId: string) => void
 }
 
 interface PreviewStates {
@@ -64,7 +64,10 @@ interface PreviewStates {
   drawerMaxHeight?: number
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private subscribeWCAG: (() => void) | undefined
   private subscribeAPCA: (() => void) | undefined
   private palette: typeof $palette
@@ -324,7 +327,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
       const target = e.target as HTMLInputElement
       this.palette.setKey('areSourceColorsLocked', target.checked ?? false)
 
-      this.props.onLockSourceColors({
+      this.props.onLockSourceColors?.({
         areSourceColorsLocked: target.checked,
       })
 
@@ -367,7 +370,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         target.dataset.value as ColorSpaceConfiguration
       )
 
-      this.props.onChangeSettings({
+      this.props.onChangeSettings?.({
         colorSpace: target.dataset.value as ColorSpaceConfiguration,
       })
 
@@ -411,7 +414,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         target.dataset.value as VisionSimulationModeConfiguration
       )
 
-      this.props.onChangeSettings({
+      this.props.onChangeSettings?.({
         visionSimulationMode: target.dataset
           .value as VisionSimulationModeConfiguration,
       })
@@ -1472,7 +1475,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                         }
                         action={(event) => {
                           event.stopPropagation()
-                          this.props.onInteractWithSourceColor(color.id)
+                          this.props.onInteractWithSourceColor?.(color.id)
                         }}
                       />
                       {Object.values(scaledColors).map((scaledColor, index) => {

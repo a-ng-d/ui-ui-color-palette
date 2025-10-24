@@ -71,6 +71,6 @@ export interface Config {
     readonly paletteVersion: string
     readonly pluginVersion: string
   }
-  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'TRANSFER'>>
+  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
   locales: Translations
 }
