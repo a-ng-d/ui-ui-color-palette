@@ -48,7 +48,7 @@ const detachPalette = async ({
     {
       pluginMessage: {
         type: 'DUPLICATE_PALETTE',
-        id: meta.id,
+        id: rawData.id,
       },
     },
     '*'
@@ -57,7 +57,7 @@ const detachPalette = async ({
     {
       pluginMessage: {
         type: 'DELETE_PALETTE',
-        id: meta.id,
+        id: rawData.id,
       },
     },
     '*'

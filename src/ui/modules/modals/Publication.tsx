@@ -549,9 +549,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               locales: this.props.locales,
             })
-              .then((data) => {
-                this.props.onChangePublication(data)
-
+              .then(() => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
@@ -653,9 +651,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               locales: this.props.locales,
             })
-              .then((data) => {
-                this.props.onChangePublication(data)
-
+              .then(() => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
@@ -832,9 +828,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               locales: this.props.locales,
             })
-              .then((data) => {
-                this.props.onChangePublication(data)
-
+              .then(() => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
@@ -936,8 +930,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               locales: this.props.locales,
             })
-              .then((data) => {
-                this.props.onChangePublication(data)
+              .then(() => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,
@@ -973,9 +966,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               locales: this.props.locales,
             })
-              .then((data) => {
-                this.props.onChangePublication(data)
-
+              .then(() => {
                 this.setState({
                   publicationStatus: 'UNPUBLISHED',
                   isPaletteShared: false,

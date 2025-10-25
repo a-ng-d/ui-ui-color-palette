@@ -3,6 +3,9 @@ import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { locales } from '../../content/locales'
 
 const createPaletteFromDuplication = async (id: string) => {
+  const iframe = document.querySelector(
+    '#ui-container'
+  ) as HTMLIFrameElement | null
   const rawPalette = window.localStorage.getItem(`palette_${id}`)
   const now = new Date().toISOString()
 
@@ -25,10 +28,15 @@ const createPaletteFromDuplication = async (id: string) => {
   palette.meta.creatorIdentity.creatorFullName = ''
   palette.meta.creatorIdentity.creatorAvatar = ''
 
-  return window.localStorage.setItem(
+  window.localStorage.setItem(
     `palette_${palette.meta.id}`,
     JSON.stringify(palette)
   )
+
+  return iframe?.contentWindow?.postMessage({
+    type: 'LOAD_PALETTE',
+    data: palette,
+  })
 }
 
 export default createPaletteFromDuplication
