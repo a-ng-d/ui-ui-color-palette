@@ -2,7 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Avatar, Chip, Dialog, texts } from '@a_ng_d/figmug-ui'
+import { Avatar, Button, Chip, Dialog, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import getPaletteMeta from '../../../utils/setPaletteMeta'
@@ -14,6 +14,7 @@ import {
   trackSignInEvent,
 } from '../../../external/tracking/eventsTracker'
 import unpublishPalette from '../../../external/publication/unpublishPalette'
+import starPalette from '../../../external/publication/starPalette'
 import pushPalette from '../../../external/publication/pushPalette'
 import pullPalette from '../../../external/publication/pullPalette'
 import publishPalette from '../../../external/publication/publishPalette'
@@ -43,8 +44,10 @@ type PublicationStatus =
 interface PublicationStates {
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
+  isTertiaryActionLoading: boolean
   isPaletteShared: boolean
   publicationStatus: PublicationStatus
+  isStarred: boolean
 }
 
 interface PublicationAction {
@@ -65,10 +68,7 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
+export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
   private enabledThemeIndex: number
 
   static features = (
@@ -84,6 +84,13 @@ export default class Publication extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    STAR_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'STAR_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: PublicationProps) {
@@ -94,8 +101,10 @@ export default class Publication extends PureComponent<
     this.state = {
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
+      isTertiaryActionLoading: false,
       isPaletteShared: this.props.rawData.publicationStatus.isShared,
       publicationStatus: 'WAITING',
+      isStarred: false,
     }
   }
 
@@ -184,19 +193,19 @@ export default class Publication extends PureComponent<
       return
     }
 
-    const { data, error } = await supabase
+    const { data: paletteData, error: paletteError } = await supabase
       .from(this.props.config.dbs.palettesDbViewName)
       .select('*')
       .eq('palette_id', this.props.rawData.id)
 
-    if (!error && data.length !== 0) {
-      const isMyPalette = data?.[0].creator_id === localUserId
+    if (!paletteError && paletteData.length !== 0) {
+      const isMyPalette = paletteData[0].creator_id === localUserId
 
-      if (new Date(data[0].published_at) > localPublicationDate)
+      if (new Date(paletteData[0].published_at) > localPublicationDate)
         this.setState({
           publicationStatus: isMyPalette ? 'MUST_BE_PULLED' : 'MAY_BE_PULLED',
         })
-      else if (new Date(data[0].published_at) < localUpdatedDate)
+      else if (new Date(paletteData[0].published_at) < localUpdatedDate)
         this.setState({
           publicationStatus: isMyPalette ? 'CAN_BE_PUSHED' : 'CAN_BE_REVERTED',
         })
@@ -204,11 +213,21 @@ export default class Publication extends PureComponent<
         this.setState({
           publicationStatus: isMyPalette ? 'PUBLISHED' : 'UP_TO_DATE',
         })
-    } else if (data?.length === 0)
+
+      const { data: starredData, error: starredError } = await supabase
+        .from(this.props.config.dbs.starredPalettesDbTableName)
+        .select('*')
+        .eq('palette_id', this.props.rawData.id)
+        .eq('user_id', this.props.userSession.userId)
+
+      if (!starredError && starredData.length > 0)
+        this.setState({ isStarred: true })
+      else this.setState({ isStarred: false })
+    } else if (paletteData?.length === 0)
       this.setState({
         publicationStatus: 'IS_NOT_FOUND',
       })
-    else if (error) {
+    else if (paletteError) {
       this.setState({
         publicationStatus: 'WAITING',
       })
@@ -1044,6 +1063,107 @@ export default class Publication extends PureComponent<
     return actions[publicationStatus]
   }
 
+  onStarPalette = async () => {
+    this.setState({ isTertiaryActionLoading: true })
+
+    starPalette({
+      id: this.props.rawData.id,
+      starredPalettesDbTableName:
+        this.props.config.dbs.starredPalettesDbTableName,
+      userId: this.props.userSession.userId,
+      mustBeStarred: !this.state.isStarred,
+    })
+      .then(() => {
+        this.setState({ isStarred: !this.state.isStarred })
+
+        trackPublicationEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId === ''
+            ? this.props.userIdentity.id === ''
+              ? ''
+              : this.props.userIdentity.id
+            : this.props.userSession.userId,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'STAR_PALETTE',
+          }
+        )
+      })
+      .finally(() => {
+        this.setState({ isTertiaryActionLoading: false })
+      })
+      .catch((error) => {
+        console.error('Error starring/un-starring palette:', error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.locales.error.starPalette,
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  // Templates
+  StarButton = () => {
+    if (this.state.isStarred)
+      return (
+        <Feature
+          isActive={Publication.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).STAR_PALETTE.isActive()}
+        >
+          <Button
+            type="tertiary"
+            icon="star-on"
+            label={this.props.locales.publication.unstar}
+            isLoading={this.state.isTertiaryActionLoading}
+            isBlocked={Publication.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).STAR_PALETTE.isBlocked()}
+            action={this.onStarPalette}
+          />
+        </Feature>
+      )
+
+    return (
+      <Feature
+        isActive={Publication.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).STAR_PALETTE.isActive()}
+      >
+        <Button
+          type="tertiary"
+          icon="star-off"
+          label={this.props.locales.publication.star}
+          isLoading={this.state.isTertiaryActionLoading}
+          isBlocked={Publication.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).STAR_PALETTE.isBlocked()}
+          action={this.onStarPalette}
+        />
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     if (this.props.userSession.connectionStatus === 'CONNECTED')
@@ -1175,6 +1295,10 @@ export default class Publication extends PureComponent<
               <div
                 className={doClassnames([texts.type, texts['type--secondary']])}
               ></div>
+              {this.state.publicationStatus !== 'UNPUBLISHED' &&
+                this.state.publicationStatus !== 'IS_NOT_FOUND' && (
+                  <this.StarButton />
+                )}
             </div>
           </Dialog>
         </Feature>

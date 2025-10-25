@@ -86,6 +86,10 @@ const pushPalette = async ({
         publishedAt: now,
         openedAt: rawData.dates.openedAt,
       },
+      publicationStatus: {
+        isPublished: rawData.publicationStatus.isPublished,
+        isShared: isShared,
+      },
     }
   } else throw error
 }
