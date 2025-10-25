@@ -10,6 +10,7 @@ import {
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout, Tabs } from '@a_ng_d/figmug-ui'
 import SelfPalettes from '../subcontexts/SelfPalettes'
+import OrgPalettes from '../subcontexts/OrgPalettes'
 import CommunityPalettes from '../subcontexts/CommunityPalettes'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
@@ -37,12 +38,16 @@ interface RemotePalettesStates {
   context: Context | ''
   selfPalettesListStatus: FetchStatus
   communityPalettesListStatus: FetchStatus
+  organizationPalettesListStatus: FetchStatus
   selfCurrentPage: number
   communityCurrentPage: number
-  seftPalettesSearchQuery: string
+  organizationCurrentPage: number
+  selfPalettesSearchQuery: string
   communityPalettesSearchQuery: string
+  organizationPalettesSearchQuery: string
   selfPalettesList: Array<ExternalPalettes>
   communityPalettesList: Array<ExternalPalettes>
+  organizationPalettesList: Array<ExternalPalettes>
 }
 
 export default class RemotePalettes extends PureComponent<
@@ -71,12 +76,23 @@ export default class RemotePalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    REMOTE_PALETTES_ORG: new FeatureStatus({
+      features: config.features,
+      featureName: 'REMOTE_PALETTES_ORG',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: RemotePalettesProps) {
     super(props)
     this.contexts = setContexts(
-      ['REMOTE_PALETTES_SELF', 'REMOTE_PALETTES_COMMUNITY'],
+      [
+        'REMOTE_PALETTES_SELF',
+        'REMOTE_PALETTES_ORG',
+        'REMOTE_PALETTES_COMMUNITY',
+      ],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -86,12 +102,16 @@ export default class RemotePalettes extends PureComponent<
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       selfPalettesListStatus: 'UNLOADED',
       communityPalettesListStatus: 'UNLOADED',
+      organizationPalettesListStatus: 'UNLOADED',
       selfCurrentPage: 1,
       communityCurrentPage: 1,
+      organizationCurrentPage: 1,
       selfPalettesList: [],
       communityPalettesList: [],
-      seftPalettesSearchQuery: '',
+      organizationPalettesList: [],
+      selfPalettesSearchQuery: '',
       communityPalettesSearchQuery: '',
+      organizationPalettesSearchQuery: '',
     }
   }
 
@@ -126,7 +146,7 @@ export default class RemotePalettes extends PureComponent<
             {...this.props}
             context={this.state.context}
             currentPage={this.state.selfCurrentPage}
-            searchQuery={this.state.seftPalettesSearchQuery}
+            searchQuery={this.state.selfPalettesSearchQuery}
             status={
               this.props.userSession.connectionStatus === 'CONNECTED'
                 ? this.state.selfPalettesListStatus
@@ -140,7 +160,7 @@ export default class RemotePalettes extends PureComponent<
               this.setState({ selfCurrentPage: page })
             }
             onChangeSearchQuery={(query) =>
-              this.setState({ seftPalettesSearchQuery: query })
+              this.setState({ selfPalettesSearchQuery: query })
             }
             onLoadPalettesList={(palettesList) =>
               this.setState({ selfPalettesList: palettesList })
@@ -169,6 +189,31 @@ export default class RemotePalettes extends PureComponent<
             }
             onLoadPalettesList={(palettesList) =>
               this.setState({ communityPalettesList: palettesList })
+            }
+          />
+        )
+        break
+      }
+      case 'REMOTE_PALETTES_ORG': {
+        fragment = (
+          <OrgPalettes
+            {...this.props}
+            context={this.state.context}
+            currentPage={this.state.organizationCurrentPage}
+            searchQuery={this.state.organizationPalettesSearchQuery}
+            status={this.state.organizationPalettesListStatus}
+            palettesList={this.state.organizationPalettesList}
+            onChangeStatus={(status) =>
+              this.setState({ organizationPalettesListStatus: status })
+            }
+            onChangeCurrentPage={(page) =>
+              this.setState({ organizationCurrentPage: page })
+            }
+            onChangeSearchQuery={(query) =>
+              this.setState({ organizationPalettesSearchQuery: query })
+            }
+            onLoadPalettesList={(palettesList) =>
+              this.setState({ organizationPalettesList: palettesList })
             }
           />
         )

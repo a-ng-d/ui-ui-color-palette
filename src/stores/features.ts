@@ -318,8 +318,8 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     ],
   },
   {
-    name: 'REMOTE_PALETTES_RESOURCES',
-    description: 'Resources palettes from organizations',
+    name: 'REMOTE_PALETTES_ORG',
+    description: 'Organization palettes',
     isActive: true,
     isPro: false,
     isNew: false,

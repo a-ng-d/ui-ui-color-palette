@@ -52,6 +52,13 @@ export const setContexts = (
       currentService: service,
       currentEditor: editor,
     }),
+    REMOTE_PALETTES_ORG: new FeatureStatus({
+      features: features,
+      featureName: 'REMOTE_PALETTES_ORG',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SOURCE: new FeatureStatus({
       features: features,
       featureName: 'SOURCE',
@@ -186,6 +193,13 @@ export const setContexts = (
       isUpdated: false,
       isNew: featuresList.REMOTE_PALETTES_COMMUNITY.isNew(),
       isActive: featuresList.REMOTE_PALETTES_COMMUNITY.isActive(),
+    },
+    {
+      label: locales.get().browse.contexts.resource,
+      id: 'REMOTE_PALETTES_ORG',
+      isUpdated: false,
+      isNew: featuresList.REMOTE_PALETTES_ORG.isNew(),
+      isActive: featuresList.REMOTE_PALETTES_ORG.isActive(),
     },
     {
       label: locales.get().contexts.source,

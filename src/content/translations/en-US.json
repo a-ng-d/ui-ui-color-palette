@@ -71,7 +71,8 @@
       "community": "Community",
       "page": "This page",
       "file": "This file",
-      "self": "My palettes"
+      "self": "My palettes",
+      "resource": "Organization"
     },
     "page": {
       "title": "UI Color Palettes on this page"

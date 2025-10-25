@@ -5,7 +5,7 @@ import {
   Data,
   FullConfiguration,
   MetaConfiguration,
-  ExternalPalettes,
+  ExternalPalettes as BaseExternalPalettes,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -36,7 +36,12 @@ import { ConfigContextType } from '../../index'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import { getSupabase } from '../../external/auth/client'
 
-interface CommunityPalettesProps extends BaseProps, WithConfigProps {
+interface ExternalPalettes extends BaseExternalPalettes {
+  org_avatar_url?: string
+  org_name?: string
+}
+
+interface OrgPalettesProps extends BaseProps, WithConfigProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -54,7 +59,7 @@ interface CommunityPalettesProps extends BaseProps, WithConfigProps {
   }) => void
 }
 
-interface CommunityPalettesStates {
+interface OrgPalettesStates {
   isLoadMoreActionLoading: boolean
   isSignInLoading: boolean
   isSecondaryActionLoading: Array<boolean>
@@ -62,9 +67,9 @@ interface CommunityPalettesStates {
   seenPaletteId: string
 }
 
-export default class CommunityPalettes extends PureComponent<
-  CommunityPalettesProps,
-  CommunityPalettesStates
+export default class OrgPalettes extends PureComponent<
+  OrgPalettesProps,
+  OrgPalettesStates
 > {
   static features = (
     planStatus: PlanStatus,
@@ -109,7 +114,7 @@ export default class CommunityPalettes extends PureComponent<
     }),
   })
 
-  constructor(props: CommunityPalettesProps) {
+  constructor(props: OrgPalettesProps) {
     super(props)
     this.state = {
       isLoadMoreActionLoading: false,
@@ -142,7 +147,7 @@ export default class CommunityPalettes extends PureComponent<
     return actions[this.props.status]?.()
   }
 
-  componentDidUpdate = (prevProps: Readonly<CommunityPalettesProps>): void => {
+  componentDidUpdate = (prevProps: Readonly<OrgPalettesProps>): void => {
     if (prevProps.palettesList.length !== this.props.palettesList.length)
       this.setState({
         isSecondaryActionLoading: Array(this.props.palettesList.length).fill(
@@ -206,10 +211,9 @@ export default class CommunityPalettes extends PureComponent<
       ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared'
         )
-        .eq('is_shared', true)
-        .eq('type', 'MEMBER')
+        .eq('type', 'ORG')
         .order('published_at', { ascending: false })
         .range(
           this.props.config.limits.pageSize * (currentPage - 1),
@@ -220,10 +224,9 @@ export default class CommunityPalettes extends PureComponent<
       ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared'
         )
-        .eq('is_shared', true)
-        .eq('type', 'MEMBER')
+        .eq('type', 'ORG')
         .order('published_at', { ascending: false })
         .range(
           this.props.config.limits.pageSize * (currentPage - 1),
@@ -231,6 +234,8 @@ export default class CommunityPalettes extends PureComponent<
         )
         .ilike('name', `%${searchQuery}%`))
     }
+
+    console.log(data, error)
 
     if (!error) {
       const batch = this.props.palettesList.concat(
@@ -502,13 +507,13 @@ export default class CommunityPalettes extends PureComponent<
                   palette.themes ?? []
                 )}
                 user={{
-                  avatar: palette.creator_avatar_url ?? '',
-                  name: palette.creator_full_name ?? '',
+                  avatar: palette.org_avatar_url ?? '',
+                  name: palette.org_name ?? '',
                 }}
                 actionsSlot={
                   <>
                     <Feature
-                      isActive={CommunityPalettes.features(
+                      isActive={OrgPalettes.features(
                         this.props.planStatus,
                         this.props.config,
                         this.props.service,
@@ -522,13 +527,13 @@ export default class CommunityPalettes extends PureComponent<
                           label:
                             this.props.locales.browse.actions.glancePalette,
                         }}
-                        isBlocked={CommunityPalettes.features(
+                        isBlocked={OrgPalettes.features(
                           this.props.planStatus,
                           this.props.config,
                           this.props.service,
                           this.props.editor
                         ).GLANCE_PALETTE.isBlocked()}
-                        isNew={CommunityPalettes.features(
+                        isNew={OrgPalettes.features(
                           this.props.planStatus,
                           this.props.config,
                           this.props.service,
@@ -543,7 +548,7 @@ export default class CommunityPalettes extends PureComponent<
                       />
                     </Feature>
                     <Feature
-                      isActive={CommunityPalettes.features(
+                      isActive={OrgPalettes.features(
                         this.props.planStatus,
                         this.props.config,
                         this.props.service,
@@ -554,13 +559,13 @@ export default class CommunityPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.browse.actions.openPalette}
                         isLoading={this.state.isSecondaryActionLoading[index]}
-                        isBlocked={CommunityPalettes.features(
+                        isBlocked={OrgPalettes.features(
                           this.props.planStatus,
                           this.props.config,
                           this.props.service,
                           this.props.editor
                         ).SEE_PALETTE.isBlocked()}
-                        isNew={CommunityPalettes.features(
+                        isNew={OrgPalettes.features(
                           this.props.planStatus,
                           this.props.config,
                           this.props.service,
@@ -603,7 +608,7 @@ export default class CommunityPalettes extends PureComponent<
                       />
                     </Feature>
                     <Feature
-                      isActive={CommunityPalettes.features(
+                      isActive={OrgPalettes.features(
                         this.props.planStatus,
                         this.props.config,
                         this.props.service,
@@ -614,7 +619,7 @@ export default class CommunityPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.actions.addToLocal}
                         isLoading={this.state.isSecondaryActionLoading[index]}
-                        isBlocked={CommunityPalettes.features(
+                        isBlocked={OrgPalettes.features(
                           this.props.planStatus,
                           this.props.config,
                           this.props.service,
