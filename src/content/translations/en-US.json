@@ -52,7 +52,10 @@
       "moreParameters": "More parameters",
       "managePalette": "Manage palette",
       "selectPalette": "Select palette",
-      "glancePalette": "Glance palette"
+      "glancePalette": "Glance palette",
+      "starPalette": "Add to starred",
+      "unstarPalette": "Remove from starred",
+      "signInToStar": "Sign in to star"
     },
     "deletePaletteDialog": {
       "cancel": "Cancel",
@@ -167,7 +170,8 @@
     "unshare": "The palette has not been removed from the community",
     "activatedLicense": "This license key is not valid and cannot be activated. Please check it and try again. If the problem persists, please contact support.",
     "unlinkedLicense": "Your license key \"{licenseKey}\" is no longer valid or cannot be unlinked remotely. Please unlink it locally in order to replace it with a new one. If the problem persists, please contact support.",
-    "unavailableAi": "The AI service is currently unavailable. Please try again later."
+    "unavailableAi": "The AI service is currently unavailable. Please try again later.",
+    "starPalette": "The palette cannot be starred"
   },
   "export": {
     "actions": {

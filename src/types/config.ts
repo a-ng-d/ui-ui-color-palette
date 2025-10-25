@@ -36,6 +36,7 @@ export interface Config {
   dbs: {
     palettesDbViewName: string
     palettesDbTableName: string
+    starredPalettesDbTableName: string
   }
   urls: {
     authWorkerUrl: string

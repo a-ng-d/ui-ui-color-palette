@@ -147,6 +147,7 @@ root.render(
     dbs={{
       palettesDbViewName: globalConfig.dbs.palettesDbViewName,
       palettesDbTableName: globalConfig.dbs.palettesDbTableName,
+      starredPalettesDbTableName: globalConfig.dbs.starredPalettesDbTableName,
     }}
     urls={{
       authWorkerUrl: globalConfig.urls.authWorkerUrl,

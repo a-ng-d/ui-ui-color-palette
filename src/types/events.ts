@@ -21,6 +21,7 @@ export interface PublicationEvent {
     | 'ADD_PALETTE'
     | 'SHARE_PALETTE'
     | 'SEE_PALETTE'
+    | 'STAR_PALETTE'
 }
 
 export interface ImportEvent {

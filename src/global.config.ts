@@ -579,6 +579,7 @@ const globalConfig: Config = {
   dbs: {
     palettesDbViewName: 'sandbox_palettes_with_creators',
     palettesDbTableName: 'sandbox_palettes',
+    starredPalettesDbTableName: 'starred_palettes',
   },
   urls: {
     authWorkerUrl: 'http://localhost:8787',
