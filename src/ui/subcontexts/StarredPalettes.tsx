@@ -1,12 +1,9 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
-  BaseConfiguration,
   Data,
   FullConfiguration,
-  MetaConfiguration,
   ExternalPalettes,
-  ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
@@ -49,11 +46,7 @@ interface StarredPalettesProps extends BaseProps, WithConfigProps {
   onChangeSearchQuery: (query: string) => void
   onLoadPalettesList: (palettes: Array<ExternalPalettes>) => void
   onSelectPalette: (id: string) => Promise<void>
-  onSeePalette: (palette: {
-    base: BaseConfiguration
-    themes: Array<ThemeConfiguration>
-    meta: MetaConfiguration
-  }) => void
+  onSeePalette: (id: string) => Promise<void>
 }
 
 interface StarredPalettesStates {
@@ -80,9 +73,9 @@ export default class StarredPalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    OPEN_PALETTE: new FeatureStatus({
+    SEE_PALETTE: new FeatureStatus({
       features: config.features,
-      featureName: 'OPEN_PALETTE',
+      featureName: 'SEE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -315,6 +308,10 @@ export default class StarredPalettes extends PureComponent<
     await this.props.onSelectPalette(id)
   }
 
+  onSeePalette = async (id: string) => {
+    await this.props.onSeePalette(id)
+  }
+
   onStarPalette = async (id: string) => {
     starPalette({
       id: id,
@@ -513,6 +510,66 @@ export default class StarredPalettes extends PureComponent<
                               ),
                           })
                           this.onStarPalette(palette.palette_id)
+                        }}
+                      />
+                    </Feature>
+                    <Feature
+                      isActive={StarredPalettes.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SEE_PALETTE.isActive()}
+                    >
+                      <Button
+                        type="secondary"
+                        label={this.props.locales.browse.actions.openPalette}
+                        isLoading={this.state.isAddToLocalActionLoading[index]}
+                        isBlocked={StarredPalettes.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).SEE_PALETTE.isBlocked()}
+                        isNew={StarredPalettes.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).SEE_PALETTE.isNew()}
+                        action={() => {
+                          this.setState({
+                            isAddToLocalActionLoading: this.state[
+                              'isAddToLocalActionLoading'
+                            ].map((loading, i) =>
+                              i === index ? true : loading
+                            ),
+                          })
+
+                          this.onSeePalette(palette.palette_id)
+                            .finally(() =>
+                              this.setState({
+                                isAddToLocalActionLoading: Array(
+                                  this.props.palettesList.length
+                                ).fill(false),
+                              })
+                            )
+                            .catch((error) => {
+                              console.error(error)
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: {
+                                    type: 'POST_MESSAGE',
+                                    data: {
+                                      type: 'ERROR',
+                                      message:
+                                        this.props.locales.error.openPalette,
+                                    },
+                                  },
+                                },
+                                '*'
+                              )
+                            })
                         }}
                       />
                     </Feature>

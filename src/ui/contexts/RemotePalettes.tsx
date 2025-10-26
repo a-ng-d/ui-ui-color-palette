@@ -155,6 +155,7 @@ export default class RemotePalettes extends PureComponent<
       context: (e.target as HTMLElement).dataset.feature as Context,
     })
 
+  // Direct Actions
   onSelectPalette = async (id: string) => {
     const supabase = getSupabase()
 
@@ -206,7 +207,6 @@ export default class RemotePalettes extends PureComponent<
           '*'
         )
 
-        // Increment add count pour Community palettes uniquement
         if (this.state.context === 'REMOTE_PALETTES_COMMUNITY')
           try {
             await supabase.rpc('increment_add_count', {
@@ -231,6 +231,71 @@ export default class RemotePalettes extends PureComponent<
               this.props.userSession.userId === data[0].creator_id
                 ? 'REUSE_PALETTE'
                 : 'ADD_PALETTE',
+          }
+        )
+
+        return
+      } catch {
+        throw error
+      }
+    else throw error
+  }
+
+  onSeePalette = async (id: string) => {
+    const supabase = getSupabase()
+
+    if (!supabase) throw new Error('Supabase client is not initialized')
+
+    const { data, error } = await supabase
+      .from(this.props.config.dbs.palettesDbViewName)
+      .select('*')
+      .eq('palette_id', id)
+
+    if (!error && data.length > 0)
+      try {
+        this.props.onSeePalette({
+          base: {
+            name: data[0].name,
+            description: data[0].description,
+            preset: data[0].preset,
+            shift: data[0].shift,
+            areSourceColorsLocked: data[0].are_source_colors_locked,
+            colors: data[0].colors,
+            colorSpace: data[0].color_space,
+            algorithmVersion: data[0].algorithm_version,
+          } as BaseConfiguration,
+          themes: data[0].themes,
+          meta: {
+            id: data[0].palette_id,
+            dates: {
+              createdAt: data[0].created_at,
+              updatedAt: data[0].updated_at,
+              publishedAt: data[0].published_at,
+              openedAt: new Date().toISOString(),
+            },
+            publicationStatus: {
+              isPublished: true,
+              isShared: data[0].is_shared,
+            },
+            creatorIdentity: {
+              creatorFullName: data[0].creator_full_name,
+              creatorAvatar: data[0].creator_avatar_url,
+              creatorId: data[0].creator_id,
+            },
+          },
+        })
+
+        trackPublicationEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId === ''
+            ? this.props.userIdentity.id === ''
+              ? ''
+              : this.props.userIdentity.id
+            : this.props.userSession.userId,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'SEE_PALETTE',
           }
         )
 
@@ -298,6 +363,7 @@ export default class RemotePalettes extends PureComponent<
               this.setState({ communityPalettesList: palettesList })
             }
             onSelectPalette={this.onSelectPalette}
+            onSeePalette={this.onSeePalette}
           />
         )
         break
@@ -324,6 +390,7 @@ export default class RemotePalettes extends PureComponent<
               this.setState({ orgPalettesList: palettesList })
             }
             onSelectPalette={this.onSelectPalette}
+            onSeePalette={this.onSeePalette}
           />
         )
         break
@@ -350,6 +417,7 @@ export default class RemotePalettes extends PureComponent<
               this.setState({ starredPalettesList: palettesList })
             }
             onSelectPalette={this.onSelectPalette}
+            onSeePalette={this.onSeePalette}
           />
         )
         break

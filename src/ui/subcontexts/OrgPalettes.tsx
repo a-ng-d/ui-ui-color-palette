@@ -1,11 +1,8 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
-  BaseConfiguration,
   Data,
   FullConfiguration,
-  MetaConfiguration,
-  ThemeConfiguration,
   ExternalPalettes,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
@@ -33,7 +30,6 @@ import {
   Service,
 } from '../../types/app'
 import { ConfigContextType } from '../../index'
-import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import { getSupabase } from '../../external/auth/client'
 
 interface OrgPalettesProps extends BaseProps, WithConfigProps {
@@ -48,11 +44,7 @@ interface OrgPalettesProps extends BaseProps, WithConfigProps {
   onChangeSearchQuery: (query: string) => void
   onLoadPalettesList: (palettes: Array<ExternalPalettes>) => void
   onSelectPalette: (id: string) => Promise<void>
-  onSeePalette: (palette: {
-    base: BaseConfiguration
-    themes: Array<ThemeConfiguration>
-    meta: MetaConfiguration
-  }) => void
+  onSeePalette: (id: string) => Promise<void>
 }
 
 interface OrgPalettesStates {
@@ -63,10 +55,7 @@ interface OrgPalettesStates {
   seenPaletteId: string
 }
 
-export default class OrgPalettes extends PureComponent<
-  OrgPalettesProps,
-  OrgPalettesStates
-> {
+export default class OrgPalettes extends PureComponent<OrgPalettesProps, OrgPalettesStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -76,13 +65,6 @@ export default class OrgPalettes extends PureComponent<
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    OPEN_PALETTE: new FeatureStatus({
-      features: config.features,
-      featureName: 'OPEN_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -204,7 +186,7 @@ export default class OrgPalettes extends PureComponent<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;;({ data, error } = await supabase
+      ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
@@ -218,7 +200,7 @@ export default class OrgPalettes extends PureComponent<
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;;({ data, error } = await supabase
+      ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
@@ -257,68 +239,7 @@ export default class OrgPalettes extends PureComponent<
   }
 
   onSeePalette = async (id: string) => {
-    const supabase = getSupabase()
-
-    if (!supabase) throw new Error('Supabase client is not initialized')
-
-    const { data, error } = await supabase
-      .from(this.props.config.dbs.palettesDbViewName)
-      .select('*')
-      .eq('palette_id', id)
-
-    if (!error && data.length > 0)
-      try {
-        this.props.onSeePalette({
-          base: {
-            name: data[0].name,
-            description: data[0].description,
-            preset: data[0].preset,
-            shift: data[0].shift,
-            areSourceColorsLocked: data[0].are_source_colors_locked,
-            colors: data[0].colors,
-            colorSpace: data[0].color_space,
-            algorithmVersion: data[0].algorithm_version,
-          } as BaseConfiguration,
-          themes: data[0].themes,
-          meta: {
-            id: data[0].palette_id,
-            dates: {
-              createdAt: data[0].created_at,
-              updatedAt: data[0].updated_at,
-              publishedAt: data[0].published_at,
-              openedAt: new Date().toISOString(),
-            },
-            publicationStatus: {
-              isPublished: true,
-              isShared: data[0].is_shared,
-            },
-            creatorIdentity: {
-              creatorFullName: data[0].creator_full_name,
-              creatorAvatar: data[0].creator_avatar_url,
-              creatorId: data[0].creator_id,
-            },
-          },
-        })
-
-        trackPublicationEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'SEE_PALETTE',
-          }
-        )
-
-        return
-      } catch {
-        throw error
-      }
-    else throw error
+    await this.props.onSeePalette(id)
   }
 
   // Templates
