@@ -1,10 +1,60 @@
 {
   "about": {
-    "author": "Aurélien Grimaud",
-    "createdBy": "Created and maintained by ",
-    "isLicensed": " is licensed under ",
-    "license": "MIT",
-    "sourceCode": "Source code",
+    "information": {
+      "version": "Version {version}",
+      "creator": {
+      "sentence": "• Created and maintained by {author}",
+        "author": "Aurélien Grimaud"
+      },
+      "sourceCode": {
+        "sentence": "• Source code is licensed under {license}",
+        "license": "MIT"
+      },
+      "contribution": {
+        "sentence": "• Contributions are welcome on {repository}",
+        "repository": "GitHub"
+      }
+    },  
+    "attributions": {
+      "title": "Attributions",
+      "chroma": {
+        "sentence": "• The colors are managed thanks to the {chroma} library by {author}",
+        "chroma": "chroma.js",
+        "author": "Gregor Aisch"
+      },
+      "apca": {
+        "sentence": "• The APCA algorithm is provided thanks to the {apca} module by {author}",
+        "apca": "apca-w3",
+        "author": "Andrew Somers"
+      },
+      "colorName": {
+        "sentence": "• The color names are generated thanks to the {colorName} library by {author}",
+        "colorName": "color-names",
+        "author": "David Aerne"
+      },
+      "preact": {
+        "sentence": "• The UI is built using {preact}",
+        "preact": "Preact"
+      },
+      "supabase": {
+        "sentence": "• The remote palettes are stored using {supabase}",
+        "supabase": "Supabase"
+      },
+      "uid": {
+        "sentence": "• The unique identifiers are generated thanks to the {uid} library by {author}",
+        "uid": "uid",
+        "author": "Luke Edwards"
+      },
+      "figmug": {
+        "sentence": "• The component integration is powered by {figmug} by {author}",
+        "figmug": "Figmug",
+        "author": "Aurélien Grimaud"
+      },
+      "vite": {
+        "sentence": "• The build tool is powered by {vite}",
+        "vite": "Vite"
+      }
+    },
     "title": "About UI Color Palette"
   },
   "actions": {
