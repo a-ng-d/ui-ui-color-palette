@@ -234,7 +234,6 @@ export default class StarredPalettes extends PureComponent<
         )
 
       if (!starredError && starredData) {
-        console.log()
         data = starredData
           .map(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any

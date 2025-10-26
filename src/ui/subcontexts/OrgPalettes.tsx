@@ -5,8 +5,8 @@ import {
   Data,
   FullConfiguration,
   MetaConfiguration,
-  ExternalPalettes as BaseExternalPalettes,
   ThemeConfiguration,
+  ExternalPalettes,
 } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
@@ -35,11 +35,6 @@ import {
 import { ConfigContextType } from '../../index'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import { getSupabase } from '../../external/auth/client'
-
-interface ExternalPalettes extends BaseExternalPalettes {
-  org_avatar_url?: string
-  org_name?: string
-}
 
 interface OrgPalettesProps extends BaseProps, WithConfigProps {
   context: Context
@@ -223,7 +218,7 @@ export default class OrgPalettes extends PureComponent<
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;;({ data, error } = await supabase
+      ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, add_count'
@@ -237,8 +232,6 @@ export default class OrgPalettes extends PureComponent<
         )
         .ilike('name', `%${searchQuery}%`))
     }
-
-    console.log(data, error)
 
     if (!error) {
       const batch = this.props.palettesList.concat(
