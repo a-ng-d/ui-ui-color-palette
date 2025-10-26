@@ -36,6 +36,10 @@ export interface ImportEvent {
 
 export interface ScaleEvent {
   feature:
+    | 'SWITCH_CUSTOM'
+    | 'SWITCH_CUSTOM_1_10'
+    | 'SWITCH_CUSTOM_10_100'
+    | 'SWITCH_CUSTOM_100_1000'
     | 'SWITCH_MATERIAL'
     | 'SWITCH_MATERIAL_3'
     | 'SWITCH_TAILWIND'
@@ -46,14 +50,12 @@ export interface ScaleEvent {
     | 'SWITCH_OPEN_COLOR'
     | 'SWITCH_ADS'
     | 'SWITCH_ADS_NEUTRAL'
+    | 'SWITCH_SPECTRUM'
+    | 'SWITCH_SPECTRUM_NEUTRAL'
     | 'SWITCH_CARBON'
     | 'SWITCH_BASE'
     | 'SWITCH_POLARIS'
     | 'SWITCH_FLUENT'
-    | 'SWITCH_CUSTOM'
-    | 'SWITCH_CUSTOM_1_10'
-    | 'SWITCH_CUSTOM_10_100'
-    | 'SWITCH_CUSTOM_100_1000'
     | 'OPEN_KEYBOARD_SHORTCUTS'
     | 'CONTRAST_MODE_ON'
     | 'CONTRAST_MODE_OFF'

@@ -120,6 +120,26 @@ export const presets: Array<PresetConfiguration> = [
     id: 'ADS_NEUTRAL',
   },
   {
+    name: locales.get().scale.presets.spectrum,
+    stops: [
+      100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300,
+    ],
+    min: 16,
+    max: 96,
+    easing: 'LINEAR',
+    family: locales.get().scale.presets.adobe,
+    id: 'SPECTRUM',
+  },
+  {
+    name: locales.get().scale.presets.spectrumNeutral,
+    stops: [50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+    min: 0,
+    max: 100,
+    easing: 'LINEAR',
+    family: locales.get().scale.presets.adobe,
+    id: 'SPECTRUM_NEUTRAL',
+  },
+  {
     name: locales.get().scale.presets.carbon,
     stops: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     min: 24,

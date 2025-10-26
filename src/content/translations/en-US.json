@@ -629,7 +629,10 @@
       "radix": "Radix, 1-12",
       "untitledUI": "Untitled UI, 25-950",
       "openColor": "Open Color, 0-9",
-      "bootstrap": "Bootstrap, 100-900"
+      "bootstrap": "Bootstrap, 100-900",
+      "spectrum": "Spectrum, 100-1300",
+      "spectrumNeutral": "Spectrum, Neutral 25-900",
+      "adobe": "Adobe"
     },
     "shift": {
       "chroma": {

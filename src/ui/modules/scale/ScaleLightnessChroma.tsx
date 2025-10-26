@@ -383,6 +383,14 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         trackingFeature: 'SWITCH_ADS_NEUTRAL' as const,
         updateName: true,
       },
+      SPECTRUM: {
+        trackingFeature: 'SWITCH_SPECTRUM' as const,
+        updateName: true,
+      },
+      SPECTRUM_NEUTRAL: {
+        trackingFeature: 'SWITCH_SPECTRUM_NEUTRAL' as const,
+        updateName: true,
+      },
       CARBON: { trackingFeature: 'SWITCH_CARBON' as const, updateName: false },
       BASE: { trackingFeature: 'SWITCH_BASE' as const, updateName: false },
       POLARIS: {
@@ -472,6 +480,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const actions: {
       [action: string]: () => void
     } = {
+      CUSTOM_1_10: () => setCustomPreset('_1_10'),
+      CUSTOM_10_100: () => setCustomPreset('_10_100'),
+      CUSTOM_100_1000: () => setCustomPreset('_100_1000'),
       MATERIAL: () => setPreset('MATERIAL'),
       MATERIAL_3: () => setPreset('MATERIAL_3'),
       TAILWIND: () => setPreset('TAILWIND'),
@@ -482,13 +493,12 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       OPEN_COLOR: () => setPreset('OPEN_COLOR'),
       ADS: () => setPreset('ADS'),
       ADS_NEUTRAL: () => setPreset('ADS_NEUTRAL'),
+      SPECTRUM: () => setPreset('SPECTRUM'),
+      SPECTRUM_NEUTRAL: () => setPreset('SPECTRUM_NEUTRAL'),
       CARBON: () => setPreset('CARBON'),
       BASE: () => setPreset('BASE'),
       POLARIS: () => setPreset('POLARIS'),
       FLUENT: () => setPreset('FLUENT'),
-      CUSTOM_1_10: () => setCustomPreset('_1_10'),
-      CUSTOM_10_100: () => setCustomPreset('_10_100'),
-      CUSTOM_100_1000: () => setCustomPreset('_100_1000'),
       DEFAULT: () => null,
     }
 
