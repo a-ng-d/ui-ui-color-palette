@@ -105,9 +105,9 @@ export default class RemotePalettes extends PureComponent<
     this.contexts = setContexts(
       [
         'REMOTE_PALETTES_SELF',
+        'REMOTE_PALETTES_STARRED',
         'REMOTE_PALETTES_ORG',
         'REMOTE_PALETTES_COMMUNITY',
-        'REMOTE_PALETTES_STARRED',
       ],
       props.planStatus,
       props.config.features,
