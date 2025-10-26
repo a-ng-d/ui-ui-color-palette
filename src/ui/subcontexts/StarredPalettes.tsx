@@ -48,6 +48,7 @@ interface StarredPalettesProps extends BaseProps, WithConfigProps {
   onChangeCurrentPage: (page: number) => void
   onChangeSearchQuery: (query: string) => void
   onLoadPalettesList: (palettes: Array<ExternalPalettes>) => void
+  onSelectPalette: (id: string) => Promise<void>
   onSeePalette: (palette: {
     base: BaseConfiguration
     themes: Array<ThemeConfiguration>
@@ -303,75 +304,7 @@ export default class StarredPalettes extends PureComponent<
   }
 
   onSelectPalette = async (id: string) => {
-    const supabase = getSupabase()
-
-    if (!supabase) throw new Error('Supabase client is not initialized')
-
-    const { data, error } = await supabase
-      .from(this.props.config.dbs.palettesDbViewName)
-      .select('*')
-      .eq('palette_id', id)
-
-    if (!error && data.length > 0)
-      try {
-        sendPluginMessage(
-          {
-            pluginMessage: {
-              type: 'CREATE_PALETTE_FROM_REMOTE',
-              data: {
-                base: {
-                  name: data[0].name,
-                  description: data[0].description,
-                  preset: data[0].preset,
-                  shift: data[0].shift,
-                  areSourceColorsLocked: data[0].are_source_colors_locked,
-                  colors: data[0].colors,
-                  colorSpace: data[0].color_space,
-                  algorithmVersion: data[0].algorithm_version,
-                } as BaseConfiguration,
-                themes: data[0].themes,
-                meta: {
-                  id: data[0].palette_id,
-                  dates: {
-                    createdAt: data[0].created_at,
-                    updatedAt: data[0].updated_at,
-                    publishedAt: data[0].published_at,
-                  },
-                  publicationStatus: {
-                    isPublished: true,
-                    isShared: data[0].is_shared,
-                  },
-                  creatorIdentity: {
-                    creatorFullName: data[0].creator_full_name,
-                    creatorAvatar: data[0].creator_avatar_url,
-                    creatorId: data[0].creator_id,
-                  },
-                } as MetaConfiguration,
-              },
-            },
-          },
-          '*'
-        )
-
-        trackPublicationEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'ADD_PALETTE',
-          }
-        )
-
-        return
-      } catch {
-        throw error
-      }
-    else throw error
+    await this.props.onSelectPalette(id)
   }
 
   onStarPalette = async (id: string) => {
