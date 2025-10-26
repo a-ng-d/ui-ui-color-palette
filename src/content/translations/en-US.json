@@ -1,59 +1,59 @@
 {
   "about": {
-    "information": {
-      "version": "Version {version}",
-      "creator": {
-      "sentence": "• Created and maintained by {author}",
-        "author": "Aurélien Grimaud"
-      },
-      "sourceCode": {
-        "sentence": "• Source code is licensed under {license}",
-        "license": "MIT"
-      },
-      "contribution": {
-        "sentence": "• Contributions are welcome on {repository}",
-        "repository": "GitHub"
-      }
-    },  
     "attributions": {
-      "title": "Attributions",
-      "chroma": {
-        "sentence": "• The colors are managed thanks to the {chroma} library by {author}",
-        "chroma": "chroma.js",
-        "author": "Gregor Aisch"
-      },
       "apca": {
-        "sentence": "• The APCA algorithm is provided thanks to the {apca} module by {author}",
         "apca": "apca-w3",
-        "author": "Andrew Somers"
+        "author": "Andrew Somers",
+        "sentence": "• The APCA algorithm is provided thanks to the {apca} module by {author}"
+      },
+      "chroma": {
+        "author": "Gregor Aisch",
+        "chroma": "chroma.js",
+        "sentence": "• The colors are managed thanks to the {chroma} library by {author}"
       },
       "colorName": {
-        "sentence": "• The color names are generated thanks to the {colorName} library by {author}",
+        "author": "David Aerne",
         "colorName": "color-names",
-        "author": "David Aerne"
+        "sentence": "• The color names are generated thanks to the {colorName} library by {author}"
+      },
+      "figmug": {
+        "author": "Aurélien Grimaud",
+        "figmug": "Figmug",
+        "sentence": "• The component integration is powered by {figmug} by {author}"
       },
       "preact": {
-        "sentence": "• The UI is built using {preact}",
-        "preact": "Preact"
+        "preact": "Preact",
+        "sentence": "• The UI is built using {preact}"
       },
       "supabase": {
         "sentence": "• The remote palettes are stored using {supabase}",
         "supabase": "Supabase"
       },
+      "title": "Attributions",
       "uid": {
+        "author": "Luke Edwards",
         "sentence": "• The unique identifiers are generated thanks to the {uid} library by {author}",
-        "uid": "uid",
-        "author": "Luke Edwards"
-      },
-      "figmug": {
-        "sentence": "• The component integration is powered by {figmug} by {author}",
-        "figmug": "Figmug",
-        "author": "Aurélien Grimaud"
+        "uid": "uid"
       },
       "vite": {
         "sentence": "• The build tool is powered by {vite}",
         "vite": "Vite"
       }
+    },
+    "information": {
+      "contribution": {
+        "repository": "GitHub",
+        "sentence": "• Contributions are welcome on {repository}"
+      },
+      "creator": {
+        "author": "Aurélien Grimaud",
+        "sentence": "• Created and maintained by {author}"
+      },
+      "sourceCode": {
+        "license": "MIT",
+        "sentence": "• Source code is licensed under {license}"
+      },
+      "version": "Version {version}"
     },
     "title": "About UI Color Palette"
   },
@@ -64,12 +64,9 @@
       "several": "{count} color modes",
       "single": "{count} color mode"
     },
-    "explorePalettes": "Explore palettes from community",
-    "syncLocalStyles": "Sync with local styles",
-    "syncLocalVariables": "Sync with local variables",
     "createPalette": "New UI Color Palette",
-    "savePalette": "Create UI Color Palette",
     "duplicate": "Duplicate",
+    "explorePalettes": "Explore palettes from community",
     "export": "Export palette as {format}",
     "generateDocument": {
       "label": "Generate documentation",
@@ -81,6 +78,7 @@
     "publishOrSyncPalette": "Publish or Synchronize palette",
     "publishPalette": "Publish palette",
     "pushUpdates": "Push updates to the document",
+    "savePalette": "Create UI Color Palette",
     "shadesNumber": {
       "several": "{count} shades/tints",
       "single": "{count} shade/tint"
@@ -90,23 +88,43 @@
       "single": "{count} source color"
     },
     "sync": "Sync with local library",
+    "syncLocalStyles": "Sync with local styles",
+    "syncLocalVariables": "Sync with local variables",
     "syncPalette": "Synchronize palette"
+  },
+  "announcements": {
+    "cta": {
+      "gotIt": "Got it",
+      "learnMore": "Learn more",
+      "next": "Next"
+    }
   },
   "browse": {
     "actions": {
       "deletePalette": "Delete palette",
       "duplicatePalette": "Duplicate palette",
       "editPalette": "Edit palette",
-      "openPalette": "Open palette",
-      "new": "New UI Color Palette",
-      "moreParameters": "More parameters",
-      "managePalette": "Manage palette",
-      "selectPalette": "Select palette",
       "glancePalette": "Glance palette",
+      "managePalette": "Manage palette",
+      "moreParameters": "More parameters",
+      "new": "New UI Color Palette",
+      "openPalette": "Open palette",
+      "selectPalette": "Select palette",
+      "signInToStar": "Sign in to star",
       "starPalette": "Add to starred",
-      "unstarPalette": "Remove from starred",
-      "signInToStar": "Sign in to star"
+      "unstarPalette": "Remove from starred"
     },
+    "contexts": {
+      "community": "Community",
+      "file": "This file",
+      "local": "Local",
+      "org": "Organization",
+      "page": "This page",
+      "remote": "Library",
+      "self": "My palettes",
+      "starred": "Starred"
+    },
+    "copy": "Copy of {name}",
     "deletePaletteDialog": {
       "cancel": "Cancel",
       "delete": "Delete palette",
@@ -114,55 +132,40 @@
       "title": "Delete palette"
     },
     "document": {
-      "restore": "Restore palette",
-      "open": "Open document"
-    },
-    "copy": "Copy of {name}",
-    "contexts": {
-      "local": "Local",
-      "remote": "Library",
-      "community": "Community",
-      "page": "This page",
-      "file": "This file",
-      "self": "My palettes",
-      "org": "Organization",
-      "starred": "Starred"
-    },
-    "page": {
-      "title": "UI Color Palettes on this page"
+      "open": "Open document",
+      "restore": "Restore palette"
     },
     "file": {
       "title": "UI Color Palettes on this file"
     },
-    "search": "Search palettes",
+    "glancePalette": {
+      "title": "Palette at a glance"
+    },
     "lazyLoad": {
       "completeList": "The palettes list is complete",
       "loadMore": "Load more palettes",
       "search": "Search palettes…"
     },
+    "page": {
+      "title": "UI Color Palettes on this page"
+    },
+    "search": "Search palettes",
     "signInFirst": {
       "message": "Find and reuse your published palettes once authentified",
       "signIn": "Sign in to fetch your palettes"
-    },
-    "glancePalette": {
-      "title": "Palette at a glance"
-    }
-  },
-  "create": {
-    "leavePaletteDialog": {
-      "cancel": "Cancel",
-      "leave": "Leave and return to palettes",
-      "message": "You have ongoing changes. Are you sure you want to leave?",
-      "title": "Ongoing changes"
     }
   },
   "colors": {
     "actions": {
-      "moreParameters": "More parameters",
-      "removeColor": "Remove color",
-      "new": "New UI Color",
+      "alphaBackground": "Background color behind transparency",
       "colorName": "Color name",
-      "alphaBackground": "Background color behind transparency"
+      "moreParameters": "More parameters",
+      "new": "New UI Color",
+      "removeColor": "Remove color"
+    },
+    "alpha": {
+      "helper": "The scale is applied to the color alpha channel instead of the lightness",
+      "label": "Alpha mode"
     },
     "callout": {
       "cta": "Create source color",
@@ -179,55 +182,83 @@
       "label": "LCH"
     },
     "moreParameters": "{count} parameters",
-    "title": "Source colors",
-    "alpha": {
-      "label": "Alpha mode",
-      "helper": "The scale is applied to the color alpha channel instead of the lightness"
-    }
+    "title": "Source colors"
   },
   "contexts": {
+    "back": "Back to palettes",
     "colors": "Colors",
     "export": "Export",
     "palettes": "Palettes",
     "scale": "Scale",
     "settings": "Settings",
     "source": "Sources",
-    "themes": "Modes",
-    "back": "Back to palettes"
+    "themes": "Modes"
   },
+  "create": {
+    "leavePaletteDialog": {
+      "cancel": "Cancel",
+      "leave": "Leave and return to palettes",
+      "message": "You have ongoing changes. Are you sure you want to leave?",
+      "title": "Ongoing changes"
+    }
+  },
+  "dev": {
+    "readyForDev": "Ready for development",
+    "vscode": {
+      "cta": "Try it out",
+      "message": "UI Color Palette is also available on the Figma VS Code plugin"
+    }
+  },
+  "empty": "-",
   "error": {
+    "activatedLicense": "This license key is not valid and cannot be activated. Please check it and try again. If the problem persists, please contact support.",
     "addToLocal": "The palette cannot be added",
-    "openPalette": "The palette cannot be opened",
     "announcements": "The announcements cannot be loaded",
     "authentication": "The authentication has failed",
     "badResponse": "The response is not valid",
     "corruption": "Your UI Color Palette seems corrupted. Do not edit any layer within it.",
+    "document": "The document cannot be generated",
     "export": "The code cannot be generated because the palette has not been found",
     "fetchPalette": "The palettes cannot be loaded",
     "generic": "Something went wrong",
     "noInternetConnection": "The connection with the remote palette is unlinked",
     "nonPublication": "The palette cannot be unpublished",
     "onboarding": "The onboarding cannot be loaded",
-    "palettesPicking": "The palettes cannot be picked for now",
+    "openPalette": "The palette cannot be opened",
+    "palette": "The palette cannot be created",
     "paletteSizeExceeded": "The palette size exceeds the limit. Please reduce the number of color modes, source colors or shades/tints.",
+    "palettesPicking": "The palettes cannot be picked for now",
     "publication": "The palette cannot be published",
     "share": "The palette has not been shared with the community",
+    "starPalette": "The palette cannot be starred",
     "styles": "The styles cannot be synchronized",
-    "document": "The document cannot be generated",
-    "palette": "The palette cannot be created",
-    "unfoundPalette": "The palette has not been found",
     "synchronization": "The palette has not been synchronized",
     "timeout": "The authentication has been timed out",
-    "unshare": "The palette has not been removed from the community",
-    "activatedLicense": "This license key is not valid and cannot be activated. Please check it and try again. If the problem persists, please contact support.",
-    "unlinkedLicense": "Your license key \"{licenseKey}\" is no longer valid or cannot be unlinked remotely. Please unlink it locally in order to replace it with a new one. If the problem persists, please contact support.",
     "unavailableAi": "The AI service is currently unavailable. Please try again later.",
-    "starPalette": "The palette cannot be starred"
+    "unfoundPalette": "The palette has not been found",
+    "unlinkedLicense": "Your license key \"{licenseKey}\" is no longer valid or cannot be unlinked remotely. Please unlink it locally in order to replace it with a new one. If the problem persists, please contact support.",
+    "unshare": "The palette has not been removed from the community"
+  },
+  "events": {
+    "colorsUpdated": "Source colors updated",
+    "documentCreated": "Document created",
+    "documentUpdated": "Document updated",
+    "paletteCreated": "Palette created",
+    "paletteCreatedFromDocument": "Palette created from document",
+    "paletteDuplicated": "Palette duplicated",
+    "palettePulled": "Palette pulled",
+    "paletteRemoved": "Palette removed",
+    "paletteUpdated": "Palette updated",
+    "scaleUpdated": "Scale updated",
+    "settingsUpdated": "Settings updated",
+    "stylesSynced": "Styles synchronized",
+    "themesUpdated": "Modes updated",
+    "variablesSynced": "Variables synchronized"
   },
   "export": {
     "actions": {
-      "selectColorSpace": "Select a color space",
-      "copyCode": "Copy code to the clipboard"
+      "copyCode": "Copy code to the clipboard",
+      "selectColorSpace": "Select a color space"
     },
     "android": {
       "compose": "Compose (KT)",
@@ -248,24 +279,23 @@
       "p3": "P3",
       "rgb": "RGB"
     },
-    "stylesheet": {
-      "label": "Stylesheet",
-      "customProperties": "Custom Properties (CSS)",
-      "scss": "SCSS Variables (SCSS)",
-      "less": "Less Variables (LESS)"
-    },
     "csv": {
       "spreadsheet": "Spreadsheet (CSV)"
     },
     "format": "Code",
     "preview": "Preview",
+    "stylesheet": {
+      "customProperties": "Custom Properties (CSS)",
+      "label": "Stylesheet",
+      "less": "Less Variables (LESS)",
+      "scss": "SCSS Variables (SCSS)"
+    },
     "tailwind": {
       "label": "Tailwind",
       "v3": "Tailwind v3 (JS)",
       "v4": "Tailwind v4 (CSS)"
     },
     "tokens": {
-      "styleDictionary": "Style Dictionary v3 (JSON)",
       "dtcg": {
         "label": "DTCG tokens (JSON)",
         "message": "DTCG tokens format is an ongoing work in progress led by a W3C group and can be changed in the future"
@@ -275,43 +305,22 @@
       "nativeTokens": {
         "label": "Native tokens (JSON)",
         "message": "Native tokens can be imported on Tokens Studio or Penpot"
-      } 
+      },
+      "styleDictionary": "Style Dictionary v3 (JSON)"
     }
   },
-  "events": {
-    "paletteCreated": "Palette created",
-    "paletteDuplicated": "Palette duplicated",
-    "paletteCreatedFromDocument": "Palette created from document",
-    "palettePulled": "Palette pulled",
-    "paletteRemoved": "Palette removed",
-    "documentCreated": "Document created",
-    "documentUpdated": "Document updated",
-    "scaleUpdated": "Scale updated",
-    "colorsUpdated": "Source colors updated",
-    "themesUpdated": "Modes updated",
-    "settingsUpdated": "Settings updated",
-    "paletteUpdated": "Palette updated",
-    "stylesSynced": "Styles synchronized",
-    "variablesSynced": "Variables synchronized"
-  },
+  "fail": "✘",
   "global": {
     "description": {
       "label": "Description",
       "placeholder": "What's it for?"
     }
   },
-  "announcements": {
-    "cta": {
-      "gotIt": "Got it",
-      "learnMore": "Learn more",
-      "next": "Next"
-    }
-  },
   "info": {
-    "askDesigner": "or ask designers to create a palette",
     "addToLocal": "The palette already exists",
     "announcements": "There is no announcement for now",
-    "onboarding": "There is no onboarding for now",
+    "askDesigner": "or ask designers to create a palette",
+    "copiedCode": "The code has been copied to the clipboard",
     "createdLocalStyles": {
       "none": "No style created",
       "plural": "{count} styles created",
@@ -322,18 +331,30 @@
       "plural": "{count} variables created",
       "single": "1 variable created"
     },
+    "createdVariablesAndModes": {
+      "noneNone": "No variable and mode created",
+      "nonePlural": "{modeCount} modes created",
+      "noneSingle": "1 mode created",
+      "pluralNone": "{variableCount} variables created",
+      "pluralPlural": "{variableCount} variables and {modeCount} modes created",
+      "pluralSingle": "{variableCount} variables and 1 mode created",
+      "singleNone": "1 variable created",
+      "singlePlural": "1 variable and {modeCount} modes created",
+      "singleSingle": "1 variable and mode created"
+    },
+    "maxNumberOfLocalPalettes": "Upgrade to /pro to add more than {maxCount} local palettes",
     "maxNumberOfSourceColors": "Upgrade to /pro to add more than {maxCount} source colors",
     "maxNumberOfStops": "Upgrade to /pro to add more than {maxCount} stops",
-    "maxNumberOfLocalPalettes": "Upgrade to /pro to add more than {maxCount} local palettes",
     "multipleBlockingMessages": {
+      "chroma": "Reset chroma",
       "head": "You can unlock the creation if you: {messages}",
+      "lockedSourceColors": "Unlock source colors",
       "sourceColors": "Decrease source colors",
       "stops": "Decrease stops",
-      "lockedSourceColors": "Unlock source colors",
-      "chroma": "Reset chroma",
       "visionSimulationMode": "Reset vision simulation"
     },
     "noResult": "No palette matches your search",
+    "onboarding": "There is no onboarding for now",
     "paletteCreated": "{name} palette created",
     "removedLocalStyles": {
       "none": "No style removed",
@@ -344,6 +365,17 @@
       "none": "No variable removed",
       "plural": "{count} variables removed",
       "single": "1 variable removed"
+    },
+    "removedVariablesAndModes": {
+      "noneNone": "No variable and mode removed",
+      "nonePlural": "{modeCount} modes removed",
+      "noneSingle": "1 mode removed",
+      "pluralNone": "{variableCount} variables removed",
+      "pluralPlural": "{variableCount} variables and {modeCount} modes removed",
+      "pluralSingle": "{variableCount} variables and 1 mode removed",
+      "singleNone": "1 variable removed",
+      "singlePlural": "1 variable and {modeCount} modes removed",
+      "singleSingle": "1 variable and mode removed"
     },
     "signOut": "See you later",
     "themesOnFree": "Upgrade to /pro to add or edit modes",
@@ -357,40 +389,17 @@
       "plural": "{count} variables updated",
       "single": "1 variable updated"
     },
-    "createdVariablesAndModes": {
-      "noneNone": "No variable and mode created",
-      "noneSingle": "1 mode created",
-      "singleNone": "1 variable created",
-      "nonePlural": "{modeCount} modes created",
-      "pluralNone": "{variableCount} variables created",
-      "singleSingle": "1 variable and mode created",
-      "singlePlural": "1 variable and {modeCount} modes created",
-      "pluralSingle": "{variableCount} variables and 1 mode created",
-      "pluralPlural": "{variableCount} variables and {modeCount} modes created"
-    },
     "updatedVariablesAndModes": {
       "noneNone": "No variable and mode updated",
-      "noneSingle": "1 mode updated",
-      "singleNone": "1 variable updated",
       "nonePlural": "{modeCount} modes updated",
+      "noneSingle": "1 mode updated",
       "pluralNone": "{variableCount} variables updated",
-      "singleSingle": "1 variable and mode updated",
-      "singlePlural": "1 variable and {modeCount} modes updated",
+      "pluralPlural": "{variableCount} variables and {modeCount} modes updated",
       "pluralSingle": "{variableCount} variables and 1 mode updated",
-      "pluralPlural": "{variableCount} variables and {modeCount} modes updated"
-    },
-    "removedVariablesAndModes": {
-      "noneNone": "No variable and mode removed",
-      "noneSingle": "1 mode removed",
-      "singleNone": "1 variable removed",
-      "nonePlural": "{modeCount} modes removed",
-      "pluralNone": "{variableCount} variables removed",
-      "singleSingle": "1 variable and mode removed",
-      "singlePlural": "1 variable and {modeCount} modes removed",
-      "pluralSingle": "{variableCount} variables and 1 mode removed",
-      "pluralPlural": "{variableCount} variables and {modeCount} modes removed"
-    },
-    "copiedCode": "The code has been copied to the clipboard"
+      "singleNone": "1 variable updated",
+      "singlePlural": "1 variable and {modeCount} modes updated",
+      "singleSingle": "1 variable and mode updated"
+    }
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -420,24 +429,18 @@
     "sourceColors": "Source colors",
     "spotText": "Spot text",
     "theme": "Mode: {name}",
-    "transparent": "Transparent",
     "themeDescription": "Mode description: {description}",
+    "transparent": "Transparent",
     "unknown": "Unknown",
     "updatedAt": "Updated at: {date}",
     "visionSimulation": "Vision simulation: {mode}",
     "wcag": "WCAG 2.1 scores"
   },
-  "dev": {
-    "vscode": {
-      "cta": "Try it out",
-      "message": "UI Color Palette is also available on the Figma VS Code plugin"
-    },
-    "readyForDev": "Ready for development"
-  },
+  "pass": "✔",
   "pending": {
     "announcements": "Pending announcements…",
-    "onboarding": "Pending onboarding…",
     "fetch": "Fetching palettes…",
+    "onboarding": "Pending onboarding…",
     "primaryAction": "………",
     "secondaryAction": "………"
   },
@@ -459,13 +462,19 @@
     },
     "tryPro": "Try /pro"
   },
+  "platform": {
+    "figma": "Figma",
+    "framer": "Framer",
+    "penpot": "Penpot",
+    "sketch": "Sketch"
+  },
   "preview": {
     "actions": {
       "collapsePreview": "Collapse preview",
+      "colorSpace": "Color space",
       "displayScores": "Show scores",
       "expandPreview": "Expand preview",
       "resetImportedColors": "Reset imported colors",
-      "colorSpace": "Color space",
       "visionSimulationMode": "Vision simulation"
     },
     "closest": {
@@ -486,25 +495,25 @@
     }
   },
   "pricing": {
-    "title": "Subscribe to UI Color Palette /pro",
-    "one": {
-      "cta": "Get your license",
-      "title": "UI Color Palette /pro /one",
-      "subtitle": "$5 /month via Lemon Squeezy",
-      "text": "Your multi-platform license working on:{br}◻ Figma{br}◻ Penpot{br}◻ Sketch{br}◻ Framer/Webflow (soon)"
-    },
     "figma": {
       "cta": "Go /pro for Figma only",
-      "title": "UI Color Palette /pro /figma",
       "subtitle": "$5 /month via Figma",
-      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Export and Sync with library"
+      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Export and Sync with library",
+      "title": "UI Color Palette /pro /figma"
+    },
+    "one": {
+      "cta": "Get your license",
+      "subtitle": "$5 /month via Lemon Squeezy",
+      "text": "Your multi-platform license working on:{br}◻ Figma{br}◻ Penpot{br}◻ Sketch{br}◻ Framer/Webflow (soon)",
+      "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
       "cta": "Go to UI Color Palette /one",
-      "title": "UI Color Palette /pro /one",
       "subtitle": "$5 /month via Lemon Squeezy",
-      "text": "◻ All /figma features{br}◻ Tailored for small and larges teams{br}◻ Multi platforms{br}◻ Multi payment options"
-    }
+      "text": "◻ All /figma features{br}◻ Tailored for small and larges teams{br}◻ Multi platforms{br}◻ Multi payment options",
+      "title": "UI Color Palette /pro /one"
+    },
+    "title": "Subscribe to UI Color Palette /pro"
   },
   "proPlan": {
     "trial": {
@@ -527,11 +536,12 @@
     "revert": "Revert",
     "share": "Share with community",
     "signIn": "Sign in to publish",
+    "star": "Add to starred",
     "statusLocalChanges": "Local changes",
     "statusNotFound": "Not found",
+    "statusPublished": "Published",
     "statusRemoteChanges": "Remote changes",
     "statusShared": "Shared",
-    "statusPublished": "Published",
     "statusUnpublished": "Unpublished",
     "statusUptoDate": "No change",
     "statusWaiting": "Pending…",
@@ -541,7 +551,6 @@
     "titleSynchronize": "Synchronize palette",
     "unpublish": "Unpublish",
     "unshare": "Remove from community",
-    "star": "Add to starred",
     "unstar": "Remove from starred"
   },
   "relaunch": {
@@ -577,26 +586,26 @@
   "scale": {
     "actions": {
       "addStop": "Add stop",
+      "applyEasing": "Apply directly the easing to the stops",
       "removeStop": "Remove stop",
       "resetScale": "Reset stops and chroma",
       "resetStops": "Reset stops",
-      "reverseStops": "Reverse stops",
-      "applyEasing": "Apply directly the easing to the stops"
+      "reverseStops": "Reverse stops"
     },
     "contrast": {
       "label": "Contrast mode",
       "title": "Contrast ratio"
     },
     "easing": {
+      "cubic": "Cubic",
       "easeIn": "Ease in",
       "easeInOut": "Ease in and out",
       "easeOut": "Ease out",
-      "cubic": "Cubic",
-      "quad": "Quad",
-      "sine": "Sine",
       "label": "Distribution easing",
       "linear": "Linear",
-      "preview": "Distribute the color stops to balance your color palette in several ways"
+      "preview": "Distribute the color stops to balance your color palette in several ways",
+      "quad": "Quad",
+      "sine": "Sine"
     },
     "howTo": "How to use",
     "keyboardShortcuts": "Review the keyboard shortcuts",
@@ -606,33 +615,33 @@
       "tens": "10 - 100"
     },
     "presets": {
-      "label": "Preset",
-      "more": "More presets",
+      "adobe": "Adobe",
+      "ads": "ADS Foundations, 100-1000",
+      "adsNeutral": "ADS Foundations, Neutral 0-1100",
+      "ant": "Ant Design, 1-10",
+      "atlassian": "Atlassian",
+      "base": "Base, 50-700 (Uber)",
+      "bootstrap": "Bootstrap, 100-900",
+      "carbon": "Carbon, 10-100 (IBM)",
       "custom": "Custom sets",
+      "customHundreds": "Custom, 100-1000",
+      "customOnes": "Custom, 1-10",
+      "customTens": "Custom, 10-100",
+      "fluent": "Fluent, 10-160 (Microsoft)",
+      "framework": "Frameworks",
+      "google": "Google",
+      "label": "Preset",
       "legacy": "Custom (Legacy)",
       "material": "Material Design, 50-900",
       "material3": "Material 3, 0-100",
-      "tailwind": "Tailwind, 50-950",
-      "ant": "Ant Design, 1-10",
-      "ads": "ADS Foundations, 100-1000",
-      "adsNeutral": "ADS Foundations, Neutral 0-1100",
-      "carbon": "Carbon, 10-100 (IBM)",
-      "base": "Base, 50-700 (Uber)",
-      "polaris": "Polaris, 1-16 (Shopify)",
-      "customOnes": "Custom, 1-10",
-      "customTens": "Custom, 10-100",
-      "customHundreds": "Custom, 100-1000",
-      "atlassian": "Atlassian",
-      "google": "Google",
-      "fluent": "Fluent, 10-160 (Microsoft)",
-      "framework": "Frameworks",
-      "radix": "Radix, 1-12",
-      "untitledUI": "Untitled UI, 25-950",
+      "more": "More presets",
       "openColor": "Open Color, 0-9",
-      "bootstrap": "Bootstrap, 100-900",
+      "polaris": "Polaris, 1-16 (Shopify)",
+      "radix": "Radix, 1-12",
       "spectrum": "Spectrum, 100-1300",
       "spectrumNeutral": "Spectrum, Neutral 25-900",
-      "adobe": "Adobe"
+      "tailwind": "Tailwind, 50-950",
+      "untitledUI": "Untitled UI, 25-950"
     },
     "shift": {
       "chroma": {
@@ -659,10 +668,45 @@
     },
     "title": "Lightness scale"
   },
+  "see": {
+    "properties": {
+      "colors": {
+        "alpha": "Alpha mode",
+        "chromaShifting": "Shift chroma",
+        "description": "Description",
+        "hueShifting": "Shift hue",
+        "title": "Source colors"
+      },
+      "default": "Default",
+      "information": {
+        "createdAt": "Created at",
+        "createdBy": "Created by",
+        "published": "Published",
+        "publishedAt": "Published at",
+        "shared": "Shared with community",
+        "title": "Information",
+        "updatedAt": "Updated at"
+      },
+      "lightnessScale": "Lightness scale",
+      "settings": {
+        "algorithmVersion": "Chroma velocity",
+        "colorSpace": "Color space",
+        "description": "Description",
+        "lockedSourceColors": "Lock source colors",
+        "name": "Palette name",
+        "preset": "Preset",
+        "title": "Settings"
+      },
+      "themes": {
+        "description": "Description",
+        "textDarkColor": "Dark foreground color",
+        "textLightColor": "Light foreground color",
+        "title": "Color modes",
+        "visionSimulation": "Vision simulation"
+      }
+    }
+  },
   "separator": "・",
-  "empty": "-",
-  "pass": "✔",
-  "fail": "✘",
   "settings": {
     "actions": {
       "paletteName": "Palette name"
@@ -721,8 +765,8 @@
       },
       "name": {
         "default": "Untitled",
-        "self": "{username}'s UI Color Palette",
-        "label": "Palette name"
+        "label": "Palette name",
+        "self": "{username}'s UI Color Palette"
       },
       "title": "Global",
       "views": {
@@ -735,6 +779,8 @@
   },
   "shortcuts": {
     "author": "Support the author",
+    "chat": "Chat with us",
+    "community": "Join our Discord",
     "email": "Contact support",
     "feedback": "Submit feedback",
     "follow": "Support us",
@@ -743,8 +789,6 @@
     "repository": "Contribute",
     "request": "Share your ideas",
     "store": "Discover more products",
-    "community": "Join our Discord",
-    "chat": "Chat with us",
     "tooltips": {
       "documentation": "Read the documentation",
       "helpMenu": "Help/Support menu",
@@ -754,6 +798,12 @@
   "source": {
     "actions": {
       "openPalette": "Open palette"
+    },
+    "ai": {
+      "add": "Generate AI colors",
+      "empty": "Remove the AI colors",
+      "helper": "Generate intelligent colors based on creative prompts, using Mistral AI",
+      "title": "AI Colors"
     },
     "canvas": {
       "tip": "Select as many {element} (filled with color) as you need on the {canvas} canvas",
@@ -776,95 +826,11 @@
       "title": "Colour Lovers"
     },
     "contexts": {
+      "ai": "AI",
       "explore": "Explorer",
-      "image": "Extractor",
-      "overview": "Overview",
       "harmony": "Wheel",
-      "ai": "AI"
-    },
-    "default": {
-      "title": "Default color",
-      "helper": "This color is used when no color is selected or imported"
-    },
-    "image": {
-      "add": "Extract colors from image",
-      "empty": "Remove the image palette",
-      "helper": "Extract 5 dominant colors from any image",
-      "title": "Image palette"
-    },
-    "harmony": {
-      "add": "Create a color harmony",
-      "empty": "Remove the color harmony",
-      "helper": "Create harmonious colors based on color wheel (complementary, triadic, etc.)",
-      "title": "Color harmony"
-    },
-    "ai": {
-      "add": "Generate AI colors",
-      "empty": "Remove the AI colors",
-      "helper": "Generate intelligent colors based on creative prompts, using Mistral AI",
-      "title": "AI Colors"
-    },
-    "genAi": {
-      "title": "AI-Generated colors",
-      "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
-      "form": {
-        "prompt": {
-          "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
-        },
-        "presets": {
-          "vibes": {
-            "cyberpunk": "Cyberpunk futuristic interface with neon accents",
-            "minimalist": "Clean minimalist design with subtle contrasts",
-            "pastel": "Soft pastel colors for gentle, friendly interface",
-            "corporate": "Professional corporate design with trustworthy colors",
-            "nature": "Natural earth tones inspired by forest and mountains",
-            "vintage": "Retro vintage aesthetic with warm, muted colors"
-          },
-          "usecases": {
-            "landing": "Modern landing page for tech startup",
-            "blog": "Personal blog with warm, readable typography",
-            "resume": "Professional resume with clean, confident colors",
-            "portfolio": "Creative portfolio showcasing artistic work",
-            "documentation": "Technical documentation with clear hierarchy",
-            "ecommerce": "E-commerce store with conversion-focused colors"
-          }
-        }
-      },
-      "actions": {
-        "generate": "Generate colors ⌃⏎ or ⌘⏎",
-        "addColors": "Add to source {cost}. Those colors will replace the previously added."
-      },
-      "colorTypes": {
-        "primary": "Primary",
-        "text": "Text", 
-        "success": "Success",
-        "warning": "Warning",
-        "alert": "Alert"
-      }
-    },
-    "imagePalette": {
-      "title": "Dominant colors",
-      "emptyMessage": "Upload an image or select it in your document to extract its 5 dominant colors",
-      "addColors": "Add to source {cost}. Those colors will replace the previously added.",
-      "removeImage": "Remove image",
-      "dropzone": {
-        "message": "Drag & drop your .png file here",
-        "warning": "The file was not imported. Supported image is .png",
-        "error": "The image could not be loaded. Please try with another image, or make sure this is a .png",
-        "cta": "or click to browse"
-      }
-    },
-    "wheel": {
-      "base": "Base color",
-      "algorithm": {
-        "label": "Color wheel",
-        "analogous": "Analogous",
-        "complementary": "Complementary",
-        "compound": "Compound",
-        "triadic": "Triadic",
-        "tetradic": "Tetradic"
-      },
-      "addColors": "Add to source {cost}. Those colors will replace the previously added."
+      "image": "Extractor",
+      "overview": "Overview"
     },
     "coolors": {
       "add": "Add a Coolors palette",
@@ -877,6 +843,78 @@
         "label": "Palette URL",
         "placeholder": "Paste a link－https://coolors.co/…"
       }
+    },
+    "default": {
+      "helper": "This color is used when no color is selected or imported",
+      "title": "Default color"
+    },
+    "genAi": {
+      "actions": {
+        "addColors": "Add to source {cost}. Those colors will replace the previously added.",
+        "generate": "Generate colors ⌃⏎ or ⌘⏎"
+      },
+      "colorTypes": {
+        "alert": "Alert",
+        "primary": "Primary",
+        "success": "Success",
+        "text": "Text",
+        "warning": "Warning"
+      },
+      "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
+      "form": {
+        "presets": {
+          "usecases": {
+            "blog": "Personal blog with warm, readable typography",
+            "documentation": "Technical documentation with clear hierarchy",
+            "ecommerce": "E-commerce store with conversion-focused colors",
+            "landing": "Modern landing page for tech startup",
+            "portfolio": "Creative portfolio showcasing artistic work",
+            "resume": "Professional resume with clean, confident colors"
+          },
+          "vibes": {
+            "corporate": "Professional corporate design with trustworthy colors",
+            "cyberpunk": "Cyberpunk futuristic interface with neon accents",
+            "minimalist": "Clean minimalist design with subtle contrasts",
+            "nature": "Natural earth tones inspired by forest and mountains",
+            "pastel": "Soft pastel colors for gentle, friendly interface",
+            "vintage": "Retro vintage aesthetic with warm, muted colors"
+          }
+        },
+        "prompt": {
+          "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
+        }
+      },
+      "title": "AI-Generated colors"
+    },
+    "harmony": {
+      "add": "Create a color harmony",
+      "empty": "Remove the color harmony",
+      "helper": "Create harmonious colors based on color wheel (complementary, triadic, etc.)",
+      "title": "Color harmony"
+    },
+    "image": {
+      "add": "Extract colors from image",
+      "empty": "Remove the image palette",
+      "helper": "Extract 5 dominant colors from any image",
+      "title": "Image palette"
+    },
+    "imagePalette": {
+      "addColors": "Add to source {cost}. Those colors will replace the previously added.",
+      "dropzone": {
+        "cta": "or click to browse",
+        "error": "The image could not be loaded. Please try with another image, or make sure this is a .png",
+        "message": "Drag & drop your .png file here",
+        "warning": "The file was not imported. Supported image is .png"
+      },
+      "emptyMessage": "Upload an image or select it in your document to extract its 5 dominant colors",
+      "removeImage": "Remove image",
+      "title": "Dominant colors"
+    },
+    "nodes": {
+      "figma": "shapes/frames",
+      "framer": "shapes/frames",
+      "penpot": "shapes/boards",
+      "sketch": "shapes/frames"
     },
     "realtimeColors": {
       "add": "Add a Realtime Colors palette",
@@ -891,23 +929,30 @@
       }
     },
     "title": "Source colors",
-    "nodes": {
-      "penpot": "shapes/boards",
-      "figma": "shapes/frames",
-      "sketch": "shapes/frames",
-      "framer": "shapes/frames"
+    "wheel": {
+      "addColors": "Add to source {cost}. Those colors will replace the previously added.",
+      "algorithm": {
+        "analogous": "Analogous",
+        "complementary": "Complementary",
+        "compound": "Compound",
+        "label": "Color wheel",
+        "tetradic": "Tetradic",
+        "triadic": "Triadic"
+      },
+      "base": "Base color"
     }
   },
   "store": {
     "isb": {
       "cta": "Try it now",
-      "title": "Ideas Spark Booth",
       "subtitle": "Private Brainstorming & Retrospective Sessions",
-      "text": "Engage & Enable your participants through private team sessions for brainstorming and retrospectives"
+      "text": "Engage & Enable your participants through private team sessions for brainstorming and retrospectives",
+      "title": "Ideas Spark Booth"
     },
     "title": "More products from Yelbolt"
   },
   "success": {
+    "activatedLicense": "The license key \"{licenseKey}\" has been activated",
     "addToLocal": "The palette has been added to this page",
     "detachment": "The palette has been detached",
     "nonPublication": "The palette has been unpublished",
@@ -915,18 +960,17 @@
     "report": "Thanks for your report",
     "share": "The palette has been shared with the community",
     "synchronization": "The palette has been synchronized",
-    "unshare": "The palette is no longer shared with the community",
-    "activatedLicense": "The license key \"{licenseKey}\" has been activated",
-    "unlinkedLicense": "Your license key \"{licenseKey}\" has been unlinked"
+    "unlinkedLicense": "Your license key \"{licenseKey}\" has been unlinked",
+    "unshare": "The palette is no longer shared with the community"
   },
   "tagline": "WCAG Color Palette Manager for Apps & Websites",
   "themes": {
     "actions": {
+      "documentBackground": "This color is used for the generated documents",
       "moreParameters": "More parameters",
-      "removeColor": "Remove mode",
       "new": "New UI Mode",
-      "themeName": "Mode name",
-      "documentBackground": "This color is used for the generated documents"
+      "removeColor": "Remove mode",
+      "themeName": "Mode name"
     },
     "callout": {
       "cta": "Create a color mode",
@@ -956,12 +1000,30 @@
       "vendors": "By accepting this, you agree to our use of cookies and other technologies for the purposes listed above.",
       "welcome": "UI Color Palette uses cookies to understand how you use our plugin and to improve your experience."
     },
-    "signIn": "Sign in",
-    "signOut": "Sign out",
-    "updateConsent": "Manage cookies",
-    "updatePreferences": "Update preferences",
+    "license": {
+      "cta": {
+        "activate": "Activate your license",
+        "manage": "Manage your license",
+        "unlink": "Unlink your license",
+        "unlinkLocally": "Unlink your license locally",
+        "validate": "Verify"
+      },
+      "key": {
+        "label": "License key",
+        "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
+      },
+      "messages": {
+        "activate": "Enter your license key to unlock the /pro features",
+        "active": "Valid",
+        "unactive": "Not valid"
+      },
+      "name": {
+        "helper": "This name will be used to identify your license",
+        "label": "License name",
+        "placeholder": "{My Name}'s License"
+      }
+    },
     "manageLicense": "Manage license",
-    "welcomeMessage": "Hello {username}",
     "preferences": {
       "sync": {
         "message": "When enabled, the palette will be synchronized with the local library, so the local items will be updated , but could be removed.",
@@ -972,36 +1034,18 @@
           "label": "Deeply synchronize local styles in the document with the palette",
           "message": "If a style is not in the palette, it will be removed."
         },
+        "title": "Synchronization",
         "variables": {
           "label": "Deeply synchronize local variables in the collection with the palette",
           "message": "If a variable is not in the palette, it will be removed."
-        },
-        "title": "Synchronization"
+        }
       }
     },
-    "license": {
-      "messages": {
-        "activate": "Enter your license key to unlock the /pro features",
-        "active": "Valid",
-        "unactive": "Not valid"
-      },
-      "key": {
-        "label": "License key",
-        "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
-      },
-      "name": {
-        "label": "License name",
-        "helper": "This name will be used to identify your license",
-        "placeholder": "{My Name}'s License"
-      },
-      "cta": {
-        "activate": "Activate your license",
-        "manage": "Manage your license",
-        "unlink": "Unlink your license",
-        "unlinkLocally": "Unlink your license locally",
-        "validate": "Verify"
-      }
-    }
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "updateConsent": "Manage cookies",
+    "updatePreferences": "Update preferences",
+    "welcomeMessage": "Hello {username}"
   },
   "vendors": {
     "functional": {
@@ -1013,63 +1057,19 @@
       "name": "Mixpanel"
     }
   },
-  "see": {
-    "properties": {
-      "lightnessScale": "Lightness scale",
-      "default": "Default",
-      "settings": {
-        "title": "Settings",
-        "name": "Palette name",
-        "description": "Description",
-        "preset": "Preset",
-        "colorSpace": "Color space",
-        "algorithmVersion": "Chroma velocity",
-        "lockedSourceColors": "Lock source colors"
-      },
-      "colors": {
-        "title": "Source colors",
-        "chromaShifting": "Shift chroma",
-        "hueShifting": "Shift hue",
-        "alpha": "Alpha mode",
-        "description": "Description"
-      },
-      "themes": {
-        "title": "Color modes",
-        "visionSimulation": "Vision simulation",
-        "textLightColor": "Light foreground color",
-        "textDarkColor": "Dark foreground color",
-        "description": "Description"
-      },
-      "information": {
-        "title": "Information",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at",
-        "publishedAt": "Published at",
-        "createdBy": "Created by",
-        "published": "Published",
-        "shared": "Shared with community"
-      }
-    }
-  },
   "warning": {
     "emptySourceColors": "There is no source color. Add them manually in the Colors section.",
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
-    "noStarredPalettes": "You have no starred palettes yet. Browse the community to find inspiring palettes and star them for quick access later.",
     "noOrgPalettes": "There is no organization palette here. Claim your them from the plugin author.",
     "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
-    "noPaletteOnCurrrentPage": "There is no UI Color Palette on this page",
     "noPaletteOnCurrrentFile": "There is no UI Color Palette on this file",
+    "noPaletteOnCurrrentPage": "There is no UI Color Palette on this page",
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
+    "noStarredPalettes": "You have no starred palettes yet. Browse the community to find inspiring palettes and star them for quick access later.",
     "paletteNameRecommendation": "64 characters max is recommended",
     "tooManyThemesToCreateModes": "You cannot create more than 4 modes in the current plan",
-    "unselectedColor": "Select a layer that is filled with at least one solid color",
-    "uncopiedCode": "The code has not been copied to the clipboard"
-  },
-  "platform": {
-    "figma": "Figma",
-    "penpot": "Penpot",
-    "sketch": "Sketch",
-    "framer": "Framer"
+    "uncopiedCode": "The code has not been copied to the clipboard",
+    "unselectedColor": "Select a layer that is filled with at least one solid color"
   }
 }
