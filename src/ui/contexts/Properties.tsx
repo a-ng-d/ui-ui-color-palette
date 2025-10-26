@@ -496,7 +496,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
     return (
       <>
         <Layout
-          id="settings"
+          id="properties"
           column={[
             {
               node: (
