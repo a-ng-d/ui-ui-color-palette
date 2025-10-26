@@ -204,10 +204,10 @@ export default class OrgPalettes extends PureComponent<
 
     if (searchQuery === '') {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, add_count'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
         )
         .eq('type', 'ORG')
         .order('published_at', { ascending: false })
@@ -218,10 +218,10 @@ export default class OrgPalettes extends PureComponent<
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, add_count'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
         )
         .eq('type', 'ORG')
         .order('published_at', { ascending: false })
