@@ -75,7 +75,8 @@
       "page": "This page",
       "file": "This file",
       "self": "My palettes",
-      "resource": "Organization"
+      "org": "Organization",
+      "starred": "Starred"
     },
     "page": {
       "title": "UI Color Palettes on this page"
@@ -1001,6 +1002,8 @@
     "emptySourceColors": "There is no source color. Add them manually in the Colors section.",
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
+    "noStarredPalettes": "You have no starred palettes yet. Browse the community to find inspiring palettes and star them for quick access later.",
+    "noOrgPalettes": "There is no organization palette here. Claim your them from the plugin author.",
     "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
     "noPaletteOnCurrrentPage": "There is no UI Color Palette on this page",
     "noPaletteOnCurrrentFile": "There is no UI Color Palette on this file",
