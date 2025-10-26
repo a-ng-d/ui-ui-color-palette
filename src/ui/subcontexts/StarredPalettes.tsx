@@ -282,8 +282,10 @@ export default class StarredPalettes extends PureComponent<
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (item: any) => item[this.props.config.dbs.palettesDbViewName]
           )
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .filter((item: any) => item.is_shared)
+          .filter(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (item: any) => item.is_shared && item.name.includes(searchQuery)
+          )
         error = null
       } else {
         data = []
