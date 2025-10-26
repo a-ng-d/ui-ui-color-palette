@@ -234,10 +234,14 @@ export default class StarredPalettes extends PureComponent<
         )
 
       if (!starredError && starredData) {
-        data = starredData.map(
+        console.log()
+        data = starredData
+          .map(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (item: any) => item[this.props.config.dbs.palettesDbViewName]
+          )
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (item: any) => item[this.props.config.dbs.palettesDbViewName]
-        )
+          .filter((item: any) => item.is_shared)
         error = null
       } else {
         data = []
@@ -274,10 +278,13 @@ export default class StarredPalettes extends PureComponent<
         )
 
       if (!starredError && starredData) {
-        data = starredData.map(
+        data = starredData
+          .map(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (item: any) => item[this.props.config.dbs.palettesDbViewName]
+          )
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (item: any) => item[this.props.config.dbs.palettesDbViewName]
-        )
+          .filter((item: any) => item.is_shared)
         error = null
       } else {
         data = []

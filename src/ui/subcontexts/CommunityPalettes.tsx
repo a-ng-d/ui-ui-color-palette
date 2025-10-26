@@ -207,11 +207,12 @@ export default class CommunityPalettes extends PureComponent<
       ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared, star_count'
         )
         .eq('is_shared', true)
         .eq('type', 'MEMBER')
         .order('published_at', { ascending: false })
+        .order('add_count', { ascending: false })
         .range(
           this.props.config.limits.pageSize * (currentPage - 1),
           this.props.config.limits.pageSize * currentPage - 1
@@ -221,11 +222,12 @@ export default class CommunityPalettes extends PureComponent<
       ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, creator_avatar_url, creator_full_name, is_shared, star_count'
         )
         .eq('is_shared', true)
         .eq('type', 'MEMBER')
         .order('published_at', { ascending: false })
+        .order('add_count', { ascending: false })
         .range(
           this.props.config.limits.pageSize * (currentPage - 1),
           this.props.config.limits.pageSize * currentPage - 1

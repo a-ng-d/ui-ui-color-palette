@@ -212,23 +212,25 @@ export default class OrgPalettes extends PureComponent<
       ;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, add_count'
         )
         .eq('type', 'ORG')
         .order('published_at', { ascending: false })
+        .order('add_count', { ascending: false })
         .range(
           this.props.config.limits.pageSize * (currentPage - 1),
           this.props.config.limits.pageSize * currentPage - 1
         ))
     } else {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ;;({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
-          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared'
+          'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, add_count'
         )
         .eq('type', 'ORG')
         .order('published_at', { ascending: false })
+        .order('add_count', { ascending: false })
         .range(
           this.props.config.limits.pageSize * (currentPage - 1),
           this.props.config.limits.pageSize * currentPage - 1
