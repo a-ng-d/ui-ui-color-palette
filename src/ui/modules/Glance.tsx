@@ -426,6 +426,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                   </Feature>
                 </div>
               }
+              clip={['LEFT']}
               border={['BOTTOM']}
             />
             <Properties
