@@ -421,7 +421,8 @@ export default class CommunityPalettes extends PureComponent<
                 description={palette.preset?.name}
                 subdescription={getPaletteMeta(
                   palette.colors ?? [],
-                  palette.themes ?? []
+                  palette.themes ?? [],
+                  palette.star_count ?? 0
                 )}
                 user={{
                   avatar: palette.creator_avatar_url ?? '',

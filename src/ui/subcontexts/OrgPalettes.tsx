@@ -419,7 +419,8 @@ export default class OrgPalettes extends PureComponent<
                 description={palette.preset?.name}
                 subdescription={getPaletteMeta(
                   palette.colors ?? [],
-                  palette.themes ?? []
+                  palette.themes ?? [],
+                  palette.star_count ?? 0
                 )}
                 user={{
                   avatar: palette.org_avatar_url ?? '',

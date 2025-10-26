@@ -6,7 +6,8 @@ import { locales } from '../content/locales'
 
 const getPaletteMeta = (
   colors: Array<ColorConfiguration>,
-  themes: Array<ThemeConfiguration>
+  themes: Array<ThemeConfiguration>,
+  stars?: number
 ) => {
   const colorsNumber = colors.length,
     themesNumber = themes.filter(
@@ -54,6 +55,9 @@ const getPaletteMeta = (
     shadeLabel = locales
       .get()
       .actions.shadesNumber.single.replace('{count}', shadeNumber.toString())
+
+  if (stars !== undefined)
+    return `${colorLabel}${locales.get().separator}${shadeLabel}${locales.get().separator}${themeLabel}${locales.get().separator}⭐︎ ${stars}`
 
   return `${colorLabel}${locales.get().separator}${shadeLabel}${locales.get().separator}${themeLabel}`
 }
