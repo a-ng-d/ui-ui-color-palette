@@ -1,17 +1,28 @@
 import React, { PureComponent } from 'react'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, layouts, texts } from '@a_ng_d/figmug-ui'
+import { Button, IconChip, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $creditsCount } from '../../stores/credits'
 import { ConfigContextType } from '../../config/ConfigContext'
+
+interface PlanControlsStates {
+  creditsCount: number
+}
 
 interface PlanControlsProps extends BaseProps, WithConfigProps {
   trialRemainingTime: number
+  creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<PlanControlsProps> {
+export default class PlanControls extends PureComponent<
+  PlanControlsProps,
+  PlanControlsStates
+> {
+  private subscribeCredits: (() => void) | null = null
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -37,8 +48,21 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
   constructor(props: PlanControlsProps) {
     super(props)
     this.state = {
-      isUserMenuLoading: false,
+      creditsCount: $creditsCount.value,
     }
+  }
+
+  // Lifecycle
+  componentDidMount = () => {
+    this.subscribeCredits = $creditsCount.subscribe((value) => {
+      let adjustedValue = value
+      if (adjustedValue < 0) adjustedValue = 0
+      this.setState({ creditsCount: adjustedValue })
+    })
+  }
+
+  componentWillUnmount = () => {
+    if (this.subscribeCredits) this.subscribeCredits()
   }
 
   // Templates
@@ -53,16 +77,17 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
           sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
-      <span className={doClassnames([texts.type, texts['type--secondary']])}>
-        {this.props.locales.separator}
-      </span>
       <div
         className={doClassnames([
           texts.type,
           texts['type--secondary'],
           texts['type--truncated'],
+          layouts['snackbar--medium'],
         ])}
       >
+        <span className={doClassnames([texts.type, texts['type--secondary']])}>
+          {this.props.locales.separator}
+        </span>
         {Math.ceil(this.props.trialRemainingTime) > 72 && (
           <span>
             {this.props.locales.plan.trialTimeDays.plural.replace(
@@ -89,8 +114,57 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
     </div>
   )
 
+  RemainingCredits = () => {
+    return (
+      <div
+        className={doClassnames([
+          texts.type,
+          texts['type--secondary'],
+          layouts['snackbar--medium'],
+        ])}
+      >
+        <span>{this.props.locales.separator}</span>
+        {this.state.creditsCount > 0 && (
+          <span>
+            {this.props.locales.plan.credits.plural.replace(
+              '{count}',
+              Math.ceil(this.state.creditsCount).toString()
+            )}
+          </span>
+        )}
+        {this.state.creditsCount === 1 && (
+          <span>{this.props.locales.plan.credits.single}</span>
+        )}
+        {this.state.creditsCount === 0 && (
+          <>
+            <span>{this.props.locales.plan.credits.none}</span>
+            <IconChip
+              iconType="PICTO"
+              iconName="warning"
+              text={this.props.locales.plan.credits.renew.replace(
+                '{date}',
+                new Date(this.props.creditsRenewalDate).toLocaleString(
+                  this.props.lang,
+                  {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  }
+                )
+              )}
+              pin="TOP"
+              type="MULTI_LINE"
+            />
+          </>
+        )}
+      </div>
+    )
+  }
+
   FreePlan = () => (
-    <>
+    <div className={doClassnames([layouts['snackbar--medium']])}>
       <Button
         type="alternative"
         size="small"
@@ -105,7 +179,8 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
               )
         }}
       />
-    </>
+      <this.RemainingCredits />
+    </div>
   )
 
   PendingTrial = () => <this.RemainingTime />
@@ -121,6 +196,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps> {
           sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
+      <this.RemainingCredits />
       <span className={doClassnames([texts.type, texts['type--secondary']])}>
         {this.props.locales.separator}
       </span>

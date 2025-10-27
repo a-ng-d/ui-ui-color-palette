@@ -445,6 +445,12 @@
     "secondaryAction": "………"
   },
   "plan": {
+    "credits": {
+      "plural": "{count} credits left",
+      "single": "1 credit left",
+      "none": "No credits left",
+      "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits."
+    },
     "dev": "/dev plan",
     "free": "/basic plan",
     "getPro": "Go /pro",
@@ -811,6 +817,7 @@
     },
     "colourLovers": {
       "add": "Explore Colour Lovers palettes",
+      "addColors": "Add to source ({cost} credits)",
       "empty": "Remove the Colour Lovers palette",
       "filters": {
         "any": "Any",
@@ -823,7 +830,9 @@
         "yellow": "Yellow"
       },
       "helper": "Colour Lovers is a tool for creating and exploring beautiful color schemes",
-      "title": "Colour Lovers"
+      "meta": "{votes} votes・{views} views・{comments} comments",
+      "title": "Colour Lovers",
+      "warning": "Those colors will replace the previously added."
     },
     "contexts": {
       "ai": "AI",
@@ -834,6 +843,7 @@
     },
     "coolors": {
       "add": "Add a Coolors palette",
+      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
       "empty": "Remove the Coolors palette",
       "helper": "Coolors is a tool for creating and exploring beautiful color schemes",
       "title": "Coolors",
@@ -850,7 +860,7 @@
     },
     "genAi": {
       "actions": {
-        "addColors": "Add to source {cost}. Those colors will replace the previously added.",
+        "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
         "generate": "Generate colors ⌃⏎ or ⌘⏎"
       },
       "colorTypes": {
@@ -899,7 +909,7 @@
       "title": "Image palette"
     },
     "imagePalette": {
-      "addColors": "Add to source {cost}. Those colors will replace the previously added.",
+      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
       "dropzone": {
         "cta": "or click to browse",
         "error": "The image could not be loaded. Please try with another image, or make sure this is a .png",
@@ -918,6 +928,7 @@
     },
     "realtimeColors": {
       "add": "Add a Realtime Colors palette",
+      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
       "empty": "Remove the Realtime Colors palette",
       "helper": "Realtime Colors is a tool for visualizing a color palette through a page template",
       "title": "Realtime Colors",
@@ -930,7 +941,7 @@
     },
     "title": "Source colors",
     "wheel": {
-      "addColors": "Add to source {cost}. Those colors will replace the previously added.",
+      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
       "algorithm": {
         "analogous": "Analogous",
         "complementary": "Complementary",

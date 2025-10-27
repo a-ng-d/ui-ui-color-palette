@@ -26,12 +26,14 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { getMistral, MistralColorPalette } from '../../external/mistral'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface GenAiProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>
+  creditsCount: number
   onChangeColorsFromImport: (
     colors: Array<SourceColorConfiguration>,
     source: SourceColorConfiguration['source']
@@ -48,6 +50,8 @@ interface GenAiStates {
 }
 
 export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
+  private creditCost: number
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -72,7 +76,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
 
   constructor(props: GenAiProps) {
     super(props)
-
+    this.creditCost = 100
     this.state = {
       prompt: '',
       isLoading: false,
@@ -215,7 +219,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     return colors
   }
 
-  usePalette = () => {
+  onUsePalette = () => {
     if (!this.state.generatedPalette) return
 
     const sourceColors = this.convertMistralToSourceColors(
@@ -223,6 +227,8 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     )
     this.props.onChangeColorsFromImport(sourceColors, 'AI')
     this.props.onChangeContexts('SOURCE_OVERVIEW')
+
+    $creditsCount.set($creditsCount.get() - this.creditCost)
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -295,14 +301,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                     this.props.config,
                     this.props.service,
                     this.props.editor
-                  ).SOURCE_AI_ADD.isBlocked()}
+                  ).SOURCE_AI_ADD.isReached(this.props.creditsCount * -1 - 1)}
                   isNew={GenAi.features(
                     this.props.planStatus,
                     this.props.config,
                     this.props.service,
                     this.props.editor
                   ).SOURCE_AI_ADD.isNew()}
-                  action={this.usePalette}
+                  action={this.onUsePalette}
                 />
               </Feature>
             }
@@ -358,7 +364,11 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                 type="icon"
                 icon="plus"
                 helper={{
-                  label: this.props.locales.source.genAi.actions.addColors,
+                  label:
+                    this.props.locales.source.genAi.actions.addColors.replace(
+                      '{cost}',
+                      this.creditCost.toString()
+                    ),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
@@ -367,14 +377,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                   this.props.config,
                   this.props.service,
                   this.props.editor
-                ).SOURCE_AI_ADD.isBlocked()}
+                ).SOURCE_AI_ADD.isReached(this.props.creditsCount * -1 - 1)}
                 isNew={GenAi.features(
                   this.props.planStatus,
                   this.props.config,
                   this.props.service,
                   this.props.editor
                 ).SOURCE_AI_ADD.isNew()}
-                action={this.usePalette}
+                action={this.onUsePalette}
               />
             </Feature>
           }

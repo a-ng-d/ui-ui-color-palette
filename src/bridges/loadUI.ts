@@ -16,6 +16,7 @@ import checkUserPreferences from './checks/checkUserPreferences'
 import checkUserLicense from './checks/checkUserLicense'
 import checkUserConsent from './checks/checkUserConsent'
 import checkTrialStatus from './checks/checkTrialStatus'
+import checkCredits from './checks/checkCredits'
 import checkAnnouncementsStatus from './checks/checkAnnouncementsStatus'
 
 interface Window {
@@ -65,6 +66,7 @@ if (iframe) {
     // Checks
     checkUserConsent()
       .then(() => checkTrialStatus())
+      .then(() => checkCredits())
       .then(() => checkUserPreferences())
       .then(() => checkUserLicense())
   }

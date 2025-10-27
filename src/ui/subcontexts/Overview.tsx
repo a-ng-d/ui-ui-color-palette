@@ -34,11 +34,13 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps extends BaseProps, WithConfigProps {
   sourceColors: Array<SourceColorConfiguration>
+  creditsCount: number
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
@@ -62,6 +64,8 @@ export default class Overview extends PureComponent<
   OverviewProps,
   OverviewStates
 > {
+  private creditCost: number
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -96,9 +100,23 @@ export default class Overview extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_COOLORS_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_COOLORS_ADD',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SOURCE_REALTIME_COLORS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_REALTIME_COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_REALTIME_COLORS_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_REALTIME_COLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -142,6 +160,7 @@ export default class Overview extends PureComponent<
 
   constructor(props: OverviewProps) {
     super(props)
+    this.creditCost = 25
     this.state = {
       coolorsUrl: {
         value: '' as string,
@@ -303,6 +322,7 @@ export default class Overview extends PureComponent<
         }),
         'COOLORS'
       )
+
       this.setState({
         coolorsUrl: {
           value: '',
@@ -311,6 +331,9 @@ export default class Overview extends PureComponent<
           helper: undefined,
         },
       })
+
+      $creditsCount.set($creditsCount.get() - this.creditCost)
+
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userSession.userId === ''
@@ -368,6 +391,7 @@ export default class Overview extends PureComponent<
         }),
         'REALTIME_COLORS'
       )
+
       this.setState({
         realtimeColorsUrl: {
           value: '',
@@ -376,6 +400,9 @@ export default class Overview extends PureComponent<
           helper: undefined,
         },
       })
+
+      $creditsCount.set($creditsCount.get() - this.creditCost)
+
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userSession.userId === ''
@@ -717,7 +744,22 @@ export default class Overview extends PureComponent<
                     this.props.locales.source.coolors.url.placeholder
                   }
                   value={this.state.coolorsUrl.value}
+                  helper={{
+                    label: this.props.locales.source.coolors.addColors.replace(
+                      '{cost}',
+                      this.creditCost.toString()
+                    ),
+                    type: 'MULTI_LINE',
+                  }}
                   isAutoFocus
+                  isBlocked={Overview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).SOURCE_COOLORS_ADD.isReached(
+                    this.props.creditsCount * -1 - 1
+                  )}
                   onChange={this.isTypingCoolorsUrlHandler}
                   onBlur={() => {
                     if (this.state.coolorsUrl.canBeSubmitted)
@@ -823,7 +865,23 @@ export default class Overview extends PureComponent<
                     this.props.locales.source.realtimeColors.url.placeholder
                   }
                   value={this.state.realtimeColorsUrl.value}
+                  helper={{
+                    label:
+                      this.props.locales.source.realtimeColors.addColors.replace(
+                        '{cost}',
+                        this.creditCost.toString()
+                      ),
+                    type: 'MULTI_LINE',
+                  }}
                   isAutoFocus
+                  isBlocked={Overview.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).SOURCE_REALTIME_COLORS_ADD.isReached(
+                    this.props.creditsCount * -1 - 1
+                  )}
                   onChange={this.isTypingRealtimeColorsUrlHandler}
                   onBlur={() => {
                     if (this.state.realtimeColorsUrl.canBeSubmitted)

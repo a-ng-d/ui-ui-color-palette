@@ -23,6 +23,7 @@ import PlanControls from './PlanControls'
 
 interface ShortcutsProps extends BaseProps, WithConfigProps {
   trialRemainingTime: number
+  creditsRenewalDate: number
   announcements: AnnouncementsDigest
   onReOpenAnnouncements: React.Dispatch<Partial<AppStates>>
   onReOpenOnboarding: React.Dispatch<Partial<AppStates>>

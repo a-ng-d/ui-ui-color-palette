@@ -143,6 +143,9 @@ root.render(
       isProEnabled: globalConfig.plan.isProEnabled,
       isTrialEnabled: globalConfig.plan.isTrialEnabled,
       trialTime: globalConfig.plan.trialTime,
+      creditsLimit: globalConfig.plan.creditsLimit,
+      creditsRenewalPeriodDays: globalConfig.plan.creditsRenewalPeriodDays,
+      creditsRenewalPeriodHours: globalConfig.plan.creditsRenewalPeriodHours,
     }}
     dbs={{
       palettesDbViewName: globalConfig.dbs.palettesDbViewName,

@@ -32,6 +32,9 @@ export interface Config {
     isProEnabled: boolean
     isTrialEnabled: boolean
     trialTime: number
+    creditsLimit: number
+    creditsRenewalPeriodDays: number
+    creditsRenewalPeriodHours?: number
   }
   dbs: {
     palettesDbViewName: string

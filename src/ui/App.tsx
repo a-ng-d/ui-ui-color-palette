@@ -56,6 +56,7 @@ import {
   $userLanguage,
 } from '../stores/preferences'
 import { $palette } from '../stores/palette'
+import { $creditsCount } from '../stores/credits'
 import {
   trackEditorEvent,
   trackPurchaseEvent,
@@ -102,6 +103,7 @@ export interface AppStates extends BaseProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
+  creditsRenewalDate: number
   editor: Editor
   plans: Plans
   publicationStatus: PublicationConfiguration
@@ -253,6 +255,7 @@ class App extends Component<AppProps, AppStates> {
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: props.config.plan.trialTime,
+      creditsRenewalDate: 0,
       editor: props.config.env.editor,
       plans: [],
       modalContext: 'EMPTY',
@@ -508,6 +511,11 @@ class App extends Component<AppProps, AppStates> {
               trialRemainingTime: path.data.trialRemainingTime,
             })
 
+      const checkCredits = () => {
+        $creditsCount.set(path.data.creditsCount)
+        this.setState({ creditsRenewalDate: path.data.creditsRenewalDate })
+      }
+
       const checkAnnouncements = () => {
         checkAnnouncementsVersion(
           this.props.config.urls.announcementsWorkerUrl,
@@ -694,6 +702,7 @@ class App extends Component<AppProps, AppStates> {
         CHECK_EDITOR: () => checkEditor(),
         CHECK_PLAN_STATUS: () => checkPlanStatus(),
         CHECK_TRIAL_STATUS: () => checkTrialStatus(),
+        CHECK_CREDITS: () => checkCredits(),
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
         POST_MESSAGE: () => postMessage(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),

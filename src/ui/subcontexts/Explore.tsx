@@ -6,6 +6,7 @@ import {
   SourceColorConfiguration,
   ColourLovers,
 } from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   ActionsItem,
   Bar,
@@ -19,20 +20,27 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
   BaseProps,
   Context,
+  Editor,
   FetchStatus,
   FilterOptions,
+  PlanStatus,
+  Service,
   ThirdParty,
 } from '../../types/app'
+import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ExploreProps extends BaseProps, WithConfigProps {
   colourLoversPaletteList: Array<ColourLovers>
   activeFilters: Array<FilterOptions>
+  creditsCount: number
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: ThirdParty
@@ -56,23 +64,32 @@ export default class Explore extends PureComponent<
   ExploreStates
 > {
   private filters: Array<FilterOptions>
+  private creditCost: number
+
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service,
+    editor: Editor
+  ) => ({
+    SOURCE_EXPLORE_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_EXPLORE_ADD',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+  })
 
   constructor(props: ExploreProps) {
     super(props)
-    ;(this.filters = [
-      'ANY',
-      'YELLOW',
-      'ORANGE',
-      'RED',
-      'GREEN',
-      'VIOLET',
-      'BLUE',
-    ]),
-      (this.state = {
-        colourLoversPalettesListStatus: 'LOADING',
-        currentPage: 1,
-        isLoadMoreActionLoading: false,
-      })
+    this.filters = ['ANY', 'YELLOW', 'ORANGE', 'RED', 'GREEN', 'VIOLET', 'BLUE']
+    this.creditCost = 25
+    this.state = {
+      colourLoversPalettesListStatus: 'LOADING',
+      currentPage: 1,
+      isLoadMoreActionLoading: false,
+    }
   }
 
   // Lifecycle
@@ -175,6 +192,51 @@ export default class Explore extends PureComponent<
     else this.props.onChangeFilters(this.props.activeFilters.concat(value))
   }
 
+  onUsePalette = (palette: ColourLovers) => {
+    this.props.onChangeContexts('SOURCE_OVERVIEW')
+    this.props.onChangeColorsFromImport(
+      palette.colors.map((color) => {
+        const gl = chroma(color).gl()
+        return {
+          name: getClosestColorName(`#${color}`),
+          rgb: {
+            r: gl[0],
+            g: gl[1],
+            b: gl[2],
+          },
+          hue: {
+            shift: 0,
+            isLocked: false,
+          },
+          chroma: {
+            shift: 100,
+            isLocked: false,
+          },
+          id: uid(),
+          source: 'COLOUR_LOVERS',
+          isRemovable: true,
+        }
+      }),
+      'COLOUR_LOVERS'
+    )
+
+    $creditsCount.set($creditsCount.get() - this.creditCost)
+
+    trackImportEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'IMPORT_COLOUR_LOVERS',
+      }
+    )
+  }
+
   // Templates
   ExternalSourceColorsList = () => {
     let fragment
@@ -192,7 +254,10 @@ export default class Explore extends PureComponent<
               src={palette.imageUrl?.replace('http', 'https')}
               name={palette.title}
               description={`#${palette.rank}`}
-              subdescription={`${palette.numVotes} votes, ${palette.numViews} views, ${palette.numComments} comments`}
+              subdescription={this.props.locales.source.colourLovers.meta
+                .replace('{votes}', palette.numVotes?.toString() ?? '0')
+                .replace('{views}', palette.numViews?.toString() ?? '0')
+                .replace('{comments}', palette.numComments?.toString() ?? '0')}
               user={{
                 avatar: undefined,
                 name: palette.userName ?? '',
@@ -219,52 +284,45 @@ export default class Explore extends PureComponent<
                       )
                     }
                   />
-                  <Button
-                    type="secondary"
-                    label={this.props.locales.actions.addToSource}
-                    action={() => {
-                      this.props.onChangeContexts('SOURCE_OVERVIEW')
-                      this.props.onChangeColorsFromImport(
-                        palette.colors.map((color) => {
-                          const gl = chroma(color).gl()
-                          return {
-                            name: getClosestColorName(`#${color}`),
-                            rgb: {
-                              r: gl[0],
-                              g: gl[1],
-                              b: gl[2],
-                            },
-                            hue: {
-                              shift: 0,
-                              isLocked: false,
-                            },
-                            chroma: {
-                              shift: 100,
-                              isLocked: false,
-                            },
-                            id: uid(),
-                            source: 'COLOUR_LOVERS',
-                            isRemovable: true,
-                          }
-                        }),
-                        'COLOUR_LOVERS'
-                      )
-                      trackImportEvent(
-                        this.props.config.env.isMixpanelEnabled,
-                        this.props.userSession.userId === ''
-                          ? this.props.userIdentity.id === ''
-                            ? ''
-                            : this.props.userIdentity.id
-                          : this.props.userSession.userId,
-                        this.props.userConsent.find(
-                          (consent) => consent.id === 'mixpanel'
-                        )?.isConsented ?? false,
-                        {
-                          feature: 'IMPORT_COLOUR_LOVERS',
-                        }
-                      )
-                    }}
-                  />
+                  <Feature
+                    isActive={Explore.features(
+                      this.props.planStatus,
+                      this.props.config,
+                      this.props.service,
+                      this.props.editor
+                    ).SOURCE_EXPLORE_ADD.isActive()}
+                  >
+                    <Button
+                      type="secondary"
+                      label={this.props.locales.source.colourLovers.addColors.replace(
+                        '{cost}',
+                        this.creditCost.toString()
+                      )}
+                      helper={{
+                        label: this.props.locales.source.colourLovers.warning,
+                      }}
+                      warning={{
+                        label: this.props.locales.source.colourLovers.warning,
+                      }}
+                      isBlocked={Explore.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SOURCE_EXPLORE_ADD.isReached(
+                        this.props.creditsCount * -1 - 1
+                      )}
+                      isNew={Explore.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SOURCE_EXPLORE_ADD.isNew()}
+                      action={() => {
+                        this.onUsePalette(palette)
+                      }}
+                    />
+                  </Feature>
                 </>
               }
             />

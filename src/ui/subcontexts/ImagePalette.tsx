@@ -31,10 +31,12 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ImagePaletteProps extends BaseProps, WithConfigProps {
+  creditsCount: number
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: SourceColorConfiguration['source']
@@ -52,6 +54,8 @@ export default class ImagePalette extends PureComponent<
   ImagePaletteProps,
   ImagePaletteStates
 > {
+  private creditCost: number
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -76,6 +80,7 @@ export default class ImagePalette extends PureComponent<
 
   constructor(props: ImagePaletteProps) {
     super(props)
+    this.creditCost = 50
     this.state = {
       dominantColors: [],
       imageUrl: '',
@@ -127,6 +132,52 @@ export default class ImagePalette extends PureComponent<
     }
 
     return actions[path.type ?? 'DEFAULT']?.()
+  }
+
+  // Direct Actions
+  onUsePalette = () => {
+    this.props.onChangeColorsFromImport(
+      this.state.dominantColors.map((color) => {
+        const gl = chroma(color.hex).gl()
+        return {
+          name: getClosestColorName(color.hex),
+          rgb: {
+            r: gl[0],
+            g: gl[1],
+            b: gl[2],
+          },
+          hue: {
+            shift: 0,
+            isLocked: false,
+          },
+          chroma: {
+            shift: 0,
+            isLocked: false,
+          },
+          source: 'IMAGE',
+          id: uid(),
+          isRemovable: false,
+        }
+      }),
+      'IMAGE'
+    )
+    this.props.onChangeContexts('SOURCE_OVERVIEW')
+
+    $creditsCount.set($creditsCount.get() - this.creditCost)
+
+    trackImportEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'EXTRACT_DOMINANT_COLORS',
+      }
+    )
   }
 
   // Templates
@@ -260,7 +311,11 @@ export default class ImagePalette extends PureComponent<
                 type="icon"
                 icon="plus"
                 helper={{
-                  label: this.props.locales.source.imagePalette.addColors,
+                  label:
+                    this.props.locales.source.imagePalette.addColors.replace(
+                      '{cost}',
+                      this.creditCost.toString()
+                    ),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={this.state.dominantColors.length === 0}
@@ -269,57 +324,14 @@ export default class ImagePalette extends PureComponent<
                   this.props.config,
                   this.props.service,
                   this.props.editor
-                ).SOURCE_IMAGE_ADD.isBlocked()}
+                ).SOURCE_IMAGE_ADD.isReached(this.props.creditsCount * -1 - 1)}
                 isNew={ImagePalette.features(
                   this.props.planStatus,
                   this.props.config,
                   this.props.service,
                   this.props.editor
                 ).SOURCE_IMAGE_ADD.isNew()}
-                action={() => {
-                  this.props.onChangeColorsFromImport(
-                    this.state.dominantColors.map((color) => {
-                      const gl = chroma(color.hex).gl()
-                      return {
-                        name: getClosestColorName(color.hex),
-                        rgb: {
-                          r: gl[0],
-                          g: gl[1],
-                          b: gl[2],
-                        },
-                        hue: {
-                          shift: 0,
-                          isLocked: false,
-                        },
-                        chroma: {
-                          shift: 0,
-                          isLocked: false,
-                        },
-                        source: 'IMAGE',
-                        id: uid(),
-                        isRemovable: false,
-                      }
-                    }),
-                    'IMAGE'
-                  )
-
-                  this.props.onChangeContexts('SOURCE_OVERVIEW')
-
-                  trackImportEvent(
-                    this.props.config.env.isMixpanelEnabled,
-                    this.props.userSession.userId === ''
-                      ? this.props.userIdentity.id === ''
-                        ? ''
-                        : this.props.userIdentity.id
-                      : this.props.userSession.userId,
-                    this.props.userConsent.find(
-                      (consent) => consent.id === 'mixpanel'
-                    )?.isConsented ?? false,
-                    {
-                      feature: 'EXTRACT_DOMINANT_COLORS',
-                    }
-                  )
-                }}
+                action={this.onUsePalette}
               />
             </Feature>
           }

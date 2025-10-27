@@ -26,11 +26,13 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ColorWheelProps extends BaseProps, WithConfigProps {
   baseColor: RgbModel
+  creditsCount: number
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
     source: SourceColorConfiguration['source']
@@ -49,6 +51,7 @@ export default class ColorWheel extends PureComponent<
   ColorWheelStates
 > {
   private harmony: ColorHarmony
+  private creditCost: number
 
   static features = (
     planStatus: PlanStatus,
@@ -124,6 +127,7 @@ export default class ColorWheel extends PureComponent<
       ],
       analogousSpread: 30,
     })
+    this.creditCost = 50
     this.state = {
       baseColor: [
         this.props.baseColor.r * 255,
@@ -162,6 +166,52 @@ export default class ColorWheel extends PureComponent<
         colorHarmony: newHarmony,
       })
     }
+  }
+
+  // Direct Actions
+  onUsePalette = () => {
+    this.props.onChangeColorsFromImport(
+      this.state.colorHarmony.hexColors.map((color) => {
+        const gl = chroma(color).gl()
+        return {
+          name: getClosestColorName(color),
+          rgb: {
+            r: gl[0],
+            g: gl[1],
+            b: gl[2],
+          },
+          hue: {
+            shift: 0,
+            isLocked: false,
+          },
+          chroma: {
+            shift: 0,
+            isLocked: false,
+          },
+          source: 'HARMONY',
+          id: uid(),
+          isRemovable: false,
+        }
+      }),
+      'HARMONY'
+    )
+    this.props.onChangeContexts('SOURCE_OVERVIEW')
+
+    $creditsCount.set($creditsCount.get() - this.creditCost)
+
+    trackImportEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_COLOR_HARMONY',
+      }
+    )
   }
 
   // Templates
@@ -456,7 +506,11 @@ export default class ColorWheel extends PureComponent<
                           type="icon"
                           icon="plus"
                           helper={{
-                            label: this.props.locales.source.wheel.addColors,
+                            label:
+                              this.props.locales.source.wheel.addColors.replace(
+                                '{cost}',
+                                this.creditCost.toString()
+                              ),
                             type: 'MULTI_LINE',
                           }}
                           isBlocked={ColorWheel.features(
@@ -464,57 +518,16 @@ export default class ColorWheel extends PureComponent<
                             this.props.config,
                             this.props.service,
                             this.props.editor
-                          ).SOURCE_HARMONY_ADD.isBlocked()}
+                          ).SOURCE_HARMONY_ADD.isReached(
+                            this.props.creditsCount * -1 - 1
+                          )}
                           isNew={ColorWheel.features(
                             this.props.planStatus,
                             this.props.config,
                             this.props.service,
                             this.props.editor
                           ).SOURCE_HARMONY_ADD.isNew()}
-                          action={() => {
-                            this.props.onChangeColorsFromImport(
-                              this.state.colorHarmony.hexColors.map((color) => {
-                                const gl = chroma(color).gl()
-                                return {
-                                  name: getClosestColorName(color),
-                                  rgb: {
-                                    r: gl[0],
-                                    g: gl[1],
-                                    b: gl[2],
-                                  },
-                                  hue: {
-                                    shift: 0,
-                                    isLocked: false,
-                                  },
-                                  chroma: {
-                                    shift: 0,
-                                    isLocked: false,
-                                  },
-                                  source: 'HARMONY',
-                                  id: uid(),
-                                  isRemovable: false,
-                                }
-                              }),
-                              'HARMONY'
-                            )
-
-                            this.props.onChangeContexts('SOURCE_OVERVIEW')
-
-                            trackImportEvent(
-                              this.props.config.env.isMixpanelEnabled,
-                              this.props.userSession.userId === ''
-                                ? this.props.userIdentity.id === ''
-                                  ? ''
-                                  : this.props.userIdentity.id
-                                : this.props.userSession.userId,
-                              this.props.userConsent.find(
-                                (consent) => consent.id === 'mixpanel'
-                              )?.isConsented ?? false,
-                              {
-                                feature: 'CREATE_COLOR_HARMONY',
-                              }
-                            )
-                          }}
+                          action={this.onUsePalette}
                         />
                       </Feature>
                     </div>
