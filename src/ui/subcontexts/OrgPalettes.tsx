@@ -55,7 +55,10 @@ interface OrgPalettesStates {
   seenPaletteId: string
 }
 
-export default class OrgPalettes extends PureComponent<OrgPalettesProps, OrgPalettesStates> {
+export default class OrgPalettes extends PureComponent<
+  OrgPalettesProps,
+  OrgPalettesStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
