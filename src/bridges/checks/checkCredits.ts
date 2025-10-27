@@ -11,6 +11,7 @@ const checkCredits = async () => {
 
   const creditsCountStr = window.localStorage.getItem('credits_count')
   const renewDateStr = window.localStorage.getItem('credits_renew_date')
+  const creditsVersion = window.localStorage.getItem('credits_version')
 
   const now = new Date()
 
@@ -47,6 +48,21 @@ const checkCredits = async () => {
       globalConfig.plan.creditsLimit.toString()
     )
     creditsCount = globalConfig.plan.creditsLimit
+  }
+
+  if (creditsVersion !== globalConfig.versions.creditsVersion) {
+    window.localStorage.setItem(
+      'credits_version',
+      globalConfig.versions.creditsVersion
+    )
+    window.localStorage.setItem(
+      'credits_count',
+      globalConfig.plan.creditsLimit.toString()
+    )
+    const next = addHours(now, periodHours)
+    window.localStorage.setItem('credits_renew_date', next.getTime().toString())
+    creditsCount = globalConfig.plan.creditsLimit
+    renewDate = next
   }
 
   iframe?.contentWindow?.postMessage({

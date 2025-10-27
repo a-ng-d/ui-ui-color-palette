@@ -185,6 +185,7 @@ root.render(
       algorithmVersion: globalConfig.versions.algorithmVersion,
       paletteVersion: globalConfig.versions.paletteVersion,
       pluginVersion: globalConfig.versions.pluginVersion,
+      creditsVersion: globalConfig.versions.creditsVersion,
     }}
     features={globalConfig.features}
     locales={globalConfig.locales}

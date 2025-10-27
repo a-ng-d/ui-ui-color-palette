@@ -74,6 +74,7 @@ export interface Config {
     readonly algorithmVersion: AlgorithmVersionConfiguration
     readonly paletteVersion: string
     readonly pluginVersion: string
+    readonly creditsVersion: string
   }
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
   locales: Translations

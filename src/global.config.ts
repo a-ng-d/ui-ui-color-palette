@@ -693,6 +693,7 @@ const globalConfig: Config = {
     algorithmVersion: 'v3',
     paletteVersion: '2025.06',
     pluginVersion: __APP_VERSION__,
+    creditsVersion: '2025.10',
   },
   features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
   locales: locales.get(),
