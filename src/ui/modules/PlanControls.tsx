@@ -67,159 +67,119 @@ export default class PlanControls extends PureComponent<
 
   // Templates
   RemainingTime = () => (
-    <div className={doClassnames([layouts['snackbar--medium']])}>
-      <Button
-        type="alternative"
-        size="small"
-        icon="lock-off"
-        label={this.props.locales.plan.getPro}
-        action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
-        }
-      />
-      <div
-        className={doClassnames([
-          texts.type,
-          texts['type--secondary'],
-          texts['type--truncated'],
-          layouts['snackbar--medium'],
-        ])}
-      >
-        <span className={doClassnames([texts.type, texts['type--secondary']])}>
-          {this.props.locales.separator}
+    <div
+      className={doClassnames([
+        texts.type,
+        texts['type--secondary'],
+        texts['type--truncated'],
+        layouts['snackbar--tight'],
+      ])}
+    >
+      <span>{this.props.locales.separator}</span>
+      {Math.ceil(this.props.trialRemainingTime) > 72 && (
+        <span>
+          {this.props.locales.plan.trialTimeDays.plural.replace(
+            '{count}',
+            Math.ceil(this.props.trialRemainingTime) > 72
+              ? Math.ceil(this.props.trialRemainingTime / 24).toString()
+              : Math.ceil(this.props.trialRemainingTime).toString()
+          )}
         </span>
-        {Math.ceil(this.props.trialRemainingTime) > 72 && (
+      )}
+      {Math.ceil(this.props.trialRemainingTime) <= 72 &&
+        Math.ceil(this.props.trialRemainingTime) > 1 && (
           <span>
-            {this.props.locales.plan.trialTimeDays.plural.replace(
+            {this.props.locales.plan.trialTimeHours.plural.replace(
               '{count}',
-              Math.ceil(this.props.trialRemainingTime) > 72
-                ? Math.ceil(this.props.trialRemainingTime / 24).toString()
-                : Math.ceil(this.props.trialRemainingTime).toString()
+              Math.ceil(this.props.trialRemainingTime).toString()
             )}
           </span>
         )}
-        {Math.ceil(this.props.trialRemainingTime) <= 72 &&
-          Math.ceil(this.props.trialRemainingTime) > 1 && (
-            <span>
-              {this.props.locales.plan.trialTimeHours.plural.replace(
-                '{count}',
-                Math.ceil(this.props.trialRemainingTime).toString()
-              )}
-            </span>
+      {Math.ceil(this.props.trialRemainingTime) <= 1 && (
+        <span>{this.props.locales.plan.trialTimeHours.single}</span>
+      )}
+    </div>
+  )
+
+  RemainingCredits = () => (
+    <div
+      className={doClassnames([
+        texts.type,
+        texts['type--secondary'],
+        layouts['snackbar--tight'],
+      ])}
+    >
+      <span>{this.props.locales.separator}</span>
+      {this.state.creditsCount > 0 && (
+        <span>
+          {this.props.locales.plan.credits.plural.replace(
+            '{count}',
+            Math.ceil(this.state.creditsCount).toString()
           )}
-        {Math.ceil(this.props.trialRemainingTime) <= 1 && (
-          <span>{this.props.locales.plan.trialTimeHours.single}</span>
-        )}
+        </span>
+      )}
+      {this.state.creditsCount === 1 && (
+        <span>{this.props.locales.plan.credits.single}</span>
+      )}
+      {this.state.creditsCount === 0 && (
+        <>
+          <span>{this.props.locales.plan.credits.none}</span>
+          <IconChip
+            iconType="PICTO"
+            iconName="warning"
+            text={this.props.locales.plan.credits.renew.replace(
+              '{date}',
+              new Date(this.props.creditsRenewalDate).toLocaleString(
+                this.props.lang,
+                {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                }
+              )
+            )}
+            pin="TOP"
+            type="MULTI_LINE"
+          />
+        </>
+      )}
+    </div>
+  )
+
+  EndedTrial = () => (
+    <div
+      className={doClassnames([
+        texts.type,
+        texts['type--secondary'],
+        layouts['snackbar--tight'],
+      ])}
+    >
+      <span>{this.props.locales.separator}</span>
+      <div className={doClassnames([texts['type--truncated']])}>
+        <span>{this.props.locales.plan.trialEnded}</span>
       </div>
     </div>
   )
 
-  RemainingCredits = () => {
-    return (
+  trialFeedback = () => (
+    <Feature
+      isActive={PlanControls.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).INVOLVE_FEEDBACK.isActive()}
+    >
       <div
         className={doClassnames([
           texts.type,
           texts['type--secondary'],
-          layouts['snackbar--medium'],
+          layouts['snackbar--tight'],
         ])}
       >
         <span>{this.props.locales.separator}</span>
-        {this.state.creditsCount > 0 && (
-          <span>
-            {this.props.locales.plan.credits.plural.replace(
-              '{count}',
-              Math.ceil(this.state.creditsCount).toString()
-            )}
-          </span>
-        )}
-        {this.state.creditsCount === 1 && (
-          <span>{this.props.locales.plan.credits.single}</span>
-        )}
-        {this.state.creditsCount === 0 && (
-          <>
-            <span>{this.props.locales.plan.credits.none}</span>
-            <IconChip
-              iconType="PICTO"
-              iconName="warning"
-              text={this.props.locales.plan.credits.renew.replace(
-                '{date}',
-                new Date(this.props.creditsRenewalDate).toLocaleString(
-                  this.props.lang,
-                  {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  }
-                )
-              )}
-              pin="TOP"
-              type="MULTI_LINE"
-            />
-          </>
-        )}
-      </div>
-    )
-  }
-
-  FreePlan = () => (
-    <div className={doClassnames([layouts['snackbar--medium']])}>
-      <Button
-        type="alternative"
-        size="small"
-        icon="lock-off"
-        label={this.props.locales.plan.tryPro}
-        action={() => {
-          this.props.config.plan.isTrialEnabled
-            ? sendPluginMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
-            : sendPluginMessage(
-                { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                '*'
-              )
-        }}
-      />
-      <this.RemainingCredits />
-    </div>
-  )
-
-  PendingTrial = () => <this.RemainingTime />
-
-  ExpiredTrial = () => (
-    <>
-      <Button
-        type="alternative"
-        size="small"
-        icon="lock-off"
-        label={this.props.locales.plan.getPro}
-        action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
-        }
-      />
-      <this.RemainingCredits />
-      <span className={doClassnames([texts.type, texts['type--secondary']])}>
-        {this.props.locales.separator}
-      </span>
-      <div
-        className={doClassnames([
-          texts.type,
-          texts['type--secondary'],
-          texts['type--truncated'],
-        ])}
-      >
-        <span>{this.props.locales.plan.trialEnded}</span>
-      </div>
-      <Feature
-        isActive={PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).INVOLVE_FEEDBACK.isActive()}
-      >
-        <span className={doClassnames([texts.type, texts['type--secondary']])}>
-          {this.props.locales.separator}
-        </span>
         <Button
           type="tertiary"
           label={this.props.locales.plan.trialFeedback}
@@ -249,8 +209,60 @@ export default class PlanControls extends PureComponent<
             )
           }
         />
-      </Feature>
-    </>
+      </div>
+    </Feature>
+  )
+
+  FreePlan = () => (
+    <div className={doClassnames([layouts['snackbar--tight']])}>
+      <Button
+        type="alternative"
+        size="small"
+        icon="lock-off"
+        label={this.props.locales.plan.tryPro}
+        action={() => {
+          this.props.config.plan.isTrialEnabled
+            ? sendPluginMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
+            : sendPluginMessage(
+                { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                '*'
+              )
+        }}
+      />
+      <this.RemainingCredits />
+    </div>
+  )
+
+  PendingTrial = () => (
+    <div className={doClassnames([layouts['snackbar--tight']])}>
+      <Button
+        type="alternative"
+        size="small"
+        icon="lock-off"
+        label={this.props.locales.plan.getPro}
+        action={() =>
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+        }
+      />
+      <this.RemainingTime />
+    </div>
+  )
+
+  ExpiredTrial = () => (
+    <div className={doClassnames([layouts['snackbar--tight']])}>
+      <Button
+        type="alternative"
+        size="small"
+        icon="lock-off"
+        label={this.props.locales.plan.getPro}
+        action={() =>
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+        }
+      />
+      <this.RemainingCredits />
+      <this.EndedTrial />
+      <this.trialFeedback />
+    </div>
   )
 
   // Render
