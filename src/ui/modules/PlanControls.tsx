@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, IconChip, layouts, texts } from '@a_ng_d/figmug-ui'
+import { Button, Chip, IconChip, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -224,6 +224,7 @@ export default class PlanControls extends PureComponent<
           sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
+      <Chip>{this.props.locales.pricing.discount.amount}</Chip>
       <this.RemainingCredits />
     </div>
   )

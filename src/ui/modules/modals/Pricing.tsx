@@ -1,7 +1,7 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, Card, Dialog, texts } from '@a_ng_d/figmug-ui'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Button, Card, Dialog, layouts, Tabs, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
@@ -24,6 +24,7 @@ interface PricingProps extends BaseProps, WithConfigProps {
 
 interface PricingState {
   isMobile: boolean
+  context: 'REGULAR' | 'DISCOUNT'
 }
 
 export default class Pricing extends PureComponent<PricingProps, PricingState> {
@@ -50,9 +51,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       isMobile: false,
+      context: 'REGULAR',
     }
   }
 
+  // Lifecycle
   componentDidMount() {
     this.mediaQueryList = window.matchMedia('(max-width: 460px)')
     this.setState({ isMobile: this.mediaQueryList.matches })
@@ -84,6 +87,16 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }
   }
 
+  // Handlers
+  navHandler = (e: Event) => {
+    const newContext = (e.target as HTMLElement).dataset
+      .feature as PricingState['context']
+
+    this.setState({
+      context: newContext,
+    })
+  }
+
   // Direct Actions
   createTextWithBreaks = (text: string) => {
     return text.split(/{br}/g).map((segment, index, array) =>
@@ -112,7 +125,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Card
         src={uicpo}
         title={this.props.locales.pricing.one.title}
-        subtitle={this.props.locales.pricing.one.subtitle}
+        subtitle={
+          this.state.context === 'REGULAR'
+            ? this.props.locales.pricing.one.subtitle.regular
+            : this.props.locales.pricing.one.subtitle.discount
+        }
         richText={this.createTextWithBreaks(
           this.props.locales.pricing.one.text
         )}
@@ -178,7 +195,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Card
         src={uicpo}
         title={this.props.locales.pricing.oneFigma.title}
-        subtitle={this.props.locales.pricing.oneFigma.subtitle}
+        subtitle={
+          this.state.context === 'REGULAR'
+            ? this.props.locales.pricing.oneFigma.subtitle.regular
+            : this.props.locales.pricing.oneFigma.subtitle.discount
+        }
         richText={this.createTextWithBreaks(
           this.props.locales.pricing.oneFigma.text
         )}
@@ -244,7 +265,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Card
         src={uicp}
         title={this.props.locales.pricing.figma.title}
-        subtitle={this.props.locales.pricing.figma.subtitle}
+        subtitle={
+          this.state.context === 'REGULAR'
+            ? this.props.locales.pricing.figma.subtitle.regular
+            : this.props.locales.pricing.figma.subtitle.discount
+        }
         richText={this.createTextWithBreaks(
           this.props.locales.pricing.figma.text
         )}
@@ -307,23 +332,28 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   // Render
   render() {
-    let padding
+    let padding, isFlex
 
     switch (this.theme) {
       case 'figma':
         padding = 'var(--size-pos-xxsmall)'
+        isFlex = false
         break
       case 'penpot':
         padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
+        isFlex = true
         break
       case 'sketch':
         padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
+        isFlex = false
         break
       case 'framer':
         padding = 'var(--size-pos-xmsmall) var(--size-pos-xmsmall)'
+        isFlex = true
         break
       default:
         padding = 'var(--size-pos-xxsmall)'
+        isFlex = false
     }
 
     return (
@@ -340,26 +370,60 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           onClose={this.props.onClose}
         >
           <div
+            className={doClassnames([
+              layouts['stackbar'],
+              layouts['stackbar--tight'],
+            ])}
             style={{
               padding: padding,
-              display: 'flex',
-              flexDirection: this.state.isMobile ? 'column' : 'row',
-              gap: 'var(--size-pos-xxxsmall)',
-              flex: 1,
+              alignItems: 'stretch',
             }}
           >
-            {this.props.plans.map((plan) => {
-              switch (plan) {
-                case 'ONE':
-                  return <this.One />
-                case 'ONE_FIGMA':
-                  return <this.OneFigma />
-                case 'FIGMA':
-                  return <this.Figma />
-                default:
-                  return null
-              }
-            })}
+            <div
+              style={{
+                display: isFlex ? 'block' : 'flex',
+                justifyContent: isFlex ? 'unset' : 'center',
+              }}
+            >
+              <Tabs
+                tabs={[
+                  {
+                    label: this.props.locales.pricing.contexts.regular,
+                    id: 'REGULAR',
+                    isUpdated: false,
+                  },
+                  {
+                    label: this.props.locales.pricing.contexts.discount,
+                    id: 'DISCOUNT',
+                    isUpdated: true,
+                  },
+                ]}
+                active={this.state.context}
+                isFlex={isFlex}
+                action={this.navHandler}
+              />
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: this.state.isMobile ? 'column' : 'row',
+                gap: 'var(--size-pos-xxxsmall)',
+                flex: 1,
+              }}
+            >
+              {this.props.plans.map((plan) => {
+                switch (plan) {
+                  case 'ONE':
+                    return <this.One />
+                  case 'ONE_FIGMA':
+                    return <this.OneFigma />
+                  case 'FIGMA':
+                    return <this.Figma />
+                  default:
+                    return null
+                }
+              })}
+            </div>
           </div>
         </Dialog>
       </Feature>

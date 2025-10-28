@@ -446,10 +446,10 @@
   },
   "plan": {
     "credits": {
-      "plural": "{count} credits left",
-      "single": "1 credit left",
       "none": "No credits left",
-      "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits."
+      "plural": "{count} credits left",
+      "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits.",
+      "single": "1 credit left"
     },
     "dev": "/dev plan",
     "free": "/basic plan",
@@ -501,23 +501,45 @@
     }
   },
   "pricing": {
+    "contexts": {
+      "discount": "Discount (-20%)",
+      "regular": "Regular"
+    },
+    "discount": {
+      "amount": "20% off",
+      "code": "SAVE20"
+    },
     "figma": {
       "cta": "Go /pro for Figma only",
-      "subtitle": "$5 /month via Figma",
-      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Export and Sync with library",
+      "subtitle": {
+        "discount": "$48 /year on Figma",
+        "regular": "$5 /month on Figma"
+      },
+      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Unlimited credits",
       "title": "UI Color Palette /pro /figma"
     },
     "one": {
       "cta": "Get your license",
-      "subtitle": "$5 /month via Lemon Squeezy",
-      "text": "Your multi-platform license working on:{br}◻ Figma{br}◻ Penpot{br}◻ Sketch{br}◻ Framer/Webflow (soon)",
+      "subtitle": {
+        "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Unlimited credits",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
       "cta": "Go to UI Color Palette /one",
-      "subtitle": "$5 /month via Lemon Squeezy",
-      "text": "◻ All /figma features{br}◻ Tailored for small and larges teams{br}◻ Multi platforms{br}◻ Multi payment options",
+      "subtitle": {
+        "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ All /figma features{br}◻ For small and large teams{br}◻ Multi platforms{br}◻ Multi payment options{br}◻ Lifetime plan",
       "title": "UI Color Palette /pro /one"
+    },
+    "period": {
+      "lifetime": "One-time payment",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
     },
     "title": "Subscribe to UI Color Palette /pro"
   },
