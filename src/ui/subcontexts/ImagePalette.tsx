@@ -54,8 +54,6 @@ export default class ImagePalette extends PureComponent<
   ImagePaletteProps,
   ImagePaletteStates
 > {
-  private creditCost: number
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -80,7 +78,6 @@ export default class ImagePalette extends PureComponent<
 
   constructor(props: ImagePaletteProps) {
     super(props)
-    this.creditCost = 50
     this.state = {
       dominantColors: [],
       imageUrl: '',
@@ -164,7 +161,9 @@ export default class ImagePalette extends PureComponent<
     this.props.onChangeContexts('SOURCE_OVERVIEW')
 
     if (this.props.config.plan.isProEnabled)
-      $creditsCount.set($creditsCount.get() - this.creditCost)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.imageColorsExtract
+      )
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -297,6 +296,10 @@ export default class ImagePalette extends PureComponent<
             <SectionTitle
               label={this.props.locales.source.imagePalette.title}
               indicator={this.state.dominantColors.length.toString()}
+              helper={this.props.locales.source.imagePalette.helper.replace(
+                '{cost}',
+                this.props.config.fees.imageColorsExtract.toString()
+              )}
             />
           }
           rightPartSlot={
@@ -315,7 +318,7 @@ export default class ImagePalette extends PureComponent<
                   label:
                     this.props.locales.source.imagePalette.addColors.replace(
                       '{cost}',
-                      this.creditCost.toString()
+                      this.props.config.fees.imageColorsExtract.toString()
                     ),
                   type: 'MULTI_LINE',
                 }}
@@ -342,7 +345,7 @@ export default class ImagePalette extends PureComponent<
         {this.state.dominantColors.length === 0 ? (
           <Message
             icon="info"
-            messages={[this.props.locales.source.imagePalette.emptyMessage]}
+            messages={[this.props.locales.source.imagePalette.message]}
           />
         ) : (
           <List isTopBorderEnabled>

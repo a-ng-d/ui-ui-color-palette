@@ -46,12 +46,8 @@ interface ColorWheelStates {
   colorHarmony: ColorHarmonyResult
 }
 
-export default class ColorWheel extends PureComponent<
-  ColorWheelProps,
-  ColorWheelStates
-> {
+export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWheelStates> {
   private harmony: ColorHarmony
-  private creditCost: number
 
   static features = (
     planStatus: PlanStatus,
@@ -127,7 +123,6 @@ export default class ColorWheel extends PureComponent<
       ],
       analogousSpread: 30,
     })
-    this.creditCost = 50
     this.state = {
       baseColor: [
         this.props.baseColor.r * 255,
@@ -198,7 +193,9 @@ export default class ColorWheel extends PureComponent<
     this.props.onChangeContexts('SOURCE_OVERVIEW')
 
     if (this.props.config.plan.isProEnabled)
-      $creditsCount.set($creditsCount.get() - this.creditCost)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.harmonyCreate
+      )
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -510,7 +507,7 @@ export default class ColorWheel extends PureComponent<
                             label:
                               this.props.locales.source.wheel.addColors.replace(
                                 '{cost}',
-                                this.creditCost.toString()
+                                this.props.config.fees.harmonyCreate.toString()
                               ),
                             type: 'MULTI_LINE',
                           }}

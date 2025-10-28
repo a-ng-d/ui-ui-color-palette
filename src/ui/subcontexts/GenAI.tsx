@@ -50,8 +50,6 @@ interface GenAiStates {
 }
 
 export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
-  private creditCost: number
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -76,7 +74,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
 
   constructor(props: GenAiProps) {
     super(props)
-    this.creditCost = 100
     this.state = {
       prompt: '',
       isLoading: false,
@@ -229,7 +226,9 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     this.props.onChangeContexts('SOURCE_OVERVIEW')
 
     if (this.props.config.plan.isProEnabled)
-      $creditsCount.set($creditsCount.get() - this.creditCost)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.aiColorsGenerate
+      )
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -278,7 +277,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
         <>
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.locales.source.genAi.title} />
+              <SectionTitle
+                indicator="0"
+                label={this.props.locales.source.genAi.title}
+                helper={this.props.locales.source.imagePalette.helper.replace(
+                  '{cost}',
+                  this.props.config.fees.aiColorsGenerate.toString()
+                )}
+              />
             }
             rightPartSlot={
               <Feature
@@ -350,7 +356,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
       <>
         <SimpleItem
           leftPartSlot={
-            <SectionTitle label={this.props.locales.source.genAi.title} />
+            <SectionTitle
+              indicator="5"
+              label={this.props.locales.source.genAi.title}
+              helper={this.props.locales.source.imagePalette.helper.replace(
+                '{cost}',
+                this.props.config.fees.aiColorsGenerate.toString()
+              )}
+            />
           }
           rightPartSlot={
             <Feature
@@ -368,7 +381,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                   label:
                     this.props.locales.source.genAi.actions.addColors.replace(
                       '{cost}',
-                      this.creditCost.toString()
+                      this.props.config.fees.aiColorsGenerate.toString()
                     ),
                   type: 'MULTI_LINE',
                 }}
@@ -463,6 +476,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                                 .placeholder
                             }
                             value={this.state.prompt}
+                            isGrowing
                             onChange={this.handlePromptChange}
                             onValid={(e) => {
                               if (

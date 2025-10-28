@@ -59,12 +59,8 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<
-  ExploreProps,
-  ExploreStates
-> {
+export default class Explore extends PureComponent<ExploreProps, ExploreStates> {
   private filters: Array<FilterOptions>
-  private creditCost: number
 
   static features = (
     planStatus: PlanStatus,
@@ -84,7 +80,6 @@ export default class Explore extends PureComponent<
   constructor(props: ExploreProps) {
     super(props)
     this.filters = ['ANY', 'YELLOW', 'ORANGE', 'RED', 'GREEN', 'VIOLET', 'BLUE']
-    this.creditCost = 25
     this.state = {
       colourLoversPalettesListStatus: 'LOADING',
       currentPage: 1,
@@ -221,7 +216,9 @@ export default class Explore extends PureComponent<
     )
 
     if (this.props.config.plan.isProEnabled)
-      $creditsCount.set($creditsCount.get() - this.creditCost)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.colourLoversImport
+      )
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -297,7 +294,7 @@ export default class Explore extends PureComponent<
                       type="secondary"
                       label={this.props.locales.source.colourLovers.addColors.replace(
                         '{cost}',
-                        this.creditCost.toString()
+                        this.props.config.fees.colourLoversImport.toString()
                       )}
                       helper={{
                         label: this.props.locales.source.colourLovers.warning,

@@ -64,8 +64,6 @@ export default class Overview extends PureComponent<
   OverviewProps,
   OverviewStates
 > {
-  private creditCost: number
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -160,7 +158,6 @@ export default class Overview extends PureComponent<
 
   constructor(props: OverviewProps) {
     super(props)
-    this.creditCost = 25
     this.state = {
       coolorsUrl: {
         value: '' as string,
@@ -333,7 +330,9 @@ export default class Overview extends PureComponent<
       })
 
       if (this.props.config.plan.isProEnabled)
-        $creditsCount.set($creditsCount.get() - this.creditCost)
+        $creditsCount.set(
+          $creditsCount.get() - this.props.config.fees.coolorsImport
+        )
 
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -403,7 +402,9 @@ export default class Overview extends PureComponent<
       })
 
       if (this.props.config.plan.isProEnabled)
-        $creditsCount.set($creditsCount.get() - this.creditCost)
+        $creditsCount.set(
+          $creditsCount.get() - this.props.config.fees.realtimeColorsImport
+        )
 
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -696,7 +697,10 @@ export default class Overview extends PureComponent<
           indicator={this.props.sourceColors
             .filter((sourceColor) => sourceColor.source === 'COOLORS')
             .length.toString()}
-          helper={this.props.locales.source.coolors.helper}
+          helper={this.props.locales.source.coolors.helper.replace(
+            '{cost}',
+            this.props.config.fees.coolorsImport.toString()
+          )}
           helpers={{
             add: this.props.locales.source.coolors.add,
             empty: this.props.locales.source.coolors.empty,
@@ -749,7 +753,7 @@ export default class Overview extends PureComponent<
                   helper={{
                     label: this.props.locales.source.coolors.addColors.replace(
                       '{cost}',
-                      this.creditCost.toString()
+                      this.props.config.fees.coolorsImport.toString()
                     ),
                     type: 'MULTI_LINE',
                   }}
@@ -817,7 +821,10 @@ export default class Overview extends PureComponent<
           indicator={this.props.sourceColors
             .filter((sourceColor) => sourceColor.source === 'REALTIME_COLORS')
             .length.toString()}
-          helper={this.props.locales.source.realtimeColors.helper}
+          helper={this.props.locales.source.realtimeColors.helper.replace(
+            '{cost}',
+            this.props.config.fees.realtimeColorsImport.toString()
+          )}
           helpers={{
             add: this.props.locales.source.realtimeColors.add,
             empty: this.props.locales.source.realtimeColors.empty,
@@ -871,7 +878,7 @@ export default class Overview extends PureComponent<
                     label:
                       this.props.locales.source.realtimeColors.addColors.replace(
                         '{cost}',
-                        this.creditCost.toString()
+                        this.props.config.fees.realtimeColorsImport.toString()
                       ),
                     type: 'MULTI_LINE',
                   }}
@@ -942,7 +949,10 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'COLOUR_LOVERS')
             .length.toString()}
           icon="adjust"
-          helper={this.props.locales.source.colourLovers.helper}
+          helper={this.props.locales.source.colourLovers.helper.replace(
+            '{cost}',
+            this.props.config.fees.colourLoversImport.toString()
+          )}
           helpers={{
             add: this.props.locales.source.colourLovers.add,
             empty: this.props.locales.source.colourLovers.empty,
@@ -1014,7 +1024,10 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'IMAGE')
             .length.toString()}
           icon="adjust"
-          helper={this.props.locales.source.image.helper}
+          helper={this.props.locales.source.image.helper.replace(
+            '{cost}',
+            this.props.config.fees.imageColorsExtract.toString()
+          )}
           helpers={{
             add: this.props.locales.source.image.add,
             empty: this.props.locales.source.image.empty,
@@ -1086,7 +1099,10 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'HARMONY')
             .length.toString()}
           icon="adjust"
-          helper={this.props.locales.source.harmony.helper}
+          helper={this.props.locales.source.harmony.helper.replace(
+            '{cost}',
+            this.props.config.fees.harmonyCreate.toString()
+          )}
           helpers={{
             add: this.props.locales.source.harmony.add,
             empty: this.props.locales.source.harmony.empty,
@@ -1158,7 +1174,10 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'AI')
             .length.toString()}
           icon="adjust"
-          helper={this.props.locales.source.ai.helper}
+          helper={this.props.locales.source.ai.helper.replace(
+            '{cost}',
+            this.props.config.fees.aiColorsGenerate.toString()
+          )}
           helpers={{
             add: this.props.locales.source.ai.add,
             empty: this.props.locales.source.ai.empty,

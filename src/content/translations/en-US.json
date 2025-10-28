@@ -830,7 +830,7 @@
     "ai": {
       "add": "Generate AI colors",
       "empty": "Remove the AI colors",
-      "helper": "Generate intelligent colors based on creative prompts, using Mistral AI",
+      "helper": "Generate intelligent colors based on creative prompts using Mistral AI ({cost} credits)",
       "title": "AI Colors"
     },
     "canvas": {
@@ -851,7 +851,7 @@
         "violet": "Violet",
         "yellow": "Yellow"
       },
-      "helper": "Colour Lovers is a tool for creating and exploring beautiful color schemes",
+      "helper": "Explore and import a palette from the Colour Lovers community ({cost} credits)",
       "meta": "{votes} votes・{views} views・{comments} comments",
       "title": "Colour Lovers",
       "warning": "Those colors will replace the previously added."
@@ -867,7 +867,7 @@
       "add": "Add a Coolors palette",
       "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
       "empty": "Remove the Coolors palette",
-      "helper": "Coolors is a tool for creating and exploring beautiful color schemes",
+      "helper": "Import a or your palette from the famous Coolors ({cost} credits)",
       "title": "Coolors",
       "url": {
         "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
@@ -893,6 +893,7 @@
         "warning": "Warning"
       },
       "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
+      "helper": "Adding the colors to the palette costs {cost} credits",
       "form": {
         "presets": {
           "usecases": {
@@ -918,27 +919,28 @@
       },
       "title": "AI-Generated colors"
     },
-    "harmony": {
+    "harmony": {  
       "add": "Create a color harmony",
       "empty": "Remove the color harmony",
-      "helper": "Create harmonious colors based on color wheel (complementary, triadic, etc.)",
+      "helper": "Create harmonious colors based on color wheel ({cost} credits)",
       "title": "Color harmony"
     },
     "image": {
       "add": "Extract colors from image",
       "empty": "Remove the image palette",
-      "helper": "Extract 5 dominant colors from any image",
+      "helper": "Extract 5 dominant colors from any image ({cost} credits)",
       "title": "Image palette"
     },
     "imagePalette": {
       "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
+      "helper": "Adding the colors to the palette costs {cost} credits",
       "dropzone": {
         "cta": "or click to browse",
         "error": "The image could not be loaded. Please try with another image, or make sure this is a .png",
         "message": "Drag & drop your .png file here",
         "warning": "The file was not imported. Supported image is .png"
       },
-      "emptyMessage": "Upload an image or select it in your document to extract its 5 dominant colors",
+      "message": "Upload an image or select it in your document to extract its 5 dominant colors",
       "removeImage": "Remove image",
       "title": "Dominant colors"
     },
@@ -952,7 +954,7 @@
       "add": "Add a Realtime Colors palette",
       "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
       "empty": "Remove the Realtime Colors palette",
-      "helper": "Realtime Colors is a tool for visualizing a color palette through a page template",
+      "helper": "Import a palette from a simulation made with Realtime Colors ({cost} credits)",
       "title": "Realtime Colors",
       "url": {
         "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
@@ -964,6 +966,7 @@
     "title": "Source colors",
     "wheel": {
       "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
+      "helper": "Adding the colors to the palette costs {cost} credits",
       "algorithm": {
         "analogous": "Analogous",
         "complementary": "Complementary",
