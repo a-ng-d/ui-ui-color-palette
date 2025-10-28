@@ -854,18 +854,18 @@
       "helper": "Explore and import a palette from the Colour Lovers community ({cost} credits)",
       "meta": "{votes} votes・{views} views・{comments} comments",
       "title": "Colour Lovers",
-      "warning": "Those colors will replace the previously added."
+      "warning": "These colors will override the previous ones if added."
     },
     "contexts": {
       "ai": "AI",
       "explore": "Explorer",
       "harmony": "Wheel",
-      "image": "Extractor",
+      "image": "Image",
       "overview": "Overview"
     },
     "coolors": {
       "add": "Add a Coolors palette",
-      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
+      "addColors": "Add to source ({cost} credits)",
       "empty": "Remove the Coolors palette",
       "helper": "Import a or your palette from the famous Coolors ({cost} credits)",
       "title": "Coolors",
@@ -882,7 +882,7 @@
     },
     "genAi": {
       "actions": {
-        "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
+        "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added.",
         "generate": "Generate colors ⌃⏎ or ⌘⏎"
       },
       "colorTypes": {
@@ -932,7 +932,7 @@
       "title": "Image palette"
     },
     "imagePalette": {
-      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
+      "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added.",
       "helper": "Adding the colors to the palette costs {cost} credits",
       "dropzone": {
         "cta": "or click to browse",
@@ -952,7 +952,7 @@
     },
     "realtimeColors": {
       "add": "Add a Realtime Colors palette",
-      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
+      "addColors": "Add to source ({cost} credits)",
       "empty": "Remove the Realtime Colors palette",
       "helper": "Import a palette from a simulation made with Realtime Colors ({cost} credits)",
       "title": "Realtime Colors",
@@ -965,7 +965,7 @@
     },
     "title": "Source colors",
     "wheel": {
-      "addColors": "Add to source ({cost} credits). Those colors will replace the previously added.",
+      "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added.",
       "helper": "Adding the colors to the palette costs {cost} credits",
       "algorithm": {
         "analogous": "Analogous",

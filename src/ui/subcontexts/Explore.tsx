@@ -298,6 +298,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreStates> 
                       )}
                       helper={{
                         label: this.props.locales.source.colourLovers.warning,
+                        type: 'MULTI_LINE',
                       }}
                       warning={{
                         label: this.props.locales.source.colourLovers.warning,
