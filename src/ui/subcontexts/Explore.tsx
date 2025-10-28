@@ -59,7 +59,10 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<ExploreProps, ExploreStates> {
+export default class Explore extends PureComponent<
+  ExploreProps,
+  ExploreStates
+> {
   private filters: Array<FilterOptions>
 
   static features = (

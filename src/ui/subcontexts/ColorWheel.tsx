@@ -46,7 +46,10 @@ interface ColorWheelStates {
   colorHarmony: ColorHarmonyResult
 }
 
-export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWheelStates> {
+export default class ColorWheel extends PureComponent<
+  ColorWheelProps,
+  ColorWheelStates
+> {
   private harmony: ColorHarmony
 
   static features = (
