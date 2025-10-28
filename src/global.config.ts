@@ -697,6 +697,7 @@ const globalConfig: Config = {
   },
   features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
   locales: locales.get(),
+  lang: 'en-US',
 }
 
 export default globalConfig

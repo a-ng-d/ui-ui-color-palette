@@ -189,6 +189,7 @@ root.render(
     }}
     features={globalConfig.features}
     locales={globalConfig.locales}
+    lang={globalConfig.lang}
   >
     <ThemeProvider
       theme={globalConfig.env.ui}

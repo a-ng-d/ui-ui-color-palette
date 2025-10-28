@@ -1,6 +1,6 @@
 import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Feature } from '@a_ng_d/figmug-utils'
-import { Translations } from './translations'
+import { Language, Translations } from './translations'
 
 export interface Config {
   limits: {
@@ -78,4 +78,5 @@ export interface Config {
   }
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
   locales: Translations
+  lang: Language
 }
