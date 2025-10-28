@@ -219,6 +219,21 @@ export default class PlanControls extends PureComponent<
         type="alternative"
         size="small"
         icon="lock-off"
+        label={this.props.locales.plan.getPro}
+        action={() =>
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+        }
+      />
+      <this.RemainingCredits />
+    </div>
+  )
+
+  TrialPlan = () => (
+    <div className={doClassnames([layouts['snackbar--tight']])}>
+      <Button
+        type="alternative"
+        size="small"
+        icon="lock-off"
         label={this.props.locales.plan.tryPro}
         action={() => {
           this.props.config.plan.isTrialEnabled
@@ -271,7 +286,7 @@ export default class PlanControls extends PureComponent<
       return (
         <div className={doClassnames(['pro-zone', layouts['snackbar--tight']])}>
           {this.props.trialStatus === 'UNUSED' &&
-            this.props.planStatus === 'UNPAID' && <this.FreePlan />}
+            this.props.planStatus === 'UNPAID' && <this.TrialPlan />}
           {this.props.trialStatus === 'PENDING' &&
             this.props.planStatus === 'PAID' && <this.PendingTrial />}
           {this.props.trialStatus === 'EXPIRED' &&
@@ -282,20 +297,7 @@ export default class PlanControls extends PureComponent<
       return (
         <div className={doClassnames(['pro-zone', layouts['snackbar--tight']])}>
           {this.props.planStatus === 'UNPAID' &&
-            this.props.trialStatus === 'UNUSED' && (
-              <Button
-                type="alternative"
-                size="small"
-                icon="lock-off"
-                label={this.props.locales.plan.getPro}
-                action={() =>
-                  sendPluginMessage(
-                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                    '*'
-                  )
-                }
-              />
-            )}
+            this.props.trialStatus === 'UNUSED' && <this.FreePlan />}
         </div>
       )
     else return null

@@ -163,7 +163,8 @@ export default class ImagePalette extends PureComponent<
     )
     this.props.onChangeContexts('SOURCE_OVERVIEW')
 
-    $creditsCount.set($creditsCount.get() - this.creditCost)
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set($creditsCount.get() - this.creditCost)
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,

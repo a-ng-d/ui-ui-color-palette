@@ -228,7 +228,8 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     this.props.onChangeColorsFromImport(sourceColors, 'AI')
     this.props.onChangeContexts('SOURCE_OVERVIEW')
 
-    $creditsCount.set($creditsCount.get() - this.creditCost)
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set($creditsCount.get() - this.creditCost)
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,

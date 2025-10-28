@@ -332,7 +332,8 @@ export default class Overview extends PureComponent<
         },
       })
 
-      $creditsCount.set($creditsCount.get() - this.creditCost)
+      if (this.props.config.plan.isProEnabled)
+        $creditsCount.set($creditsCount.get() - this.creditCost)
 
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -401,7 +402,8 @@ export default class Overview extends PureComponent<
         },
       })
 
-      $creditsCount.set($creditsCount.get() - this.creditCost)
+      if (this.props.config.plan.isProEnabled)
+        $creditsCount.set($creditsCount.get() - this.creditCost)
 
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,

@@ -220,7 +220,8 @@ export default class Explore extends PureComponent<
       'COLOUR_LOVERS'
     )
 
-    $creditsCount.set($creditsCount.get() - this.creditCost)
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set($creditsCount.get() - this.creditCost)
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
