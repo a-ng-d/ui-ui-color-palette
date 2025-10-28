@@ -79,4 +79,12 @@ export interface Config {
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
   locales: Translations
   lang: Language
+  fees: {
+    colourLoversImport: number
+    coolorsImport: number
+    realtimeColorsImport: number
+    imageColorsExtract: number
+    harmonyCreate: number
+    aiColorsGenerate: number
+  }
 }

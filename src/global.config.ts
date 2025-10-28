@@ -698,6 +698,14 @@ const globalConfig: Config = {
   features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
   locales: locales.get(),
   lang: 'en-US',
+  fees: {
+    colourLoversImport: 25,
+    coolorsImport: 25,
+    realtimeColorsImport: 25,
+    imageColorsExtract: 50,
+    harmonyCreate: 50,
+    aiColorsGenerate: 100,
+  },
 }
 
 export default globalConfig

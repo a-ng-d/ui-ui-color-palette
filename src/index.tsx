@@ -122,74 +122,16 @@ window.addEventListener('pluginMessage', ((event: MessageEvent) => {
 // Render
 root.render(
   <ConfigProvider
-    limits={{
-      pageSize: globalConfig.limits.pageSize,
-    }}
-    env={{
-      platform: globalConfig.env.platform,
-      ui: globalConfig.env.ui,
-      colorMode: globalConfig.env.colorMode,
-      editor: globalConfig.env.editor,
-      isDev: globalConfig.env.isDev,
-      isSupabaseEnabled: globalConfig.env.isSupabaseEnabled,
-      isMixpanelEnabled: globalConfig.env.isMixpanelEnabled,
-      isSentryEnabled: globalConfig.env.isSentryEnabled,
-      isMistralAiEnabled: globalConfig.env.isMistralAiEnabled,
-      announcementsDbId: globalConfig.env.announcementsDbId,
-      onboardingDbId: globalConfig.env.onboardingDbId,
-      pluginId: globalConfig.env.pluginId,
-    }}
-    plan={{
-      isProEnabled: globalConfig.plan.isProEnabled,
-      isTrialEnabled: globalConfig.plan.isTrialEnabled,
-      trialTime: globalConfig.plan.trialTime,
-      creditsLimit: globalConfig.plan.creditsLimit,
-      creditsRenewalPeriodDays: globalConfig.plan.creditsRenewalPeriodDays,
-      creditsRenewalPeriodHours: globalConfig.plan.creditsRenewalPeriodHours,
-    }}
-    dbs={{
-      palettesDbViewName: globalConfig.dbs.palettesDbViewName,
-      palettesDbTableName: globalConfig.dbs.palettesDbTableName,
-      starredPalettesDbTableName: globalConfig.dbs.starredPalettesDbTableName,
-    }}
-    urls={{
-      authWorkerUrl: globalConfig.urls.authWorkerUrl,
-      announcementsWorkerUrl: globalConfig.urls.announcementsWorkerUrl,
-      databaseUrl: globalConfig.urls.databaseUrl,
-      authUrl: globalConfig.urls.authUrl,
-      storeApiUrl: globalConfig.urls.storeApiUrl,
-      aiApiUrl: globalConfig.urls.aiApiUrl,
-      platformUrl: globalConfig.urls.platformUrl,
-      uiUrl: globalConfig.urls.uiUrl,
-      documentationUrl: globalConfig.urls.documentationUrl,
-      repositoryUrl: globalConfig.urls.repositoryUrl,
-      supportEmail: globalConfig.urls.supportEmail,
-      communityUrl: globalConfig.urls.communityUrl,
-      feedbackUrl: globalConfig.urls.feedbackUrl,
-      trialFeedbackUrl: globalConfig.urls.trialFeedbackUrl,
-      requestsUrl: globalConfig.urls.requestsUrl,
-      networkUrl: globalConfig.urls.networkUrl,
-      authorUrl: globalConfig.urls.authorUrl,
-      licenseUrl: globalConfig.urls.licenseUrl,
-      privacyUrl: globalConfig.urls.privacyUrl,
-      vsCodeFigmaPluginUrl: globalConfig.urls.vsCodeFigmaPluginUrl,
-      isbUrl: globalConfig.urls.isbUrl,
-      uicpUrl: globalConfig.urls.uicpUrl,
-      storeUrl: globalConfig.urls.storeUrl,
-      storeManagementUrl: globalConfig.urls.storeManagementUrl,
-      howToUseUrl: globalConfig.urls.howToUseUrl,
-    }}
-    versions={{
-      userConsentVersion: globalConfig.versions.userConsentVersion,
-      trialVersion: globalConfig.versions.trialVersion,
-      algorithmVersion: globalConfig.versions.algorithmVersion,
-      paletteVersion: globalConfig.versions.paletteVersion,
-      pluginVersion: globalConfig.versions.pluginVersion,
-      creditsVersion: globalConfig.versions.creditsVersion,
-    }}
+    limits={globalConfig.limits}
+    env={globalConfig.env}
+    plan={globalConfig.plan}
+    dbs={globalConfig.dbs}
+    urls={globalConfig.urls}
+    versions={globalConfig.versions}
     features={globalConfig.features}
     locales={globalConfig.locales}
     lang={globalConfig.lang}
+    fees={globalConfig.fees}
   >
     <ThemeProvider
       theme={globalConfig.env.ui}
