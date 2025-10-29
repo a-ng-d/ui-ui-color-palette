@@ -89,7 +89,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   // Handlers
   navHandler = (e: Event) => {
-    const newContext = (e.target as HTMLElement).dataset
+    const newContext = (e.currentTarget as HTMLElement).dataset
       .feature as PricingState['context']
 
     this.setState({

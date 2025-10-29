@@ -228,7 +228,8 @@ export default class EditPalette extends PureComponent<
   }
 
   navHandler = (e: Event) => {
-    const newContext = (e.target as HTMLElement).dataset.feature as Context
+    const newContext = (e.currentTarget as HTMLElement).dataset
+      .feature as Context
 
     this.setState({
       context: newContext,

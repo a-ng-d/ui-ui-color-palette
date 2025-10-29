@@ -152,7 +152,7 @@ export default class RemotePalettes extends PureComponent<
   // Handlers
   navHandler = (e: Event) =>
     this.setState({
-      context: (e.target as HTMLElement).dataset.feature as Context,
+      context: (e.currentTarget as HTMLElement).dataset.feature as Context,
     })
 
   // Direct Actions
