@@ -4,6 +4,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Button,
   Dialog,
+  FormItem,
   Section,
   SectionTitle,
   SimpleItem,
@@ -182,13 +183,15 @@ export default class DangerZone extends PureComponent<
           body={[
             {
               node: (
-                <Button
-                  type="destructive"
-                  label="Delete palette"
-                  action={() => this.setState({ isDeleteDialogOpen: true })}
-                />
+                <FormItem>
+                  <Button
+                    type="destructive"
+                    label="Delete palette"
+                    action={() => this.setState({ isDeleteDialogOpen: true })}
+                  />
+                </FormItem>
               ),
-              spacingModifier: 'LARGE',
+              spacingModifier: 'TIGHT',
             },
           ]}
           border={!this.props.isLast ? ['BOTTOM'] : undefined}

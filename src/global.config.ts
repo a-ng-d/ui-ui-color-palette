@@ -393,7 +393,7 @@ const specConfig: SpecConfig = {
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
             'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
           ],
-          []
+          ['SOURCE_AI', 'SOURCE_IMAGE', 'SOURCE_HARMONY']
         ),
       },
     },

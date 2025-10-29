@@ -673,7 +673,7 @@ export default class Overview extends PureComponent<
                   alignment="CENTER"
                 />
               ),
-              spacingModifier: 'TIGHT',
+              spacingModifier: 'NONE',
             },
           ]}
           border={['BOTTOM']}
