@@ -260,7 +260,7 @@ class App extends Component<AppProps, AppStates> {
       plans: [],
       modalContext: 'EMPTY',
       locales: props.config.locales,
-      lang: $userLanguage.get(),
+      lang: props.config.lang,
       mustUserConsent: true,
       announcements: {
         version: '',
