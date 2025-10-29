@@ -404,7 +404,7 @@ export default class RemotePalettes extends PureComponent<
             searchQuery={this.state.starredPalettesSearchQuery}
             status={
               this.props.userSession.connectionStatus === 'CONNECTED'
-                ? this.state.selfPalettesListStatus
+                ? this.state.starredPalettesListStatus
                 : 'SIGN_IN_FIRST'
             }
             palettesList={this.state.starredPalettesList}
