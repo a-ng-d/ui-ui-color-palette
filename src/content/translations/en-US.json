@@ -839,7 +839,7 @@
     },
     "colourLovers": {
       "add": "Explore Colour Lovers palettes",
-      "addColors": "Add to source ({cost} credits)",
+      "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added",
       "empty": "Remove the Colour Lovers palette",
       "filters": {
         "any": "Any",
@@ -853,8 +853,7 @@
       },
       "helper": "Explore and import a palette from the Colour Lovers community ({cost} credits)",
       "meta": "{votes} votes・{views} views・{comments} comments",
-      "title": "Colour Lovers",
-      "warning": "These colors will override the previous ones if added."
+      "title": "Colour Lovers"
     },
     "contexts": {
       "ai": "AI",
@@ -882,7 +881,7 @@
     },
     "genAi": {
       "actions": {
-        "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added.",
+        "addColors": "Add to source. These colors will override the previous ones if added.",
         "generate": "Generate colors ⌃⏎ or ⌘⏎"
       },
       "colorTypes": {
@@ -893,7 +892,7 @@
         "warning": "Warning"
       },
       "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
-      "helper": "Adding the colors to the palette costs {cost} credits",
+      "helper": "Requesting the colors costs {cost} credits",
       "form": {
         "presets": {
           "usecases": {
@@ -932,13 +931,13 @@
       "title": "Image palette"
     },
     "imagePalette": {
-      "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added.",
-      "helper": "Adding the colors to the palette costs {cost} credits",
+      "addColors": "Add to source. These colors will override the previous ones if added.",
+      "helper": "Uploading an image costs {cost} credits",
       "dropzone": {
         "cta": "or click to browse",
-        "error": "The image could not be loaded. Please try with another image, or make sure this is a .png",
+        "error": "The image could not be loaded. Make sure the image is a .png and drop it here.",
         "message": "Drag & drop your .png file here",
-        "warning": "The file was not imported. Supported image is .png"
+        "warning": "The file was not imported. Retry dragging & dropping a .png file here."
       },
       "message": "Upload an image or select it in your document to extract its 5 dominant colors",
       "removeImage": "Remove image",

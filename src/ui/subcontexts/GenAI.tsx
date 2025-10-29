@@ -146,7 +146,13 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
       const palette = await mistralClient.generateColorPalette(
         this.state.prompt
       )
+
       this.setState({ generatedPalette: palette, isLoading: false })
+
+      if (this.props.config.plan.isProEnabled)
+        $creditsCount.set(
+          $creditsCount.get() - this.props.config.fees.aiColorsGenerate
+        )
     } catch (error) {
       console.error(error)
       this.setState({
@@ -224,11 +230,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     )
     this.props.onChangeColorsFromImport(sourceColors, 'AI')
     this.props.onChangeContexts('SOURCE_OVERVIEW')
-
-    if (this.props.config.plan.isProEnabled)
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.aiColorsGenerate
-      )
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -308,7 +309,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                     this.props.config,
                     this.props.service,
                     this.props.editor
-                  ).SOURCE_AI_ADD.isReached(this.props.creditsCount * -1 - 1)}
+                  ).SOURCE_AI_ADD.isBlocked()}
                   isNew={GenAi.features(
                     this.props.planStatus,
                     this.props.config,
@@ -513,6 +514,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                             isDisabled={
                               !this.state.prompt.trim() || !mistralClient
                             }
+                            isBlocked={GenAi.features(
+                              this.props.planStatus,
+                              this.props.config,
+                              this.props.service,
+                              this.props.editor
+                            ).SOURCE_AI_REQUEST.isReached(
+                              this.props.creditsCount * -1 - 1
+                            )}
                             action={this.generatePalette}
                           />
                         </FormItem>

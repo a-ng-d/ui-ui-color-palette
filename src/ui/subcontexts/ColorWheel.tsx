@@ -289,7 +289,9 @@ export default class ColorWheel extends PureComponent<
                             this.props.config,
                             this.props.service,
                             this.props.editor
-                          ).SOURCE_HARMONY_BASE.isBlocked()}
+                          ).SOURCE_HARMONY_BASE.isReached(
+                            this.props.creditsCount * -1 - 1
+                          )}
                           isNew={ColorWheel.features(
                             this.props.planStatus,
                             this.props.config,

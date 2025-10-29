@@ -158,12 +158,8 @@ export default class ImagePalette extends PureComponent<
       }),
       'IMAGE'
     )
-    this.props.onChangeContexts('SOURCE_OVERVIEW')
 
-    if (this.props.config.plan.isProEnabled)
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.imageColorsExtract
-      )
+    this.props.onChangeContexts('SOURCE_OVERVIEW')
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -255,7 +251,7 @@ export default class ImagePalette extends PureComponent<
               this.props.config,
               this.props.service,
               this.props.editor
-            ).SOURCE_IMAGE_UPLOAD.isBlocked()}
+            ).SOURCE_IMAGE_UPLOAD.isReached(this.props.creditsCount * -1 - 1)}
             isNew={ImagePalette.features(
               this.props.planStatus,
               this.props.config,
@@ -274,6 +270,12 @@ export default class ImagePalette extends PureComponent<
                 arrayBuffer as ArrayBuffer,
                 5
               )
+
+              if (this.props.config.plan.isProEnabled)
+                $creditsCount.set(
+                  $creditsCount.get() -
+                    this.props.config.fees.imageColorsExtract
+                )
 
               this.setState({
                 dominantColors: dominantColors,
@@ -328,7 +330,7 @@ export default class ImagePalette extends PureComponent<
                   this.props.config,
                   this.props.service,
                   this.props.editor
-                ).SOURCE_IMAGE_ADD.isReached(this.props.creditsCount * -1 - 1)}
+                ).SOURCE_IMAGE_ADD.isBlocked()}
                 isNew={ImagePalette.features(
                   this.props.planStatus,
                   this.props.config,

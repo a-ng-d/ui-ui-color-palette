@@ -1,8 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 
-export const featuresScheme: Array<
-  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
-> = [
+export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',
@@ -627,6 +625,7 @@ export const featuresScheme: Array<
     availabilityForServices: ['CREATE'],
     proForServices: ['CREATE'],
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
+    limit: -100,
   },
   {
     name: 'SOURCE_IMAGE_ADD',
@@ -638,7 +637,6 @@ export const featuresScheme: Array<
     availabilityForServices: ['CREATE'],
     proForServices: ['CREATE'],
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
-    limit: -50,
   },
   {
     name: 'SOURCE_HARMONY',
@@ -661,6 +659,7 @@ export const featuresScheme: Array<
     availabilityForServices: ['CREATE'],
     proForServices: ['CREATE'],
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
+    limit: -50,
   },
   {
     name: 'SOURCE_HARMONY_WHEEL',
@@ -761,6 +760,7 @@ export const featuresScheme: Array<
     availabilityForServices: ['CREATE'],
     proForServices: ['CREATE'],
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
+    limit: -100,
   },
   {
     name: 'SOURCE_AI_ADD',
@@ -772,7 +772,6 @@ export const featuresScheme: Array<
     availabilityForServices: ['CREATE'],
     proForServices: ['CREATE'],
     availabilityForEditors: ['figma', 'figjam', 'penpot', 'sketch', 'framer'],
-    limit: -100,
   },
   {
     name: 'SCALE',

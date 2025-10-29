@@ -294,17 +294,15 @@ export default class Explore extends PureComponent<
                     ).SOURCE_EXPLORE_ADD.isActive()}
                   >
                     <Button
-                      type="secondary"
-                      label={this.props.locales.source.colourLovers.addColors.replace(
-                        '{cost}',
-                        this.props.config.fees.colourLoversImport.toString()
-                      )}
+                      type="icon"
+                      icon="plus"
                       helper={{
-                        label: this.props.locales.source.colourLovers.warning,
+                        label:
+                          this.props.locales.source.colourLovers.addColors.replace(
+                            '{cost}',
+                            this.props.config.fees.colourLoversImport.toString()
+                          ),
                         type: 'MULTI_LINE',
-                      }}
-                      warning={{
-                        label: this.props.locales.source.colourLovers.warning,
                       }}
                       isBlocked={Explore.features(
                         this.props.planStatus,
