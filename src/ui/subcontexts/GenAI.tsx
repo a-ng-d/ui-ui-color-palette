@@ -477,6 +477,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                             }
                             value={this.state.prompt}
                             isGrowing
+                            isAutoFocus
                             onChange={this.handlePromptChange}
                             onValid={(e) => {
                               if (
