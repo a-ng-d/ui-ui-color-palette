@@ -151,7 +151,7 @@
     },
     "search": "Search palettes",
     "signInFirst": {
-      "message": "Find and reuse your published palettes once authentified",
+      "message": "Find and use your own and starred palettes once authenticated",
       "signIn": "Sign in to fetch your palettes"
     }
   },
