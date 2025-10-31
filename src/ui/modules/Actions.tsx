@@ -873,7 +873,7 @@ export default class Actions extends PureComponent<
             </Feature>
             <div
               style={{
-                flex: '0 1 200px'
+                flex: '0 1 200px',
               }}
             >
               <Input
@@ -983,6 +983,7 @@ export default class Actions extends PureComponent<
                   },
                 ]}
                 selected={this.props.document.view}
+                pin="BOTTOM"
                 isBlocked={Actions.features(
                   this.props.planStatus,
                   this.props.config,

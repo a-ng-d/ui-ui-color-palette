@@ -658,6 +658,7 @@
       "fluent": "Fluent, 10-160 (Microsoft)",
       "framework": "Frameworks",
       "google": "Google",
+      "helper": "Select a preset",
       "label": "Preset",
       "legacy": "Custom (Legacy)",
       "material": "Material Design, 50-900",
@@ -892,7 +893,6 @@
         "warning": "Warning"
       },
       "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
-      "helper": "Requesting the colors costs {cost} credits",
       "form": {
         "presets": {
           "usecases": {
@@ -916,9 +916,10 @@
           "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
         }
       },
+      "helper": "Requesting the colors costs {cost} credits",
       "title": "AI-Generated colors"
     },
-    "harmony": {  
+    "harmony": {
       "add": "Create a color harmony",
       "empty": "Remove the color harmony",
       "helper": "Create harmonious colors based on color wheel ({cost} credits)",
@@ -932,13 +933,13 @@
     },
     "imagePalette": {
       "addColors": "Add to source. These colors will override the previous ones if added.",
-      "helper": "Uploading an image costs {cost} credits",
       "dropzone": {
         "cta": "or click to browse",
         "error": "The image could not be loaded. Make sure the image is a .png and drop it here.",
         "message": "Drag & drop your .png file here",
         "warning": "The file was not imported. Retry dragging & dropping a .png file here."
       },
+      "helper": "Uploading an image costs {cost} credits",
       "message": "Upload an image or select it in your document to extract its 5 dominant colors",
       "removeImage": "Remove image",
       "title": "Dominant colors"
@@ -965,7 +966,6 @@
     "title": "Source colors",
     "wheel": {
       "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added.",
-      "helper": "Adding the colors to the palette costs {cost} credits",
       "algorithm": {
         "analogous": "Analogous",
         "complementary": "Complementary",
@@ -974,7 +974,8 @@
         "tetradic": "Tetradic",
         "triadic": "Triadic"
       },
-      "base": "Base color"
+      "base": "Base color",
+      "helper": "Adding the colors to the palette costs {cost} credits"
     }
   },
   "store": {

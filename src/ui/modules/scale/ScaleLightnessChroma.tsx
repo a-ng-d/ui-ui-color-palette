@@ -810,6 +810,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     selected={this.props.preset.id}
                     alignment="RIGHT"
                     pin="TOP"
+                    helper={{
+                      label: this.props.locales.scale.presets.helper,
+                    }}
                   />
                 </Feature>
                 <Feature
