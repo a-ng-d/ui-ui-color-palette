@@ -413,6 +413,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               padding: padding,
               alignItems: 'stretch',
               width: '100%',
+              boxSizing: 'border-box',
             }}
           >
             <div
