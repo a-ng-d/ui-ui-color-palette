@@ -412,6 +412,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             style={{
               padding: padding,
               alignItems: 'stretch',
+              width: '100%',
             }}
           >
             <div
