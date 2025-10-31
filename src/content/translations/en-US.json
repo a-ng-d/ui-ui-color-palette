@@ -805,7 +805,7 @@
       "title": "Global",
       "views": {
         "detailed": "Palette with properties",
-        "label": "Layout",
+        "helper": "Document layout",
         "sheet": "Color sheet",
         "simple": "Palette"
       }

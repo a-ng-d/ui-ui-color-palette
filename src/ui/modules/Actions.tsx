@@ -984,6 +984,10 @@ export default class Actions extends PureComponent<
                 ]}
                 selected={this.props.document.view}
                 pin="BOTTOM"
+                helper={{
+                  label: this.props.locales.settings.global.views.helper,
+                  pin: 'TOP',
+                }}
                 isBlocked={Actions.features(
                   this.props.planStatus,
                   this.props.config,
