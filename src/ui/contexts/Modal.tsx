@@ -36,6 +36,7 @@ interface ModalProps extends BaseProps, WithConfigProps {
   announcements: AnnouncementsDigest
   plans: Plans
   onChangePublication: React.Dispatch<Partial<AppStates>>
+  onManageLicense: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

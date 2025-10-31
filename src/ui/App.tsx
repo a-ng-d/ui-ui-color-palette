@@ -1023,6 +1023,7 @@ class App extends Component<AppProps, AppStates> {
                   rawData={this.state}
                   context={this.state.modalContext}
                   onChangePublication={(e) => this.setState({ ...e })}
+                  onManageLicense={(e) => this.setState({ ...e })}
                   onClose={() =>
                     this.setState({
                       modalContext: 'EMPTY',
@@ -1046,6 +1047,7 @@ class App extends Component<AppProps, AppStates> {
                   rawData={this.state}
                   context="NOTIFICATION"
                   onChangePublication={(e) => this.setState({ ...e })}
+                  onManageLicense={(e) => this.setState({ ...e })}
                   onClose={() =>
                     this.setState({
                       isNotificationDisplayed: false,

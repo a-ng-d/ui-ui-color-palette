@@ -244,7 +244,7 @@ window.addEventListener('message', async (msg: any) => {
       iframe?.contentWindow?.postMessage({
         type: 'GET_PRICING',
         data: {
-          plans: ['ONE', 'ONE_FIGMA', 'FIGMA'],
+          plans: ['ONE', 'ONE_FIGMA', 'FIGMA', 'ACTIVATE'],
         },
       }),
     GO_TO_ONE: async () => window.open(globalConfig.urls.storeUrl, '_blank'),

@@ -501,6 +501,11 @@
     }
   },
   "pricing": {
+    "activate": {
+      "cta": "Manage license",
+      "text": "Enter your license key after purchasing to unlock /pro features",
+      "title": "Activate /pro"
+    },
     "contexts": {
       "discount": "Discount (-20%)",
       "regular": "Regular"
@@ -658,7 +663,7 @@
       "fluent": "Fluent, 10-160 (Microsoft)",
       "framework": "Frameworks",
       "google": "Google",
-      "helper": "Select a preset",
+      "helper": "Lightness preset",
       "label": "Preset",
       "legacy": "Custom (Legacy)",
       "material": "Material Design, 50-900",

@@ -4,6 +4,7 @@ import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Card, Dialog, layouts, Tabs, texts } from '@a_ng_d/figmug-ui'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { AppStates } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import {
   BaseProps,
@@ -15,10 +16,12 @@ import {
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import uicpo from '../../../content/images/uicp_one.webp'
 import uicp from '../../../content/images/uicp_figma.webp'
+import uicpa from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PricingProps extends BaseProps, WithConfigProps {
   plans: Plans
+  onManageLicense: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -330,6 +333,38 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     )
   }
 
+  Activate = () => {
+    return (
+      <Card
+        src={uicpa}
+        title={this.props.locales.pricing.activate.title}
+        richText={
+          <span className={texts.type}>
+            {this.props.locales.pricing.activate.text}
+          </span>
+        }
+        actions={
+          <Button
+            type="primary"
+            label={this.props.locales.pricing.activate.cta}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              this.props.onManageLicense({
+                modalContext: 'LICENSE',
+              })
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          this.props.onManageLicense({
+            modalContext: 'LICENSE',
+          })
+        }}
+      />
+    )
+  }
+
   // Render
   render() {
     let padding, isFlex
@@ -419,6 +454,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                     return <this.OneFigma />
                   case 'FIGMA':
                     return <this.Figma />
+                  case 'ACTIVATE':
+                    return <this.Activate />
                   default:
                     return null
                 }
