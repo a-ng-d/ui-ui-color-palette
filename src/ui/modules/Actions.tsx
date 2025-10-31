@@ -694,7 +694,8 @@ export default class Actions extends PureComponent<
           <div className={layouts['snackbar--medium']}>
             <div
               style={{
-                width: '200px',
+                minWidth: '200px',
+                width: '100%',
               }}
             >
               <Input
