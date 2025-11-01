@@ -146,6 +146,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 {
                   pluginMessage: {
                     type: 'GO_TO_ONE',
+                    data: {
+                      context: this.state.context,
+                    },
                   },
                 },
                 '*'
@@ -215,7 +218,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               sendPluginMessage(
                 {
                   pluginMessage: {
-                    type: 'GO_TO_ONE_FIGMA',
+                    type: 'GO_TO_ONE',
+                    data: {
+                      context: this.state.context,
+                    },
                   },
                 },
                 '*'

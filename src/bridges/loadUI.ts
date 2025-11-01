@@ -247,7 +247,13 @@ window.addEventListener('message', async (msg: any) => {
           plans: ['ONE', 'ONE_FIGMA', 'FIGMA', 'ACTIVATE'],
         },
       }),
-    GO_TO_ONE: async () => window.open(globalConfig.urls.storeUrl, '_blank'),
+    GO_TO_ONE: async () =>
+      window.open(
+        path.data.context === 'REGULAR'
+          ? globalConfig.urls.storeUrl
+          : globalConfig.urls.storeWithDiscountUrl,
+        '_blank'
+      ),
     GO_TO_ONE_FIGMA: async () =>
       window.open('https://uicp.ylb.lt/run-figma-plugin', '_blank'),
     GO_TO_CHECKOUT: async () => console.log('Pay Pro Plan', path),

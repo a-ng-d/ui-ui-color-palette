@@ -66,6 +66,7 @@ export interface Config {
     uicpUrl: string
     storeUrl: string
     storeManagementUrl: string
+    storeWithDiscountUrl: string
     howToUseUrl: string
   }
   versions: {
