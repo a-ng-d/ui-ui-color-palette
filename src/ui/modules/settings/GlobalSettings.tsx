@@ -91,8 +91,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
               this.props.editor
             ).SETTINGS_NAME.isNew()}
             feature="RENAME_PALETTE"
-            onChange={this.props.onChangeSettings}
-            onFocus={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}
             onValid={this.props.onChangeSettings}
           />
@@ -141,7 +139,6 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             ).SETTINGS_DESCRIPTION.isNew()}
             feature="UPDATE_DESCRIPTION"
             isGrowing
-            onFocus={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}
             onValid={this.props.onChangeSettings}
           />

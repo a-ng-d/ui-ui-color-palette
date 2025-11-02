@@ -691,7 +691,7 @@ export default class Actions extends PureComponent<
           <div className={layouts['snackbar--medium']}>
             <div
               style={{
-                flex: '0 1 200px'
+                flex: '0 1 200px',
               }}
             >
               <Input
@@ -717,9 +717,8 @@ export default class Actions extends PureComponent<
                   this.props.editor
                 ).SETTINGS_NAME.isNew()}
                 feature="RENAME_PALETTE"
-                onChange={this.nameHandler}
-                onFocus={this.nameHandler}
                 onBlur={this.nameHandler}
+                onValid={this.nameHandler}
               />
             </div>
             <span
@@ -896,9 +895,8 @@ export default class Actions extends PureComponent<
                   this.props.editor
                 ).SETTINGS_NAME.isNew()}
                 feature="RENAME_PALETTE"
-                onChange={this.nameHandler}
-                onFocus={this.nameHandler}
                 onBlur={this.nameHandler}
+                onValid={this.nameHandler}
               />
             </div>
 
