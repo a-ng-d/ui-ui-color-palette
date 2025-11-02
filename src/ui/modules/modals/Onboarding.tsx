@@ -103,6 +103,14 @@ export default class Onboarding extends PureComponent<
                   )
               )
               break
+            case 'framer':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Plateformes'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Framer'
+                  )
+              )
+              break
           }
 
           switch (this.props.config.env.editor) {
@@ -143,6 +151,14 @@ export default class Onboarding extends PureComponent<
                 (announcement: Announcement) =>
                   announcement.properties['Éditeurs'].multi_select.some(
                     (role: { name: string }) => role.name === 'Sketch'
+                  )
+              )
+              break
+            case 'framer':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Éditeurs'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Framer'
                   )
               )
               break
