@@ -197,23 +197,21 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
-        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
-        trackSourceColorsManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'RENAME_COLOR',
-          }
-        )
-      }
+      trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'RENAME_COLOR',
+        }
+      )
     }
 
     const updateHexCode = () => {
@@ -244,23 +242,21 @@ export default class Colors extends PureComponent<ColorsProps> {
         })
       }
 
-      if (e.type === 'focusout') {
-        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
-        trackSourceColorsManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPDATE_HEX',
-          }
-        )
-      }
+      trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_HEX',
+        }
+      )
     }
 
     const updateLightnessProp = () => {
@@ -518,23 +514,21 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      if (e.type === 'focusout') {
-        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
-        trackSourceColorsManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'DESCRIBE_COLOR',
-          }
-        )
-      }
+      trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'DESCRIBE_COLOR',
+        }
+      )
     }
 
     const switchAlphaMode = () => {
@@ -579,23 +573,21 @@ export default class Colors extends PureComponent<ColorsProps> {
         onGoingStep: 'colors changed',
       })
 
-      if (e.type === 'focusout') {
-        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
-        trackSourceColorsManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPDATE_BACKGROUND_COLOR',
-          }
-        )
-      }
+      trackSourceColorsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_BACKGROUND_COLOR',
+        }
+      )
     }
 
     const removeColor = () => {
@@ -825,6 +817,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   this.props.editor
                                 ).COLORS_NAME.isNew()}
                                 onBlur={this.colorsHandler}
+                                onValid={this.colorsHandler}
                               />
                             </div>
                           </Feature>
@@ -855,6 +848,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 ).COLORS_PARAMS.isNew()}
                                 onPick={this.colorsHandler}
                                 onBlur={this.colorsHandler}
+                                onValid={this.colorsHandler}
                               />
                             </div>
                           </Feature>
@@ -957,6 +951,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 ).COLORS_BACKGROUND_COLOR.isNew()}
                                 onPick={this.colorsHandler}
                                 onBlur={this.colorsHandler}
+                                onValid={this.colorsHandler}
                               />
                             </div>
                           </Feature>
@@ -1224,6 +1219,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   ).COLORS_DESCRIPTION.isNew()}
                                   isGrowing
                                   onBlur={this.colorsHandler}
+                                  onValid={this.colorsHandler}
                                 />
                               </FormItem>
                             </Feature>

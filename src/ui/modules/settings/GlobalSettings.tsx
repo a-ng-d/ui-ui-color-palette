@@ -94,6 +94,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             onChange={this.props.onChangeSettings}
             onFocus={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}
+            onValid={this.props.onChangeSettings}
           />
         </FormItem>
       </Feature>
@@ -142,6 +143,7 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             isGrowing
             onFocus={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}
+            onValid={this.props.onChangeSettings}
           />
         </FormItem>
       </Feature>

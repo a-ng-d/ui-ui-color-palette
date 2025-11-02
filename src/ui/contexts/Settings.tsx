@@ -133,10 +133,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (
-        (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') &&
-        this.props.service === 'EDIT'
-      )
+      if (this.props.service === 'EDIT')
         sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
@@ -172,7 +169,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.service === 'EDIT')
+      if (this.props.service === 'EDIT')
         sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
@@ -345,23 +342,22 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.service === 'EDIT')
+      if (this.props.service === 'EDIT')
         sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
-      if (e.type === 'focusout')
-        trackSettingsManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPDATE_TEXT_COLORS_THEME',
-          }
-        )
+      trackSettingsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_TEXT_COLORS_THEME',
+        }
+      )
     }
 
     const updateTextDarkColor = () => {
@@ -396,23 +392,22 @@ export default class Settings extends PureComponent<SettingsProps> {
         onGoingStep: 'settings changed',
       })
 
-      if (e.type === 'focusout' && this.props.service === 'EDIT')
+      if (this.props.service === 'EDIT')
         sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
-      if (e.type === 'focusout')
-        trackSettingsManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPDATE_TEXT_COLORS_THEME',
-          }
-        )
+      trackSettingsManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_TEXT_COLORS_THEME',
+        }
+      )
     }
 
     const actions: {

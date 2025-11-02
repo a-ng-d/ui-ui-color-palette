@@ -177,23 +177,21 @@ export default class Themes extends PureComponent<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
-        sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
-        trackColorThemesManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'RENAME_THEME',
-          }
-        )
-      }
+      trackColorThemesManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'RENAME_THEME',
+        }
+      )
     }
 
     const updatePaletteBackgroundColor = () => {
@@ -217,23 +215,21 @@ export default class Themes extends PureComponent<ThemesProps> {
         })
       }
 
-      if (e.type === 'focusout') {
-        sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
-        trackColorThemesManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'UPDATE_BACKGROUND',
-          }
-        )
-      }
+      trackColorThemesManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_BACKGROUND',
+        }
+      )
     }
 
     const updateThemeDescription = () => {
@@ -249,23 +245,21 @@ export default class Themes extends PureComponent<ThemesProps> {
         onGoingStep: 'themes changed',
       })
 
-      if (e.type === 'focusout' || (e as KeyboardEvent).key === 'Enter') {
-        sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
-        trackColorThemesManagementEvent(
-          this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
-          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-            ?.isConsented ?? false,
-          {
-            feature: 'DESCRIBE_THEME',
-          }
-        )
-      }
+      trackColorThemesManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'DESCRIBE_THEME',
+        }
+      )
     }
 
     const removeTheme = () => {
@@ -612,6 +606,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     this.props.editor
                                   ).THEMES_NAME.isNew()}
                                   onBlur={this.themesHandler}
+                                  onValid={this.themesHandler}
                                 />
                               </div>
                             </Feature>
@@ -662,6 +657,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     ).THEMES_PARAMS.isNew()}
                                     onPick={this.themesHandler}
                                     onBlur={this.themesHandler}
+                                    onValid={this.themesHandler}
                                   />
                                 </FormItem>
                               </div>
@@ -724,6 +720,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                       ).THEMES_DESCRIPTION.isNew()}
                                       isGrowing
                                       onBlur={this.themesHandler}
+                                      onValid={this.themesHandler}
                                     />
                                   </FormItem>
                                 </div>

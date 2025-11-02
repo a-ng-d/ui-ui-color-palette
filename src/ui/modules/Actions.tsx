@@ -362,10 +362,7 @@ export default class Actions extends PureComponent<
       this.props.onChangeSettings({
         name: e.currentTarget.value,
       })
-    if (
-      (e.type === 'focusout' || ('key' in e && e.key === 'Enter')) &&
-      this.props.service === 'EDIT'
-    )
+    if (this.props.service === 'EDIT')
       sendPluginMessage(
         {
           pluginMessage: {
