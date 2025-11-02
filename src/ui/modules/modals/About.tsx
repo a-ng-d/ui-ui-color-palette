@@ -214,6 +214,25 @@ export default class About extends PureComponent<AboutProps> {
           vite: `<a href='https://vitejs.dev/' target='_blank' rel='noreferrer'>${locales.about.attributions.vite.vite}</a>`,
         },
       },
+      {
+        key: 'presets',
+        template: locales.about.attributions.presets.sentence,
+        values: {
+          antDesign: `<a href='https://ant.design/docs/spec/colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.antDesign}</a>`,
+          bootstrap: `<a href='https://getbootstrap.com/docs/5.3/customize/color/#all-colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.bootstrap}</a>`,
+          tailwind: `<a href='https://tailwindcss.com/docs/colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.tailwind}</a>`,
+          material: `<a href='https://m3.material.io/styles/color/static/baseline' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.material}</a>`,
+          untitledUI: `<a href='https://untitledui.com/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.untitledUI}</a>`,
+          openColor: `<a href='https://yeun.github.io/open-color/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.openColor}</a>`,
+          radix: `<a href='https://www.radix-ui.com/colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.radix}</a>`,
+          atlassian: `<a href='https://atlassian.design/foundations/color-new/color-palette-new' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.atlassian}</a>`,
+          shopify: `<a href='https://polaris-react.shopify.com/design/colors/palettes-and-roles' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.shopify}</a>`,
+          uber: `<a href='https://base.uber.com/6d2425e9f/p/797362-color-beta' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.uber}</a>`,
+          microsoft: `<a href='https://fluent2.microsoft.design/color/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.microsoft}</a>`,
+          ibm: `<a href='https://carbondesignsystem.com/elements/color/overview/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.ibm}</a>`,
+          adobe: `<a href='https://spectrum.adobe.com/page/color-palette/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.adobe}</a>`,
+        },
+      },
     ]
 
     return (

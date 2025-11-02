@@ -25,6 +25,22 @@
         "preact": "Preact",
         "sentence": "• The UI is built using {preact}"
       },
+      "presets": {
+        "adobe": "Adobe Spectrum",
+        "antDesign": "Ant Design",
+        "atlassian": "Atlassian Design",
+        "bootstrap": "Bootstrap",
+        "ibm": "IBM Carbon",
+        "material": "Material Design",
+        "microsoft": "Microsoft Fluent",
+        "openColor": "Open Color",
+        "radix": "Radix",
+        "sentence": "• Color scale presets inspired by {antDesign}, {bootstrap}, {tailwind}, {material}, {untitledUI}, {openColor}, {radix}, {atlassian}, {shopify}, {uber}, {microsoft}, {ibm}, and {adobe}.",
+        "shopify": "Shopify Polaris",
+        "tailwind": "Tailwind",
+        "uber": "Uber Base",
+        "untitledUI": "Untitled UI"
+      },
       "supabase": {
         "sentence": "• The remote palettes are stored using {supabase}",
         "supabase": "Supabase"
