@@ -511,7 +511,7 @@ export default class ColorWheel extends PureComponent<
                           helper={{
                             label:
                               this.props.locales.source.wheel.addColors.replace(
-                                '{cost}',
+                                '{fee}',
                                 this.props.config.fees.harmonyCreate.toString()
                               ),
                             type: 'MULTI_LINE',

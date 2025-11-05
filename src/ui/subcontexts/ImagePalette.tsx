@@ -299,7 +299,7 @@ export default class ImagePalette extends PureComponent<
               label={this.props.locales.source.imagePalette.title}
               indicator={this.state.dominantColors.length.toString()}
               helper={this.props.locales.source.imagePalette.helper.replace(
-                '{cost}',
+                '{fee}',
                 this.props.config.fees.imageColorsExtract.toString()
               )}
             />
@@ -319,7 +319,7 @@ export default class ImagePalette extends PureComponent<
                 helper={{
                   label:
                     this.props.locales.source.imagePalette.addColors.replace(
-                      '{cost}',
+                      '{fee}',
                       this.props.config.fees.imageColorsExtract.toString()
                     ),
                   type: 'MULTI_LINE',

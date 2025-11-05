@@ -282,7 +282,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                 indicator="0"
                 label={this.props.locales.source.genAi.title}
                 helper={this.props.locales.source.imagePalette.helper.replace(
-                  '{cost}',
+                  '{fee}',
                   this.props.config.fees.aiColorsGenerate.toString()
                 )}
               />
@@ -361,7 +361,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
               indicator="5"
               label={this.props.locales.source.genAi.title}
               helper={this.props.locales.source.imagePalette.helper.replace(
-                '{cost}',
+                '{fee}',
                 this.props.config.fees.aiColorsGenerate.toString()
               )}
             />
@@ -381,7 +381,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                 helper={{
                   label:
                     this.props.locales.source.genAi.actions.addColors.replace(
-                      '{cost}',
+                      '{fee}',
                       this.props.config.fees.aiColorsGenerate.toString()
                     ),
                   type: 'MULTI_LINE',

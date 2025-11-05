@@ -299,7 +299,7 @@ export default class Explore extends PureComponent<
                       helper={{
                         label:
                           this.props.locales.source.colourLovers.addColors.replace(
-                            '{cost}',
+                            '{fee}',
                             this.props.config.fees.colourLoversImport.toString()
                           ),
                         type: 'MULTI_LINE',
