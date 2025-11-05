@@ -847,7 +847,7 @@
     "ai": {
       "add": "Generate AI colors",
       "empty": "Remove the AI colors",
-      "helper": "Generate intelligent colors based on creative prompts using Mistral AI ({cost} credits)",
+      "helper": "Generate intelligent colors based on creative prompts using Mistral AI ({fee} credits)",
       "title": "AI Colors"
     },
     "canvas": {
@@ -856,7 +856,7 @@
     },
     "colourLovers": {
       "add": "Explore Colour Lovers palettes",
-      "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added",
+      "addColors": "Add to source ({fee} credits). These colors will override the previous ones if added",
       "empty": "Remove the Colour Lovers palette",
       "filters": {
         "any": "Any",
@@ -868,7 +868,7 @@
         "violet": "Violet",
         "yellow": "Yellow"
       },
-      "helper": "Explore and import a palette from the Colour Lovers community ({cost} credits)",
+      "helper": "Explore and import a palette from the Colour Lovers community ({fee} credits)",
       "meta": "{votes} votes・{views} views・{comments} comments",
       "title": "Colour Lovers"
     },
@@ -881,9 +881,9 @@
     },
     "coolors": {
       "add": "Add a Coolors palette",
-      "addColors": "Add to source ({cost} credits)",
+      "addColors": "Add to source ({fee} credits)",
       "empty": "Remove the Coolors palette",
-      "helper": "Import a or your palette from the famous Coolors ({cost} credits)",
+      "helper": "Import a or your palette from the famous Coolors ({fee} credits)",
       "title": "Coolors",
       "url": {
         "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
@@ -932,19 +932,19 @@
           "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
         }
       },
-      "helper": "Requesting the colors costs {cost} credits",
+      "helper": "Requesting the colors costs {fee} credits",
       "title": "AI-Generated colors"
     },
     "harmony": {
       "add": "Create a color harmony",
       "empty": "Remove the color harmony",
-      "helper": "Create harmonious colors based on color wheel ({cost} credits)",
+      "helper": "Create harmonious colors based on color wheel ({fee} credits)",
       "title": "Color harmony"
     },
     "image": {
       "add": "Extract colors from image",
       "empty": "Remove the image palette",
-      "helper": "Extract 5 dominant colors from any image ({cost} credits)",
+      "helper": "Extract 5 dominant colors from any image ({fee} credits)",
       "title": "Image palette"
     },
     "imagePalette": {
@@ -955,7 +955,7 @@
         "message": "Drag & drop your .png file here",
         "warning": "The file was not imported. Retry dragging & dropping a .png file here."
       },
-      "helper": "Uploading an image costs {cost} credits",
+      "helper": "Uploading an image costs {fee} credits",
       "message": "Upload an image or select it in your document to extract its 5 dominant colors",
       "removeImage": "Remove image",
       "title": "Dominant colors"
@@ -968,9 +968,9 @@
     },
     "realtimeColors": {
       "add": "Add a Realtime Colors palette",
-      "addColors": "Add to source ({cost} credits)",
+      "addColors": "Add to source ({fee} credits)",
       "empty": "Remove the Realtime Colors palette",
-      "helper": "Import a palette from a simulation made with Realtime Colors ({cost} credits)",
+      "helper": "Import a palette from a simulation made with Realtime Colors ({fee} credits)",
       "title": "Realtime Colors",
       "url": {
         "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
@@ -981,7 +981,7 @@
     },
     "title": "Source colors",
     "wheel": {
-      "addColors": "Add to source ({cost} credits). These colors will override the previous ones if added.",
+      "addColors": "Add to source ({fee} credits). These colors will override the previous ones if added.",
       "algorithm": {
         "analogous": "Analogous",
         "complementary": "Complementary",
@@ -991,7 +991,7 @@
         "triadic": "Triadic"
       },
       "base": "Base color",
-      "helper": "Adding the colors to the palette costs {cost} credits"
+      "helper": "Adding the colors to the palette costs {fee} credits"
     }
   },
   "store": {
