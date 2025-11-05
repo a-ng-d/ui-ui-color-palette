@@ -129,6 +129,16 @@ export default class StarredPalettes extends PureComponent<
   }
 
   componentDidUpdate = (prevProps: Readonly<StarredPalettesProps>): void => {
+    // Trigger loading when user connects (same logic as SelfPalettes)
+    if (
+      prevProps.userSession.connectionStatus !==
+        this.props.userSession.connectionStatus &&
+      this.props.palettesList.length === 0
+    ) {
+      this.props.onChangeStatus('LOADING')
+      this.callUICPAgent(1, '')
+    }
+
     if (prevProps.palettesList.length !== this.props.palettesList.length)
       this.setState({
         isAddToLocalActionLoading: Array(this.props.palettesList.length).fill(

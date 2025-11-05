@@ -112,8 +112,10 @@ export default class SelfPalettes extends PureComponent<
       prevProps.userSession.connectionStatus !==
         this.props.userSession.connectionStatus &&
       this.props.palettesList.length === 0
-    )
+    ) {
+      this.props.onChangeStatus('LOADING')
       this.callUICPAgent(1, '')
+    }
 
     if (prevProps.palettesList.length !== this.props.palettesList.length)
       this.setState({

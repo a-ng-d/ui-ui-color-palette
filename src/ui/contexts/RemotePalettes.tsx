@@ -135,20 +135,6 @@ export default class RemotePalettes extends PureComponent<
     }
   }
 
-  // Lifecycle
-  componentDidUpdate = (
-    prevProps: Readonly<BaseProps & WithConfigProps>
-  ): void => {
-    if (
-      prevProps.userSession.connectionStatus !==
-        this.props.userSession.connectionStatus &&
-      this.state.selfPalettesList.length === 0
-    )
-      this.setState({
-        selfPalettesListStatus: 'LOADING',
-      })
-  }
-
   // Handlers
   navHandler = (e: Event) =>
     this.setState({
