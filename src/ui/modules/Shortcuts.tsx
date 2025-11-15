@@ -35,6 +35,7 @@ interface ShortcutsProps extends BaseProps, WithConfigProps {
   onReOpenChat: React.Dispatch<Partial<AppStates>>
   onReOpenFeedback: React.Dispatch<Partial<AppStates>>
   onUpdateConsent: React.Dispatch<Partial<AppStates>>
+  onUpdateLanguage: React.Dispatch<Partial<AppStates>>
 }
 
 interface ShortcutsStates {
@@ -77,6 +78,41 @@ export default class Shortcuts extends PureComponent<
     USER_LICENSE_JUMP: new FeatureStatus({
       features: config.features,
       featureName: 'USER_LICENSE_JUMP',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE_EN_US: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_EN_US',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE_FR_FR: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_FR_FR',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE_ZH_CN: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_ZH_CN',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE_PT_BR: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_PT_BR',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -370,393 +406,315 @@ export default class Shortcuts extends PureComponent<
                     this.props.editor
                   ).USER.isActive()}
                 >
-                  {this.props.userSession.connectionStatus === 'CONNECTED' ? (
-                    <Menu
-                      id="user-menu"
-                      customIcon={
-                        this.props.userSession.userAvatar ? (
-                          <img
-                            src={this.props.userSession.userAvatar}
-                            style={{
-                              height: height,
-                              borderRadius: radius,
-                            }}
-                            alt="User Avatar"
-                          />
-                        ) : (
-                          <Icon
-                            type="PICTO"
-                            iconName="user"
-                          />
-                        )
-                      }
-                      options={[
-                        {
-                          label: this.props.locales.user.welcomeMessage.replace(
-                            '{username}',
-                            this.props.userSession.userFullName
-                          ),
-                          type: 'TITLE',
-                          action: () => null,
-                        },
-                        {
-                          label: this.props.locales.user.signOut,
-                          type: 'OPTION',
-                          action: async () => {
-                            this.setState({ isUserMenuLoading: true })
-                            signOut({
-                              authUrl: this.props.config.urls.authUrl,
-                              platformUrl: this.props.config.urls.platformUrl,
-                              pluginId: this.props.config.env.pluginId,
-                            })
-                              .then(() => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'INFO',
-                                        message:
-                                          this.props.locales.info.signOut,
-                                      },
-                                    },
-                                  },
-                                  '*'
-                                )
+                  <Menu
+                    id="user-menu"
+                    icon={
+                      this.props.userSession.connectionStatus === 'UNCONNECTED'
+                        ? 'user'
+                        : undefined
+                    }
+                    customIcon={
+                      this.props.userSession.connectionStatus === 'CONNECTED' &&
+                      this.props.userSession.userAvatar ? (
+                        <img
+                          src={this.props.userSession.userAvatar}
+                          style={{
+                            height: height,
+                            borderRadius: radius,
+                          }}
+                          alt="User Avatar"
+                        />
+                      ) : undefined
+                    }
+                    options={[
+                      ...(this.props.userSession.connectionStatus ===
+                      'CONNECTED'
+                        ? [
+                            {
+                              label:
+                                this.props.locales.user.welcomeMessage.replace(
+                                  '{username}',
+                                  this.props.userSession.userFullName
+                                ),
+                              type: 'TITLE' as const,
+                              action: () => null,
+                            },
+                          ]
+                        : []),
 
-                                trackSignOutEvent(
-                                  this.props.config.env.isMixpanelEnabled,
-                                  this.props.userSession.userId === ''
-                                    ? this.props.userIdentity.id === ''
-                                      ? ''
-                                      : this.props.userIdentity.id
-                                    : this.props.userSession.userId,
-                                  this.props.userConsent.find(
-                                    (consent) => consent.id === 'mixpanel'
-                                  )?.isConsented ?? false
-                                )
-                              })
-                              .finally(() => {
-                                this.setState({ isUserMenuLoading: false })
-                              })
-                              .catch(() => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'ERROR',
-                                        message:
-                                          this.props.locales.error.generic,
+                      ...(this.props.userSession.connectionStatus ===
+                      'CONNECTED'
+                        ? [
+                            {
+                              label: this.props.locales.user.signOut,
+                              type: 'OPTION' as const,
+                              action: async () => {
+                                this.setState({ isUserMenuLoading: true })
+                                signOut({
+                                  authUrl: this.props.config.urls.authUrl,
+                                  platformUrl:
+                                    this.props.config.urls.platformUrl,
+                                  pluginId: this.props.config.env.pluginId,
+                                })
+                                  .then(() => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type: 'POST_MESSAGE',
+                                          data: {
+                                            type: 'INFO',
+                                            message:
+                                              this.props.locales.info.signOut,
+                                          },
+                                        },
                                       },
-                                    },
-                                  },
-                                  '*'
-                                )
-                              })
-                          },
-                        },
-                        {
-                          type: 'SEPARATOR',
-                        },
-                        {
-                          label: this.props.locales.user.updateConsent,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_CONSENT.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_CONSENT.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_CONSENT.isNew(),
-                          action: () =>
-                            this.props.onUpdateConsent({
-                              mustUserConsent: true,
-                            }),
-                        },
-                        {
-                          label: this.props.locales.user.updatePreferences,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_PREFERENCES.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_PREFERENCES.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_PREFERENCES.isNew(),
-                          action: () =>
-                            this.props.onReOpenPreferences({
-                              modalContext: 'PREFERENCES',
-                            }),
-                        },
-                        {
-                          label: this.props.locales.user.manageLicense,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE.isNew(),
-                          action: () =>
-                            this.props.onReOpenLicense({
-                              modalContext: 'LICENSE',
-                            }),
-                        },
-                        {
-                          label: this.props.locales.user.useLicense,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE_JUMP.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE_JUMP.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE_JUMP.isNew(),
-                          action: () =>
-                            sendPluginMessage(
-                              {
-                                pluginMessage: {
-                                  type: 'GO_TO_ONE_FIGMA',
-                                },
+                                      '*'
+                                    )
+
+                                    trackSignOutEvent(
+                                      this.props.config.env.isMixpanelEnabled,
+                                      this.props.userSession.userId === ''
+                                        ? this.props.userIdentity.id === ''
+                                          ? ''
+                                          : this.props.userIdentity.id
+                                        : this.props.userSession.userId,
+                                      this.props.userConsent.find(
+                                        (consent) => consent.id === 'mixpanel'
+                                      )?.isConsented ?? false
+                                    )
+                                  })
+                                  .finally(() => {
+                                    this.setState({ isUserMenuLoading: false })
+                                  })
+                                  .catch(() => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type: 'POST_MESSAGE',
+                                          data: {
+                                            type: 'ERROR',
+                                            message:
+                                              this.props.locales.error.generic,
+                                          },
+                                        },
+                                      },
+                                      '*'
+                                    )
+                                  })
                               },
-                              '*'
-                            ),
-                        },
-                      ]}
-                      alignment="TOP_RIGHT"
-                      helper={{
-                        label: this.props.locales.shortcuts.tooltips.userMenu,
-                        pin: 'TOP',
-                      }}
-                    />
-                  ) : (
-                    <Menu
-                      id="user-menu"
-                      icon="user"
-                      options={[
-                        {
-                          label: this.props.locales.user.signIn,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).BACKSTAGE_AUTHENTICATION.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).BACKSTAGE_AUTHENTICATION.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).BACKSTAGE_AUTHENTICATION.isNew(),
-                          action: async () => {
-                            this.setState({ isUserMenuLoading: true })
-                            signIn({
-                              disinctId: this.props.userIdentity.id,
-                              authWorkerUrl:
-                                this.props.config.urls.authWorkerUrl,
-                              authUrl: this.props.config.urls.authUrl,
-                              platformUrl: this.props.config.urls.platformUrl,
-                              pluginId: this.props.config.env.pluginId,
-                            })
-                              .then(() => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'SUCCESS',
-                                        message:
-                                          this.props.locales.user.welcomeMessage.replace(
-                                            '{username}',
-                                            this.props.userSession.userFullName
-                                          ),
+                            },
+                          ]
+                        : [
+                            {
+                              label: this.props.locales.user.signIn,
+                              type: 'OPTION' as const,
+                              isActive: Shortcuts.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).BACKSTAGE_AUTHENTICATION.isActive(),
+                              isBlocked: Shortcuts.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).BACKSTAGE_AUTHENTICATION.isBlocked(),
+                              isNew: Shortcuts.features(
+                                this.props.planStatus,
+                                this.props.config,
+                                this.props.service,
+                                this.props.editor
+                              ).BACKSTAGE_AUTHENTICATION.isNew(),
+                              action: async () => {
+                                this.setState({ isUserMenuLoading: true })
+                                signIn({
+                                  disinctId: this.props.userIdentity.id,
+                                  authWorkerUrl:
+                                    this.props.config.urls.authWorkerUrl,
+                                  authUrl: this.props.config.urls.authUrl,
+                                  platformUrl:
+                                    this.props.config.urls.platformUrl,
+                                  pluginId: this.props.config.env.pluginId,
+                                })
+                                  .then(() => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type: 'POST_MESSAGE',
+                                          data: {
+                                            type: 'SUCCESS',
+                                            message:
+                                              this.props.locales.user.welcomeMessage.replace(
+                                                '{username}',
+                                                this.props.userSession
+                                                  .userFullName
+                                              ),
+                                          },
+                                        },
                                       },
-                                    },
-                                  },
-                                  '*'
-                                )
+                                      '*'
+                                    )
 
-                                trackSignInEvent(
-                                  this.props.config.env.isMixpanelEnabled,
-                                  this.props.userSession.userId === ''
-                                    ? this.props.userIdentity.id === ''
-                                      ? ''
-                                      : this.props.userIdentity.id
-                                    : this.props.userSession.userId,
-                                  this.props.userConsent.find(
-                                    (consent) => consent.id === 'mixpanel'
-                                  )?.isConsented ?? false
-                                )
-                              })
-                              .finally(() => {
-                                this.setState({ isUserMenuLoading: false })
-                              })
-                              .catch((error) => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'ERROR',
-                                        message:
-                                          error.message ===
-                                          'Authentication timeout'
-                                            ? this.props.locales.error.timeout
-                                            : this.props.locales.error
-                                                .authentication,
+                                    trackSignInEvent(
+                                      this.props.config.env.isMixpanelEnabled,
+                                      this.props.userSession.userId === ''
+                                        ? this.props.userIdentity.id === ''
+                                          ? ''
+                                          : this.props.userIdentity.id
+                                        : this.props.userSession.userId,
+                                      this.props.userConsent.find(
+                                        (consent) => consent.id === 'mixpanel'
+                                      )?.isConsented ?? false
+                                    )
+                                  })
+                                  .finally(() => {
+                                    this.setState({ isUserMenuLoading: false })
+                                  })
+                                  .catch((error) => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type: 'POST_MESSAGE',
+                                          data: {
+                                            type: 'ERROR',
+                                            message:
+                                              error.message ===
+                                              'Authentication timeout'
+                                                ? this.props.locales.error
+                                                    .timeout
+                                                : this.props.locales.error
+                                                    .authentication,
+                                          },
+                                        },
                                       },
-                                    },
-                                  },
-                                  '*'
-                                )
-                              })
-                          },
-                        },
-                        {
-                          type: 'SEPARATOR',
-                        },
-                        {
-                          label: this.props.locales.user.updateConsent,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_CONSENT.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_CONSENT.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_CONSENT.isNew(),
-                          action: () =>
-                            this.props.onUpdateConsent({
-                              mustUserConsent: true,
-                            }),
-                        },
-                        {
-                          label: this.props.locales.user.updatePreferences,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_PREFERENCES.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_PREFERENCES.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_PREFERENCES.isNew(),
-                          action: () =>
-                            this.props.onReOpenPreferences({
-                              modalContext: 'PREFERENCES',
-                            }),
-                        },
-                        {
-                          label: this.props.locales.user.manageLicense,
-                          type: 'OPTION',
-                          isActive: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE.isActive(),
-                          isBlocked: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE.isBlocked(),
-                          isNew: Shortcuts.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).USER_LICENSE.isNew(),
-                          action: () =>
-                            this.props.onReOpenLicense({
-                              modalContext: 'LICENSE',
-                            }),
-                        },
-                      ]}
-                      state={
-                        this.state.isUserMenuLoading ? 'LOADING' : 'DEFAULT'
-                      }
-                      alignment="TOP_RIGHT"
-                      helper={{
-                        label: this.props.locales.shortcuts.tooltips.userMenu,
-                        pin: 'TOP',
-                      }}
-                    />
-                  )}
+                                      '*'
+                                    )
+                                  })
+                              },
+                            },
+                          ]),
+                      {
+                        type: 'SEPARATOR' as const,
+                      },
+                      {
+                        label: this.props.locales.user.updateConsent,
+                        type: 'OPTION' as const,
+                        isActive: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_CONSENT.isActive(),
+                        isBlocked: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_CONSENT.isBlocked(),
+                        isNew: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_CONSENT.isNew(),
+                        action: () =>
+                          this.props.onUpdateConsent({
+                            mustUserConsent: true,
+                          }),
+                      },
+                      {
+                        label: this.props.locales.user.updatePreferences,
+                        type: 'OPTION' as const,
+                        isActive: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_PREFERENCES.isActive(),
+                        isBlocked: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_PREFERENCES.isBlocked(),
+                        isNew: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_PREFERENCES.isNew(),
+                        action: () =>
+                          this.props.onReOpenPreferences({
+                            modalContext: 'PREFERENCES',
+                          }),
+                      },
+                      {
+                        label: this.props.locales.user.manageLicense,
+                        type: 'OPTION' as const,
+                        isActive: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_LICENSE.isActive(),
+                        isBlocked: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_LICENSE.isBlocked(),
+                        isNew: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_LICENSE.isNew(),
+                        action: () =>
+                          this.props.onReOpenLicense({
+                            modalContext: 'LICENSE',
+                          }),
+                      },
+                      {
+                        label: this.props.locales.user.useLicense,
+                        type: 'OPTION' as const,
+                        isActive: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_LICENSE_JUMP.isActive(),
+                        isBlocked: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_LICENSE_JUMP.isBlocked(),
+                        isNew: Shortcuts.features(
+                          this.props.planStatus,
+                          this.props.config,
+                          this.props.service,
+                          this.props.editor
+                        ).USER_LICENSE_JUMP.isNew(),
+                        action: () =>
+                          sendPluginMessage(
+                            {
+                              pluginMessage: {
+                                type: 'GO_TO_ONE_FIGMA',
+                              },
+                            },
+                            '*'
+                          ),
+                      },
+                    ]}
+                    state={this.state.isUserMenuLoading ? 'LOADING' : 'DEFAULT'}
+                    alignment="TOP_RIGHT"
+                    helper={{
+                      label: this.props.locales.shortcuts.tooltips.userMenu,
+                      pin: 'TOP',
+                    }}
+                    selected={this.props.config.lang}
+                  />
                 </Feature>
                 <Menu
                   id="help-support-menu"

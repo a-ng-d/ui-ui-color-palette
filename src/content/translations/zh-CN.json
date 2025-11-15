@@ -1,0 +1,1136 @@
+{
+  "about": {
+    "attributions": {
+      "apca": {
+        "apca": "apca-w3",
+        "author": "Andrew Somers",
+        "sentence": "• APCA 算法由 {author} 的 {apca} 模块提供"
+      },
+      "chroma": {
+        "author": "Gregor Aisch",
+        "chroma": "chroma.js",
+        "sentence": "• 颜色管理由 {author} 的 {chroma} 库提供"
+      },
+      "colorName": {
+        "author": "David Aerne",
+        "colorName": "color-names",
+        "sentence": "• 颜色名称由 {author} 的 {colorName} 库生成"
+      },
+      "figmug": {
+        "author": "Aurélien Grimaud",
+        "figmug": "Figmug",
+        "sentence": "• 组件集成由 {author} 的 {figmug} 提供支持"
+      },
+      "preact": {
+        "preact": "Preact",
+        "sentence": "• UI 使用 {preact} 构建"
+      },
+      "presets": {
+        "adobe": "Adobe Spectrum",
+        "antDesign": "Ant Design",
+        "atlassian": "Atlassian Design",
+        "bootstrap": "Bootstrap",
+        "ibm": "IBM Carbon",
+        "material": "Material Design",
+        "microsoft": "Microsoft Fluent",
+        "openColor": "Open Color",
+        "radix": "Radix",
+        "sentence": "• 颜色比例预设灵感来源于 {antDesign}、{bootstrap}、{tailwind}、{material}、{untitledUI}、{openColor}、{radix}、{atlassian}、{shopify}、{uber}、{microsoft}、{ibm} 和 {adobe}。",
+        "shopify": "Shopify Polaris",
+        "tailwind": "Tailwind",
+        "uber": "Uber Base",
+        "untitledUI": "Untitled UI"
+      },
+      "supabase": {
+        "sentence": "• 远程调色板使用 {supabase} 存储",
+        "supabase": "Supabase"
+      },
+      "title": "致谢",
+      "uid": {
+        "author": "Luke Edwards",
+        "sentence": "• 唯一标识符由 {author} 的 {uid} 库生成",
+        "uid": "uid"
+      },
+      "vite": {
+        "sentence": "• 构建工具由 {vite} 提供支持",
+        "vite": "Vite"
+      }
+    },
+    "information": {
+      "contribution": {
+        "repository": "GitHub",
+        "sentence": "• 欢迎在 {repository} 上贡献代码"
+      },
+      "creator": {
+        "author": "Aurélien Grimaud",
+        "sentence": "• 由 {author} 创建和维护"
+      },
+      "sourceCode": {
+        "license": "MIT",
+        "sentence": "• 源代码采用 {license} 许可证"
+      },
+      "version": "版本 {version}"
+    },
+    "title": "关于 UI Color Palette"
+  },
+  "actions": {
+    "addToLocal": "添加到本地",
+    "addToSource": "添加到源颜色",
+    "colorThemesNumber": {
+      "several": "{count} 种颜色模式",
+      "single": "{count} 种颜色模式"
+    },
+    "createPalette": "新建 UI 调色板",
+    "duplicate": "复制",
+    "explorePalettes": "从社区探索调色板",
+    "export": "导出调色板为 {format}",
+    "generateDocument": {
+      "label": "生成文档",
+      "palette": "简单调色板",
+      "paletteWithProperties": "详细调色板",
+      "sheet": "完整色彩表"
+    },
+    "moreActions": "更多操作",
+    "publishOrSyncPalette": "发布或同步调色板",
+    "publishPalette": "发布调色板",
+    "pushUpdates": "推送更新到文档",
+    "savePalette": "创建 UI 调色板",
+    "shadesNumber": {
+      "several": "{count} 个色调/色彩",
+      "single": "{count} 个色调/色彩"
+    },
+    "sourceColorsNumber": {
+      "several": "{count} 个源颜色",
+      "single": "{count} 个源颜色"
+    },
+    "sync": "与本地库同步",
+    "syncLocalStyles": "与本地样式同步",
+    "syncLocalVariables": "与本地变量同步",
+    "syncPalette": "同步调色板"
+  },
+  "announcements": {
+    "cta": {
+      "gotIt": "知道了",
+      "learnMore": "了解更多",
+      "next": "下一个"
+    }
+  },
+  "browse": {
+    "actions": {
+      "deletePalette": "删除调色板",
+      "duplicatePalette": "复制调色板",
+      "editPalette": "编辑调色板",
+      "glancePalette": "预览调色板",
+      "managePalette": "管理调色板",
+      "moreParameters": "更多参数",
+      "new": "新建 UI 调色板",
+      "openPalette": "打开调色板",
+      "selectPalette": "选择调色板",
+      "signInToStar": "登录以收藏",
+      "starPalette": "添加到收藏",
+      "unstarPalette": "取消收藏"
+    },
+    "contexts": {
+      "community": "社区",
+      "file": "此文件",
+      "local": "本地",
+      "org": "组织",
+      "page": "此页面",
+      "remote": "库",
+      "self": "我的调色板",
+      "starred": "已收藏"
+    },
+    "copy": "{name} 的副本",
+    "deletePaletteDialog": {
+      "cancel": "取消",
+      "delete": "删除调色板",
+      "message": "您即将删除\"{name}\"调色板。此操作不可逆转。",
+      "title": "删除调色板"
+    },
+    "document": {
+      "open": "打开文档",
+      "restore": "恢复调色板"
+    },
+    "file": {
+      "title": "此文件的 UI 调色板"
+    },
+    "glancePalette": {
+      "title": "调色板概览"
+    },
+    "lazyLoad": {
+      "completeList": "调色板列表已完整",
+      "loadMore": "加载更多调色板",
+      "search": "搜索调色板..."
+    },
+    "page": {
+      "title": "此页面的 UI 调色板"
+    },
+    "search": "搜索调色板",
+    "signInFirst": {
+      "message": "登录后查找和使用您自己的收藏调色板",
+      "signIn": "登录以获取您的调色板"
+    }
+  },
+  "colors": {
+    "actions": {
+      "alphaBackground": "透明度背后的背景色",
+      "colorName": "颜色名称",
+      "moreParameters": "更多参数",
+      "new": "新建 UI 颜色",
+      "removeColor": "移除颜色"
+    },
+    "alpha": {
+      "helper": "比例应用于颜色的透明度通道而不是亮度",
+      "label": "透明度模式"
+    },
+    "callout": {
+      "cta": "创建源颜色",
+      "message": "创建源颜色以根据您的亮度比例将其分割为多个色调/色彩"
+    },
+    "chromaShifting": {
+      "label": "色度偏移"
+    },
+    "defaultName": "未命名 UI 颜色",
+    "hueShifting": {
+      "label": "色相偏移"
+    },
+    "lch": {
+      "label": "LCH"
+    },
+    "moreParameters": "{count} 个参数",
+    "title": "源颜色"
+  },
+  "contexts": {
+    "back": "返回调色板",
+    "colors": "颜色",
+    "export": "导出",
+    "palettes": "调色板",
+    "scale": "比例",
+    "settings": "设置",
+    "source": "源",
+    "themes": "模式"
+  },
+  "create": {
+    "leavePaletteDialog": {
+      "cancel": "取消",
+      "leave": "离开并返回调色板",
+      "message": "您有未完成的更改。确定要离开吗？",
+      "title": "进行中的更改"
+    }
+  },
+  "dev": {
+    "readyForDev": "准备开发",
+    "vscode": {
+      "cta": "试试看",
+      "message": "UI Color Palette 也可在 Figma VS Code 插件上使用"
+    }
+  },
+  "empty": "-",
+  "error": {
+    "activatedLicense": "此许可证密钥无效，无法激活。请检查并重试。如果问题持续存在，请联系支持。",
+    "addToLocal": "无法添加调色板",
+    "announcements": "无法加载公告",
+    "authentication": "身份验证失败",
+    "badResponse": "响应无效",
+    "corruption": "您的 UI 调色板似乎已损坏。请不要编辑其中的任何图层。",
+    "document": "无法生成文档",
+    "export": "无法生成代码，因为未找到调色板",
+    "fetchPalette": "无法加载调色板",
+    "generic": "出现错误",
+    "noInternetConnection": "与远程调色板的连接已断开",
+    "nonPublication": "无法取消发布调色板",
+    "onboarding": "无法加载入门指南",
+    "openPalette": "无法打开调色板",
+    "palette": "无法创建调色板",
+    "paletteSizeExceeded": "调色板大小超出限制。请减少颜色模式、源颜色或色调/色彩的数量。",
+    "palettesPicking": "暂时无法选择调色板",
+    "publication": "无法发布调色板",
+    "share": "调色板未与社区共享",
+    "starPalette": "无法收藏调色板",
+    "styles": "无法同步样式",
+    "synchronization": "调色板未同步",
+    "timeout": "身份验证超时",
+    "unavailableAi": "AI 服务当前不可用。请稍后再试。",
+    "unfoundPalette": "未找到调色板",
+    "unlinkedLicense": "您的许可证密钥\"{licenseKey}\"不再有效或无法远程取消链接。请在本地取消链接以替换为新的许可证。如果问题持续存在，请联系支持。",
+    "unshare": "调色板未从社区移除"
+  },
+  "events": {
+    "colorsUpdated": "源颜色已更新",
+    "documentCreated": "文档已创建",
+    "documentUpdated": "文档已更新",
+    "paletteCreated": "调色板已创建",
+    "paletteCreatedFromDocument": "从文档创建调色板",
+    "paletteDuplicated": "调色板已复制",
+    "palettePulled": "调色板已拉取",
+    "paletteRemoved": "调色板已移除",
+    "paletteUpdated": "调色板已更新",
+    "scaleUpdated": "比例已更新",
+    "settingsUpdated": "设置已更新",
+    "stylesSynced": "样式已同步",
+    "themesUpdated": "模式已更新",
+    "variablesSynced": "变量已同步"
+  },
+  "export": {
+    "actions": {
+      "copyCode": "复制代码到剪贴板",
+      "selectColorSpace": "选择颜色空间"
+    },
+    "android": {
+      "compose": "Compose (KT)",
+      "label": "Android",
+      "resources": "Resources (XML)"
+    },
+    "apple": {
+      "label": "Apple",
+      "swiftui": "SwiftUI (SWIFT)",
+      "uikit": "UIKit (SWIFT)"
+    },
+    "colorSpace": {
+      "hex": "HEX",
+      "hsl": "HSL",
+      "label": "颜色空间",
+      "lch": "LCH",
+      "oklch": "OKLCH",
+      "p3": "P3",
+      "rgb": "RGB"
+    },
+    "csv": {
+      "spreadsheet": "电子表格 (CSV)"
+    },
+    "format": "代码",
+    "preview": "预览",
+    "stylesheet": {
+      "customProperties": "自定义属性 (CSS)",
+      "label": "样式表",
+      "less": "Less 变量 (LESS)",
+      "scss": "SCSS 变量 (SCSS)"
+    },
+    "tailwind": {
+      "label": "Tailwind",
+      "v3": "Tailwind v3 (JS)",
+      "v4": "Tailwind v4 (CSS)"
+    },
+    "tokens": {
+      "dtcg": {
+        "label": "DTCG 令牌 (JSON)",
+        "message": "DTCG 令牌格式是由 W3C 工作组正在进行的工作，未来可能会发生变化"
+      },
+      "global": "通用 (JSON)",
+      "label": "令牌",
+      "nativeTokens": {
+        "label": "原生令牌 (JSON)",
+        "message": "原生令牌可以导入到 Tokens Studio 或 Penpot"
+      },
+      "styleDictionary": "Style Dictionary v3 (JSON)"
+    }
+  },
+  "fail": "✘",
+  "global": {
+    "description": {
+      "label": "描述",
+      "placeholder": "用于什么？"
+    }
+  },
+  "info": {
+    "addToLocal": "调色板已存在",
+    "announcements": "目前没有公告",
+    "askDesigner": "或请设计师创建调色板",
+    "copiedCode": "代码已复制到剪贴板",
+    "createdLocalStyles": {
+      "none": "未创建样式",
+      "plural": "已创建 {count} 个样式",
+      "single": "已创建 1 个样式"
+    },
+    "createdLocalVariables": {
+      "none": "未创建变量",
+      "plural": "已创建 {count} 个变量",
+      "single": "已创建 1 个变量"
+    },
+    "createdVariablesAndModes": {
+      "noneNone": "未创建变量和模式",
+      "nonePlural": "已创建 {modeCount} 个模式",
+      "noneSingle": "已创建 1 个模式",
+      "pluralNone": "已创建 {variableCount} 个变量",
+      "pluralPlural": "已创建 {variableCount} 个变量和 {modeCount} 个模式",
+      "pluralSingle": "已创建 {variableCount} 个变量和 1 个模式",
+      "singleNone": "已创建 1 个变量",
+      "singlePlural": "已创建 1 个变量和 {modeCount} 个模式",
+      "singleSingle": "已创建 1 个变量和模式"
+    },
+    "maxNumberOfLocalPalettes": "升级到 /pro 以添加超过 {maxCount} 个本地调色板",
+    "maxNumberOfSourceColors": "升级到 /pro 以添加超过 {maxCount} 个源颜色",
+    "maxNumberOfStops": "升级到 /pro 以添加超过 {maxCount} 个色阶",
+    "multipleBlockingMessages": {
+      "chroma": "重置色度",
+      "head": "您可以通过以下方式解锁创建：{messages}",
+      "lockedSourceColors": "解锁源颜色",
+      "sourceColors": "减少源颜色",
+      "stops": "减少色阶",
+      "visionSimulationMode": "重置视觉模拟"
+    },
+    "noResult": "没有调色板匹配您的搜索",
+    "onboarding": "目前没有入门指南",
+    "paletteCreated": "{name} 调色板已创建",
+    "removedLocalStyles": {
+      "none": "未移除样式",
+      "plural": "已移除 {count} 个样式",
+      "single": "已移除 1 个样式"
+    },
+    "removedLocalVariables": {
+      "none": "未移除变量",
+      "plural": "已移除 {count} 个变量",
+      "single": "已移除 1 个变量"
+    },
+    "removedVariablesAndModes": {
+      "noneNone": "未移除变量和模式",
+      "nonePlural": "已移除 {modeCount} 个模式",
+      "noneSingle": "已移除 1 个模式",
+      "pluralNone": "已移除 {variableCount} 个变量",
+      "pluralPlural": "已移除 {variableCount} 个变量和 {modeCount} 个模式",
+      "pluralSingle": "已移除 {variableCount} 个变量和 1 个模式",
+      "singleNone": "已移除 1 个变量",
+      "singlePlural": "已移除 1 个变量和 {modeCount} 个模式",
+      "singleSingle": "已移除 1 个变量和模式"
+    },
+    "signOut": "再见",
+    "themesOnFree": "升级到 /pro 以添加或编辑模式",
+    "updatedLocalStyles": {
+      "none": "未更新样式",
+      "plural": "已更新 {count} 个样式",
+      "single": "已更新 1 个样式"
+    },
+    "updatedLocalVariables": {
+      "none": "未更新变量",
+      "plural": "已更新 {count} 个变量",
+      "single": "已更新 1 个变量"
+    },
+    "updatedVariablesAndModes": {
+      "noneNone": "未更新变量和模式",
+      "nonePlural": "已更新 {modeCount} 个模式",
+      "noneSingle": "已更新 1 个模式",
+      "pluralNone": "已更新 {variableCount} 个变量",
+      "pluralPlural": "已更新 {variableCount} 个变量和 {modeCount} 个模式",
+      "pluralSingle": "已更新 {variableCount} 个变量和 1 个模式",
+      "singleNone": "已更新 1 个变量",
+      "singlePlural": "已更新 1 个变量和 {modeCount} 个模式",
+      "singleSingle": "已更新 1 个变量和模式"
+    }
+  },
+  "name": "UI Color Palette",
+  "onboarding": {
+    "cta": {
+      "gotIt": "知道了",
+      "learnMore": "了解更多",
+      "next": "下一个"
+    }
+  },
+  "paletteProperties": {
+    "apca": "APCA 分数",
+    "avoid": "避免",
+    "base": "基础",
+    "bodyText": "正文文本",
+    "closest": "最接近源",
+    "colorSpace": "颜色空间：{name}",
+    "contentText": "内容文本",
+    "fail": "失败",
+    "fluentText": "流畅文本",
+    "fontSize": "最小字体大小",
+    "headlines": "标题",
+    "locked": "锁定的源颜色",
+    "nonText": "非文本",
+    "pass": "通过",
+    "preset": "预设：{name}",
+    "provider": "提供者：{name}",
+    "sourceColors": "源颜色",
+    "spotText": "重点文本",
+    "theme": "模式：{name}",
+    "themeDescription": "模式描述：{description}",
+    "transparent": "透明",
+    "unknown": "未知",
+    "updatedAt": "更新时间：{date}",
+    "visionSimulation": "视觉模拟：{mode}",
+    "wcag": "WCAG 2.1 分数"
+  },
+  "pass": "✔",
+  "pending": {
+    "announcements": "等待公告...",
+    "fetch": "获取调色板...",
+    "onboarding": "等待入门指南...",
+    "primaryAction": "………",
+    "secondaryAction": "………"
+  },
+  "plan": {
+    "credits": {
+      "none": "没有剩余积分",
+      "plural": "剩余 {count} 积分",
+      "renew": "积分将在 {date} 更新。升级到 /pro 获得无限积分。",
+      "single": "剩余 1 积分"
+    },
+    "dev": "/dev 计划",
+    "free": "/basic 计划",
+    "getPro": "升级 /pro",
+    "pro": "/pro 计划",
+    "trial": "试用",
+    "trialEnded": "您的试用已结束",
+    "trialFeedback": "体验如何？",
+    "trialTimeDays": {
+      "plural": "试用剩余 {count} 天",
+      "single": "试用剩余 1 天"
+    },
+    "trialTimeHours": {
+      "plural": "试用剩余 {count} 小时",
+      "single": "试用剩余 1 小时"
+    },
+    "tryPro": "试用 /pro"
+  },
+  "platform": {
+    "figma": "Figma",
+    "framer": "Framer",
+    "penpot": "Penpot",
+    "sketch": "Sketch"
+  },
+  "preview": {
+    "actions": {
+      "collapsePreview": "收起预览",
+      "colorSpace": "颜色空间",
+      "displayScores": "显示分数",
+      "expandPreview": "展开预览",
+      "resetImportedColors": "重置导入的颜色",
+      "visionSimulationMode": "视觉模拟"
+    },
+    "closest": {
+      "tag": "最接近"
+    },
+    "lock": {
+      "label": "锁定源颜色",
+      "preview": "锁定源颜色以将其包含在调色板中",
+      "tag": "已锁定",
+      "warning": "升级到 /pro 以创建带有锁定源颜色的调色板"
+    },
+    "score": {
+      "apca": "显示 APCA 分数",
+      "wcag": "显示 WCAG 2.1 分数"
+    },
+    "source": {
+      "tag": "源"
+    }
+  },
+  "pricing": {
+    "activate": {
+      "cta": "管理许可证",
+      "text": "购买后输入您的许可证密钥以解锁 /pro 功能",
+      "title": "激活 /pro"
+    },
+    "contexts": {
+      "discount": "折扣 (-20%)",
+      "regular": "常规"
+    },
+    "discount": {
+      "amount": "20% 优惠",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "仅为 Figma 升级 /pro",
+      "subtitle": {
+        "discount": "Figma 上每年 $48",
+        "regular": "Figma 上每月 $5"
+      },
+      "text": "◻ 无限调色板{br}◻ 无限源颜色{br}◻ 无限色阶{br}◻ 无限颜色模式{br}◻ 无限积分",
+      "title": "UI Color Palette /pro /figma"
+    },
+    "one": {
+      "cta": "获取您的许可证",
+      "subtitle": {
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $56",
+        "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
+      },
+      "text": "◻ 无限调色板{br}◻ 无限源颜色{br}◻ 无限色阶{br}◻ 无限颜色模式{br}◻ 无限积分",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "获取您的许可证",
+      "subtitle": {
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $56",
+        "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
+      },
+      "text": "◻ 所有 /figma 功能{br}◻ 适用于小型和大型团队{br}◻ 多平台{br}◻ 多种付款选项{br}◻ 终身计划",
+      "title": "UI Color Palette /pro /one"
+    },
+    "title": "订阅 UI Color Palette /pro"
+  },
+  "proPlan": {
+    "trial": {
+      "cta": "启用 {hours} 小时试用",
+      "message": "使用 /pro 计划为您的原始颜色增强 {hours} 小时。您将能够创建更多调色板，管理您的颜色模式，并将调色板导出为更多格式。",
+      "option": "直接升级 /pro",
+      "title": "您是否希望在接下来的 {hours} 小时内升级到 /pro 计划？"
+    },
+    "welcome": {
+      "cta": "开始构建",
+      "message": "此升级将解锁一系列工具，使您能够部署和传输您的调色板。我们希望您享受这些好处。",
+      "title": "欢迎使用 UI Color Palette /pro！",
+      "trial": "此升级将解锁一系列工具，使您能够部署和传输您的调色板。我们希望您在接下来的 {hours} 小时内享受这些好处。"
+    }
+  },
+  "publication": {
+    "detach": "分离",
+    "message": "将您的调色板发布为单一真实来源，并在其他文档和平台中重用。您也可以通过与社区共享来分发您的调色板。",
+    "publish": "发布...",
+    "revert": "恢复",
+    "share": "与社区共享",
+    "signIn": "登录以发布",
+    "star": "添加到收藏",
+    "statusLocalChanges": "本地更改",
+    "statusNotFound": "未找到",
+    "statusPublished": "已发布",
+    "statusRemoteChanges": "远程更改",
+    "statusShared": "已共享",
+    "statusUnpublished": "未发布",
+    "statusUptoDate": "无更改",
+    "statusWaiting": "等待中...",
+    "synchronize": "同步...",
+    "titlePublish": "发布调色板",
+    "titleSignIn": "发布或同步调色板",
+    "titleSynchronize": "同步调色板",
+    "unpublish": "取消发布",
+    "unshare": "从社区移除",
+    "unstar": "取消收藏"
+  },
+  "relaunch": {
+    "create": {
+      "description": "缩放选定的颜色",
+      "label": "创建 UI 调色板"
+    },
+    "edit": {
+      "description": "管理、导出、发布色调/色彩",
+      "label": "编辑 UI 调色板"
+    },
+    "open": {
+      "description": "应用和网站的 WCAG 调色板管理器",
+      "label": "打开 UI 调色板"
+    }
+  },
+  "report": {
+    "cta": "提交您的问题",
+    "email": {
+      "label": "邮箱",
+      "placeholder": "可选"
+    },
+    "fullName": {
+      "label": "全名",
+      "placeholder": "可选"
+    },
+    "message": {
+      "label": "消息（必需）",
+      "placeholder": "描述您遇到的问题，尝试描述重现步骤。"
+    },
+    "title": "报告错误"
+  },
+  "scale": {
+    "actions": {
+      "addStop": "添加色阶",
+      "applyEasing": "直接将缓动应用到色阶",
+      "removeStop": "移除色阶",
+      "resetScale": "重置色阶和色度",
+      "resetStops": "重置色阶",
+      "reverseStops": "反转色阶"
+    },
+    "contrast": {
+      "label": "对比模式",
+      "title": "对比度"
+    },
+    "easing": {
+      "cubic": "三次",
+      "easeIn": "缓入",
+      "easeInOut": "缓入缓出",
+      "easeOut": "缓出",
+      "label": "分布缓动",
+      "linear": "线性",
+      "preview": "以多种方式分布色阶以平衡您的调色板",
+      "quad": "二次",
+      "sine": "正弦"
+    },
+    "howTo": "使用方法",
+    "keyboardShortcuts": "查看键盘快捷键",
+    "namingConvention": {
+      "hundreds": "100 - 1000",
+      "ones": "1 - 10",
+      "tens": "10 - 100"
+    },
+    "presets": {
+      "adobe": "Adobe",
+      "ads": "ADS 基础，100-1000",
+      "adsNeutral": "ADS 基础，中性 0-1100",
+      "ant": "Ant Design，1-10",
+      "atlassian": "Atlassian",
+      "base": "基础，50-700 (Uber)",
+      "bootstrap": "Bootstrap，100-900",
+      "carbon": "Carbon，10-100 (IBM)",
+      "custom": "自定义集合",
+      "customHundreds": "自定义，100-1000",
+      "customOnes": "自定义，1-10",
+      "customTens": "自定义，10-100",
+      "fluent": "Fluent，10-160 (Microsoft)",
+      "framework": "框架",
+      "google": "Google",
+      "helper": "亮度预设",
+      "label": "预设",
+      "legacy": "自定义（旧版）",
+      "material": "Material Design，50-900",
+      "material3": "Material 3，0-100",
+      "more": "更多预设",
+      "openColor": "Open Color，0-9",
+      "polaris": "Polaris，1-16 (Shopify)",
+      "radix": "Radix，1-12",
+      "spectrum": "Spectrum，100-1300",
+      "spectrumNeutral": "Spectrum，中性 25-900",
+      "tailwind": "Tailwind，50-950",
+      "untitledUI": "Untitled UI，25-950"
+    },
+    "shift": {
+      "chroma": {
+        "label": "色度",
+        "warning": "升级到 /pro 以创建具有修改色度偏移的调色板。将其重置为 100% 或升级。"
+      }
+    },
+    "tips": {
+      "add": "添加色阶",
+      "cta": "知道了",
+      "custom": "使用自定义预设调整",
+      "distribute": "基于当前缓动分布色阶",
+      "distributeAsTooltip": "按 ⇧ 基于当前缓动分布色阶",
+      "move": "移动每个色阶",
+      "navNext": "选择下一个色阶",
+      "navPrevious": "选择上一个色阶",
+      "remove": "移除色阶",
+      "select": "选择色阶",
+      "shiftLeft": "左移色阶",
+      "shiftRight": "右移色阶",
+      "title": "键盘快捷键",
+      "type": "输入色阶值",
+      "unselect": "取消选择色阶"
+    },
+    "title": "亮度比例"
+  },
+  "see": {
+    "properties": {
+      "colors": {
+        "alpha": "透明度模式",
+        "chromaShifting": "色度偏移",
+        "description": "描述",
+        "hueShifting": "色相偏移",
+        "title": "源颜色"
+      },
+      "default": "默认",
+      "information": {
+        "createdAt": "创建时间",
+        "createdBy": "创建者",
+        "published": "已发布",
+        "publishedAt": "发布时间",
+        "shared": "与社区共享",
+        "title": "信息",
+        "updatedAt": "更新时间"
+      },
+      "lightnessScale": "亮度比例",
+      "settings": {
+        "algorithmVersion": "色度速度",
+        "colorSpace": "颜色空间",
+        "description": "描述",
+        "lockedSourceColors": "锁定源颜色",
+        "name": "调色板名称",
+        "preset": "预设",
+        "title": "设置"
+      },
+      "themes": {
+        "description": "描述",
+        "textDarkColor": "深色前景色",
+        "textLightColor": "浅色前景色",
+        "title": "颜色模式",
+        "visionSimulation": "视觉模拟"
+      }
+    }
+  },
+  "separator": "・",
+  "settings": {
+    "actions": {
+      "paletteName": "调色板名称"
+    },
+    "color": {
+      "algorithmVersion": {
+        "label": "色度速度",
+        "v1": "线性",
+        "v2": "正弦",
+        "v3": "正弦和双曲"
+      },
+      "colorSpace": {
+        "hex": "HEX",
+        "hsl": "HSL",
+        "hsluv": "HSLuv",
+        "lab": "CIELAB",
+        "label": "颜色空间",
+        "lch": "LCH",
+        "oklab": "OKLAB",
+        "oklch": "OKLCH",
+        "p3": "P3",
+        "rgb": "RGB"
+      },
+      "title": "颜色管理",
+      "visionSimulationMode": {
+        "achromatomaly": "全色弱",
+        "achromatopsia": "全色盲",
+        "colorBlind": "色盲",
+        "deuteranomaly": "绿色弱",
+        "deuteranopia": "绿色盲",
+        "label": "视觉模拟",
+        "none": "无",
+        "noneAlternative": "无视觉模拟",
+        "protanomaly": "红色弱",
+        "protanopia": "红色盲",
+        "tritanomaly": "蓝色弱",
+        "tritanopia": "蓝色盲",
+        "warning": "升级到 /pro 以创建具有此视觉模拟的调色板"
+      }
+    },
+    "contexts": {
+      "palette": "调色板",
+      "preferences": "偏好设置"
+    },
+    "contrast": {
+      "textColors": {
+        "textDarkColor": "深色前景色",
+        "textLightColor": "浅色前景色",
+        "textThemeColorsDescription": "浅色和深色前景色作为参考来模拟对比度并获得 WCAG 2.1 和 APCA 分数"
+      },
+      "title": "对比度管理"
+    },
+    "global": {
+      "description": {
+        "label": "描述"
+      },
+      "name": {
+        "default": "未命名",
+        "label": "调色板名称",
+        "self": "{username} 的 UI 调色板"
+      },
+      "title": "全局",
+      "views": {
+        "detailed": "带属性的调色板",
+        "helper": "文档布局",
+        "sheet": "色彩表",
+        "simple": "调色板"
+      }
+    }
+  },
+  "shortcuts": {
+    "author": "支持作者",
+    "chat": "与我们聊天",
+    "community": "加入我们的社区",
+    "email": "联系支持",
+    "feedback": "提交反馈",
+    "follow": "支持我们",
+    "news": "最新功能",
+    "onboarding": "快速开始",
+    "repository": "贡献代码",
+    "request": "分享您的想法",
+    "store": "发现更多产品",
+    "tooltips": {
+      "documentation": "阅读文档",
+      "helpMenu": "帮助/支持菜单",
+      "userMenu": "用户菜单"
+    }
+  },
+  "source": {
+    "actions": {
+      "openPalette": "打开调色板"
+    },
+    "ai": {
+      "add": "生成 AI 颜色",
+      "empty": "移除 AI 颜色",
+      "helper": "使用 Mistral AI 基于创意提示生成智能颜色（{fee} 积分）",
+      "title": "AI 颜色"
+    },
+    "canvas": {
+      "tip": "在 {canvas} 画布上选择尽可能多的 {element}（填充颜色）",
+      "title": "选定的颜色"
+    },
+    "colourLovers": {
+      "add": "探索 Colour Lovers 调色板",
+      "addColors": "添加到源（{fee} 积分）。如果添加，这些颜色将覆盖之前的颜色",
+      "empty": "移除 Colour Lovers 调色板",
+      "filters": {
+        "any": "任意",
+        "blue": "蓝色",
+        "green": "绿色",
+        "label": "颜色",
+        "orange": "橙色",
+        "red": "红色",
+        "violet": "紫色",
+        "yellow": "黄色"
+      },
+      "helper": "从 Colour Lovers 社区探索和导入调色板（{fee} 积分）",
+      "meta": "{votes} 票・{views} 次查看・{comments} 条评论",
+      "title": "Colour Lovers"
+    },
+    "contexts": {
+      "ai": "AI",
+      "explore": "探索",
+      "harmony": "色轮",
+      "image": "图像",
+      "overview": "概览"
+    },
+    "coolors": {
+      "add": "添加 Coolors 调色板",
+      "addColors": "添加到源（{fee} 积分）",
+      "empty": "移除 Coolors 调色板",
+      "helper": "从著名的 Coolors 导入调色板（{fee} 积分）",
+      "title": "Coolors",
+      "url": {
+        "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
+        "infoMessage": "URL 必须以 \"https://coolors.co\" 开头",
+        "label": "调色板 URL",
+        "placeholder": "粘贴链接－https://coolors.co/…"
+      }
+    },
+    "default": {
+      "helper": "当没有选择或导入颜色时使用此颜色",
+      "title": "默认颜色"
+    },
+    "genAi": {
+      "actions": {
+        "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
+        "generate": "生成颜色 ⌃⏎ 或 ⌘⏎"
+      },
+      "colorTypes": {
+        "alert": "警告",
+        "primary": "主要",
+        "success": "成功",
+        "text": "文本",
+        "warning": "警告"
+      },
+      "emptyMessage": "使用提示预设或自定义提示生成 5 种颜色",
+      "form": {
+        "presets": {
+          "usecases": {
+            "blog": "温暖易读排版的个人博客",
+            "documentation": "层次清晰的技术文档",
+            "ecommerce": "注重转化的电商店铺颜色",
+            "landing": "科技创业公司的现代着陆页",
+            "portfolio": "展示艺术作品的创意作品集",
+            "resume": "干净自信颜色的专业简历"
+          },
+          "vibes": {
+            "corporate": "可信赖颜色的专业企业设计",
+            "cyberpunk": "霓虹口音的赛博朋克未来界面",
+            "minimalist": "微妙对比的简洁极简设计",
+            "nature": "森林山脉启发的自然大地色调",
+            "pastel": "温和友好界面的柔和粉彩色",
+            "vintage": "温暖柔和颜色的复古美学"
+          }
+        },
+        "prompt": {
+          "placeholder": "描述您想要的情绪或主题（例如'充满活力的现代科技创业公司'、'大地色调的宁静冥想应用'）"
+        }
+      },
+      "helper": "请求颜色需要 {fee} 积分",
+      "title": "AI 生成颜色"
+    },
+    "harmony": {
+      "add": "创建颜色和谐",
+      "empty": "移除颜色和谐",
+      "helper": "基于色轮创建和谐的颜色（{fee} 积分）",
+      "title": "颜色和谐"
+    },
+    "image": {
+      "add": "从图像提取颜色",
+      "empty": "移除图像调色板",
+      "helper": "从任何图像提取 5 种主色（{fee} 积分）",
+      "title": "图像调色板"
+    },
+    "imagePalette": {
+      "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
+      "dropzone": {
+        "cta": "或点击浏览",
+        "error": "无法加载图像。确保图像是 .png 格式并拖放到这里。",
+        "message": "拖放您的 .png 文件到这里",
+        "warning": "文件未导入。请重试拖放 .png 文件到这里。"
+      },
+      "helper": "上传图像需要 {fee} 积分",
+      "message": "上传图像或在文档中选择图像以提取其 5 种主色",
+      "removeImage": "移除图像",
+      "title": "主色"
+    },
+    "nodes": {
+      "figma": "形状/框架",
+      "framer": "形状/框架",
+      "penpot": "形状/画板",
+      "sketch": "形状/框架"
+    },
+    "realtimeColors": {
+      "add": "添加 Realtime Colors 调色板",
+      "addColors": "添加到源（{fee} 积分）",
+      "empty": "移除 Realtime Colors 调色板",
+      "helper": "从 Realtime Colors 制作的模拟中导入调色板（{fee} 积分）",
+      "title": "Realtime Colors",
+      "url": {
+        "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
+        "infoMessage": "URL 必须以 \"https://www.realtimecolors.com\" 开头",
+        "label": "Realtime URL",
+        "placeholder": "粘贴链接－https://www.realtimecolors.com/…"
+      }
+    },
+    "title": "源颜色",
+    "wheel": {
+      "addColors": "添加到源（{fee} 积分）。如果添加，这些颜色将覆盖之前的颜色。",
+      "algorithm": {
+        "analogous": "类似",
+        "complementary": "互补",
+        "compound": "复合",
+        "label": "色轮",
+        "tetradic": "四色",
+        "triadic": "三色"
+      },
+      "base": "基础颜色",
+      "helper": "添加颜色到调色板需要 {fee} 积分"
+    }
+  },
+  "store": {
+    "isb": {
+      "cta": "立即试用",
+      "subtitle": "私人头脑风暴和回顾会议",
+      "text": "通过私人团队会议进行头脑风暴和回顾，让您的参与者参与并赋能",
+      "title": "Ideas Spark Booth"
+    },
+    "title": "Yelbolt 的更多产品"
+  },
+  "success": {
+    "activatedLicense": "许可证密钥\"{licenseKey}\"已激活",
+    "addToLocal": "调色板已添加到此页面",
+    "detachment": "调色板已分离",
+    "nonPublication": "调色板已取消发布",
+    "publication": "调色板已发布",
+    "report": "感谢您的报告",
+    "share": "调色板已与社区共享",
+    "synchronization": "调色板已同步",
+    "unlinkedLicense": "您的许可证密钥\"{licenseKey}\"已取消链接",
+    "unshare": "调色板不再与社区共享"
+  },
+  "tagline": "应用和网站的 WCAG 调色板管理器",
+  "themes": {
+    "actions": {
+      "documentBackground": "此颜色用于生成的文档",
+      "moreParameters": "更多参数",
+      "new": "新建 UI 模式",
+      "removeColor": "移除模式",
+      "themeName": "模式名称"
+    },
+    "callout": {
+      "cta": "创建颜色模式",
+      "message": "创建颜色模式以在单个调色板中管理多个颜色调色板（例如浅色和深色模式）"
+    },
+    "defaultName": "未命名 UI 模式",
+    "moreParameters": "{count} 个参数",
+    "paletteBackgroundColor": {
+      "label": "文档背景"
+    },
+    "switchTheme": {
+      "defaultTheme": "无",
+      "label": "模式"
+    },
+    "title": "颜色模式"
+  },
+  "url": "www.ui-color-palette.com",
+  "user": {
+    "cookies": {
+      "back": "返回",
+      "close": "关闭",
+      "consent": "接受所有",
+      "customize": "自定义 Cookie",
+      "deny": "拒绝所有",
+      "privacyPolicy": "阅读我们的隐私政策",
+      "save": "保存偏好设置",
+      "vendors": "接受此项即表示您同意我们为上述目的使用 Cookie 和其他技术。",
+      "welcome": "UI Color Palette 使用 Cookie 来了解您如何使用我们的插件并改善您的体验。"
+    },
+    "license": {
+      "cta": {
+        "activate": "激活您的许可证",
+        "manage": "管理您的许可证",
+        "unlink": "取消链接您的许可证",
+        "unlinkLocally": "本地取消链接您的许可证",
+        "validate": "验证"
+      },
+      "key": {
+        "label": "许可证密钥",
+        "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
+      },
+      "messages": {
+        "activate": "输入您的许可证密钥以解锁 /pro 功能",
+        "active": "有效",
+        "unactive": "无效"
+      },
+      "name": {
+        "helper": "此名称将用于标识您的许可证",
+        "label": "许可证名称",
+        "placeholder": "{My Name} 的许可证"
+      }
+    },
+    "manageLicense": "管理许可证",
+    "language": {
+      "title": "语言",
+      "label": "更改语言",
+      "englishUS": "English (US)",
+      "frenchFR": "Français (FR)",
+      "chineseCN": "中文 (简体)",
+      "portugueseBR": "Português (BR)"
+    },
+    "preferences": {
+      "sync": {
+        "message": "启用后，调色板将与本地库同步，本地项目将被更新，但可能会被移除。",
+        "palette": {
+          "label": "实时同步您的更改与调色板"
+        },
+        "styles": {
+          "label": "深度同步文档中的本地样式与调色板",
+          "message": "如果样式不在调色板中，将被移除。"
+        },
+        "title": "同步",
+        "variables": {
+          "label": "深度同步集合中的本地变量与调色板",
+          "message": "如果变量不在调色板中，将被移除。"
+        }
+      }
+    },
+    "signIn": "登录",
+    "signOut": "登出",
+    "updateConsent": "管理 Cookie",
+    "updatePreferences": "更新偏好设置",
+    "useLicense": "使用许可证密钥",
+    "welcomeMessage": "你好 {username}"
+  },
+  "vendors": {
+    "functional": {
+      "description": "插件正常工作所必需的 Cookie",
+      "name": "功能性"
+    },
+    "mixpanel": {
+      "description": "用于跟踪和理解用户交互的顶级分析平台",
+      "name": "Mixpanel"
+    }
+  },
+  "warning": {
+    "emptySourceColors": "没有源颜色。在颜色部分手动添加它们。",
+    "hslColorSpace": "HSL 颜色空间可能在调色板中包含源颜色，但这种方法不能确保亮度和对比度的一致性。",
+    "noCommunityPaletteOnRemote": "这里很空！成为第一个与其他用户分享调色板的人！",
+    "noOrgPalettes": "这里没有组织调色板。请向插件作者申请。",
+    "noPaletteOnCurrentPageOnDevMode": "您可以请求具有编辑权限的成员创建",
+    "noPaletteOnCurrrentFile": "此文件上没有 UI 调色板",
+    "noPaletteOnCurrrentPage": "此页面上没有 UI 调色板",
+    "noSelfPaletteOnRemote": "这里很空！发布您的调色板以在多个文档中重用",
+    "noStarredPalettes": "您还没有收藏的调色板。浏览社区找到启发性的调色板并收藏它们以便快速访问。",
+    "paletteNameRecommendation": "建议最多 64 个字符",
+    "tooManyThemesToCreateModes": "在当前计划中您不能创建超过 4 种模式",
+    "uncopiedCode": "代码未复制到剪贴板",
+    "unselectedColor": "选择至少填充一种纯色的图层"
+  }
+}

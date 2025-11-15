@@ -3,6 +3,7 @@ import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, List } from '@a_ng_d/figmug-ui'
 import SyncPreferences from '../SyncPreferences'
+import LangPreferences from '../LangPreferences'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -71,6 +72,10 @@ export default class Preferences extends PureComponent<PreferencesProps> {
         >
           <List padding={padding}>
             <SyncPreferences {...this.props} />
+            <LangPreferences
+              {...this.props}
+              isLast={true}
+            />
           </List>
         </Dialog>
       </Feature>

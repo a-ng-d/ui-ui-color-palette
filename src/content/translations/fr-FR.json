@@ -1,0 +1,1136 @@
+{
+  "about": {
+    "attributions": {
+      "apca": {
+        "apca": "apca-w3",
+        "author": "Andrew Somers",
+        "sentence": "• L'algorithme APCA est fourni grâce au module {apca} par {author}"
+      },
+      "chroma": {
+        "author": "Gregor Aisch",
+        "chroma": "chroma.js",
+        "sentence": "• Les couleurs sont gérées grâce à la bibliothèque {chroma} par {author}"
+      },
+      "colorName": {
+        "author": "David Aerne",
+        "colorName": "color-names",
+        "sentence": "• Les noms de couleurs sont générés grâce à la bibliothèque {colorName} par {author}"
+      },
+      "figmug": {
+        "author": "Aurélien Grimaud",
+        "figmug": "Figmug",
+        "sentence": "• L'intégration des composants est alimentée par {figmug} par {author}"
+      },
+      "preact": {
+        "preact": "Preact",
+        "sentence": "• L'interface utilisateur est construite avec {preact}"
+      },
+      "presets": {
+        "adobe": "Adobe Spectrum",
+        "antDesign": "Ant Design",
+        "atlassian": "Atlassian Design",
+        "bootstrap": "Bootstrap",
+        "ibm": "IBM Carbon",
+        "material": "Material Design",
+        "microsoft": "Microsoft Fluent",
+        "openColor": "Open Color",
+        "radix": "Radix",
+        "sentence": "• Les préréglages d'échelle de couleurs inspirés par {antDesign}, {bootstrap}, {tailwind}, {material}, {untitledUI}, {openColor}, {radix}, {atlassian}, {shopify}, {uber}, {microsoft}, {ibm}, et {adobe}.",
+        "shopify": "Shopify Polaris",
+        "tailwind": "Tailwind",
+        "uber": "Uber Base",
+        "untitledUI": "Untitled UI"
+      },
+      "supabase": {
+        "sentence": "• Les palettes distantes sont stockées en utilisant {supabase}",
+        "supabase": "Supabase"
+      },
+      "title": "Attributions",
+      "uid": {
+        "author": "Luke Edwards",
+        "sentence": "• Les identifiants uniques sont générés grâce à la bibliothèque {uid} par {author}",
+        "uid": "uid"
+      },
+      "vite": {
+        "sentence": "• L'outil de build est alimenté par {vite}",
+        "vite": "Vite"
+      }
+    },
+    "information": {
+      "contribution": {
+        "repository": "GitHub",
+        "sentence": "• Les contributions sont les bienvenues sur {repository}"
+      },
+      "creator": {
+        "author": "Aurélien Grimaud",
+        "sentence": "• Créé et maintenu par {author}"
+      },
+      "sourceCode": {
+        "license": "MIT",
+        "sentence": "• Le code source est sous licence {license}"
+      },
+      "version": "Version {version}"
+    },
+    "title": "À propos de UI Color Palette"
+  },
+  "actions": {
+    "addToLocal": "Ajouter en local",
+    "addToSource": "Ajouter aux sources",
+    "colorThemesNumber": {
+      "several": "{count} modes de couleur",
+      "single": "{count} mode de couleur"
+    },
+    "createPalette": "Nouvelle palette de couleurs UI",
+    "duplicate": "Dupliquer",
+    "explorePalettes": "Explorer les palettes de la communauté",
+    "export": "Exporter la palette en {format}",
+    "generateDocument": {
+      "label": "Générer la documentation",
+      "palette": "Palette de couleurs simple",
+      "paletteWithProperties": "Palette de couleurs détaillée",
+      "sheet": "Feuille de couleurs complète"
+    },
+    "moreActions": "Plus d'actions",
+    "publishOrSyncPalette": "Publier ou synchroniser la palette",
+    "publishPalette": "Publier la palette",
+    "pushUpdates": "Pousser les mises à jour vers le document",
+    "savePalette": "Créer une palette de couleurs UI",
+    "shadesNumber": {
+      "several": "{count} nuances/teintes",
+      "single": "{count} nuance/teinte"
+    },
+    "sourceColorsNumber": {
+      "several": "{count} couleurs sources",
+      "single": "{count} couleur source"
+    },
+    "sync": "Synchroniser avec la bibliothèque locale",
+    "syncLocalStyles": "Synchroniser avec les styles locaux",
+    "syncLocalVariables": "Synchroniser avec les variables locales",
+    "syncPalette": "Synchroniser la palette"
+  },
+  "announcements": {
+    "cta": {
+      "gotIt": "Compris",
+      "learnMore": "En savoir plus",
+      "next": "Suivant"
+    }
+  },
+  "browse": {
+    "actions": {
+      "deletePalette": "Supprimer la palette",
+      "duplicatePalette": "Dupliquer la palette",
+      "editPalette": "Modifier la palette",
+      "glancePalette": "Aperçu de la palette",
+      "managePalette": "Gérer la palette",
+      "moreParameters": "Plus de paramètres",
+      "new": "Nouvelle palette de couleurs UI",
+      "openPalette": "Ouvrir la palette",
+      "selectPalette": "Sélectionner la palette",
+      "signInToStar": "Se connecter pour marquer",
+      "starPalette": "Ajouter aux favoris",
+      "unstarPalette": "Retirer des favoris"
+    },
+    "contexts": {
+      "community": "Communauté",
+      "file": "Ce fichier",
+      "local": "Local",
+      "org": "Organisation",
+      "page": "Cette page",
+      "remote": "Bibliothèque",
+      "self": "Mes palettes",
+      "starred": "Favoris"
+    },
+    "copy": "Copie de {name}",
+    "deletePaletteDialog": {
+      "cancel": "Annuler",
+      "delete": "Supprimer la palette",
+      "message": "Vous êtes sur le point de supprimer la palette \"{name}\". Cette action est irréversible.",
+      "title": "Supprimer la palette"
+    },
+    "document": {
+      "open": "Ouvrir le document",
+      "restore": "Restaurer la palette"
+    },
+    "file": {
+      "title": "Palettes de couleurs UI de ce fichier"
+    },
+    "glancePalette": {
+      "title": "Aperçu de la palette"
+    },
+    "lazyLoad": {
+      "completeList": "La liste des palettes est complète",
+      "loadMore": "Charger plus de palettes",
+      "search": "Rechercher des palettes…"
+    },
+    "page": {
+      "title": "Palettes de couleurs UI de cette page"
+    },
+    "search": "Rechercher des palettes",
+    "signInFirst": {
+      "message": "Trouvez et utilisez vos propres palettes et favorites une fois authentifié",
+      "signIn": "Se connecter pour récupérer vos palettes"
+    }
+  },
+  "colors": {
+    "actions": {
+      "alphaBackground": "Couleur d'arrière-plan derrière la transparence",
+      "colorName": "Nom de la couleur",
+      "moreParameters": "Plus de paramètres",
+      "new": "Nouvelle couleur UI",
+      "removeColor": "Supprimer la couleur"
+    },
+    "alpha": {
+      "helper": "L'échelle est appliquée au canal alpha de la couleur au lieu de la luminosité",
+      "label": "Mode alpha"
+    },
+    "callout": {
+      "cta": "Créer une couleur source",
+      "message": "Créez une couleur source pour la diviser en plusieurs nuances/teintes selon votre échelle de luminosité"
+    },
+    "chromaShifting": {
+      "label": "Décaler la chroma"
+    },
+    "defaultName": "Couleur UI sans titre",
+    "hueShifting": {
+      "label": "Décaler la teinte"
+    },
+    "lch": {
+      "label": "LCH"
+    },
+    "moreParameters": "{count} paramètres",
+    "title": "Couleurs sources"
+  },
+  "contexts": {
+    "back": "Retour aux palettes",
+    "colors": "Couleurs",
+    "export": "Exporter",
+    "palettes": "Palettes",
+    "scale": "Échelle",
+    "settings": "Paramètres",
+    "source": "Sources",
+    "themes": "Modes"
+  },
+  "create": {
+    "leavePaletteDialog": {
+      "cancel": "Annuler",
+      "leave": "Quitter et retourner aux palettes",
+      "message": "Vous avez des modifications en cours. Êtes-vous sûr de vouloir partir ?",
+      "title": "Modifications en cours"
+    }
+  },
+  "dev": {
+    "readyForDev": "Prêt pour le développement",
+    "vscode": {
+      "cta": "Essayez-le",
+      "message": "UI Color Palette est également disponible sur le plugin Figma VS Code"
+    }
+  },
+  "empty": "-",
+  "error": {
+    "activatedLicense": "Cette clé de licence n'est pas valide et ne peut être activée. Veuillez la vérifier et réessayer. Si le problème persiste, veuillez contacter le support.",
+    "addToLocal": "La palette ne peut pas être ajoutée",
+    "announcements": "Les annonces ne peuvent pas être chargées",
+    "authentication": "L'authentification a échoué",
+    "badResponse": "La réponse n'est pas valide",
+    "corruption": "Votre palette de couleurs UI semble corrompue. Ne modifiez aucun calque à l'intérieur.",
+    "document": "Le document ne peut pas être généré",
+    "export": "Le code ne peut pas être généré car la palette n'a pas été trouvée",
+    "fetchPalette": "Les palettes ne peuvent pas être chargées",
+    "generic": "Quelque chose s'est mal passé",
+    "noInternetConnection": "La connexion avec la palette distante est rompue",
+    "nonPublication": "La palette ne peut pas être dépubliée",
+    "onboarding": "L'intégration ne peut pas être chargée",
+    "openPalette": "La palette ne peut pas être ouverte",
+    "palette": "La palette ne peut pas être créée",
+    "paletteSizeExceeded": "La taille de la palette dépasse la limite. Veuillez réduire le nombre de modes de couleur, couleurs sources ou nuances/teintes.",
+    "palettesPicking": "Les palettes ne peuvent pas être sélectionnées pour l'instant",
+    "publication": "La palette ne peut pas être publiée",
+    "share": "La palette n'a pas été partagée avec la communauté",
+    "starPalette": "La palette ne peut pas être marquée",
+    "styles": "Les styles ne peuvent pas être synchronisés",
+    "synchronization": "La palette n'a pas été synchronisée",
+    "timeout": "L'authentification a expiré",
+    "unavailableAi": "Le service IA est actuellement indisponible. Veuillez réessayer plus tard.",
+    "unfoundPalette": "La palette n'a pas été trouvée",
+    "unlinkedLicense": "Votre clé de licence \"{licenseKey}\" n'est plus valide ou ne peut pas être dissociée à distance. Veuillez la dissocier localement pour la remplacer par une nouvelle. Si le problème persiste, veuillez contacter le support.",
+    "unshare": "La palette n'a pas été retirée de la communauté"
+  },
+  "events": {
+    "colorsUpdated": "Couleurs sources mises à jour",
+    "documentCreated": "Document créé",
+    "documentUpdated": "Document mis à jour",
+    "paletteCreated": "Palette créée",
+    "paletteCreatedFromDocument": "Palette créée à partir du document",
+    "paletteDuplicated": "Palette dupliquée",
+    "palettePulled": "Palette récupérée",
+    "paletteRemoved": "Palette supprimée",
+    "paletteUpdated": "Palette mise à jour",
+    "scaleUpdated": "Échelle mise à jour",
+    "settingsUpdated": "Paramètres mis à jour",
+    "stylesSynced": "Styles synchronisés",
+    "themesUpdated": "Modes mis à jour",
+    "variablesSynced": "Variables synchronisées"
+  },
+  "export": {
+    "actions": {
+      "copyCode": "Copier le code dans le presse-papiers",
+      "selectColorSpace": "Sélectionner un espace colorimétrique"
+    },
+    "android": {
+      "compose": "Compose (KT)",
+      "label": "Android",
+      "resources": "Ressources (XML)"
+    },
+    "apple": {
+      "label": "Apple",
+      "swiftui": "SwiftUI (SWIFT)",
+      "uikit": "UIKit (SWIFT)"
+    },
+    "colorSpace": {
+      "hex": "HEX",
+      "hsl": "HSL",
+      "label": "Espace colorimétrique",
+      "lch": "LCH",
+      "oklch": "OKLCH",
+      "p3": "P3",
+      "rgb": "RGB"
+    },
+    "csv": {
+      "spreadsheet": "Tableur (CSV)"
+    },
+    "format": "Code",
+    "preview": "Aperçu",
+    "stylesheet": {
+      "customProperties": "Propriétés personnalisées (CSS)",
+      "label": "Feuille de style",
+      "less": "Variables Less (LESS)",
+      "scss": "Variables SCSS (SCSS)"
+    },
+    "tailwind": {
+      "label": "Tailwind",
+      "v3": "Tailwind v3 (JS)",
+      "v4": "Tailwind v4 (CSS)"
+    },
+    "tokens": {
+      "dtcg": {
+        "label": "Tokens DTCG (JSON)",
+        "message": "Le format de tokens DTCG est un travail en cours dirigé par un groupe W3C et peut être modifié dans le futur"
+      },
+      "global": "Universel (JSON)",
+      "label": "Tokens",
+      "nativeTokens": {
+        "label": "Tokens natifs (JSON)",
+        "message": "Les tokens natifs peuvent être importés sur Tokens Studio ou Penpot"
+      },
+      "styleDictionary": "Style Dictionary v3 (JSON)"
+    }
+  },
+  "fail": "✘",
+  "global": {
+    "description": {
+      "label": "Description",
+      "placeholder": "À quoi ça sert ?"
+    }
+  },
+  "info": {
+    "addToLocal": "La palette existe déjà",
+    "announcements": "Il n'y a pas d'annonce pour l'instant",
+    "askDesigner": "ou demandez aux designers de créer une palette",
+    "copiedCode": "Le code a été copié dans le presse-papiers",
+    "createdLocalStyles": {
+      "none": "Aucun style créé",
+      "plural": "{count} styles créés",
+      "single": "1 style créé"
+    },
+    "createdLocalVariables": {
+      "none": "Aucune variable créée",
+      "plural": "{count} variables créées",
+      "single": "1 variable créée"
+    },
+    "createdVariablesAndModes": {
+      "noneNone": "Aucune variable et mode créé",
+      "nonePlural": "{modeCount} modes créés",
+      "noneSingle": "1 mode créé",
+      "pluralNone": "{variableCount} variables créées",
+      "pluralPlural": "{variableCount} variables et {modeCount} modes créés",
+      "pluralSingle": "{variableCount} variables et 1 mode créé",
+      "singleNone": "1 variable créée",
+      "singlePlural": "1 variable et {modeCount} modes créés",
+      "singleSingle": "1 variable et mode créé"
+    },
+    "maxNumberOfLocalPalettes": "Passez à /pro pour ajouter plus de {maxCount} palettes locales",
+    "maxNumberOfSourceColors": "Passez à /pro pour ajouter plus de {maxCount} couleurs sources",
+    "maxNumberOfStops": "Passez à /pro pour ajouter plus de {maxCount} arrêts",
+    "multipleBlockingMessages": {
+      "chroma": "Réinitialiser la chroma",
+      "head": "Vous pouvez débloquer la création si vous : {messages}",
+      "lockedSourceColors": "Déverrouiller les couleurs sources",
+      "sourceColors": "Diminuer les couleurs sources",
+      "stops": "Diminuer les arrêts",
+      "visionSimulationMode": "Réinitialiser la simulation de vision"
+    },
+    "noResult": "Aucune palette ne correspond à votre recherche",
+    "onboarding": "Il n'y a pas d'intégration pour l'instant",
+    "paletteCreated": "Palette {name} créée",
+    "removedLocalStyles": {
+      "none": "Aucun style supprimé",
+      "plural": "{count} styles supprimés",
+      "single": "1 style supprimé"
+    },
+    "removedLocalVariables": {
+      "none": "Aucune variable supprimée",
+      "plural": "{count} variables supprimées",
+      "single": "1 variable supprimée"
+    },
+    "removedVariablesAndModes": {
+      "noneNone": "Aucune variable et mode supprimé",
+      "nonePlural": "{modeCount} modes supprimés",
+      "noneSingle": "1 mode supprimé",
+      "pluralNone": "{variableCount} variables supprimées",
+      "pluralPlural": "{variableCount} variables et {modeCount} modes supprimés",
+      "pluralSingle": "{variableCount} variables et 1 mode supprimé",
+      "singleNone": "1 variable supprimée",
+      "singlePlural": "1 variable et {modeCount} modes supprimés",
+      "singleSingle": "1 variable et mode supprimé"
+    },
+    "signOut": "À bientôt",
+    "themesOnFree": "Passez à /pro pour ajouter ou modifier des modes",
+    "updatedLocalStyles": {
+      "none": "Aucun style mis à jour",
+      "plural": "{count} styles mis à jour",
+      "single": "1 style mis à jour"
+    },
+    "updatedLocalVariables": {
+      "none": "Aucune variable mise à jour",
+      "plural": "{count} variables mises à jour",
+      "single": "1 variable mise à jour"
+    },
+    "updatedVariablesAndModes": {
+      "noneNone": "Aucune variable et mode mis à jour",
+      "nonePlural": "{modeCount} modes mis à jour",
+      "noneSingle": "1 mode mis à jour",
+      "pluralNone": "{variableCount} variables mises à jour",
+      "pluralPlural": "{variableCount} variables et {modeCount} modes mis à jour",
+      "pluralSingle": "{variableCount} variables et 1 mode mis à jour",
+      "singleNone": "1 variable mise à jour",
+      "singlePlural": "1 variable et {modeCount} modes mis à jour",
+      "singleSingle": "1 variable et mode mis à jour"
+    }
+  },
+  "name": "UI Color Palette",
+  "onboarding": {
+    "cta": {
+      "gotIt": "Compris",
+      "learnMore": "En savoir plus",
+      "next": "Suivant"
+    }
+  },
+  "paletteProperties": {
+    "apca": "Scores APCA",
+    "avoid": "Éviter",
+    "base": "Base",
+    "bodyText": "Texte de corps",
+    "closest": "Le plus proche de la source",
+    "colorSpace": "Espace colorimétrique : {name}",
+    "contentText": "Texte de contenu",
+    "fail": "Échec",
+    "fluentText": "Texte fluide",
+    "fontSize": "Tailles de police minimales",
+    "headlines": "Titres",
+    "locked": "Couleur source verrouillée",
+    "nonText": "Non-texte",
+    "pass": "Réussi",
+    "preset": "Préréglage : {name}",
+    "provider": "Fournisseur : {name}",
+    "sourceColors": "Couleurs sources",
+    "spotText": "Texte d'accentuation",
+    "theme": "Mode : {name}",
+    "themeDescription": "Description du mode : {description}",
+    "transparent": "Transparent",
+    "unknown": "Inconnu",
+    "updatedAt": "Mis à jour le : {date}",
+    "visionSimulation": "Simulation de vision : {mode}",
+    "wcag": "Scores WCAG 2.1"
+  },
+  "pass": "✔",
+  "pending": {
+    "announcements": "Annonces en attente…",
+    "fetch": "Récupération des palettes…",
+    "onboarding": "Intégration en attente…",
+    "primaryAction": "………",
+    "secondaryAction": "………"
+  },
+  "plan": {
+    "credits": {
+      "none": "Aucun crédit restant",
+      "plural": "{count} crédits restants",
+      "renew": "Les crédits se renouvelleront le {date}. Passez à /pro pour des crédits illimités.",
+      "single": "1 crédit restant"
+    },
+    "dev": "Forfait /dev",
+    "free": "Forfait /basic",
+    "getPro": "Passer à /pro",
+    "pro": "Forfait /pro",
+    "trial": "Essai",
+    "trialEnded": "Votre essai est terminé",
+    "trialFeedback": "Comment c'était ?",
+    "trialTimeDays": {
+      "plural": "{count} jours restants dans cet essai",
+      "single": "1 jour restant dans cet essai"
+    },
+    "trialTimeHours": {
+      "plural": "{count} heures restantes dans cet essai",
+      "single": "1 heure restante dans cet essai"
+    },
+    "tryPro": "Essayer /pro"
+  },
+  "platform": {
+    "figma": "Figma",
+    "framer": "Framer",
+    "penpot": "Penpot",
+    "sketch": "Sketch"
+  },
+  "preview": {
+    "actions": {
+      "collapsePreview": "Réduire l'aperçu",
+      "colorSpace": "Espace colorimétrique",
+      "displayScores": "Afficher les scores",
+      "expandPreview": "Agrandir l'aperçu",
+      "resetImportedColors": "Réinitialiser les couleurs importées",
+      "visionSimulationMode": "Simulation de vision"
+    },
+    "closest": {
+      "tag": "Le plus proche"
+    },
+    "lock": {
+      "label": "Verrouiller les couleurs sources",
+      "preview": "Verrouillez les couleurs sources pour les inclure dans la palette",
+      "tag": "Verrouillé",
+      "warning": "Passez à /pro pour créer une palette avec des couleurs sources verrouillées"
+    },
+    "score": {
+      "apca": "Afficher les scores APCA",
+      "wcag": "Afficher les scores WCAG 2.1"
+    },
+    "source": {
+      "tag": "Source"
+    }
+  },
+  "pricing": {
+    "activate": {
+      "cta": "Gérer la licence",
+      "text": "Entrez votre clé de licence après l'achat pour débloquer les fonctionnalités /pro",
+      "title": "Activer /pro"
+    },
+    "contexts": {
+      "discount": "Réduction (-20%)",
+      "regular": "Régulier"
+    },
+    "discount": {
+      "amount": "20% de réduction",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "Passer à /pro pour Figma seulement",
+      "subtitle": {
+        "discount": "48$ /an sur Figma",
+        "regular": "5$ /mois sur Figma"
+      },
+      "text": "◻ Palettes illimitées{br}◻ Couleurs sources illimitées{br}◻ Arrêts illimités{br}◻ Modes de couleur illimités{br}◻ Crédits illimités",
+      "title": "UI Color Palette /pro /figma"
+    },
+    "one": {
+      "cta": "Obtenez votre licence",
+      "subtitle": {
+        "discount": "56$ /à vie sur Figma, Penpot, Sketch, Framer",
+        "regular": "70$ /à vie sur Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Palettes illimitées{br}◻ Couleurs sources illimitées{br}◻ Arrêts illimités{br}◻ Modes de couleur illimités{br}◻ Crédits illimités",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "Obtenez votre licence",
+      "subtitle": {
+        "discount": "56$ /à vie sur Figma, Penpot, Sketch, Framer",
+        "regular": "70$ /à vie sur Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Toutes les fonctionnalités /figma{br}◻ Pour petites et grandes équipes{br}◻ Multi plateformes{br}◻ Options de paiement multiples{br}◻ Forfait à vie",
+      "title": "UI Color Palette /pro /one"
+    },
+    "title": "S'abonner à UI Color Palette /pro"
+  },
+  "proPlan": {
+    "trial": {
+      "cta": "Activer l'essai de {hours} heures",
+      "message": "Suralimentez vos couleurs primitives pendant {hours} heures avec le forfait /pro. Vous pourrez créer plus de palettes, gérer vos modes de couleur et exporter votre palette vers plus de formats.",
+      "option": "Passer directement à /pro",
+      "title": "Souhaitez-vous passer au forfait /pro dans les prochaines {hours} heures ?"
+    },
+    "welcome": {
+      "cta": "Construisons",
+      "message": "Cette mise à niveau débloquera une gamme d'outils qui vous permettent de déployer et transférer votre palette de couleurs. Nous espérons que vous apprécierez les avantages.",
+      "title": "Bienvenue dans UI Color Palette /pro !",
+      "trial": "Cette mise à niveau débloquera une gamme d'outils qui vous permettent de déployer et transférer votre palette de couleurs. Nous espérons que vous apprécierez les avantages pendant les prochaines {hours} heures."
+    }
+  },
+  "publication": {
+    "detach": "Détacher",
+    "message": "Publiez votre palette comme source unique de vérité et réutilisez-la dans d'autres documents et plateformes. Vous pouvez également distribuer vos palettes en les partageant avec la communauté.",
+    "publish": "Publier…",
+    "revert": "Revenir",
+    "share": "Partager avec la communauté",
+    "signIn": "Se connecter pour publier",
+    "star": "Ajouter aux favoris",
+    "statusLocalChanges": "Modifications locales",
+    "statusNotFound": "Non trouvé",
+    "statusPublished": "Publié",
+    "statusRemoteChanges": "Modifications distantes",
+    "statusShared": "Partagé",
+    "statusUnpublished": "Non publié",
+    "statusUptoDate": "Aucune modification",
+    "statusWaiting": "En attente…",
+    "synchronize": "Synchroniser…",
+    "titlePublish": "Publier la palette",
+    "titleSignIn": "Publier ou synchroniser la palette",
+    "titleSynchronize": "Synchroniser la palette",
+    "unpublish": "Dépublier",
+    "unshare": "Retirer de la communauté",
+    "unstar": "Retirer des favoris"
+  },
+  "relaunch": {
+    "create": {
+      "description": "Mettre à l'échelle les couleurs sélectionnées",
+      "label": "Créer une palette de couleurs UI"
+    },
+    "edit": {
+      "description": "Gérer, exporter, publier les nuances/teintes",
+      "label": "Modifier la palette de couleurs UI"
+    },
+    "open": {
+      "description": "Gestionnaire de palette de couleurs WCAG pour applications et sites web",
+      "label": "Ouvrir la palette de couleurs UI"
+    }
+  },
+  "report": {
+    "cta": "Soumettre votre problème",
+    "email": {
+      "label": "Email",
+      "placeholder": "Optionnel"
+    },
+    "fullName": {
+      "label": "Nom complet",
+      "placeholder": "Optionnel"
+    },
+    "message": {
+      "label": "Message (requis)",
+      "placeholder": "Décrivez le problème que vous avez rencontré en essayant de décrire les étapes pour le reproduire."
+    },
+    "title": "Signaler un bug"
+  },
+  "scale": {
+    "actions": {
+      "addStop": "Ajouter un arrêt",
+      "applyEasing": "Appliquer directement l'atténuation aux arrêts",
+      "removeStop": "Supprimer l'arrêt",
+      "resetScale": "Réinitialiser les arrêts et la chroma",
+      "resetStops": "Réinitialiser les arrêts",
+      "reverseStops": "Inverser les arrêts"
+    },
+    "contrast": {
+      "label": "Mode de contraste",
+      "title": "Rapport de contraste"
+    },
+    "easing": {
+      "cubic": "Cubique",
+      "easeIn": "Atténuation en entrée",
+      "easeInOut": "Atténuation en entrée et sortie",
+      "easeOut": "Atténuation en sortie",
+      "label": "Atténuation de distribution",
+      "linear": "Linéaire",
+      "preview": "Distribuez les arrêts de couleur pour équilibrer votre palette de couleurs de plusieurs façons",
+      "quad": "Quadratique",
+      "sine": "Sinusoïdale"
+    },
+    "howTo": "Comment utiliser",
+    "keyboardShortcuts": "Revoir les raccourcis clavier",
+    "namingConvention": {
+      "hundreds": "100 - 1000",
+      "ones": "1 - 10",
+      "tens": "10 - 100"
+    },
+    "presets": {
+      "adobe": "Adobe",
+      "ads": "ADS Foundations, 100-1000",
+      "adsNeutral": "ADS Foundations, Neutre 0-1100",
+      "ant": "Ant Design, 1-10",
+      "atlassian": "Atlassian",
+      "base": "Base, 50-700 (Uber)",
+      "bootstrap": "Bootstrap, 100-900",
+      "carbon": "Carbon, 10-100 (IBM)",
+      "custom": "Ensembles personnalisés",
+      "customHundreds": "Personnalisé, 100-1000",
+      "customOnes": "Personnalisé, 1-10",
+      "customTens": "Personnalisé, 10-100",
+      "fluent": "Fluent, 10-160 (Microsoft)",
+      "framework": "Frameworks",
+      "google": "Google",
+      "helper": "Préréglage de luminosité",
+      "label": "Préréglage",
+      "legacy": "Personnalisé (Hérité)",
+      "material": "Material Design, 50-900",
+      "material3": "Material 3, 0-100",
+      "more": "Plus de préréglages",
+      "openColor": "Open Color, 0-9",
+      "polaris": "Polaris, 1-16 (Shopify)",
+      "radix": "Radix, 1-12",
+      "spectrum": "Spectrum, 100-1300",
+      "spectrumNeutral": "Spectrum, Neutre 25-900",
+      "tailwind": "Tailwind, 50-950",
+      "untitledUI": "Untitled UI, 25-950"
+    },
+    "shift": {
+      "chroma": {
+        "label": "Chroma",
+        "warning": "Passez à /pro pour créer une palette avec un décalage de chroma modifié. Réinitialisez-le à 100% ou passez à niveau supérieur."
+      }
+    },
+    "tips": {
+      "add": "Ajouter un arrêt",
+      "cta": "Compris",
+      "custom": "Ajustement avec le préréglage personnalisé",
+      "distribute": "Distribuer les arrêts selon l'atténuation actuelle",
+      "distributeAsTooltip": "Appuyez sur ⇧ pour distribuer les arrêts selon l'atténuation actuelle",
+      "move": "Déplacer chaque arrêt",
+      "navNext": "Sélectionner l'arrêt suivant",
+      "navPrevious": "Sélectionner l'arrêt précédent",
+      "remove": "Supprimer l'arrêt",
+      "select": "Sélectionner l'arrêt",
+      "shiftLeft": "Décaler l'arrêt vers la gauche",
+      "shiftRight": "Décaler l'arrêt vers la droite",
+      "title": "Raccourcis clavier",
+      "type": "Taper la valeur d'arrêt",
+      "unselect": "Désélectionner l'arrêt"
+    },
+    "title": "Échelle de luminosité"
+  },
+  "see": {
+    "properties": {
+      "colors": {
+        "alpha": "Mode alpha",
+        "chromaShifting": "Décaler la chroma",
+        "description": "Description",
+        "hueShifting": "Décaler la teinte",
+        "title": "Couleurs sources"
+      },
+      "default": "Par défaut",
+      "information": {
+        "createdAt": "Créé le",
+        "createdBy": "Créé par",
+        "published": "Publié",
+        "publishedAt": "Publié le",
+        "shared": "Partagé avec la communauté",
+        "title": "Information",
+        "updatedAt": "Mis à jour le"
+      },
+      "lightnessScale": "Échelle de luminosité",
+      "settings": {
+        "algorithmVersion": "Vélocité de chroma",
+        "colorSpace": "Espace colorimétrique",
+        "description": "Description",
+        "lockedSourceColors": "Verrouiller les couleurs sources",
+        "name": "Nom de la palette",
+        "preset": "Préréglage",
+        "title": "Paramètres"
+      },
+      "themes": {
+        "description": "Description",
+        "textDarkColor": "Couleur de premier plan sombre",
+        "textLightColor": "Couleur de premier plan claire",
+        "title": "Modes de couleur",
+        "visionSimulation": "Simulation de vision"
+      }
+    }
+  },
+  "separator": "・",
+  "settings": {
+    "actions": {
+      "paletteName": "Nom de la palette"
+    },
+    "color": {
+      "algorithmVersion": {
+        "label": "Vélocité de chroma",
+        "v1": "Linéaire",
+        "v2": "Sinusoïdal",
+        "v3": "Sinusoïdal et hyperbolique"
+      },
+      "colorSpace": {
+        "hex": "HEX",
+        "hsl": "HSL",
+        "hsluv": "HSLuv",
+        "lab": "CIELAB",
+        "label": "Espace colorimétrique",
+        "lch": "LCH",
+        "oklab": "OKLAB",
+        "oklch": "OKLCH",
+        "p3": "P3",
+        "rgb": "RGB"
+      },
+      "title": "Gestion des couleurs",
+      "visionSimulationMode": {
+        "achromatomaly": "Achromatoalie (faiblesse colorielle totale)",
+        "achromatopsia": "Achromatopsie (cécité colorielle totale)",
+        "colorBlind": "Daltonien",
+        "deuteranomaly": "Deutéranomalie (faiblesse du vert)",
+        "deuteranopia": "Deutéranopie (cécité du vert)",
+        "label": "Simulation de vision",
+        "none": "Aucune",
+        "noneAlternative": "Aucune simulation de vision",
+        "protanomaly": "Protanomalie (faiblesse du rouge)",
+        "protanopia": "Protanopie (cécité du rouge)",
+        "tritanomaly": "Tritanomalie (faiblesse du bleu)",
+        "tritanopia": "Tritanopie (cécité du bleu)",
+        "warning": "Passez à /pro pour créer une palette avec cette simulation de vision"
+      }
+    },
+    "contexts": {
+      "palette": "Palette",
+      "preferences": "Préférences"
+    },
+    "contrast": {
+      "textColors": {
+        "textDarkColor": "Couleur de premier plan sombre",
+        "textLightColor": "Couleur de premier plan claire",
+        "textThemeColorsDescription": "Les couleurs de premier plan claires et sombres servent de référence pour simuler le contraste et obtenir les scores WCAG 2.1 et APCA"
+      },
+      "title": "Gestion du contraste"
+    },
+    "global": {
+      "description": {
+        "label": "Description"
+      },
+      "name": {
+        "default": "Sans titre",
+        "label": "Nom de la palette",
+        "self": "Palette de couleurs UI de {username}"
+      },
+      "title": "Global",
+      "views": {
+        "detailed": "Palette avec propriétés",
+        "helper": "Mise en page du document",
+        "sheet": "Feuille de couleurs",
+        "simple": "Palette"
+      }
+    }
+  },
+  "shortcuts": {
+    "author": "Soutenir l'auteur",
+    "chat": "Discuter avec nous",
+    "community": "Rejoindre notre communauté",
+    "email": "Contacter le support",
+    "feedback": "Soumettre des commentaires",
+    "follow": "Nous soutenir",
+    "news": "Quoi de neuf",
+    "onboarding": "Démarrage rapide",
+    "repository": "Contribuer",
+    "request": "Partagez vos idées",
+    "store": "Découvrir plus de produits",
+    "tooltips": {
+      "documentation": "Lire la documentation",
+      "helpMenu": "Menu d'aide/support",
+      "userMenu": "Menu utilisateur"
+    }
+  },
+  "source": {
+    "actions": {
+      "openPalette": "Ouvrir la palette"
+    },
+    "ai": {
+      "add": "Générer des couleurs IA",
+      "empty": "Supprimer les couleurs IA",
+      "helper": "Générer des couleurs intelligentes basées sur des invites créatives utilisant Mistral AI ({fee} crédits)",
+      "title": "Couleurs IA"
+    },
+    "canvas": {
+      "tip": "Sélectionnez autant d'{element} (remplis de couleur) que nécessaire sur le canevas {canvas}",
+      "title": "Couleurs sélectionnées"
+    },
+    "colourLovers": {
+      "add": "Explorer les palettes Colour Lovers",
+      "addColors": "Ajouter aux sources ({fee} crédits). Ces couleurs remplaceront les précédentes si ajoutées",
+      "empty": "Supprimer la palette Colour Lovers",
+      "filters": {
+        "any": "Toutes",
+        "blue": "Bleu",
+        "green": "Vert",
+        "label": "Couleurs",
+        "orange": "Orange",
+        "red": "Rouge",
+        "violet": "Violet",
+        "yellow": "Jaune"
+      },
+      "helper": "Explorer et importer une palette de la communauté Colour Lovers ({fee} crédits)",
+      "meta": "{votes} votes・{views} vues・{comments} commentaires",
+      "title": "Colour Lovers"
+    },
+    "contexts": {
+      "ai": "IA",
+      "explore": "Explorer",
+      "harmony": "Roue",
+      "image": "Image",
+      "overview": "Aperçu"
+    },
+    "coolors": {
+      "add": "Ajouter une palette Coolors",
+      "addColors": "Ajouter aux sources ({fee} crédits)",
+      "empty": "Supprimer la palette Coolors",
+      "helper": "Importer une palette du célèbre Coolors ({fee} crédits)",
+      "title": "Coolors",
+      "url": {
+        "errorMessage": "L'URL doit inclure plusieurs codes hexadécimaux (ex. 8ecae6-…-219ebc)",
+        "infoMessage": "L'URL doit commencer par \"https://coolors.co\"",
+        "label": "URL de la palette",
+        "placeholder": "Coller un lien－https://coolors.co/…"
+      }
+    },
+    "default": {
+      "helper": "Cette couleur est utilisée quand aucune couleur n'est sélectionnée ou importée",
+      "title": "Couleur par défaut"
+    },
+    "genAi": {
+      "actions": {
+        "addColors": "Ajouter aux sources. Ces couleurs remplaceront les précédentes si ajoutées.",
+        "generate": "Générer des couleurs ⌃⏎ ou ⌘⏎"
+      },
+      "colorTypes": {
+        "alert": "Alerte",
+        "primary": "Primaire",
+        "success": "Succès",
+        "text": "Texte",
+        "warning": "Avertissement"
+      },
+      "emptyMessage": "Utilisez les préréglages d'invite ou créez le vôtre pour générer un ensemble de 5 couleurs",
+      "form": {
+        "presets": {
+          "usecases": {
+            "blog": "Blog personnel avec typographie chaleureuse et lisible",
+            "documentation": "Documentation technique avec hiérarchie claire",
+            "ecommerce": "Boutique e-commerce avec couleurs axées sur la conversion",
+            "landing": "Page d'accueil moderne pour startup tech",
+            "portfolio": "Portfolio créatif présentant un travail artistique",
+            "resume": "CV professionnel avec couleurs propres et confiantes"
+          },
+          "vibes": {
+            "corporate": "Design d'entreprise professionnel avec couleurs dignes de confiance",
+            "cyberpunk": "Interface futuriste cyberpunk avec accents néon",
+            "minimalist": "Design minimaliste épuré avec contrastes subtils",
+            "nature": "Tons terre naturels inspirés de la forêt et des montagnes",
+            "pastel": "Couleurs pastel douces pour interface douce et amicale",
+            "vintage": "Esthétique vintage rétro avec couleurs chaudes et sourdes"
+          }
+        },
+        "prompt": {
+          "placeholder": "Décrivez l'ambiance ou le thème que vous voulez (ex. 'Startup tech moderne avec énergie vibrante', 'App de méditation calme avec tons terre')"
+        }
+      },
+      "helper": "Demander les couleurs coûte {fee} crédits",
+      "title": "Couleurs générées par IA"
+    },
+    "harmony": {
+      "add": "Créer une harmonie de couleurs",
+      "empty": "Supprimer l'harmonie de couleurs",
+      "helper": "Créer des couleurs harmonieuses basées sur la roue chromatique ({fee} crédits)",
+      "title": "Harmonie de couleurs"
+    },
+    "image": {
+      "add": "Extraire les couleurs de l'image",
+      "empty": "Supprimer la palette d'image",
+      "helper": "Extraire 5 couleurs dominantes de n'importe quelle image ({fee} crédits)",
+      "title": "Palette d'image"
+    },
+    "imagePalette": {
+      "addColors": "Ajouter aux sources. Ces couleurs remplaceront les précédentes si ajoutées.",
+      "dropzone": {
+        "cta": "ou cliquer pour parcourir",
+        "error": "L'image n'a pas pu être chargée. Assurez-vous que l'image est un .png et déposez-la ici.",
+        "message": "Glissez-déposez votre fichier .png ici",
+        "warning": "Le fichier n'a pas été importé. Réessayez de glisser-déposer un fichier .png ici."
+      },
+      "helper": "Télécharger une image coûte {fee} crédits",
+      "message": "Téléchargez une image ou sélectionnez-la dans votre document pour extraire ses 5 couleurs dominantes",
+      "removeImage": "Supprimer l'image",
+      "title": "Couleurs dominantes"
+    },
+    "nodes": {
+      "figma": "formes/cadres",
+      "framer": "formes/cadres",
+      "penpot": "formes/planches",
+      "sketch": "formes/cadres"
+    },
+    "realtimeColors": {
+      "add": "Ajouter une palette Realtime Colors",
+      "addColors": "Ajouter aux sources ({fee} crédits)",
+      "empty": "Supprimer la palette Realtime Colors",
+      "helper": "Importer une palette d'une simulation faite avec Realtime Colors ({fee} crédits)",
+      "title": "Realtime Colors",
+      "url": {
+        "errorMessage": "L'URL doit inclure plusieurs codes hexadécimaux (ex. 8ecae6-…-219ebc)",
+        "infoMessage": "L'URL doit commencer par \"https://www.realtimecolors.com\"",
+        "label": "URL Realtime",
+        "placeholder": "Coller un lien－https://www.realtimecolors.com/…"
+      }
+    },
+    "title": "Couleurs sources",
+    "wheel": {
+      "addColors": "Ajouter aux sources ({fee} crédits). Ces couleurs remplaceront les précédentes si ajoutées.",
+      "algorithm": {
+        "analogous": "Analogue",
+        "complementary": "Complémentaire",
+        "compound": "Composé",
+        "label": "Roue chromatique",
+        "tetradic": "Tétradique",
+        "triadic": "Triadique"
+      },
+      "base": "Couleur de base",
+      "helper": "Ajouter les couleurs à la palette coûte {fee} crédits"
+    }
+  },
+  "store": {
+    "isb": {
+      "cta": "Essayez maintenant",
+      "subtitle": "Sessions privées de brainstorming et rétrospective",
+      "text": "Engagez et permettez à vos participants grâce à des sessions d'équipe privées pour le brainstorming et les rétrospectives",
+      "title": "Ideas Spark Booth"
+    },
+    "title": "Plus de produits de Yelbolt"
+  },
+  "success": {
+    "activatedLicense": "La clé de licence \"{licenseKey}\" a été activée",
+    "addToLocal": "La palette a été ajoutée à cette page",
+    "detachment": "La palette a été détachée",
+    "nonPublication": "La palette a été dépubliée",
+    "publication": "La palette a été publiée",
+    "report": "Merci pour votre signalement",
+    "share": "La palette a été partagée avec la communauté",
+    "synchronization": "La palette a été synchronisée",
+    "unlinkedLicense": "Votre clé de licence \"{licenseKey}\" a été dissociée",
+    "unshare": "La palette n'est plus partagée avec la communauté"
+  },
+  "tagline": "Gestionnaire de palette de couleurs WCAG pour applications et sites web",
+  "themes": {
+    "actions": {
+      "documentBackground": "Cette couleur est utilisée pour les documents générés",
+      "moreParameters": "Plus de paramètres",
+      "new": "Nouveau mode UI",
+      "removeColor": "Supprimer le mode",
+      "themeName": "Nom du mode"
+    },
+    "callout": {
+      "cta": "Créer un mode de couleur",
+      "message": "Créez des modes de couleur pour gérer plusieurs palettes de couleurs dans une seule (ex. modes clair et sombre)"
+    },
+    "defaultName": "Mode UI sans titre",
+    "moreParameters": "{count} paramètres",
+    "paletteBackgroundColor": {
+      "label": "Arrière-plan du document"
+    },
+    "switchTheme": {
+      "defaultTheme": "Aucun",
+      "label": "Mode"
+    },
+    "title": "Modes de couleur"
+  },
+  "url": "www.ui-color-palette.com",
+  "user": {
+    "cookies": {
+      "back": "Retour",
+      "close": "Fermer",
+      "consent": "Accepter tout",
+      "customize": "Personnaliser les cookies",
+      "deny": "Refuser tout",
+      "privacyPolicy": "Lire notre politique de confidentialité",
+      "save": "Sauvegarder les préférences",
+      "vendors": "En acceptant ceci, vous acceptez notre utilisation de cookies et autres technologies aux fins énumérées ci-dessus.",
+      "welcome": "UI Color Palette utilise des cookies pour comprendre comment vous utilisez notre plugin et améliorer votre expérience."
+    },
+    "license": {
+      "cta": {
+        "activate": "Activer votre licence",
+        "manage": "Gérer votre licence",
+        "unlink": "Dissocier votre licence",
+        "unlinkLocally": "Dissocier votre licence localement",
+        "validate": "Vérifier"
+      },
+      "key": {
+        "label": "Clé de licence",
+        "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
+      },
+      "messages": {
+        "activate": "Entrez votre clé de licence pour débloquer les fonctionnalités /pro",
+        "active": "Valide",
+        "unactive": "Non valide"
+      },
+      "name": {
+        "helper": "Ce nom sera utilisé pour identifier votre licence",
+        "label": "Nom de la licence",
+        "placeholder": "Licence de {My Name}"
+      }
+    },
+    "manageLicense": "Gérer la licence",
+    "language": {
+      "title": "Langue",
+      "label": "Changer de langue",
+      "englishUS": "English (US)",
+      "frenchFR": "Français (FR)",
+      "chineseCN": "中文 (简体)",
+      "portugueseBR": "Português (BR)"
+    },
+    "preferences": {
+      "sync": {
+        "message": "Lorsqu'activé, la palette sera synchronisée avec la bibliothèque locale, donc les éléments locaux seront mis à jour, mais pourraient être supprimés.",
+        "palette": {
+          "label": "Synchroniser vos modifications en temps réel avec la palette"
+        },
+        "styles": {
+          "label": "Synchroniser profondément les styles locaux du document avec la palette",
+          "message": "Si un style n'est pas dans la palette, il sera supprimé."
+        },
+        "title": "Synchronisation",
+        "variables": {
+          "label": "Synchroniser profondément les variables locales de la collection avec la palette",
+          "message": "Si une variable n'est pas dans la palette, elle sera supprimée."
+        }
+      }
+    },
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "updateConsent": "Gérer les cookies",
+    "updatePreferences": "Mettre à jour les préférences",
+    "useLicense": "Utiliser une clé de licence",
+    "welcomeMessage": "Bonjour {username}"
+  },
+  "vendors": {
+    "functional": {
+      "description": "Cookies nécessaires au fonctionnement du plugin",
+      "name": "Fonctionnel"
+    },
+    "mixpanel": {
+      "description": "Une plateforme d'analyse de premier plan pour suivre et comprendre les interactions utilisateur",
+      "name": "Mixpanel"
+    }
+  },
+  "warning": {
+    "emptySourceColors": "Il n'y a pas de couleur source. Ajoutez-les manuellement dans la section Couleurs.",
+    "hslColorSpace": "L'espace colorimétrique HSL peut inclure les couleurs sources dans la palette, mais cette approche n'assurera pas la cohérence en luminosité et contraste.",
+    "noCommunityPaletteOnRemote": "C'est plutôt vide par ici ! Soyez le premier à partager votre palette avec d'autres utilisateurs !",
+    "noOrgPalettes": "Il n'y a pas de palette d'organisation ici. Réclamez-les auprès de l'auteur du plugin.",
+    "noPaletteOnCurrentPageOnDevMode": "Vous pouvez demander à un membre ayant les permissions d'édition de créer",
+    "noPaletteOnCurrrentFile": "Il n'y a pas de palette de couleurs UI sur ce fichier",
+    "noPaletteOnCurrrentPage": "Il n'y a pas de palette de couleurs UI sur cette page",
+    "noSelfPaletteOnRemote": "C'est plutôt vide par ici ! Publiez votre palette pour la réutiliser dans plusieurs documents",
+    "noStarredPalettes": "Vous n'avez pas encore de palettes favorites. Parcourez la communauté pour trouver des palettes inspirantes et ajoutez-les aux favoris pour un accès rapide ultérieur.",
+    "paletteNameRecommendation": "64 caractères maximum recommandé",
+    "tooManyThemesToCreateModes": "Vous ne pouvez pas créer plus de 4 modes dans le forfait actuel",
+    "uncopiedCode": "Le code n'a pas été copié dans le presse-papiers",
+    "unselectedColor": "Sélectionnez un calque qui est rempli avec au moins une couleur unie"
+  }
+}

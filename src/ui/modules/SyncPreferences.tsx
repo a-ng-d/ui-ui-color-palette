@@ -64,8 +64,8 @@ export default class SyncPreferences extends PureComponent<
   constructor(props: SyncPreferencesProps) {
     super(props)
     this.state = {
-      canStylesDeepSync: false,
-      canVariablesDeepSync: false,
+      canStylesDeepSync: $canStylesDeepSync.get() || false,
+      canVariablesDeepSync: $canVariablesDeepSync.get() || false,
     }
   }
 
@@ -226,7 +226,7 @@ export default class SyncPreferences extends PureComponent<
             ),
           },
         ]}
-        border={this.props.isLast ? ['BOTTOM'] : undefined}
+        border={!this.props.isLast ? ['BOTTOM'] : undefined}
       />
     )
   }

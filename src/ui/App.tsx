@@ -68,6 +68,7 @@ import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
 import { getSupabase } from '../external/auth/client'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
+import { locales } from '../content/locales'
 import { ConfigContextType } from '../config/ConfigContext'
 import SeePalette from './services/SeePalette'
 import EditPalette from './services/EditPalette'
@@ -122,6 +123,7 @@ class App extends Component<AppProps, AppStates> {
   private palette: typeof $palette
   private subscribeLanguage: (() => void) | undefined
   private subsscribeVsCodeMessage: (() => void) | undefined
+  private isFirstLanguageEmission = true
 
   static features = (
     planStatus: PlanStatus,
@@ -281,8 +283,17 @@ class App extends Component<AppProps, AppStates> {
   // Lifecycle
   componentDidMount = async () => {
     this.subscribeLanguage = $userLanguage.subscribe(async (value) => {
+      if (this.isFirstLanguageEmission) {
+        this.isFirstLanguageEmission = false
+        return
+      }
+      this.isFirstLanguageEmission = false
+
+      const newLocales = locales.set(value)
+
       this.setState({
         lang: value,
+        locales: newLocales,
       })
 
       sendPluginMessage({
@@ -1207,6 +1218,7 @@ class App extends Component<AppProps, AppStates> {
               onReOpenChat={(e) => this.setState({ ...e })}
               onReOpenFeedback={(e) => this.setState({ ...e })}
               onUpdateConsent={(e) => this.setState({ ...e })}
+              onUpdateLanguage={(e) => this.setState({ ...e })}
             />
           </Feature>
         </main>

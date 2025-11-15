@@ -1076,6 +1076,14 @@
       }
     },
     "manageLicense": "Manage license",
+    "language": {
+      "title": "Language",
+      "label": "Change language",
+      "englishUS": "English (US)",
+      "frenchFR": "Français (FR)",
+      "chineseCN": "中文 (简体)",
+      "portugueseBR": "Português (BR)"
+    },
     "preferences": {
       "sync": {
         "message": "When enabled, the palette will be synchronized with the local library, so the local items will be updated , but could be removed.",

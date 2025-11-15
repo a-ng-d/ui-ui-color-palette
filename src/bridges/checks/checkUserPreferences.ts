@@ -1,4 +1,5 @@
 import { Language } from '../../types/translations'
+import globalConfig from '../../global.config'
 import { locales } from '../../content/locales'
 
 const checkUserPreferences = async () => {
@@ -32,9 +33,9 @@ const checkUserPreferences = async () => {
     window.localStorage.setItem('is_vscode_message_displayed', 'true')
 
   if (userLanguage === null)
-    window.localStorage.setItem('user_language', 'en-US')
+    window.localStorage.setItem('user_language', globalConfig.lang)
 
-  locales.set((userLanguage as Language) ?? 'en-US')
+  locales.set((userLanguage as Language) ?? globalConfig.lang)
 
   return iframe?.contentWindow?.postMessage(
     {
@@ -54,7 +55,7 @@ const checkUserPreferences = async () => {
           isVsCodeMessageDisplayed === null
             ? true
             : isVsCodeMessageDisplayed === 'true',
-        userLanguage: userLanguage ?? 'en-US',
+        userLanguage: userLanguage ?? globalConfig.lang,
       },
     },
     '*'

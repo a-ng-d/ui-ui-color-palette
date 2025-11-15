@@ -111,7 +111,6 @@ window.addEventListener(
   },
   false
 )
-
 window.addEventListener('pluginMessage', ((event: MessageEvent) => {
   if (event instanceof CustomEvent && window.parent !== window) {
     const { message, targetOrigin } = event.detail
