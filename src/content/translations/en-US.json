@@ -1097,6 +1097,7 @@
     "signOut": "Sign out",
     "updateConsent": "Manage cookies",
     "updatePreferences": "Update preferences",
+    "useLicense": "Use license key",
     "welcomeMessage": "Hello {username}"
   },
   "vendors": {

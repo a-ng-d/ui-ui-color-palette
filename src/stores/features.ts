@@ -2587,6 +2587,17 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     ],
   },
   {
+    name: 'USER_LICENSE_JUMP',
+    description: 'Jumps to license-managed plugin',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
+    proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode'],
+  },
+  {
     name: 'HELP_ANNOUNCEMENTS',
     description: 'Release notes',
     isActive: true,

@@ -74,6 +74,13 @@ export default class Shortcuts extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    USER_LICENSE_JUMP: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LICENSE_JUMP',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     HELP_ANNOUNCEMENTS: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_ANNOUNCEMENTS',
@@ -529,6 +536,37 @@ export default class Shortcuts extends PureComponent<
                             this.props.onReOpenLicense({
                               modalContext: 'LICENSE',
                             }),
+                        },
+                        {
+                          label: this.props.locales.user.useLicense,
+                          type: 'OPTION',
+                          isActive: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config,
+                            this.props.service,
+                            this.props.editor
+                          ).USER_LICENSE_JUMP.isActive(),
+                          isBlocked: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config,
+                            this.props.service,
+                            this.props.editor
+                          ).USER_LICENSE_JUMP.isBlocked(),
+                          isNew: Shortcuts.features(
+                            this.props.planStatus,
+                            this.props.config,
+                            this.props.service,
+                            this.props.editor
+                          ).USER_LICENSE_JUMP.isNew(),
+                          action: () =>
+                            sendPluginMessage(
+                              {
+                                pluginMessage: {
+                                  type: 'GO_TO_ONE_FIGMA',
+                                },
+                              },
+                              '*'
+                            ),
                         },
                       ]}
                       alignment="TOP_RIGHT"
