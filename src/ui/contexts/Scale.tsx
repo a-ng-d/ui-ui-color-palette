@@ -584,14 +584,25 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 pin: 'TOP',
               }}
               action={() => {
-                $palette.setKey(
-                  'scale',
-                  this.onApplyDistributionEasing(
-                    this.props.scale,
-                    this.props.distributionEasing
-                  )
+                const newScale = this.onApplyDistributionEasing(
+                  this.props.scale,
+                  this.props.distributionEasing
                 )
+
+                $palette.setKey('scale', newScale)
                 this.props.onChangeScale()
+
+                if (this.props.service === 'EDIT')
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'UPDATE_SCALE',
+                        id: this.props.id,
+                        data: $palette.value,
+                      },
+                    },
+                    '*'
+                  )
               }}
             />
           </Feature>

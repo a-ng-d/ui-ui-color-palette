@@ -103,10 +103,7 @@ interface EditPaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteStates> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
@@ -274,7 +271,7 @@ export default class EditPalette extends PureComponent<
     })
   }
 
-  slideHandler = () =>
+  slideHandler = () => {
     this.props.onChangeScale({
       scale: this.palette.get().scale,
       preset: this.palette.get().preset,
@@ -284,6 +281,7 @@ export default class EditPalette extends PureComponent<
       }),
       onGoingStep: 'scale changed',
     })
+  }
 
   shiftHandler = (feature?: string, state?: string, value?: number) => {
     const onReleaseStop = () => {
