@@ -68,10 +68,7 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
+export default class Publication extends PureComponent<PublicationProps, PublicationStates> {
   private enabledThemeIndex: number
 
   static features = (
@@ -101,6 +98,9 @@ export default class Publication extends PureComponent<
     this.enabledThemeIndex = this.props.rawData.themes.findIndex(
       (theme) => theme.isEnabled
     )
+
+    if (this.enabledThemeIndex === -1) this.enabledThemeIndex = 0
+
     this.state = {
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
@@ -121,6 +121,9 @@ export default class Publication extends PureComponent<
   }
 
   componentDidUpdate = (prevProps: Readonly<PublicationProps>) => {
+    if (prevProps.rawData.themes !== this.props.rawData.themes)
+      this.updateEnabledThemeIndex()
+
     if (
       this.props.rawData.publicationStatus.isPublished &&
       prevProps.rawData.id !== this.props.rawData.id
@@ -133,6 +136,19 @@ export default class Publication extends PureComponent<
       this.setState({
         publicationStatus: 'UNPUBLISHED',
       })
+  }
+
+  updateEnabledThemeIndex = () => {
+    const newEnabledIndex = this.props.rawData.themes.findIndex(
+      (theme) => theme.isEnabled
+    )
+
+    if (
+      newEnabledIndex === -1 ||
+      newEnabledIndex >= this.props.rawData.themes.length
+    )
+      this.enabledThemeIndex = 0
+    else this.enabledThemeIndex = newEnabledIndex
   }
 
   // Direct Actions
