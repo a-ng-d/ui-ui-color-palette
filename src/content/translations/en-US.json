@@ -190,7 +190,7 @@
     "chromaShifting": {
       "label": "Shift chroma"
     },
-    "defaultName": "Untitled UI color",
+    "defaultName": "Untitled UI Color",
     "hueShifting": {
       "label": "Shift hue"
     },
@@ -1024,7 +1024,7 @@
     "actions": {
       "documentBackground": "This color is used for the generated documents",
       "moreParameters": "More parameters",
-      "new": "New UI Mode",
+      "new": "New UI Color Mode",
       "removeColor": "Remove mode",
       "themeName": "Mode name"
     },
@@ -1032,7 +1032,7 @@
       "cta": "Create a color mode",
       "message": "Create color modes to manage multiple color palettes within one single (e.g. light and dark modes)"
     },
-    "defaultName": "Untitled UI mode",
+    "defaultName": "Untitled UI Color Mode",
     "moreParameters": "{count} parameters",
     "paletteBackgroundColor": {
       "label": "Document background"

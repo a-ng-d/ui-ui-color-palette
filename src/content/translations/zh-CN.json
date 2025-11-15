@@ -80,7 +80,7 @@
       "several": "{count} 种颜色模式",
       "single": "{count} 种颜色模式"
     },
-    "createPalette": "新建 UI 调色板",
+    "createPalette": "新建 UI Color Palette",
     "duplicate": "复制",
     "explorePalettes": "从社区探索调色板",
     "export": "导出调色板为 {format}",
@@ -94,7 +94,7 @@
     "publishOrSyncPalette": "发布或同步调色板",
     "publishPalette": "发布调色板",
     "pushUpdates": "推送更新到文档",
-    "savePalette": "创建 UI 调色板",
+    "savePalette": "创建 UI Color Palette",
     "shadesNumber": {
       "several": "{count} 个色调/色彩",
       "single": "{count} 个色调/色彩"
@@ -123,7 +123,7 @@
       "glancePalette": "预览调色板",
       "managePalette": "管理调色板",
       "moreParameters": "更多参数",
-      "new": "新建 UI 调色板",
+      "new": "新建 UI Color Palette",
       "openPalette": "打开调色板",
       "selectPalette": "选择调色板",
       "signInToStar": "登录以收藏",
@@ -152,7 +152,7 @@
       "restore": "恢复调色板"
     },
     "file": {
-      "title": "此文件的 UI 调色板"
+      "title": "此文件的 UI Color Palette"
     },
     "glancePalette": {
       "title": "调色板概览"
@@ -163,7 +163,7 @@
       "search": "搜索调色板..."
     },
     "page": {
-      "title": "此页面的 UI 调色板"
+      "title": "此页面的 UI Color Palette"
     },
     "search": "搜索调色板",
     "signInFirst": {
@@ -232,7 +232,7 @@
     "announcements": "无法加载公告",
     "authentication": "身份验证失败",
     "badResponse": "响应无效",
-    "corruption": "您的 UI 调色板似乎已损坏。请不要编辑其中的任何图层。",
+    "corruption": "您的 UI Color Palette 似乎已损坏。请不要编辑其中的任何图层。",
     "document": "无法生成文档",
     "export": "无法生成代码，因为未找到调色板",
     "fetchPalette": "无法加载调色板",
@@ -600,15 +600,15 @@
   "relaunch": {
     "create": {
       "description": "缩放选定的颜色",
-      "label": "创建 UI 调色板"
+      "label": "创建 UI Color Palette"
     },
     "edit": {
       "description": "管理、导出、发布色调/色彩",
-      "label": "编辑 UI 调色板"
+      "label": "编辑 UI Color Palette"
     },
     "open": {
       "description": "应用和网站的 WCAG 调色板管理器",
-      "label": "打开 UI 调色板"
+      "label": "打开 UI Color Palette"
     }
   },
   "report": {
@@ -815,7 +815,7 @@
       "name": {
         "default": "未命名",
         "label": "调色板名称",
-        "self": "{username} 的 UI 调色板"
+        "self": "{username} 的 UI Color Palette"
       },
       "title": "全局",
       "views": {
@@ -1128,8 +1128,8 @@
     "noCommunityPaletteOnRemote": "这里很空！成为第一个与其他用户分享调色板的人！",
     "noOrgPalettes": "这里没有组织调色板。请向插件作者申请。",
     "noPaletteOnCurrentPageOnDevMode": "您可以请求具有编辑权限的成员创建",
-    "noPaletteOnCurrrentFile": "此文件上没有 UI 调色板",
-    "noPaletteOnCurrrentPage": "此页面上没有 UI 调色板",
+    "noPaletteOnCurrrentFile": "此文件上没有 UI Color Palette",
+    "noPaletteOnCurrrentPage": "此页面上没有 UI Color Palette",
     "noSelfPaletteOnRemote": "这里很空！发布您的调色板以在多个文档中重用",
     "noStarredPalettes": "您还没有收藏的调色板。浏览社区找到启发性的调色板并收藏它们以便快速访问。",
     "paletteNameRecommendation": "建议最多 64 个字符",

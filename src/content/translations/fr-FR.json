@@ -80,7 +80,7 @@
       "several": "{count} modes de couleur",
       "single": "{count} mode de couleur"
     },
-    "createPalette": "Nouvelle palette de couleurs UI",
+    "createPalette": "Nouvelle UI Color Palette",
     "duplicate": "Dupliquer",
     "explorePalettes": "Explorer les palettes de la communauté",
     "export": "Exporter la palette en {format}",
@@ -94,7 +94,7 @@
     "publishOrSyncPalette": "Publier ou synchroniser la palette",
     "publishPalette": "Publier la palette",
     "pushUpdates": "Pousser les mises à jour vers le document",
-    "savePalette": "Créer une palette de couleurs UI",
+    "savePalette": "Créer une UI Color Palette",
     "shadesNumber": {
       "several": "{count} nuances/teintes",
       "single": "{count} nuance/teinte"
@@ -123,7 +123,7 @@
       "glancePalette": "Aperçu de la palette",
       "managePalette": "Gérer la palette",
       "moreParameters": "Plus de paramètres",
-      "new": "Nouvelle palette de couleurs UI",
+      "new": "Nouvelle UI Color Palette",
       "openPalette": "Ouvrir la palette",
       "selectPalette": "Sélectionner la palette",
       "signInToStar": "Se connecter pour marquer",
@@ -152,7 +152,7 @@
       "restore": "Restaurer la palette"
     },
     "file": {
-      "title": "Palettes de couleurs UI de ce fichier"
+      "title": "UI Color Palettes de ce fichier"
     },
     "glancePalette": {
       "title": "Aperçu de la palette"
@@ -163,7 +163,7 @@
       "search": "Rechercher des palettes…"
     },
     "page": {
-      "title": "Palettes de couleurs UI de cette page"
+      "title": "UI Color Palettes de cette page"
     },
     "search": "Rechercher des palettes",
     "signInFirst": {
@@ -176,7 +176,7 @@
       "alphaBackground": "Couleur d'arrière-plan derrière la transparence",
       "colorName": "Nom de la couleur",
       "moreParameters": "Plus de paramètres",
-      "new": "Nouvelle couleur UI",
+      "new": "Nouvelle UI Color",
       "removeColor": "Supprimer la couleur"
     },
     "alpha": {
@@ -190,7 +190,7 @@
     "chromaShifting": {
       "label": "Décaler la chroma"
     },
-    "defaultName": "Couleur UI sans titre",
+    "defaultName": "UI Color sans titre",
     "hueShifting": {
       "label": "Décaler la teinte"
     },
@@ -232,7 +232,7 @@
     "announcements": "Les annonces ne peuvent pas être chargées",
     "authentication": "L'authentification a échoué",
     "badResponse": "La réponse n'est pas valide",
-    "corruption": "Votre palette de couleurs UI semble corrompue. Ne modifiez aucun calque à l'intérieur.",
+    "corruption": "Votre UI Color Palette semble corrompue. Ne modifiez aucun calque à l'intérieur.",
     "document": "Le document ne peut pas être généré",
     "export": "Le code ne peut pas être généré car la palette n'a pas été trouvée",
     "fetchPalette": "Les palettes ne peuvent pas être chargées",
@@ -600,15 +600,15 @@
   "relaunch": {
     "create": {
       "description": "Mettre à l'échelle les couleurs sélectionnées",
-      "label": "Créer une palette de couleurs UI"
+      "label": "Créer une UI Color Palette"
     },
     "edit": {
       "description": "Gérer, exporter, publier les nuances/teintes",
-      "label": "Modifier la palette de couleurs UI"
+      "label": "Modifier la UI Color Palette"
     },
     "open": {
       "description": "Gestionnaire de palette de couleurs WCAG pour applications et sites web",
-      "label": "Ouvrir la palette de couleurs UI"
+      "label": "Ouvrir la UI Color Palette"
     }
   },
   "report": {
@@ -815,7 +815,7 @@
       "name": {
         "default": "Sans titre",
         "label": "Nom de la palette",
-        "self": "Palette de couleurs UI de {username}"
+        "self": "UI Color Palette de {username}"
       },
       "title": "Global",
       "views": {
@@ -1024,7 +1024,7 @@
     "actions": {
       "documentBackground": "Cette couleur est utilisée pour les documents générés",
       "moreParameters": "Plus de paramètres",
-      "new": "Nouveau mode UI",
+      "new": "Nouveau UI Color Mode",
       "removeColor": "Supprimer le mode",
       "themeName": "Nom du mode"
     },
@@ -1032,7 +1032,7 @@
       "cta": "Créer un mode de couleur",
       "message": "Créez des modes de couleur pour gérer plusieurs palettes de couleurs dans une seule (ex. modes clair et sombre)"
     },
-    "defaultName": "Mode UI sans titre",
+    "defaultName": "UI Color Mode sans titre",
     "moreParameters": "{count} paramètres",
     "paletteBackgroundColor": {
       "label": "Arrière-plan du document"
@@ -1128,8 +1128,8 @@
     "noCommunityPaletteOnRemote": "C'est plutôt vide par ici ! Soyez le premier à partager votre palette avec d'autres utilisateurs !",
     "noOrgPalettes": "Il n'y a pas de palette d'organisation ici. Réclamez-les auprès de l'auteur du plugin.",
     "noPaletteOnCurrentPageOnDevMode": "Vous pouvez demander à un membre ayant les permissions d'édition de créer",
-    "noPaletteOnCurrrentFile": "Il n'y a pas de palette de couleurs UI sur ce fichier",
-    "noPaletteOnCurrrentPage": "Il n'y a pas de palette de couleurs UI sur cette page",
+    "noPaletteOnCurrrentFile": "Il n'y a pas de UI Color Palette sur ce fichier",
+    "noPaletteOnCurrrentPage": "Il n'y a pas de UI Color Palette sur cette page",
     "noSelfPaletteOnRemote": "C'est plutôt vide par ici ! Publiez votre palette pour la réutiliser dans plusieurs documents",
     "noStarredPalettes": "Vous n'avez pas encore de palettes favorites. Parcourez la communauté pour trouver des palettes inspirantes et ajoutez-les aux favoris pour un accès rapide ultérieur.",
     "paletteNameRecommendation": "64 caractères maximum recommandé",
