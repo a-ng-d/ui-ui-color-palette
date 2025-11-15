@@ -60,10 +60,7 @@ interface OverviewStates {
   isGenAIOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -433,6 +430,33 @@ export default class Overview extends PureComponent<
       })
   }
 
+  removeSourceColorHandler = (colorId: string) => {
+    const colorToRemove = this.props.sourceColors.find(
+      (color) => color.id === colorId
+    )
+
+    if (
+      colorToRemove &&
+      colorToRemove.source !== 'DEFAULT' &&
+      colorToRemove.source !== 'CANVAS'
+    ) {
+      const colorsFromSameSource = this.props.sourceColors.filter(
+        (color) => color.source === colorToRemove.source && color.id !== colorId
+      )
+
+      this.props.onChangeColorsFromImport(
+        colorsFromSameSource,
+        colorToRemove.source as
+          | 'COOLORS'
+          | 'REALTIME_COLORS'
+          | 'COLOUR_LOVERS'
+          | 'IMAGE'
+          | 'HARMONY'
+          | 'AI'
+      )
+    }
+  }
+
   // Direct Actions
   refinedNumberOfSourceColors = (): number => {
     if (this.props.sourceColors.length > 1)
@@ -796,6 +820,10 @@ export default class Overview extends PureComponent<
                         .hex()
                         .toUpperCase()}
                       id={sourceColor.id}
+                      canBeRemoved
+                      onRemoveColor={() =>
+                        this.removeSourceColorHandler(sourceColor.id)
+                      }
                     />
                   )
                 })}
@@ -923,6 +951,10 @@ export default class Overview extends PureComponent<
                         .hex()
                         .toUpperCase()}
                       id={sourceColor.id}
+                      canBeRemoved
+                      onRemoveColor={() =>
+                        this.removeSourceColorHandler(sourceColor.id)
+                      }
                     />
                   )
                 })}
@@ -999,6 +1031,10 @@ export default class Overview extends PureComponent<
                       .hex()
                       .toUpperCase()}
                     id={sourceColor.id}
+                    canBeRemoved
+                    onRemoveColor={() =>
+                      this.removeSourceColorHandler(sourceColor.id)
+                    }
                   />
                 )
               })}
@@ -1074,6 +1110,10 @@ export default class Overview extends PureComponent<
                       .hex()
                       .toUpperCase()}
                     id={sourceColor.id}
+                    canBeRemoved
+                    onRemoveColor={() =>
+                      this.removeSourceColorHandler(sourceColor.id)
+                    }
                   />
                 )
               })}
@@ -1149,6 +1189,10 @@ export default class Overview extends PureComponent<
                       .hex()
                       .toUpperCase()}
                     id={sourceColor.id}
+                    canBeRemoved
+                    onRemoveColor={() =>
+                      this.removeSourceColorHandler(sourceColor.id)
+                    }
                   />
                 )
               })}
@@ -1224,6 +1268,10 @@ export default class Overview extends PureComponent<
                       .hex()
                       .toUpperCase()}
                     id={sourceColor.id}
+                    canBeRemoved
+                    onRemoveColor={() =>
+                      this.removeSourceColorHandler(sourceColor.id)
+                    }
                   />
                 )
               })}
