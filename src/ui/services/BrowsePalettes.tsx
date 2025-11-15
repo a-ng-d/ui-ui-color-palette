@@ -103,7 +103,8 @@ export default class BrowsePalettes extends PureComponent<
       props.planStatus,
       props.config.features,
       props.editor,
-      props.service
+      props.service,
+      props.locales
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -123,6 +124,21 @@ export default class BrowsePalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+  }
+
+  componentDidUpdate(previousProps: Readonly<BrowsePalettesProps>): void {
+    if (previousProps.locales !== this.props.locales) {
+      this.contexts = setContexts(
+        ['LOCAL_PALETTES', 'REMOTE_PALETTES'],
+        this.props.planStatus,
+        this.props.config.features,
+        this.props.editor,
+        this.props.service,
+        this.props.locales
+      )
+
+      this.forceUpdate()
+    }
   }
 
   componentWillUnmount = () => {

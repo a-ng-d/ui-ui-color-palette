@@ -82,10 +82,7 @@ interface SeePaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class SeePalette extends PureComponent<
-  SeePaletteProps,
-  SeePaletteStates
-> {
+export default class SeePalette extends PureComponent<SeePaletteProps, SeePaletteStates> {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
   private previewRef: React.RefObject<Preview>
@@ -134,7 +131,8 @@ export default class SeePalette extends PureComponent<
       props.planStatus,
       props.config.features,
       props.editor,
-      props.service
+      props.service,
+      props.locales
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -171,6 +169,20 @@ export default class SeePalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+  }
+
+  componentDidUpdate(previousProps: Readonly<SeePaletteProps>): void {
+    if (previousProps.locales !== this.props.locales) {
+      this.contexts = setContexts(
+        ['PROPERTIES', 'EXPORT'],
+        this.props.planStatus,
+        this.props.config.features,
+        this.props.editor,
+        this.props.service,
+        this.props.locales
+      )
+      this.forceUpdate()
+    }
   }
 
   componentWillUnmount = () => {

@@ -159,7 +159,8 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       props.planStatus,
       props.config.features,
       props.editor,
-      props.service
+      props.service,
+      props.locales
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -197,6 +198,21 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       'platformMessage',
       this.handleMessage as EventListener
     )
+  }
+
+  componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
+    if (previousProps.locales !== this.props.locales) {
+      this.contexts = setContexts(
+        ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
+        this.props.planStatus,
+        this.props.config.features,
+        this.props.editor,
+        this.props.service,
+        this.props.locales
+      )
+
+      this.forceUpdate()
+    }
   }
 
   componentWillUnmount = () => {

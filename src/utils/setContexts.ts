@@ -1,13 +1,14 @@
 import { Feature, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Translations } from '../types/translations'
 import { Context, Editor, PlanStatus, Service } from '../types/app'
-import { locales } from '../content/locales'
 
 export const setContexts = (
   contextList: Array<Context>,
   planStatus: PlanStatus,
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>,
   editor: Editor,
-  service: Service
+  service: Service,
+  currentLocales: Translations
 ) => {
   const featuresList = {
     LOCAL_PALETTES: new FeatureStatus({
@@ -160,133 +161,133 @@ export const setContexts = (
     isActive: boolean
   }> = [
     {
-      label: locales.get().browse.contexts.local,
+      label: currentLocales.browse.contexts.local,
       id: 'LOCAL_PALETTES',
       isUpdated: false,
       isNew: featuresList.LOCAL_PALETTES.isNew(),
       isActive: featuresList.LOCAL_PALETTES.isActive(),
     },
     {
-      label: locales.get().browse.contexts.page,
+      label: currentLocales.browse.contexts.page,
       id: 'LOCAL_PALETTES_PAGE',
       isUpdated: false,
       isNew: featuresList.LOCAL_PALETTES_PAGE.isNew(),
       isActive: featuresList.LOCAL_PALETTES_PAGE.isActive(),
     },
     {
-      label: locales.get().browse.contexts.file,
+      label: currentLocales.browse.contexts.file,
       id: 'LOCAL_PALETTES_FILE',
       isUpdated: false,
       isNew: featuresList.LOCAL_PALETTES_FILE.isNew(),
       isActive: featuresList.LOCAL_PALETTES_FILE.isActive(),
     },
     {
-      label: locales.get().browse.contexts.remote,
+      label: currentLocales.browse.contexts.remote,
       id: 'REMOTE_PALETTES',
       isUpdated: false,
       isNew: featuresList.REMOTE_PALETTES.isNew(),
       isActive: featuresList.REMOTE_PALETTES.isActive(),
     },
     {
-      label: locales.get().browse.contexts.self,
+      label: currentLocales.browse.contexts.self,
       id: 'REMOTE_PALETTES_SELF',
       isUpdated: false,
       isNew: featuresList.REMOTE_PALETTES_SELF.isNew(),
       isActive: featuresList.REMOTE_PALETTES_SELF.isActive(),
     },
     {
-      label: locales.get().browse.contexts.community,
+      label: currentLocales.browse.contexts.community,
       id: 'REMOTE_PALETTES_COMMUNITY',
       isUpdated: false,
       isNew: featuresList.REMOTE_PALETTES_COMMUNITY.isNew(),
       isActive: featuresList.REMOTE_PALETTES_COMMUNITY.isActive(),
     },
     {
-      label: locales.get().browse.contexts.org,
+      label: currentLocales.browse.contexts.org,
       id: 'REMOTE_PALETTES_ORG',
       isUpdated: false,
       isNew: featuresList.REMOTE_PALETTES_ORG.isNew(),
       isActive: featuresList.REMOTE_PALETTES_ORG.isActive(),
     },
     {
-      label: locales.get().browse.contexts.starred,
+      label: currentLocales.browse.contexts.starred,
       id: 'REMOTE_PALETTES_STARRED',
       isUpdated: false,
       isNew: featuresList.REMOTE_PALETTES_STARRED.isNew(),
       isActive: featuresList.REMOTE_PALETTES_STARRED.isActive(),
     },
     {
-      label: locales.get().contexts.source,
+      label: currentLocales.contexts.source,
       id: 'SOURCE',
       isUpdated: false,
       isNew: featuresList.SOURCE.isNew(),
       isActive: featuresList.SOURCE.isActive(),
     },
     {
-      label: locales.get().source.contexts.overview,
+      label: currentLocales.source.contexts.overview,
       id: 'SOURCE_OVERVIEW',
       isUpdated: false,
       isNew: featuresList.SOURCE_EXPLORE.isNew(),
       isActive: featuresList.SOURCE_EXPLORE.isActive(),
     },
     {
-      label: locales.get().source.contexts.explore,
+      label: currentLocales.source.contexts.explore,
       id: 'SOURCE_EXPLORE',
       isUpdated: false,
       isNew: featuresList.SOURCE_EXPLORE.isNew(),
       isActive: featuresList.SOURCE_EXPLORE.isActive(),
     },
     {
-      label: locales.get().source.contexts.image,
+      label: currentLocales.source.contexts.image,
       id: 'SOURCE_IMAGE',
       isUpdated: false,
       isNew: featuresList.SOURCE_IMAGE.isNew(),
       isActive: featuresList.SOURCE_IMAGE.isActive(),
     },
     {
-      label: locales.get().source.contexts.harmony,
+      label: currentLocales.source.contexts.harmony,
       id: 'SOURCE_HARMONY',
       isUpdated: false,
       isNew: featuresList.SOURCE_HARMONY.isNew(),
       isActive: featuresList.SOURCE_HARMONY.isActive(),
     },
     {
-      label: locales.get().source.contexts.ai,
+      label: currentLocales.source.contexts.ai,
       id: 'SOURCE_AI',
       isUpdated: false,
       isNew: featuresList.SOURCE_AI.isNew(),
       isActive: featuresList.SOURCE_AI.isActive(),
     },
     {
-      label: locales.get().contexts.scale,
+      label: currentLocales.contexts.scale,
       id: 'SCALE',
       isUpdated: false,
       isNew: featuresList.SCALE.isNew(),
       isActive: featuresList.SCALE.isActive(),
     },
     {
-      label: locales.get().contexts.colors,
+      label: currentLocales.contexts.colors,
       id: 'COLORS',
       isUpdated: false,
       isNew: featuresList.COLORS.isNew(),
       isActive: featuresList.COLORS.isActive(),
     },
     {
-      label: locales.get().contexts.themes,
+      label: currentLocales.contexts.themes,
       id: 'THEMES',
       isUpdated: false,
       isNew: featuresList.THEMES.isNew(),
       isActive: featuresList.THEMES.isActive(),
     },
     {
-      label: locales.get().contexts.export,
+      label: currentLocales.contexts.export,
       id: 'EXPORT',
       isUpdated: false,
       isNew: featuresList.EXPORT.isNew(),
       isActive: featuresList.EXPORT.isActive(),
     },
     {
-      label: locales.get().contexts.settings,
+      label: currentLocales.contexts.settings,
       id: 'SETTINGS',
       isUpdated: false,
       isNew: featuresList.SETTINGS.isNew(),

@@ -116,7 +116,8 @@ export default class CreatePalette extends PureComponent<
       props.planStatus,
       props.config.features,
       props.editor,
-      props.service
+      props.service,
+      props.locales
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -133,6 +134,21 @@ export default class CreatePalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+  }
+
+  componentDidUpdate(previousProps: Readonly<CreatePaletteProps>): void {
+    if (previousProps.locales !== this.props.locales) {
+      this.contexts = setContexts(
+        ['SOURCE', 'SCALE', 'SETTINGS'],
+        this.props.planStatus,
+        this.props.config.features,
+        this.props.editor,
+        this.props.service,
+        this.props.locales
+      )
+
+      this.forceUpdate()
+    }
   }
 
   componentWillUnmount = () => {

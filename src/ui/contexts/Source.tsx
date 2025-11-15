@@ -75,7 +75,8 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
       props.planStatus,
       props.config.features,
       props.editor,
-      props.service
+      props.service,
+      props.locales
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -108,6 +109,27 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
         this.props.config.urls.platformUrl
       )
     })
+  }
+
+  componentDidUpdate(previousProps: Readonly<SourceProps>): void {
+    if (previousProps.locales !== this.props.locales) {
+      this.contexts = setContexts(
+        [
+          'SOURCE_OVERVIEW',
+          'SOURCE_AI',
+          'SOURCE_IMAGE',
+          'SOURCE_HARMONY',
+          'SOURCE_EXPLORE',
+        ],
+        this.props.planStatus,
+        this.props.config.features,
+        this.props.editor,
+        this.props.service,
+        this.props.locales
+      )
+
+      this.forceUpdate()
+    }
   }
 
   componentWillUnmount = () => {

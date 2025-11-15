@@ -112,7 +112,8 @@ export default class RemotePalettes extends PureComponent<
       props.planStatus,
       props.config.features,
       props.editor,
-      props.service
+      props.service,
+      props.locales
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -132,6 +133,27 @@ export default class RemotePalettes extends PureComponent<
       communityPalettesSearchQuery: '',
       orgPalettesSearchQuery: '',
       starredPalettesSearchQuery: '',
+    }
+  }
+
+  // Lifecycle
+  componentDidUpdate(previousProps: Readonly<RemotePalettesProps>): void {
+    if (previousProps.locales !== this.props.locales) {
+      this.contexts = setContexts(
+        [
+          'REMOTE_PALETTES_SELF',
+          'REMOTE_PALETTES_STARRED',
+          'REMOTE_PALETTES_ORG',
+          'REMOTE_PALETTES_COMMUNITY',
+        ],
+        this.props.planStatus,
+        this.props.config.features,
+        this.props.editor,
+        this.props.service,
+        this.props.locales
+      )
+
+      this.forceUpdate()
     }
   }
 
