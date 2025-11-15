@@ -175,7 +175,11 @@ export default class DangerZone extends PureComponent<
         <Section
           title={
             <SimpleItem
-              leftPartSlot={<SectionTitle label={'Danger zone'} />}
+              leftPartSlot={
+                <SectionTitle
+                  label={this.props.locales.settings.dangerZone.title}
+                />
+              }
               isListItem={false}
               alignment="CENTER"
             />
@@ -186,7 +190,7 @@ export default class DangerZone extends PureComponent<
                 <FormItem>
                   <Button
                     type="destructive"
-                    label="Delete palette"
+                    label={this.props.locales.settings.dangerZone.deletePalette}
                     action={() => this.setState({ isDeleteDialogOpen: true })}
                   />
                 </FormItem>

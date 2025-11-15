@@ -804,6 +804,10 @@
       },
       "title": "对比度管理"
     },
+    "dangerZone": {
+      "deletePalette": "删除调色板",
+      "title": "危险区域"
+    },
     "global": {
       "description": {
         "label": "描述"
@@ -1052,6 +1056,14 @@
       "vendors": "接受此项即表示您同意我们为上述目的使用 Cookie 和其他技术。",
       "welcome": "UI Color Palette 使用 Cookie 来了解您如何使用我们的插件并改善您的体验。"
     },
+    "language": {
+      "chineseCN": "中文 (简体)",
+      "englishUS": "English (US)",
+      "frenchFR": "Français (FR)",
+      "label": "更改语言",
+      "portugueseBR": "Português (BR)",
+      "title": "语言"
+    },
     "license": {
       "cta": {
         "activate": "激活您的许可证",
@@ -1076,14 +1088,6 @@
       }
     },
     "manageLicense": "管理许可证",
-    "language": {
-      "title": "语言",
-      "label": "更改语言",
-      "englishUS": "English (US)",
-      "frenchFR": "Français (FR)",
-      "chineseCN": "中文 (简体)",
-      "portugueseBR": "Português (BR)"
-    },
     "preferences": {
       "sync": {
         "message": "启用后，调色板将与本地库同步，本地项目将被更新，但可能会被移除。",

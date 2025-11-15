@@ -804,6 +804,10 @@
       },
       "title": "Gestion du contraste"
     },
+    "dangerZone": {
+      "deletePalette": "Supprimer la palette",
+      "title": "Zone dangereuse"
+    },
     "global": {
       "description": {
         "label": "Description"
@@ -1052,6 +1056,14 @@
       "vendors": "En acceptant ceci, vous acceptez notre utilisation de cookies et autres technologies aux fins énumérées ci-dessus.",
       "welcome": "UI Color Palette utilise des cookies pour comprendre comment vous utilisez notre plugin et améliorer votre expérience."
     },
+    "language": {
+      "chineseCN": "中文 (简体)",
+      "englishUS": "English (US)",
+      "frenchFR": "Français (FR)",
+      "label": "Changer de langue",
+      "portugueseBR": "Português (BR)",
+      "title": "Langue"
+    },
     "license": {
       "cta": {
         "activate": "Activer votre licence",
@@ -1076,14 +1088,6 @@
       }
     },
     "manageLicense": "Gérer la licence",
-    "language": {
-      "title": "Langue",
-      "label": "Changer de langue",
-      "englishUS": "English (US)",
-      "frenchFR": "Français (FR)",
-      "chineseCN": "中文 (简体)",
-      "portugueseBR": "Português (BR)"
-    },
     "preferences": {
       "sync": {
         "message": "Lorsqu'activé, la palette sera synchronisée avec la bibliothèque locale, donc les éléments locaux seront mis à jour, mais pourraient être supprimés.",

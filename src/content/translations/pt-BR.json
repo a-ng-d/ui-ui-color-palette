@@ -753,6 +753,10 @@
   },
   "separator": "・",
   "settings": {
+    "dangerZone": {
+      "deletePalette": "Excluir paleta",
+      "title": "Zona de perigo"
+    },
     "actions": {
       "paletteName": "Nome da paleta"
     },
