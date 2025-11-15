@@ -700,6 +700,19 @@
       "custom": "Ajuste com predefinição personalizada",
       "distribute": "Distribuir paradas com base no easing atual",
       "distributeAsTooltip": "Pressione ⇧ para distribuir paradas com base no easing atual",
+      "inputs": {
+        "backspace": "⌫ Backspace",
+        "click": "Clique",
+        "dbClick": "Clique duplo",
+        "drag": "Arrastar",
+        "enter": "↩︎ Enter",
+        "escape": "⎋ Esc",
+        "left": "←",
+        "or": "ou",
+        "right": "→",
+        "shift": "⇧",
+        "tab": "⇥ Tab"
+      },
       "move": "Mover cada parada",
       "navNext": "Selecionar próxima parada",
       "navPrevious": "Selecionar parada anterior",
@@ -753,10 +766,6 @@
   },
   "separator": "・",
   "settings": {
-    "dangerZone": {
-      "deletePalette": "Excluir paleta",
-      "title": "Zona de perigo"
-    },
     "actions": {
       "paletteName": "Nome da paleta"
     },
@@ -807,6 +816,10 @@
         "textThemeColorsDescription": "As cores de primeiro plano claras e escuras servem como referência para simular contraste e obter pontuações WCAG 2.1 e APCA"
       },
       "title": "Gerenciamento de contraste"
+    },
+    "dangerZone": {
+      "deletePalette": "Excluir paleta",
+      "title": "Zona de perigo"
     },
     "global": {
       "description": {
@@ -915,6 +928,20 @@
       "emptyMessage": "Use as predefinições de prompt ou crie a sua própria para gerar um conjunto de 5 cores",
       "form": {
         "presets": {
+          "labels": {
+            "blog": "Blog",
+            "corporate": "Corporativo",
+            "cyberpunk": "Cyberpunk",
+            "documentation": "Documentação",
+            "ecommerce": "E-commerce",
+            "landing": "Página de destino",
+            "minimalist": "Minimalista",
+            "nature": "Natureza",
+            "pastel": "Pastel",
+            "portfolio": "Portfólio",
+            "resume": "Currículo",
+            "vintage": "Vintage"
+          },
           "usecases": {
             "blog": "Blog pessoal com tipografia calorosa e legível",
             "documentation": "Documentação técnica com hierarquia clara",
@@ -1054,7 +1081,15 @@
       "privacyPolicy": "Ler nossa política de privacidade",
       "save": "Salvar preferências",
       "vendors": "Ao aceitar isso, você concorda com nosso uso de cookies e outras tecnologias para os fins listados acima.",
-      "welcome": "UI Color Palette usa cookies para entender como você usa nosso plugin e melhorar sua experiência."
+      "welcome": "UI Color Palette usa cookies para entender como você usa nosso app e melhorar sua experiência."
+    },
+    "language": {
+      "chineseCN": "中文 (简体)",
+      "englishUS": "English (US)",
+      "frenchFR": "Français (FR)",
+      "label": "Alterar idioma",
+      "portugueseBR": "Português (BR)",
+      "title": "Idioma"
     },
     "license": {
       "cta": {
@@ -1080,14 +1115,6 @@
       }
     },
     "manageLicense": "Gerenciar licença",
-    "language": {
-      "title": "Idioma",
-      "label": "Alterar idioma",
-      "englishUS": "English (US)",
-      "frenchFR": "Français (FR)",
-      "chineseCN": "中文 (简体)",
-      "portugueseBR": "Português (BR)"
-    },
     "preferences": {
       "sync": {
         "message": "Quando habilitado, a paleta será sincronizada com a biblioteca local, então os itens locais serão atualizados, mas podem ser removidos.",
@@ -1114,7 +1141,7 @@
   },
   "vendors": {
     "functional": {
-      "description": "Cookies necessários para o funcionamento do plugin",
+      "description": "Cookies necessários para o funcionamento da aplicação",
       "name": "Funcional"
     },
     "mixpanel": {
@@ -1126,7 +1153,7 @@
     "emptySourceColors": "Não há cor-fonte. Adicione-as manualmente na seção Cores.",
     "hslColorSpace": "O espaço de cor HSL pode incluir as cores-fonte na paleta, mas esta abordagem não garantirá consistência em luminosidade e contraste.",
     "noCommunityPaletteOnRemote": "Está bem vazio por aqui! Seja o primeiro a compartilhar sua paleta com outros usuários!",
-    "noOrgPalettes": "Não há paleta de organização aqui. Reivindique-as do autor do plugin.",
+    "noOrgPalettes": "Não há paleta de organização aqui. Reivindique-as do autor da aplicação.",
     "noPaletteOnCurrentPageOnDevMode": "Você pode pedir a um membro com permissões de edição para criar",
     "noPaletteOnCurrrentFile": "Não há UI Color Palette neste arquivo",
     "noPaletteOnCurrrentPage": "Não há UI Color Palette nesta página",

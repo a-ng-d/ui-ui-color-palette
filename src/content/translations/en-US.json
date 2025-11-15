@@ -700,6 +700,19 @@
       "custom": "Adjustment with Custom preset",
       "distribute": "Distribute stops based on current easing",
       "distributeAsTooltip": "Press ⇧ to distribute stops based on current easing",
+      "inputs": {
+        "backspace": "⌫ Backspace",
+        "click": "Click",
+        "dbClick": "Double click",
+        "drag": "Drag",
+        "enter": "↩︎ Enter",
+        "escape": "⎋ Esc",
+        "left": "←",
+        "or": "or",
+        "right": "→",
+        "shift": "⇧",
+        "tab": "⇥ Tab"
+      },
       "move": "Move every stop",
       "navNext": "Select next stop",
       "navPrevious": "Select previous stop",
@@ -915,6 +928,20 @@
       "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
       "form": {
         "presets": {
+          "labels": {
+            "blog": "Blog",
+            "corporate": "Corporate",
+            "cyberpunk": "Cyberpunk",
+            "documentation": "Documentation",
+            "ecommerce": "E-commerce",
+            "landing": "Landing page",
+            "minimalist": "Minimalist",
+            "nature": "Nature",
+            "pastel": "Pastel",
+            "portfolio": "Portfolio",
+            "resume": "Resume",
+            "vintage": "Vintage"
+          },
           "usecases": {
             "blog": "Personal blog with warm, readable typography",
             "documentation": "Technical documentation with clear hierarchy",
@@ -1054,7 +1081,7 @@
       "privacyPolicy": "Read our Privacy Policy",
       "save": "Save preferences",
       "vendors": "By accepting this, you agree to our use of cookies and other technologies for the purposes listed above.",
-      "welcome": "UI Color Palette uses cookies to understand how you use our plugin and to improve your experience."
+      "welcome": "UI Color Palette uses cookies to understand how you use our application and to improve your experience."
     },
     "language": {
       "chineseCN": "中文 (简体)",
@@ -1114,7 +1141,7 @@
   },
   "vendors": {
     "functional": {
-      "description": "Cookies that are necessary for the plugin to work",
+      "description": "Cookies that are necessary for the application to work",
       "name": "Functional"
     },
     "mixpanel": {
@@ -1126,7 +1153,7 @@
     "emptySourceColors": "There is no source color. Add them manually in the Colors section.",
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
-    "noOrgPalettes": "There is no organization palette here. Claim your them from the plugin author.",
+    "noOrgPalettes": "There is no organization palette here. Claim your them from the application author.",
     "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
     "noPaletteOnCurrrentFile": "There is no UI Color Palette on this file",
     "noPaletteOnCurrrentPage": "There is no UI Color Palette on this page",

@@ -360,13 +360,13 @@
     },
     "maxNumberOfLocalPalettes": "Passez à /pro pour ajouter plus de {maxCount} palettes locales",
     "maxNumberOfSourceColors": "Passez à /pro pour ajouter plus de {maxCount} couleurs sources",
-    "maxNumberOfStops": "Passez à /pro pour ajouter plus de {maxCount} arrêts",
+    "maxNumberOfStops": "Passez à /pro pour ajouter plus de {maxCount} étapes",
     "multipleBlockingMessages": {
       "chroma": "Réinitialiser la chroma",
       "head": "Vous pouvez débloquer la création si vous : {messages}",
       "lockedSourceColors": "Déverrouiller les couleurs sources",
       "sourceColors": "Diminuer les couleurs sources",
-      "stops": "Diminuer les arrêts",
+      "stops": "Diminuer les étapes",
       "visionSimulationMode": "Réinitialiser la simulation de vision"
     },
     "noResult": "Aucune palette ne correspond à votre recherche",
@@ -536,7 +536,7 @@
         "discount": "48$ /an sur Figma",
         "regular": "5$ /mois sur Figma"
       },
-      "text": "◻ Palettes illimitées{br}◻ Couleurs sources illimitées{br}◻ Arrêts illimités{br}◻ Modes de couleur illimités{br}◻ Crédits illimités",
+      "text": "◻ Palettes illimitées{br}◻ Couleurs sources illimitées{br}◻ Étapes illimitées{br}◻ Modes de couleur illimités{br}◻ Crédits illimités",
       "title": "UI Color Palette /pro /figma"
     },
     "one": {
@@ -545,7 +545,7 @@
         "discount": "56$ /à vie sur Figma, Penpot, Sketch, Framer",
         "regular": "70$ /à vie sur Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Palettes illimitées{br}◻ Couleurs sources illimitées{br}◻ Arrêts illimités{br}◻ Modes de couleur illimités{br}◻ Crédits illimités",
+      "text": "◻ Palettes illimitées{br}◻ Couleurs sources illimitées{br}◻ Étapes illimitées{br}◻ Modes de couleur illimités{br}◻ Crédits illimités",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -629,29 +629,29 @@
   },
   "scale": {
     "actions": {
-      "addStop": "Ajouter un arrêt",
-      "applyEasing": "Appliquer directement l'atténuation aux arrêts",
-      "removeStop": "Supprimer l'arrêt",
-      "resetScale": "Réinitialiser les arrêts et la chroma",
-      "resetStops": "Réinitialiser les arrêts",
-      "reverseStops": "Inverser les arrêts"
+      "addStop": "Ajouter une étape",
+      "applyEasing": "Appliquer directement la courbe aux étapes",
+      "removeStop": "Supprimer l'étape",
+      "resetScale": "Réinitialiser les étapes et la chroma",
+      "resetStops": "Réinitialiser les étapes",
+      "reverseStops": "Inverser les étapes"
     },
     "contrast": {
-      "label": "Mode de contraste",
+      "label": "Mode contraste",
       "title": "Rapport de contraste"
     },
     "easing": {
       "cubic": "Cubique",
-      "easeIn": "Atténuation en entrée",
-      "easeInOut": "Atténuation en entrée et sortie",
-      "easeOut": "Atténuation en sortie",
-      "label": "Atténuation de distribution",
+      "easeIn": "Ease in",
+      "easeInOut": "Ease in out",
+      "easeOut": "Ease out",
+      "label": "Courbe de distribution",
       "linear": "Linéaire",
-      "preview": "Distribuez les arrêts de couleur pour équilibrer votre palette de couleurs de plusieurs façons",
+      "preview": "Distribuez les étapes de couleur pour équilibrer votre palette de couleurs de plusieurs façons",
       "quad": "Quadratique",
       "sine": "Sinusoïdale"
     },
-    "howTo": "Comment utiliser",
+    "howTo": "Comment ajuster",
     "keyboardShortcuts": "Revoir les raccourcis clavier",
     "namingConvention": {
       "hundreds": "100 - 1000",
@@ -695,21 +695,34 @@
       }
     },
     "tips": {
-      "add": "Ajouter un arrêt",
+      "add": "Ajouter une étape",
       "cta": "Compris",
       "custom": "Ajustement avec le préréglage personnalisé",
-      "distribute": "Distribuer les arrêts selon l'atténuation actuelle",
-      "distributeAsTooltip": "Appuyez sur ⇧ pour distribuer les arrêts selon l'atténuation actuelle",
-      "move": "Déplacer chaque arrêt",
-      "navNext": "Sélectionner l'arrêt suivant",
-      "navPrevious": "Sélectionner l'arrêt précédent",
-      "remove": "Supprimer l'arrêt",
-      "select": "Sélectionner l'arrêt",
-      "shiftLeft": "Décaler l'arrêt vers la gauche",
-      "shiftRight": "Décaler l'arrêt vers la droite",
+      "distribute": "Distribuer les étapes selon la courbe actuelle",
+      "distributeAsTooltip": "Appuyez sur ⇧ pour distribuer les étapes selon la courbe actuelle",
+      "inputs": {
+        "backspace": "⌫ Retour arrière",
+        "click": "Clique",
+        "dbClick": "Double clique",
+        "drag": "Glisser",
+        "enter": "↩︎ Entrée",
+        "escape": "⎋ Échap",
+        "left": "←",
+        "or": "ou",
+        "right": "→",
+        "shift": "⇧",
+        "tab": "⇥ Tab"
+      },
+      "move": "Déplacer chaque étape",
+      "navNext": "Sélectionner l'étape suivante",
+      "navPrevious": "Sélectionner l'étape précédente",
+      "remove": "Supprimer l'étape",
+      "select": "Sélectionner l'étape",
+      "shiftLeft": "Décaler l'étape vers la gauche",
+      "shiftRight": "Décaler l'étape vers la droite",
       "title": "Raccourcis clavier",
-      "type": "Taper la valeur d'arrêt",
-      "unselect": "Désélectionner l'arrêt"
+      "type": "Taper la valeur de l'étape",
+      "unselect": "Désélectionner l'étape"
     },
     "title": "Échelle de luminosité"
   },
@@ -851,11 +864,11 @@
     "ai": {
       "add": "Générer des couleurs IA",
       "empty": "Supprimer les couleurs IA",
-      "helper": "Générer des couleurs intelligentes basées sur des invites créatives utilisant Mistral AI ({fee} crédits)",
+      "helper": "Générer des couleurs intelligentes basées sur des prompts créatifs utilisant Mistral AI ({fee} crédits)",
       "title": "Couleurs IA"
     },
     "canvas": {
-      "tip": "Sélectionnez autant d'{element} (remplis de couleur) que nécessaire sur le canevas {canvas}",
+      "tip": "Sélectionnez autant de {element} (remplis de couleur) que nécessaire sur le canevas {canvas}",
       "title": "Couleurs sélectionnées"
     },
     "colourLovers": {
@@ -878,7 +891,7 @@
     },
     "contexts": {
       "ai": "IA",
-      "explore": "Explorer",
+      "explore": "Explorateur",
       "harmony": "Roue",
       "image": "Image",
       "overview": "Aperçu"
@@ -912,9 +925,23 @@
         "text": "Texte",
         "warning": "Avertissement"
       },
-      "emptyMessage": "Utilisez les préréglages d'invite ou créez le vôtre pour générer un ensemble de 5 couleurs",
+      "emptyMessage": "Utilisez des prompts préréglés ou créez le vôtre pour générer un ensemble de 5 couleurs",
       "form": {
         "presets": {
+          "labels": {
+            "blog": "Blog",
+            "corporate": "Entreprise",
+            "cyberpunk": "Cyberpunk",
+            "documentation": "Documentation",
+            "ecommerce": "E-commerce",
+            "landing": "Page web",
+            "minimalist": "Minimaliste",
+            "nature": "Nature",
+            "pastel": "Pastel",
+            "portfolio": "Portefolio",
+            "resume": "CV",
+            "vintage": "Vintage"
+          },
           "usecases": {
             "blog": "Blog personnel avec typographie chaleureuse et lisible",
             "documentation": "Documentation technique avec hiérarchie claire",
@@ -936,7 +963,7 @@
           "placeholder": "Décrivez l'ambiance ou le thème que vous voulez (ex. 'Startup tech moderne avec énergie vibrante', 'App de méditation calme avec tons terre')"
         }
       },
-      "helper": "Demander les couleurs coûte {fee} crédits",
+      "helper": "Générer des couleurs coûte {fee} crédits",
       "title": "Couleurs générées par IA"
     },
     "harmony": {
@@ -1054,7 +1081,7 @@
       "privacyPolicy": "Lire notre politique de confidentialité",
       "save": "Sauvegarder les préférences",
       "vendors": "En acceptant ceci, vous acceptez notre utilisation de cookies et autres technologies aux fins énumérées ci-dessus.",
-      "welcome": "UI Color Palette utilise des cookies pour comprendre comment vous utilisez notre plugin et améliorer votre expérience."
+      "welcome": "UI Color Palette utilise des cookies pour comprendre comment vous utilisez notre application et améliorer votre expérience."
     },
     "language": {
       "chineseCN": "中文 (简体)",
@@ -1114,7 +1141,7 @@
   },
   "vendors": {
     "functional": {
-      "description": "Cookies nécessaires au fonctionnement du plugin",
+      "description": "Cookies nécessaires au fonctionnement de l'application",
       "name": "Fonctionnel"
     },
     "mixpanel": {
@@ -1126,7 +1153,7 @@
     "emptySourceColors": "Il n'y a pas de couleur source. Ajoutez-les manuellement dans la section Couleurs.",
     "hslColorSpace": "L'espace colorimétrique HSL peut inclure les couleurs sources dans la palette, mais cette approche n'assurera pas la cohérence en luminosité et contraste.",
     "noCommunityPaletteOnRemote": "C'est plutôt vide par ici ! Soyez le premier à partager votre palette avec d'autres utilisateurs !",
-    "noOrgPalettes": "Il n'y a pas de palette d'organisation ici. Réclamez-les auprès de l'auteur du plugin.",
+    "noOrgPalettes": "Il n'y a pas de palette d'organisation ici. Réclamez-les auprès de l'auteur de l'application.",
     "noPaletteOnCurrentPageOnDevMode": "Vous pouvez demander à un membre ayant les permissions d'édition de créer",
     "noPaletteOnCurrrentFile": "Il n'y a pas de UI Color Palette sur ce fichier",
     "noPaletteOnCurrrentPage": "Il n'y a pas de UI Color Palette sur cette page",

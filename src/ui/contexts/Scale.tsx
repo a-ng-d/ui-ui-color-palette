@@ -666,42 +666,74 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   <List>
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.move}
-                      shortcuts={[[isMacOrWinKeyboard, 'drag']]}
+                      shortcuts={[
+                        [
+                          isMacOrWinKeyboard,
+                          this.props.locales.scale.tips.inputs.drag,
+                        ],
+                      ]}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.distribute}
-                      shortcuts={[['⇧', 'drag']]}
+                      shortcuts={[
+                        [
+                          this.props.locales.scale.tips.inputs.shift,
+                          this.props.locales.scale.tips.inputs.drag,
+                        ],
+                      ]}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.select}
-                      shortcuts={[['click']]}
+                      shortcuts={[[this.props.locales.scale.tips.inputs.click]]}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.unselect}
-                      shortcuts={[['⎋ Esc']]}
+                      shortcuts={[
+                        [this.props.locales.scale.tips.inputs.escape],
+                      ]}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.navPrevious}
-                      shortcuts={[['⇧', '⇥ Tab']]}
+                      shortcuts={[
+                        [
+                          this.props.locales.scale.tips.inputs.shift,
+                          this.props.locales.scale.tips.inputs.tab,
+                        ],
+                      ]}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.navNext}
-                      shortcuts={[['⇥ Tab']]}
+                      shortcuts={[[this.props.locales.scale.tips.inputs.tab]]}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.type}
-                      shortcuts={[['db click'], ['↩︎ Enter']]}
-                      separator="or"
+                      shortcuts={[
+                        [this.props.locales.scale.tips.inputs.dbClick],
+                        [this.props.locales.scale.tips.inputs.enter],
+                      ]}
+                      separator={this.props.locales.scale.tips.inputs.or}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.shiftLeft}
-                      shortcuts={[['←'], [isMacOrWinKeyboard, '←']]}
-                      separator="or"
+                      shortcuts={[
+                        [this.props.locales.scale.tips.inputs.left],
+                        [
+                          isMacOrWinKeyboard,
+                          this.props.locales.scale.tips.inputs.left,
+                        ],
+                      ]}
+                      separator={this.props.locales.scale.tips.inputs.or}
                     />
                     <KeyboardShortcutItem
                       label={this.props.locales.scale.tips.shiftRight}
-                      shortcuts={[['→'], [isMacOrWinKeyboard, '→']]}
-                      separator="or"
+                      shortcuts={[
+                        [this.props.locales.scale.tips.inputs.right],
+                        [
+                          isMacOrWinKeyboard,
+                          this.props.locales.scale.tips.inputs.right,
+                        ],
+                      ]}
+                      separator={this.props.locales.scale.tips.inputs.or}
                     />
                   </List>
                 ),
@@ -723,11 +755,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                       <List>
                         <KeyboardShortcutItem
                           label={this.props.locales.scale.tips.add}
-                          shortcuts={[['click']]}
+                          shortcuts={[
+                            [this.props.locales.scale.tips.inputs.click],
+                          ]}
                         />
                         <KeyboardShortcutItem
                           label={this.props.locales.scale.tips.remove}
-                          shortcuts={[['⌫']]}
+                          shortcuts={[
+                            [this.props.locales.scale.tips.inputs.backspace],
+                          ]}
                         />
                       </List>
                     </>

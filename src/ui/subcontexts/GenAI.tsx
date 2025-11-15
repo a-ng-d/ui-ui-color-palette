@@ -85,29 +85,42 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
 
   // Get predefined prompts
   getPrompts = () => {
+    const label = this.props.locales.source.genAi.form.presets.labels
     const vibes = this.props.locales.source.genAi.form.presets.vibes
     const usecases = this.props.locales.source.genAi.form.presets.usecases
 
     return {
       vibes: [
-        { key: 'cyberpunk', label: 'Cyberpunk', prompt: vibes.cyberpunk },
-        { key: 'minimalist', label: 'Minimalist', prompt: vibes.minimalist },
-        { key: 'pastel', label: 'Pastel', prompt: vibes.pastel },
-        { key: 'corporate', label: 'Corporate', prompt: vibes.corporate },
-        { key: 'nature', label: 'Nature', prompt: vibes.nature },
-        { key: 'vintage', label: 'Vintage', prompt: vibes.vintage },
+        { key: 'cyberpunk', label: label.cyberpunk, prompt: vibes.cyberpunk },
+        {
+          key: 'minimalist',
+          label: label.minimalist,
+          prompt: vibes.minimalist,
+        },
+        { key: 'pastel', label: label.pastel, prompt: vibes.pastel },
+        { key: 'corporate', label: label.corporate, prompt: vibes.corporate },
+        { key: 'nature', label: label.nature, prompt: vibes.nature },
+        { key: 'vintage', label: label.vintage, prompt: vibes.vintage },
       ],
       usecases: [
-        { key: 'landing', label: 'Landing Page', prompt: usecases.landing },
-        { key: 'blog', label: 'Blog', prompt: usecases.blog },
-        { key: 'resume', label: 'Resume', prompt: usecases.resume },
-        { key: 'portfolio', label: 'Portfolio', prompt: usecases.portfolio },
+        { key: 'landing', label: label.landing, prompt: usecases.landing },
+        { key: 'blog', label: label.blog, prompt: usecases.blog },
+        { key: 'resume', label: label.resume, prompt: usecases.resume },
+        {
+          key: 'portfolio',
+          label: label.portfolio,
+          prompt: usecases.portfolio,
+        },
         {
           key: 'documentation',
-          label: 'Documentation',
+          label: label.documentation,
           prompt: usecases.documentation,
         },
-        { key: 'ecommerce', label: 'E-commerce', prompt: usecases.ecommerce },
+        {
+          key: 'ecommerce',
+          label: label.ecommerce,
+          prompt: usecases.ecommerce,
+        },
       ],
     }
   }
@@ -281,7 +294,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
               <SectionTitle
                 indicator="0"
                 label={this.props.locales.source.genAi.title}
-                helper={this.props.locales.source.imagePalette.helper.replace(
+                helper={this.props.locales.source.genAi.helper.replace(
                   '{fee}',
                   this.props.config.fees.aiColorsGenerate.toString()
                 )}
@@ -360,7 +373,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
             <SectionTitle
               indicator="5"
               label={this.props.locales.source.genAi.title}
-              helper={this.props.locales.source.imagePalette.helper.replace(
+              helper={this.props.locales.source.genAi.helper.replace(
                 '{fee}',
                 this.props.config.fees.aiColorsGenerate.toString()
               )}

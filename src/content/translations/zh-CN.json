@@ -700,6 +700,19 @@
       "custom": "使用自定义预设调整",
       "distribute": "基于当前缓动分布色阶",
       "distributeAsTooltip": "按 ⇧ 基于当前缓动分布色阶",
+      "inputs": {
+        "backspace": "⌫ 删除",
+        "click": "点击",
+        "dbClick": "双击",
+        "drag": "拖动",
+        "enter": "↩︎ 回车",
+        "escape": "⎋ 退出",
+        "left": "←",
+        "or": "或",
+        "right": "→",
+        "shift": "⇧",
+        "tab": "⇥ 制表符"
+      },
       "move": "移动每个色阶",
       "navNext": "选择下一个色阶",
       "navPrevious": "选择上一个色阶",
@@ -915,6 +928,20 @@
       "emptyMessage": "使用提示预设或自定义提示生成 5 种颜色",
       "form": {
         "presets": {
+          "labels": {
+            "blog": "博客",
+            "corporate": "企业",
+            "cyberpunk": "赛博朋克",
+            "documentation": "文档",
+            "ecommerce": "电商",
+            "landing": "着陆页",
+            "minimalist": "极简主义",
+            "nature": "自然",
+            "pastel": "粉彩",
+            "portfolio": "作品集",
+            "resume": "简历",
+            "vintage": "复古"
+          },
           "usecases": {
             "blog": "温暖易读排版的个人博客",
             "documentation": "层次清晰的技术文档",
@@ -1054,7 +1081,7 @@
       "privacyPolicy": "阅读我们的隐私政策",
       "save": "保存偏好设置",
       "vendors": "接受此项即表示您同意我们为上述目的使用 Cookie 和其他技术。",
-      "welcome": "UI Color Palette 使用 Cookie 来了解您如何使用我们的插件并改善您的体验。"
+      "welcome": "UI Color Palette 使用 Cookie 来了解您如何使用我们的应用并改善您的体验。"
     },
     "language": {
       "chineseCN": "中文 (简体)",
@@ -1114,7 +1141,7 @@
   },
   "vendors": {
     "functional": {
-      "description": "插件正常工作所必需的 Cookie",
+      "description": "应用正常工作所必需的 Cookie",
       "name": "功能性"
     },
     "mixpanel": {
@@ -1126,7 +1153,7 @@
     "emptySourceColors": "没有源颜色。在颜色部分手动添加它们。",
     "hslColorSpace": "HSL 颜色空间可能在调色板中包含源颜色，但这种方法不能确保亮度和对比度的一致性。",
     "noCommunityPaletteOnRemote": "这里很空！成为第一个与其他用户分享调色板的人！",
-    "noOrgPalettes": "这里没有组织调色板。请向插件作者申请。",
+    "noOrgPalettes": "这里没有组织调色板。请向应用作者申请。",
     "noPaletteOnCurrentPageOnDevMode": "您可以请求具有编辑权限的成员创建",
     "noPaletteOnCurrrentFile": "此文件上没有 UI Color Palette",
     "noPaletteOnCurrrentPage": "此页面上没有 UI Color Palette",
