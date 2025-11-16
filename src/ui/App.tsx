@@ -46,7 +46,7 @@ import {
   Service,
   Plans,
 } from '../types/app'
-import { defaultPreset, presets } from '../stores/presets'
+import { getDefaultPreset, getPresets, updatePresets } from '../stores/presets'
 import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
@@ -207,8 +207,9 @@ class App extends Component<AppProps, AppStates> {
       name: props.config.locales.settings.global.name.default,
       description: '',
       preset:
-        presets.find((preset) => preset.id === 'CUSTOM_10_100') ??
-        defaultPreset,
+        getPresets(props.config.locales).find(
+          (preset) => preset.id === 'CUSTOM_10_100'
+        ) ?? getDefaultPreset(props.config.locales),
       distributionEasing: 'LINEAR',
       scale: {},
       shift: {
@@ -290,6 +291,9 @@ class App extends Component<AppProps, AppStates> {
       this.isFirstLanguageEmission = false
 
       const newLocales = locales.set(value)
+
+      // Mettre à jour les presets avec la nouvelle langue
+      updatePresets(newLocales)
 
       this.setState({
         lang: value,
@@ -787,7 +791,9 @@ class App extends Component<AppProps, AppStates> {
 
   onResetPalette = () => {
     const preset =
-      presets.find((preset) => preset.id === 'CUSTOM_10_100') ?? defaultPreset
+      getPresets(this.state.locales).find(
+        (preset) => preset.id === 'CUSTOM_10_100'
+      ) ?? getDefaultPreset(this.state.locales)
     const scale = doScale(preset.stops, preset.min, preset.max, preset.easing)
 
     this.setState({
