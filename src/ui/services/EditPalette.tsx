@@ -755,7 +755,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
       return {
         label:
           theme.name === 'None'
-            ? this.props.locales.themes.defaultName
+            ? this.props.locales.themes.noneTheme
             : theme.name,
         value: theme.id,
         feature: 'SWITCH_THEME',
