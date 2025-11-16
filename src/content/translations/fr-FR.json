@@ -203,7 +203,7 @@
   "contexts": {
     "back": "Retour aux palettes",
     "colors": "Couleurs",
-    "export": "Exporter",
+    "export": "Export",
     "palettes": "Palettes",
     "scale": "Échelle",
     "settings": "Paramètres",
@@ -676,7 +676,7 @@
       "google": "Google",
       "helper": "Préréglage de luminosité",
       "label": "Préréglage",
-      "legacy": "Personnalisé (Hérité)",
+      "legacy": "Personnalisé (Ancien)",
       "material": "Material Design, 50-900",
       "material3": "Material 3, 0-100",
       "more": "Plus de préréglages",
@@ -1061,6 +1061,7 @@
     },
     "defaultName": "UI Color Mode sans titre",
     "moreParameters": "{count} paramètres",
+    "noneTheme": "Aucun",
     "paletteBackgroundColor": {
       "label": "Arrière-plan du document"
     },

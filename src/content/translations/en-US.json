@@ -1061,6 +1061,7 @@
     },
     "defaultName": "Untitled UI Color Mode",
     "moreParameters": "{count} parameters",
+    "noneTheme": "None",
     "paletteBackgroundColor": {
       "label": "Document background"
     },

@@ -1061,6 +1061,7 @@
     },
     "defaultName": "未命名 UI 模式",
     "moreParameters": "{count} 个参数",
+    "noneTheme": "无",
     "paletteBackgroundColor": {
       "label": "文档背景"
     },

@@ -753,7 +753,10 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
   setThemes = (): Array<DropdownOption> => {
     const themes = this.workingThemes().map((theme) => {
       return {
-        label: theme.name,
+        label:
+          theme.name === 'None'
+            ? this.props.locales.themes.defaultName
+            : theme.name,
         value: theme.id,
         feature: 'SWITCH_THEME',
         type: 'OPTION',

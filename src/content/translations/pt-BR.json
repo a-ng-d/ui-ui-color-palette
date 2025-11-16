@@ -1061,6 +1061,7 @@
     },
     "defaultName": "UI Color Mode sem título",
     "moreParameters": "{count} parâmetros",
+    "noneTheme": "Nenhum",
     "paletteBackgroundColor": {
       "label": "Fundo do documento"
     },
