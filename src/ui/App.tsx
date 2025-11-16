@@ -292,7 +292,6 @@ class App extends Component<AppProps, AppStates> {
 
       const newLocales = locales.set(value)
 
-      // Mettre à jour les presets avec la nouvelle langue
       updatePresets(newLocales)
 
       this.setState({
