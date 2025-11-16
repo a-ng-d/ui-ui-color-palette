@@ -2,6 +2,7 @@ import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
 import {
   BaseConfiguration,
+  FullConfiguration,
   MetaConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
@@ -36,6 +37,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 
 interface GlanceProps extends BaseProps, WithConfigProps {
   id: string
+  localPalettesList: Array<FullConfiguration>
   onSelectPalette: (id: string) => void
   onClosePalette: () => void
 }
@@ -411,7 +413,9 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         this.props.config,
                         this.props.service,
                         this.props.editor
-                      ).ADD_PALETTE.isBlocked()}
+                      ).LOCAL_PALETTES.isReached(
+                        this.props.localPalettesList.length
+                      )}
                       isNew={Glance.features(
                         this.props.planStatus,
                         this.props.config,
