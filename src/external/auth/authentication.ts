@@ -44,17 +44,6 @@ export const signIn = async ({
           },
           '*'
         )
-        sendPluginMessage(
-          {
-            pluginMessage: {
-              type: 'OPEN_IN_BROWSER',
-              data: {
-                url: `${authUrl}/?passkey=${result.passkey}`,
-              },
-            },
-          },
-          '*'
-        )
         const poll = setInterval(async () => {
           fetch(getProxiedUrl(authWorkerUrl), {
             method: 'GET',
