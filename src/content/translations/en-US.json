@@ -671,7 +671,7 @@
       "customHundreds": "Custom, 100-1000",
       "customOnes": "Custom, 1-10",
       "customTens": "Custom, 10-100",
-      "fluent": "Fluent, 10-160 (Microsoft)",
+      "fluent": "Fluent 2, 10-160 (Microsoft)",
       "framework": "Frameworks",
       "google": "Google",
       "helper": "Lightness preset",
