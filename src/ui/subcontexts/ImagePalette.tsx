@@ -108,21 +108,35 @@ export default class ImagePalette extends PureComponent<
       [action: string]: () => void
     } = {
       GET_IMAGE_HASH: async () => {
-        const arrayBuffer = path.data.arrayBuffer
-        const blob = new Blob([arrayBuffer as ArrayBuffer], {
-          type: 'image/png',
-        })
-        const imageUrl = URL.createObjectURL(blob)
-        const imageTitle = path.data.imageTitle
+        if (
+          !ImagePalette.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SOURCE_IMAGE_UPLOAD.isReached(this.props.creditsCount * -1 - 1)
+        ) {
+          const arrayBuffer = path.data.arrayBuffer
+          const blob = new Blob([arrayBuffer as ArrayBuffer], {
+            type: 'image/png',
+          })
+          const imageUrl = URL.createObjectURL(blob)
+          const imageTitle = path.data.imageTitle
 
-        const dominantColors: Array<DominantColorResult> =
-          await DominantColors.extract(arrayBuffer as ArrayBuffer, 5)
+          const dominantColors: Array<DominantColorResult> =
+            await DominantColors.extract(arrayBuffer as ArrayBuffer, 5)
 
-        this.setState({
-          imageUrl: imageUrl,
-          imageTitle: imageTitle,
-          dominantColors: dominantColors,
-        })
+          if (this.props.config.plan.isProEnabled)
+            $creditsCount.set(
+              $creditsCount.get() - this.props.config.fees.imageColorsExtract
+            )
+
+          this.setState({
+            imageUrl: imageUrl,
+            imageTitle: imageTitle,
+            dominantColors: dominantColors,
+          })
+        }
       },
 
       DEFAULT: () => null,
