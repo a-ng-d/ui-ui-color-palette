@@ -652,7 +652,7 @@ const globalConfig: Config = {
     pluginId: '123456789',
   },
   plan: {
-    isProEnabled: true,
+    isProEnabled: false,
     isTrialEnabled: false,
     trialTime: 72,
     creditsLimit: 400,
@@ -670,7 +670,6 @@ const globalConfig: Config = {
     databaseUrl: import.meta.env.VITE_SUPABASE_URL as string,
     authUrl: 'http://localhost:3000',
     storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,
-    aiApiUrl: import.meta.env.VITE_MISTRAL_AI_API_URL as string,
     platformUrl: window.location.origin,
     uiUrl: 'http://localhost:4400',
     documentationUrl: 'https://uicp.ylb.lt/docs',

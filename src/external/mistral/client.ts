@@ -1,123 +1,77 @@
-import { getProxiedUrl } from '../../utils/url'
-import {
-  MistralRequest,
-  MistralResponse,
-  MistralError,
-  MistralColorPalette,
-} from './types'
+import { Mistral } from '@mistralai/mistralai'
+import { MistralColorPalette } from './types'
 
 class MistralClient {
-  private apiKey: string
-  private baseUrl: string
+  private mistral: Mistral
+  private agentId: string
 
-  constructor(baseUrl: string, apiKey: string) {
-    this.apiKey = apiKey
-    this.baseUrl = baseUrl
+  constructor(apiKey: string) {
+    this.mistral = new Mistral({
+      apiKey: apiKey,
+    })
+    this.agentId = 'ag_019a9254590972e1af106aecc7a13cfe'
   }
 
-  private async makeRequest(request: MistralRequest): Promise<MistralResponse> {
+  private async callAgent(message: string): Promise<string> {
     try {
-      const response = await fetch(
-        getProxiedUrl(`${this.baseUrl}/chat/completions`),
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.apiKey}`,
+      const result = await this.mistral.agents.complete({
+        messages: [
+          {
+            content: message,
+            role: 'user',
           },
-          body: JSON.stringify(request),
-        }
-      )
+        ],
+        agentId: this.agentId,
+      })
 
-      if (!response.ok) {
-        const errorData: MistralError = await response.json()
-        throw new Error(`Mistral API Error: ${errorData.error.message}`)
-      }
+      const content = result.choices[0]?.message?.content
+      if (!content)
+        throw new Error('No response received from Mistral AI agent')
 
-      return await response.json()
+      // Handle both string and ContentChunk[] types
+      if (typeof content === 'string') return content
+
+      if (Array.isArray(content))
+        // If content is an array of chunks, concatenate text content
+        return content
+          .map((chunk) => ('text' in chunk ? chunk.text : ''))
+          .join('')
+
+      throw new Error('Unexpected content type from Mistral AI agent')
     } catch (error) {
       if (error instanceof Error)
         throw new Error(
-          `Failed to communicate with Mistral API: ${error.message}`
+          `Failed to communicate with Mistral AI agent: ${error.message}`
         )
       throw new Error(
-        'Unknown error occurred while communicating with Mistral API'
+        'Unknown error occurred while communicating with Mistral AI agent'
       )
     }
   }
 
   private createColorPalettePrompt(userPrompt: string): string {
-    return `You are an expert in design and color theory. Generate a 5-color palette for "${userPrompt}".
-
-Respond ONLY with valid JSON in this exact format:
-{
-  "primary": {
-    "name": "Descriptive name for the primary color",
-    "hex": "#RRGGBB",
-    "rgb": {"r": 0-255, "g": 0-255, "b": 0-255},
-    "description": "Short description of this color's usage"
-  },
-  "text": {
-    "name": "Descriptive name for the text color",
-    "hex": "#RRGGBB", 
-    "rgb": {"r": 0-255, "g": 0-255, "b": 0-255},
-    "description": "Neutral color for main text"
-  },
-  "success": {
-    "name": "Descriptive name for the success color",
-    "hex": "#RRGGBB",
-    "rgb": {"r": 0-255, "g": 0-255, "b": 0-255},
-    "description": "Color to indicate success"
-  },
-  "warning": {
-    "name": "Descriptive name for the warning color",
-    "hex": "#RRGGBB",
-    "rgb": {"r": 0-255, "g": 0-255, "b": 0-255},
-    "description": "Color for warnings"
-  },
-  "alert": {
-    "name": "Descriptive name for the error color",
-    "hex": "#RRGGBB",
-    "rgb": {"r": 0-255, "g": 0-255, "b": 0-255},
-    "description": "Color for errors"
+    return `You are an expert in design and color theory. Generate a 5-color palette for "${userPrompt}".`
   }
-}
 
-Colors must:
-- Be consistent with the "${userPrompt}" theme
-- Have good contrast for accessibility
-- Form a harmonious palette
-- Have creative and descriptive names related to the theme`
+  private extractJsonFromMarkdown(content: string): string {
+    // Extract JSON from markdown code blocks
+    const jsonMatch = content.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
+    if (jsonMatch && jsonMatch[1]) return jsonMatch[1].trim()
+    // If no markdown blocks found, return content as is
+    return content.trim()
   }
 
   async generateColorPalette(userPrompt: string): Promise<MistralColorPalette> {
-    const request: MistralRequest = {
-      model: 'mistral-small-latest',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'You are an expert in design and color theory. You generate only valid JSON.',
-        },
-        {
-          role: 'user',
-          content: this.createColorPalettePrompt(userPrompt),
-        },
-      ],
-      temperature: 0.7,
-      max_tokens: 1000,
-      response_format: {
-        type: 'json_object',
-      },
-    }
-
     try {
-      const response = await this.makeRequest(request)
-      const content = response.choices[0]?.message?.content
+      const prompt = this.createColorPalettePrompt(userPrompt)
+      const content = await this.callAgent(prompt)
 
-      if (!content) throw new Error('No response received from Mistral AI')
+      if (!content)
+        throw new Error('No response received from Mistral AI agent')
 
-      const palette: MistralColorPalette = JSON.parse(content)
+      // Extract JSON from potential markdown wrapper
+      const cleanedContent = this.extractJsonFromMarkdown(content)
+      const palette: MistralColorPalette = JSON.parse(cleanedContent)
 
       // Basic structure validation
       if (
@@ -127,12 +81,16 @@ Colors must:
         !palette.warning ||
         !palette.alert
       )
-        throw new Error('Incomplete response from Mistral AI - missing colors')
+        throw new Error(
+          'Incomplete response from Mistral AI agent - missing colors'
+        )
 
       return palette
     } catch (error) {
       if (error instanceof SyntaxError)
-        throw new Error('Malformed response from Mistral AI (invalid JSON)')
+        throw new Error(
+          'Malformed response from Mistral AI agent (invalid JSON)'
+        )
       throw error
     }
   }
@@ -140,9 +98,8 @@ Colors must:
 
 let mistralInstance: MistralClient | null = null
 
-export const initMistral = (baseUrl: string, apiKey: string) => {
-  if (!mistralInstance || mistralInstance['apiKey'] !== apiKey)
-    mistralInstance = new MistralClient(baseUrl, apiKey)
+export const initMistral = (apiKey: string) => {
+  if (!mistralInstance) mistralInstance = new MistralClient(apiKey)
   return mistralInstance
 }
 

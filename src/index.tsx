@@ -97,8 +97,7 @@ if (globalConfig.env.isSupabaseEnabled)
   initSupabase(globalConfig.urls.databaseUrl, supabaseAnonKey)
 
 // Mistral AI
-if (globalConfig.env.isMistralAiEnabled)
-  initMistral(globalConfig.urls.aiApiUrl, mistralApiKey)
+if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
 
 // Bridge Canvas <> UI
 window.addEventListener(

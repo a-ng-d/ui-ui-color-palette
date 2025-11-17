@@ -47,7 +47,6 @@ export interface Config {
     databaseUrl: string
     authUrl: string
     storeApiUrl: string
-    aiApiUrl: string
     platformUrl: string
     uiUrl: string
     documentationUrl: string
