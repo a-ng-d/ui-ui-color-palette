@@ -30,7 +30,7 @@ import {
   Service,
 } from '../../types/app'
 import { ConfigContextType } from '../../index'
-import { getSupabase } from '../../external/auth/client'
+import { getSupabase } from '../../external/auth'
 
 interface CommunityPalettesProps extends BaseProps, WithConfigProps {
   context: Context

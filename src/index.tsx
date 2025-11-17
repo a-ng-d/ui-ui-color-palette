@@ -9,9 +9,9 @@ import {
   setEditor,
   setMixpanelEnv,
 } from './external/tracking/client'
-import { initSentry } from './external/monitoring/client'
+import { initSentry } from './external/monitoring'
 import { initMistral } from './external/mistral'
-import { initSupabase } from './external/auth/client'
+import { initSupabase } from './external/auth'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
 

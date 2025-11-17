@@ -31,8 +31,8 @@ import {
   trackSignInEvent,
 } from '../../external/tracking/eventsTracker'
 import starPalette from '../../external/publication/starPalette'
-import { getSupabase } from '../../external/auth/client'
 import { signIn } from '../../external/auth/authentication'
+import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface GlanceProps extends BaseProps, WithConfigProps {

@@ -26,7 +26,7 @@ import {
   Service,
 } from '../../types/app'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
-import { getSupabase } from '../../external/auth/client'
+import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface RemotePalettesProps extends BaseProps, WithConfigProps {

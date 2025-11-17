@@ -1,4 +1,4 @@
-import { getSupabase } from '../auth/client'
+import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 
 const sharePalette = async ({

@@ -32,8 +32,8 @@ import { ConfigContextType } from '../../index'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import unpublishPalette from '../../external/publication/unpublishPalette'
 import sharePalette from '../../external/publication/sharePalette'
-import { getSupabase } from '../../external/auth/client'
 import { signIn } from '../../external/auth/authentication'
+import { getSupabase } from '../../external/auth'
 
 interface SelfPalettesProps extends BaseProps, WithConfigProps {
   context: Context

@@ -66,7 +66,7 @@ import {
 import { setEditor } from '../external/tracking/client'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
-import { getSupabase } from '../external/auth/client'
+import { getSupabase } from '../external/auth'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { locales } from '../content/locales'
 import { ConfigContextType } from '../config/ConfigContext'

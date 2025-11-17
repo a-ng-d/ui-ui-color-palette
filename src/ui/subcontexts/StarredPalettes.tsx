@@ -31,8 +31,8 @@ import {
 import { ConfigContextType } from '../../index'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import starPalette from '../../external/publication/starPalette'
-import { getSupabase } from '../../external/auth/client'
 import { signIn } from '../../external/auth/authentication'
+import { getSupabase } from '../../external/auth'
 
 interface StarredPalettesProps extends BaseProps, WithConfigProps {
   context: Context

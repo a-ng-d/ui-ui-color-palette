@@ -1,4 +1,4 @@
-import { getSupabase } from '../auth/client'
+import { getSupabase } from '../auth'
 
 const starPalette = async ({
   id,

@@ -1,7 +1,7 @@
 import { getProxiedUrl } from '../../utils/url'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { getSupabase } from './client'
 import checkConnectionStatus from './checkConnectionStatus'
+import { getSupabase } from '.'
 
 let isAuthenticated = false
 

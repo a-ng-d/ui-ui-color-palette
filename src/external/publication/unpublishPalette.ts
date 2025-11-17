@@ -1,6 +1,6 @@
 import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { getSupabase } from '../auth/client'
+import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import type { AppStates } from '../../ui/App'
 

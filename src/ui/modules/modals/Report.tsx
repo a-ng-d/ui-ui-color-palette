@@ -6,7 +6,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
-import { getSentry } from '../../../external/monitoring/client'
+import { getSentry } from '../../../external/monitoring'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ReportProps extends BaseProps, WithConfigProps {

@@ -1,4 +1,4 @@
-import { getSupabase } from './client'
+import { getSupabase } from '.'
 
 const checkConnectionStatus = async (
   accessToken: string | undefined,
