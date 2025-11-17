@@ -83,6 +83,7 @@
     "createPalette": "New UI Color Palette",
     "duplicate": "Duplicate",
     "explorePalettes": "Explore palettes from community",
+    "send": "Send",
     "export": "Export palette as {format}",
     "generateDocument": {
       "label": "Generate documentation",
@@ -131,6 +132,7 @@
       "unstarPalette": "Remove from starred"
     },
     "contexts": {
+      "ai": "AI Chat",
       "community": "Community",
       "file": "This file",
       "local": "Local",
@@ -211,6 +213,10 @@
     "themes": "Modes"
   },
   "create": {
+    "ai": {
+      "prompt": "Ask AI to create a color palette...",
+      "welcome": "Ask AI to create a custom color palette for your project"
+    },
     "leavePaletteDialog": {
       "cancel": "Cancel",
       "leave": "Leave and return to palettes",

@@ -109,6 +109,13 @@ export const setContexts = (
       currentService: service,
       currentEditor: editor,
     }),
+    AI_PALETTES: new FeatureStatus({
+      features: features,
+      featureName: 'AI_PALETTES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SCALE: new FeatureStatus({
       features: features,
       featureName: 'SCALE',
@@ -187,6 +194,13 @@ export const setContexts = (
       isUpdated: false,
       isNew: featuresList.REMOTE_PALETTES.isNew(),
       isActive: featuresList.REMOTE_PALETTES.isActive(),
+    },
+    {
+      label: currentLocales.browse.contexts.ai || 'AI Palettes',
+      id: 'AI_PALETTES',
+      isUpdated: false,
+      isNew: featuresList.AI_PALETTES.isNew(),
+      isActive: featuresList.AI_PALETTES.isActive(),
     },
     {
       label: currentLocales.browse.contexts.self,

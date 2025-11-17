@@ -285,6 +285,7 @@ const specConfig: SpecConfig = {
             'PUBLICATION',
             'PUBLISH_PALETTE',
             'REMOTE_PALETTES',
+            'AI_PALETTES',
             'LOCAL_PALETTES_FILE',
           ],
           [
@@ -348,6 +349,7 @@ const specConfig: SpecConfig = {
             'PUBLICATION',
             'PUBLISH_PALETTE',
             'REMOTE_PALETTES',
+            'AI_PALETTES',
             'LOCAL_PALETTES_FILE',
           ],
           [

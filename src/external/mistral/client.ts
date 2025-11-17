@@ -4,12 +4,14 @@ import { MistralColorPalette } from './types'
 class MistralClient {
   private mistral: Mistral
   private agentId: string
+  private conversationAgentId: string
 
   constructor(apiKey: string) {
     this.mistral = new Mistral({
       apiKey: apiKey,
     })
     this.agentId = 'ag_019a9254590972e1af106aecc7a13cfe'
+    this.conversationAgentId = 'ag_019a928d864073e99da661b51f0ee174'
   }
 
   private async callAgent(message: string): Promise<string> {
@@ -92,6 +94,47 @@ class MistralClient {
           'Malformed response from Mistral AI agent (invalid JSON)'
         )
       throw error
+    }
+  }
+
+  async chatWithAI(message: string): Promise<string> {
+    try {
+      const result = await this.mistral.agents.complete({
+        messages: [
+          {
+            content: message,
+            role: 'user',
+          },
+        ],
+        agentId: this.conversationAgentId,
+      })
+
+      const content = result.choices[0]?.message?.content
+      if (!content)
+        throw new Error(
+          'No response received from Mistral AI conversation agent'
+        )
+
+      // Handle both string and ContentChunk[] types
+      if (typeof content === 'string') return content
+
+      if (Array.isArray(content))
+        // If content is an array of chunks, concatenate text content
+        return content
+          .map((chunk) => ('text' in chunk ? chunk.text : ''))
+          .join('')
+
+      throw new Error(
+        'Unexpected content type from Mistral AI conversation agent'
+      )
+    } catch (error) {
+      if (error instanceof Error)
+        throw new Error(
+          `Failed to communicate with Mistral AI conversation agent: ${error.message}`
+        )
+      throw new Error(
+        'Unknown error occurred while communicating with Mistral AI conversation agent'
+      )
     }
   }
 }

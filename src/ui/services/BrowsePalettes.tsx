@@ -11,6 +11,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
 import RemotePalettes from '../contexts/RemotePalettes'
 import LocalPalettes from '../contexts/LocalPalettes'
+import AiPalettesContext from '../contexts/AiPalettesContext'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
@@ -99,7 +100,7 @@ export default class BrowsePalettes extends PureComponent<
   constructor(props: BrowsePalettesProps) {
     super(props)
     this.contexts = setContexts(
-      ['LOCAL_PALETTES', 'REMOTE_PALETTES'],
+      ['LOCAL_PALETTES', 'REMOTE_PALETTES', 'AI_PALETTES'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -129,7 +130,7 @@ export default class BrowsePalettes extends PureComponent<
   componentDidUpdate(previousProps: Readonly<BrowsePalettesProps>): void {
     if (previousProps.locales !== this.props.locales) {
       this.contexts = setContexts(
-        ['LOCAL_PALETTES', 'REMOTE_PALETTES'],
+        ['LOCAL_PALETTES', 'REMOTE_PALETTES', 'AI_PALETTES'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
@@ -263,6 +264,15 @@ export default class BrowsePalettes extends PureComponent<
             ref={this.remotePalettesRef}
             {...this.props}
             {...this.state}
+          />
+        )
+        break
+      }
+      case 'AI_PALETTES': {
+        fragment = (
+          <AiPalettesContext
+            {...this.props}
+            localPalettesList={this.state.localPalettesList}
           />
         )
         break
