@@ -611,12 +611,15 @@ export default class Themes extends PureComponent<ThemesProps> {
                               </div>
                             </Feature>
                             <Feature
-                              isActive={Themes.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).THEMES_PARAMS.isActive()}
+                              isActive={
+                                Themes.features(
+                                  this.props.planStatus,
+                                  this.props.config,
+                                  this.props.service,
+                                  this.props.editor
+                                ).THEMES_PARAMS.isActive() &&
+                                this.props.documentWidth > 460
+                              }
                             >
                               <div className="draggable-item__param">
                                 <FormItem
@@ -674,6 +677,57 @@ export default class Themes extends PureComponent<ThemesProps> {
                             ),
                           node: (() => (
                             <>
+                              {this.props.documentWidth <= 460 && (
+                                <Feature
+                                  isActive={Themes.features(
+                                    this.props.planStatus,
+                                    this.props.config,
+                                    this.props.service,
+                                    this.props.editor
+                                  ).THEMES_PARAMS.isActive()}
+                                >
+                                  <FormItem
+                                    id={`update-palette-background-color-secondary-${theme.id}`}
+                                    label={
+                                      this.props.locales.themes
+                                        .paletteBackgroundColor.label
+                                    }
+                                    isBlocked={Themes.features(
+                                      this.props.planStatus,
+                                      this.props.config,
+                                      this.props.service,
+                                      this.props.editor
+                                    ).THEMES_PARAMS.isBlocked()}
+                                  >
+                                    <Input
+                                      id={`update-palette-background-color-secondary-${theme.id}`}
+                                      type="COLOR"
+                                      value={theme.paletteBackground}
+                                      helper={{
+                                        label:
+                                          this.props.locales.themes.actions
+                                            .documentBackground,
+                                      }}
+                                      feature="UPDATE_PALETTE_BACKGROUND"
+                                      isBlocked={Themes.features(
+                                        this.props.planStatus,
+                                        this.props.config,
+                                        this.props.service,
+                                        this.props.editor
+                                      ).THEMES_PARAMS.isBlocked()}
+                                      isNew={Themes.features(
+                                        this.props.planStatus,
+                                        this.props.config,
+                                        this.props.service,
+                                        this.props.editor
+                                      ).THEMES_PARAMS.isNew()}
+                                      onPick={this.themesHandler}
+                                      onBlur={this.themesHandler}
+                                      onValid={this.themesHandler}
+                                    />
+                                  </FormItem>
+                                </Feature>
+                              )}
                               <Feature
                                 isActive={Themes.features(
                                   this.props.planStatus,
