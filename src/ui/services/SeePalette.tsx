@@ -82,7 +82,10 @@ interface SeePaletteStates {
   isSecondaryLoading: boolean
 }
 
-export default class SeePalette extends PureComponent<SeePaletteProps, SeePaletteStates> {
+export default class SeePalette extends PureComponent<
+  SeePaletteProps,
+  SeePaletteStates
+> {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
   private previewRef: React.RefObject<Preview>

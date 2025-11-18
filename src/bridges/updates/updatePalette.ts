@@ -51,6 +51,4 @@ const updatePalette = async ({
   )
 }
 
-
-
 export default updatePalette

@@ -60,7 +60,10 @@ interface OverviewStates {
   isGenAIOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
