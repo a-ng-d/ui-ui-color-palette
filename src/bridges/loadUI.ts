@@ -39,37 +39,6 @@ const windowSize: Window = {
 if (iframe) {
   iframe.width = windowSize.width.toString()
   iframe.height = windowSize.height.toString()
-
-  iframe.onload = () => {
-    // Canvas > UI
-    iframe?.contentWindow?.postMessage({
-      type: 'CHECK_USER_AUTHENTICATION',
-      data: {
-        id: '',
-        fullName: '',
-        avatar: '',
-        accessToken: window.localStorage.getItem('supabase_access_token'),
-        refreshToken: window.localStorage.getItem('supabase_refresh_token'),
-      },
-    })
-    iframe?.contentWindow?.postMessage({
-      type: 'CHECK_ANNOUNCEMENTS_VERSION',
-    })
-    iframe?.contentWindow?.postMessage({
-      type: 'CHECK_EDITOR',
-      data: {
-        id: '',
-        editor: globalConfig.env.editor,
-      },
-    })
-
-    // Checks
-    checkUserConsent()
-      .then(() => checkTrialStatus())
-      .then(() => checkCredits())
-      .then(() => checkUserPreferences())
-      .then(() => checkUserLicense())
-  }
 }
 
 // UI > Canvas
@@ -78,6 +47,36 @@ window.addEventListener('message', async (msg: any) => {
   const path = msg.data.pluginMessage
 
   const actions: { [action: string]: () => void } = {
+    LOAD_DATA: () => {
+      // Canvas > UI
+      iframe?.contentWindow?.postMessage({
+        type: 'CHECK_USER_AUTHENTICATION',
+        data: {
+          id: '',
+          fullName: '',
+          avatar: '',
+          accessToken: window.localStorage.getItem('supabase_access_token'),
+          refreshToken: window.localStorage.getItem('supabase_refresh_token'),
+        },
+      })
+      iframe?.contentWindow?.postMessage({
+        type: 'CHECK_ANNOUNCEMENTS_VERSION',
+      })
+      iframe?.contentWindow?.postMessage({
+        type: 'CHECK_EDITOR',
+        data: {
+          id: '',
+          editor: globalConfig.env.editor,
+        },
+      })
+
+      // Checks
+      checkUserConsent()
+        .then(() => checkTrialStatus())
+        .then(() => checkCredits())
+        .then(() => checkUserPreferences())
+        .then(() => checkUserLicense())
+    },
     RESIZE_UI: () => {
       if (iframe) {
         iframe.width = path.data.width.toString()
