@@ -116,6 +116,7 @@ export interface AppStates extends BaseProps {
   isVsCodeMessageDisplayed: boolean
   isLoaded: boolean
   isNotificationDisplayed: boolean
+  documentWidth: number
   onGoingStep: string
 }
 
@@ -277,6 +278,7 @@ class App extends Component<AppProps, AppStates> {
       isVsCodeMessageDisplayed: true,
       isLoaded: false,
       isNotificationDisplayed: false,
+      documentWidth: document.documentElement.clientWidth,
       onGoingStep: 'app started',
     }
   }
@@ -403,6 +405,7 @@ class App extends Component<AppProps, AppStates> {
       'platformMessage',
       this.handleMessage as EventListener
     )
+    window.addEventListener('resize', this.handleResize)
   }
 
   componentWillUnmount = () => {
@@ -412,9 +415,15 @@ class App extends Component<AppProps, AppStates> {
       'platformMessage',
       this.handleMessage as EventListener
     )
+    window.removeEventListener('resize', this.handleResize)
   }
 
   // Handlers
+  handleResize = () => {
+    this.setState({
+      documentWidth: document.documentElement.clientWidth,
+    })
+  }
   handleMessage = (e: CustomEvent<PluginMessageData>) => {
     const path = e.detail
 

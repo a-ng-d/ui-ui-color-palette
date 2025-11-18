@@ -25,6 +25,7 @@ export interface BaseProps {
   editor: Editor
   locales: Translations
   lang: Language
+  documentWidth: number
 }
 
 export type Context =
