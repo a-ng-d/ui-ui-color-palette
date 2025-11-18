@@ -16,6 +16,7 @@ import {
   Dropdown,
   DropdownOption,
   layouts,
+  Menu,
   MultipleSlider,
   SectionTitle,
   Select,
@@ -775,6 +776,225 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   }
 
   // Templates
+  ToolsButtons = () => {
+    return (
+      <>
+        {this.props.service === 'CREATE' && (
+          <Feature
+            isActive={ScaleLightnessChroma.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SCALE_PRESETS.isActive()}
+          >
+            {this.props.preset.id.includes('CUSTOM') && (
+              <>
+                {this.props.preset.stops.length > 2 && (
+                  <Button
+                    type="icon"
+                    icon="minus"
+                    helper={{
+                      label: this.props.locales.scale.actions.removeStop,
+                    }}
+                    feature="REMOVE_STOP"
+                    action={this.customHandler}
+                  />
+                )}
+                <Feature
+                  isActive={ScaleLightnessChroma.features(
+                    this.props.planStatus,
+                    this.props.config,
+                    this.props.service,
+                    this.props.editor
+                  ).PRESETS_CUSTOM_ADD.isActive()}
+                >
+                  <Button
+                    type="icon"
+                    icon="plus"
+                    isDisabled={this.props.preset.stops.length === 24}
+                    helper={{
+                      label: this.props.locales.scale.actions.addStop,
+                    }}
+                    feature="ADD_STOP"
+                    action={
+                      this.props.preset.stops.length >= 24
+                        ? () => null
+                        : this.customHandler
+                    }
+                  />
+                </Feature>
+              </>
+            )}
+          </Feature>
+        )}
+        <Feature
+          isActive={ScaleLightnessChroma.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SCALE_REVERSE.isActive()}
+        >
+          <Button
+            type="icon"
+            icon="reverse"
+            helper={{
+              label: this.props.locales.scale.actions.reverseStops,
+            }}
+            feature="REVERSE_SCALE"
+            isBlocked={ScaleLightnessChroma.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SCALE_REVERSE.isBlocked()}
+            isNew={ScaleLightnessChroma.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SCALE_REVERSE.isNew()}
+            action={this.onReverseStops}
+          />
+        </Feature>
+        <Feature
+          isActive={ScaleLightnessChroma.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).SCALE_RESET.isActive()}
+        >
+          <Button
+            type="icon"
+            icon="reset"
+            helper={{
+              label: this.props.locales.scale.actions.resetScale,
+            }}
+            feature="RESET_SCALE"
+            isBlocked={ScaleLightnessChroma.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SCALE_RESET.isBlocked()}
+            isNew={ScaleLightnessChroma.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).SCALE_RESET.isNew()}
+            action={this.onResetScale}
+          />
+        </Feature>
+      </>
+    )
+  }
+
+  MoreTools = () => {
+    const menuOptions: Array<DropdownOption> = []
+
+    if (
+      this.props.preset.id.includes('CUSTOM') &&
+      this.props.service === 'CREATE'
+    ) {
+      if (this.props.preset.stops.length > 2)
+        menuOptions.push({
+          label: this.props.locales.scale.actions.removeStop,
+          value: 'REMOVE_STOP',
+          feature: 'REMOVE_STOP',
+          type: 'OPTION',
+          action: this.customHandler,
+        })
+
+      if (
+        ScaleLightnessChroma.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).PRESETS_CUSTOM_ADD.isActive() &&
+        this.props.preset.stops.length < 24
+      )
+        menuOptions.push({
+          label: this.props.locales.scale.actions.addStop,
+          value: 'ADD_STOP',
+          feature: 'ADD_STOP',
+          type: 'OPTION',
+          action: this.customHandler,
+        })
+    }
+
+    if (
+      ScaleLightnessChroma.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).SCALE_REVERSE.isActive()
+    )
+      menuOptions.push({
+        label: this.props.locales.scale.actions.reverseStops,
+        value: 'REVERSE_STOPS',
+        feature: 'REVERSE_SCALE',
+        type: 'OPTION',
+        isBlocked: ScaleLightnessChroma.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SCALE_REVERSE.isBlocked(),
+        isNew: ScaleLightnessChroma.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SCALE_REVERSE.isNew(),
+        action: this.onReverseStops,
+      })
+
+    if (
+      ScaleLightnessChroma.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).SCALE_RESET.isActive()
+    )
+      menuOptions.push({
+        label: this.props.locales.scale.actions.resetScale,
+        value: 'RESET_SCALE',
+        feature: 'RESET_SCALE',
+        type: 'OPTION',
+        isBlocked: ScaleLightnessChroma.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SCALE_RESET.isBlocked(),
+        isNew: ScaleLightnessChroma.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SCALE_RESET.isNew(),
+        action: this.onResetScale,
+      })
+
+    return (
+      <Menu
+        id="more-tools-scale"
+        icon="ellipses"
+        options={menuOptions}
+        alignment="BOTTOM_RIGHT"
+        helper={{
+          label: this.props.locales.scale.actions.moreTools,
+        }}
+      />
+    )
+  }
+
   Create = () => {
     return (
       <>
@@ -795,170 +1015,125 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               />
             }
             rightPartSlot={
-              <div className={layouts['snackbar--medium']}>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_PRESETS.isActive()}
-                >
-                  <Dropdown
-                    id="presets"
-                    options={this.presetsOptions()}
-                    selected={this.props.preset.id}
-                    alignment="RIGHT"
-                    pin="TOP"
-                    helper={{
-                      label: this.props.locales.scale.presets.helper,
-                    }}
-                    shouldReflow={{
-                      isEnabled: true,
-                      icon: 'adjust',
-                    }}
-                  />
-                </Feature>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_PRESETS.isActive()}
-                >
-                  {this.props.preset.id.includes('CUSTOM') && (
-                    <>
-                      {this.props.preset.stops.length > 2 && (
-                        <Button
-                          type="icon"
-                          icon="minus"
-                          helper={{
-                            label: this.props.locales.scale.actions.removeStop,
-                          }}
-                          feature="REMOVE_STOP"
-                          action={this.customHandler}
-                        />
-                      )}
-                      <Feature
-                        isActive={ScaleLightnessChroma.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).PRESETS_CUSTOM_ADD.isActive()}
-                      >
-                        <Button
-                          type="icon"
-                          icon="plus"
-                          isDisabled={this.props.preset.stops.length === 24}
-                          helper={{
-                            label: this.props.locales.scale.actions.addStop,
-                          }}
-                          feature="ADD_STOP"
-                          action={
-                            this.props.preset.stops.length >= 24
-                              ? () => null
-                              : this.customHandler
-                          }
-                        />
-                      </Feature>
-                    </>
-                  )}
-                </Feature>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_REVERSE.isActive()}
-                >
-                  <Button
-                    type="icon"
-                    icon="reverse"
-                    helper={{
-                      label: this.props.locales.scale.actions.reverseStops,
-                    }}
-                    feature="REVERSE_SCALE"
-                    isBlocked={ScaleLightnessChroma.features(
+              this.props.documentWidth > 460 ? (
+                <div className={layouts['snackbar--medium']}>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_REVERSE.isBlocked()}
-                    isNew={ScaleLightnessChroma.features(
+                    ).SCALE_PRESETS.isActive()}
+                  >
+                    <Dropdown
+                      id="presets"
+                      options={this.presetsOptions()}
+                      selected={this.props.preset.id}
+                      alignment="RIGHT"
+                      pin="TOP"
+                      helper={{
+                        label: this.props.locales.scale.presets.helper,
+                      }}
+                      shouldReflow={{
+                        isEnabled: true,
+                        icon: 'adjust',
+                      }}
+                    />
+                  </Feature>
+                  <this.ToolsButtons />
+                  <span className={texts.type}>
+                    {this.props.locales.separator}
+                  </span>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_REVERSE.isNew()}
-                    action={this.onReverseStops}
-                  />
-                </Feature>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_RESET.isActive()}
-                >
-                  <Button
-                    type="icon"
-                    icon="reset"
-                    helper={{
-                      label: this.props.locales.scale.actions.resetScale,
-                    }}
-                    feature="RESET_SCALE"
-                    isBlocked={ScaleLightnessChroma.features(
+                    ).SCALE_CONTRAST_RATIO.isActive()}
+                  >
+                    <Select
+                      id="switch-contrast-mode"
+                      type="SWITCH_BUTTON"
+                      label={this.props.locales.scale.contrast.label}
+                      shouldReflow
+                      isChecked={false}
+                      isBlocked={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isBlocked()}
+                      isNew={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isNew()}
+                      action={this.props.onSwitchMode}
+                    />
+                  </Feature>
+                </div>
+              ) : (
+                <div className={layouts['snackbar--medium']}>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_RESET.isBlocked()}
-                    isNew={ScaleLightnessChroma.features(
+                    ).SCALE_PRESETS.isActive()}
+                  >
+                    <Dropdown
+                      id="presets"
+                      options={this.presetsOptions()}
+                      selected={this.props.preset.id}
+                      alignment="RIGHT"
+                      pin="TOP"
+                      helper={{
+                        label: this.props.locales.scale.presets.helper,
+                      }}
+                      shouldReflow={{
+                        isEnabled: true,
+                        icon: 'adjust',
+                      }}
+                    />
+                  </Feature>
+                  <this.MoreTools />
+                  <span className={texts.type}>
+                    {this.props.locales.separator}
+                  </span>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_RESET.isNew()}
-                    action={this.onResetScale}
-                  />
-                </Feature>
-                <span className={texts.type}>
-                  {this.props.locales.separator}
-                </span>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_CONTRAST_RATIO.isActive()}
-                >
-                  <Select
-                    id="switch-contrast-mode"
-                    type="SWITCH_BUTTON"
-                    label={this.props.locales.scale.contrast.label}
-                    shouldReflow
-                    isChecked={false}
-                    isBlocked={ScaleLightnessChroma.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isBlocked()}
-                    isNew={ScaleLightnessChroma.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isNew()}
-                    action={this.props.onSwitchMode}
-                  />
-                </Feature>
-              </div>
+                    ).SCALE_CONTRAST_RATIO.isActive()}
+                  >
+                    <Select
+                      id="switch-contrast-mode"
+                      type="SWITCH_BUTTON"
+                      label={this.props.locales.scale.contrast.label}
+                      shouldReflow
+                      isChecked={false}
+                      isBlocked={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isBlocked()}
+                      isNew={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isNew()}
+                      action={this.props.onSwitchMode}
+                    />
+                  </Feature>
+                </div>
+              )
             }
             alignment="CENTER"
             isListItem={false}
@@ -1132,123 +1307,125 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               />
             }
             rightPartSlot={
-              <div className={layouts['snackbar--medium']}>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_PRESETS.isActive()}
-                >
-                  <Dropdown
-                    id="presets"
-                    options={this.presetsOptions()}
-                    selected={this.props.preset.id}
-                    alignment="RIGHT"
-                    pin="TOP"
-                    helper={{
-                      label: this.props.locales.scale.presets.helper,
-                    }}
-                    shouldReflow={{
-                      isEnabled: true,
-                      icon: 'adjust',
-                    }}
-                  />
-                </Feature>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_REVERSE.isActive()}
-                >
-                  <Button
-                    type="icon"
-                    icon="reverse"
-                    helper={{
-                      label: this.props.locales.scale.actions.reverseStops,
-                    }}
-                    feature="REVERSE_SCALE"
-                    isBlocked={ScaleLightnessChroma.features(
+              this.props.documentWidth > 460 ? (
+                <div className={layouts['snackbar--medium']}>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_REVERSE.isBlocked()}
-                    isNew={ScaleLightnessChroma.features(
+                    ).SCALE_PRESETS.isActive()}
+                  >
+                    <Dropdown
+                      id="presets"
+                      options={this.presetsOptions()}
+                      selected={this.props.preset.id}
+                      alignment="RIGHT"
+                      pin="TOP"
+                      helper={{
+                        label: this.props.locales.scale.presets.helper,
+                      }}
+                      shouldReflow={{
+                        isEnabled: true,
+                        icon: 'adjust',
+                      }}
+                    />
+                  </Feature>
+                  <this.ToolsButtons />
+                  <span className={texts.type}>
+                    {this.props.locales.separator}
+                  </span>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_REVERSE.isNew()}
-                    action={this.onReverseStops}
-                  />
-                </Feature>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_RESET.isActive()}
-                >
-                  <Button
-                    type="icon"
-                    icon="reset"
-                    helper={{
-                      label: this.props.locales.scale.actions.resetScale,
-                    }}
-                    feature="RESET_SCALE"
-                    isBlocked={ScaleLightnessChroma.features(
+                    ).SCALE_CONTRAST_RATIO.isActive()}
+                  >
+                    <Select
+                      id="switch-contrast-mode"
+                      type="SWITCH_BUTTON"
+                      label={this.props.locales.scale.contrast.label}
+                      shouldReflow
+                      isChecked={false}
+                      isBlocked={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isBlocked()}
+                      isNew={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isNew()}
+                      action={this.props.onSwitchMode}
+                    />
+                  </Feature>
+                </div>
+              ) : (
+                <div className={layouts['snackbar--medium']}>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_RESET.isBlocked()}
-                    isNew={ScaleLightnessChroma.features(
+                    ).SCALE_PRESETS.isActive()}
+                  >
+                    <Dropdown
+                      id="presets"
+                      options={this.presetsOptions()}
+                      selected={this.props.preset.id}
+                      alignment="RIGHT"
+                      pin="TOP"
+                      helper={{
+                        label: this.props.locales.scale.presets.helper,
+                      }}
+                      shouldReflow={{
+                        isEnabled: true,
+                        icon: 'adjust',
+                      }}
+                    />
+                  </Feature>
+                  <this.MoreTools />
+                  <span className={texts.type}>
+                    {this.props.locales.separator}
+                  </span>
+                  <Feature
+                    isActive={ScaleLightnessChroma.features(
                       this.props.planStatus,
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).SCALE_RESET.isNew()}
-                    action={this.onResetScale}
-                  />
-                </Feature>
-                <span className={texts.type}>
-                  {this.props.locales.separator}
-                </span>
-                <Feature
-                  isActive={ScaleLightnessChroma.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_CONTRAST_RATIO.isActive()}
-                >
-                  <Select
-                    id="switch-contrast-mode"
-                    type="SWITCH_BUTTON"
-                    label={this.props.locales.scale.contrast.label}
-                    shouldReflow
-                    isChecked={false}
-                    isBlocked={ScaleLightnessChroma.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isBlocked()}
-                    isNew={ScaleLightnessChroma.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isNew()}
-                    action={this.props.onSwitchMode}
-                  />
-                </Feature>
-              </div>
+                    ).SCALE_CONTRAST_RATIO.isActive()}
+                  >
+                    <Select
+                      id="switch-contrast-mode"
+                      type="SWITCH_BUTTON"
+                      label={this.props.locales.scale.contrast.label}
+                      shouldReflow
+                      isChecked={false}
+                      isBlocked={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isBlocked()}
+                      isNew={ScaleLightnessChroma.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).SCALE_CONTRAST_RATIO.isNew()}
+                      action={this.props.onSwitchMode}
+                    />
+                  </Feature>
+                </div>
+              )
             }
             alignment="CENTER"
             isListItem={false}

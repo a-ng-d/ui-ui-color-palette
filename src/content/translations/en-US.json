@@ -631,6 +631,7 @@
     "actions": {
       "addStop": "Add stop",
       "applyEasing": "Apply directly the easing to the stops",
+      "moreTools": "More tools",
       "removeStop": "Remove stop",
       "resetScale": "Reset stops and chroma",
       "resetStops": "Reset stops",

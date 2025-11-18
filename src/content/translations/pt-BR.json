@@ -631,6 +631,7 @@
     "actions": {
       "addStop": "Adicionar parada",
       "applyEasing": "Aplicar diretamente o easing às paradas",
+      "moreTools": "Mais ferramentas",
       "removeStop": "Remover parada",
       "resetScale": "Resetar paradas e croma",
       "resetStops": "Resetar paradas",

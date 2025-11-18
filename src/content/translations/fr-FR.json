@@ -631,6 +631,7 @@
     "actions": {
       "addStop": "Ajouter une étape",
       "applyEasing": "Appliquer directement la courbe aux étapes",
+      "moreTools": "Plus d'outils",
       "removeStop": "Supprimer l'étape",
       "resetScale": "Réinitialiser les étapes et la chroma",
       "resetStops": "Réinitialiser les étapes",

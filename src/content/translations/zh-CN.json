@@ -631,6 +631,7 @@
     "actions": {
       "addStop": "添加色阶",
       "applyEasing": "直接将缓动应用到色阶",
+      "moreTools": "更多工具",
       "removeStop": "移除色阶",
       "resetScale": "重置色阶和色度",
       "resetStops": "重置色阶",
