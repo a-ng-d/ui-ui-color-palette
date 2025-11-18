@@ -11,6 +11,7 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
+  Bar,
   Button,
   Dialog,
   Dropdown,
@@ -20,7 +21,6 @@ import {
   layouts,
   List,
   SectionTitle,
-  SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
 import ScaleLightnessChroma from '../modules/scale/ScaleLightnessChroma'
@@ -743,14 +743,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 node:
                   this.props.service === 'EDIT' ? (
                     <>
-                      <SimpleItem
+                      <Bar
                         id="watch-custom-keyboard-shortcuts"
                         leftPartSlot={
                           <SectionTitle
                             label={this.props.locales.scale.tips.custom}
                           />
                         }
-                        alignment="CENTER"
+                        shouldReflow
                       />
                       <List>
                         <KeyboardShortcutItem
@@ -806,7 +806,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.editor
                   ).SCALE_HELPER.isActive()}
                 >
-                  <SimpleItem
+                  <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
@@ -867,8 +867,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
-                    alignment="CENTER"
-                    isListItem={false}
+                    shouldReflow
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>
@@ -910,7 +909,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     this.props.editor
                   ).SCALE_HELPER.isActive()}
                 >
-                  <SimpleItem
+                  <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
@@ -971,8 +970,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
-                    alignment="CENTER"
-                    isListItem={false}
+                    shouldReflow
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
                 </Feature>

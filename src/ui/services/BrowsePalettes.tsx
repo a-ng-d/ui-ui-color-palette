@@ -345,6 +345,7 @@ export default class BrowsePalettes extends PureComponent<
           type="primary"
           icon="plus"
           label={this.props.locales.browse.actions.new}
+          shouldReflow={{ isEnabled: true, icon: 'plus' }}
           isBlocked={
             BrowsePalettes.features(
               this.props.planStatus,

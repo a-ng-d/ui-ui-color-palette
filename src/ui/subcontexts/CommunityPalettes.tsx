@@ -408,6 +408,10 @@ export default class CommunityPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.browse.actions.openPalette}
                         isLoading={this.state.isSecondaryActionLoading[index]}
+                        shouldReflow={{
+                          isEnabled: true,
+                          icon: 'forward',
+                        }}
                         isBlocked={CommunityPalettes.features(
                           this.props.planStatus,
                           this.props.config,
@@ -468,6 +472,10 @@ export default class CommunityPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.actions.addToLocal}
                         isLoading={this.state.isSecondaryActionLoading[index]}
+                        shouldReflow={{
+                          isEnabled: true,
+                          icon: 'plus',
+                        }}
                         isBlocked={CommunityPalettes.features(
                           this.props.planStatus,
                           this.props.config,

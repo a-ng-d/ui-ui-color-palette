@@ -535,6 +535,7 @@ export default class ColorWheel extends PureComponent<
                       </Feature>
                     </div>
                   }
+                  shouldReflow
                   border={['BOTTOM']}
                 />
                 <this.HarmonyPreview />

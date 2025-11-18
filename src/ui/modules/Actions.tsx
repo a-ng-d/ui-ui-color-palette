@@ -842,6 +842,7 @@ export default class Actions extends PureComponent<
           </Feature>
         }
         padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+        shouldReflow
         border={['TOP']}
       />
     )
@@ -1106,6 +1107,7 @@ export default class Actions extends PureComponent<
           </div>
         }
         padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+        shouldReflow
         border={['TOP']}
       />
     )

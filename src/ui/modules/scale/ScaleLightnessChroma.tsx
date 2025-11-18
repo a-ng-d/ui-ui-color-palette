@@ -813,6 +813,10 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     helper={{
                       label: this.props.locales.scale.presets.helper,
                     }}
+                    shouldReflow={{
+                      isEnabled: true,
+                      icon: 'adjust',
+                    }}
                   />
                 </Feature>
                 <Feature
@@ -937,6 +941,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
                     label={this.props.locales.scale.contrast.label}
+                    shouldReflow
                     isChecked={false}
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,
@@ -1142,6 +1147,13 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     selected={this.props.preset.id}
                     alignment="RIGHT"
                     pin="TOP"
+                    helper={{
+                      label: this.props.locales.scale.presets.helper,
+                    }}
+                    shouldReflow={{
+                      isEnabled: true,
+                      icon: 'adjust',
+                    }}
                   />
                 </Feature>
                 <Feature
@@ -1219,6 +1231,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
                     label={this.props.locales.scale.contrast.label}
+                    shouldReflow
                     isChecked={false}
                     isBlocked={ScaleLightnessChroma.features(
                       this.props.planStatus,

@@ -534,6 +534,10 @@ export default class StarredPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.browse.actions.openPalette}
                         isLoading={this.state.isAddToLocalActionLoading[index]}
+                        shouldReflow={{
+                          isEnabled: true,
+                          icon: 'forward',
+                        }}
                         isBlocked={StarredPalettes.features(
                           this.props.planStatus,
                           this.props.config,
@@ -594,6 +598,10 @@ export default class StarredPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.actions.addToLocal}
                         isLoading={this.state.isAddToLocalActionLoading[index]}
+                        shouldReflow={{
+                          isEnabled: true,
+                          icon: 'plus',
+                        }}
                         isBlocked={StarredPalettes.features(
                           this.props.planStatus,
                           this.props.config,

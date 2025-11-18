@@ -399,6 +399,10 @@ export default class OrgPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.browse.actions.openPalette}
                         isLoading={this.state.isSecondaryActionLoading[index]}
+                        shouldReflow={{
+                          isEnabled: true,
+                          icon: 'forward',
+                        }}
                         isBlocked={OrgPalettes.features(
                           this.props.planStatus,
                           this.props.config,
@@ -459,6 +463,10 @@ export default class OrgPalettes extends PureComponent<
                         type="secondary"
                         label={this.props.locales.actions.addToLocal}
                         isLoading={this.state.isSecondaryActionLoading[index]}
+                        shouldReflow={{
+                          isEnabled: true,
+                          icon: 'plus',
+                        }}
                         isBlocked={OrgPalettes.features(
                           this.props.planStatus,
                           this.props.config,

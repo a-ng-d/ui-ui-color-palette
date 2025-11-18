@@ -564,6 +564,7 @@ export default class ScaleContrastRatio extends PureComponent<
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
                     label={this.props.locales.scale.contrast.label}
+                    shouldReflow
                     isChecked={true}
                     isBlocked={ScaleContrastRatio.features(
                       this.props.planStatus,

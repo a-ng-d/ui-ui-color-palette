@@ -546,6 +546,10 @@ export default class SelfPalettes extends PureComponent<
                       type="secondary"
                       label={this.props.locales.actions.addToLocal}
                       isLoading={this.state.isAddToLocalActionLoading[index]}
+                      shouldReflow={{
+                        isEnabled: true,
+                        icon: 'plus',
+                      }}
                       isBlocked={SelfPalettes.features(
                         this.props.planStatus,
                         this.props.config,

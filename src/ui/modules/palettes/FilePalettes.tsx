@@ -415,6 +415,10 @@ export default class FilePalettes extends PureComponent<
                             label={
                               this.props.locales.browse.actions.openPalette
                             }
+                            shouldReflow={{
+                              isEnabled: true,
+                              icon: 'forward',
+                            }}
                             isBlocked={FilePalettes.features(
                               this.props.planStatus,
                               this.props.config,
@@ -443,6 +447,10 @@ export default class FilePalettes extends PureComponent<
                             label={
                               this.props.locales.browse.actions.openPalette
                             }
+                            shouldReflow={{
+                              isEnabled: true,
+                              icon: 'forward',
+                            }}
                             isBlocked={FilePalettes.features(
                               this.props.planStatus,
                               this.props.config,

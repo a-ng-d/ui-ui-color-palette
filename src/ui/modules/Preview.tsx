@@ -860,6 +860,7 @@ export default class Preview extends PureComponent<
                       : undefined
                   }
                   feature="LOCK_SOURCE_COLORS"
+                  shouldReflow
                   isChecked={this.props.areSourceColorsLocked}
                   isBlocked={
                     Preview.features(
@@ -1053,11 +1054,15 @@ export default class Preview extends PureComponent<
                     },
                   ]}
                   selected={this.props.colorSpace}
+                  pin="BOTTOM"
                   alignment="RIGHT"
                   helper={{
                     label: this.props.locales.preview.actions.colorSpace,
                   }}
-                  containerId="app"
+                  shouldReflow={{
+                    isEnabled: true,
+                    icon: 'theme',
+                  }}
                   isBlocked={Preview.features(
                     this.props.planStatus,
                     this.props.config,
@@ -1340,12 +1345,12 @@ export default class Preview extends PureComponent<
                     },
                   ]}
                   selected={this.props.visionSimulationMode}
+                  pin="BOTTOM"
                   alignment="RIGHT"
                   helper={{
                     label:
                       this.props.locales.preview.actions.visionSimulationMode,
                   }}
-                  containerId="app"
                   warning={
                     this.props.service === 'CREATE' &&
                     Preview.features(
@@ -1363,6 +1368,10 @@ export default class Preview extends PureComponent<
                         }
                       : undefined
                   }
+                  shouldReflow={{
+                    isEnabled: true,
+                    icon: 'effects',
+                  }}
                   isBlocked={Preview.features(
                     this.props.planStatus,
                     this.props.config,
