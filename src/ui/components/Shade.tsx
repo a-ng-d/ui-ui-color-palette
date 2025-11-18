@@ -13,6 +13,7 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames } from '@a_ng_d/figmug-utils'
 import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps } from '../../types/app'
 
 interface ShadeProps extends BaseProps {
@@ -29,6 +30,7 @@ interface ShadeProps extends BaseProps {
 
 interface ShadeStates {
   isCompact: boolean
+  isCopied: boolean
 }
 
 export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
@@ -38,6 +40,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     super(props)
     this.state = {
       isCompact: false,
+      isCopied: false,
     }
     this.theme = document.documentElement.getAttribute('data-theme')
   }
@@ -68,6 +71,55 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       actions[recommendation]?.() ??
       this.props.locales.paletteProperties.unknown
     )
+  }
+
+  // Direct Actions
+  onCopyHex = () => {
+    if (!this.props.color) return
+
+    try {
+      const textarea = document.createElement('textarea')
+      textarea.value = this.props.color
+
+      textarea.style.position = 'absolute'
+      textarea.style.left = '-9999px'
+      textarea.style.top = '0'
+      textarea.setAttribute('readonly', '')
+
+      document.body.appendChild(textarea)
+
+      textarea.select()
+
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'POST_MESSAGE',
+            data: {
+              type: 'INFO',
+              message: this.props.locales.info.copiedCode,
+            },
+          },
+        },
+        '*'
+      )
+    } catch (error) {
+      console.error(error)
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'POST_MESSAGE',
+            data: {
+              style: 'WARNING',
+              message: this.props.locales.warning.uncopiedCode,
+            },
+          },
+        },
+        '*'
+      )
+    }
   }
 
   // Templates
@@ -199,6 +251,33 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     )
   }
 
+  copiedColorTag = () => {
+    return (
+      <Chip
+        state="ON_BACKGROUND"
+        leftSlot={
+          <div
+            style={{
+              width: 'var(--size-pos-xxsmall)',
+              height: 'var(--size-pos-xxsmall)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              '--icon-picto-color': 'black',
+              '--icon-width': 'var(--size-pos-xsmall)',
+              '--icon-height': 'var(--size-pos-xsmall)',
+            }}
+          >
+            <Icon
+              type="PICTO"
+              iconName="draft"
+            />
+          </div>
+        }
+      ></Chip>
+    )
+  }
+
   // Render
   render() {
     const sourceColor = chroma([
@@ -266,6 +345,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         }}
         onMouseEnter={() => this.setState({ isCompact: true })}
         onMouseLeave={() => this.setState({ isCompact: false })}
+        onMouseDown={this.onCopyHex}
       >
         {this.props.isWCAGDisplayed && (
           <this.wcagScoreTag
@@ -312,6 +392,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         {distance < 4 && !this.props.areSourceColorsLocked && (
           <this.closestColorTag />
         )}
+        {this.state.isCompact && <this.copiedColorTag />}
       </div>
     )
   }
