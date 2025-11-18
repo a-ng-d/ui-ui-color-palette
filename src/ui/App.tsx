@@ -285,6 +285,17 @@ class App extends Component<AppProps, AppStates> {
 
   // Lifecycle
   componentDidMount = async () => {
+    // Load
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'LOAD_DATA',
+        },
+      },
+      '*'
+    )
+
+    // Language
     this.subscribeLanguage = $userLanguage.subscribe(async (value) => {
       if (this.isFirstLanguageEmission) {
         this.isFirstLanguageEmission = false
@@ -301,15 +312,17 @@ class App extends Component<AppProps, AppStates> {
         locales: newLocales,
       })
 
-      sendPluginMessage({
-        pluginMessage: {
-          type: 'UPDATE_LANGUAGE',
-          data: {
-            lang: value,
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_LANGUAGE',
+            data: {
+              lang: value,
+            },
           },
         },
-      }),
         '*'
+      )
     })
 
     this.subsscribeVsCodeMessage = $isVsCodeMessageDisplayed.subscribe(
@@ -379,22 +392,25 @@ class App extends Component<AppProps, AppStates> {
                   `https://www.gravatar.com/avatar/${session?.user.id}?d=identicon`,
               },
             })
-            sendPluginMessage({
-              pluginMessage: {
-                type: 'SET_ITEMS',
-                items: [
-                  {
-                    key: 'supabase_access_token',
-                    value: session?.access_token,
-                  },
-                  {
-                    key: 'supabase_refresh_token',
-                    value: session?.refresh_token,
-                  },
-                ],
+
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type: 'SET_ITEMS',
+                  items: [
+                    {
+                      key: 'supabase_access_token',
+                      value: session?.access_token,
+                    },
+                    {
+                      key: 'supabase_refresh_token',
+                      value: session?.refresh_token,
+                    },
+                  ],
+                },
               },
-            }),
               this.props.config.urls.platformUrl
+            )
           },
         }
         return actions[event]?.()

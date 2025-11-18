@@ -2,7 +2,9 @@ import { PresetConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Translations } from '../types/translations'
 import { locales } from '../content/locales'
 
-export const getPresets = (locales: Translations): Array<PresetConfiguration> => [
+export const getPresets = (
+  locales: Translations
+): Array<PresetConfiguration> => [
   {
     name: locales.scale.presets.customOnes,
     stops: [1, 2, 3, 4, 5, 6],
