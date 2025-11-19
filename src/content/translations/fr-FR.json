@@ -1133,12 +1133,12 @@
           "label": "Synchroniser vos modifications en temps réel avec la palette"
         },
         "styles": {
-          "label": "Synchroniser profondément les styles locaux du document avec la palette",
+          "label": "Synchroniser profondément avec les styles locaux",
           "message": "Si un style n'est pas dans la palette, il sera supprimé."
         },
         "title": "Synchronisation",
         "variables": {
-          "label": "Synchroniser profondément les variables locales de la collection avec la palette",
+          "label": "Synchroniser profondément avec les variables locales",
           "message": "Si une variable n'est pas dans la palette, elle sera supprimée."
         }
       }

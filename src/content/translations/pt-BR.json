@@ -1133,12 +1133,12 @@
           "label": "Sincronizar suas alterações em tempo real com a paleta"
         },
         "styles": {
-          "label": "Sincronizar profundamente estilos locais no documento com a paleta",
+          "label": "Sincronizar profundamente com estilos locais",
           "message": "Se um estilo não estiver na paleta, ele será removido."
         },
         "title": "Sincronização",
         "variables": {
-          "label": "Sincronizar profundamente variáveis locais na coleção com a paleta",
+          "label": "Sincronizar profundamente com variáveis locais",
           "message": "Se uma variável não estiver na paleta, ela será removida."
         }
       }
