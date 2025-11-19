@@ -68,6 +68,7 @@ export type Editor =
   | 'figjam'
   | 'dev'
   | 'dev_vscode'
+  | 'buzz'
   | 'penpot'
   | 'sketch'
   | 'framer'
