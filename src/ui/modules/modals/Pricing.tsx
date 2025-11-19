@@ -26,13 +26,11 @@ interface PricingProps extends BaseProps, WithConfigProps {
 }
 
 interface PricingState {
-  isMobile: boolean
   context: 'REGULAR' | 'DISCOUNT'
 }
 
 export default class Pricing extends PureComponent<PricingProps, PricingState> {
   private theme: string | null
-  private mediaQueryList: MediaQueryList | null = null
 
   static features = (
     planStatus: PlanStatus,
@@ -53,20 +51,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     super(props)
     this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
-      isMobile: false,
-      context: 'REGULAR',
+      context: 'DISCOUNT',
     }
   }
 
   // Lifecycle
   componentDidMount() {
-    this.mediaQueryList = window.matchMedia('(max-width: 460px)')
-    this.setState({ isMobile: this.mediaQueryList.matches })
-    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
-      this.setState({ isMobile: event.matches })
-    }
-    this.mediaQueryList.addEventListener('change', handleMediaQueryChange)
-
     trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId === ''
@@ -78,16 +68,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         ?.isConsented ?? false,
       { feature: 'VIEW_PRICING' }
     )
-  }
-
-  componentWillUnmount() {
-    if (this.mediaQueryList) {
-      const handleMediaQueryChange = (event: MediaQueryListEvent) => {
-        this.setState({ isMobile: event.matches })
-      }
-
-      this.mediaQueryList.removeEventListener('change', handleMediaQueryChange)
-    }
   }
 
   // Handlers
@@ -437,14 +417,14 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               <Tabs
                 tabs={[
                   {
-                    label: this.props.locales.pricing.contexts.regular,
-                    id: 'REGULAR',
-                    isUpdated: false,
-                  },
-                  {
                     label: this.props.locales.pricing.contexts.discount,
                     id: 'DISCOUNT',
                     isUpdated: true,
+                  },
+                  {
+                    label: this.props.locales.pricing.contexts.regular,
+                    id: 'REGULAR',
+                    isUpdated: false,
                   },
                 ]}
                 active={this.state.context}
@@ -455,7 +435,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             <div
               style={{
                 display: 'flex',
-                flexDirection: this.state.isMobile ? 'column' : 'row',
+                flexDirection:
+                  this.props.documentWidth <= 460 ? 'column' : 'row',
                 gap: 'var(--size-pos-xxxsmall)',
                 flex: 1,
               }}
