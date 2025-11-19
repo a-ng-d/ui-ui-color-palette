@@ -1868,7 +1868,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -1886,7 +1885,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -1904,7 +1902,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -1922,7 +1919,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -1942,7 +1938,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -1962,7 +1957,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -1982,7 +1976,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2002,7 +1995,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2022,7 +2014,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2042,7 +2033,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2062,7 +2052,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2082,7 +2071,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2102,7 +2090,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2122,7 +2109,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2142,7 +2128,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2162,7 +2147,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2182,7 +2166,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2202,7 +2185,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2222,7 +2204,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2242,7 +2223,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2262,7 +2242,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2282,7 +2261,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2302,7 +2280,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2322,7 +2299,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2342,7 +2318,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2362,7 +2337,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2382,7 +2356,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2402,7 +2375,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2422,7 +2394,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2442,7 +2413,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -2462,7 +2432,6 @@ export const featuresScheme: Array<
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {
@@ -3111,7 +3080,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['EDIT'],
     proForServices: ['EDIT'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
   },
   {
     name: 'SYNC_LOCAL_VARIABLES',
@@ -3122,7 +3091,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['EDIT'],
     proForServices: ['EDIT'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
   },
   {
     name: 'PUBLISH_PALETTE',
@@ -3375,8 +3344,8 @@ export const featuresScheme: Array<
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['CREATE', 'EDIT', 'SEE'],
-    proForServices: ['CREATE', 'EDIT', 'SEE'],
+    availabilityForServices: ['EDIT', 'SEE'],
+    proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -3509,7 +3478,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
   },
   {
     name: 'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
@@ -3520,7 +3489,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
   },
   {
     name: 'USER_LICENSE',
