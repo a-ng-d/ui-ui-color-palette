@@ -190,44 +190,61 @@ export default class SyncPreferences extends PureComponent<
   // Render
   render() {
     return (
-      <Section
-        title={
-          <SimpleItem
-            leftPartSlot={
-              <SectionTitle
-                label={this.props.locales.user.preferences.sync.title}
-              />
-            }
-            isListItem={false}
-            alignment="CENTER"
-          />
+      <Feature
+        isActive={
+          SyncPreferences.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive() ||
+          SyncPreferences.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()
         }
-        body={[
-          {
-            node: (
-              <SemanticMessage
-                type="INFO"
-                message={this.props.locales.user.preferences.sync.message}
-              />
-            ),
-          },
-          {
-            node: (
-              <FormItem shouldFill>
-                <this.StylesDeepSync />
-              </FormItem>
-            ),
-          },
-          {
-            node: (
-              <FormItem shouldFill>
-                <this.VariablesDeepSync />
-              </FormItem>
-            ),
-          },
-        ]}
-        border={!this.props.isLast ? ['BOTTOM'] : undefined}
-      />
+      >
+        <Section
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={this.props.locales.user.preferences.sync.title}
+                />
+              }
+              isListItem={false}
+              alignment="CENTER"
+            />
+          }
+          body={[
+            {
+              node: (
+                <SemanticMessage
+                  type="INFO"
+                  message={this.props.locales.user.preferences.sync.message}
+                />
+              ),
+            },
+            {
+              node: (
+                <FormItem shouldFill>
+                  <this.StylesDeepSync />
+                </FormItem>
+              ),
+            },
+            {
+              node: (
+                <FormItem shouldFill>
+                  <this.VariablesDeepSync />
+                </FormItem>
+              ),
+            },
+          ]}
+          border={!this.props.isLast ? ['BOTTOM'] : undefined}
+        />
+      </Feature>
     )
   }
 }

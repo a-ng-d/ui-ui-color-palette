@@ -241,7 +241,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: 3,
+    limit: 1,
   },
   {
     name: 'LOCAL_PALETTES_PAGE',
