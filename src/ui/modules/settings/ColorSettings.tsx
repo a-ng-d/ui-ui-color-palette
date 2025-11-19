@@ -681,6 +681,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     label:
                       this.props.locales.settings.color.visionSimulationMode
                         .warning,
+                    type: 'MULTI_LINE',
                   }
                 : undefined
             }
