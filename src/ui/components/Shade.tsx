@@ -11,12 +11,15 @@ import {
   TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { ConfigContextType } from '../../config/ConfigContext'
+import { WithConfigProps } from './WithConfig'
+import Feature from './Feature'
 
-interface ShadeProps extends BaseProps {
+interface ShadeProps extends BaseProps, WithConfigProps {
   index: number
   color: HexModel
   sourceColor: SourceColorConfiguration | ColorConfiguration
@@ -35,6 +38,21 @@ interface ShadeStates {
 
 export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
   private theme: string | null
+
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service,
+    editor: Editor
+  ) => ({
+    PREVIEW_SHADE_HEX: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_SHADE_HEX',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+  })
 
   constructor(props: ShadeProps) {
     super(props)
@@ -345,7 +363,17 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         }}
         onMouseEnter={() => this.setState({ isCompact: true })}
         onMouseLeave={() => this.setState({ isCompact: false })}
-        onMouseDown={this.onCopyHex}
+        onMouseDown={() => {
+          if (
+            Shade.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).PREVIEW_SHADE_HEX.isActive()
+          )
+            return this.onCopyHex()
+        }}
       >
         {this.props.isWCAGDisplayed && (
           <this.wcagScoreTag
@@ -392,7 +420,18 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         {distance < 4 && !this.props.areSourceColorsLocked && (
           <this.closestColorTag />
         )}
-        {this.state.isCompact && <this.copiedColorTag />}
+        <Feature
+          isActive={
+            Shade.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).PREVIEW_SHADE_HEX.isActive() && this.state.isCompact
+          }
+        >
+          <this.copiedColorTag />
+        </Feature>
       </div>
     )
   }
