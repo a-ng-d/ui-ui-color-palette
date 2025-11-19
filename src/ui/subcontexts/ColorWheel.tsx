@@ -229,21 +229,10 @@ export default class ColorWheel extends PureComponent<
                   backgroundColor: color,
                 }}
               >
-                <div className={layouts.centered}>
-                  <div
-                    className={doClassnames([
-                      layouts['stackbar--tight'],
-                      layouts['stackbar--centered'],
-                    ])}
-                  >
-                    <Chip state="ON_BACKGROUND">
-                      {color.toUpperCase().replace('#', '')}
-                    </Chip>
-                    <Chip state="ON_BACKGROUND">
-                      {getClosestColorName(color)}
-                    </Chip>
-                  </div>
-                </div>
+                <Chip state="ON_BACKGROUND">
+                  {color.toUpperCase().replace('#', '')}
+                </Chip>
+                <Chip state="ON_BACKGROUND">{getClosestColorName(color)}</Chip>
               </div>
             ))}
           </div>
