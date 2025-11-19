@@ -691,7 +691,7 @@ const globalConfig: Config = {
     storeUrl: 'https://uicp.ylb.lt/store',
     storeManagementUrl: 'https://uicp.ylb.lt/store-management',
     storeWithDiscountUrl: 'https://uicp.ylb.lt/store-discount',
-    howToUseUrl: 'https://uicp.ylb.lt/how-to-use',
+    howToUseUrl: 'https://uicp.ylb.lt/how-to-use-figma',
   },
   versions: {
     userConsentVersion: '2024.01',
