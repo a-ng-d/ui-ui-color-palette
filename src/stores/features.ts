@@ -1862,7 +1862,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -1881,7 +1880,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'penpot',
       'sketch',
       'framer',
@@ -1898,7 +1896,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'penpot',
       'sketch',
       'framer',
@@ -1915,7 +1912,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'penpot',
       'sketch',
       'framer',
@@ -1932,7 +1928,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -1951,7 +1946,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -1970,7 +1964,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -1989,7 +1982,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2008,7 +2000,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2027,7 +2018,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2046,7 +2036,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2065,7 +2054,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2084,7 +2072,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2103,7 +2090,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2122,7 +2108,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2141,7 +2126,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2160,7 +2144,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2179,7 +2162,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2198,7 +2180,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2217,7 +2198,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2236,7 +2216,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2255,7 +2234,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2274,7 +2252,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2293,7 +2270,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2312,7 +2288,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2331,7 +2306,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2350,7 +2324,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2369,7 +2342,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2388,7 +2360,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2407,7 +2378,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
@@ -2426,7 +2396,6 @@ export const featuresScheme: Array<
     proForServices: ['EDIT', 'SEE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
