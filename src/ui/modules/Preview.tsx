@@ -856,6 +856,7 @@ export default class Preview extends PureComponent<
                     ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
                       ? {
                           label: this.props.locales.preview.lock.warning,
+                          type: 'MULTI_LINE',
                         }
                       : undefined
                   }
@@ -1365,6 +1366,7 @@ export default class Preview extends PureComponent<
                           label:
                             this.props.locales.settings.color
                               .visionSimulationMode.warning,
+                          type: 'MULTI_LINE',
                         }
                       : undefined
                   }

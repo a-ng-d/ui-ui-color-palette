@@ -1269,6 +1269,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               ).SCALE_CHROMA.isBlocked()
                 ? {
                     label: this.props.locales.scale.shift.chroma.warning,
+                    type: 'MULTI_LINE',
                   }
                 : undefined
             }

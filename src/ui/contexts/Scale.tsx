@@ -582,6 +582,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
               helper={{
                 label: this.props.locales.scale.actions.applyEasing,
                 pin: 'TOP',
+                type: 'MULTI_LINE',
               }}
               action={() => {
                 const newScale = this.onApplyDistributionEasing(
