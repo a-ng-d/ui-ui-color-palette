@@ -997,7 +997,7 @@
         "warning": "The file was not imported. Retry dragging & dropping a .png file here."
       },
       "helper": "Uploading an image costs {fee} credits",
-      "message": "Upload an image or select it in your document to extract its 5 dominant colors",
+      "message": "Upload, paste or select an image to extract its 5 dominant colors",
       "removeImage": "Remove image",
       "title": "Dominant colors"
     },

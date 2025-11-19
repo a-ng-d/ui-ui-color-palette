@@ -997,7 +997,7 @@
         "warning": "O arquivo não foi importado. Tente novamente arrastando e soltando um arquivo .png aqui."
       },
       "helper": "Fazer upload de uma imagem custa {fee} créditos",
-      "message": "Faça upload de uma imagem ou selecione-a em seu documento para extrair suas 5 cores dominantes",
+      "message": "Faça upload, cole ou selecione uma imagem para extrair suas 5 cores dominantes",
       "removeImage": "Remover imagem",
       "title": "Cores dominantes"
     },

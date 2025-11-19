@@ -997,7 +997,7 @@
         "warning": "Le fichier n'a pas été importé. Réessayez de glisser-déposer un fichier .png ici."
       },
       "helper": "Télécharger une image coûte {fee} crédits",
-      "message": "Téléchargez une image ou sélectionnez-la dans votre document pour extraire ses 5 couleurs dominantes",
+      "message": "Téléchargez, collez ou sélectionnez une image pour extraire ses 5 couleurs dominantes",
       "removeImage": "Supprimer l'image",
       "title": "Couleurs dominantes"
     },

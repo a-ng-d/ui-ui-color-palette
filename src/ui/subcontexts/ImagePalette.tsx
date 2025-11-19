@@ -91,6 +91,7 @@ export default class ImagePalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+    window.addEventListener('paste', this.handlePaste)
   }
 
   componentWillUnmount = () => {
@@ -98,9 +99,50 @@ export default class ImagePalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+    window.removeEventListener('paste', this.handlePaste)
   }
 
   // Handlers
+  handlePaste = async (e: ClipboardEvent) => {
+    if (!e.clipboardData) return
+
+    const items = Array.from(e.clipboardData.items)
+    const imageItem = items.find((item) => item.type.startsWith('image/'))
+
+    if (imageItem && imageItem.type === 'image/png')
+      if (
+        !ImagePalette.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_IMAGE_UPLOAD.isReached(this.props.creditsCount * -1 - 1)
+      ) {
+        e.preventDefault()
+
+        const file = imageItem.getAsFile()
+        if (file) {
+          const arrayBuffer = await file.arrayBuffer()
+          const blob = new Blob([arrayBuffer], { type: 'image/png' })
+          const imageUrl = URL.createObjectURL(blob)
+          const imageTitle = `Pasted image ${new Date().toLocaleTimeString()}`
+
+          const dominantColors = await DominantColors.extract(arrayBuffer, 5)
+
+          if (this.props.config.plan.isProEnabled)
+            $creditsCount.set(
+              $creditsCount.get() - this.props.config.fees.imageColorsExtract
+            )
+
+          this.setState({
+            dominantColors: dominantColors,
+            imageUrl: imageUrl,
+            imageTitle: imageTitle,
+          })
+        }
+      }
+  }
+
   handleMessage = (e: CustomEvent<PluginMessageData>) => {
     const path = e.detail
 
