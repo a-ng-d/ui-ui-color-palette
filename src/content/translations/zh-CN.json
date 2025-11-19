@@ -358,9 +358,18 @@
       "singlePlural": "已创建 1 个变量和 {modeCount} 个模式",
       "singleSingle": "已创建 1 个变量和模式"
     },
-    "maxNumberOfLocalPalettes": "升级到 /pro 以添加超过 {maxCount} 个本地调色板",
-    "maxNumberOfSourceColors": "升级到 /pro 以添加超过 {maxCount} 个源颜色",
-    "maxNumberOfStops": "升级到 /pro 以添加超过 {maxCount} 个色阶",
+    "maxNumberOfLocalPalettes": {
+      "plural": "升级到 /pro 以添加超过 {maxCount} 个本地调色板",
+      "single": "升级到 /pro 以添加超过一个本地调色板"
+    },
+    "maxNumberOfSourceColors": {
+      "plural": "升级到 /pro 以添加超过 {maxCount} 个源颜色",
+      "single": "升级到 /pro 以添加超过一个源颜色"
+    },
+    "maxNumberOfStops": {
+      "plural": "升级到 /pro 以添加超过 {maxCount} 个色阶",
+      "single": "升级到 /pro 以添加超过一个色阶"
+    },
     "multipleBlockingMessages": {
       "chroma": "重置色度",
       "head": "您可以通过以下方式解锁创建：{messages}",

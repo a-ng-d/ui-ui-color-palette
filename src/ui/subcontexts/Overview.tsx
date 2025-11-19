@@ -471,6 +471,21 @@ export default class Overview extends PureComponent<
 
   // Templates
   SelectedColors = () => {
+    const limit =
+      Overview.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).SOURCE.limit ?? 0
+    const message =
+      limit > 1
+        ? this.props.locales.info.maxNumberOfSourceColors.plural.replace(
+            '{maxCount}',
+            limit.toString()
+          )
+        : this.props.locales.info.maxNumberOfSourceColors.single
+        
     return (
       <Feature
         isActive={Overview.features(
@@ -508,17 +523,7 @@ export default class Overview extends PureComponent<
           >
             <SemanticMessage
               type="INFO"
-              message={this.props.locales.info.maxNumberOfSourceColors.replace(
-                '{maxCount}',
-                (
-                  Overview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SOURCE.limit ?? 0
-                ).toString()
-              )}
+              message={message}
               actionsSlot={
                 this.props.config.plan.isTrialEnabled &&
                 this.props.trialStatus !== 'EXPIRED' ? (

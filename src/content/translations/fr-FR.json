@@ -358,9 +358,18 @@
       "singlePlural": "1 variable et {modeCount} modes créés",
       "singleSingle": "1 variable et mode créé"
     },
-    "maxNumberOfLocalPalettes": "Passez à /pro pour ajouter plus de {maxCount} palettes locales",
-    "maxNumberOfSourceColors": "Passez à /pro pour ajouter plus de {maxCount} couleurs sources",
-    "maxNumberOfStops": "Passez à /pro pour ajouter plus de {maxCount} étapes",
+    "maxNumberOfLocalPalettes": {
+      "plural": "Passez à /pro pour ajouter plus de {maxCount} palettes locales",
+      "single": "Passez à /pro pour ajouter plus d'une seule palette locale"
+    },
+    "maxNumberOfSourceColors": {
+      "plural": "Passez à /pro pour ajouter plus de {maxCount} couleurs sources",
+      "single": "Passez à /pro pour ajouter plus d'une seule couleur source"
+    },
+    "maxNumberOfStops": {
+      "plural": "Passez à /pro pour ajouter plus de {maxCount} étapes",
+      "single": "Passez à /pro pour ajouter plus d'une seule étape"
+    },
     "multipleBlockingMessages": {
       "chroma": "Réinitialiser la chroma",
       "head": "Vous pouvez débloquer la création si vous : {messages}",

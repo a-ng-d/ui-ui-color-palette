@@ -996,6 +996,21 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   }
 
   Create = () => {
+    const limit =
+      ScaleLightnessChroma.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).PRESETS_CUSTOM_ADD.limit ?? 0
+    const message =
+      limit > 1
+        ? this.props.locales.info.maxNumberOfStops.plural.replace(
+            '{maxCount}',
+            limit.toString()
+          )
+        : this.props.locales.info.maxNumberOfStops.single
+
     return (
       <>
         <div
@@ -1152,17 +1167,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               >
                 <SemanticMessage
                   type="INFO"
-                  message={this.props.locales.info.maxNumberOfStops.replace(
-                    '{maxCount}',
-                    (
-                      ScaleLightnessChroma.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PRESETS_CUSTOM_ADD.limit ?? 0
-                    ).toString()
-                  )}
+                  message={message}
                   actionsSlot={
                     this.props.config.plan.isTrialEnabled &&
                     this.props.trialStatus !== 'EXPIRED' ? (
@@ -1288,6 +1293,21 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   }
 
   Edit = () => {
+    const limit =
+      ScaleLightnessChroma.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).PRESETS_CUSTOM_ADD.limit ?? 0
+    const message =
+      limit > 1
+        ? this.props.locales.info.maxNumberOfStops.plural.replace(
+            '{maxCount}',
+            limit.toString()
+          )
+        : this.props.locales.info.maxNumberOfStops.single
+
     return (
       <>
         <div
@@ -1444,17 +1464,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               >
                 <SemanticMessage
                   type="INFO"
-                  message={this.props.locales.info.maxNumberOfStops.replace(
-                    '{maxCount}',
-                    (
-                      ScaleLightnessChroma.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PRESETS_CUSTOM_ADD.limit ?? 0
-                    ).toString()
-                  )}
+                  message={message}
                   actionsSlot={
                     this.props.config.plan.isTrialEnabled &&
                     this.props.trialStatus !== 'EXPIRED' ? (

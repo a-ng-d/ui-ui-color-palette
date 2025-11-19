@@ -602,6 +602,21 @@ export default class PagePalettes extends PureComponent<
 
   // Render
   render() {
+    const limit =
+      PagePalettes.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).LOCAL_PALETTES.limit ?? 0
+    const message =
+      limit > 1
+        ? this.props.locales.info.maxNumberOfLocalPalettes.plural.replace(
+            '{maxCount}',
+            limit.toString()
+          )
+        : this.props.locales.info.maxNumberOfLocalPalettes.single
+
     return (
       <>
         <SimpleItem
@@ -626,17 +641,7 @@ export default class PagePalettes extends PureComponent<
             >
               <SemanticMessage
                 type="INFO"
-                message={this.props.locales.info.maxNumberOfLocalPalettes.replace(
-                  '{maxCount}',
-                  (
-                    PagePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).LOCAL_PALETTES.limit ?? 0
-                  ).toString()
-                )}
+                message={message}
                 actionsSlot={
                   this.props.config.plan.isTrialEnabled &&
                   this.props.trialStatus !== 'EXPIRED' ? (

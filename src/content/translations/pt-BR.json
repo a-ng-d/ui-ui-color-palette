@@ -358,9 +358,18 @@
       "singlePlural": "1 variável e {modeCount} modos criados",
       "singleSingle": "1 variável e modo criado"
     },
-    "maxNumberOfLocalPalettes": "Atualize para /pro para adicionar mais de {maxCount} paletas locais",
-    "maxNumberOfSourceColors": "Atualize para /pro para adicionar mais de {maxCount} cores-fonte",
-    "maxNumberOfStops": "Atualize para /pro para adicionar mais de {maxCount} paradas",
+    "maxNumberOfLocalPalettes": {
+      "plural": "Você atingiu o número máximo de {maxCount} paletas locais. Atualize para /pro para criar mais paletas.",
+      "single": "Você atingiu o número máximo de 1 paleta local. Atualize para /pro para criar mais paletas."
+    },
+    "maxNumberOfSourceColors": {
+      "plural": "Atualize para /pro para adicionar mais de {maxCount} cores-fonte",
+      "single": "Atualize para /pro para adicionar mais de 1 cor-fonte"
+    },
+    "maxNumberOfStops": {
+      "plural": "Atualize para /pro para adicionar mais de {maxCount} paradas",
+      "single": "Atualize para /pro para adicionar mais de 1 parada"
+    },
     "multipleBlockingMessages": {
       "chroma": "Resetar croma",
       "head": "Você pode desbloquear a criação se: {messages}",

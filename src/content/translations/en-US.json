@@ -358,9 +358,18 @@
       "singlePlural": "1 variable and {modeCount} modes created",
       "singleSingle": "1 variable and mode created"
     },
-    "maxNumberOfLocalPalettes": "Upgrade to /pro to add more than {maxCount} local palettes",
-    "maxNumberOfSourceColors": "Upgrade to /pro to add more than {maxCount} source colors",
-    "maxNumberOfStops": "Upgrade to /pro to add more than {maxCount} stops",
+    "maxNumberOfLocalPalettes": {
+      "plural": "Upgrade to /pro to add more than {maxCount} local palettes",
+      "single": "Upgrade to /pro to add more than one single local palette"
+    },
+    "maxNumberOfSourceColors": {
+      "plural": "Upgrade to /pro to add more than {maxCount} source colors",
+      "single": "Upgrade to /pro to add more than one single source color"
+    },
+    "maxNumberOfStops": {
+      "plural": "Upgrade to /pro to add more than {maxCount} stops",
+      "single": "Upgrade to /pro to add more than one single stop"
+    },
     "multipleBlockingMessages": {
       "chroma": "Reset chroma",
       "head": "You can unlock the creation if you: {messages}",

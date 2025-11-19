@@ -685,6 +685,21 @@ export default class Actions extends PureComponent<
 
   // Templates
   Create = () => {
+    const limit =
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).SOURCE.limit ?? 0
+    const message =
+      limit > 1
+        ? this.props.locales.info.maxNumberOfSourceColors.plural.replace(
+            '{maxCount}',
+            limit.toString()
+          )
+        : this.props.locales.info.maxNumberOfSourceColors.single
+
     return (
       <Bar
         leftPartSlot={
@@ -766,19 +781,7 @@ export default class Actions extends PureComponent<
                   iconName="warning"
                 />
                 {this.state.isTooltipVisible && (
-                  <Tooltip pin="TOP">
-                    {this.props.locales.info.maxNumberOfSourceColors.replace(
-                      '{maxCount}',
-                      String(
-                        Actions.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SOURCE.limit ?? 0
-                      )
-                    )}
-                  </Tooltip>
+                  <Tooltip pin="TOP">{message}</Tooltip>
                 )}
               </div>
             )}
