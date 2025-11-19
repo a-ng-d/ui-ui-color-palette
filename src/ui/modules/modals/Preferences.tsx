@@ -70,7 +70,10 @@ export default class Preferences extends PureComponent<PreferencesProps> {
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <List padding={padding}>
+          <List
+            padding={padding}
+            isFullHeight
+          >
             <SyncPreferences {...this.props} />
             <LangPreferences
               {...this.props}
