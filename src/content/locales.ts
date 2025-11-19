@@ -19,4 +19,9 @@ export const locales = {
     currentLocale = translations[lang]
     return translations[lang]
   },
+  lang: () => {
+    return (Object.keys(translations) as Language[]).find(
+      (key) => translations[key] === currentLocale
+    )!
+  }
 }
