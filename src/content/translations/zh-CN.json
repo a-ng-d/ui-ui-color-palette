@@ -536,13 +536,13 @@
       "regular": "常规"
     },
     "discount": {
-      "amount": "20% 优惠",
-      "code": "SAVE20"
+      "amount": "50% 优惠",
+      "code": "SAVE50"
     },
     "figma": {
       "cta": "仅为 Figma 升级 /pro",
       "subtitle": {
-        "discount": "Figma 上每年 $48",
+        "discount": "Figma 上每年 $30",
         "regular": "Figma 上每月 $5"
       },
       "text": "◻ 无限调色板{br}◻ 无限源颜色{br}◻ 无限色阶{br}◻ 无限颜色模式{br}◻ 无限积分",
@@ -551,7 +551,7 @@
     "one": {
       "cta": "获取您的许可证",
       "subtitle": {
-        "discount": "Figma、Penpot、Sketch、Framer 上终身 $56",
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $35",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
       },
       "text": "◻ 无限调色板{br}◻ 无限源颜色{br}◻ 无限色阶{br}◻ 无限颜色模式{br}◻ 无限积分",
@@ -560,7 +560,7 @@
     "oneFigma": {
       "cta": "获取您的许可证",
       "subtitle": {
-        "discount": "Figma、Penpot、Sketch、Framer 上终身 $56",
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $35",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
       },
       "text": "◻ 所有 /figma 功能{br}◻ 适用于小型和大型团队{br}◻ 多平台{br}◻ 多种付款选项{br}◻ 终身计划",
