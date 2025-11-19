@@ -485,7 +485,7 @@ export default class Overview extends PureComponent<
             limit.toString()
           )
         : this.props.locales.info.maxNumberOfSourceColors.single
-        
+
     return (
       <Feature
         isActive={Overview.features(

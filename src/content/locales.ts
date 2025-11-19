@@ -23,5 +23,5 @@ export const locales = {
     return (Object.keys(translations) as Language[]).find(
       (key) => translations[key] === currentLocale
     )!
-  }
+  },
 }

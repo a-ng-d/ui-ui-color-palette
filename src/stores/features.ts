@@ -1878,12 +1878,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['EDIT'],
     proForServices: ['EDIT'],
-    availabilityForEditors: [
-      'figma',
-      'penpot',
-      'sketch',
-      'framer',
-    ],
+    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
   },
   {
     name: 'THEMES_PARAMS',
@@ -1894,12 +1889,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['EDIT'],
     proForServices: ['EDIT'],
-    availabilityForEditors: [
-      'figma',
-      'penpot',
-      'sketch',
-      'framer',
-    ],
+    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
   },
   {
     name: 'THEMES_DESCRIPTION',
@@ -1910,12 +1900,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['EDIT'],
     proForServices: ['EDIT'],
-    availabilityForEditors: [
-      'figma',
-      'penpot',
-      'sketch',
-      'framer',
-    ],
+    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
   },
   {
     name: 'EXPORT',
