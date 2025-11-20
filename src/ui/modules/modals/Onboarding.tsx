@@ -130,11 +130,27 @@ export default class Onboarding extends PureComponent<
                   )
               )
               break
+            case 'dev_vscode':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Éditeurs'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Dev'
+                  )
+              )
+              break
             case 'figjam':
               data.announcements = data.announcements.filter(
                 (announcement: Announcement) =>
                   announcement.properties['Éditeurs'].multi_select.some(
                     (role: { name: string }) => role.name === 'FigJam'
+                  )
+              )
+              break
+            case 'buzz':
+              data.announcements = data.announcements.filter(
+                (announcement: Announcement) =>
+                  announcement.properties['Éditeurs'].multi_select.some(
+                    (role: { name: string }) => role.name === 'Buzz'
                   )
               )
               break

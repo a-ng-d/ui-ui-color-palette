@@ -1,6 +1,7 @@
 import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Feature } from '@a_ng_d/figmug-utils'
 import { Language, Translations } from './translations'
+import { Editor } from './app'
 
 export interface Config {
   limits: {
@@ -9,7 +10,7 @@ export interface Config {
   env: {
     isDev: boolean
     platform: 'figma' | 'penpot' | 'sketch' | 'framer'
-    editor: 'figma' | 'figjam' | 'dev' | 'penpot' | 'sketch' | 'framer'
+    editor: Editor
     ui: 'figma' | 'penpot' | 'sketch' | 'framer'
     colorMode:
       | 'figma-light'
