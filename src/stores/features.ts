@@ -1,8 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 
-export const featuresScheme: Array<
-  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
-> = [
+export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',
@@ -3474,7 +3472,7 @@ export const featuresScheme: Array<
     type: 'ACTION',
     availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
-    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode'],
+    availabilityForEditors: ['figma', 'figjam', 'dev', 'dev_vscode', 'buzz'],
   },
   {
     name: 'USER_LANGUAGE',
