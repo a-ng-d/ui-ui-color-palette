@@ -36,6 +36,7 @@
     "start:sketch:dark:sketch": "PLATFORM=sketch COLOR_MODE=dark EDITOR=sketch vite --mode development",
     "start:framer:light:framer": "PLATFORM=framer COLOR_MODE=light EDITOR=framer vite --mode development",
     "start:framer:dark:framer": "PLATFORM=framer COLOR_MODE=dark EDITOR=framer vite --mode development",
+    "build": "PLATFORM=figma COLOR_MODE=dark EDITOR=figma vite build --mode production",
     "typecheck": "npx tsc --noEmit",
     "lint": "npx eslint ./src/** --fix --ext .ts,.tsx .",
     "format": "npx prettier './src' --write",
