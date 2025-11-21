@@ -670,7 +670,7 @@ const globalConfig: Config = {
     announcementsWorkerUrl: import.meta.env
       .VITE_ANNOUNCEMENTS_WORKER_URL as string,
     databaseUrl: import.meta.env.VITE_SUPABASE_URL as string,
-    authUrl: import.meta.env.VITE_SUPABASE_AUTH_URL as string,
+    authUrl: import.meta.env.VITE_AUTH_URL as string,
     storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,
     platformUrl: window.location.origin,
     uiUrl: import.meta.env.VITE_UI_URL as string,
