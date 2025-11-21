@@ -58,6 +58,9 @@ jobs:
           echo VITE_NOTION_ANNOUNCEMENTS_ID="${{ vars.VITE_NOTION_ANNOUNCEMENTS_ID }}" >> .env.local
           echo VITE_NOTION_ONBOARDING_ID="${{ vars.VITE_NOTION_ONBOARDING_ID }}" >> .env.local
           echo VITE_LEMONSQUEEZY_URL="${{ vars.VITE_LEMONSQUEEZY_URL }}" >> .env.local
+          echo VITE_DBS_PALETTES_VIEW="${{ vars.VITE_DBS_PALETTES_VIEW }}" >> .env.local
+          echo VITE_DBS_PALETTES_TABLE="${{ vars.VITE_DBS_PALETTES_TABLE }}" >> .env.local
+          echo VITE_DBS_STARRED_PALETTES_TABLE="${{ vars.VITE_DBS_STARRED_PALETTES_TABLE }}" >> .env.local
           cat .env.local
           touch .env.sentry-build-plugin
           echo SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env.sentry-build-plugin
