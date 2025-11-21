@@ -6,9 +6,9 @@ export interface WithConfigProps {
   config: ConfigContextType
 }
 
-export function WithConfig<P extends WithConfigProps>(
+export const WithConfig = <P extends WithConfigProps>(
   WrappedComponent: ComponentType<P>
-) {
+) => {
   return class WithConfigComponent extends PureComponent<
     Omit<P, keyof WithConfigProps>
   > {
