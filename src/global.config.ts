@@ -665,13 +665,14 @@ const globalConfig: Config = {
     starredPalettesDbTableName: 'starred_palettes',
   },
   urls: {
-    authWorkerUrl: 'http://localhost:8787',
-    announcementsWorkerUrl: 'http://localhost:8888',
+    authWorkerUrl: import.meta.env.VITE_AUTH_WORKER_URL as string,
+    announcementsWorkerUrl: import.meta.env
+      .VITE_ANNOUNCEMENTS_WORKER_URL as string,
     databaseUrl: import.meta.env.VITE_SUPABASE_URL as string,
-    authUrl: 'http://localhost:3000',
+    authUrl: import.meta.env.VITE_SUPABASE_AUTH_URL as string,
     storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,
     platformUrl: window.location.origin,
-    uiUrl: 'http://localhost:4400',
+    uiUrl: import.meta.env.VITE_UI_URL as string,
     documentationUrl: 'https://uicp.ylb.lt/docs',
     repositoryUrl: 'https://uicp.ylb.lt/repository',
     communityUrl: 'https://uicp.ylb.lt/community',
