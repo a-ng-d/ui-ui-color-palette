@@ -652,7 +652,7 @@ const globalConfig: Config = {
     pluginId: '123456789',
   },
   plan: {
-    isProEnabled: true,
+    isProEnabled: import.meta.env.VITE_PRO_ENABLED === 'true',
     isTrialEnabled: false,
     trialTime: 72,
     creditsLimit: 400,
