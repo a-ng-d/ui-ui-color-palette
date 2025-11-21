@@ -9,7 +9,7 @@ const detachPalette = async ({
 }: {
   rawData: Partial<AppStates>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  locales: any
+  locales: (key: string, params?: Record<string, any> | undefined) => string
 }): Promise<Partial<AppStates>> => {
   const now = new Date().toISOString()
 
@@ -38,7 +38,7 @@ const detachPalette = async ({
         type: 'POST_MESSAGE',
         data: {
           type: 'INFO',
-          message: locales.success.detachment,
+          message: locales('success.detachment'),
         },
       },
     },
@@ -48,7 +48,13 @@ const detachPalette = async ({
     {
       pluginMessage: {
         type: 'DUPLICATE_PALETTE',
-        id: rawData.id,
+        data: {
+          id: rawData.id,
+          locales: {
+            errorMessage: locales('error.unfoundPalette'),
+            paletteName: locales('browse.copy', { name: rawData.name }),
+          },
+        },
       },
     },
     '*'

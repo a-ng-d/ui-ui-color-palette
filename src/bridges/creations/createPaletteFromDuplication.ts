@@ -1,22 +1,26 @@
 import { uid } from 'uid'
 import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { locales } from '../../content/locales'
 
-const createPaletteFromDuplication = async (id: string) => {
+interface Msg {
+  data: {
+    id: string
+    locales: { [key: string]: string }
+  }
+}
+
+const createPaletteFromDuplication = async (msg: Msg) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
-  const rawPalette = window.localStorage.getItem(`palette_${id}`)
+  const rawPalette = window.localStorage.getItem(`palette_${msg.data.id}`)
   const now = new Date().toISOString()
 
   if (rawPalette === undefined || rawPalette === null)
-    throw new Error(locales.get().error.unfoundPalette)
+    throw new Error(msg.data.locales.errorMessage)
 
   const palette = JSON.parse(rawPalette) as FullConfiguration
 
-  palette.base.name = locales
-    .get()
-    .browse.copy.replace('{name}', palette.base.name)
+  palette.base.name = msg.data.locales.paletteName
   palette.meta.id = uid()
   palette.meta.publicationStatus.isPublished = false
   palette.meta.publicationStatus.isShared = false

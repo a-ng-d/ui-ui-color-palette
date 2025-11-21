@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Card, Dialog, List, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
@@ -9,7 +10,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import isb from '../../../content/images/isb_product_thumbnail.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface StoreProps extends BaseProps, WithConfigProps {
+interface StoreProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -67,7 +68,7 @@ export default class Store extends PureComponent<StoreProps> {
         ).MORE_STORE.isActive()}
       >
         <Dialog
-          title={this.props.locales.store.title}
+          title={this.props.t('store.title')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >
@@ -77,17 +78,17 @@ export default class Store extends PureComponent<StoreProps> {
           >
             <Card
               src={isb}
-              title={this.props.locales.store.isb.title}
-              subtitle={this.props.locales.store.isb.subtitle}
+              title={this.props.t('store.isb.title')}
+              subtitle={this.props.t('store.isb.subtitle')}
               richText={
                 <span className={texts.type}>
-                  {this.props.locales.store.isb.text}
+                  {this.props.t('store.isb.text')}
                 </span>
               }
               actions={
                 <Button
                   type="primary"
-                  label={this.props.locales.store.isb.cta}
+                  label={this.props.t('store.isb.cta')}
                   action={(e: React.MouseEvent<HTMLButtonElement>) => {
                     e.stopPropagation()
                     sendPluginMessage(

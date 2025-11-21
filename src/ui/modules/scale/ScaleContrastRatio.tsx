@@ -18,6 +18,7 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
@@ -28,7 +29,7 @@ import { $palette } from '../../../stores/palette'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface ScaleProps extends BaseProps, WithConfigProps {
+interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
@@ -511,7 +512,7 @@ export default class ScaleContrastRatio extends PureComponent<
             id="update-preset"
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.scale.contrast.title}
+                label={this.props.t('scale.contrast.title')}
                 indicator={Object.entries(
                   this.props.scale ?? {}
                 ).length.toString()}
@@ -531,7 +532,7 @@ export default class ScaleContrastRatio extends PureComponent<
                     type="icon"
                     icon="reset"
                     helper={{
-                      label: this.props.locales.scale.actions.resetStops,
+                      label: this.props.t('scale.actions.resetStops'),
                     }}
                     feature="RESET_SCALE"
                     isBlocked={ScaleContrastRatio.features(
@@ -549,9 +550,7 @@ export default class ScaleContrastRatio extends PureComponent<
                     action={this.onResetStops}
                   />
                 </Feature>
-                <span className={texts.type}>
-                  {this.props.locales.separator}
-                </span>
+                <span className={texts.type}>{this.props.t('separator')}</span>
                 <Feature
                   isActive={ScaleContrastRatio.features(
                     this.props.planStatus,
@@ -563,7 +562,7 @@ export default class ScaleContrastRatio extends PureComponent<
                   <Select
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
-                    label={this.props.locales.scale.contrast.label}
+                    label={this.props.t('scale.contrast.label')}
                     shouldReflow
                     isChecked={true}
                     isBlocked={ScaleContrastRatio.features(
@@ -606,7 +605,7 @@ export default class ScaleContrastRatio extends PureComponent<
             max: this.props.textColorsTheme.lightColor,
           }}
           tips={{
-            minMax: this.props.locales.scale.tips.distributeAsTooltip,
+            minMax: this.props.t('scale.tips.distributeAsTooltip'),
           }}
           isBlocked={ScaleContrastRatio.features(
             this.props.planStatus,
@@ -641,7 +640,7 @@ export default class ScaleContrastRatio extends PureComponent<
             max: this.props.textColorsTheme.darkColor,
           }}
           tips={{
-            minMax: this.props.locales.scale.tips.distributeAsTooltip,
+            minMax: this.props.t('scale.tips.distributeAsTooltip'),
           }}
           isBlocked={ScaleContrastRatio.features(
             this.props.planStatus,

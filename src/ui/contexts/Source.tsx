@@ -12,6 +12,7 @@ import ImagePalette from '../subcontexts/ImagePalette'
 import GenAI from '../subcontexts/GenAI'
 import Explore from '../subcontexts/Explore'
 import ColorWheel from '../subcontexts/ColorWheel'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -27,7 +28,7 @@ import {
 import { $creditsCount } from '../../stores/credits'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface SourceProps extends BaseProps, WithConfigProps {
+interface SourceProps extends BaseProps, WithConfigProps, WithTranslationProps {
   sourceColors: Array<SourceColorConfiguration>
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
   onChangeColorsFromImport: (
@@ -76,7 +77,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
       props.config.features,
       props.editor,
       props.service,
-      props.locales
+      props.t
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -112,7 +113,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   }
 
   componentDidUpdate(previousProps: Readonly<SourceProps>): void {
-    if (previousProps.locales !== this.props.locales) {
+    if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
         [
           'SOURCE_OVERVIEW',
@@ -125,7 +126,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
         this.props.config.features,
         this.props.editor,
         this.props.service,
-        this.props.locales
+        this.props.t
       )
 
       this.forceUpdate()

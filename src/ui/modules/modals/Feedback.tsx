@@ -2,12 +2,16 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface FeedbackProps extends BaseProps, WithConfigProps {
+interface FeedbackProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -39,7 +43,7 @@ export default class Feedback extends PureComponent<FeedbackProps> {
         ).INVOLVES_FEEDBACK.isActive()}
       >
         <Dialog
-          title={this.props.locales.shortcuts.feedback}
+          title={this.props.t('shortcuts.feedback')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >

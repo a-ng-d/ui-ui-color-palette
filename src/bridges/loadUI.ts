@@ -1,5 +1,4 @@
 import globalConfig from '../global.config'
-import { locales } from '../content/locales'
 import updateThemes from './updates/updateThemes'
 import updateSettings from './updates/updateSettings'
 import updateScale from './updates/updateScale'
@@ -10,8 +9,8 @@ import jumpToPalette from './gets/jumpToPalette'
 import getPalettesOnCurrentPage from './gets/getPalettesOnCurrentPage'
 import deletePalette from './deletions/deletePalette'
 import createPalette from './creations/createPalettePalette'
-import createFromRemote from './creations/createPaletteFromRemote'
-import createFromDuplication from './creations/createPaletteFromDuplication'
+import createPaletteFromRemote from './creations/createPaletteFromRemote'
+import createPaletteFromDuplication from './creations/createPaletteFromDuplication'
 import checkUserPreferences from './checks/checkUserPreferences'
 import checkUserLicense from './checks/checkUserLicense'
 import checkUserConsent from './checks/checkUserConsent'
@@ -112,7 +111,6 @@ window.addEventListener('message', async (msg: any) => {
     },
     UPDATE_LANGUAGE: () => {
       window.localStorage.setItem('user_language', path.data.lang)
-      locales.set(path.data.lang)
     },
     //
     CREATE_PALETTE: () =>
@@ -122,7 +120,7 @@ window.addEventListener('message', async (msg: any) => {
     CREATE_PALETTE_FROM_DOCUMENT: () =>
       console.log('Create palette from document', path),
     CREATE_PALETTE_FROM_REMOTE: () =>
-      createFromRemote(path)
+      createPaletteFromRemote(path)
         .catch((error) => {
           iframe?.contentWindow?.postMessage({
             type: 'POST_MESSAGE',
@@ -200,7 +198,7 @@ window.addEventListener('message', async (msg: any) => {
     OPEN_IN_BROWSER: () => window.open(path.data.url, '_blank'),
     GET_PALETTES: async () => getPalettesOnCurrentPage(),
     JUMP_TO_PALETTE: async () =>
-      jumpToPalette(path.id).catch((error) =>
+      jumpToPalette(path).catch((error) =>
         iframe?.contentWindow?.postMessage({
           type: 'POST_MESSAGE',
           data: {
@@ -210,7 +208,7 @@ window.addEventListener('message', async (msg: any) => {
         })
       ),
     DUPLICATE_PALETTE: async () =>
-      createFromDuplication(path.id)
+      createPaletteFromDuplication(path)
         .finally(async () => {
           getPalettesOnCurrentPage()
           iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })

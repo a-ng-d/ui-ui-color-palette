@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Card, Dialog, layouts, Tabs, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { AppStates } from '../../App'
@@ -19,7 +20,10 @@ import uicp from '../../../content/images/uicp_figma.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface PricingProps extends BaseProps, WithConfigProps {
+interface PricingProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   plans: Plans
   onManageLicense: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
@@ -80,46 +84,29 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     })
   }
 
-  // Direct Actions
-  createTextWithBreaks = (text: string) => {
-    return text.split(/{br}/g).map((segment, index, array) =>
-      index < array.length - 1 ? (
-        <span
-          className={texts.type}
-          key={index}
-        >
-          {segment}
-          <br />
-        </span>
-      ) : (
-        <span
-          className={texts.type}
-          key={index}
-        >
-          {segment}
-        </span>
-      )
-    )
-  }
-
   // Templates
   One = () => {
     return (
       <Card
         src={uicpo}
-        title={this.props.locales.pricing.one.title}
+        title={this.props.t('pricing.one.title')}
         subtitle={
           this.state.context === 'REGULAR'
-            ? this.props.locales.pricing.one.subtitle.regular
-            : this.props.locales.pricing.one.subtitle.discount
+            ? this.props.t('pricing.one.subtitle.regular')
+            : this.props.t('pricing.one.subtitle.discount')
         }
-        richText={this.createTextWithBreaks(
-          this.props.locales.pricing.one.text
-        )}
+        richText={
+          <span
+            className={texts.type}
+            dangerouslySetInnerHTML={{
+              __html: this.props.t('pricing.one.text'),
+            }}
+          />
+        }
         actions={
           <Button
             type="primary"
-            label={this.props.locales.pricing.one.cta}
+            label={this.props.t('pricing.one.cta')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
@@ -183,19 +170,24 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     return (
       <Card
         src={uicpo}
-        title={this.props.locales.pricing.oneFigma.title}
+        title={this.props.t('pricing.oneFigma.title')}
         subtitle={
           this.state.context === 'REGULAR'
-            ? this.props.locales.pricing.oneFigma.subtitle.regular
-            : this.props.locales.pricing.oneFigma.subtitle.discount
+            ? this.props.t('pricing.oneFigma.subtitle.regular')
+            : this.props.t('pricing.oneFigma.subtitle.discount')
         }
-        richText={this.createTextWithBreaks(
-          this.props.locales.pricing.oneFigma.text
-        )}
+        richText={
+          <span
+              className={texts.type}
+            dangerouslySetInnerHTML={{
+              __html: this.props.t('pricing.oneFigma.text'),
+            }}
+          />
+        }
         actions={
           <Button
             type="primary"
-            label={this.props.locales.pricing.oneFigma.cta}
+            label={this.props.t('pricing.oneFigma.cta')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
@@ -259,19 +251,24 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     return (
       <Card
         src={uicp}
-        title={this.props.locales.pricing.figma.title}
+        title={this.props.t('pricing.figma.title')}
         subtitle={
           this.state.context === 'REGULAR'
-            ? this.props.locales.pricing.figma.subtitle.regular
-            : this.props.locales.pricing.figma.subtitle.discount
+            ? this.props.t('pricing.figma.subtitle.regular')
+            : this.props.t('pricing.figma.subtitle.discount')
         }
-        richText={this.createTextWithBreaks(
-          this.props.locales.pricing.figma.text
-        )}
+        richText={
+          <span
+            className={texts.type}
+            dangerouslySetInnerHTML={{
+              __html: this.props.t('pricing.figma.text'),
+            }}
+          />
+        }
         actions={
           <Button
             type="primary"
-            label={this.props.locales.pricing.figma.cta}
+            label={this.props.t('pricing.figma.cta')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
@@ -329,16 +326,16 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     return (
       <Card
         src={uicpa}
-        title={this.props.locales.pricing.activate.title}
+        title={this.props.t('pricing.activate.title')}
         richText={
           <span className={texts.type}>
-            {this.props.locales.pricing.activate.text}
+            {this.props.t('pricing.activate.text')}
           </span>
         }
         actions={
           <Button
             type="primary"
-            label={this.props.locales.pricing.activate.cta}
+            label={this.props.t('pricing.activate.cta')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               this.props.onManageLicense({
@@ -393,7 +390,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locales.pricing.title}
+          title={this.props.t('pricing.title')}
           onClose={this.props.onClose}
         >
           <div
@@ -417,12 +414,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               <Tabs
                 tabs={[
                   {
-                    label: this.props.locales.pricing.contexts.discount,
+                    label: this.props.t('pricing.contexts.discount'),
                     id: 'DISCOUNT',
                     isUpdated: true,
                   },
                   {
-                    label: this.props.locales.pricing.contexts.regular,
+                    label: this.props.t('pricing.contexts.regular'),
                     id: 'REGULAR',
                     isUpdated: false,
                   },

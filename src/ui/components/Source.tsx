@@ -6,10 +6,11 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Chip, Icon } from '@a_ng_d/figmug-ui'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
+import { WithTranslationProps } from './WithTranslation'
 import { WithConfigProps } from './WithConfig'
 import Feature from './Feature'
 
-interface SourceProps extends BaseProps, WithConfigProps {
+interface SourceProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
   color: RgbModel
@@ -70,7 +71,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
           <div className="preview__cell__stack">
             {this.props.isTransparent && (
               <Chip state="ON_BACKGROUND">
-                {this.props.locales.paletteProperties.transparent}
+                {this.props.t('paletteProperties.transparent')}
               </Chip>
             )}
             <Feature

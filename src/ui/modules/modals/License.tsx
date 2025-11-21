@@ -10,6 +10,7 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
@@ -20,7 +21,10 @@ import desactivateUserLicenseKey from '../../../external/license/desactivateUser
 import activateUserLicenseKey from '../../../external/license/activateUserLicenseKey'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface LicenseProps extends BaseProps, WithConfigProps {
+interface LicenseProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -143,7 +147,7 @@ export default class License extends PureComponent<
   onActivateLicense = () => {
     if (!this.state.hasLicense)
       return {
-        label: this.props.locales.user.license.cta.activate,
+        label: this.props.t('user.license.cta.activate'),
         state:
           !this.isValidLicenseKeyFormat(this.state.userLicenseKey) ||
           this.state.userLicenseKey === '' ||
@@ -193,7 +197,7 @@ export default class License extends PureComponent<
   onDesactivateLicense = () => {
     if (this.state.licenseStatus === 'ERROR' && this.state.hasLicense)
       return {
-        label: this.props.locales.user.license.cta.unlinkLocally,
+        label: this.props.t('user.license.cta.unlinkLocally'),
         action: () => {
           sendPluginMessage(
             {
@@ -218,7 +222,7 @@ export default class License extends PureComponent<
       }
     else if (this.state.licenseStatus !== 'ERROR' && this.state.hasLicense)
       return {
-        label: this.props.locales.user.license.cta.unlink,
+        label: this.props.t('user.license.cta.unlink'),
         state: this.state.isPrimaryActionLoading
           ? ('LOADING' as const)
           : ('DEFAULT' as const),
@@ -236,11 +240,9 @@ export default class License extends PureComponent<
                     type: 'POST_MESSAGE',
                     data: {
                       type: 'SUCCESS',
-                      message:
-                        this.props.locales.success.unlinkedLicense.replace(
-                          '{licenseKey}',
-                          this.state.userInstanceName
-                        ),
+                      message: this.props.t('success.unlinkedLicense', {
+                        licenseKey: this.state.userInstanceName,
+                      }),
                     },
                   },
                 },
@@ -322,14 +324,14 @@ export default class License extends PureComponent<
         ).USER_LICENSE.isActive()}
       >
         <Dialog
-          title={this.props.locales.user.manageLicense}
+          title={this.props.t('user.manageLicense')}
           actions={{
             primary: this.onActivateLicense(),
             destructive: this.onDesactivateLicense(),
             secondary: (() => {
               if (this.state.hasLicense)
                 return {
-                  label: this.props.locales.user.license.cta.manage,
+                  label: this.props.t('user.license.cta.manage'),
                   action: () => {
                     sendPluginMessage(
                       {
@@ -354,17 +356,17 @@ export default class License extends PureComponent<
               {this.state.licenseStatus === 'READY' && (
                 <SemanticMessage
                   type="INFO"
-                  message={this.props.locales.user.license.messages.activate}
+                  message={this.props.t('user.license.messages.activate')}
                 />
               )}
               {this.state.licenseStatus === 'ERROR' && (
                 <SemanticMessage
                   type="ERROR"
-                  message={this.props.locales.error.activatedLicense}
+                  message={this.props.t('error.activatedLicense')}
                 />
               )}
               <FormItem
-                label={this.props.locales.user.license.key.label}
+                label={this.props.t('user.license.key.label')}
                 id="type-license-key"
                 shouldFill
               >
@@ -372,7 +374,7 @@ export default class License extends PureComponent<
                   type="TEXT"
                   id="type-license-key"
                   value={this.state.userLicenseKey}
-                  placeholder={this.props.locales.user.license.key.placeholder}
+                  placeholder={this.props.t('user.license.key.placeholder')}
                   isAutoFocus
                   onChange={(e) =>
                     this.setState({
@@ -382,11 +384,11 @@ export default class License extends PureComponent<
                 />
               </FormItem>
               <FormItem
-                label={this.props.locales.user.license.name.label}
+                label={this.props.t('user.license.name.label')}
                 id="type-instance-name"
                 helper={{
                   type: 'INFO',
-                  message: this.props.locales.user.license.name.helper,
+                  message: this.props.t('user.license.name.helper'),
                 }}
                 shouldFill
               >
@@ -394,7 +396,7 @@ export default class License extends PureComponent<
                   type="TEXT"
                   id="type-instance-name"
                   value={this.state.userInstanceName}
-                  placeholder={this.props.locales.user.license.name.placeholder}
+                  placeholder={this.props.t('user.license.name.placeholder')}
                   onChange={(e) =>
                     this.setState({
                       userInstanceName: (e.target as HTMLInputElement).value,
@@ -422,10 +424,9 @@ export default class License extends PureComponent<
                 >
                   <SemanticMessage
                     type="ERROR"
-                    message={this.props.locales.error.unlinkedLicense.replace(
-                      '{licenseKey}',
-                      this.state.userInstanceName
-                    )}
+                    message={this.props.t('error.unlinkedLicense', {
+                      licenseKey: this.state.userInstanceName,
+                    })}
                   />
                 </div>
               )}
@@ -450,10 +451,10 @@ export default class License extends PureComponent<
                     }
                     label={
                       this.state.checkingButtonStatus === 'VALID'
-                        ? this.props.locales.user.license.messages.active
+                        ? this.props.t('user.license.messages.active')
                         : this.state.checkingButtonStatus === 'UNVALID'
-                          ? this.props.locales.user.license.messages.unactive
-                          : this.props.locales.user.license.cta.validate
+                          ? this.props.t('user.license.messages.unactive')
+                          : this.props.t('user.license.cta.validate')
                     }
                     isLoading={this.state.isSecondaryActionLoading}
                     action={() => {

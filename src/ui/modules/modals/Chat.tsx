@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -15,7 +16,7 @@ declare global {
   }
 }
 
-interface ChatProps extends BaseProps, WithConfigProps {
+interface ChatProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -61,7 +62,7 @@ export default class Chat extends PureComponent<ChatProps> {
         ).HELP_CHAT.isActive()}
       >
         <Dialog
-          title={this.props.locales.shortcuts.chat}
+          title={this.props.t('shortcuts.chat')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >

@@ -6,12 +6,12 @@ import {
   SourceColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { locales } from '../../content/locales'
 
 interface Msg {
   data: {
     sourceColors: Array<SourceColorConfiguration>
     exchange: ExchangeConfiguration
+    locales: { [key: string]: string }
   }
 }
 
@@ -48,7 +48,7 @@ const createPalette = async (msg: Msg) => {
 
   const themes: Array<ThemeConfiguration> = [
     {
-      name: locales.get().themes.switchTheme.defaultTheme,
+      name: msg.data.locales.defaultThemeName,
       description: '',
       scale: msg.data.exchange.scale,
       paletteBackground: '#FFFFFF',

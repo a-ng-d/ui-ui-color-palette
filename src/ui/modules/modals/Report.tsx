@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, FormItem, Input } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
@@ -9,7 +10,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { getSentry } from '../../../external/monitoring'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface ReportProps extends BaseProps, WithConfigProps {
+interface ReportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -76,7 +77,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
               type: 'POST_MESSAGE',
               data: {
                 type: 'SUCCESS',
-                message: this.props.locales.success.report,
+                message: this.props.t('success.report'),
               },
             },
           },
@@ -92,16 +93,14 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
               type: 'POST_MESSAGE',
               data: {
                 type: 'ERROR',
-                message: this.props.locales.error.generic,
+                message: this.props.t('error.generic'),
               },
             },
           },
           '*'
         )
       })
-  }
-
-  // Render
+  } // Render
   render() {
     return (
       <Feature
@@ -113,11 +112,11 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
         ).INVOLVE_ISSUES.isActive()}
       >
         <Dialog
-          title={this.props.locales.report.title}
+          title={this.props.t('report.title')}
           pin="RIGHT"
           actions={{
             primary: {
-              label: this.props.locales.report.cta,
+              label: this.props.t('report.cta'),
               state: (() => {
                 if (this.state.userMessage === '') return 'DISABLED'
                 if (this.state.isPrimaryActionLoading) return 'LOADING'
@@ -132,7 +131,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
           <div className="dialog__form">
             <div className="dialog__form__item">
               <FormItem
-                label={this.props.locales.report.fullName.label}
+                label={this.props.t('report.fullName.label')}
                 id="type-fullname"
                 shouldFill
               >
@@ -141,7 +140,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                   id="type-fullname"
                   value={this.state.userFullName}
                   isAutoFocus
-                  placeholder={this.props.locales.report.fullName.placeholder}
+                  placeholder={this.props.t('report.fullName.placeholder')}
                   onChange={(e) =>
                     this.setState({
                       userFullName: (e.target as HTMLInputElement).value,
@@ -152,7 +151,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
             </div>
             <div className="dialog__form__item">
               <FormItem
-                label={this.props.locales.report.email.label}
+                label={this.props.t('report.email.label')}
                 id="type-email"
                 shouldFill
               >
@@ -160,7 +159,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                   type="TEXT"
                   id="type-email"
                   value={this.state.userEmail}
-                  placeholder={this.props.locales.report.email.placeholder}
+                  placeholder={this.props.t('report.email.placeholder')}
                   onChange={(e) =>
                     this.setState({
                       userEmail: (e.target as HTMLInputElement).value,
@@ -171,7 +170,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
             </div>
             <div className="dialog__form__item">
               <FormItem
-                label={this.props.locales.report.message.label}
+                label={this.props.t('report.message.label')}
                 id="type-message"
                 shouldFill
                 isMultiLine
@@ -179,7 +178,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
                 <Input
                   type="LONG_TEXT"
                   id="type-message"
-                  placeholder={this.props.locales.report.message.placeholder}
+                  placeholder={this.props.t('report.message.placeholder')}
                   value={this.state.userMessage}
                   isGrowing
                   onChange={(e) =>

@@ -10,12 +10,16 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface ContrastSettingsProps extends BaseProps, WithConfigProps {
+interface ContrastSettingsProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   isLast?: boolean
   onChangeSettings: (
@@ -58,7 +62,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       >
         <FormItem
           id="update-text-light-color"
-          label={this.props.locales.settings.contrast.textColors.textLightColor}
+          label={this.props.t('settings.contrast.textColors.textLightColor')}
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
             this.props.config,
@@ -104,7 +108,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       >
         <FormItem
           id="update-text-dark-color"
-          label={this.props.locales.settings.contrast.textColors.textDarkColor}
+          label={this.props.t('settings.contrast.textColors.textDarkColor')}
           isBlocked={ContrastSettings.features(
             this.props.planStatus,
             this.props.config,
@@ -145,9 +149,7 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle
-                label={this.props.locales.settings.contrast.title}
-              />
+              <SectionTitle label={this.props.t('settings.contrast.title')} />
             }
             isListItem={false}
             alignment="CENTER"
@@ -164,10 +166,9 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
             node: (
               <SemanticMessage
                 type="INFO"
-                message={
-                  this.props.locales.settings.contrast.textColors
-                    .textThemeColorsDescription
-                }
+                message={this.props.t(
+                  'settings.contrast.textColors.textThemeColorsDescription'
+                )}
               />
             ),
           },

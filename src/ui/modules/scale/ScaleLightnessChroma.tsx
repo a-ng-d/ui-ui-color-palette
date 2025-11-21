@@ -25,6 +25,7 @@ import {
   SimpleSlider,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
@@ -36,7 +37,7 @@ import { trackScaleManagementEvent } from '../../../external/tracking/eventsTrac
 import { ConfigContextType } from '../../../config/ConfigContext'
 import type { AppStates } from '../../App'
 
-interface ScaleProps extends BaseProps, WithConfigProps {
+interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   preset: PresetConfiguration
   distributionEasing: EasingConfiguration
@@ -404,7 +405,8 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     const setPreset = (presetId: keyof typeof presetConfigs) => {
       const config = presetConfigs[presetId]
       const preset =
-        presets.find((preset) => preset.id === presetId) ?? defaultPreset
+        presets.find((preset) => preset.id === presetId) ??
+        (defaultPreset as PresetConfiguration)
 
       this.palette.setKey('preset', preset)
 
@@ -447,7 +449,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     ) => {
       const preset: PresetConfiguration =
         presets.find((preset) => preset.id === `CUSTOM${convention}`) ??
-        defaultPreset
+        (defaultPreset as PresetConfiguration)
 
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
@@ -587,7 +589,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     if (this.props.preset.id === 'CUSTOM')
       options[options.length - 1].children = [
         {
-          label: this.props.locales.scale.presets.legacy,
+          label: this.props.t('scale.presets.legacy'),
           value: 'CUSTOM',
           feature: 'PRESETS_CUSTOM',
           type: 'OPTION',
@@ -795,7 +797,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     type="icon"
                     icon="minus"
                     helper={{
-                      label: this.props.locales.scale.actions.removeStop,
+                      label: this.props.t('scale.actions.removeStop'),
                     }}
                     feature="REMOVE_STOP"
                     action={this.customHandler}
@@ -814,7 +816,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     icon="plus"
                     isDisabled={this.props.preset.stops.length === 24}
                     helper={{
-                      label: this.props.locales.scale.actions.addStop,
+                      label: this.props.t('scale.actions.addStop'),
                     }}
                     feature="ADD_STOP"
                     action={
@@ -840,7 +842,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             type="icon"
             icon="reverse"
             helper={{
-              label: this.props.locales.scale.actions.reverseStops,
+              label: this.props.t('scale.actions.reverseStops'),
             }}
             feature="REVERSE_SCALE"
             isBlocked={ScaleLightnessChroma.features(
@@ -870,7 +872,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             type="icon"
             icon="reset"
             helper={{
-              label: this.props.locales.scale.actions.resetScale,
+              label: this.props.t('scale.actions.resetScale'),
             }}
             feature="RESET_SCALE"
             isBlocked={ScaleLightnessChroma.features(
@@ -901,7 +903,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     ) {
       if (this.props.preset.stops.length > 2)
         menuOptions.push({
-          label: this.props.locales.scale.actions.removeStop,
+          label: this.props.t('scale.actions.removeStop'),
           value: 'REMOVE_STOP',
           feature: 'REMOVE_STOP',
           type: 'OPTION',
@@ -918,7 +920,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         this.props.preset.stops.length < 24
       )
         menuOptions.push({
-          label: this.props.locales.scale.actions.addStop,
+          label: this.props.t('scale.actions.addStop'),
           value: 'ADD_STOP',
           feature: 'ADD_STOP',
           type: 'OPTION',
@@ -935,7 +937,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       ).SCALE_REVERSE.isActive()
     )
       menuOptions.push({
-        label: this.props.locales.scale.actions.reverseStops,
+        label: this.props.t('scale.actions.reverseStops'),
         value: 'REVERSE_STOPS',
         feature: 'REVERSE_SCALE',
         type: 'OPTION',
@@ -963,7 +965,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       ).SCALE_RESET.isActive()
     )
       menuOptions.push({
-        label: this.props.locales.scale.actions.resetScale,
+        label: this.props.t('scale.actions.resetScale'),
         value: 'RESET_SCALE',
         feature: 'RESET_SCALE',
         type: 'OPTION',
@@ -989,7 +991,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         options={menuOptions}
         alignment="BOTTOM_RIGHT"
         helper={{
-          label: this.props.locales.scale.actions.moreTools,
+          label: this.props.t('scale.actions.moreTools'),
         }}
       />
     )
@@ -1005,11 +1007,10 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       ).PRESETS_CUSTOM_ADD.limit ?? 0
     const message =
       limit > 1
-        ? this.props.locales.info.maxNumberOfStops.plural.replace(
-            '{maxCount}',
-            limit.toString()
-          )
-        : this.props.locales.info.maxNumberOfStops.single
+        ? this.props.t('info.maxNumberOfStops.plural', {
+            maxCount: limit.toString(),
+          })
+        : this.props.t('info.maxNumberOfStops.single')
 
     return (
       <>
@@ -1023,7 +1024,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             id="update-preset"
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.scale.title}
+                label={this.props.t('scale.title')}
                 indicator={Object.entries(
                   this.props.scale ?? {}
                 ).length.toString()}
@@ -1047,7 +1048,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       alignment="RIGHT"
                       pin="TOP"
                       helper={{
-                        label: this.props.locales.scale.presets.helper,
+                        label: this.props.t('scale.presets.helper'),
                       }}
                       shouldReflow={{
                         isEnabled: true,
@@ -1057,7 +1058,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   </Feature>
                   <this.ToolsButtons />
                   <span className={texts.type}>
-                    {this.props.locales.separator}
+                    {this.props.t('separator')}
                   </span>
                   <Feature
                     isActive={ScaleLightnessChroma.features(
@@ -1070,7 +1071,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     <Select
                       id="switch-contrast-mode"
                       type="SWITCH_BUTTON"
-                      label={this.props.locales.scale.contrast.label}
+                      label={this.props.t('scale.contrast.label')}
                       shouldReflow
                       isChecked={false}
                       isBlocked={ScaleLightnessChroma.features(
@@ -1106,7 +1107,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       alignment="RIGHT"
                       pin="TOP"
                       helper={{
-                        label: this.props.locales.scale.presets.helper,
+                        label: this.props.t('scale.presets.helper'),
                       }}
                       shouldReflow={{
                         isEnabled: true,
@@ -1116,7 +1117,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   </Feature>
                   <this.MoreTools />
                   <span className={texts.type}>
-                    {this.props.locales.separator}
+                    {this.props.t('separator')}
                   </span>
                   <Feature
                     isActive={ScaleLightnessChroma.features(
@@ -1129,7 +1130,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     <Select
                       id="switch-contrast-mode"
                       type="SWITCH_BUTTON"
-                      label={this.props.locales.scale.contrast.label}
+                      label={this.props.t('scale.contrast.label')}
                       shouldReflow
                       isChecked={false}
                       isBlocked={ScaleLightnessChroma.features(
@@ -1173,7 +1174,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     this.props.trialStatus !== 'EXPIRED' ? (
                       <Button
                         type="secondary"
-                        label={this.props.locales.plan.tryPro}
+                        label={this.props.t('plan.tryPro')}
                         action={() =>
                           sendPluginMessage(
                             { pluginMessage: { type: 'GET_TRIAL' } },
@@ -1184,7 +1185,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     ) : (
                       <Button
                         type="secondary"
-                        label={this.props.locales.plan.getPro}
+                        label={this.props.t('plan.getPro')}
                         action={() =>
                           sendPluginMessage(
                             { pluginMessage: { type: 'GET_PRO_PLAN' } },
@@ -1223,7 +1224,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               max: 'white',
             }}
             tips={{
-              minMax: this.props.locales.scale.tips.distributeAsTooltip,
+              minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
             isBlocked={ScaleLightnessChroma.features(
               this.props.planStatus,
@@ -1250,7 +1251,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         >
           <SimpleSlider
             id="update-chroma"
-            label={this.props.locales.scale.shift.chroma.label}
+            label={this.props.t('scale.shift.chroma.label')}
             value={this.props.shift.chroma}
             min={0}
             max={200}
@@ -1268,7 +1269,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 this.props.editor
               ).SCALE_CHROMA.isBlocked()
                 ? {
-                    label: this.props.locales.scale.shift.chroma.warning,
+                    label: this.props.t('scale.shift.chroma.warning'),
                     type: 'MULTI_LINE',
                   }
                 : undefined
@@ -1303,12 +1304,10 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
       ).PRESETS_CUSTOM_ADD.limit ?? 0
     const message =
       limit > 1
-        ? this.props.locales.info.maxNumberOfStops.plural.replace(
-            '{maxCount}',
-            limit.toString()
-          )
-        : this.props.locales.info.maxNumberOfStops.single
-
+        ? this.props.t('info.maxNumberOfStops.plural', {
+            maxCount: limit.toString(),
+          })
+        : this.props.t('info.maxNumberOfStops.single')
     return (
       <>
         <div
@@ -1321,7 +1320,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             id="watch-preset"
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.scale.title}
+                label={this.props.t('scale.title')}
                 indicator={Object.entries(
                   this.props.scale ?? {}
                 ).length.toString()}
@@ -1345,7 +1344,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       alignment="RIGHT"
                       pin="TOP"
                       helper={{
-                        label: this.props.locales.scale.presets.helper,
+                        label: this.props.t('scale.presets.helper'),
                       }}
                       shouldReflow={{
                         isEnabled: true,
@@ -1355,7 +1354,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   </Feature>
                   <this.ToolsButtons />
                   <span className={texts.type}>
-                    {this.props.locales.separator}
+                    {this.props.t('separator')}
                   </span>
                   <Feature
                     isActive={ScaleLightnessChroma.features(
@@ -1368,7 +1367,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     <Select
                       id="switch-contrast-mode"
                       type="SWITCH_BUTTON"
-                      label={this.props.locales.scale.contrast.label}
+                      label={this.props.t('scale.contrast.label')}
                       shouldReflow
                       isChecked={false}
                       isBlocked={ScaleLightnessChroma.features(
@@ -1404,7 +1403,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       alignment="RIGHT"
                       pin="TOP"
                       helper={{
-                        label: this.props.locales.scale.presets.helper,
+                        label: this.props.t('scale.presets.helper'),
                       }}
                       shouldReflow={{
                         isEnabled: true,
@@ -1414,7 +1413,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                   </Feature>
                   <this.MoreTools />
                   <span className={texts.type}>
-                    {this.props.locales.separator}
+                    {this.props.t('separator')}
                   </span>
                   <Feature
                     isActive={ScaleLightnessChroma.features(
@@ -1427,7 +1426,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     <Select
                       id="switch-contrast-mode"
                       type="SWITCH_BUTTON"
-                      label={this.props.locales.scale.contrast.label}
+                      label={this.props.t('scale.contrast.label')}
                       shouldReflow
                       isChecked={false}
                       isBlocked={ScaleLightnessChroma.features(
@@ -1471,7 +1470,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     this.props.trialStatus !== 'EXPIRED' ? (
                       <Button
                         type="secondary"
-                        label={this.props.locales.plan.tryPro}
+                        label={this.props.t('plan.tryPro')}
                         action={() =>
                           sendPluginMessage(
                             { pluginMessage: { type: 'GET_TRIAL' } },
@@ -1482,7 +1481,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                     ) : (
                       <Button
                         type="secondary"
-                        label={this.props.locales.plan.getPro}
+                        label={this.props.t('plan.getPro')}
                         action={() =>
                           sendPluginMessage(
                             { pluginMessage: { type: 'GET_PRO_PLAN' } },
@@ -1535,7 +1534,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 max: 'white',
               }}
               tips={{
-                minMax: this.props.locales.scale.tips.distributeAsTooltip,
+                minMax: this.props.t('scale.tips.distributeAsTooltip'),
               }}
               isBlocked={ScaleLightnessChroma.features(
                 this.props.planStatus,
@@ -1569,7 +1568,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 max: 'white',
               }}
               tips={{
-                minMax: this.props.locales.scale.tips.distributeAsTooltip,
+                minMax: this.props.t('scale.tips.distributeAsTooltip'),
               }}
               isBlocked={ScaleLightnessChroma.features(
                 this.props.planStatus,
@@ -1597,7 +1596,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
         >
           <SimpleSlider
             id="update-chroma"
-            label={this.props.locales.scale.shift.chroma.label}
+            label={this.props.t('scale.shift.chroma.label')}
             value={this.props.shift.chroma}
             min={0}
             max={200}

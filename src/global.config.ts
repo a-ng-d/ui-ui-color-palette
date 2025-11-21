@@ -1,7 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 import { Config } from './types/config'
 import { doSpecificMode } from './stores/features'
-import { locales } from './content/locales'
 
 declare const __PLATFORM__: 'figma' | 'penpot' | 'sketch' | 'framer'
 declare const __COLOR_MODE__: 'dark' | 'light'
@@ -704,7 +703,6 @@ const globalConfig: Config = {
     creditsVersion: '2025.10',
   },
   features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
-  locales: locales.get(),
   lang: 'en-US',
   fees: {
     colourLoversImport: 50,

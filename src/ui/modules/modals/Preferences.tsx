@@ -4,12 +4,16 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, List } from '@a_ng_d/figmug-ui'
 import SyncPreferences from '../SyncPreferences'
 import LangPreferences from '../LangPreferences'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface PreferencesProps extends BaseProps, WithConfigProps {
+interface PreferencesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -66,7 +70,7 @@ export default class Preferences extends PureComponent<PreferencesProps> {
         ).USER_PREFERENCES.isActive()}
       >
         <Dialog
-          title={this.props.locales.user.updatePreferences}
+          title={this.props.t('user.updatePreferences')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >

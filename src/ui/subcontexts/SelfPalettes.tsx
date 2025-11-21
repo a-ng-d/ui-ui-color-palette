@@ -16,8 +16,9 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
-import getPaletteMeta from '../../utils/setPaletteMeta'
+import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import {
@@ -28,14 +29,17 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import { ConfigContextType } from '../../index'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import unpublishPalette from '../../external/publication/unpublishPalette'
 import sharePalette from '../../external/publication/sharePalette'
 import { signIn } from '../../external/auth/authentication'
 import { getSupabase } from '../../external/auth'
+import { ConfigContextType } from '../../config/ConfigContext'
 
-interface SelfPalettesProps extends BaseProps, WithConfigProps {
+interface SelfPalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -237,7 +241,7 @@ export default class SelfPalettes extends PureComponent<
           soloPartSlot={
             <Button
               type="secondary"
-              label={this.props.locales.browse.lazyLoad.loadMore}
+              label={this.props.t('browse.lazyLoad.loadMore')}
               isLoading={this.state.isLoadMoreActionLoading}
               action={() => {
                 this.props.onChangeCurrentPage(this.props.currentPage + 1)
@@ -261,7 +265,7 @@ export default class SelfPalettes extends PureComponent<
           soloPartSlot={
             <Message
               icon="check"
-              messages={[this.props.locales.browse.lazyLoad.completeList]}
+              messages={[this.props.t('browse.lazyLoad.completeList')]}
             />
           }
           isCentered
@@ -282,19 +286,19 @@ export default class SelfPalettes extends PureComponent<
         {this.props.status === 'ERROR' && (
           <SemanticMessage
             type="WARNING"
-            message={this.props.locales.error.fetchPalette}
+            message={this.props.t('error.fetchPalette')}
           />
         )}
         {this.props.status === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.warning.noSelfPaletteOnRemote}
+            message={this.props.t('warning.noSelfPaletteOnRemote')}
           />
         )}
         {this.props.status === 'NO_RESULT' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.info.noResult}
+            message={this.props.t('info.noResult')}
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
@@ -322,15 +326,17 @@ export default class SelfPalettes extends PureComponent<
                 key={`palette-${index}`}
                 name={palette.name}
                 description={palette.preset?.name}
-                subdescription={getPaletteMeta(
-                  palette.colors ?? [],
-                  palette.themes ?? []
-                )}
+                subdescription={setPaletteMeta({
+                  colors: palette.colors ?? [],
+                  themes: palette.themes ?? [],
+                  stars: palette.star_count ?? 0,
+                  locales: this.props.t,
+                })}
                 indicator={
                   palette.is_shared
                     ? {
                         status: 'ACTIVE',
-                        label: this.props.locales.publication.statusShared,
+                        label: this.props.t('publication.statusShared'),
                       }
                     : undefined
                 }
@@ -341,7 +347,7 @@ export default class SelfPalettes extends PureComponent<
                       icon="ellipses"
                       options={[
                         {
-                          label: this.props.locales.publication.unpublish,
+                          label: this.props.t('publication.unpublish'),
                           type: 'OPTION',
                           isActive: true,
                           isBlocked: false,
@@ -375,9 +381,9 @@ export default class SelfPalettes extends PureComponent<
                                       type: 'POST_MESSAGE',
                                       data: {
                                         type: 'SUCCESS',
-                                        message:
-                                          this.props.locales.success
-                                            .nonPublication,
+                                        message: this.props.t(
+                                          'success.nonPublication'
+                                        ),
                                       },
                                     },
                                   },
@@ -427,9 +433,9 @@ export default class SelfPalettes extends PureComponent<
                                       type: 'POST_MESSAGE',
                                       data: {
                                         type: 'ERROR',
-                                        message:
-                                          this.props.locales.error
-                                            .nonPublication,
+                                        message: this.props.t(
+                                          'error.nonPublication'
+                                        ),
                                       },
                                     },
                                   },
@@ -440,8 +446,8 @@ export default class SelfPalettes extends PureComponent<
                         },
                         {
                           label: palette.is_shared
-                            ? this.props.locales.publication.unshare
-                            : this.props.locales.publication.share,
+                            ? this.props.t('publication.unshare')
+                            : this.props.t('publication.share'),
                           type: 'OPTION',
                           isActive: true,
                           isBlocked: false,
@@ -467,8 +473,8 @@ export default class SelfPalettes extends PureComponent<
                                       data: {
                                         type: 'SUCCESS',
                                         message: !palette.is_shared
-                                          ? this.props.locales.success.share
-                                          : this.props.locales.success.unshare,
+                                          ? this.props.t('success.share')
+                                          : this.props.t('success.unshare'),
                                       },
                                     },
                                   },
@@ -521,8 +527,8 @@ export default class SelfPalettes extends PureComponent<
                                       data: {
                                         type: 'ERROR',
                                         message: !palette.is_shared
-                                          ? this.props.locales.error.share
-                                          : this.props.locales.error.unshare,
+                                          ? this.props.t('error.share')
+                                          : this.props.t('error.unshare'),
                                       },
                                     },
                                   },
@@ -539,12 +545,12 @@ export default class SelfPalettes extends PureComponent<
                       }
                       alignment="BOTTOM_RIGHT"
                       helper={{
-                        label: this.props.locales.browse.actions.managePalette,
+                        label: this.props.t('browse.actions.managePalette'),
                       }}
                     />
                     <Button
                       type="secondary"
-                      label={this.props.locales.actions.addToLocal}
+                      label={this.props.t('actions.addToLocal')}
                       isLoading={this.state.isAddToLocalActionLoading[index]}
                       shouldReflow={{
                         isEnabled: true,
@@ -581,8 +587,7 @@ export default class SelfPalettes extends PureComponent<
                                   data: {
                                     type: 'ERROR',
 
-                                    message:
-                                      this.props.locales.error.addToLocal,
+                                    message: this.props.t('error.addToLocal'),
                                   },
                                 },
                               },
@@ -666,12 +671,12 @@ export default class SelfPalettes extends PureComponent<
         <List isMessage>
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.browse.signInFirst.message}
+            message={this.props.t('browse.signInFirst.message')}
             orientation="VERTICAL"
             actionsSlot={
               <Button
                 type="primary"
-                label={this.props.locales.browse.signInFirst.signIn}
+                label={this.props.t('browse.signInFirst.signIn')}
                 isLoading={this.state.isSignInActionLoading}
                 action={async () => {
                   this.setState({ isSignInActionLoading: true })
@@ -694,8 +699,8 @@ export default class SelfPalettes extends PureComponent<
                               type: 'ERROR',
                               message:
                                 error.message === 'Authentication timeout'
-                                  ? this.props.locales.error.timeout
-                                  : this.props.locales.error.authentication,
+                                  ? this.props.t('error.timeout')
+                                  : this.props.t('error.authentication'),
                             },
                           },
                         },
@@ -721,7 +726,7 @@ export default class SelfPalettes extends PureComponent<
                     type: 'PICTO',
                     value: 'search',
                   }}
-                  placeholder={this.props.locales.browse.lazyLoad.search}
+                  placeholder={this.props.t('browse.lazyLoad.search')}
                   value={this.props.searchQuery}
                   isClearable
                   isFramed={false}

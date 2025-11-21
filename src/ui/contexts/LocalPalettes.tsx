@@ -5,6 +5,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Layout } from '@a_ng_d/figmug-ui'
 import PagePalettes from '../modules/palettes/PagePalettes'
 import FilePalettes from '../modules/palettes/FilePalettes'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import {
@@ -17,7 +18,10 @@ import {
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface LocalPalettesProps extends BaseProps, WithConfigProps {
+interface LocalPalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
@@ -64,7 +68,7 @@ export default class LocalPalettes extends PureComponent<
       props.config.features,
       props.editor,
       props.service,
-      props.locales
+      props.t
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -73,14 +77,14 @@ export default class LocalPalettes extends PureComponent<
 
   // Lifecycle
   componentDidUpdate(previousProps: Readonly<LocalPalettesProps>): void {
-    if (previousProps.locales !== this.props.locales) {
+    if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
         ['LOCAL_PALETTES_PAGE', 'LOCAL_PALETTES_FILE'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
         this.props.service,
-        this.props.locales
+        this.props.t
       )
 
       this.forceUpdate()

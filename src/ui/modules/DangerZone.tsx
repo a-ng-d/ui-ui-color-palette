@@ -10,6 +10,7 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -17,7 +18,10 @@ import { PluginMessageData } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface DangerZoneProps extends BaseProps, WithConfigProps {
+interface DangerZoneProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   id: string
   name: string
   isLast?: boolean
@@ -119,10 +123,10 @@ export default class DangerZone extends PureComponent<
         {document.getElementById('modal') &&
           createPortal(
             <Dialog
-              title={this.props.locales.browse.deletePaletteDialog.title}
+              title={this.props.t('browse.deletePaletteDialog.title')}
               actions={{
                 destructive: {
-                  label: this.props.locales.browse.deletePaletteDialog.delete,
+                  label: this.props.t('browse.deletePaletteDialog.delete'),
                   feature: 'DELETE_PALETTE',
                   state: this.state.isDestructiveActionLoading
                     ? 'LOADING'
@@ -130,7 +134,7 @@ export default class DangerZone extends PureComponent<
                   action: this.onDeletePalette,
                 },
                 secondary: {
-                  label: this.props.locales.browse.deletePaletteDialog.cancel,
+                  label: this.props.t('browse.deletePaletteDialog.cancel'),
                   isAutofocus: true,
                   action: () =>
                     this.setState({
@@ -146,12 +150,12 @@ export default class DangerZone extends PureComponent<
             >
               <div className="dialog__text">
                 <p className={texts.type}>
-                  {this.props.locales.browse.deletePaletteDialog.message.replace(
-                    '{name}',
-                    this.props.name === ''
-                      ? this.props.locales.name
-                      : this.props.name
-                  )}
+                  {this.props.t('browse.deletePaletteDialog.message', {
+                    name:
+                      this.props.name === ''
+                        ? this.props.t('name')
+                        : this.props.name,
+                  })}
                 </p>
               </div>
             </Dialog>,
@@ -177,7 +181,7 @@ export default class DangerZone extends PureComponent<
             <SimpleItem
               leftPartSlot={
                 <SectionTitle
-                  label={this.props.locales.settings.dangerZone.title}
+                  label={this.props.t('settings.dangerZone.title')}
                 />
               }
               isListItem={false}
@@ -190,7 +194,7 @@ export default class DangerZone extends PureComponent<
                 <FormItem>
                   <Button
                     type="destructive"
-                    label={this.props.locales.settings.dangerZone.deletePalette}
+                    label={this.props.t('settings.dangerZone.deletePalette')}
                     action={() => this.setState({ isDeleteDialogOpen: true })}
                   />
                 </FormItem>

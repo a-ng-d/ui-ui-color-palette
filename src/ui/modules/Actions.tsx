@@ -23,6 +23,7 @@ import {
   texts,
   Tooltip,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
@@ -31,7 +32,10 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface ActionsProps extends BaseProps, WithConfigProps {
+interface ActionsProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   sourceColors: Array<SourceColorConfiguration> | []
   id: string
   scale: ScaleConfiguration
@@ -383,7 +387,7 @@ export default class Actions extends PureComponent<
   documentOptionsHandler = () => {
     const options = [
       {
-        label: this.props.locales.actions.generateDocument.palette,
+        label: this.props.t('actions.generateDocument.palette'),
         feature: 'GENERATE_PALETTE',
         type: 'OPTION',
         isActive: Actions.features(
@@ -407,8 +411,7 @@ export default class Actions extends PureComponent<
         action: this.props.onGenerateDocument,
       },
       {
-        label:
-          this.props.locales.actions.generateDocument.paletteWithProperties,
+        label: this.props.t('actions.generateDocument.paletteWithProperties'),
         feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
         type: 'OPTION',
         isActive: Actions.features(
@@ -432,7 +435,7 @@ export default class Actions extends PureComponent<
         action: this.props.onGenerateDocument,
       },
       {
-        label: this.props.locales.actions.generateDocument.sheet,
+        label: this.props.t('actions.generateDocument.sheet'),
         feature: 'GENERATE_SHEET',
         type: 'OPTION',
         isActive: Actions.features(
@@ -463,7 +466,7 @@ export default class Actions extends PureComponent<
           type: 'SEPARATOR',
         },
         {
-          label: this.props.locales.actions.pushUpdates,
+          label: this.props.t('actions.pushUpdates'),
           feature: 'PUSH_UPDATES',
           type: 'OPTION',
           isActive: Actions.features(
@@ -490,7 +493,7 @@ export default class Actions extends PureComponent<
   publicationAction = (): Partial<DropdownOption> => {
     if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
       return {
-        label: this.props.locales.actions.publishOrSyncPalette,
+        label: this.props.t('actions.publishOrSyncPalette'),
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_SYNC_PALETTE',
       }
@@ -498,7 +501,7 @@ export default class Actions extends PureComponent<
       this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
     )
       return {
-        label: this.props.locales.actions.publishPalette,
+        label: this.props.t('actions.publishPalette'),
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_PALETTE',
       }
@@ -508,13 +511,13 @@ export default class Actions extends PureComponent<
       this.props.creatorIdentity?.creatorId !== ''
     )
       return {
-        label: this.props.locales.actions.syncPalette,
+        label: this.props.t('actions.syncPalette'),
         value: 'PALETTE_PUBLICATION',
         feature: 'SYNC_PALETTE',
       }
     else
       return {
-        label: this.props.locales.actions.publishPalette,
+        label: this.props.t('actions.publishPalette'),
         value: 'PALETTE_PUBLICATION',
         feature: 'PUBLISH_PALETTE',
       }
@@ -522,18 +525,18 @@ export default class Actions extends PureComponent<
 
   publicationLabel = (): string => {
     if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return this.props.locales.actions.publishOrSyncPalette
+      return this.props.t('actions.publishOrSyncPalette')
     else if (
       this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
     )
-      return this.props.locales.actions.publishPalette
+      return this.props.t('actions.publishPalette')
     else if (
       this.props.userSession?.userId !==
         this.props.creatorIdentity?.creatorId &&
       this.props.creatorIdentity?.creatorId !== ''
     )
-      return this.props.locales.actions.syncPalette
-    else return this.props.locales.actions.publishPalette
+      return this.props.t('actions.syncPalette')
+    else return this.props.t('actions.publishPalette')
   }
 
   publicationIcon = (): IconList => {
@@ -609,6 +612,7 @@ export default class Actions extends PureComponent<
 
   proWarning = (): string => {
     const warningMessage = []
+    console.log($palette.get())
 
     if (
       Actions.features(
@@ -619,7 +623,7 @@ export default class Actions extends PureComponent<
       ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
     )
       warningMessage.push(
-        this.props.locales.info.multipleBlockingMessages.sourceColors
+        this.props.t('info.multipleBlockingMessages.sourceColors')
       )
     if (
       $palette.get().preset.id.includes('CUSTOM') &&
@@ -630,9 +634,7 @@ export default class Actions extends PureComponent<
         this.props.editor
       ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
     )
-      warningMessage.push(
-        this.props.locales.info.multipleBlockingMessages.stops
-      )
+      warningMessage.push(this.props.t('info.multipleBlockingMessages.stops'))
     if (
       $palette.get().areSourceColorsLocked &&
       Actions.features(
@@ -643,7 +645,7 @@ export default class Actions extends PureComponent<
       ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
     )
       warningMessage.push(
-        this.props.locales.info.multipleBlockingMessages.lockedSourceColors
+        this.props.t('info.multipleBlockingMessages.lockedSourceColors')
       )
     if (
       $palette.get().shift.chroma !== 100 &&
@@ -654,9 +656,7 @@ export default class Actions extends PureComponent<
         this.props.editor
       ).SCALE_CHROMA.isBlocked()
     )
-      warningMessage.push(
-        this.props.locales.info.multipleBlockingMessages.chroma
-      )
+      warningMessage.push(this.props.t('info.multipleBlockingMessages.chroma'))
     if (
       $palette.get().visionSimulationMode !== 'NONE' &&
       Actions.features(
@@ -669,7 +669,7 @@ export default class Actions extends PureComponent<
       ].isBlocked()
     )
       warningMessage.push(
-        this.props.locales.info.multipleBlockingMessages.visionSimulationMode
+        this.props.t('info.multipleBlockingMessages.visionSimulationMode')
       )
 
     return warningMessage.join(', ')
@@ -694,11 +694,10 @@ export default class Actions extends PureComponent<
       ).SOURCE.limit ?? 0
     const message =
       limit > 1
-        ? this.props.locales.info.maxNumberOfSourceColors.plural.replace(
-            '{maxCount}',
-            limit.toString()
-          )
-        : this.props.locales.info.maxNumberOfSourceColors.single
+        ? this.props.t('info.maxNumberOfSourceColors.plural', {
+            maxCount: limit.toString(),
+          })
+        : this.props.t('info.maxNumberOfSourceColors.single')
 
     return (
       <Bar
@@ -712,11 +711,11 @@ export default class Actions extends PureComponent<
               <Input
                 id="update-palette-name"
                 type="TEXT"
-                placeholder={this.props.locales.name}
+                placeholder={this.props.t('name')}
                 value={this.props.name !== '' ? this.props.name : ''}
                 charactersLimit={64}
                 helper={{
-                  label: this.props.locales.settings.actions.paletteName,
+                  label: this.props.t('settings.actions.paletteName'),
                   pin: 'TOP',
                 }}
                 isBlocked={Actions.features(
@@ -742,18 +741,16 @@ export default class Actions extends PureComponent<
                 texts['type--secondary'],
               ])}
             >
-              {this.props.locales.separator}
+              {this.props.t('separator')}
             </span>
             <div className={texts.type}>
               {this.refinedNumberOfSourceColors() > 1
-                ? this.props.locales.actions.sourceColorsNumber.several.replace(
-                    '{count}',
-                    this.refinedNumberOfSourceColors().toString()
-                  )
-                : this.props.locales.actions.sourceColorsNumber.single.replace(
-                    '{count}',
-                    this.refinedNumberOfSourceColors().toString()
-                  )}
+                ? this.props.t('actions.sourceColorsNumber.several', {
+                    count: this.refinedNumberOfSourceColors().toString(),
+                  })
+                : this.props.t('actions.sourceColorsNumber.single', {
+                    count: this.refinedNumberOfSourceColors().toString(),
+                  })}
             </div>
             {Actions.features(
               this.props.planStatus,
@@ -798,16 +795,17 @@ export default class Actions extends PureComponent<
           >
             <Button
               type="primary"
-              label={this.props.locales.actions.savePalette}
+              label={this.props.t('actions.savePalette')}
               feature="CREATE_PALETTE"
               warning={
                 !this.canSavePalette()
                   ? {
-                      label:
-                        this.props.locales.info.multipleBlockingMessages.head.replace(
-                          '{messages}',
-                          this.proWarning()
-                        ),
+                      label: this.props.t(
+                        'info.multipleBlockingMessages.head',
+                        {
+                          messages: this.proWarning(),
+                        }
+                      ),
                       pin: 'TOP',
                       type: 'MULTI_LINE',
                     }
@@ -867,9 +865,7 @@ export default class Actions extends PureComponent<
                 this.props.publicationStatus?.isPublished
               }
             >
-              <Chip isSolo>
-                {this.props.locales.publication.statusPublished}
-              </Chip>
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
             </Feature>
             <div
               style={{
@@ -879,11 +875,11 @@ export default class Actions extends PureComponent<
               <Input
                 id="update-palette-name"
                 type="TEXT"
-                placeholder={this.props.locales.name}
+                placeholder={this.props.t('name')}
                 value={this.props.name !== '' ? this.props.name : ''}
                 charactersLimit={64}
                 helper={{
-                  label: this.props.locales.settings.actions.paletteName,
+                  label: this.props.t('settings.actions.paletteName'),
                   pin: 'TOP',
                 }}
                 isBlocked={Actions.features(
@@ -909,7 +905,7 @@ export default class Actions extends PureComponent<
                 id="views"
                 options={[
                   {
-                    label: this.props.locales.settings.global.views.simple,
+                    label: this.props.t('settings.global.views.simple'),
                     value: 'PALETTE',
                     type: 'OPTION',
                     isActive: Actions.features(
@@ -933,7 +929,7 @@ export default class Actions extends PureComponent<
                     action: this.props.onChangeView,
                   },
                   {
-                    label: this.props.locales.settings.global.views.detailed,
+                    label: this.props.t('settings.global.views.detailed'),
                     value: 'PALETTE_WITH_PROPERTIES',
                     type: 'OPTION',
                     isActive: Actions.features(
@@ -957,7 +953,7 @@ export default class Actions extends PureComponent<
                     action: this.props.onChangeView,
                   },
                   {
-                    label: this.props.locales.settings.global.views.sheet,
+                    label: this.props.t('settings.global.views.sheet'),
                     value: 'SHEET',
                     type: 'OPTION',
                     isActive: Actions.features(
@@ -984,7 +980,7 @@ export default class Actions extends PureComponent<
                 selected={this.props.document.view}
                 pin="BOTTOM"
                 helper={{
-                  label: this.props.locales.settings.global.views.helper,
+                  label: this.props.t('settings.global.views.helper'),
                   pin: 'TOP',
                 }}
                 isBlocked={Actions.features(
@@ -1039,7 +1035,7 @@ export default class Actions extends PureComponent<
                 icon="draft"
                 options={this.documentOptionsHandler()}
                 helper={{
-                  label: this.props.locales.actions.generateDocument.label,
+                  label: this.props.t('actions.generateDocument.label'),
                   pin: 'TOP',
                   isSingleLine: true,
                 }}
@@ -1051,10 +1047,10 @@ export default class Actions extends PureComponent<
             <Menu
               id="main-actions"
               type="PRIMARY"
-              label={this.props.locales.actions.sync}
+              label={this.props.t('actions.sync')}
               options={[
                 {
-                  label: this.props.locales.actions.syncLocalStyles,
+                  label: this.props.t('actions.syncLocalStyles'),
                   value: 'LOCAL_STYLES',
                   feature: 'SYNC_LOCAL_STYLES',
                   type: 'OPTION',
@@ -1079,7 +1075,7 @@ export default class Actions extends PureComponent<
                   action: (e) => this.props.onSyncLocalStyles?.(e),
                 },
                 {
-                  label: this.props.locales.actions.syncLocalVariables,
+                  label: this.props.t('actions.syncLocalVariables'),
                   value: 'LOCAL_VARIABLES',
                   feature: 'SYNC_LOCAL_VARIABLES',
                   type: 'OPTION',
@@ -1130,10 +1126,9 @@ export default class Actions extends PureComponent<
           rightPartSlot={
             <Button
               type="primary"
-              label={this.props.locales.actions.export.replace(
-                '{format}',
-                this.props.format || 'JSON'
-              )}
+              label={this.props.t('actions.export', {
+                format: this.props.format || 'JSON',
+              })}
               feature="EXPORT_PALETTE"
               action={this.props.onExportPalette}
             >

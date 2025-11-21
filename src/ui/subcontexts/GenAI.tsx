@@ -17,6 +17,7 @@ import {
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
 import { SemanticMessage } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import {
@@ -31,7 +32,7 @@ import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { getMistral, MistralColorPalette } from '../../external/mistral'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface GenAiProps extends BaseProps, WithConfigProps {
+interface GenAiProps extends BaseProps, WithConfigProps, WithTranslationProps {
   sourceColors: Array<SourceColorConfiguration>
   creditsCount: number
   onChangeColorsFromImport: (
@@ -85,41 +86,71 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
 
   // Get predefined prompts
   getPrompts = () => {
-    const label = this.props.locales.source.genAi.form.presets.labels
-    const vibes = this.props.locales.source.genAi.form.presets.vibes
-    const usecases = this.props.locales.source.genAi.form.presets.usecases
-
     return {
       vibes: [
-        { key: 'cyberpunk', label: label.cyberpunk, prompt: vibes.cyberpunk },
+        {
+          key: 'cyberpunk',
+          label: this.props.t('source.genAi.form.presets.labels.cyberpunk'),
+          prompt: this.props.t('source.genAi.form.presets.vibes.cyberpunk'),
+        },
         {
           key: 'minimalist',
-          label: label.minimalist,
-          prompt: vibes.minimalist,
+          label: this.props.t('source.genAi.form.presets.labels.minimalist'),
+          prompt: this.props.t('source.genAi.form.presets.vibes.minimalist'),
         },
-        { key: 'pastel', label: label.pastel, prompt: vibes.pastel },
-        { key: 'corporate', label: label.corporate, prompt: vibes.corporate },
-        { key: 'nature', label: label.nature, prompt: vibes.nature },
-        { key: 'vintage', label: label.vintage, prompt: vibes.vintage },
+        {
+          key: 'pastel',
+          label: this.props.t('source.genAi.form.presets.labels.pastel'),
+          prompt: this.props.t('source.genAi.form.presets.vibes.pastel'),
+        },
+        {
+          key: 'corporate',
+          label: this.props.t('source.genAi.form.presets.labels.corporate'),
+          prompt: this.props.t('source.genAi.form.presets.vibes.corporate'),
+        },
+        {
+          key: 'nature',
+          label: this.props.t('source.genAi.form.presets.labels.nature'),
+          prompt: this.props.t('source.genAi.form.presets.vibes.nature'),
+        },
+        {
+          key: 'vintage',
+          label: this.props.t('source.genAi.form.presets.labels.vintage'),
+          prompt: this.props.t('source.genAi.form.presets.vibes.vintage'),
+        },
       ],
       usecases: [
-        { key: 'landing', label: label.landing, prompt: usecases.landing },
-        { key: 'blog', label: label.blog, prompt: usecases.blog },
-        { key: 'resume', label: label.resume, prompt: usecases.resume },
+        {
+          key: 'landing',
+          label: this.props.t('source.genAi.form.presets.labels.landing'),
+          prompt: this.props.t('source.genAi.form.presets.usecases.landing'),
+        },
+        {
+          key: 'blog',
+          label: this.props.t('source.genAi.form.presets.labels.blog'),
+          prompt: this.props.t('source.genAi.form.presets.usecases.blog'),
+        },
+        {
+          key: 'resume',
+          label: this.props.t('source.genAi.form.presets.labels.resume'),
+          prompt: this.props.t('source.genAi.form.presets.usecases.resume'),
+        },
         {
           key: 'portfolio',
-          label: label.portfolio,
-          prompt: usecases.portfolio,
+          label: this.props.t('source.genAi.form.presets.labels.portfolio'),
+          prompt: this.props.t('source.genAi.form.presets.usecases.portfolio'),
         },
         {
           key: 'documentation',
-          label: label.documentation,
-          prompt: usecases.documentation,
+          label: this.props.t('source.genAi.form.presets.labels.documentation'),
+          prompt: this.props.t(
+            'source.genAi.form.presets.usecases.documentation'
+          ),
         },
         {
           key: 'ecommerce',
-          label: label.ecommerce,
-          prompt: usecases.ecommerce,
+          label: this.props.t('source.genAi.form.presets.labels.ecommerce'),
+          prompt: this.props.t('source.genAi.form.presets.usecases.ecommerce'),
         },
       ],
     }
@@ -148,7 +179,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
 
     if (!mistralClient) {
       this.setState({
-        error: this.props.locales.error.unavailableAi,
+        error: this.props.t('error.unavailableAi'),
       })
       return
     }
@@ -169,7 +200,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     } catch (error) {
       console.error(error)
       this.setState({
-        error: this.props.locales.error.unavailableAi,
+        error: this.props.t('error.unavailableAi'),
         isLoading: false,
       })
     }
@@ -179,40 +210,39 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     palette: MistralColorPalette
   ): Array<SourceColorConfiguration> => {
     const colors: Array<SourceColorConfiguration> = []
-    const colorTypeLabels = this.props.locales.source.genAi.colorTypes
 
     const colorTypes = [
       {
         key: 'primary',
         name: palette.primary.name,
-        displayKey: colorTypeLabels.primary,
+        displayKey: this.props.t('source.genAi.colorTypes.primary'),
       },
       {
         key: 'text',
         name: palette.text.name,
-        displayKey: colorTypeLabels.text,
+        displayKey: this.props.t('source.genAi.colorTypes.text'),
       },
       {
         key: 'success',
         name: palette.success.name,
-        displayKey: colorTypeLabels.success,
+        displayKey: this.props.t('source.genAi.colorTypes.success'),
       },
       {
         key: 'warning',
         name: palette.warning.name,
-        displayKey: colorTypeLabels.warning,
+        displayKey: this.props.t('source.genAi.colorTypes.warning'),
       },
       {
         key: 'alert',
         name: palette.alert.name,
-        displayKey: colorTypeLabels.alert,
+        displayKey: this.props.t('source.genAi.colorTypes.alert'),
       },
     ]
 
     colorTypes.forEach((colorType) => {
       const color = palette[colorType.key as keyof MistralColorPalette]
       colors.push({
-        name: `${colorType.displayKey}${this.props.locales.separator}${color.name}`,
+        name: `${colorType.displayKey}${this.props.t('separator')}${color.name}`,
         rgb: {
           r: color.rgb.r / 255,
           g: color.rgb.g / 255,
@@ -293,11 +323,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
             leftPartSlot={
               <SectionTitle
                 indicator="0"
-                label={this.props.locales.source.genAi.title}
-                helper={this.props.locales.source.genAi.helper.replace(
-                  '{fee}',
-                  this.props.config.fees.aiColorsGenerate.toString()
-                )}
+                label={this.props.t('source.genAi.title')}
+                helper={this.props.t('source.genAi.helper', {
+                  fee: this.props.config.fees.aiColorsGenerate.toString(),
+                })}
               />
             }
             rightPartSlot={
@@ -313,7 +342,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                   type="icon"
                   icon="plus"
                   helper={{
-                    label: this.props.locales.source.genAi.actions.addColors,
+                    label: this.props.t('source.genAi.actions.addColors'),
                     type: 'MULTI_LINE',
                   }}
                   isDisabled={true}
@@ -338,7 +367,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
           />
           <Message
             icon="info"
-            messages={[this.props.locales.source.genAi.emptyMessage]}
+            messages={[this.props.t('source.genAi.emptyMessage')]}
           />
         </>
       )
@@ -346,23 +375,23 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     const colors = [
       {
         ...this.state.generatedPalette.primary,
-        type: this.props.locales.source.genAi.colorTypes.primary,
+        type: this.props.t('source.genAi.colorTypes.primary'),
       },
       {
         ...this.state.generatedPalette.text,
-        type: this.props.locales.source.genAi.colorTypes.text,
+        type: this.props.t('source.genAi.colorTypes.text'),
       },
       {
         ...this.state.generatedPalette.success,
-        type: this.props.locales.source.genAi.colorTypes.success,
+        type: this.props.t('source.genAi.colorTypes.success'),
       },
       {
         ...this.state.generatedPalette.warning,
-        type: this.props.locales.source.genAi.colorTypes.warning,
+        type: this.props.t('source.genAi.colorTypes.warning'),
       },
       {
         ...this.state.generatedPalette.alert,
-        type: this.props.locales.source.genAi.colorTypes.alert,
+        type: this.props.t('source.genAi.colorTypes.alert'),
       },
     ]
 
@@ -372,11 +401,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
           leftPartSlot={
             <SectionTitle
               indicator="5"
-              label={this.props.locales.source.genAi.title}
-              helper={this.props.locales.source.genAi.helper.replace(
-                '{fee}',
-                this.props.config.fees.aiColorsGenerate.toString()
-              )}
+              label={this.props.t('source.genAi.title')}
+              helper={this.props.t('source.genAi.helper', {
+                fee: this.props.config.fees.aiColorsGenerate.toString(),
+              })}
             />
           }
           rightPartSlot={
@@ -392,11 +420,9 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                 type="icon"
                 icon="plus"
                 helper={{
-                  label:
-                    this.props.locales.source.genAi.actions.addColors.replace(
-                      '{fee}',
-                      this.props.config.fees.aiColorsGenerate.toString()
-                    ),
+                  label: this.props.t('source.genAi.actions.addColors', {
+                    fee: this.props.config.fees.aiColorsGenerate.toString(),
+                  }),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
@@ -424,7 +450,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
             return (
               <ColorItem
                 key={index}
-                name={`${color.type}${this.props.locales.separator}${color.name}`}
+                name={`${color.type}${this.props.t('separator')}${color.name}`}
                 hex={chroma(color.rgb.r, color.rgb.g, color.rgb.b)
                   .hex()
                   .toUpperCase()}
@@ -486,8 +512,9 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                             type="LONG_TEXT"
                             placeholder={
                               this.state.previewPrompt ||
-                              this.props.locales.source.genAi.form.prompt
-                                .placeholder
+                              this.props.t(
+                                'source.genAi.form.prompt.placeholder'
+                              )
                             }
                             value={this.state.prompt}
                             isGrowing
@@ -520,9 +547,9 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                         <FormItem>
                           <Button
                             type="primary"
-                            label={
-                              this.props.locales.source.genAi.actions.generate
-                            }
+                            label={this.props.t(
+                              'source.genAi.actions.generate'
+                            )}
                             isLoading={this.state.isLoading}
                             isDisabled={
                               !this.state.prompt.trim() || !mistralClient

@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
@@ -21,7 +22,10 @@ import { signIn, signOut } from '../../external/auth/authentication'
 import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
 
-interface ShortcutsProps extends BaseProps, WithConfigProps {
+interface ShortcutsProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
@@ -367,8 +371,7 @@ export default class Shortcuts extends PureComponent<
                     type="icon"
                     icon="repository"
                     helper={{
-                      label:
-                        this.props.locales.shortcuts.tooltips.documentation,
+                      label: this.props.t('shortcuts.tooltips.documentation'),
                       pin: 'TOP',
                     }}
                     isBlocked={Shortcuts.features(
@@ -431,11 +434,9 @@ export default class Shortcuts extends PureComponent<
                       'CONNECTED'
                         ? [
                             {
-                              label:
-                                this.props.locales.user.welcomeMessage.replace(
-                                  '{username}',
-                                  this.props.userSession.userFullName
-                                ),
+                              label: this.props.t('user.welcomeMessage', {
+                                username: this.props.userSession.userFullName,
+                              }),
                               type: 'TITLE' as const,
                               action: () => null,
                             },
@@ -446,7 +447,7 @@ export default class Shortcuts extends PureComponent<
                       'CONNECTED'
                         ? [
                             {
-                              label: this.props.locales.user.signOut,
+                              label: this.props.t('user.signOut'),
                               type: 'OPTION' as const,
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
@@ -464,7 +465,7 @@ export default class Shortcuts extends PureComponent<
                                           data: {
                                             type: 'INFO',
                                             message:
-                                              this.props.locales.info.signOut,
+                                              this.props.t('info.signOut'),
                                           },
                                         },
                                       },
@@ -494,7 +495,7 @@ export default class Shortcuts extends PureComponent<
                                           data: {
                                             type: 'ERROR',
                                             message:
-                                              this.props.locales.error.generic,
+                                              this.props.t('error.generic'),
                                           },
                                         },
                                       },
@@ -506,7 +507,7 @@ export default class Shortcuts extends PureComponent<
                           ]
                         : [
                             {
-                              label: this.props.locales.user.signIn,
+                              label: this.props.t('user.signIn'),
                               type: 'OPTION' as const,
                               isActive: Shortcuts.features(
                                 this.props.planStatus,
@@ -544,12 +545,14 @@ export default class Shortcuts extends PureComponent<
                                           type: 'POST_MESSAGE',
                                           data: {
                                             type: 'SUCCESS',
-                                            message:
-                                              this.props.locales.user.welcomeMessage.replace(
-                                                '{username}',
-                                                this.props.userSession
-                                                  .userFullName
-                                              ),
+                                            message: this.props.t(
+                                              'user.welcomeMessage',
+                                              {
+                                                username:
+                                                  this.props.userSession
+                                                    .userFullName,
+                                              }
+                                            ),
                                           },
                                         },
                                       },
@@ -581,10 +584,10 @@ export default class Shortcuts extends PureComponent<
                                             message:
                                               error.message ===
                                               'Authentication timeout'
-                                                ? this.props.locales.error
-                                                    .timeout
-                                                : this.props.locales.error
-                                                    .authentication,
+                                                ? this.props.t('error.timeout')
+                                                : this.props.t(
+                                                    'error.authentication'
+                                                  ),
                                           },
                                         },
                                       },
@@ -598,7 +601,7 @@ export default class Shortcuts extends PureComponent<
                         type: 'SEPARATOR' as const,
                       },
                       {
-                        label: this.props.locales.user.updateConsent,
+                        label: this.props.t('user.updateConsent'),
                         type: 'OPTION' as const,
                         isActive: Shortcuts.features(
                           this.props.planStatus,
@@ -624,7 +627,7 @@ export default class Shortcuts extends PureComponent<
                           }),
                       },
                       {
-                        label: this.props.locales.user.updatePreferences,
+                        label: this.props.t('user.updatePreferences'),
                         type: 'OPTION' as const,
                         isActive: Shortcuts.features(
                           this.props.planStatus,
@@ -650,7 +653,7 @@ export default class Shortcuts extends PureComponent<
                           }),
                       },
                       {
-                        label: this.props.locales.user.manageLicense,
+                        label: this.props.t('user.manageLicense'),
                         type: 'OPTION' as const,
                         isActive: Shortcuts.features(
                           this.props.planStatus,
@@ -676,7 +679,7 @@ export default class Shortcuts extends PureComponent<
                           }),
                       },
                       {
-                        label: this.props.locales.user.useLicense,
+                        label: this.props.t('user.useLicense'),
                         type: 'OPTION' as const,
                         isActive: Shortcuts.features(
                           this.props.planStatus,
@@ -710,7 +713,7 @@ export default class Shortcuts extends PureComponent<
                     state={this.state.isUserMenuLoading ? 'LOADING' : 'DEFAULT'}
                     alignment="TOP_RIGHT"
                     helper={{
-                      label: this.props.locales.shortcuts.tooltips.userMenu,
+                      label: this.props.t('shortcuts.tooltips.userMenu'),
                       pin: 'TOP',
                     }}
                     selected={this.props.config.lang}
@@ -721,7 +724,7 @@ export default class Shortcuts extends PureComponent<
                   icon="help"
                   options={[
                     {
-                      label: this.props.locales.shortcuts.news,
+                      label: this.props.t('shortcuts.news'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -746,7 +749,7 @@ export default class Shortcuts extends PureComponent<
                         }),
                     },
                     {
-                      label: this.props.locales.shortcuts.onboarding,
+                      label: this.props.t('shortcuts.onboarding'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -772,7 +775,7 @@ export default class Shortcuts extends PureComponent<
                         }),
                     },
                     {
-                      label: this.props.locales.shortcuts.email,
+                      label: this.props.t('shortcuts.email'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -806,7 +809,7 @@ export default class Shortcuts extends PureComponent<
                         ),
                     },
                     {
-                      label: this.props.locales.shortcuts.chat,
+                      label: this.props.t('shortcuts.chat'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -835,7 +838,7 @@ export default class Shortcuts extends PureComponent<
                       type: 'SEPARATOR',
                     },
                     {
-                      label: this.props.locales.shortcuts.community,
+                      label: this.props.t('shortcuts.community'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -869,7 +872,7 @@ export default class Shortcuts extends PureComponent<
                         ),
                     },
                     {
-                      label: this.props.locales.shortcuts.request,
+                      label: this.props.t('shortcuts.request'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -903,7 +906,7 @@ export default class Shortcuts extends PureComponent<
                         ),
                     },
                     {
-                      label: this.props.locales.report.title,
+                      label: this.props.t('report.title'),
                       type: 'OPTION',
                       isActive:
                         Shortcuts.features(
@@ -931,7 +934,7 @@ export default class Shortcuts extends PureComponent<
                         }),
                     },
                     {
-                      label: this.props.locales.shortcuts.feedback,
+                      label: this.props.t('shortcuts.feedback'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -965,7 +968,7 @@ export default class Shortcuts extends PureComponent<
                         ),
                     },
                     {
-                      label: this.props.locales.shortcuts.repository,
+                      label: this.props.t('shortcuts.repository'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -1003,7 +1006,7 @@ export default class Shortcuts extends PureComponent<
                     },
 
                     {
-                      label: this.props.locales.shortcuts.store,
+                      label: this.props.t('shortcuts.store'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -1029,7 +1032,7 @@ export default class Shortcuts extends PureComponent<
                         }),
                     },
                     {
-                      label: this.props.locales.about.title,
+                      label: this.props.t('about.title'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -1055,7 +1058,7 @@ export default class Shortcuts extends PureComponent<
                         }),
                     },
                     {
-                      label: this.props.locales.shortcuts.follow,
+                      label: this.props.t('shortcuts.follow'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -1089,7 +1092,7 @@ export default class Shortcuts extends PureComponent<
                         ),
                     },
                     {
-                      label: this.props.locales.shortcuts.author,
+                      label: this.props.t('shortcuts.author'),
                       type: 'OPTION',
                       isActive: Shortcuts.features(
                         this.props.planStatus,
@@ -1125,7 +1128,7 @@ export default class Shortcuts extends PureComponent<
                   ]}
                   alignment="TOP_RIGHT"
                   helper={{
-                    label: this.props.locales.shortcuts.tooltips.helpMenu,
+                    label: this.props.t('shortcuts.tooltips.helpMenu'),
                     pin: 'TOP',
                   }}
                   isNew={

@@ -1,7 +1,6 @@
 import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import { UserSession } from './user'
-import { Language, Translations } from './translations'
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
@@ -23,8 +22,6 @@ export interface BaseProps {
   planStatus: PlanStatus
   trialStatus: TrialStatus
   editor: Editor
-  locales: Translations
-  lang: Language
   documentWidth: number
 }
 

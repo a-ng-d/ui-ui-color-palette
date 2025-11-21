@@ -31,13 +31,14 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { ExportEvent } from '../../types/events'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackExportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface ExportProps extends BaseProps, WithConfigProps {
+interface ExportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
   description: string
@@ -835,13 +836,13 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
 
     return [
       {
-        label: this.props.locales.export.colorSpace.label,
+        label: this.props.t('export.colorSpace.label'),
         type: 'TITLE',
       },
       ...(spaces.includes('rgb')
         ? [
             model(
-              this.props.locales.export.colorSpace.rgb,
+              this.props.t('export.colorSpace.rgb'),
               `${exportType}_RGB`,
               'EXPORT_COLOR_SPACE_RGB'
             ),
@@ -850,7 +851,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       ...(spaces.includes('hex')
         ? [
             model(
-              this.props.locales.export.colorSpace.hex,
+              this.props.t('export.colorSpace.hex'),
               `${exportType}_HEX`,
               'EXPORT_COLOR_SPACE_HEX'
             ),
@@ -859,7 +860,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       ...(spaces.includes('hsl')
         ? [
             model(
-              this.props.locales.export.colorSpace.hsl,
+              this.props.t('export.colorSpace.hsl'),
               `${exportType}_HSL`,
               'EXPORT_COLOR_SPACE_HSL'
             ),
@@ -868,7 +869,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       ...(spaces.includes('lch')
         ? [
             model(
-              this.props.locales.export.colorSpace.lch,
+              this.props.t('export.colorSpace.lch'),
               `${exportType}_LCH`,
               'EXPORT_COLOR_SPACE_LCH'
             ),
@@ -877,7 +878,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       ...(spaces.includes('oklch')
         ? [
             model(
-              this.props.locales.export.colorSpace.oklch,
+              this.props.t('export.colorSpace.oklch'),
               `${exportType}_OKLCH`,
               'EXPORT_COLOR_SPACE_OKLCH'
             ),
@@ -886,7 +887,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
       ...(spaces.includes('p3')
         ? [
             model(
-              this.props.locales.export.colorSpace.p3,
+              this.props.t('export.colorSpace.p3'),
               `${exportType}_P3`,
               'EXPORT_COLOR_SPACE_P3'
             ),
@@ -990,7 +991,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   id="export-palette"
                   leftPartSlot={
                     <SectionTitle
-                      label={this.props.locales.export.format}
+                      label={this.props.t('export.format')}
                       indicator="14"
                     />
                   }
@@ -1000,7 +1001,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                         id="select-format"
                         options={[
                           {
-                            label: this.props.locales.export.tokens.label,
+                            label: this.props.t('export.tokens.label'),
                             value: 'TOKENS_GROUP',
                             feature: 'SELECT_EXPORT_FILE',
                             type: 'GROUP',
@@ -1024,9 +1025,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ).EXPORT_TOKENS.isNew(),
                             children: [
                               {
-                                label:
-                                  this.props.locales.export.tokens.nativeTokens
-                                    .label,
+                                label: this.props.t(
+                                  'export.tokens.nativeTokens.label'
+                                ),
                                 value: 'TOKENS_NATIVE',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1050,8 +1051,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label:
-                                  this.props.locales.export.tokens.dtcg.label,
+                                label: this.props.t('export.tokens.dtcg.label'),
                                 value: 'TOKENS_DTCG',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1075,9 +1075,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label:
-                                  this.props.locales.export.tokens
-                                    .styleDictionary,
+                                label: this.props.t(
+                                  'export.tokens.styleDictionary'
+                                ),
                                 value: 'TOKENS_STYLE_DICTIONARY_V3',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1101,7 +1101,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label: this.props.locales.export.tokens.global,
+                                label: this.props.t('export.tokens.global'),
                                 value: 'TOKENS_UNIVERSAL',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1127,7 +1127,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ],
                           },
                           {
-                            label: this.props.locales.export.stylesheet.label,
+                            label: this.props.t('export.stylesheet.label'),
                             value: 'STYLESHEET_GROUP',
                             type: 'GROUP',
                             isActive: Export.features(
@@ -1150,9 +1150,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ).EXPORT_STYLESHEET.isNew(),
                             children: [
                               {
-                                label:
-                                  this.props.locales.export.stylesheet
-                                    .customProperties,
+                                label: this.props.t(
+                                  'export.stylesheet.customProperties'
+                                ),
                                 value: 'STYLESHEET_CSS',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1176,8 +1176,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label:
-                                  this.props.locales.export.stylesheet.scss,
+                                label: this.props.t('export.stylesheet.scss'),
                                 value: 'STYLESHEET_SCSS',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1201,8 +1200,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label:
-                                  this.props.locales.export.stylesheet.less,
+                                label: this.props.t('export.stylesheet.less'),
                                 value: 'STYLESHEET_LESS',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1228,7 +1226,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ],
                           },
                           {
-                            label: this.props.locales.export.tailwind.label,
+                            label: this.props.t('export.tailwind.label'),
                             value: 'TAILWIND',
                             type: 'GROUP',
                             isActive: Export.features(
@@ -1251,7 +1249,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ).EXPORT_TAILWIND.isNew(),
                             children: [
                               {
-                                label: this.props.locales.export.tailwind.v3,
+                                label: this.props.t('export.tailwind.v3'),
                                 value: 'TAILWIND_V3',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1275,7 +1273,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label: this.props.locales.export.tailwind.v4,
+                                label: this.props.t('export.tailwind.v4'),
                                 value: 'TAILWIND_V4',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1301,7 +1299,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ],
                           },
                           {
-                            label: this.props.locales.export.apple.label,
+                            label: this.props.t('export.apple.label'),
                             value: 'APPLE_GROUP',
                             type: 'GROUP',
                             isActive: Export.features(
@@ -1324,7 +1322,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ).EXPORT_APPLE.isNew(),
                             children: [
                               {
-                                label: this.props.locales.export.apple.swiftui,
+                                label: this.props.t('export.apple.swiftui'),
                                 value: 'APPLE_SWIFTUI',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1348,7 +1346,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label: this.props.locales.export.apple.uikit,
+                                label: this.props.t('export.apple.uikit'),
                                 value: 'APPLE_UIKIT',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1375,7 +1373,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             action: this.exportHandler,
                           },
                           {
-                            label: this.props.locales.export.android.label,
+                            label: this.props.t('export.android.label'),
                             value: 'ANDROID_GROUP',
                             type: 'GROUP',
                             isActive: Export.features(
@@ -1398,8 +1396,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             ).EXPORT_ANDROID.isNew(),
                             children: [
                               {
-                                label:
-                                  this.props.locales.export.android.compose,
+                                label: this.props.t('export.android.compose'),
                                 value: 'ANDROID_COMPOSE',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1423,8 +1420,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                                 action: this.exportHandler,
                               },
                               {
-                                label:
-                                  this.props.locales.export.android.resources,
+                                label: this.props.t('export.android.resources'),
                                 value: 'ANDROID_XML',
                                 type: 'OPTION',
                                 isActive: Export.features(
@@ -1451,7 +1447,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                             action: this.exportHandler,
                           },
                           {
-                            label: this.props.locales.export.csv.spreadsheet,
+                            label: this.props.t('export.csv.spreadsheet'),
                             value: 'CSV',
                             type: 'OPTION',
                             isActive: Export.features(
@@ -1490,9 +1486,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           selected={`${this.props.context}_${this.state.colorSpace.selected}`}
                           alignment="BOTTOM_RIGHT"
                           helper={{
-                            label:
-                              this.props.locales.export.actions
-                                .selectColorSpace,
+                            label: this.props.t(
+                              'export.actions.selectColorSpace'
+                            ),
                           }}
                         />
                       )}
@@ -1501,7 +1497,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                           type="icon"
                           icon="draft"
                           helper={{
-                            label: this.props.locales.export.actions.copyCode,
+                            label: this.props.t('export.actions.copyCode'),
                           }}
                           action={this.props.onCopyCode}
                         />
@@ -1520,7 +1516,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   >
                     <SemanticMessage
                       type="INFO"
-                      message={this.props.locales.export.tokens.dtcg.message}
+                      message={this.props.t('export.tokens.dtcg.message')}
                     />
                   </div>
                 )}
@@ -1533,9 +1529,9 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   >
                     <SemanticMessage
                       type="INFO"
-                      message={
-                        this.props.locales.export.tokens.nativeTokens.message
-                      }
+                      message={this.props.t(
+                        'export.tokens.nativeTokens.message'
+                      )}
                     />
                   </div>
                 )}
@@ -1605,7 +1601,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                   >
                     {this.props.context === 'CSV'
                       ? (this.props.code[0].colors[0].csv ??
-                        this.props.locales.warning.emptySourceColors)
+                        this.props.t('warning.emptySourceColors'))
                       : this.props.code}
                   </SyntaxHighlighter>
                 </div>

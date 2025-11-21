@@ -11,12 +11,13 @@ import {
   texts,
 } from '@a_ng_d/figmug-ui'
 import Icon from '../Icon'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface AboutProps extends BaseProps, WithConfigProps {
+interface AboutProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -37,9 +38,7 @@ export default class About extends PureComponent<AboutProps> {
   })
 
   // Handlers
-  renderTemplateToHTML = (template: string, values: Record<string, string>) => {
-    return template.replace(/\{(\w+)\}/g, (_match, key) => values[key] ?? '')
-  }
+  // Aucune fonction de template nécessaire, Tolgee gère les paramètres
 
   // Templates
   QuickInfo = () => {
@@ -58,14 +57,13 @@ export default class About extends PureComponent<AboutProps> {
                         texts['type--xlarge'],
                       ])}
                     >
-                      {this.props.locales.name}
+                      {this.props.t('name')}
                     </span>
                     <div className={layouts.snackbar}>
                       <span className={texts.type}>
-                        {this.props.locales.about.information.version.replace(
-                          '{version}',
-                          this.props.config.versions.pluginVersion
-                        )}
+                        {this.props.t('about.information.version', {
+                          version: this.props.config.versions.pluginVersion,
+                        })}
                       </span>
                       <Feature
                         isActive={
@@ -79,20 +77,20 @@ export default class About extends PureComponent<AboutProps> {
                         }
                       >
                         <span className={texts.type}>
-                          {this.props.locales.separator}
+                          {this.props.t('separator')}
                         </span>
                         {this.props.config.env.isDev ? (
                           <span className={texts.type}>
-                            {this.props.locales.plan.dev}
+                            {this.props.t('plan.dev')}
                           </span>
                         ) : (
                           <span className={texts.type}>
                             {this.props.planStatus === 'UNPAID'
-                              ? this.props.locales.plan.free
+                              ? this.props.t('plan.free')
                               : this.props.planStatus === 'PAID' &&
                                   this.props.trialStatus === 'PENDING'
-                                ? this.props.locales.plan.trial
-                                : this.props.locales.plan.pro}
+                                ? this.props.t('plan.trial')
+                                : this.props.t('plan.pro')}
                           </span>
                         )}
                       </Feature>
@@ -103,10 +101,10 @@ export default class About extends PureComponent<AboutProps> {
                   <span
                     className={texts.type}
                     dangerouslySetInnerHTML={{
-                      __html: this.renderTemplateToHTML(
-                        this.props.locales.about.information.creator.sentence,
+                      __html: this.props.t(
+                        'about.information.creator.sentence',
                         {
-                          author: `<a href='${this.props.config.urls.authorUrl}' target='_blank' rel='noreferrer'>${this.props.locales.about.information.creator.author}</a>`,
+                          author: `<a href='${this.props.config.urls.authorUrl}' target='_blank' rel='noreferrer'>${this.props.t('about.information.creator.author')}</a>`,
                         }
                       ),
                     }}
@@ -114,12 +112,11 @@ export default class About extends PureComponent<AboutProps> {
                   <span className={texts.type}>
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: this.renderTemplateToHTML(
-                          this.props.locales.about.information.sourceCode
-                            .sentence,
+                        __html: this.props.t(
+                          'about.information.sourceCode.sentence',
                           {
-                            code: this.props.locales.name,
-                            license: `<a href='${this.props.config.urls.licenseUrl}' target='_blank' rel='noreferrer'>${this.props.locales.about.information.sourceCode.license}</a>`,
+                            code: this.props.t('name'),
+                            license: `<a href='${this.props.config.urls.licenseUrl}' target='_blank' rel='noreferrer'>${this.props.t('about.information.sourceCode.license')}</a>`,
                           }
                         ),
                       }}
@@ -128,12 +125,11 @@ export default class About extends PureComponent<AboutProps> {
                   <span className={texts.type}>
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: this.renderTemplateToHTML(
-                          this.props.locales.about.information.contribution
-                            .sentence,
+                        __html: this.props.t(
+                          'about.information.contribution.sentence',
                           {
-                            code: this.props.locales.name,
-                            repository: `<a href='${this.props.config.urls.repositoryUrl}' target='_blank' rel='noreferrer'>${this.props.locales.about.information.contribution.repository}</a>`,
+                            code: this.props.t('name'),
+                            repository: `<a href='${this.props.config.urls.repositoryUrl}' target='_blank' rel='noreferrer'>${this.props.t('about.information.contribution.repository')}</a>`,
                           }
                         ),
                       }}
@@ -151,86 +147,85 @@ export default class About extends PureComponent<AboutProps> {
   }
 
   Attributions = () => {
-    const { locales } = this.props
     const attributions = [
       {
         key: 'chroma',
-        template: locales.about.attributions.chroma.sentence,
+        template: 'about.attributions.chroma.sentence',
         values: {
-          chroma: `<a href='https://github.com/gka/chroma.js' target='_blank' rel='noreferrer'>${locales.about.attributions.chroma.chroma}</a>`,
-          author: `<a href='https://github.com/gka' target='_blank' rel='noreferrer'>${locales.about.attributions.chroma.author}</a>`,
+          chroma: `<a href='https://github.com/gka/chroma.js' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.chroma.chroma')}</a>`,
+          author: `<a href='https://github.com/gka' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.chroma.author')}</a>`,
         },
       },
       {
         key: 'apca',
-        template: locales.about.attributions.apca.sentence,
+        template: 'about.attributions.apca.sentence',
         values: {
-          apca: `<a href='https://github.com/Myndex/apca-w3' target='_blank' rel='noreferrer'>${locales.about.attributions.apca.apca}</a>`,
-          author: `<a href='https://github.com/Myndex' target='_blank' rel='noreferrer'>${locales.about.attributions.apca.author}</a>`,
+          apca: `<a href='https://github.com/Myndex/apca-w3' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.apca.apca')}</a>`,
+          author: `<a href='https://github.com/Myndex' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.apca.author')}</a>`,
         },
       },
       {
         key: 'colorName',
-        template: locales.about.attributions.colorName.sentence,
+        template: 'about.attributions.colorName.sentence',
         values: {
-          colorName: `<a href='https://github.com/meodai/color-names' target='_blank' rel='noreferrer'>${locales.about.attributions.colorName.colorName}</a>`,
-          author: `<a href='https://github.com/meodai' target='_blank' rel='noreferrer'>${locales.about.attributions.colorName.author}</a>`,
+          colorName: `<a href='https://github.com/meodai/color-names' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.colorName.colorName')}</a>`,
+          author: `<a href='https://github.com/meodai' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.colorName.author')}</a>`,
         },
       },
       {
         key: 'preact',
-        template: locales.about.attributions.preact.sentence,
+        template: 'about.attributions.preact.sentence',
         values: {
-          preact: `<a href='https://preactjs.com/' target='_blank' rel='noreferrer'>${locales.about.attributions.preact.preact}</a>`,
+          preact: `<a href='https://preactjs.com/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.preact.preact')}</a>`,
         },
       },
       {
         key: 'supabase',
-        template: locales.about.attributions.supabase.sentence,
+        template: 'about.attributions.supabase.sentence',
         values: {
-          supabase: `<a href='https://supabase.com/' target='_blank' rel='noreferrer'>${locales.about.attributions.supabase.supabase}</a>`,
+          supabase: `<a href='https://supabase.com/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.supabase.supabase')}</a>`,
         },
       },
       {
         key: 'uid',
-        template: locales.about.attributions.uid.sentence,
+        template: 'about.attributions.uid.sentence',
         values: {
-          uid: `<a href='https://github.com/lukeed/uid' target='_blank' rel='noreferrer'>${locales.about.attributions.uid.uid}</a>`,
-          author: `<a href='https://github.com/lukeed' target='_blank' rel='noreferrer'>${locales.about.attributions.uid.author}</a>`,
+          uid: `<a href='https://github.com/lukeed/uid' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.uid.uid')}</a>`,
+          author: `<a href='https://github.com/lukeed' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.uid.author')}</a>`,
         },
       },
       {
         key: 'figmug',
-        template: locales.about.attributions.figmug.sentence,
+        template: 'about.attributions.figmug.sentence',
         values: {
-          figmug: `<a href='https://github.com/a-ng-d/figmug' target='_blank' rel='noreferrer'>${locales.about.attributions.figmug.figmug}</a>`,
-          author: `<a href='https://github.com/a-ng-d' target='_blank' rel='noreferrer'>${locales.about.attributions.figmug.author}</a>`,
+          figmug: `<a href='https://github.com/a-ng-d/figmug' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.figmug.figmug')}</a>`,
+          author: `<a href='https://github.com/a-ng-d' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.figmug.author')}</a>`,
         },
       },
       {
         key: 'vite',
-        template: locales.about.attributions.vite.sentence,
+        template: 'about.attributions.vite.sentence',
         values: {
-          vite: `<a href='https://vitejs.dev/' target='_blank' rel='noreferrer'>${locales.about.attributions.vite.vite}</a>`,
+          vite: `<a href='https://vitejs.dev/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.vite.vite')}</a>`,
         },
       },
       {
         key: 'presets',
-        template: locales.about.attributions.presets.sentence,
+        template: 'about.attributions.presets.sentence',
         values: {
-          antDesign: `<a href='https://ant.design/docs/spec/colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.antDesign}</a>`,
-          bootstrap: `<a href='https://getbootstrap.com/docs/5.3/customize/color/#all-colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.bootstrap}</a>`,
-          tailwind: `<a href='https://tailwindcss.com/docs/colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.tailwind}</a>`,
-          material: `<a href='https://m3.material.io/styles/color/static/baseline' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.material}</a>`,
-          untitledUI: `<a href='https://untitledui.com/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.untitledUI}</a>`,
-          openColor: `<a href='https://yeun.github.io/open-color/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.openColor}</a>`,
-          radix: `<a href='https://www.radix-ui.com/colors' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.radix}</a>`,
-          atlassian: `<a href='https://atlassian.design/foundations/color-new/color-palette-new' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.atlassian}</a>`,
-          shopify: `<a href='https://polaris-react.shopify.com/design/colors/palettes-and-roles' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.shopify}</a>`,
-          uber: `<a href='https://base.uber.com/6d2425e9f/p/797362-color-beta' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.uber}</a>`,
-          microsoft: `<a href='https://fluent2.microsoft.design/color/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.microsoft}</a>`,
-          ibm: `<a href='https://carbondesignsystem.com/elements/color/overview/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.ibm}</a>`,
-          adobe: `<a href='https://spectrum.adobe.com/page/color-palette/' target='_blank' rel='noreferrer'>${locales.about.attributions.presets.adobe}</a>`,
+          antDesign: `<a href='https://ant.design/docs/spec/colors' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.antDesign')}</a>`,
+          bootstrap: `<a href='https://getbootstrap.com/docs/5.3/customize/color/#all-colors' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.bootstrap')}</a>`,
+          tailwind: `<a href='https://tailwindcss.com/docs/colors' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.tailwind')}</a>`,
+          material: `<a href='https://m3.material.io/styles/color/static/baseline' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.material')}</a>`,
+          untitledUI: `<a href='https://untitledui.com/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.untitledUI')}</a>`,
+          openColor: `<a href='https://yeun.github.io/open-color/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.openColor')}</a>`,
+          radix: `<a href='https://www.radix-ui.com/colors' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.radix')}</a>`,
+          atlassian: `<a href='https://atlassian.design/foundations/color-new/color-palette-new' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.atlassian')}</a>`,
+          shopify: `<a href='https://polaris-react.shopify.com/design/colors/palettes-and-roles' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.shopify')}</a>`,
+          uber: `<a href='https://base.uber.com/6d2425e9f/p/797362-color-beta' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.uber')}</a>`,
+          microsoft: `<a href='https://fluent2.microsoft.design/color/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.microsoft')}</a>`,
+          ibm: `<a href='https://carbondesignsystem.com/elements/color/overview/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.ibm')}</a>`,
+          adobe: `<a href='https://spectrum.adobe.com/page/color-palette/' target='_blank' rel='noreferrer'>${this.props.t('about.attributions.presets.adobe')}</a>`,
         },
       },
     ]
@@ -240,9 +235,7 @@ export default class About extends PureComponent<AboutProps> {
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle
-                label={this.props.locales.about.attributions.title}
-              />
+              <SectionTitle label={this.props.t('about.attributions.title')} />
             }
             isListItem={false}
             alignment="CENTER"
@@ -253,7 +246,7 @@ export default class About extends PureComponent<AboutProps> {
             <span
               className={texts.type}
               dangerouslySetInnerHTML={{
-                __html: this.renderTemplateToHTML(
+                __html: this.props.t(
                   attr.template,
                   attr.values as unknown as Record<string, string>
                 ),
@@ -278,7 +271,7 @@ export default class About extends PureComponent<AboutProps> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locales.about.title}
+          title={this.props.t('about.title')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >

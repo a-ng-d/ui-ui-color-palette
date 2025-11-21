@@ -2,13 +2,17 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import t from '../../../content/images/trial.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface WelcomeToTrialProps extends BaseProps, WithConfigProps {
+interface WelcomeToTrialProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -40,10 +44,10 @@ export default class WelcomeToTrial extends PureComponent<WelcomeToTrialProps> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locales.proPlan.welcome.title}
+          title={this.props.t('proPlan.welcome.title')}
           actions={{
             primary: {
-              label: this.props.locales.proPlan.welcome.cta,
+              label: this.props.t('proPlan.welcome.cta'),
               isAutofocus: true,
               action: this.props.onClose,
             },
@@ -60,10 +64,9 @@ export default class WelcomeToTrial extends PureComponent<WelcomeToTrialProps> {
           </div>
           <div className="dialog__text">
             <p className={texts.type}>
-              {this.props.locales.proPlan.welcome.trial.replace(
-                '{hours}',
-                this.props.config.plan.trialTime.toString()
-              )}
+              {this.props.t('proPlan.welcome.trial', {
+                hours: this.props.config.plan.trialTime.toString(),
+              })}
             </p>
           </div>
         </Dialog>

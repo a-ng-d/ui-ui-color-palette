@@ -16,10 +16,11 @@ import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
+import { WithTranslationProps } from './WithTranslation'
 import { WithConfigProps } from './WithConfig'
 import Feature from './Feature'
 
-interface ShadeProps extends BaseProps, WithConfigProps {
+interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   index: number
   color: HexModel
   sourceColor: SourceColorConfiguration | ColorConfiguration
@@ -76,18 +77,17 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       | 'FLUENT_TEXT'
   ): string => {
     const actions: { [key: string]: () => string } = {
-      AVOID: () => this.props.locales.paletteProperties.avoid,
-      NON_TEXT: () => this.props.locales.paletteProperties.nonText,
-      SPOT_TEXT: () => this.props.locales.paletteProperties.spotText,
-      HEADLINES: () => this.props.locales.paletteProperties.headlines,
-      BODY_TEXT: () => this.props.locales.paletteProperties.bodyText,
-      CONTENT_TEXT: () => this.props.locales.paletteProperties.contentText,
-      FLUENT_TEXT: () => this.props.locales.paletteProperties.fluentText,
+      AVOID: () => this.props.t('paletteProperties.avoid'),
+      NON_TEXT: () => this.props.t('paletteProperties.nonText'),
+      SPOT_TEXT: () => this.props.t('paletteProperties.spotText'),
+      HEADLINES: () => this.props.t('paletteProperties.headlines'),
+      BODY_TEXT: () => this.props.t('paletteProperties.bodyText'),
+      CONTENT_TEXT: () => this.props.t('paletteProperties.contentText'),
+      FLUENT_TEXT: () => this.props.t('paletteProperties.fluentText'),
     }
 
     return (
-      actions[recommendation]?.() ??
-      this.props.locales.paletteProperties.unknown
+      actions[recommendation]?.() ?? this.props.t('paletteProperties.unknown')
     )
   }
 
@@ -117,7 +117,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
             type: 'POST_MESSAGE',
             data: {
               type: 'INFO',
-              message: this.props.locales.info.copiedCode,
+              message: this.props.t('info.copiedCode'),
             },
           },
         },
@@ -131,7 +131,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
             type: 'POST_MESSAGE',
             data: {
               style: 'WARNING',
-              message: this.props.locales.warning.uncopiedCode,
+              message: this.props.t('warning.uncopiedCode'),
             },
           },
         },
@@ -168,7 +168,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
             fontSize: '10px',
           }}
         >
-          {score <= 4.5 ? this.props.locales.fail : this.props.locales.pass}
+          {score <= 4.5 ? this.props.t('fail') : this.props.t('pass')}
         </span>
       }
     >
@@ -203,7 +203,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
             fontSize: '10px',
           }}
         >
-          {score <= 45 ? this.props.locales.fail : this.props.locales.pass}
+          {score <= 45 ? this.props.t('fail') : this.props.t('pass')}
         </span>
       }
     >
@@ -235,7 +235,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           </div>
         }
       >
-        {this.props.locales.preview.lock.tag}
+        {this.props.t('preview.lock.tag')}
       </Chip>
     )
   }
@@ -264,7 +264,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           </div>
         }
       >
-        {this.props.locales.preview.closest.tag}
+        {this.props.t('preview.closest.tag')}
       </Chip>
     )
   }

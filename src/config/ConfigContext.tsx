@@ -20,7 +20,6 @@ export const ConfigProvider = ({
   urls,
   versions,
   features,
-  locales,
   lang,
   fees,
 }: ConfigProviderProps) => {
@@ -34,7 +33,6 @@ export const ConfigProvider = ({
         urls,
         versions,
         features,
-        locales,
         lang,
         fees,
       }}

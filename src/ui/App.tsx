@@ -32,7 +32,7 @@ import {
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import './stylesheets/app.css'
-import { userConsent } from '../utils/userConsent'
+import { getUserConsent } from '../utils/userConsent'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { UserSession } from '../types/user'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
@@ -53,10 +53,10 @@ import {
   $isAPCADisplayed,
   $isVsCodeMessageDisplayed,
   $isWCAGDisplayed,
-  $userLanguage,
 } from '../stores/preferences'
-import { $palette } from '../stores/palette'
+import { $palette, initializePaletteStore } from '../stores/palette'
 import { $creditsCount } from '../stores/credits'
+import { getTolgee } from '../external/translation'
 import {
   trackEditorEvent,
   trackPurchaseEvent,
@@ -68,7 +68,6 @@ import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { getSupabase } from '../external/auth'
-import { locales } from '../content/locales'
 import { ConfigContextType } from '../config/ConfigContext'
 import SeePalette from './services/SeePalette'
 import EditPalette from './services/EditPalette'
@@ -128,7 +127,6 @@ class App extends Component<AppProps, AppStates> {
   private palette: typeof $palette
   private subscribeLanguage: (() => void) | undefined
   private subsscribeVsCodeMessage: (() => void) | undefined
-  private isFirstLanguageEmission = true
 
   static features = (
     planStatus: PlanStatus,
@@ -201,7 +199,7 @@ class App extends Component<AppProps, AppStates> {
       service: 'BROWSE',
       sourceColors: [
         {
-          name: props.config.locales.colors.defaultName,
+          name: props.t('colors.defaultName'),
           rgb: { r: 0.533, g: 0.921, b: 0.976 },
           source: 'DEFAULT',
           id: '00000000000',
@@ -209,12 +207,9 @@ class App extends Component<AppProps, AppStates> {
         },
       ],
       id: '',
-      name: props.config.locales.settings.global.name.default,
+      name: props.t('settings.global.name.default'),
       description: '',
-      preset:
-        getPresets(props.config.locales).find(
-          (preset) => preset.id === 'CUSTOM_10_100'
-        ) ?? getDefaultPreset(props.config.locales),
+      preset: getDefaultPreset(props.t),
       distributionEasing: 'LINEAR',
       scale: {},
       shift: {
@@ -254,7 +249,7 @@ class App extends Component<AppProps, AppStates> {
         userFullName: '',
         userAvatar: '',
       },
-      userConsent: userConsent,
+      userConsent: getUserConsent(props.t),
       userIdentity: {
         id: '',
         fullName: '',
@@ -267,8 +262,6 @@ class App extends Component<AppProps, AppStates> {
       editor: props.config.env.editor,
       plans: [],
       modalContext: 'EMPTY',
-      locales: props.config.locales,
-      lang: props.config.lang,
       mustUserConsent: true,
       announcements: {
         version: '',
@@ -298,36 +291,8 @@ class App extends Component<AppProps, AppStates> {
       },
       '*'
     )
-
-    // Language
-    this.subscribeLanguage = $userLanguage.subscribe(async (value) => {
-      if (this.isFirstLanguageEmission) {
-        this.isFirstLanguageEmission = false
-        return
-      }
-      this.isFirstLanguageEmission = false
-
-      const newLocales = locales.set(value)
-
-      updatePresets(newLocales)
-
-      this.setState({
-        lang: value,
-        locales: newLocales,
-      })
-
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_LANGUAGE',
-            data: {
-              lang: value,
-            },
-          },
-        },
-        '*'
-      )
-    })
+    initializePaletteStore()
+    updatePresets(this.props.t)
 
     this.subsscribeVsCodeMessage = $isVsCodeMessageDisplayed.subscribe(
       (value) => {
@@ -501,7 +466,10 @@ class App extends Component<AppProps, AppStates> {
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
         $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
         $isVsCodeMessageDisplayed.set(path.data.isVsCodeMessageDisplayed)
-        $userLanguage.set(path.data.userLanguage)
+
+        getTolgee()
+          .changeLanguage(path.data.userLanguage)
+          .then(() => updatePresets(this.props.t))
       }
 
       const checkUserLicense = () => {
@@ -819,9 +787,9 @@ class App extends Component<AppProps, AppStates> {
 
   onResetPalette = () => {
     const preset =
-      getPresets(this.state.locales).find(
+      getPresets(this.props.t).find(
         (preset) => preset.id === 'CUSTOM_10_100'
-      ) ?? getDefaultPreset(this.state.locales)
+      ) ?? getDefaultPreset(this.props.t)
     const scale = doScale(preset.stops, preset.min, preset.max, preset.easing)
 
     this.setState({
@@ -831,7 +799,7 @@ class App extends Component<AppProps, AppStates> {
         (sourceColor: SourceColorConfiguration) =>
           sourceColor.source === 'CANVAS' || sourceColor.source === 'DEFAULT'
       ),
-      name: this.state.locales.settings.global.name.default,
+      name: this.props.t('settings.global.name.default'),
       description: '',
       preset: preset,
       scale: scale,
@@ -867,7 +835,7 @@ class App extends Component<AppProps, AppStates> {
       onGoingStep: 'palette reset',
     })
 
-    this.palette.setKey('name', this.state.locales.settings.global.name.default)
+    this.palette.setKey('name', this.props.t('settings.global.name.default'))
     this.palette.setKey('description', '')
     this.palette.setKey('preset', preset)
     this.palette.setKey('scale', scale)
@@ -1122,10 +1090,10 @@ class App extends Component<AppProps, AppStates> {
             {document.getElementById('modal') &&
               createPortal(
                 <Consent
-                  welcomeMessage={this.state.locales.user.cookies.welcome}
-                  vendorsMessage={this.state.locales.user.cookies.vendors}
+                  welcomeMessage={this.props.t('user.cookies.welcome')}
+                  vendorsMessage={this.props.t('user.cookies.vendors')}
                   privacyPolicy={{
-                    label: this.state.locales.user.cookies.privacyPolicy,
+                    label: this.props.t('user.cookies.privacyPolicy'),
                     action: () =>
                       sendPluginMessage(
                         {
@@ -1139,33 +1107,32 @@ class App extends Component<AppProps, AppStates> {
                         '*'
                       ),
                   }}
-                  moreDetailsLabel={this.state.locales.user.cookies.customize}
-                  lessDetailsLabel={this.state.locales.user.cookies.back}
+                  moreDetailsLabel={this.props.t('user.cookies.customize')}
+                  lessDetailsLabel={this.props.t('user.cookies.back')}
                   consentActions={{
                     consent: {
-                      label: this.state.locales.user.cookies.consent,
+                      label: this.props.t('user.cookies.consent'),
                       action: this.userConsentHandler,
                     },
                     deny: {
-                      label: this.state.locales.user.cookies.deny,
+                      label: this.props.t('user.cookies.deny'),
                       action: this.userConsentHandler,
                     },
                     save: {
-                      label: this.state.locales.user.cookies.save,
+                      label: this.props.t('user.cookies.save'),
                       action: this.userConsentHandler,
                     },
                   }}
                   validVendor={{
-                    name: this.state.locales.vendors.functional.name,
+                    name: this.props.t('vendors.functional.name'),
                     id: 'functional',
                     icon: '',
-                    description:
-                      this.state.locales.vendors.functional.description,
+                    description: this.props.t('vendors.functional.description'),
                     isConsented: true,
                   }}
                   vendorsList={this.state.userConsent}
                   canBeClosed
-                  closeLabel={this.state.locales.user.cookies.close}
+                  closeLabel={this.props.t('user.cookies.close')}
                   onClose={() => this.setState({ mustUserConsent: false })}
                 />,
                 document.getElementById('modal') ??
@@ -1184,12 +1151,12 @@ class App extends Component<AppProps, AppStates> {
           >
             <SemanticMessage
               type="INFO"
-              message={this.state.locales.dev.vscode.message}
+              message={this.props.t('dev.vscode.message')}
               actionsSlot={
                 <>
                   <Button
                     type="secondary"
-                    label={this.state.locales.dev.vscode.cta}
+                    label={this.props.t('dev.vscode.cta')}
                     action={() =>
                       sendPluginMessage(
                         {

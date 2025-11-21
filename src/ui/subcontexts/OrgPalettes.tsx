@@ -16,9 +16,10 @@ import {
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import Glance from '../modules/Glance'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import getPaletteMeta from '../../utils/setPaletteMeta'
+import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import {
@@ -29,10 +30,13 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import { ConfigContextType } from '../../index'
 import { getSupabase } from '../../external/auth'
+import { ConfigContextType } from '../../config/ConfigContext'
 
-interface OrgPalettesProps extends BaseProps, WithConfigProps {
+interface OrgPalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -255,7 +259,7 @@ export default class OrgPalettes extends PureComponent<
           soloPartSlot={
             <Button
               type="secondary"
-              label={this.props.locales.browse.lazyLoad.loadMore}
+              label={this.props.t('browse.lazyLoad.loadMore')}
               isLoading={this.state.isLoadMoreActionLoading}
               action={() => {
                 this.props.onChangeCurrentPage(this.props.currentPage + 1)
@@ -279,7 +283,7 @@ export default class OrgPalettes extends PureComponent<
           soloPartSlot={
             <Message
               icon="check"
-              messages={[this.props.locales.browse.lazyLoad.completeList]}
+              messages={[this.props.t('browse.lazyLoad.completeList')]}
             />
           }
           isCentered
@@ -300,19 +304,19 @@ export default class OrgPalettes extends PureComponent<
         {this.props.status === 'ERROR' && (
           <SemanticMessage
             type="WARNING"
-            message={this.props.locales.error.fetchPalette}
+            message={this.props.t('error.fetchPalette')}
           />
         )}
         {this.props.status === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.warning.noOrgPalettes}
+            message={this.props.t('warning.noOrgPalettes')}
           />
         )}
         {this.props.status === 'NO_RESULT' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.info.noResult}
+            message={this.props.t('info.noResult')}
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
@@ -341,11 +345,12 @@ export default class OrgPalettes extends PureComponent<
                 key={`palette-${index}`}
                 name={palette.name}
                 description={palette.preset?.name}
-                subdescription={getPaletteMeta(
-                  palette.colors ?? [],
-                  palette.themes ?? [],
-                  palette.star_count ?? 0
-                )}
+                subdescription={setPaletteMeta({
+                  colors: palette.colors ?? [],
+                  themes: palette.themes ?? [],
+                  stars: palette.star_count ?? 0,
+                  locales: this.props.t,
+                })}
                 user={{
                   avatar: palette.org_avatar_url ?? '',
                   name: palette.org_name ?? '',
@@ -364,8 +369,7 @@ export default class OrgPalettes extends PureComponent<
                         type="icon"
                         icon="visible"
                         helper={{
-                          label:
-                            this.props.locales.browse.actions.glancePalette,
+                          label: this.props.t('browse.actions.glancePalette'),
                         }}
                         isBlocked={OrgPalettes.features(
                           this.props.planStatus,
@@ -397,7 +401,7 @@ export default class OrgPalettes extends PureComponent<
                     >
                       <Button
                         type="secondary"
-                        label={this.props.locales.browse.actions.openPalette}
+                        label={this.props.t('browse.actions.openPalette')}
                         isLoading={this.state.isSecondaryActionLoading[index]}
                         shouldReflow={{
                           isEnabled: true,
@@ -441,7 +445,7 @@ export default class OrgPalettes extends PureComponent<
                                     data: {
                                       type: 'ERROR',
                                       message:
-                                        this.props.locales.error.openPalette,
+                                        this.props.t('error.openPalette'),
                                     },
                                   },
                                 },
@@ -461,7 +465,7 @@ export default class OrgPalettes extends PureComponent<
                     >
                       <Button
                         type="secondary"
-                        label={this.props.locales.actions.addToLocal}
+                        label={this.props.t('actions.addToLocal')}
                         isLoading={this.state.isSecondaryActionLoading[index]}
                         shouldReflow={{
                           isEnabled: true,
@@ -500,8 +504,7 @@ export default class OrgPalettes extends PureComponent<
                                     type: 'POST_MESSAGE',
                                     data: {
                                       type: 'ERROR',
-                                      message:
-                                        this.props.locales.error.addToLocal,
+                                      message: this.props.t('error.addToLocal'),
                                     },
                                   },
                                 },
@@ -589,7 +592,7 @@ export default class OrgPalettes extends PureComponent<
                     type: 'PICTO',
                     value: 'search',
                   }}
-                  placeholder={this.props.locales.browse.lazyLoad.search}
+                  placeholder={this.props.t('browse.lazyLoad.search')}
                   value={this.props.searchQuery}
                   isClearable
                   isFramed={false}

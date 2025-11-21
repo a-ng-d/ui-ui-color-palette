@@ -11,6 +11,7 @@ import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
 import RemotePalettes from '../contexts/RemotePalettes'
 import LocalPalettes from '../contexts/LocalPalettes'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppStates } from '../App'
@@ -27,7 +28,10 @@ import {
 } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface BrowsePalettesProps extends BaseProps, WithConfigProps {
+interface BrowsePalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   document: DocumentConfiguration
   onCreatePalette: React.Dispatch<Partial<AppStates>>
   onSeePalette: (palette: {
@@ -104,7 +108,7 @@ export default class BrowsePalettes extends PureComponent<
       props.config.features,
       props.editor,
       props.service,
-      props.locales
+      props.t
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -127,14 +131,14 @@ export default class BrowsePalettes extends PureComponent<
   }
 
   componentDidUpdate(previousProps: Readonly<BrowsePalettesProps>): void {
-    if (previousProps.locales !== this.props.locales) {
+    if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
         ['LOCAL_PALETTES', 'REMOTE_PALETTES'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
         this.props.service,
-        this.props.locales
+        this.props.t
       )
 
       this.forceUpdate()
@@ -191,7 +195,12 @@ export default class BrowsePalettes extends PureComponent<
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
-          id: this.props.document.id,
+          data: {
+            id: this.props.document.id,
+            locales: {
+              errorMessage: this.props.t('error.unfoundPalette'),
+            },
+          },
         },
       },
       '*'
@@ -284,7 +293,7 @@ export default class BrowsePalettes extends PureComponent<
           >
             <Button
               type="secondary"
-              label={this.props.locales.browse.document.open}
+              label={this.props.t('browse.document.open')}
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config,
@@ -313,7 +322,7 @@ export default class BrowsePalettes extends PureComponent<
           >
             <Button
               type="secondary"
-              label={this.props.locales.browse.document.restore}
+              label={this.props.t('browse.document.restore')}
               isLoading={this.state.isSecondaryActionLoading}
               isBlocked={BrowsePalettes.features(
                 this.props.planStatus,
@@ -344,7 +353,7 @@ export default class BrowsePalettes extends PureComponent<
         <Button
           type="primary"
           icon="plus"
-          label={this.props.locales.browse.actions.new}
+          label={this.props.t('browse.actions.new')}
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
           isBlocked={
             BrowsePalettes.features(

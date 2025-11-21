@@ -15,9 +15,10 @@ import {
   Message,
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import getPaletteMeta from '../../utils/setPaletteMeta'
+import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import {
@@ -28,13 +29,16 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import { ConfigContextType } from '../../index'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import starPalette from '../../external/publication/starPalette'
 import { signIn } from '../../external/auth/authentication'
 import { getSupabase } from '../../external/auth'
+import { ConfigContextType } from '../../config/ConfigContext'
 
-interface StarredPalettesProps extends BaseProps, WithConfigProps {
+interface StarredPalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -368,7 +372,7 @@ export default class StarredPalettes extends PureComponent<
               type: 'POST_MESSAGE',
               data: {
                 type: 'ERROR',
-                message: this.props.locales.error.starPalette,
+                message: this.props.t('error.starPalette'),
               },
             },
           },
@@ -387,7 +391,7 @@ export default class StarredPalettes extends PureComponent<
           soloPartSlot={
             <Button
               type="secondary"
-              label={this.props.locales.browse.lazyLoad.loadMore}
+              label={this.props.t('browse.lazyLoad.loadMore')}
               isLoading={this.state.isLoadMoreActionLoading}
               action={() => {
                 this.props.onChangeCurrentPage(this.props.currentPage + 1)
@@ -411,7 +415,7 @@ export default class StarredPalettes extends PureComponent<
           soloPartSlot={
             <Message
               icon="check"
-              messages={[this.props.locales.browse.lazyLoad.completeList]}
+              messages={[this.props.t('browse.lazyLoad.completeList')]}
             />
           }
           isCentered
@@ -432,19 +436,19 @@ export default class StarredPalettes extends PureComponent<
         {this.props.status === 'ERROR' && (
           <SemanticMessage
             type="WARNING"
-            message={this.props.locales.error.fetchPalette}
+            message={this.props.t('error.fetchPalette')}
           />
         )}
         {this.props.status === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.warning.noStarredPalettes}
+            message={this.props.t('warning.noStarredPalettes')}
           />
         )}
         {this.props.status === 'NO_RESULT' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.info.noResult}
+            message={this.props.t('info.noResult')}
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
@@ -473,10 +477,12 @@ export default class StarredPalettes extends PureComponent<
                 key={`palette-${index}`}
                 name={palette.name}
                 description={palette.preset?.name}
-                subdescription={getPaletteMeta(
-                  palette.colors ?? [],
-                  palette.themes ?? []
-                )}
+                subdescription={setPaletteMeta({
+                  colors: palette.colors ?? [],
+                  themes: palette.themes ?? [],
+                  stars: palette.star_count ?? 0,
+                  locales: this.props.t,
+                })}
                 user={{
                   avatar: palette.creator_avatar_url ?? '',
                   name: palette.creator_full_name ?? '',
@@ -495,8 +501,7 @@ export default class StarredPalettes extends PureComponent<
                         type="icon"
                         icon="star-on"
                         helper={{
-                          label:
-                            this.props.locales.browse.actions.unstarPalette,
+                          label: this.props.t('browse.actions.unstarPalette'),
                         }}
                         isLoading={this.state.isRemoveFromStarredLoading[index]}
                         isBlocked={StarredPalettes.features(
@@ -532,7 +537,7 @@ export default class StarredPalettes extends PureComponent<
                     >
                       <Button
                         type="secondary"
-                        label={this.props.locales.browse.actions.openPalette}
+                        label={this.props.t('browse.actions.openPalette')}
                         isLoading={this.state.isAddToLocalActionLoading[index]}
                         shouldReflow={{
                           isEnabled: true,
@@ -576,7 +581,7 @@ export default class StarredPalettes extends PureComponent<
                                     data: {
                                       type: 'ERROR',
                                       message:
-                                        this.props.locales.error.openPalette,
+                                        this.props.t('error.openPalette'),
                                     },
                                   },
                                 },
@@ -596,7 +601,7 @@ export default class StarredPalettes extends PureComponent<
                     >
                       <Button
                         type="secondary"
-                        label={this.props.locales.actions.addToLocal}
+                        label={this.props.t('actions.addToLocal')}
                         isLoading={this.state.isAddToLocalActionLoading[index]}
                         shouldReflow={{
                           isEnabled: true,
@@ -635,8 +640,7 @@ export default class StarredPalettes extends PureComponent<
                                     type: 'POST_MESSAGE',
                                     data: {
                                       type: 'ERROR',
-                                      message:
-                                        this.props.locales.error.addToLocal,
+                                      message: this.props.t('error.addToLocal'),
                                     },
                                   },
                                 },
@@ -721,12 +725,12 @@ export default class StarredPalettes extends PureComponent<
         <List isMessage>
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.browse.signInFirst.message}
+            message={this.props.t('browse.signInFirst.message')}
             orientation="VERTICAL"
             actionsSlot={
               <Button
                 type="primary"
-                label={this.props.locales.browse.signInFirst.signIn}
+                label={this.props.t('browse.signInFirst.signIn')}
                 isLoading={this.state.isSignInActionLoading}
                 action={async () => {
                   this.setState({ isSignInActionLoading: true })
@@ -749,8 +753,8 @@ export default class StarredPalettes extends PureComponent<
                               type: 'ERROR',
                               message:
                                 error.message === 'Authentication timeout'
-                                  ? this.props.locales.error.timeout
-                                  : this.props.locales.error.authentication,
+                                  ? this.props.t('error.timeout')
+                                  : this.props.t('error.authentication'),
                             },
                           },
                         },
@@ -776,7 +780,7 @@ export default class StarredPalettes extends PureComponent<
                     type: 'PICTO',
                     value: 'search',
                   }}
-                  placeholder={this.props.locales.browse.lazyLoad.search}
+                  placeholder={this.props.t('browse.lazyLoad.search')}
                   value={this.props.searchQuery}
                   isClearable
                   isFramed={false}

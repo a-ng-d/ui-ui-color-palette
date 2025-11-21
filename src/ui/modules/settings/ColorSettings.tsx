@@ -14,12 +14,16 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface ColorSettingsProps extends BaseProps, WithConfigProps {
+interface ColorSettingsProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion?: AlgorithmVersionConfiguration
@@ -204,7 +208,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
       >
         <FormItem
           id="update-color-space"
-          label={this.props.locales.settings.color.colorSpace.label}
+          label={this.props.t('settings.color.colorSpace.label')}
           isBlocked={ColorSettings.features(
             this.props.planStatus,
             this.props.config,
@@ -216,7 +220,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             id="update-color-space"
             options={[
               {
-                label: this.props.locales.settings.color.colorSpace.lch,
+                label: this.props.t('settings.color.colorSpace.lch'),
                 value: 'LCH',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
@@ -241,7 +245,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label: this.props.locales.settings.color.colorSpace.oklch,
+                label: this.props.t('settings.color.colorSpace.oklch'),
                 value: 'OKLCH',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
@@ -266,7 +270,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label: this.props.locales.settings.color.colorSpace.lab,
+                label: this.props.t('settings.color.colorSpace.lab'),
                 value: 'LAB',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
@@ -291,7 +295,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label: this.props.locales.settings.color.colorSpace.oklab,
+                label: this.props.t('settings.color.colorSpace.oklab'),
                 value: 'OKLAB',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
@@ -316,7 +320,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label: this.props.locales.settings.color.colorSpace.hsl,
+                label: this.props.t('settings.color.colorSpace.hsl'),
                 value: 'HSL',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
@@ -341,7 +345,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label: this.props.locales.settings.color.colorSpace.hsluv,
+                label: this.props.t('settings.color.colorSpace.hsluv'),
                 value: 'HSLUV',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
@@ -384,7 +388,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
         {this.props.colorSpace === 'HSL' && (
           <SemanticMessage
             type="WARNING"
-            message={this.props.locales.warning.hslColorSpace}
+            message={this.props.t('warning.hslColorSpace')}
           />
         )}
       </Feature>
@@ -403,7 +407,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
       >
         <FormItem
           id="update-color-blind-mode"
-          label={this.props.locales.settings.color.visionSimulationMode.label}
+          label={this.props.t('settings.color.visionSimulationMode.label')}
           isBlocked={ColorSettings.features(
             this.props.planStatus,
             this.props.config,
@@ -415,8 +419,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             id="update-color-blind-mode"
             options={[
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode.none,
+                label: this.props.t('settings.color.visionSimulationMode.none'),
                 value: 'NONE',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -444,15 +447,15 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 type: 'SEPARATOR',
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .colorBlind,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.colorBlind'
+                ),
                 type: 'TITLE',
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .protanomaly,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.protanomaly'
+                ),
                 value: 'PROTANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -477,9 +480,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .protanopia,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.protanopia'
+                ),
                 value: 'PROTANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -504,9 +507,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .deuteranomaly,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.deuteranomaly'
+                ),
                 value: 'DEUTERANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -531,9 +534,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .deuteranopia,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.deuteranopia'
+                ),
                 value: 'DEUTERANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -558,9 +561,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .tritanomaly,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.tritanomaly'
+                ),
                 value: 'TRITANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -585,9 +588,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .tritanopia,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.tritanopia'
+                ),
                 value: 'TRITANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -612,9 +615,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .achromatomaly,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.achromatomaly'
+                ),
                 value: 'ACHROMATOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -639,9 +642,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label:
-                  this.props.locales.settings.color.visionSimulationMode
-                    .achromatopsia,
+                label: this.props.t(
+                  'settings.color.visionSimulationMode.achromatopsia'
+                ),
                 value: 'ACHROMATOPSIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
@@ -678,9 +681,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 `SETTINGS_VISION_SIMULATION_MODE_${this.props.visionSimulationMode}`
               ].isBlocked()
                 ? {
-                    label:
-                      this.props.locales.settings.color.visionSimulationMode
-                        .warning,
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.warning'
+                    ),
                     type: 'MULTI_LINE',
                   }
                 : undefined
@@ -715,7 +718,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
       >
         <FormItem
           id="update-algorithm"
-          label={this.props.locales.settings.color.algorithmVersion.label}
+          label={this.props.t('settings.color.algorithmVersion.label')}
           isBlocked={ColorSettings.features(
             this.props.planStatus,
             this.props.config,
@@ -727,7 +730,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             id="update-algorithm"
             options={[
               {
-                label: this.props.locales.settings.color.algorithmVersion.v1,
+                label: this.props.t('settings.color.algorithmVersion.v1'),
                 value: 'v1',
                 feature: 'UPDATE_ALGORITHM_VERSION',
                 type: 'OPTION',
@@ -752,7 +755,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label: this.props.locales.settings.color.algorithmVersion.v2,
+                label: this.props.t('settings.color.algorithmVersion.v2'),
                 value: 'v2',
                 feature: 'UPDATE_ALGORITHM_VERSION',
                 type: 'OPTION',
@@ -777,7 +780,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
-                label: this.props.locales.settings.color.algorithmVersion.v3,
+                label: this.props.t('settings.color.algorithmVersion.v3'),
                 value: 'v3',
                 feature: 'UPDATE_ALGORITHM_VERSION',
                 type: 'OPTION',
@@ -828,7 +831,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.locales.settings.color.title} />
+              <SectionTitle label={this.props.t('settings.color.title')} />
             }
             isListItem={false}
             alignment="CENTER"

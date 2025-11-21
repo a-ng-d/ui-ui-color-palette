@@ -39,6 +39,7 @@ import Settings from '../contexts/Settings'
 import Scale from '../contexts/Scale'
 import Export from '../contexts/Export'
 import Colors from '../contexts/Colors'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
@@ -57,7 +58,7 @@ import {
   Service,
   Editor,
 } from '../../types/app'
-import { defaultPreset } from '../../stores/presets'
+import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
 import {
   trackActionEvent,
@@ -66,7 +67,10 @@ import {
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
-interface EditPaletteProps extends BaseProps, WithConfigProps {
+interface EditPaletteProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   id: string
   name: string
   description: string
@@ -163,7 +167,7 @@ export default class EditPalette extends PureComponent<
       props.config.features,
       props.editor,
       props.service,
-      props.locales
+      props.t
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -204,14 +208,14 @@ export default class EditPalette extends PureComponent<
   }
 
   componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
-    if (previousProps.locales !== this.props.locales) {
+    if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
         ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
         this.props.service,
-        this.props.locales
+        this.props.t
       )
 
       this.forceUpdate()
@@ -268,6 +272,7 @@ export default class EditPalette extends PureComponent<
     })
 
     const activeTheme = this.themesMessage.data.find((theme) => theme.isEnabled)
+    const defaultPreset = getDefaultPreset(this.props.t)
     const newScale =
       activeTheme?.scale ??
       doScale(defaultPreset.stops, defaultPreset.min, defaultPreset.max)
@@ -652,7 +657,7 @@ export default class EditPalette extends PureComponent<
         zipBlob,
         `${
           this.props.name === ''
-            ? new Case(this.props.locales.name).doSnakeCase()
+            ? new Case(this.props.t('name')).doSnakeCase()
             : new Case(this.props.name).doSnakeCase()
         }.zip`
       )
@@ -665,7 +670,7 @@ export default class EditPalette extends PureComponent<
         blob,
         `${
           this.props.name === ''
-            ? new Case(this.props.locales.name).doSnakeCase()
+            ? new Case(this.props.t('name')).doSnakeCase()
             : new Case(this.props.name).doSnakeCase()
         }.swift`
       )
@@ -674,7 +679,7 @@ export default class EditPalette extends PureComponent<
         blob,
         `${
           this.props.name === ''
-            ? new Case(this.props.locales.name).doSnakeCase()
+            ? new Case(this.props.t('name')).doSnakeCase()
             : new Case(this.props.name).doSnakeCase()
         }.kt`
       )
@@ -683,7 +688,7 @@ export default class EditPalette extends PureComponent<
         blob,
         `${
           this.props.name === ''
-            ? new Case(this.props.locales.name).doSnakeCase()
+            ? new Case(this.props.t('name')).doSnakeCase()
             : new Case(this.props.name).doSnakeCase()
         }.scss`
       )
@@ -692,7 +697,7 @@ export default class EditPalette extends PureComponent<
         blob,
         `${
           this.props.name === ''
-            ? new Case(this.props.locales.name).doSnakeCase()
+            ? new Case(this.props.t('name')).doSnakeCase()
             : new Case(this.props.name).doSnakeCase()
         }.less`
       )
@@ -700,7 +705,7 @@ export default class EditPalette extends PureComponent<
       FileSaver.saveAs(
         blob,
         this.props.name === ''
-          ? new Case(this.props.locales.name).doSnakeCase()
+          ? new Case(this.props.t('name')).doSnakeCase()
           : new Case(this.props.name).doSnakeCase()
       )
   }
@@ -730,7 +735,7 @@ export default class EditPalette extends PureComponent<
             type: 'POST_MESSAGE',
             data: {
               type: 'INFO',
-              message: this.props.locales.info.copiedCode,
+              message: this.props.t('info.copiedCode'),
             },
           },
         },
@@ -744,7 +749,7 @@ export default class EditPalette extends PureComponent<
             type: 'POST_MESSAGE',
             data: {
               style: 'WARNING',
-              message: this.props.locales.warning.uncopiedCode,
+              message: this.props.t('warning.uncopiedCode'),
             },
           },
         },
@@ -757,9 +762,7 @@ export default class EditPalette extends PureComponent<
     const themes = this.workingThemes().map((theme) => {
       return {
         label:
-          theme.name === 'None'
-            ? this.props.locales.themes.noneTheme
-            : theme.name,
+          theme.name === 'None' ? this.props.t('themes.noneTheme') : theme.name,
         value: theme.id,
         feature: 'SWITCH_THEME',
         type: 'OPTION',
@@ -771,7 +774,7 @@ export default class EditPalette extends PureComponent<
         type: 'SEPARATOR',
       },
       {
-        label: this.props.locales.themes.callout.cta,
+        label: this.props.t('themes.callout.cta'),
         feature: 'ADD_THEME',
         type: 'OPTION',
         isActive: EditPalette.features(
@@ -902,7 +905,7 @@ export default class EditPalette extends PureComponent<
                 type="icon"
                 icon="back"
                 helper={{
-                  label: this.props.locales.contexts.back,
+                  label: this.props.t('contexts.back'),
                 }}
                 action={this.props.onUnloadPalette}
               />
@@ -925,7 +928,7 @@ export default class EditPalette extends PureComponent<
             >
               <FormItem
                 id="switch-theme"
-                label={this.props.locales.themes.switchTheme.label}
+                label={this.props.t('themes.switchTheme.label')}
                 shouldFill={false}
               >
                 <Dropdown

@@ -3,12 +3,12 @@ import { PureComponent } from 'preact/compat'
 import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Avatar, Button, Chip, Dialog, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import getPaletteMeta from '../../../utils/setPaletteMeta'
+import setPaletteMeta from '../../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
-import { ConfigContextType } from '../../../index'
 import {
   trackPublicationEvent,
   trackSignInEvent,
@@ -22,9 +22,13 @@ import detachPalette from '../../../external/publication/detachPalette'
 import { signIn } from '../../../external/auth/authentication'
 import { getSupabase } from '../../../external/auth'
 import p from '../../../content/images/publication.webp'
+import { ConfigContextType } from '../../../config/ConfigContext'
 import type { AppStates } from '../../App'
 
-interface PublicationProps extends BaseProps, WithConfigProps {
+interface PublicationProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   rawData: AppStates
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onClosePublication: React.MouseEventHandler<HTMLButtonElement>
@@ -206,7 +210,7 @@ export default class Publication extends PureComponent<
             type: 'POST_MESSAGE',
             data: {
               type: 'ERROR',
-              message: this.props.locales.error.noInternetConnection,
+              message: this.props.t('error.noInternetConnection'),
             },
           },
         },
@@ -260,7 +264,7 @@ export default class Publication extends PureComponent<
             data: {
               type: 'ERROR',
 
-              message: this.props.locales.error.noInternetConnection,
+              message: this.props.t('error.noInternetConnection'),
             },
           },
         },
@@ -273,38 +277,38 @@ export default class Publication extends PureComponent<
     if (this.state.publicationStatus === 'UNPUBLISHED')
       return (
         <Chip state="INACTIVE">
-          {this.props.locales.publication.statusUnpublished}
+          {this.props.t('publication.statusUnpublished')}
         </Chip>
       )
     else if (
       this.state.publicationStatus === 'CAN_BE_PUSHED' ||
       this.state.publicationStatus === 'CAN_BE_REVERTED'
     )
-      return <Chip>{this.props.locales.publication.statusLocalChanges}</Chip>
+      return <Chip>{this.props.t('publication.statusLocalChanges')}</Chip>
     else if (
       this.state.publicationStatus === 'PUBLISHED' ||
       this.state.publicationStatus === 'UP_TO_DATE'
     )
       return (
         <Chip state="INACTIVE">
-          {this.props.locales.publication.statusUptoDate}
+          {this.props.t('publication.statusUptoDate')}
         </Chip>
       )
     else if (
       this.state.publicationStatus === 'MUST_BE_PULLED' ||
       this.state.publicationStatus === 'MAY_BE_PULLED'
     )
-      return <Chip>{this.props.locales.publication.statusRemoteChanges}</Chip>
+      return <Chip>{this.props.t('publication.statusRemoteChanges')}</Chip>
     else if (this.state.publicationStatus === 'IS_NOT_FOUND')
       return (
         <Chip state="INACTIVE">
-          {this.props.locales.publication.statusNotFound}
+          {this.props.t('publication.statusNotFound')}
         </Chip>
       )
     else if (this.state.publicationStatus === 'WAITING')
       return (
         <Chip state="INACTIVE">
-          {this.props.locales.publication.statusWaiting}
+          {this.props.t('publication.statusWaiting')}
         </Chip>
       )
   }
@@ -315,7 +319,7 @@ export default class Publication extends PureComponent<
     const actions: Record<string, PublicationActions> = {
       UNPUBLISHED: {
         primary: {
-          label: this.props.locales.publication.publish,
+          label: this.props.t('publication.publish'),
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           isAutofocus: true,
           action: async () => {
@@ -324,7 +328,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
               isShared: this.state.isPaletteShared,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then((data) => {
                 this.props.onChangePublication(data)
@@ -338,7 +342,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.publication,
+                        message: this.props.t('success.publication'),
                       },
                     },
                   },
@@ -371,7 +375,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.publication,
+                        message: this.props.t('error.publication'),
                       },
                     },
                   },
@@ -384,7 +388,7 @@ export default class Publication extends PureComponent<
       },
       CAN_BE_PUSHED: {
         primary: {
-          label: this.props.locales.publication.publish,
+          label: this.props.t('publication.publish'),
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           isAutofocus: true,
           action: async () => {
@@ -393,7 +397,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
               isShared: this.state.isPaletteShared,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then((data) => {
                 this.props.onChangePublication(data)
@@ -408,7 +412,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.publication,
+                        message: this.props.t('success.publication'),
                       },
                     },
                   },
@@ -441,7 +445,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.publication,
+                        message: this.props.t('error.publication'),
                       },
                     },
                   },
@@ -451,7 +455,7 @@ export default class Publication extends PureComponent<
           },
         },
         secondary: {
-          label: this.props.locales.publication.revert,
+          label: this.props.t('publication.revert'),
           state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
@@ -472,7 +476,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.synchronization,
+                        message: this.props.t('success.synchronization'),
                       },
                     },
                   },
@@ -505,7 +509,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.synchronization,
+                        message: this.props.t('error.synchronization'),
                       },
                     },
                   },
@@ -517,7 +521,7 @@ export default class Publication extends PureComponent<
       },
       MUST_BE_PULLED: {
         primary: {
-          label: this.props.locales.publication.synchronize,
+          label: this.props.t('publication.synchronize'),
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           isAutofocus: true,
           action: async () => {
@@ -539,7 +543,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.synchronization,
+                        message: this.props.t('success.synchronization'),
                       },
                     },
                   },
@@ -572,7 +576,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.synchronization,
+                        message: this.props.t('error.synchronization'),
                       },
                     },
                   },
@@ -582,13 +586,13 @@ export default class Publication extends PureComponent<
           },
         },
         secondary: {
-          label: this.props.locales.publication.detach,
+          label: this.props.t('publication.detach'),
           state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then(() => {
                 this.setState({
@@ -619,7 +623,7 @@ export default class Publication extends PureComponent<
       },
       MAY_BE_PULLED: {
         primary: {
-          label: this.props.locales.publication.synchronize,
+          label: this.props.t('publication.synchronize'),
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           isAutofocus: true,
           action: async () => {
@@ -641,7 +645,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.synchronization,
+                        message: this.props.t('success.synchronization'),
                       },
                     },
                   },
@@ -674,7 +678,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.synchronization,
+                        message: this.props.t('error.synchronization'),
                       },
                     },
                   },
@@ -684,13 +688,13 @@ export default class Publication extends PureComponent<
           },
         },
         secondary: {
-          label: this.props.locales.publication.detach,
+          label: this.props.t('publication.detach'),
           state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then(() => {
                 this.setState({
@@ -721,7 +725,7 @@ export default class Publication extends PureComponent<
       },
       PUBLISHED: {
         primary: {
-          label: this.props.locales.publication.publish,
+          label: this.props.t('publication.publish'),
           state: (() => {
             if (
               this.props.rawData.publicationStatus.isShared !==
@@ -737,7 +741,7 @@ export default class Publication extends PureComponent<
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
               isShared: this.state.isPaletteShared,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then((data) => {
                 this.props.onChangePublication(data)
@@ -752,7 +756,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.publication,
+                        message: this.props.t('success.publication'),
                       },
                     },
                   },
@@ -785,7 +789,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.publication,
+                        message: this.props.t('error.publication'),
                       },
                     },
                   },
@@ -795,7 +799,7 @@ export default class Publication extends PureComponent<
           },
         },
         secondary: {
-          label: this.props.locales.publication.unpublish,
+          label: this.props.t('publication.unpublish'),
           state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
@@ -816,7 +820,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.nonPublication,
+                        message: this.props.t('success.nonPublication'),
                       },
                     },
                   },
@@ -849,7 +853,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.nonPublication,
+                        message: this.props.t('error.nonPublication'),
                       },
                     },
                   },
@@ -861,13 +865,13 @@ export default class Publication extends PureComponent<
       },
       UP_TO_DATE: {
         primary: {
-          label: this.props.locales.publication.detach,
+          label: this.props.t('publication.detach'),
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then(() => {
                 this.setState({
@@ -899,7 +903,7 @@ export default class Publication extends PureComponent<
       },
       CAN_BE_REVERTED: {
         primary: {
-          label: this.props.locales.publication.revert,
+          label: this.props.t('publication.revert'),
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
@@ -935,7 +939,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'SUCCESS',
-                        message: this.props.locales.success.synchronization,
+                        message: this.props.t('success.synchronization'),
                       },
                     },
                   },
@@ -953,7 +957,7 @@ export default class Publication extends PureComponent<
                       type: 'POST_MESSAGE',
                       data: {
                         type: 'ERROR',
-                        message: this.props.locales.error.synchronization,
+                        message: this.props.t('error.synchronization'),
                       },
                     },
                   },
@@ -963,13 +967,13 @@ export default class Publication extends PureComponent<
           },
         },
         secondary: {
-          label: this.props.locales.publication.detach,
+          label: this.props.t('publication.detach'),
           state: this.state.isSecondaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then(() => {
                 this.setState({
@@ -999,13 +1003,13 @@ export default class Publication extends PureComponent<
       },
       IS_NOT_FOUND: {
         primary: {
-          label: this.props.locales.publication.detach,
+          label: this.props.t('publication.detach'),
           state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             detachPalette({
               rawData: this.props.rawData,
-              locales: this.props.locales,
+              locales: this.props.t,
             })
               .then(() => {
                 this.setState({
@@ -1037,12 +1041,12 @@ export default class Publication extends PureComponent<
       },
       WAITING: {
         primary: {
-          label: this.props.locales.pending.primaryAction,
+          label: this.props.t('pending.primaryAction'),
           state: 'LOADING',
           action: () => null,
         },
         secondary: {
-          label: this.props.locales.pending.secondaryAction,
+          label: this.props.t('pending.secondaryAction'),
           state: 'LOADING',
           action: () => null,
         },
@@ -1057,13 +1061,13 @@ export default class Publication extends PureComponent<
   ): PublicationOption | undefined => {
     const actions: Record<string, PublicationOption | undefined> = {
       UNPUBLISHED: {
-        label: this.props.locales.publication.share,
+        label: this.props.t('publication.share'),
         state: this.state.isPaletteShared,
         action: () =>
           this.setState({ isPaletteShared: !this.state.isPaletteShared }),
       },
       CAN_BE_PUSHED: {
-        label: this.props.locales.publication.share,
+        label: this.props.t('publication.share'),
         state: this.state.isPaletteShared,
         action: () =>
           this.setState({ isPaletteShared: !this.state.isPaletteShared }),
@@ -1071,7 +1075,7 @@ export default class Publication extends PureComponent<
       MUST_BE_PULLED: undefined,
       MAY_BE_PULLED: undefined,
       PUBLISHED: {
-        label: this.props.locales.publication.share,
+        label: this.props.t('publication.share'),
         state: this.state.isPaletteShared,
         action: () =>
           this.setState({ isPaletteShared: !this.state.isPaletteShared }),
@@ -1123,7 +1127,7 @@ export default class Publication extends PureComponent<
               type: 'POST_MESSAGE',
               data: {
                 type: 'ERROR',
-                message: this.props.locales.error.starPalette,
+                message: this.props.t('error.starPalette'),
               },
             },
           },
@@ -1147,7 +1151,7 @@ export default class Publication extends PureComponent<
           <Button
             type="tertiary"
             icon="star-on"
-            label={this.props.locales.publication.unstar}
+            label={this.props.t('publication.unstar')}
             isLoading={this.state.isTertiaryActionLoading}
             isBlocked={Publication.features(
               this.props.planStatus,
@@ -1172,7 +1176,7 @@ export default class Publication extends PureComponent<
         <Button
           type="tertiary"
           icon="star-off"
-          label={this.props.locales.publication.star}
+          label={this.props.t('publication.star')}
           isLoading={this.state.isTertiaryActionLoading}
           isBlocked={Publication.features(
             this.props.planStatus,
@@ -1203,8 +1207,8 @@ export default class Publication extends PureComponent<
               this.props.rawData.creatorIdentity.creatorId ===
                 this.props.rawData.userSession.userId ||
               this.props.rawData.creatorIdentity.creatorId === ''
-                ? this.props.locales.publication.titlePublish
-                : this.props.locales.publication.titleSynchronize
+                ? this.props.t('publication.titlePublish')
+                : this.props.t('publication.titleSynchronize')
             }
             actions={this.publicationActions(this.state.publicationStatus)}
             select={this.publicationOption(this.state.publicationStatus)}
@@ -1281,7 +1285,7 @@ export default class Publication extends PureComponent<
                     className={doClassnames([texts.type, texts['type--large']])}
                   >
                     {this.props.rawData.name === ''
-                      ? this.props.locales.name
+                      ? this.props.t('name')
                       : this.props.rawData.name}
                     {this.getPaletteStatus()}
                   </div>
@@ -1297,10 +1301,12 @@ export default class Publication extends PureComponent<
                       marginTop: '2px',
                     }}
                   >
-                    {getPaletteMeta(
-                      this.props.rawData.colors,
-                      this.props.rawData.themes
-                    )}
+                    {setPaletteMeta({
+                      colors: this.props.rawData.colors,
+                      themes: this.props.rawData.themes,
+                      stars: undefined,
+                      locales: this.props.t,
+                    })}
                   </div>
                 </div>
                 {(this.state.publicationStatus === 'UP_TO_DATE' ||
@@ -1335,10 +1341,10 @@ export default class Publication extends PureComponent<
         ).PUBLICATION.isActive()}
       >
         <Dialog
-          title={this.props.locales.publication.titleSignIn}
+          title={this.props.t('publication.titleSignIn')}
           actions={{
             primary: {
-              label: this.props.locales.publication.signIn,
+              label: this.props.t('publication.signIn'),
               state: this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT',
               isAutofocus: true,
               action: async () => {
@@ -1375,8 +1381,8 @@ export default class Publication extends PureComponent<
                             type: 'ERROR',
                             message:
                               error.message === 'Authentication timeout'
-                                ? this.props.locales.error.timeout
-                                : this.props.locales.error.authentication,
+                                ? this.props.t('error.timeout')
+                                : this.props.t('error.authentication'),
                           },
                         },
                       },
@@ -1397,9 +1403,7 @@ export default class Publication extends PureComponent<
             />
           </div>
           <div className="dialog__text">
-            <p className={texts.type}>
-              {this.props.locales.publication.message}
-            </p>
+            <p className={texts.type}>{this.props.t('publication.message')}</p>
           </div>
         </Dialog>
       </Feature>

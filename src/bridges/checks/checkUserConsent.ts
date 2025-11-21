@@ -1,4 +1,4 @@
-import { userConsent } from '../../utils/userConsent'
+import { getUserConsent } from '../../utils/userConsent'
 import globalConfig from '../../global.config'
 
 const checkUserConsent = async () => {
@@ -10,7 +10,7 @@ const checkUserConsent = async () => {
   )
 
   const userConsentData = await Promise.all(
-    userConsent.map(async (consent) => {
+    getUserConsent((key) => key).map(async (consent) => {
       return {
         ...consent,
         isConsented:

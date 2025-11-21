@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
@@ -9,7 +10,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import cp from '../../../content/images/choose_plan.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface TryProProps extends BaseProps, WithConfigProps {
+interface TryProProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -41,16 +42,14 @@ export default class TryPro extends PureComponent<TryProProps> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locales.proPlan.trial.title.replace(
-            '{hours}',
-            this.props.config.plan.trialTime.toString()
-          )}
+          title={this.props.t('proPlan.trial.title', {
+            hours: this.props.config.plan.trialTime.toString(),
+          })}
           actions={{
             primary: {
-              label: this.props.locales.proPlan.trial.cta.replace(
-                '{hours}',
-                this.props.config.plan.trialTime.toString()
-              ),
+              label: this.props.t('proPlan.trial.cta', {
+                hours: this.props.config.plan.trialTime.toString(),
+              }),
               action: () =>
                 sendPluginMessage(
                   {
@@ -66,7 +65,7 @@ export default class TryPro extends PureComponent<TryProProps> {
                 ),
             },
             secondary: {
-              label: this.props.locales.proPlan.trial.option,
+              label: this.props.t('proPlan.trial.option'),
               action: () =>
                 sendPluginMessage(
                   { pluginMessage: { type: 'GET_PRO_PLAN' } },
@@ -86,10 +85,9 @@ export default class TryPro extends PureComponent<TryProProps> {
           </div>
           <div className="dialog__text">
             <p className={texts.type}>
-              {this.props.locales.proPlan.trial.message.replace(
-                '{hours}',
-                this.props.config.plan.trialTime.toString()
-              )}
+              {this.props.t('proPlan.trial.message', {
+                hours: this.props.config.plan.trialTime.toString(),
+              })}
             </p>
           </div>
         </Dialog>

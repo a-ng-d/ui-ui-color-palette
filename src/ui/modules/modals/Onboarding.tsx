@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { getProxiedUrl } from '../../../utils/url'
@@ -10,7 +11,10 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { trackOnboardingEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface OnboardingProps extends BaseProps, WithConfigProps {
+interface OnboardingProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   onCloseOnboarding: (e: MouseEvent) => void
 }
 
@@ -243,7 +247,7 @@ export default class Onboarding extends PureComponent<
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog
-            title={this.props.locales.shortcuts.onboarding}
+            title={this.props.t('shortcuts.onboarding')}
             isLoading
             onClose={this.props.onCloseOnboarding}
           />
@@ -260,13 +264,13 @@ export default class Onboarding extends PureComponent<
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog
-            title={this.props.locales.shortcuts.onboarding}
+            title={this.props.t('shortcuts.onboarding')}
             isMessage
             onClose={this.props.onCloseOnboarding}
           >
             <SemanticMessage
               type="WARNING"
-              message={this.props.locales.error.onboarding}
+              message={this.props.t('error.onboarding')}
             />
           </Dialog>
         </Feature>
@@ -282,7 +286,7 @@ export default class Onboarding extends PureComponent<
           ).HELP_ONBOARDING.isActive()}
         >
           <Dialog
-            title={this.props.locales.shortcuts.onboarding}
+            title={this.props.t('shortcuts.onboarding')}
             isMessage
             onClose={(e: MouseEvent) => {
               sendPluginMessage(
@@ -304,7 +308,7 @@ export default class Onboarding extends PureComponent<
           >
             <SemanticMessage
               type="INFO"
-              message={this.props.locales.info.onboarding}
+              message={this.props.t('info.onboarding')}
             />
           </Dialog>
         </Feature>
@@ -332,8 +336,8 @@ export default class Onboarding extends PureComponent<
               primary: {
                 label:
                   this.state.position + 1 < this.state.announcements.length
-                    ? this.props.locales.onboarding.cta.next
-                    : this.props.locales.onboarding.cta.gotIt,
+                    ? this.props.t('onboarding.cta.next')
+                    : this.props.t('onboarding.cta.gotIt'),
                 isAutofocus: true,
                 action: (e: MouseEvent) => this.goNextSlide(e),
               },
@@ -343,7 +347,7 @@ export default class Onboarding extends PureComponent<
                     .url !== null
                 )
                   return {
-                    label: this.props.locales.onboarding.cta.learnMore,
+                    label: this.props.t('onboarding.cta.learnMore'),
                     action: () => {
                       sendPluginMessage(
                         {

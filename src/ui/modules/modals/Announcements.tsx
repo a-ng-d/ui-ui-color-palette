@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, Icon, SemanticMessage, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { getProxiedUrl } from '../../../utils/url'
@@ -16,7 +17,10 @@ import {
 import { trackAnnouncementsEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface AnnouncementsProps extends BaseProps, WithConfigProps {
+interface AnnouncementsProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   announcements: AnnouncementsDigest
   onCloseAnnouncements: (e: MouseEvent) => void
 }
@@ -183,7 +187,7 @@ export default class Announcements extends PureComponent<
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
-            title={this.props.locales.shortcuts.news}
+            title={this.props.t('shortcuts.news')}
             isLoading
             onClose={this.props.onCloseAnnouncements}
           />
@@ -200,13 +204,13 @@ export default class Announcements extends PureComponent<
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
-            title={this.props.locales.shortcuts.news}
+            title={this.props.t('shortcuts.news')}
             isMessage
             onClose={this.props.onCloseAnnouncements}
           >
             <SemanticMessage
               type="WARNING"
-              message={this.props.locales.error.announcements}
+              message={this.props.t('error.announcements')}
             />
           </Dialog>
         </Feature>
@@ -222,7 +226,7 @@ export default class Announcements extends PureComponent<
           ).HELP_ANNOUNCEMENTS.isActive()}
         >
           <Dialog
-            title={this.props.locales.shortcuts.news}
+            title={this.props.t('shortcuts.news')}
             isMessage
             onClose={(e: MouseEvent) => {
               if (
@@ -249,7 +253,7 @@ export default class Announcements extends PureComponent<
           >
             <SemanticMessage
               type="INFO"
-              message={this.props.locales.info.announcements}
+              message={this.props.t('info.announcements')}
             />
           </Dialog>
         </Feature>
@@ -277,8 +281,8 @@ export default class Announcements extends PureComponent<
               primary: {
                 label:
                   this.state.position + 1 < this.state.announcements.length
-                    ? this.props.locales.announcements.cta.next
-                    : this.props.locales.announcements.cta.gotIt,
+                    ? this.props.t('announcements.cta.next')
+                    : this.props.t('announcements.cta.gotIt'),
                 isAutofocus: true,
                 action: (e: MouseEvent) => this.goNextSlide(e),
               },
@@ -288,7 +292,7 @@ export default class Announcements extends PureComponent<
                     .url !== null
                 )
                   return {
-                    label: this.props.locales.announcements.cta.learnMore,
+                    label: this.props.t('announcements.cta.learnMore'),
                     action: () => {
                       sendPluginMessage(
                         {

@@ -1,6 +1,6 @@
 import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Feature } from '@a_ng_d/figmug-utils'
-import { Language, Translations } from './translations'
+import { Language } from './translations'
 import { Editor } from './app'
 
 export interface Config {
@@ -78,7 +78,6 @@ export interface Config {
     readonly creditsVersion: string
   }
   features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
-  locales: Translations
   lang: Language
   fees: {
     colourLoversImport: number

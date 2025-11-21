@@ -20,6 +20,7 @@ import {
 import { Dropzone } from '@a_ng_d/figmug-ui'
 import { Card } from '@a_ng_d/figmug-ui'
 import { texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { getClosestColorName } from '../../utils/colorNameHelper'
@@ -35,7 +36,10 @@ import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface ImagePaletteProps extends BaseProps, WithConfigProps {
+interface ImagePaletteProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   creditsCount: number
   onChangeColorsFromImport: (
     onChangeColorsFromImport: Array<SourceColorConfiguration>,
@@ -258,7 +262,7 @@ export default class ImagePalette extends PureComponent<
               actions={
                 <Button
                   type="destructive"
-                  label={this.props.locales.source.imagePalette.removeImage}
+                  label={this.props.t('source.imagePalette.removeImage')}
                   action={() => {
                     this.setState({
                       imageUrl: '',
@@ -294,12 +298,12 @@ export default class ImagePalette extends PureComponent<
           }}
         >
           <Dropzone
-            message={this.props.locales.source.imagePalette.dropzone.message}
-            warningMessage={
-              this.props.locales.source.imagePalette.dropzone.warning
-            }
-            errorMessage={this.props.locales.source.imagePalette.dropzone.error}
-            cta={this.props.locales.source.imagePalette.dropzone.cta}
+            message={this.props.t('source.imagePalette.dropzone.message')}
+            warningMessage={this.props.t(
+              'source.imagePalette.dropzone.warning'
+            )}
+            errorMessage={this.props.t('source.imagePalette.dropzone.error')}
+            cta={this.props.t('source.imagePalette.dropzone.cta')}
             acceptedMimeTypes={['image/png']}
             isMultiple={false}
             isBlocked={ImagePalette.features(
@@ -352,12 +356,11 @@ export default class ImagePalette extends PureComponent<
           id="image-palette-list"
           leftPartSlot={
             <SectionTitle
-              label={this.props.locales.source.imagePalette.title}
+              label={this.props.t('source.imagePalette.title')}
               indicator={this.state.dominantColors.length.toString()}
-              helper={this.props.locales.source.imagePalette.helper.replace(
-                '{fee}',
-                this.props.config.fees.imageColorsExtract.toString()
-              )}
+              helper={this.props.t('source.imagePalette.helper', {
+                fee: this.props.config.fees.imageColorsExtract.toString(),
+              })}
             />
           }
           rightPartSlot={
@@ -373,11 +376,9 @@ export default class ImagePalette extends PureComponent<
                 type="icon"
                 icon="plus"
                 helper={{
-                  label:
-                    this.props.locales.source.imagePalette.addColors.replace(
-                      '{fee}',
-                      this.props.config.fees.imageColorsExtract.toString()
-                    ),
+                  label: this.props.t('source.imagePalette.addColors', {
+                    fee: this.props.config.fees.imageColorsExtract.toString(),
+                  }),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={this.state.dominantColors.length === 0}
@@ -403,7 +404,7 @@ export default class ImagePalette extends PureComponent<
         {this.state.dominantColors.length === 0 ? (
           <Message
             icon="info"
-            messages={[this.props.locales.source.imagePalette.message]}
+            messages={[this.props.t('source.imagePalette.message')]}
           />
         ) : (
           <List isTopBorderEnabled>

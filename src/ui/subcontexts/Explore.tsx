@@ -19,6 +19,7 @@ import {
   SemanticMessage,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -37,7 +38,10 @@ import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface ExploreProps extends BaseProps, WithConfigProps {
+interface ExploreProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   colourLoversPaletteList: Array<ColourLovers>
   activeFilters: Array<FilterOptions>
   creditsCount: number
@@ -136,7 +140,7 @@ export default class Explore extends PureComponent<
     )
       .then((response) => {
         if (response.ok) return response.json()
-        else throw new Error(this.props.locales.error.badResponse)
+        else throw new Error(this.props.t('error.badResponse'))
       })
       .then((data) => {
         this.setState({
@@ -163,10 +167,9 @@ export default class Explore extends PureComponent<
   setFilters = () => {
     return this.filters.map((filter) => {
       return {
-        label:
-          this.props.locales.source.colourLovers.filters[
-            filter.toLowerCase() as keyof typeof this.props.locales.source.colourLovers.filters
-          ],
+        label: this.props.t(
+          `source.colourLovers.filters.${filter.toLowerCase()}`
+        ),
         value: filter,
         feature: 'EDIT_FILTER',
         type: 'OPTION',
@@ -255,7 +258,8 @@ export default class Explore extends PureComponent<
               src={palette.imageUrl?.replace('http', 'https')}
               name={palette.title}
               description={`#${palette.rank}`}
-              subdescription={this.props.locales.source.colourLovers.meta
+              subdescription={this.props
+                .t('source.colourLovers.meta')
                 .replace('{votes}', palette.numVotes?.toString() ?? '0')
                 .replace('{views}', palette.numViews?.toString() ?? '0')
                 .replace('{comments}', palette.numComments?.toString() ?? '0')}
@@ -269,7 +273,7 @@ export default class Explore extends PureComponent<
                     type="icon"
                     icon="link-connected"
                     helper={{
-                      label: this.props.locales.source.actions.openPalette,
+                      label: this.props.t('source.actions.openPalette'),
                     }}
                     action={() =>
                       sendPluginMessage(
@@ -297,11 +301,9 @@ export default class Explore extends PureComponent<
                       type="icon"
                       icon="plus"
                       helper={{
-                        label:
-                          this.props.locales.source.colourLovers.addColors.replace(
-                            '{fee}',
-                            this.props.config.fees.colourLoversImport.toString()
-                          ),
+                        label: this.props.t('source.colourLovers.addColors', {
+                          fee: this.props.config.fees.colourLoversImport.toString(),
+                        }),
                         type: 'MULTI_LINE',
                       }}
                       isBlocked={Explore.features(
@@ -332,7 +334,7 @@ export default class Explore extends PureComponent<
               this.state.colourLoversPalettesListStatus === 'LOADED' ? (
                 <Button
                   type="secondary"
-                  label={this.props.locales.browse.lazyLoad.loadMore}
+                  label={this.props.t('browse.lazyLoad.loadMore')}
                   isLoading={this.state.isLoadMoreActionLoading}
                   action={() =>
                     this.setState({
@@ -345,7 +347,7 @@ export default class Explore extends PureComponent<
                 />
               ) : (
                 <div className={texts['type--secondary']}>
-                  {this.props.locales.browse.lazyLoad.completeList}
+                  {this.props.t('browse.lazyLoad.completeList')}
                 </div>
               )
             }
@@ -358,7 +360,7 @@ export default class Explore extends PureComponent<
       fragment = (
         <SemanticMessage
           type="WARNING"
-          message={this.props.locales.error.fetchPalette}
+          message={this.props.t('error.fetchPalette')}
         />
       )
     return (
@@ -384,9 +386,7 @@ export default class Explore extends PureComponent<
                   soloPartSlot={
                     <FormItem
                       id="explore-filters"
-                      label={
-                        this.props.locales.source.colourLovers.filters.label
-                      }
+                      label={this.props.t('source.colourLovers.filters.label')}
                       shouldFill={false}
                     >
                       <Dropdown

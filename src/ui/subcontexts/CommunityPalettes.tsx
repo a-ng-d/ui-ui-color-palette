@@ -16,9 +16,10 @@ import {
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import Glance from '../modules/Glance'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import getPaletteMeta from '../../utils/setPaletteMeta'
+import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import {
@@ -29,10 +30,13 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import { ConfigContextType } from '../../index'
 import { getSupabase } from '../../external/auth'
+import { ConfigContextType } from '../../config/ConfigContext'
 
-interface CommunityPalettesProps extends BaseProps, WithConfigProps {
+interface CommunityPalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -264,7 +268,7 @@ export default class CommunityPalettes extends PureComponent<
           soloPartSlot={
             <Button
               type="secondary"
-              label={this.props.locales.browse.lazyLoad.loadMore}
+              label={this.props.t('browse.lazyLoad.loadMore')}
               isLoading={this.state.isLoadMoreActionLoading}
               action={() => {
                 this.props.onChangeCurrentPage(this.props.currentPage + 1)
@@ -288,7 +292,7 @@ export default class CommunityPalettes extends PureComponent<
           soloPartSlot={
             <Message
               icon="check"
-              messages={[this.props.locales.browse.lazyLoad.completeList]}
+              messages={[this.props.t('browse.lazyLoad.completeList')]}
             />
           }
           isCentered
@@ -309,19 +313,19 @@ export default class CommunityPalettes extends PureComponent<
         {this.props.status === 'ERROR' && (
           <SemanticMessage
             type="WARNING"
-            message={this.props.locales.error.fetchPalette}
+            message={this.props.t('error.fetchPalette')}
           />
         )}
         {this.props.status === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.warning.noCommunityPaletteOnRemote}
+            message={this.props.t('warning.noCommunityPaletteOnRemote')}
           />
         )}
         {this.props.status === 'NO_RESULT' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={this.props.locales.info.noResult}
+            message={this.props.t('info.noResult')}
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
@@ -350,11 +354,12 @@ export default class CommunityPalettes extends PureComponent<
                 key={`palette-${index}`}
                 name={palette.name}
                 description={palette.preset?.name}
-                subdescription={getPaletteMeta(
-                  palette.colors ?? [],
-                  palette.themes ?? [],
-                  palette.star_count ?? 0
-                )}
+                subdescription={setPaletteMeta({
+                  colors: palette.colors ?? [],
+                  themes: palette.themes ?? [],
+                  stars: palette.star_count ?? 0,
+                  locales: this.props.t,
+                })}
                 user={{
                   avatar: palette.creator_avatar_url ?? '',
                   name: palette.creator_full_name ?? '',
@@ -373,8 +378,7 @@ export default class CommunityPalettes extends PureComponent<
                         type="icon"
                         icon="visible"
                         helper={{
-                          label:
-                            this.props.locales.browse.actions.glancePalette,
+                          label: this.props.t('browse.actions.glancePalette'),
                         }}
                         isBlocked={CommunityPalettes.features(
                           this.props.planStatus,
@@ -406,7 +410,7 @@ export default class CommunityPalettes extends PureComponent<
                     >
                       <Button
                         type="secondary"
-                        label={this.props.locales.browse.actions.openPalette}
+                        label={this.props.t('browse.actions.openPalette')}
                         isLoading={this.state.isSecondaryActionLoading[index]}
                         shouldReflow={{
                           isEnabled: true,
@@ -450,7 +454,7 @@ export default class CommunityPalettes extends PureComponent<
                                     data: {
                                       type: 'ERROR',
                                       message:
-                                        this.props.locales.error.openPalette,
+                                        this.props.t('error.openPalette'),
                                     },
                                   },
                                 },
@@ -470,7 +474,7 @@ export default class CommunityPalettes extends PureComponent<
                     >
                       <Button
                         type="secondary"
-                        label={this.props.locales.actions.addToLocal}
+                        label={this.props.t('actions.addToLocal')}
                         isLoading={this.state.isSecondaryActionLoading[index]}
                         shouldReflow={{
                           isEnabled: true,
@@ -509,8 +513,7 @@ export default class CommunityPalettes extends PureComponent<
                                     type: 'POST_MESSAGE',
                                     data: {
                                       type: 'ERROR',
-                                      message:
-                                        this.props.locales.error.addToLocal,
+                                      message: this.props.t('error.addToLocal'),
                                     },
                                   },
                                 },
@@ -598,7 +601,7 @@ export default class CommunityPalettes extends PureComponent<
                     type: 'PICTO',
                     value: 'search',
                   }}
-                  placeholder={this.props.locales.browse.lazyLoad.search}
+                  placeholder={this.props.t('browse.lazyLoad.search')}
                   value={this.props.searchQuery}
                   isClearable
                   isFramed={false}

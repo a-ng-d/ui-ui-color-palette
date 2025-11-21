@@ -22,10 +22,15 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { BaseProps } from '../../types/app'
+import { getTolgee } from '../../external/translation'
 
-interface PropertiesProps extends BaseProps, WithConfigProps {
+interface PropertiesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   id: string
   name: string
   description: string
@@ -42,11 +47,11 @@ interface PropertiesProps extends BaseProps, WithConfigProps {
 
 export default class Properties extends PureComponent<PropertiesProps> {
   private formatDate = (dateInput: string | Date): string => {
-    if (!dateInput || dateInput === '') return this.props.locales.empty
+    if (!dateInput || dateInput === '') return this.props.t('empty')
 
     try {
       const date = dateInput instanceof Date ? dateInput : new Date(dateInput)
-      return date.toLocaleDateString(this.props.lang, {
+      return date.toLocaleDateString(getTolgee().getLanguage(), {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -66,7 +71,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.see.properties.settings.title}
+                label={this.props.t('see.properties.settings.title')}
               />
             }
             isListItem={false}
@@ -77,7 +82,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.settings.name}
+                label={this.props.t('see.properties.settings.name')}
                 isBaseline
               >
                 <span className={texts.type}>{this.props.name}</span>
@@ -87,12 +92,12 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.settings.description}
+                label={this.props.t('see.properties.settings.description')}
                 isBaseline
               >
                 <span className={texts.type}>
                   {this.props.description === ''
-                    ? this.props.locales.empty
+                    ? this.props.t('empty')
                     : this.props.description}
                 </span>
               </FormItem>
@@ -101,7 +106,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.settings.preset}
+                label={this.props.t('see.properties.settings.preset')}
                 isBaseline
               >
                 <span className={texts.type}>{this.props.preset.name}</span>
@@ -111,17 +116,16 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.settings.colorSpace}
+                label={this.props.t('see.properties.settings.colorSpace')}
                 isBaseline
               >
                 <span className={texts.type}>
                   {(() => {
-                    const colorSpaceKey =
-                      this.props.colorSpace.toLowerCase() as keyof typeof this.props.locales.settings.color.colorSpace
+                    const colorSpaceKey = this.props.colorSpace.toLowerCase()
                     return (
-                      this.props.locales.settings.color.colorSpace[
-                        colorSpaceKey
-                      ] || this.props.colorSpace
+                      this.props.t(
+                        `settings.color.colorSpace.${colorSpaceKey}`
+                      ) || this.props.colorSpace
                     )
                   })()}
                 </span>
@@ -131,19 +135,16 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={
-                  this.props.locales.see.properties.settings.algorithmVersion
-                }
+                label={this.props.t('see.properties.settings.algorithmVersion')}
                 isBaseline
               >
                 <span className={texts.type}>
                   {(() => {
-                    const algorithmKey = this.props
-                      .algorithmVersion as keyof typeof this.props.locales.settings.color.algorithmVersion
+                    const algorithmKey = this.props.algorithmVersion
                     return (
-                      this.props.locales.settings.color.algorithmVersion[
-                        algorithmKey
-                      ] || this.props.algorithmVersion
+                      this.props.t(
+                        `settings.color.algorithmVersion.${algorithmKey}`
+                      ) || this.props.algorithmVersion
                     )
                   })()}
                 </span>
@@ -153,15 +154,15 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={
-                  this.props.locales.see.properties.settings.lockedSourceColors
-                }
+                label={this.props.t(
+                  'see.properties.settings.lockedSourceColors'
+                )}
                 isBaseline
               >
                 <span className={texts.type}>
                   {this.props.areSourceColorsLocked
-                    ? this.props.locales.pass
-                    : this.props.locales.fail}
+                    ? this.props.t('pass')
+                    : this.props.t('fail')}
                 </span>
               </FormItem>
             ),
@@ -179,7 +180,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.see.properties.colors.title}
+                label={this.props.t('see.properties.colors.title')}
               />
             }
             isListItem={false}
@@ -206,9 +207,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`chroma-${index}`}
-                  label={
-                    this.props.locales.see.properties.colors.chromaShifting
-                  }
+                  label={this.props.t('see.properties.colors.chromaShifting')}
                   isBaseline
                 >
                   <span className={texts.type}>{color.chroma.shift + '%'}</span>
@@ -220,7 +219,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`hue-${index}`}
-                  label={this.props.locales.see.properties.colors.hueShifting}
+                  label={this.props.t('see.properties.colors.hueShifting')}
                   isBaseline
                 >
                   <span className={texts.type}>{color.hue.shift + '°'}</span>
@@ -232,13 +231,13 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`alpha-${index}`}
-                  label={this.props.locales.see.properties.colors.alpha}
+                  label={this.props.t('see.properties.colors.alpha')}
                   isBaseline
                 >
                   <span className={texts.type}>
                     {color.alpha.isEnabled
-                      ? this.props.locales.pass
-                      : this.props.locales.fail}
+                      ? this.props.t('pass')
+                      : this.props.t('fail')}
                   </span>
                 </FormItem>
               ),
@@ -248,12 +247,12 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`description-${index}`}
-                  label={this.props.locales.see.properties.colors.description}
+                  label={this.props.t('see.properties.colors.description')}
                   isBaseline
                 >
                   <span className={texts.type}>
                     {color.description === ''
-                      ? this.props.locales.empty
+                      ? this.props.t('empty')
                       : color.description}
                   </span>
                 </FormItem>
@@ -284,7 +283,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.see.properties.themes.title}
+                label={this.props.t('see.properties.themes.title')}
               />
             }
             isListItem={false}
@@ -299,7 +298,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
                   className={doClassnames([texts.type, texts['type--bold']])}
                 >
                   {theme.name === 'None'
-                    ? this.props.locales.see.properties.default
+                    ? this.props.t('see.properties.default')
                     : theme.name}
                 </span>
               ),
@@ -308,7 +307,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
             {
               node: (
                 <FormItem
-                  label={this.props.locales.see.properties.lightnessScale}
+                  label={this.props.t('see.properties.lightnessScale')}
                   isBaseline
                 >
                   <ul className={texts.type}>
@@ -328,19 +327,17 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`vision-${index}`}
-                  label={
-                    this.props.locales.see.properties.themes.visionSimulation
-                  }
+                  label={this.props.t('see.properties.themes.visionSimulation')}
                   isBaseline
                 >
                   <span className={texts.type}>
                     {(() => {
                       const visionModeKey =
-                        theme.visionSimulationMode.toLowerCase() as keyof typeof this.props.locales.settings.color.visionSimulationMode
+                        theme.visionSimulationMode.toLowerCase()
                       return (
-                        this.props.locales.settings.color.visionSimulationMode[
-                          visionModeKey
-                        ] || theme.visionSimulationMode
+                        this.props.t(
+                          `settings.color.visionSimulationMode.${visionModeKey}`
+                        ) || theme.visionSimulationMode
                       )
                     })()}
                   </span>
@@ -352,7 +349,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <ColorItem
                   id={`text-light-color-${index}`}
-                  name={this.props.locales.see.properties.themes.textLightColor}
+                  name={this.props.t('see.properties.themes.textLightColor')}
                   hex={theme.textColorsTheme.lightColor}
                 />
               ),
@@ -362,7 +359,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <ColorItem
                   id={`text-dark-color-${index}`}
-                  name={this.props.locales.see.properties.themes.textDarkColor}
+                  name={this.props.t('see.properties.themes.textDarkColor')}
                   hex={theme.textColorsTheme.darkColor}
                 />
               ),
@@ -372,12 +369,12 @@ export default class Properties extends PureComponent<PropertiesProps> {
               node: (
                 <FormItem
                   key={`description-${index}`}
-                  label={this.props.locales.see.properties.themes.description}
+                  label={this.props.t('see.properties.themes.description')}
                   isBaseline
                 >
                   <span className={texts.type}>
                     {theme.description === ''
-                      ? this.props.locales.empty
+                      ? this.props.t('empty')
                       : theme.description}
                   </span>
                 </FormItem>
@@ -398,7 +395,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           <SimpleItem
             leftPartSlot={
               <SectionTitle
-                label={this.props.locales.see.properties.information.title}
+                label={this.props.t('see.properties.information.title')}
               />
             }
             isListItem={false}
@@ -409,7 +406,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.information.createdAt}
+                label={this.props.t('see.properties.information.createdAt')}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -421,7 +418,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.information.updatedAt}
+                label={this.props.t('see.properties.information.updatedAt')}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -433,9 +430,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={
-                  this.props.locales.see.properties.information.publishedAt
-                }
+                label={this.props.t('see.properties.information.publishedAt')}
                 isBaseline
               >
                 <span className={texts.type}>
@@ -447,12 +442,12 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.information.createdBy}
+                label={this.props.t('see.properties.information.createdBy')}
                 isBaseline
               >
                 <span className={texts.type}>
                   {this.props.creatorIdentity.creatorFullName === ''
-                    ? this.props.locales.empty
+                    ? this.props.t('empty')
                     : this.props.creatorIdentity.creatorFullName}
                 </span>
               </FormItem>
@@ -461,13 +456,13 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.information.published}
+                label={this.props.t('see.properties.information.published')}
                 isBaseline
               >
                 <span className={texts.type}>
                   {this.props.publicationStatus.isPublished
-                    ? this.props.locales.pass
-                    : this.props.locales.fail}
+                    ? this.props.t('pass')
+                    : this.props.t('fail')}
                 </span>
               </FormItem>
             ),
@@ -475,13 +470,13 @@ export default class Properties extends PureComponent<PropertiesProps> {
           {
             node: (
               <FormItem
-                label={this.props.locales.see.properties.information.shared}
+                label={this.props.t('see.properties.information.shared')}
                 isBaseline
               >
                 <span className={texts.type}>
                   {this.props.publicationStatus.isShared
-                    ? this.props.locales.pass
-                    : this.props.locales.fail}
+                    ? this.props.t('pass')
+                    : this.props.t('fail')}
                 </span>
               </FormItem>
             ),

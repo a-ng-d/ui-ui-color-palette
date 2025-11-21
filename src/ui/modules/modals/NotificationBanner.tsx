@@ -2,13 +2,17 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Notification } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { NotificationMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface NotificationBannerProps extends BaseProps, WithConfigProps {
+interface NotificationBannerProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   notification: NotificationMessage
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }

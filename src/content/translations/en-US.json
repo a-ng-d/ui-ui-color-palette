@@ -545,7 +545,7 @@
         "discount": "$30 /year on Figma",
         "regular": "$5 /month on Figma"
       },
-      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Unlimited credits",
+      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
       "title": "UI Color Palette /pro /figma"
     },
     "one": {
@@ -554,7 +554,7 @@
         "discount": "$35 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$70 /lifetime on Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Unlimited palettes{br}◻ Unlimited source colors{br}◻ Unlimited stops{br}◻ Unlimited color modes{br}◻ Unlimited credits",
+      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -563,7 +563,7 @@
         "discount": "$35 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$70 /lifetime on Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ All /figma features{br}◻ For small and large teams{br}◻ Multi platforms{br}◻ Multi payment options{br}◻ Lifetime plan",
+      "text": "◻ All /figma features</br>◻ For small and large teams</br>◻ Multi platforms</br>◻ Multi payment options</br>◻ Lifetime plan",
       "title": "UI Color Palette /pro /one"
     },
     "title": "Subscribe to UI Color Palette /pro"
@@ -1122,7 +1122,7 @@
       "name": {
         "helper": "This name will be used to identify your license",
         "label": "License name",
-        "placeholder": "{My Name}'s License"
+        "placeholder": "*Your name*'s license"
       }
     },
     "manageLicense": "Manage license",

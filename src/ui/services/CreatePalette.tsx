@@ -23,6 +23,7 @@ import Actions from '../modules/Actions'
 import Source from '../contexts/Source'
 import Settings from '../contexts/Settings'
 import Scale from '../contexts/Scale'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
@@ -41,7 +42,10 @@ import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
-interface CreatePaletteProps extends BaseProps, WithConfigProps {
+interface CreatePaletteProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   sourceColors: Array<SourceColorConfiguration> | []
   id: string
   name: string
@@ -117,7 +121,7 @@ export default class CreatePalette extends PureComponent<
       props.config.features,
       props.editor,
       props.service,
-      props.locales
+      props.t
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -137,14 +141,14 @@ export default class CreatePalette extends PureComponent<
   }
 
   componentDidUpdate(previousProps: Readonly<CreatePaletteProps>): void {
-    if (previousProps.locales !== this.props.locales) {
+    if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
         ['SOURCE', 'SCALE', 'SETTINGS'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
         this.props.service,
-        this.props.locales
+        this.props.t
       )
 
       this.forceUpdate()
@@ -254,6 +258,9 @@ export default class CreatePalette extends PureComponent<
             exchange: {
               ...this.palette.value,
             },
+            locales: {
+              defaultThemeName: this.props.t('themes.switchTheme.defaultTheme'),
+            },
           },
         },
       },
@@ -327,15 +334,15 @@ export default class CreatePalette extends PureComponent<
         {document.getElementById('modal') &&
           createPortal(
             <Dialog
-              title={this.props.locales.create.leavePaletteDialog.title}
+              title={this.props.t('create.leavePaletteDialog.title')}
               actions={{
                 destructive: {
-                  label: this.props.locales.create.leavePaletteDialog.leave,
+                  label: this.props.t('create.leavePaletteDialog.leave'),
                   feature: 'DELETE_PALETTE',
                   action: this.onCancelPalette,
                 },
                 secondary: {
-                  label: this.props.locales.create.leavePaletteDialog.cancel,
+                  label: this.props.t('create.leavePaletteDialog.cancel'),
                   isAutofocus: true,
                   action: () =>
                     this.setState({
@@ -351,10 +358,9 @@ export default class CreatePalette extends PureComponent<
             >
               <div className="dialog__text">
                 <p className={texts.type}>
-                  {this.props.locales.create.leavePaletteDialog.message.replace(
-                    '{name}',
-                    this.props.name
-                  )}
+                  {this.props.t('create.leavePaletteDialog.message', {
+                    name: this.props.name,
+                  })}
                 </p>
               </div>
             </Dialog>,
@@ -429,7 +435,7 @@ export default class CreatePalette extends PureComponent<
               type="icon"
               icon="back"
               helper={{
-                label: this.props.locales.contexts.back,
+                label: this.props.t('contexts.back'),
               }}
               action={() =>
                 this.props.onGoingStep === 'palette creation opened'

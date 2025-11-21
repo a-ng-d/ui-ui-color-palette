@@ -15,6 +15,7 @@ import Feedback from '../modules/modals/Feedback'
 import Chat from '../modules/modals/Chat'
 import Announcements from '../modules/modals/Announcements'
 import About from '../modules/modals/About'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { NotificationMessage } from '../../types/messages'
 import {
@@ -29,7 +30,7 @@ import {
 } from '../../external/tracking/eventsTracker'
 import type { AppStates } from '../App'
 
-interface ModalProps extends BaseProps, WithConfigProps {
+interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
   rawData: AppStates
   context: ModalContext
   notification: NotificationMessage

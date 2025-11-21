@@ -16,6 +16,7 @@ import { layouts } from '@a_ng_d/figmug-ui'
 import { Chip } from '@a_ng_d/figmug-ui'
 import { Button } from '@a_ng_d/figmug-ui'
 import { texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { getClosestColorName } from '../../utils/colorNameHelper'
@@ -30,7 +31,10 @@ import { $creditsCount } from '../../stores/credits'
 import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface ColorWheelProps extends BaseProps, WithConfigProps {
+interface ColorWheelProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   baseColor: RgbModel
   creditsCount: number
   onChangeColorsFromImport: (
@@ -262,7 +266,7 @@ export default class ColorWheel extends PureComponent<
                     >
                       <FormItem
                         id="color-harmony-base-color"
-                        label={this.props.locales.source.wheel.base}
+                        label={this.props.t('source.wheel.base')}
                         shouldFill={false}
                       >
                         <Input
@@ -309,9 +313,7 @@ export default class ColorWheel extends PureComponent<
                       >
                         <FormItem
                           id="color-harmony-algorithm"
-                          label={
-                            this.props.locales.source.wheel.algorithm.label
-                          }
+                          label={this.props.t('source.wheel.algorithm.label')}
                           isBlocked={ColorWheel.features(
                             this.props.planStatus,
                             this.props.config,
@@ -325,9 +327,9 @@ export default class ColorWheel extends PureComponent<
                             options={[
                               {
                                 type: 'OPTION',
-                                label:
-                                  this.props.locales.source.wheel.algorithm
-                                    .analogous,
+                                label: this.props.t(
+                                  'source.wheel.algorithm.analogous'
+                                ),
                                 value: 'ANALOGOUS',
                                 isActive: ColorWheel.features(
                                   this.props.planStatus,
@@ -355,9 +357,9 @@ export default class ColorWheel extends PureComponent<
                               },
                               {
                                 type: 'OPTION',
-                                label:
-                                  this.props.locales.source.wheel.algorithm
-                                    .complementary,
+                                label: this.props.t(
+                                  'source.wheel.algorithm.complementary'
+                                ),
                                 value: 'COMPLEMENTARY',
                                 isActive: ColorWheel.features(
                                   this.props.planStatus,
@@ -385,9 +387,9 @@ export default class ColorWheel extends PureComponent<
                               },
                               {
                                 type: 'OPTION',
-                                label:
-                                  this.props.locales.source.wheel.algorithm
-                                    .compound,
+                                label: this.props.t(
+                                  'source.wheel.algorithm.compound'
+                                ),
                                 value: 'COMPOUND',
                                 isActive: ColorWheel.features(
                                   this.props.planStatus,
@@ -415,9 +417,9 @@ export default class ColorWheel extends PureComponent<
                               },
                               {
                                 type: 'OPTION',
-                                label:
-                                  this.props.locales.source.wheel.algorithm
-                                    .triadic,
+                                label: this.props.t(
+                                  'source.wheel.algorithm.triadic'
+                                ),
                                 value: 'TRIADIC',
                                 isActive: ColorWheel.features(
                                   this.props.planStatus,
@@ -443,9 +445,9 @@ export default class ColorWheel extends PureComponent<
                               },
                               {
                                 type: 'OPTION',
-                                label:
-                                  this.props.locales.source.wheel.algorithm
-                                    .tetradic,
+                                label: this.props.t(
+                                  'source.wheel.algorithm.tetradic'
+                                ),
                                 value: 'TETRADIC',
                                 isActive: ColorWheel.features(
                                   this.props.planStatus,
@@ -484,7 +486,7 @@ export default class ColorWheel extends PureComponent<
                           texts['type--secondary'],
                         ])}
                       >
-                        {this.props.locales.separator}
+                        {this.props.t('separator')}
                       </span>
                       <Feature
                         isActive={ColorWheel.features(
@@ -498,11 +500,9 @@ export default class ColorWheel extends PureComponent<
                           type="icon"
                           icon="plus"
                           helper={{
-                            label:
-                              this.props.locales.source.wheel.addColors.replace(
-                                '{fee}',
-                                this.props.config.fees.harmonyCreate.toString()
-                              ),
+                            label: this.props.t('source.wheel.addColors', {
+                              fee: this.props.config.fees.harmonyCreate.toString(),
+                            }),
                             type: 'MULTI_LINE',
                           }}
                           isBlocked={ColorWheel.features(

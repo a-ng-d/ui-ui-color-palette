@@ -1,11 +1,11 @@
 import { createRoot } from 'react-dom/client'
 import React from 'react'
 import mixpanel from 'mixpanel-browser'
-import { Tolgee, DevTools, FormatSimple } from '@tolgee/web'
 import { TolgeeProvider } from '@tolgee/react'
 import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
+import { initTolgee } from './external/translation'
 import {
   initMixpanel,
   setEditor,
@@ -28,6 +28,7 @@ const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
 const mistralApiKey = import.meta.env.VITE_MISTRAL_AI_API_KEY
+const tolgeeApiKey = import.meta.env.VITE_TOLGEE_API_KEY
 
 // Mixpanel
 if (globalConfig.env.isMixpanelEnabled) {
@@ -106,23 +107,17 @@ if (globalConfig.env.isSupabaseEnabled)
 if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
 
 // Tolgee
-const tolgee = Tolgee()
-  .use(DevTools())
-  .use(FormatSimple())
-  .init({
-    language: 'en-US',
-    apiUrl: 'https://translate.yelbolt.co',
-    apiKey: import.meta.env.VITE_TOLGEE_API_KEY as string,
-    fallbackLanguage: 'en-US',
-    staticData: {
-      'en-US': en_US,
-      'fr-FR': fr_FR,
-      'pt-BR': pt_BR,
-      'zh-Hans-CN': zh_Hans_CN,
-    },
-  })
-
-tolgee.run()
+const tolgee = initTolgee(
+  'https://translate.yelbolt.co',
+  tolgeeApiKey,
+  globalConfig.lang,
+  {
+    'en-US': en_US,
+    'fr-FR': fr_FR,
+    'pt-BR': pt_BR,
+    'zh-Hans-CN': zh_Hans_CN,
+  }
+)
 
 // Bridge Canvas <> UI
 window.addEventListener(
@@ -142,33 +137,33 @@ window.addEventListener('pluginMessage', ((event: MessageEvent) => {
   }
 }) as EventListener)
 
-// Render
-root.render(
-  <TolgeeProvider
-    tolgee={tolgee}
-    fallback="Loading..."
-  >
-    <ConfigProvider
-      limits={globalConfig.limits}
-      env={globalConfig.env}
-      plan={globalConfig.plan}
-      dbs={globalConfig.dbs}
-      urls={globalConfig.urls}
-      versions={globalConfig.versions}
-      features={globalConfig.features}
-      locales={globalConfig.locales}
-      lang={globalConfig.lang}
-      fees={globalConfig.fees}
+tolgee?.run().then(() => {
+  root.render(
+    <TolgeeProvider
+      tolgee={tolgee}
+      fallback="Loading..."
     >
-      <ThemeProvider
-        theme={globalConfig.env.ui}
-        mode={globalConfig.env.colorMode}
+      <ConfigProvider
+        limits={globalConfig.limits}
+        env={globalConfig.env}
+        plan={globalConfig.plan}
+        dbs={globalConfig.dbs}
+        urls={globalConfig.urls}
+        versions={globalConfig.versions}
+        features={globalConfig.features}
+        lang={globalConfig.lang}
+        fees={globalConfig.fees}
       >
-        <App />
-      </ThemeProvider>
-    </ConfigProvider>
-  </TolgeeProvider>
-)
+        <ThemeProvider
+          theme={globalConfig.env.ui}
+          mode={globalConfig.env.colorMode}
+        >
+          <App />
+        </ThemeProvider>
+      </ConfigProvider>
+    </TolgeeProvider>
+  )
+})
 
 export { ConfigProvider, type ConfigContextType } from './config/ConfigContext'
 export { ThemeProvider } from './config/ThemeContext'

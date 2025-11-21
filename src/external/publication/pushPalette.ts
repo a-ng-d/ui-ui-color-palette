@@ -12,15 +12,15 @@ const pushPalette = async ({
   palettesDbTableName: string
   isShared?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  locales: any
+  locales: (key: string, params?: Record<string, any> | undefined) => string
 }): Promise<Partial<AppStates>> => {
   const now = new Date().toISOString()
   const name =
-    rawData.name === '' || rawData.name === locales.settings.global.name.default
-      ? locales.settings.global.name.self.replace(
-          '{username}',
-          rawData.userSession.userFullName
-        )
+    rawData.name === '' ||
+    rawData.name === locales('settings.global.name.default')
+      ? locales('settings.global.name.self', {
+          username: rawData.userSession.userFullName,
+        })
       : rawData.name
 
   const supabase = getSupabase()

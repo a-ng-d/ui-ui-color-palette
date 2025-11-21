@@ -15,6 +15,7 @@ import GlobalSettings from '../modules/settings/GlobalSettings'
 import ContrastSettings from '../modules/settings/ContrastSettings'
 import ColorSettings from '../modules/settings/ColorSettings'
 import DangerZone from '../modules/DangerZone'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -31,7 +32,10 @@ import { trackSettingsManagementEvent } from '../../external/tracking/eventsTrac
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
-interface SettingsProps extends BaseProps, WithConfigProps {
+interface SettingsProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   id: string
   sourceColors?: Array<SourceColorConfiguration>
   name: string

@@ -1,6 +1,4 @@
-import { Language } from '../../types/translations'
 import globalConfig from '../../global.config'
-import { locales } from '../../content/locales'
 
 const checkUserPreferences = async () => {
   const iframe = document.querySelector(
@@ -34,8 +32,6 @@ const checkUserPreferences = async () => {
 
   if (userLanguage === null)
     window.localStorage.setItem('user_language', globalConfig.lang)
-
-  locales.set((userLanguage as Language) ?? globalConfig.lang)
 
   return iframe?.contentWindow?.postMessage(
     {

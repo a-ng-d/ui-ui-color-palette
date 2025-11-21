@@ -13,6 +13,7 @@ import StarredPalettes from '../subcontexts/StarredPalettes'
 import SelfPalettes from '../subcontexts/SelfPalettes'
 import OrgPalettes from '../subcontexts/OrgPalettes'
 import CommunityPalettes from '../subcontexts/CommunityPalettes'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -29,7 +30,10 @@ import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface RemotePalettesProps extends BaseProps, WithConfigProps {
+interface RemotePalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   localPalettesList: Array<FullConfiguration>
   onSeePalette: (palette: {
     base: BaseConfiguration
@@ -113,7 +117,7 @@ export default class RemotePalettes extends PureComponent<
       props.config.features,
       props.editor,
       props.service,
-      props.locales
+      props.t
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
@@ -138,7 +142,7 @@ export default class RemotePalettes extends PureComponent<
 
   // Lifecycle
   componentDidUpdate(previousProps: Readonly<RemotePalettesProps>): void {
-    if (previousProps.locales !== this.props.locales) {
+    if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
         [
           'REMOTE_PALETTES_SELF',
@@ -150,7 +154,7 @@ export default class RemotePalettes extends PureComponent<
         this.props.config.features,
         this.props.editor,
         this.props.service,
-        this.props.locales
+        this.props.t
       )
 
       this.forceUpdate()
@@ -209,6 +213,9 @@ export default class RemotePalettes extends PureComponent<
                     creatorId: data[0].creator_id,
                   },
                 } as MetaConfiguration,
+                locales: {
+                  infoMessage: this.props.t('info.addToLocal'),
+                },
               },
             },
           },

@@ -545,7 +545,7 @@
         "discount": "Figma 上每年 $30",
         "regular": "Figma 上每月 $5"
       },
-      "text": "◻ 无限调色板{br}◻ 无限源颜色{br}◻ 无限色阶{br}◻ 无限颜色模式{br}◻ 无限积分",
+      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
       "title": "UI Color Palette /pro /figma"
     },
     "one": {
@@ -554,7 +554,7 @@
         "discount": "Figma、Penpot、Sketch、Framer 上终身 $35",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
       },
-      "text": "◻ 无限调色板{br}◻ 无限源颜色{br}◻ 无限色阶{br}◻ 无限颜色模式{br}◻ 无限积分",
+      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -563,7 +563,7 @@
         "discount": "Figma、Penpot、Sketch、Framer 上终身 $35",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
       },
-      "text": "◻ 所有 /figma 功能{br}◻ 适用于小型和大型团队{br}◻ 多平台{br}◻ 多种付款选项{br}◻ 终身计划",
+      "text": "◻ 所有 /figma 功能</br>◻ 适用于小型和大型团队</br>◻ 多平台</br>◻ 多种付款选项</br>◻ 终身计划",
       "title": "UI Color Palette /pro /one"
     },
     "title": "订阅 UI Color Palette /pro"
@@ -1122,7 +1122,7 @@
       "name": {
         "helper": "此名称将用于标识您的许可证",
         "label": "许可证名称",
-        "placeholder": "{My Name} 的许可证"
+        "placeholder": "*您的名字* 的许可证"
       }
     },
     "manageLicense": "管理许可证",

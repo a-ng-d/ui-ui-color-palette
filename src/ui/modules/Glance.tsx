@@ -16,6 +16,7 @@ import {
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import Properties from '../contexts/Properties'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -35,7 +36,7 @@ import { signIn } from '../../external/auth/authentication'
 import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface GlanceProps extends BaseProps, WithConfigProps {
+interface GlanceProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   localPalettesList: Array<FullConfiguration>
   onSelectPalette: (id: string) => void
@@ -221,7 +222,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
               type: 'POST_MESSAGE',
               data: {
                 type: 'ERROR',
-                message: this.props.locales.error.starPalette,
+                message: this.props.t('error.starPalette'),
               },
             },
           },
@@ -265,8 +266,8 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                 type: 'ERROR',
                 message:
                   error.message === 'Authentication timeout'
-                    ? this.props.locales.error.timeout
-                    : this.props.locales.error.authentication,
+                    ? this.props.t('error.timeout')
+                    : this.props.t('error.authentication'),
               },
             },
           },
@@ -281,7 +282,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
     if (this.state.paletteStatus === 'LOADING')
       modal = (
         <Dialog
-          title={this.props.locales.pending.fetch}
+          title={this.props.t('pending.fetch')}
           pin="RIGHT"
           isLoading
           onClose={this.props.onClosePalette}
@@ -298,7 +299,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
         >
           <SemanticMessage
             type="WARNING"
-            message={this.props.locales.error.fetchPalette}
+            message={this.props.t('error.fetchPalette')}
           />
         </Dialog>
       )
@@ -306,7 +307,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
     if (this.state.paletteStatus === 'LOADED')
       modal = (
         <Dialog
-          title={this.props.locales.browse.glancePalette.title}
+          title={this.props.t('browse.glancePalette.title')}
           pin="RIGHT"
           onClose={this.props.onClosePalette}
         >
@@ -341,8 +342,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         type="icon"
                         icon="star-on"
                         helper={{
-                          label:
-                            this.props.locales.browse.actions.unstarPalette,
+                          label: this.props.t('browse.actions.unstarPalette'),
                         }}
                         isLoading={this.state.isSecondaryActionLoading}
                         isBlocked={Glance.features(
@@ -358,7 +358,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         type="icon"
                         icon="star-off"
                         helper={{
-                          label: this.props.locales.browse.actions.starPalette,
+                          label: this.props.t('browse.actions.starPalette'),
                         }}
                         isLoading={this.state.isSecondaryActionLoading}
                         isBlocked={Glance.features(
@@ -385,7 +385,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                     <Button
                       type="secondary"
                       icon="star-on"
-                      label={this.props.locales.browse.actions.signInToStar}
+                      label={this.props.t('browse.actions.signInToStar')}
                       isLoading={this.state.isSecondaryActionLoading}
                       isBlocked={Glance.features(
                         this.props.planStatus,
@@ -406,7 +406,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                   >
                     <Button
                       type="primary"
-                      label={this.props.locales.actions.addToLocal}
+                      label={this.props.t('actions.addToLocal')}
                       isLoading={this.state.isPrimaryActionLoading}
                       isBlocked={Glance.features(
                         this.props.planStatus,

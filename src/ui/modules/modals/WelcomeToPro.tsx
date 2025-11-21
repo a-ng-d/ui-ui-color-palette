@@ -2,13 +2,17 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Dialog, texts } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import pp from '../../../content/images/pro_plan.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface WelcomeToProProps extends BaseProps, WithConfigProps {
+interface WelcomeToProProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -40,10 +44,10 @@ export default class WelcomeToPro extends PureComponent<WelcomeToProProps> {
         ).PRO_PLAN.isActive()}
       >
         <Dialog
-          title={this.props.locales.proPlan.welcome.title}
+          title={this.props.t('proPlan.welcome.title')}
           actions={{
             primary: {
-              label: this.props.locales.proPlan.welcome.cta,
+              label: this.props.t('proPlan.welcome.cta'),
               isAutofocus: true,
               action: this.props.onClose,
             },
@@ -60,7 +64,7 @@ export default class WelcomeToPro extends PureComponent<WelcomeToProProps> {
           </div>
           <div className="dialog__text">
             <p className={texts.type}>
-              {this.props.locales.proPlan.welcome.message}
+              {this.props.t('proPlan.welcome.message')}
             </p>
           </div>
         </Dialog>

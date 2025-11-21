@@ -9,6 +9,7 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -19,7 +20,10 @@ import {
 } from '../../stores/preferences'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface SyncPreferencesProps extends BaseProps, WithConfigProps {
+interface SyncPreferencesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   isLast?: boolean
 }
 
@@ -99,7 +103,7 @@ export default class SyncPreferences extends PureComponent<
           id="update-styles-deep-sync"
           type="SWITCH_BUTTON"
           name="update-styles-deep-sync"
-          label={this.props.locales.user.preferences.sync.styles.label}
+          label={this.props.t('user.preferences.sync.styles.label')}
           isChecked={this.state.canStylesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
@@ -150,7 +154,7 @@ export default class SyncPreferences extends PureComponent<
           id="update-variables-deep-sync"
           type="SWITCH_BUTTON"
           name="update-variables-deep-sync"
-          label={this.props.locales.user.preferences.sync.variables.label}
+          label={this.props.t('user.preferences.sync.variables.label')}
           isChecked={this.state.canVariablesDeepSync}
           isBlocked={SyncPreferences.features(
             this.props.planStatus,
@@ -211,7 +215,7 @@ export default class SyncPreferences extends PureComponent<
             <SimpleItem
               leftPartSlot={
                 <SectionTitle
-                  label={this.props.locales.user.preferences.sync.title}
+                  label={this.props.t('user.preferences.sync.title')}
                 />
               }
               isListItem={false}
@@ -223,7 +227,7 @@ export default class SyncPreferences extends PureComponent<
               node: (
                 <SemanticMessage
                   type="INFO"
-                  message={this.props.locales.user.preferences.sync.message}
+                  message={this.props.t('user.preferences.sync.message')}
                 />
               ),
             },

@@ -13,6 +13,7 @@ import {
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
+import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
@@ -21,7 +22,10 @@ import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface FilePalettesProps extends BaseProps, WithConfigProps {
+interface FilePalettesProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
@@ -163,7 +167,12 @@ export default class FilePalettes extends PureComponent<
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
-          id: id,
+          data: {
+            id: id,
+            locales: {
+              errorMessage: this.props.t('error.unfoundPalette'),
+            },
+          },
         },
       },
       '*'
@@ -175,19 +184,32 @@ export default class FilePalettes extends PureComponent<
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
-          id: id,
+          data: {
+            id: id,
+            locales: {
+              errorMessage: this.props.t('error.unfoundPalette'),
+            },
+          },
         },
       },
       '*'
     )
   }
 
-  onDuplicatePalette = (id: string) => {
+  onDuplicatePalette = (id: string, name: string) => {
     sendPluginMessage(
       {
         pluginMessage: {
           type: 'DUPLICATE_PALETTE',
-          id: id,
+          data: {
+            id: id,
+            locales: {
+              errorMessage: this.props.t('error.unfoundPalette'),
+              paletteName: this.props.t('browse.copy', {
+                name: name,
+              }),
+            },
+          },
         },
       },
       '*'
@@ -224,10 +246,10 @@ export default class FilePalettes extends PureComponent<
         {document.getElementById('modal') &&
           createPortal(
             <Dialog
-              title={this.props.locales.browse.deletePaletteDialog.title}
+              title={this.props.t('browse.deletePaletteDialog.title')}
               actions={{
                 destructive: {
-                  label: this.props.locales.browse.deletePaletteDialog.delete,
+                  label: this.props.t('browse.deletePaletteDialog.delete'),
                   feature: 'DELETE_PALETTE',
                   state: this.state.isDestructiveActionLoading
                     ? 'LOADING'
@@ -235,7 +257,7 @@ export default class FilePalettes extends PureComponent<
                   action: this.onDeletePalette,
                 },
                 secondary: {
-                  label: this.props.locales.browse.deletePaletteDialog.cancel,
+                  label: this.props.t('browse.deletePaletteDialog.cancel'),
                   isAutofocus: true,
                   action: () =>
                     this.setState({
@@ -255,10 +277,9 @@ export default class FilePalettes extends PureComponent<
             >
               <div className="dialog__text">
                 <p className={texts.type}>
-                  {this.props.locales.browse.deletePaletteDialog.message.replace(
-                    '{name}',
-                    this.state.targetedPaletteName
-                  )}
+                  {this.props.t('browse.deletePaletteDialog.message', {
+                    name: this.state.targetedPaletteName,
+                  })}
                 </p>
               </div>
             </Dialog>,
@@ -295,23 +316,23 @@ export default class FilePalettes extends PureComponent<
                     key={`palette-${index}`}
                     name={
                       palette.base.name === ''
-                        ? this.props.locales.name
+                        ? this.props.t('name')
                         : palette.base.name
                     }
                     indicator={
                       palette.meta.publicationStatus.isPublished
                         ? {
-                            label:
-                              this.props.locales.publication.statusPublished,
+                            label: this.props.t('publication.statusPublished'),
                             status: 'ACTIVE',
                           }
                         : undefined
                     }
                     description={palette.base.preset.name}
-                    subdescription={setPaletteMeta(
-                      palette.base.colors,
-                      palette.themes
-                    )}
+                    subdescription={setPaletteMeta({
+                      colors: palette.base.colors,
+                      themes: palette.themes,
+                      locales: this.props.t,
+                    })}
                     actionsSlot={
                       <>
                         <Menu
@@ -319,9 +340,9 @@ export default class FilePalettes extends PureComponent<
                           icon="ellipses"
                           options={[
                             {
-                              label:
-                                this.props.locales.browse.actions
-                                  .duplicatePalette,
+                              label: this.props.t(
+                                'browse.actions.duplicatePalette'
+                              ),
                               type: 'OPTION',
                               isActive: FilePalettes.features(
                                 this.props.planStatus,
@@ -358,12 +379,16 @@ export default class FilePalettes extends PureComponent<
                                         i === index ? true : loading
                                     ),
                                 })
-                                this.onDuplicatePalette(palette.meta.id)
+                                this.onDuplicatePalette(
+                                  palette.meta.id,
+                                  palette.base.name
+                                )
                               },
                             },
                             {
-                              label:
-                                this.props.locales.browse.actions.deletePalette,
+                              label: this.props.t(
+                                'browse.actions.deletePalette'
+                              ),
                               type: 'OPTION',
                               isActive: FilePalettes.features(
                                 this.props.planStatus,
@@ -398,8 +423,9 @@ export default class FilePalettes extends PureComponent<
                               : 'DEFAULT'
                           }
                           helper={{
-                            label:
-                              this.props.locales.browse.actions.moreParameters,
+                            label: this.props.t(
+                              'browse.actions.moreParameters'
+                            ),
                           }}
                         />
                         <Feature
@@ -412,9 +438,7 @@ export default class FilePalettes extends PureComponent<
                         >
                           <Button
                             type="secondary"
-                            label={
-                              this.props.locales.browse.actions.openPalette
-                            }
+                            label={this.props.t('browse.actions.openPalette')}
                             shouldReflow={{
                               isEnabled: true,
                               icon: 'forward',
@@ -444,9 +468,7 @@ export default class FilePalettes extends PureComponent<
                         >
                           <Button
                             type="secondary"
-                            label={
-                              this.props.locales.browse.actions.openPalette
-                            }
+                            label={this.props.t('browse.actions.openPalette')}
                             shouldReflow={{
                               isEnabled: true,
                               icon: 'forward',
@@ -532,7 +554,7 @@ export default class FilePalettes extends PureComponent<
         {this.props.localPalettesListStatus === 'EMPTY' && (
           <SemanticMessage
             type="NEUTRAL"
-            message={`${this.props.locales.warning.noPaletteOnCurrrentFile}`}
+            message={this.props.t('warning.noPaletteOnCurrrentFile')}
             actionsSlot={
               <>
                 <Feature
@@ -553,7 +575,7 @@ export default class FilePalettes extends PureComponent<
                 >
                   <Button
                     type="secondary"
-                    label={this.props.locales.actions.explorePalettes}
+                    label={this.props.t('actions.explorePalettes')}
                     isNew={FilePalettes.features(
                       this.props.planStatus,
                       this.props.config,
@@ -573,7 +595,7 @@ export default class FilePalettes extends PureComponent<
                 >
                   <Button
                     type="primary"
-                    label={this.props.locales.actions.createPalette}
+                    label={this.props.t('actions.createPalette')}
                     isNew={FilePalettes.features(
                       this.props.planStatus,
                       this.props.config,
@@ -594,7 +616,7 @@ export default class FilePalettes extends PureComponent<
                   }
                 >
                   <span className={doClassnames([texts.type, texts.label])}>
-                    {this.props.locales.info.askDesigner}
+                    {this.props.t('info.askDesigner')}
                   </span>
                 </Feature>
               </>
@@ -617,18 +639,17 @@ export default class FilePalettes extends PureComponent<
       ).LOCAL_PALETTES.limit ?? 0
     const message =
       limit > 1
-        ? this.props.locales.info.maxNumberOfLocalPalettes.plural.replace(
-            '{maxCount}',
-            limit.toString()
-          )
-        : this.props.locales.info.maxNumberOfLocalPalettes.single
+        ? this.props.t('info.maxNumberOfLocalPalettes.plural', {
+            maxCount: limit.toString(),
+          })
+        : this.props.t('info.maxNumberOfLocalPalettes.single')
 
     return (
       <>
         <SimpleItem
           leftPartSlot={
             <span className={doClassnames([texts.type, texts.label])}>
-              {this.props.locales.browse.file.title}
+              {this.props.t('browse.file.title')}
             </span>
           }
           isListItem={false}
@@ -653,7 +674,7 @@ export default class FilePalettes extends PureComponent<
                   this.props.trialStatus !== 'EXPIRED' ? (
                     <Button
                       type="secondary"
-                      label={this.props.locales.plan.tryPro}
+                      label={this.props.t('plan.tryPro')}
                       action={() =>
                         sendPluginMessage(
                           { pluginMessage: { type: 'GET_TRIAL' } },
@@ -664,7 +685,7 @@ export default class FilePalettes extends PureComponent<
                   ) : (
                     <Button
                       type="secondary"
-                      label={this.props.locales.plan.getPro}
+                      label={this.props.t('plan.getPro')}
                       action={() =>
                         sendPluginMessage(
                           { pluginMessage: { type: 'GET_PRO_PLAN' } },
