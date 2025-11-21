@@ -152,7 +152,7 @@ export default class LangPreferences extends PureComponent<
                       },
                       {
                         label: this.props.locales.user.language.chineseCN,
-                        value: 'zh-CN',
+                        value: 'zh-Hans-CN',
                         type: 'OPTION' as const,
                         isActive: LangPreferences.features(
                           this.props.planStatus,
@@ -172,7 +172,7 @@ export default class LangPreferences extends PureComponent<
                           this.props.service,
                           this.props.editor
                         ).USER_LANGUAGE_ZH_CN.isNew(),
-                        action: () => $userLanguage.set('zh-CN'),
+                        action: () => $userLanguage.set('zh-Hans-CN'),
                       },
                       {
                         label: this.props.locales.user.language.frenchFR,
