@@ -76,10 +76,14 @@ import CreatePalette from './services/CreatePalette'
 import BrowsePalettes from './services/BrowsePalettes'
 import Shortcuts from './modules/Shortcuts'
 import Modal from './contexts/Modal'
+import {
+  WithTranslation,
+  WithTranslationProps,
+} from './components/WithTranslation'
 import { WithConfig, WithConfigProps } from './components/WithConfig'
 import Feature from './components/Feature'
 
-type AppProps = WithConfigProps
+type AppProps = WithConfigProps & WithTranslationProps
 
 export interface AppStates extends BaseProps {
   sourceColors: Array<SourceColorConfiguration>
@@ -1267,4 +1271,4 @@ class App extends Component<AppProps, AppStates> {
   }
 }
 
-export default WithConfig(App)
+export default WithTranslation(WithConfig(App))

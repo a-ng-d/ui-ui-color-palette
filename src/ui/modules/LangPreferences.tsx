@@ -14,6 +14,7 @@ import { Language } from '../../types/translations'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $userLanguage } from '../../stores/preferences'
 import { ConfigContextType } from '../../config/ConfigContext'
+import { TolgeeInstance, useTolgee } from '@tolgee/react'
 
 interface LangPreferencesProps extends BaseProps, WithConfigProps {
   isLast?: boolean
@@ -94,8 +95,16 @@ export default class LangPreferences extends PureComponent<
     if (this.subscribeUserLanguage) this.subscribeUserLanguage()
   }
 
+  // Handlers
+  changeUserLanguageHandler = (lang: Language, tolgee: TolgeeInstance) => {
+    console.log('Changing user language to:', lang)
+    tolgee.changeLanguage(lang)
+  }
+
   // Render
   render() {
+    const tolgee = useTolgee(['language'])
+
     return (
       <Feature
         isActive={LangPreferences.features(
@@ -148,7 +157,8 @@ export default class LangPreferences extends PureComponent<
                           this.props.service,
                           this.props.editor
                         ).USER_LANGUAGE_EN_US.isNew(),
-                        action: () => $userLanguage.set('en-US'),
+                        action: () =>
+                          this.changeUserLanguageHandler('en-US', tolgee),
                       },
                       {
                         label: this.props.locales.user.language.chineseCN,
@@ -172,7 +182,8 @@ export default class LangPreferences extends PureComponent<
                           this.props.service,
                           this.props.editor
                         ).USER_LANGUAGE_ZH_CN.isNew(),
-                        action: () => $userLanguage.set('zh-Hans-CN'),
+                        action: () =>
+                          this.changeUserLanguageHandler('zh-Hans-CN', tolgee),
                       },
                       {
                         label: this.props.locales.user.language.frenchFR,
@@ -196,7 +207,8 @@ export default class LangPreferences extends PureComponent<
                           this.props.service,
                           this.props.editor
                         ).USER_LANGUAGE_FR_FR.isNew(),
-                        action: () => $userLanguage.set('fr-FR'),
+                        action: () =>
+                          this.changeUserLanguageHandler('fr-FR', tolgee),
                       },
                       {
                         label: this.props.locales.user.language.portugueseBR,
@@ -220,10 +232,11 @@ export default class LangPreferences extends PureComponent<
                           this.props.service,
                           this.props.editor
                         ).USER_LANGUAGE_PT_BR.isNew(),
-                        action: () => $userLanguage.set('pt-BR'),
+                        action: () =>
+                          this.changeUserLanguageHandler('pt-BR', tolgee),
                       },
                     ]}
-                    selected={this.state.userLanguage}
+                    selected={tolgee.getLanguage() as Language}
                     isBlocked={LangPreferences.features(
                       this.props.planStatus,
                       this.props.config,

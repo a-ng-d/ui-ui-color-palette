@@ -1,6 +1,8 @@
 import { createRoot } from 'react-dom/client'
 import React from 'react'
 import mixpanel from 'mixpanel-browser'
+import { Tolgee, DevTools, FormatSimple } from '@tolgee/web'
+import { TolgeeProvider } from '@tolgee/react'
 import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
@@ -12,6 +14,10 @@ import {
 import { initSentry } from './external/monitoring'
 import { initMistral } from './external/mistral'
 import { initSupabase } from './external/auth'
+import zh_Hans_CN from './content/translations/zh-Hans-CN.json'
+import pt_BR from './content/translations/pt-BR.json'
+import fr_FR from './content/translations/fr-FR.json'
+import en_US from './content/translations/en-US.json'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
 
@@ -99,6 +105,25 @@ if (globalConfig.env.isSupabaseEnabled)
 // Mistral AI
 if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
 
+// Tolgee
+const tolgee = Tolgee()
+  .use(DevTools())
+  .use(FormatSimple())
+  .init({
+    language: 'en-US',
+    apiUrl: 'https://translate.yelbolt.co',
+    apiKey: import.meta.env.VITE_TOLGEE_API_KEY as string,
+    fallbackLanguage: 'en-US',
+    staticData: {
+      'en-US': en_US,
+      'fr-FR': fr_FR,
+      'pt-BR': pt_BR,
+      'zh-Hans-CN': zh_Hans_CN,
+    },
+  })
+
+tolgee.run()
+
 // Bridge Canvas <> UI
 window.addEventListener(
   'message',
@@ -119,25 +144,30 @@ window.addEventListener('pluginMessage', ((event: MessageEvent) => {
 
 // Render
 root.render(
-  <ConfigProvider
-    limits={globalConfig.limits}
-    env={globalConfig.env}
-    plan={globalConfig.plan}
-    dbs={globalConfig.dbs}
-    urls={globalConfig.urls}
-    versions={globalConfig.versions}
-    features={globalConfig.features}
-    locales={globalConfig.locales}
-    lang={globalConfig.lang}
-    fees={globalConfig.fees}
+  <TolgeeProvider
+    tolgee={tolgee}
+    fallback="Loading..."
   >
-    <ThemeProvider
-      theme={globalConfig.env.ui}
-      mode={globalConfig.env.colorMode}
+    <ConfigProvider
+      limits={globalConfig.limits}
+      env={globalConfig.env}
+      plan={globalConfig.plan}
+      dbs={globalConfig.dbs}
+      urls={globalConfig.urls}
+      versions={globalConfig.versions}
+      features={globalConfig.features}
+      locales={globalConfig.locales}
+      lang={globalConfig.lang}
+      fees={globalConfig.fees}
     >
-      <App />
-    </ThemeProvider>
-  </ConfigProvider>
+      <ThemeProvider
+        theme={globalConfig.env.ui}
+        mode={globalConfig.env.colorMode}
+      >
+        <App />
+      </ThemeProvider>
+    </ConfigProvider>
+  </TolgeeProvider>
 )
 
 export { ConfigProvider, type ConfigContextType } from './config/ConfigContext'
