@@ -1,0 +1,79 @@
+name: Deploy stage version
+
+on:
+  push:
+    branches:
+      - stage
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy-plugin:
+    name: Deploy UI Color Palette /plugin to GitHub Pages
+    environment:
+      name: stage
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+  
+      - name: Initialize and update submodules
+        run: |
+          git submodule update --init --recursive --force
+
+      - name: Create .env.local file
+        run: |
+          touch .env.local
+          echo VITE_SUPABASE_URL="${{ vars.VITE_SUPABASE_URL }}" >> .env.local
+          echo VITE_SUPABASE_PUBLIC_ANON_KEY="${{ secrets.VITE_SUPABASE_PUBLIC_ANON_KEY }}" >> .env.local
+          echo VITE_SENTRY_DSN="${{ vars.VITE_SENTRY_DSN }}" >> .env.local
+          echo VITE_MIXPANEL_TOKEN="${{ secrets.VITE_MIXPANEL_TOKEN }}" >> .env.local
+          echo VITE_AUTH_WORKER_URL="${{ vars.VITE_AUTH_WORKER_URL }}" >> .env.local
+          echo VITE_AUTH_URL="${{ vars.VITE_AUTH_URL }}" >> .env.local
+          echo VITE_ANNOUNCEMENTS_WORKER_URL="${{ vars.VITE_ANNOUNCEMENTS_WORKER_URL }}" >> .env.local
+          echo VITE_NOTION_ANNOUNCEMENTS_ID="${{ vars.VITE_NOTION_ANNOUNCEMENTS_ID }}" >> .env.local
+          echo VITE_NOTION_ONBOARDING_ID="${{ vars.VITE_NOTION_ONBOARDING_ID }}" >> .env.local
+          echo VITE_LEMONSQUEEZY_URL="${{ vars.VITE_LEMONSQUEEZY_URL }}" >> .env.local
+          echo VITE_LEMONSQUEEZY_API_KEY="${{ secrets.VITE_LEMONSQUEEZY_API_KEY }}" >> .env.local
+          cat .env.local
+          touch .env.sentry-build-plugin
+          echo SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env.sentry-build-plugin
+          cat .env.sentry-build-plugin
+
+      - name: Clean install
+        run: |
+          rm -rf node_modules package-lock.json
+
+      - name: Install and Build
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          npm install
+          npm run build:figma:dark
+          
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
