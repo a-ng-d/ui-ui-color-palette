@@ -660,9 +660,10 @@ const globalConfig: Config = {
     creditsRenewalPeriodHours: 24,
   },
   dbs: {
-    palettesDbViewName: 'sandbox_palettes_with_creators',
-    palettesDbTableName: 'sandbox_palettes',
-    starredPalettesDbTableName: 'starred_palettes',
+    palettesDbViewName: import.meta.env.VITE_DBS_PALETTES_VIEW as string,
+    palettesDbTableName: import.meta.env.VITE_DBS_PALETTES_TABLE as string,
+    starredPalettesDbTableName: import.meta.env
+      .VITE_DBS_STARRED_PALETTES_TABLE as string,
   },
   urls: {
     authWorkerUrl: import.meta.env.VITE_AUTH_WORKER_URL as string,
