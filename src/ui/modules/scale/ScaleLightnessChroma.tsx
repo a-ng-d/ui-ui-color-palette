@@ -7,8 +7,7 @@ import {
   EasingConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { doScale } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus, doScale } from '@a_ng_d/figmug-utils'
 import {
   Button,
   Dropdown,
