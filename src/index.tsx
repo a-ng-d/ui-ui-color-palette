@@ -24,16 +24,18 @@ import { ConfigProvider } from './config/ConfigContext'
 const container = document.getElementById('app'),
   root = createRoot(container)
 
+const mixpanelUrl = import.meta.env.VITE_MIXPANEL_URL
 const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
 const mistralApiKey = import.meta.env.VITE_MISTRAL_AI_API_KEY
+const tolgeeUrl = import.meta.env.VITE_TOLGEE_URL
 const tolgeeApiKey = import.meta.env.VITE_TOLGEE_API_KEY
 
 // Mixpanel
 if (globalConfig.env.isMixpanelEnabled) {
   mixpanel.init(mixpanelToken as string, {
-    api_host: 'https://api-eu.mixpanel.com',
+    api_host: mixpanelUrl,
     debug: globalConfig.env.isDev,
     disable_persistence: true,
     disable_cookie: true,
@@ -107,17 +109,12 @@ if (globalConfig.env.isSupabaseEnabled)
 if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
 
 // Tolgee
-const tolgee = initTolgee(
-  'https://translate.yelbolt.co',
-  tolgeeApiKey,
-  globalConfig.lang,
-  {
-    'en-US': en_US,
-    'fr-FR': fr_FR,
-    'pt-BR': pt_BR,
-    'zh-Hans-CN': zh_Hans_CN,
-  }
-)
+const tolgee = initTolgee(tolgeeUrl, tolgeeApiKey, globalConfig.lang, {
+  'en-US': en_US,
+  'fr-FR': fr_FR,
+  'pt-BR': pt_BR,
+  'zh-Hans-CN': zh_Hans_CN,
+})
 
 // Bridge Canvas <> UI
 window.addEventListener(
