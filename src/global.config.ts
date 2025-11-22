@@ -638,6 +638,8 @@ const specConfig: SpecConfig = {
 const globalConfig: Config = {
   limits: {
     pageSize: 20,
+    minWidth: 240,
+    minHeight: 420,
   },
   env: {
     ...specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].env,
@@ -652,7 +654,7 @@ const globalConfig: Config = {
   },
   plan: {
     isProEnabled: import.meta.env.VITE_PRO_ENABLED === 'true',
-    isTrialEnabled: false,
+    isTrialEnabled: import.meta.env.VITE_TRIAL_ENABLED === 'true',
     trialTime: 72,
     creditsLimit: 400,
     creditsRenewalPeriodDays: 1,

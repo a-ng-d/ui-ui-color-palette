@@ -286,10 +286,10 @@ export default class Shortcuts extends PureComponent<
     const scaleX = Math.abs(origin.x - cursor.x - shift.x),
       scaleY = Math.abs(origin.y - cursor.y - shift.y)
 
-    if (scaleX > 640) windowSize.w = scaleX
-    else windowSize.w = 640
-    if (scaleY > 420) windowSize.h = scaleY
-    else windowSize.h = 420
+    if (scaleX > this.props.config.limits.minWidth) windowSize.w = scaleX
+    else windowSize.w = this.props.config.limits.minWidth
+    if (scaleY > this.props.config.limits.minHeight) windowSize.h = scaleY
+    else windowSize.h = this.props.config.limits.minHeight
 
     sendPluginMessage(
       {
@@ -313,8 +313,8 @@ export default class Shortcuts extends PureComponent<
         pluginMessage: {
           type: 'RESIZE_UI',
           data: {
-            width: 640,
-            height: 420,
+            width: this.props.config.limits.minWidth,
+            height: this.props.config.limits.minHeight,
           },
         },
       },
