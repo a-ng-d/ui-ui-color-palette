@@ -197,7 +197,7 @@
     "lch": {
       "label": "LCH"
     },
-    "moreParameters": "{count} 个参数",
+    "moreParameters": "{colorName} 个参数",
     "title": "源颜色"
   },
   "contexts": {
@@ -1070,7 +1070,7 @@
       "message": "创建颜色模式以在单个调色板中管理多个颜色调色板（例如浅色和深色模式）"
     },
     "defaultName": "未命名 UI 模式",
-    "moreParameters": "{count} 个参数",
+    "moreParameters": "{themeName} 个参数",
     "noneTheme": "无",
     "paletteBackgroundColor": {
       "label": "文档背景"

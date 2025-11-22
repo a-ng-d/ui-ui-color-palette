@@ -962,7 +962,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
                       return {
                         title: this.props.t('colors.moreParameters', {
-                          count: color.name,
+                          colorName: color.name,
                         }),
                         node: (() => (
                           <>

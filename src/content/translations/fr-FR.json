@@ -35,7 +35,7 @@
         "microsoft": "Microsoft Fluent",
         "openColor": "Open Color",
         "radix": "Radix",
-        "sentence": "• Les préréglages d'échelle de couleurs inspirés par {antDesign}, {bootstrap}, {tailwind}, {material}, {untitledUI}, {openColor}, {radix}, {atlassian}, {shopify}, {uber}, {microsoft}, {ibm}, et {adobe}.",
+        "sentence": "• Les préréglages d'échelle de couleurs sont inspirés par {antDesign}, {bootstrap}, {tailwind}, {material}, {untitledUI}, {openColor}, {radix}, {atlassian}, {shopify}, {uber}, {microsoft}, {ibm}, et {adobe}.",
         "shopify": "Shopify Polaris",
         "tailwind": "Tailwind",
         "uber": "Uber Base",
@@ -188,16 +188,16 @@
       "message": "Créez une couleur source pour la diviser en plusieurs nuances/teintes selon votre échelle de luminosité"
     },
     "chromaShifting": {
-      "label": "Décaler la chroma"
+      "label": "Décalage de la chroma"
     },
     "defaultName": "UI Color sans titre",
     "hueShifting": {
-      "label": "Décaler la teinte"
+      "label": "Décalage de la teinte"
     },
     "lch": {
       "label": "LCH"
     },
-    "moreParameters": "{count} paramètres",
+    "moreParameters": "Paramètres de {colorName}",
     "title": "Couleurs sources"
   },
   "contexts": {
@@ -438,7 +438,7 @@
     "apca": "Scores APCA",
     "avoid": "Éviter",
     "base": "Base",
-    "bodyText": "Texte de corps",
+    "bodyText": "Texte courant",
     "closest": "Le plus proche de la source",
     "colorSpace": "Espace colorimétrique : {name}",
     "contentText": "Texte de contenu",
@@ -447,7 +447,7 @@
     "fontSize": "Tailles de police minimales",
     "headlines": "Titres",
     "locked": "Couleur source verrouillée",
-    "nonText": "Non-texte",
+    "nonText": "Non-textuel",
     "pass": "Réussi",
     "preset": "Préréglage : {name}",
     "provider": "Fournisseur : {name}",
@@ -863,8 +863,8 @@
     "store": "Découvrir plus de produits",
     "tooltips": {
       "documentation": "Lire la documentation",
-      "helpMenu": "Menu d'aide/support",
-      "userMenu": "Menu utilisateur"
+      "helpMenu": "Menu d'aide et support",
+      "userMenu": "Menu de l'utilisateur"
     }
   },
   "source": {
@@ -1070,7 +1070,7 @@
       "message": "Créez des modes de couleur pour gérer plusieurs palettes de couleurs dans une seule (ex. modes clair et sombre)"
     },
     "defaultName": "UI Color Mode sans titre",
-    "moreParameters": "{count} paramètres",
+    "moreParameters": "Paramètres de {themeName}",
     "noneTheme": "Aucun",
     "paletteBackgroundColor": {
       "label": "Arrière-plan du document"

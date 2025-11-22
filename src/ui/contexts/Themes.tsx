@@ -671,7 +671,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                       secondarySlot={customThemes.map((theme) => {
                         return {
                           title: this.props.t('themes.moreParameters', {
-                            count: theme.name,
+                            themeName: theme.name,
                           }),
                           node: (() => (
                             <>

@@ -197,7 +197,7 @@
     "lch": {
       "label": "LCH"
     },
-    "moreParameters": "{count} parâmetros",
+    "moreParameters": "Parâmetros de {colorName}",
     "title": "Cores-fonte"
   },
   "contexts": {
@@ -1070,7 +1070,7 @@
       "message": "Crie modos de cor para gerenciar múltiplas paletas de cores em uma única (ex. modos claro e escuro)"
     },
     "defaultName": "UI Color Mode sem título",
-    "moreParameters": "{count} parâmetros",
+    "moreParameters": "Parâmetros de {themeName}",
     "noneTheme": "Nenhum",
     "paletteBackgroundColor": {
       "label": "Fundo do documento"

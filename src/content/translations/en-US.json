@@ -197,7 +197,7 @@
     "lch": {
       "label": "LCH"
     },
-    "moreParameters": "{count} parameters",
+    "moreParameters": "{colorName} parameters",
     "title": "Source colors"
   },
   "contexts": {
@@ -1070,7 +1070,7 @@
       "message": "Create color modes to manage multiple color palettes within one single (e.g. light and dark modes)"
     },
     "defaultName": "Untitled UI Color Mode",
-    "moreParameters": "{count} parameters",
+    "moreParameters": "{themeName} parameters",
     "noneTheme": "None",
     "paletteBackgroundColor": {
       "label": "Document background"
