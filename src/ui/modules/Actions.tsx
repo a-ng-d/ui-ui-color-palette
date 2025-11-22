@@ -612,7 +612,6 @@ export default class Actions extends PureComponent<
 
   proWarning = (): string => {
     const warningMessage = []
-    console.log($palette.get())
 
     if (
       Actions.features(
