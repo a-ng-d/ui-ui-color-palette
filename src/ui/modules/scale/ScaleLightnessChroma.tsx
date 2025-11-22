@@ -1,11 +1,9 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
-  Contrast,
   ExchangeConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
-  TextColorsThemeConfiguration,
   EasingConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
@@ -17,12 +15,10 @@ import {
   DropdownOption,
   layouts,
   Menu,
-  MultipleSlider,
   SectionTitle,
   Select,
   SemanticMessage,
   SimpleItem,
-  SimpleSlider,
   texts,
 } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -35,6 +31,8 @@ import { defaultPreset, presets } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
+import Lightness from './Lightness'
+import Chroma from './Chroma'
 import type { AppStates } from '../../App'
 
 interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -43,7 +41,7 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
-  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  textColorsTheme: { lightColor: string; darkColor: string }
   onChangePreset: React.Dispatch<Partial<AppStates>>
   onChangeScale: () => void
   onAddStop: React.Dispatch<Partial<AppStates>>
@@ -155,195 +153,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
   }
 
   // Handlers
-  shiftHandler = (feature: string, state: string, value: number) => {
-    const onReleaseStop = () => {
-      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-      this.scaleMessage.feature = feature
-
-      this.props.onChangeShift(feature, state, value)
-
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-    }
-
-    const onChangeStop = () => {
-      this.palette.setKey('shift.chroma', value)
-
-      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-      this.scaleMessage.feature = feature
-
-      this.props.onChangeShift(feature, state, value)
-
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-    }
-
-    const onTypeStopValue = () => {
-      this.palette.setKey('shift.chroma', value)
-
-      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-
-      this.props.onChangeShift(feature, state, value)
-
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-    }
-
-    const onUpdatingStop = () => {
-      this.palette.setKey('shift.chroma', value)
-      this.props.onChangeShift(feature, state, value)
-    }
-
-    const actions: {
-      [action: string]: () => void
-    } = {
-      RELEASED: () => onReleaseStop(),
-      SHIFTED: () => onChangeStop(),
-      TYPED: () => onTypeStopValue(),
-      UPDATING: () => onUpdatingStop(),
-      DEFAULT: () => null,
-    }
-
-    return actions[state ?? 'DEFAULT']?.()
-  }
-
-  lightnessHandler = (
-    state: string,
-    results: {
-      scale: Record<string, number>
-      stops?: Array<number>
-      min?: number
-      max?: number
-    },
-    feature?: string
-  ) => {
-    const onReleaseStop = () => {
-      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-      this.scaleMessage.feature = feature
-
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-    }
-
-    const onChangeStop = () => {
-      this.palette.setKey('scale', results.scale)
-      if (feature === 'ADD_STOP' || feature === 'DELETE_STOP')
-        this.palette.setKey('preset.stops', results.stops ?? [])
-
-      const lightForegroundRatio = {} as ScaleConfiguration
-      const darkForegroundRatio = {} as ScaleConfiguration
-
-      Object.entries(results.scale).forEach(([key, value]) => {
-        lightForegroundRatio[key] = parseFloat(
-          new Contrast({
-            textColor: this.props.textColorsTheme.lightColor,
-          })
-            .getContrastRatioForLightness(value)
-            .toFixed(1)
-        )
-        darkForegroundRatio[key] = parseFloat(
-          new Contrast({
-            textColor: this.props.textColorsTheme.darkColor,
-          })
-            .getContrastRatioForLightness(value)
-            .toFixed(1)
-        )
-      })
-
-      this.setState({
-        ratioLightForeground: lightForegroundRatio,
-        ratioDarkForeground: darkForegroundRatio,
-      })
-
-      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-      this.scaleMessage.feature = feature
-
-      this.props.onChangeScale()
-
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-    }
-
-    const onTypeStopValue = () => {
-      this.palette.setKey('scale', results.scale)
-
-      const lightForegroundRatio = {} as ScaleConfiguration
-      const darkForegroundRatio = {} as ScaleConfiguration
-
-      Object.entries(results.scale).forEach(([key, value]) => {
-        lightForegroundRatio[key] = parseFloat(
-          new Contrast({
-            textColor: this.props.textColorsTheme.lightColor,
-          })
-            .getContrastRatioForLightness(value)
-            .toFixed(1)
-        )
-        darkForegroundRatio[key] = parseFloat(
-          new Contrast({
-            textColor: this.props.textColorsTheme.darkColor,
-          })
-            .getContrastRatioForLightness(value)
-            .toFixed(1)
-        )
-      })
-
-      this.setState({
-        ratioLightForeground: lightForegroundRatio,
-        ratioDarkForeground: darkForegroundRatio,
-      })
-
-      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-
-      this.props.onChangeScale()
-
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-    }
-
-    const onUpdatingStop = () => {
-      const lightForegroundRatio = {} as ScaleConfiguration
-      const darkForegroundRatio = {} as ScaleConfiguration
-
-      Object.entries(results.scale).forEach(([key, value]) => {
-        lightForegroundRatio[key] = parseFloat(
-          new Contrast({
-            textColor: this.props.textColorsTheme.lightColor,
-          })
-            .getContrastRatioForLightness(value)
-            .toFixed(1)
-        )
-        darkForegroundRatio[key] = parseFloat(
-          new Contrast({
-            textColor: this.props.textColorsTheme.darkColor,
-          })
-            .getContrastRatioForLightness(value)
-            .toFixed(1)
-        )
-      })
-
-      this.palette.setKey('scale', results.scale)
-
-      this.setState({
-        ratioLightForeground: lightForegroundRatio,
-        ratioDarkForeground: darkForegroundRatio,
-      })
-
-      this.props.onChangeScale()
-    }
-
-    const actions: {
-      [action: string]: () => void
-    } = {
-      RELEASED: () => onReleaseStop(),
-      SHIFTED: () => onChangeStop(),
-      TYPED: () => onTypeStopValue(),
-      UPDATING: () => onUpdatingStop(),
-      DEFAULT: () => null,
-    }
-
-    return actions[state ?? 'DEFAULT']?.()
-  }
-
   presetsHandler = (e: Event) => {
     const scale = (preset: PresetConfiguration) =>
       doScale(
@@ -1199,97 +1008,23 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               </div>
             )}
         </div>
-        <Feature
-          isActive={ScaleLightnessChroma.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONFIGURATION.isActive()}
-        >
-          <MultipleSlider
-            {...this.props}
-            type="EDIT"
-            stops={{
-              list: this.props.preset.stops,
-              min: Infinity,
-              max: Infinity,
-            }}
-            range={{
-              min: 0,
-              max: 100,
-            }}
-            colors={{
-              min: 'black',
-              max: 'white',
-            }}
-            tips={{
-              minMax: this.props.t('scale.tips.distributeAsTooltip'),
-            }}
-            isBlocked={ScaleLightnessChroma.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isBlocked()}
-            isNew={ScaleLightnessChroma.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isNew()}
-            onChange={this.lightnessHandler}
-          />
-        </Feature>
-        <Feature
-          isActive={ScaleLightnessChroma.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CHROMA.isActive()}
-        >
-          <SimpleSlider
-            id="update-chroma"
-            label={this.props.t('scale.shift.chroma.label')}
-            value={this.props.shift.chroma}
-            min={0}
-            max={200}
-            colors={{
-              min: 'hsl(187, 0%, 75%)',
-              max: 'hsl(187, 100%, 75%)',
-            }}
-            warning={
-              this.props.service === 'CREATE' &&
-              this.props.shift.chroma !== 100 &&
-              ScaleLightnessChroma.features(
-                this.props.planStatus,
-                this.props.config,
-                'EDIT',
-                this.props.editor
-              ).SCALE_CHROMA.isBlocked()
-                ? {
-                    label: this.props.t('scale.shift.chroma.warning'),
-                    type: 'MULTI_LINE',
-                  }
-                : undefined
-            }
-            feature="SHIFT_CHROMA"
-            isBlocked={ScaleLightnessChroma.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CHROMA.isBlocked()}
-            isNew={ScaleLightnessChroma.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CHROMA.isNew()}
-            onChange={this.shiftHandler}
-          />
-        </Feature>
+        <Lightness
+          {...this.props}
+          id={this.props.id}
+          preset={this.props.preset}
+          scale={this.props.scale}
+          distributionEasing={this.props.distributionEasing}
+          textColorsTheme={this.props.textColorsTheme}
+          documentWidth={this.props.documentWidth}
+          onChangeScale={this.props.onChangeScale}
+          onChangeThemes={this.props.onChangeThemes}
+        />
+        <Chroma
+          {...this.props}
+          id={this.props.id}
+          shift={this.props.shift}
+          onChangeShift={this.props.onChangeShift}
+        />
       </>
     )
   }
@@ -1495,131 +1230,23 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
               </div>
             )}
         </div>
-        <Feature
-          isActive={ScaleLightnessChroma.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONFIGURATION.isActive()}
-        >
-          {this.props.preset.id.includes('CUSTOM') ? (
-            <MultipleSlider
-              {...this.props}
-              type="FULLY_EDIT"
-              stops={{
-                list: this.props.preset.stops,
-                min: 2,
-                max: ScaleLightnessChroma.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length)
-                  ? ScaleLightnessChroma.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PRESETS_CUSTOM_ADD.limit
-                  : 24,
-              }}
-              range={{
-                min: 0,
-                max: 100,
-                step: 0.1,
-              }}
-              colors={{
-                min: 'black',
-                max: 'white',
-              }}
-              tips={{
-                minMax: this.props.t('scale.tips.distributeAsTooltip'),
-              }}
-              isBlocked={ScaleLightnessChroma.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_CONFIGURATION.isBlocked()}
-              isNew={ScaleLightnessChroma.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_CONFIGURATION.isNew()}
-              onChange={this.lightnessHandler}
-            />
-          ) : (
-            <MultipleSlider
-              {...this.props}
-              type="EDIT"
-              stops={{
-                list: this.props.preset.stops,
-                min: Infinity,
-                max: Infinity,
-              }}
-              range={{
-                min: 0,
-                max: 100,
-              }}
-              colors={{
-                min: 'black',
-                max: 'white',
-              }}
-              tips={{
-                minMax: this.props.t('scale.tips.distributeAsTooltip'),
-              }}
-              isBlocked={ScaleLightnessChroma.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_CONFIGURATION.isBlocked()}
-              isNew={ScaleLightnessChroma.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_CONFIGURATION.isNew()}
-              onChange={this.lightnessHandler}
-            />
-          )}
-        </Feature>
-        <Feature
-          isActive={ScaleLightnessChroma.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CHROMA.isActive()}
-        >
-          <SimpleSlider
-            id="update-chroma"
-            label={this.props.t('scale.shift.chroma.label')}
-            value={this.props.shift.chroma}
-            min={0}
-            max={200}
-            colors={{
-              min: 'hsl(187, 0%, 75%)',
-              max: 'hsl(187, 100%, 75%)',
-            }}
-            feature="SHIFT_CHROMA"
-            isBlocked={ScaleLightnessChroma.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CHROMA.isBlocked()}
-            isNew={ScaleLightnessChroma.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CHROMA.isNew()}
-            onChange={this.shiftHandler}
-          />
-        </Feature>
+        <Lightness
+          {...this.props}
+          id={this.props.id}
+          preset={this.props.preset}
+          scale={this.props.scale}
+          distributionEasing={this.props.distributionEasing}
+          textColorsTheme={this.props.textColorsTheme}
+          documentWidth={this.props.documentWidth}
+          onChangeScale={this.props.onChangeScale}
+          onChangeThemes={this.props.onChangeThemes}
+        />
+        <Chroma
+          {...this.props}
+          id={this.props.id}
+          shift={this.props.shift}
+          onChangeShift={this.props.onChangeShift}
+        />
       </>
     )
   }
