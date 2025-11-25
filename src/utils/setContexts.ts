@@ -294,7 +294,7 @@ export const setContexts = (
       isActive: featuresList.SETTINGS.isActive(),
     },
     {
-      label: 'Properties',
+      label: locales('contexts.properties'),
       id: 'PROPERTIES',
       isUpdated: false,
       isNew: featuresList.PROPERTIES.isNew(),
