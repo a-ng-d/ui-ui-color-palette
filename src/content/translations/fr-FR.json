@@ -23,7 +23,7 @@
       },
       "preact": {
         "preact": "Preact",
-        "sentence": "• L'interface utilisateur est construite avec {preact}"
+        "sentence": "• L'interface utilisateur est faite avec {preact}"
       },
       "presets": {
         "adobe": "Adobe Spectrum",
@@ -144,7 +144,7 @@
     "deletePaletteDialog": {
       "cancel": "Annuler",
       "delete": "Supprimer la palette",
-      "message": "Vous êtes sur le point de supprimer la palette \"{name}\". Cette action est irréversible.",
+      "message": "Vous êtes sur le point de supprimer la palette « {name} ». Cette action est irréversible.",
       "title": "Supprimer la palette"
     },
     "document": {
@@ -205,6 +205,7 @@
     "colors": "Couleurs",
     "export": "Export",
     "palettes": "Palettes",
+    "properties": "Propriétés",
     "scale": "Échelle",
     "settings": "Paramètres",
     "source": "Sources",
@@ -239,20 +240,20 @@
     "generic": "Quelque chose s'est mal passé",
     "noInternetConnection": "La connexion avec la palette distante est rompue",
     "nonPublication": "La palette ne peut pas être dépubliée",
-    "onboarding": "L'intégration ne peut pas être chargée",
+    "onboarding": "Le onboarding ne peut pas être chargée",
     "openPalette": "La palette ne peut pas être ouverte",
     "palette": "La palette ne peut pas être créée",
     "paletteSizeExceeded": "La taille de la palette dépasse la limite. Veuillez réduire le nombre de modes de couleur, couleurs sources ou nuances/teintes.",
     "palettesPicking": "Les palettes ne peuvent pas être sélectionnées pour l'instant",
     "publication": "La palette ne peut pas être publiée",
     "share": "La palette n'a pas été partagée avec la communauté",
-    "starPalette": "La palette ne peut pas être marquée",
+    "starPalette": "La palette ne peut pas être ajoutée aux favoris",
     "styles": "Les styles ne peuvent pas être synchronisés",
     "synchronization": "La palette n'a pas été synchronisée",
     "timeout": "L'authentification a expiré",
     "unavailableAi": "Le service IA est actuellement indisponible. Veuillez réessayer plus tard.",
     "unfoundPalette": "La palette n'a pas été trouvée",
-    "unlinkedLicense": "Votre clé de licence \"{licenseKey}\" n'est plus valide ou ne peut pas être dissociée à distance. Veuillez la dissocier localement pour la remplacer par une nouvelle. Si le problème persiste, veuillez contacter le support.",
+    "unlinkedLicense": "Votre clé de licence « {licenseKey} » n'est plus valide ou ne peut pas être dissociée à distance. Veuillez la dissocier localement pour la remplacer par une nouvelle. Si le problème persiste, veuillez contacter le support.",
     "unshare": "La palette n'a pas été retirée de la communauté"
   },
   "events": {
@@ -353,10 +354,10 @@
       "noneSingle": "1 mode créé",
       "pluralNone": "{variableCount} variables créées",
       "pluralPlural": "{variableCount} variables et {modeCount} modes créés",
-      "pluralSingle": "{variableCount} variables et 1 mode créé",
+      "pluralSingle": "{variableCount} variables et 1 mode créés",
       "singleNone": "1 variable créée",
       "singlePlural": "1 variable et {modeCount} modes créés",
-      "singleSingle": "1 variable et mode créé"
+      "singleSingle": "1 variable et mode créés"
     },
     "maxNumberOfLocalPalettes": {
       "plural": "Passez à /pro pour ajouter plus de {maxCount} palettes locales",
@@ -397,10 +398,10 @@
       "noneSingle": "1 mode supprimé",
       "pluralNone": "{variableCount} variables supprimées",
       "pluralPlural": "{variableCount} variables et {modeCount} modes supprimés",
-      "pluralSingle": "{variableCount} variables et 1 mode supprimé",
+      "pluralSingle": "{variableCount} variables et 1 mode supprimés",
       "singleNone": "1 variable supprimée",
       "singlePlural": "1 variable et {modeCount} modes supprimés",
-      "singleSingle": "1 variable et mode supprimé"
+      "singleSingle": "1 variable et mode supprimés"
     },
     "signOut": "À bientôt",
     "themesOnFree": "Passez à /pro pour ajouter ou modifier des modes",
@@ -439,7 +440,7 @@
     "avoid": "Éviter",
     "base": "Base",
     "bodyText": "Texte courant",
-    "closest": "Le plus proche de la source",
+    "closest": "Proche de la source",
     "colorSpace": "Espace colorimétrique : {name}",
     "contentText": "Texte de contenu",
     "fail": "Échec",
@@ -509,7 +510,7 @@
       "visionSimulationMode": "Simulation de vision"
     },
     "closest": {
-      "tag": "Le plus proche"
+      "tag": "Proche"
     },
     "lock": {
       "label": "Verrouiller les couleurs sources",
@@ -576,7 +577,7 @@
       "title": "Souhaitez-vous passer au forfait /pro dans les prochaines {hours} heures ?"
     },
     "welcome": {
-      "cta": "Construisons",
+      "cta": "Allons-y",
       "message": "Cette mise à niveau débloquera une gamme d'outils qui vous permettent de déployer et transférer votre palette de couleurs. Nous espérons que vous apprécierez les avantages.",
       "title": "Bienvenue dans UI Color Palette /pro !",
       "trial": "Cette mise à niveau débloquera une gamme d'outils qui vous permettent de déployer et transférer votre palette de couleurs. Nous espérons que vous apprécierez les avantages pendant les prochaines {hours} heures."
@@ -731,7 +732,7 @@
       "shiftLeft": "Décaler l'étape vers la gauche",
       "shiftRight": "Décaler l'étape vers la droite",
       "title": "Raccourcis clavier",
-      "type": "Taper la valeur de l'étape",
+      "type": "Saisir la valeur de l'étape",
       "unselect": "Désélectionner l'étape"
     },
     "title": "Échelle de luminosité"

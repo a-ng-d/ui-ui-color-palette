@@ -74,7 +74,7 @@
     "title": "关于 UI Color Palette"
   },
   "actions": {
-    "addToLocal": "添加到本地",
+    "addToLocal": "添加到本地库",
     "addToSource": "添加到源颜色",
     "colorThemesNumber": {
       "several": "{count} 种颜色模式",
@@ -167,7 +167,7 @@
     },
     "search": "搜索调色板",
     "signInFirst": {
-      "message": "登录后查找和使用您自己的收藏调色板",
+      "message": "登录后查找和使用您收藏的调色板",
       "signIn": "登录以获取您的调色板"
     }
   },
@@ -205,6 +205,7 @@
     "colors": "颜色",
     "export": "导出",
     "palettes": "调色板",
+    "properties": "性能",
     "scale": "比例",
     "settings": "设置",
     "source": "源",
@@ -274,7 +275,7 @@
   "export": {
     "actions": {
       "copyCode": "复制代码到剪贴板",
-      "selectColorSpace": "选择颜色空间"
+      "selectColorSpace": "选择颜色模版"
     },
     "android": {
       "compose": "Compose (KT)",
@@ -289,7 +290,7 @@
     "colorSpace": {
       "hex": "HEX",
       "hsl": "HSL",
-      "label": "颜色空间",
+      "label": "颜色模版",
       "lch": "LCH",
       "oklch": "OKLCH",
       "p3": "P3",
@@ -440,7 +441,7 @@
     "base": "基础",
     "bodyText": "正文文本",
     "closest": "最接近源",
-    "colorSpace": "颜色空间：{name}",
+    "colorSpace": "颜色模版：{name}",
     "contentText": "内容文本",
     "fail": "失败",
     "fluentText": "流畅文本",
@@ -502,7 +503,7 @@
   "preview": {
     "actions": {
       "collapsePreview": "收起预览",
-      "colorSpace": "颜色空间",
+      "colorSpace": "颜色模版",
       "displayScores": "显示分数",
       "expandPreview": "展开预览",
       "resetImportedColors": "重置导入的颜色",
@@ -758,7 +759,7 @@
       "lightnessScale": "亮度比例",
       "settings": {
         "algorithmVersion": "色度速度",
-        "colorSpace": "颜色空间",
+        "colorSpace": "颜色模版",
         "description": "描述",
         "lockedSourceColors": "锁定源颜色",
         "name": "调色板名称",
@@ -791,7 +792,7 @@
         "hsl": "HSL",
         "hsluv": "HSLuv",
         "lab": "CIELAB",
-        "label": "颜色空间",
+        "label": "颜色模版",
         "lch": "LCH",
         "oklab": "OKLAB",
         "oklch": "OKLCH",
@@ -953,20 +954,20 @@
             "vintage": "复古"
           },
           "usecases": {
-            "blog": "温暖易读排版的个人博客",
+            "blog": "使用亲切、易阅读字体的个人博客设计",
             "documentation": "层次清晰的技术文档",
             "ecommerce": "注重转化的电商店铺颜色",
-            "landing": "科技创业公司的现代着陆页",
+            "landing": "科技新创团队风格的现代化首页设计",
             "portfolio": "展示艺术作品的创意作品集",
-            "resume": "干净自信颜色的专业简历"
+            "resume": "采用清爽且稳重色彩的专业履历设计"
           },
           "vibes": {
-            "corporate": "可信赖颜色的专业企业设计",
-            "cyberpunk": "霓虹口音的赛博朋克未来界面",
-            "minimalist": "微妙对比的简洁极简设计",
-            "nature": "森林山脉启发的自然大地色调",
-            "pastel": "温和友好界面的柔和粉彩色",
-            "vintage": "温暖柔和颜色的复古美学"
+            "corporate": "专业稳重的企业级设计，搭配可信赖的色彩体系",
+            "cyberpunk": "霓虹光效的赛博朋克式未来界面",
+            "minimalist": "干净极简并带有细腻对比的设计",
+            "nature": "灵感源自森林与山脉的自然大地色调",
+            "pastel": "打造亲切友善的界面风格的柔和粉彩",
+            "vintage": "温暖柔和配色的复古怀旧视觉风格"
           }
         },
         "prompt": {
@@ -1162,7 +1163,7 @@
   },
   "warning": {
     "emptySourceColors": "没有源颜色。在颜色部分手动添加它们。",
-    "hslColorSpace": "HSL 颜色空间可能在调色板中包含源颜色，但这种方法不能确保亮度和对比度的一致性。",
+    "hslColorSpace": "HSL 颜色模版可能在调色板中包含源颜色，但这种方法不能确保亮度和对比度的一致性。",
     "noCommunityPaletteOnRemote": "这里很空！成为第一个与其他用户分享调色板的人！",
     "noOrgPalettes": "这里没有组织调色板。请向应用作者申请。",
     "noPaletteOnCurrentPageOnDevMode": "您可以请求具有编辑权限的成员创建",
