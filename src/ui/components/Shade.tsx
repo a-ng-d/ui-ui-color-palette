@@ -15,11 +15,11 @@ import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
 import { WithConfigProps } from './WithConfig'
 import Feature from './Feature'
-import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
 
 interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   index: number
