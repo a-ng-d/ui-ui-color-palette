@@ -38,7 +38,10 @@ import {
   Editor,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
-import { trackActionEvent } from '../../external/tracking/eventsTracker'
+import {
+  trackActionEvent,
+  trackPreviewManagementEvent,
+} from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { AppStates } from '../App'
 
@@ -321,6 +324,20 @@ export default class CreatePalette extends PureComponent<
     this.setState({
       context: 'SOURCE',
     })
+
+    trackPreviewManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'JUMP_TO_COLOR',
+      }
+    )
   }
 
   onCancelPalette = () => {

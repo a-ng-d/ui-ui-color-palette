@@ -62,6 +62,7 @@ import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
 import {
   trackActionEvent,
+  trackPreviewManagementEvent,
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -816,6 +817,20 @@ export default class EditPalette extends PureComponent<
     this.setState({
       context: 'COLORS',
     })
+
+    trackPreviewManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'JUMP_TO_COLOR',
+      }
+    )
   }
 
   // Render

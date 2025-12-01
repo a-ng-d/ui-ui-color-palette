@@ -19,6 +19,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
 import { WithConfigProps } from './WithConfig'
 import Feature from './Feature'
+import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
 
 interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   index: number
@@ -122,6 +123,20 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           },
         },
         '*'
+      )
+
+      trackPreviewManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId === ''
+          ? this.props.userIdentity.id === ''
+            ? ''
+            : this.props.userIdentity.id
+          : this.props.userSession.userId,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'COPY_COLOR_HEX',
+        }
       )
     } catch (error) {
       console.error(error)
