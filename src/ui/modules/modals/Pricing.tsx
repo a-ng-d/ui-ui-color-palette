@@ -1,7 +1,20 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, Card, Dialog, layouts, Tabs, texts } from '@a_ng_d/figmug-ui'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
+import {
+  Button,
+  Card,
+  Dialog,
+  layouts,
+  SemanticMessage,
+  Tabs,
+  texts,
+} from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -14,6 +27,7 @@ import {
   PlanStatus,
   Service,
 } from '../../../types/app'
+import { $palette } from '../../../stores/palette'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import uicpo from '../../../content/images/uicp_one.webp'
 import uicp from '../../../content/images/uicp_figma.webp'
@@ -25,7 +39,11 @@ interface PricingProps
     WithConfigProps,
     WithTranslationProps {
   plans: Plans
+  sourceColors: Array<SourceColorConfiguration>
+  preset: PresetConfiguration
+  scale: ScaleConfiguration
   onManageLicense: React.Dispatch<Partial<AppStates>>
+  onSkipAndResetPalette: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -45,6 +63,105 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     PRO_PLAN: new FeatureStatus({
       features: config.features,
       featureName: 'PRO_PLAN',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PRESETS_CUSTOM_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'PRESETS_CUSTOM_ADD',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+
+    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SCALE_CHROMA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_CHROMA',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -82,6 +199,125 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     this.setState({
       context: newContext,
     })
+  }
+
+  canSavePalette = (): boolean => {
+    if (
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
+    )
+      return false
+    if (
+      $palette.get().preset.id.includes('CUSTOM') &&
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
+    )
+      return false
+    if (
+      $palette.get().areSourceColorsLocked &&
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
+    )
+      return false
+    if (
+      $palette.get().shift.chroma !== 100 &&
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      ).SCALE_CHROMA.isBlocked()
+    )
+      return false
+    if (
+      $palette.get().visionSimulationMode !== 'NONE' &&
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      )[
+        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+      ].isBlocked()
+    )
+      return false
+    return true
+  }
+
+  refinedNumberOfSourceColors = (): number => {
+    if (this.props.sourceColors.length > 1)
+      return this.props.sourceColors.filter(
+        (color) => color.source !== 'DEFAULT'
+      ).length
+    return this.props.sourceColors.length
+  }
+
+  // Direct Actions
+  onSkipAndResetPalette = () => {
+    let updatedPreset = this.props.preset
+    let updatedStops = this.props.preset.stops
+
+    if (this.props.preset.id.includes('CUSTOM')) {
+      const limit =
+        Pricing.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).PRESETS_CUSTOM_ADD.limit ?? 0
+      const currentStopsCount = this.props.preset.stops?.length ?? 0
+
+      if (limit > 0 && currentStopsCount > limit) {
+        updatedStops = this.props.preset.stops?.slice(0, limit) ?? []
+        updatedPreset = {
+          ...this.props.preset,
+          stops: updatedStops,
+        }
+        $palette.setKey('preset', updatedPreset)
+      }
+    }
+
+    $palette.setKey('areSourceColorsLocked', false)
+    $palette.setKey('visionSimulationMode', 'NONE')
+    $palette.setKey('shift.chroma', 100)
+    $palette.setKey(
+      'scale',
+      doScale(
+        updatedStops,
+        this.props.preset.min,
+        this.props.preset.max,
+        this.props.preset.easing
+      )
+    )
+
+    this.props.onSkipAndResetPalette({
+      preset: updatedPreset,
+      areSourceColorsLocked: false,
+      visionSimulationMode: 'NONE',
+      shift: {
+        chroma: 100,
+      },
+      scale: doScale(
+        updatedStops,
+        this.props.preset.min,
+        this.props.preset.max,
+        this.props.preset.easing
+      ),
+    })
+
+    this.props.onClose()
   }
 
   // Templates
@@ -178,7 +414,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         richText={
           <span
-              className={texts.type}
+            className={texts.type}
             dangerouslySetInnerHTML={{
               __html: this.props.t('pricing.oneFigma.text'),
             }}
@@ -405,6 +641,19 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               boxSizing: 'border-box',
             }}
           >
+            {!this.canSavePalette() && this.props.service === 'CREATE' && (
+              <SemanticMessage
+                type="WARNING"
+                message={this.props.t('pricing.limit.message')}
+                actionsSlot={
+                  <Button
+                    type="secondary"
+                    label={this.props.t('pricing.limit.cta')}
+                    action={this.onSkipAndResetPalette}
+                  />
+                }
+              />
+            )}
             <div
               style={{
                 display: isFlex ? 'block' : 'flex',

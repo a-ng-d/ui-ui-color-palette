@@ -38,6 +38,7 @@ interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
   plans: Plans
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onManageLicense: React.Dispatch<Partial<AppStates>>
+  onSkipAndResetPalette: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -112,7 +113,14 @@ export default class Modal extends PureComponent<ModalProps> {
           {this.props.context === 'STORE' && <Store {...this.props} />}
           {this.props.context === 'ABOUT' && <About {...this.props} />}
           {this.props.context === 'TRY' && <TryPro {...this.props} />}
-          {this.props.context === 'PRICING' && <Pricing {...this.props} />}
+          {this.props.context === 'PRICING' && (
+            <Pricing
+              {...this.props}
+              sourceColors={this.props.rawData.sourceColors}
+              scale={this.props.rawData.scale}
+              preset={this.props.rawData.preset}
+            />
+          )}
           {this.props.context === 'WELCOME_TO_TRIAL' && (
             <WelcomeToTrial {...this.props} />
           )}

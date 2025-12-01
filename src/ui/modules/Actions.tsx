@@ -76,10 +76,7 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -94,13 +91,6 @@ export default class Actions extends PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    GET_PRO_PLAN: new FeatureStatus({
-      features: config.features,
-      featureName: 'GET_PRO_PLAN',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     SOURCE: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE',
