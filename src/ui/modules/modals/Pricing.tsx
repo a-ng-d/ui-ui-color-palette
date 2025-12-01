@@ -318,6 +318,18 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     })
 
     this.props.onClose()
+
+    trackPricingEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      { feature: 'RESET_AND_CONTINUE' }
+    )
   }
 
   // Templates

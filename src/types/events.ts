@@ -153,5 +153,10 @@ export interface TourEvent {
 }
 
 export interface PricingEvent {
-  feature: 'VIEW_PRICING' | 'GO_TO_CHECKOUT' | 'GO_TO_ONE' | 'GO_TO_ONE_FIGMA'
+  feature:
+    | 'VIEW_PRICING'
+    | 'GO_TO_CHECKOUT'
+    | 'GO_TO_ONE'
+    | 'GO_TO_ONE_FIGMA'
+    | 'RESET_AND_CONTINUE'
 }
