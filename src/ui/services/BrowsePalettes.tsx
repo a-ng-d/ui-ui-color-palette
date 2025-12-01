@@ -324,12 +324,20 @@ export default class BrowsePalettes extends PureComponent<
               type="secondary"
               label={this.props.t('browse.document.restore')}
               isLoading={this.state.isSecondaryActionLoading}
-              isBlocked={BrowsePalettes.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).DOCUMENT_CREATE.isBlocked()}
+              isBlocked={
+                BrowsePalettes.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).DOCUMENT_CREATE.isBlocked() ||
+                BrowsePalettes.features(
+                  this.props.planStatus,
+                  this.props.config,
+                  this.props.service,
+                  this.props.editor
+                ).LOCAL_PALETTES.isReached(this.state.localPalettesList.length)
+              }
               isNew={BrowsePalettes.features(
                 this.props.planStatus,
                 this.props.config,
