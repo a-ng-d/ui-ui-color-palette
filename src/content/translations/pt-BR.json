@@ -533,26 +533,30 @@
       "title": "Ativar /pro"
     },
     "contexts": {
-      "discount": "Desconto (-50%)",
+      "discount": "Desconto (-30%)",
       "regular": "Regular"
     },
     "discount": {
-      "amount": "50% de desconto",
-      "code": "SAVE50"
+      "amount": "30% de desconto",
+      "code": "SAVE30"
     },
     "figma": {
       "cta": "Ir para /pro apenas para Figma",
       "subtitle": {
-        "discount": "$30 /ano no Figma",
+        "discount": "$42 /ano no Figma",
         "regular": "$5 /mês no Figma"
       },
       "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
       "title": "UI Color Palette /pro /figma"
     },
+    "limit": {
+      "cta": "Reiniciar e continuar",
+      "message": "A paleta não pode ser criada porque você excedeu o limite. Atualize para o /pro ou redefina a paleta para criá-la."
+    },
     "one": {
       "cta": "Obtenha sua licença",
       "subtitle": {
-        "discount": "$35 /vitalício no Figma, Penpot, Sketch, Framer",
+        "discount": "$49 /vitalício no Figma, Penpot, Sketch, Framer",
         "regular": "$70 /vitalício no Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
@@ -561,7 +565,7 @@
     "oneFigma": {
       "cta": "Obtenha sua licença",
       "subtitle": {
-        "discount": "$35 /vitalício no Figma, Penpot, Sketch, Framer",
+        "discount": "$49 /vitalício no Figma, Penpot, Sketch, Framer",
         "regular": "$70 /vitalício no Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ Todos os recursos /figma</br>◻ Para equipes pequenas e grandes</br>◻ Multiplataforma</br>◻ Múltiplas opções de pagamento</br>◻ Plano vitalício",

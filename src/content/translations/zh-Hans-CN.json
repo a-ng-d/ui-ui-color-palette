@@ -533,26 +533,30 @@
       "title": "激活 /pro"
     },
     "contexts": {
-      "discount": "折扣 (-20%)",
+      "discount": "折扣 (-30%)",
       "regular": "常规"
     },
     "discount": {
-      "amount": "50% 优惠",
-      "code": "SAVE50"
+      "amount": "30% 优惠",
+      "code": "SAVE30"
     },
     "figma": {
       "cta": "仅为 Figma 升级 /pro",
       "subtitle": {
-        "discount": "Figma 上每年 $30",
+        "discount": "Figma 上每年 $42",
         "regular": "Figma 上每月 $5"
       },
       "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
       "title": "UI Color Palette /pro /figma"
     },
+    "limit": {
+      "cta": "重置并继续",
+      "message": "无法创建调色板，因为您已超过限制。请升级至 /pro 或重置调色板以创建它。"
+    },
     "one": {
       "cta": "获取您的许可证",
       "subtitle": {
-        "discount": "Figma、Penpot、Sketch、Framer 上终身 $35",
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $49",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
       },
       "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
@@ -561,7 +565,7 @@
     "oneFigma": {
       "cta": "获取您的许可证",
       "subtitle": {
-        "discount": "Figma、Penpot、Sketch、Framer 上终身 $35",
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $49",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $70"
       },
       "text": "◻ 所有 /figma 功能</br>◻ 适用于小型和大型团队</br>◻ 多平台</br>◻ 多种付款选项</br>◻ 终身计划",

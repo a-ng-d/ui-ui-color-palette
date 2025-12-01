@@ -533,26 +533,30 @@
       "title": "Activate /pro"
     },
     "contexts": {
-      "discount": "Discount (-50%)",
+      "discount": "Discount (-30%)",
       "regular": "Regular"
     },
     "discount": {
-      "amount": "50% off",
-      "code": "SAVE50"
+      "amount": "30% off",
+      "code": "SAVE30"
     },
     "figma": {
       "cta": "Go /pro for Figma only",
       "subtitle": {
-        "discount": "$30 /year on Figma",
+        "discount": "$42 /year on Figma",
         "regular": "$5 /month on Figma"
       },
       "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
       "title": "UI Color Palette /pro /figma"
     },
+    "limit": {
+      "cta": "Reset and continue",
+      "message": "The palette cannot be created because you have exceeded the limit. Upgrade to /pro or reset the palette to create it."
+    },
     "one": {
       "cta": "Get your license",
       "subtitle": {
-        "discount": "$35 /lifetime on Figma, Penpot, Sketch, Framer",
+        "discount": "$49 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$70 /lifetime on Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
@@ -561,7 +565,7 @@
     "oneFigma": {
       "cta": "Get your license",
       "subtitle": {
-        "discount": "$35 /lifetime on Figma, Penpot, Sketch, Framer",
+        "discount": "$49 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$70 /lifetime on Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ All /figma features</br>◻ For small and large teams</br>◻ Multi platforms</br>◻ Multi payment options</br>◻ Lifetime plan",
