@@ -2,6 +2,7 @@ import {
   ColorSpaceConfiguration,
   EasingConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { Language } from './translations'
 
 export interface TrialEvent {
   date: number
@@ -159,4 +160,8 @@ export interface PricingEvent {
     | 'GO_TO_ONE'
     | 'GO_TO_ONE_FIGMA'
     | 'RESET_AND_CONTINUE'
+}
+
+export interface LanguageEvent {
+  lang: Language
 }

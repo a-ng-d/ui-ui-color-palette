@@ -16,6 +16,7 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { Language } from '../../types/translations'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { updatePresets } from '../../stores/presets'
+import { trackLanguageEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface LangPreferencesProps
@@ -98,6 +99,18 @@ export default class LangPreferences extends PureComponent<
         },
       },
       '*'
+    )
+
+    trackLanguageEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId === ''
+        ? this.props.userIdentity.id === ''
+          ? ''
+          : this.props.userIdentity.id
+        : this.props.userSession.userId,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      { lang: lang }
     )
   }
 

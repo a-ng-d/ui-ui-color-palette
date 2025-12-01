@@ -4,6 +4,7 @@ import {
   ColorThemeEvent,
   ExportEvent,
   ImportEvent,
+  LanguageEvent,
   PreviewEvent,
   PricingEvent,
   PublicationEvent,
@@ -369,6 +370,26 @@ export const trackPricingEvent = (
       Env: getMixpanelEnv(),
       Editor: getEditor(),
       Feature: options.feature,
+    })
+
+  if (id === '') return
+  if (mixpanel) mixpanel.identify(id)
+}
+
+export const trackLanguageEvent = (
+  isEnabled: boolean,
+  id: string,
+  consent: boolean,
+  options: LanguageEvent
+) => {
+  const mixpanel = getMixpanel()
+
+  if (!consent || !isEnabled) return
+  if (mixpanel)
+    mixpanel.track('Language Updated', {
+      Env: getMixpanelEnv(),
+      Editor: getEditor(),
+      Lang: options.lang,
     })
 
   if (id === '') return
