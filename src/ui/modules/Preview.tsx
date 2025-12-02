@@ -354,11 +354,9 @@ export default class Preview extends PureComponent<
 
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -397,11 +395,9 @@ export default class Preview extends PureComponent<
 
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -447,11 +443,9 @@ export default class Preview extends PureComponent<
 
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -731,11 +725,9 @@ export default class Preview extends PureComponent<
 
                         trackPreviewManagementEvent(
                           this.props.config.env.isMixpanelEnabled,
-                          this.props.userSession.userId === ''
-                            ? this.props.userIdentity.id === ''
-                              ? ''
-                              : this.props.userIdentity.id
-                            : this.props.userSession.userId,
+                          this.props.userSession.userId,
+                          this.props.userIdentity.id,
+                          this.props.planStatus,
                           this.props.userConsent.find(
                             (consent) => consent.id === 'mixpanel'
                           )?.isConsented ?? false,
@@ -786,11 +778,9 @@ export default class Preview extends PureComponent<
 
                         trackPreviewManagementEvent(
                           this.props.config.env.isMixpanelEnabled,
-                          this.props.userSession.userId === ''
-                            ? this.props.userIdentity.id === ''
-                              ? ''
-                              : this.props.userIdentity.id
-                            : this.props.userSession.userId,
+                          this.props.userSession.userId,
+                          this.props.userIdentity.id,
+                          this.props.planStatus,
                           this.props.userConsent.find(
                             (consent) => consent.id === 'mixpanel'
                           )?.isConsented ?? false,

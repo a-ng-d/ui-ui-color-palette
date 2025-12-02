@@ -199,11 +199,9 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
 
         trackPublicationEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -244,11 +242,9 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
       .then(() => {
         trackSignInEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false
         )

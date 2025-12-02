@@ -214,11 +214,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -241,11 +239,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -261,11 +257,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
@@ -320,20 +314,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     const scaleMax = Math.max(...allValues)
 
     const calculatedScale = doScale(stops, scaleMin, scaleMax, tempEasing)
-
-    trackScaleManagementEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'APPLY_EASING',
-      }
-    )
 
     return isInverted
       ? Object.fromEntries(
@@ -639,11 +619,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {

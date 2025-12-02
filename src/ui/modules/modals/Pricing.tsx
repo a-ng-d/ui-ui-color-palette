@@ -180,11 +180,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   componentDidMount() {
     trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       { feature: 'VIEW_PRICING' }
@@ -321,11 +319,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
     trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       { feature: 'RESET_AND_CONTINUE' }
@@ -371,11 +367,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
-                this.props.userSession.userId === ''
-                  ? this.props.userIdentity.id === ''
-                    ? ''
-                    : this.props.userIdentity.id
-                  : this.props.userSession.userId,
+                this.props.userSession.userId,
+                this.props.userIdentity.id,
+                this.props.planStatus,
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
@@ -400,11 +394,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
-            this.props.userSession.userId === ''
-              ? this.props.userIdentity.id === ''
-                ? ''
-                : this.props.userIdentity.id
-              : this.props.userSession.userId,
+            this.props.userSession.userId,
+            this.props.userIdentity.id,
+            this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
             { feature: 'GO_TO_ONE' }
@@ -452,11 +444,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
-                this.props.userSession.userId === ''
-                  ? this.props.userIdentity.id === ''
-                    ? ''
-                    : this.props.userIdentity.id
-                  : this.props.userSession.userId,
+                this.props.userSession.userId,
+                this.props.userIdentity.id,
+                this.props.planStatus,
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
@@ -481,11 +471,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
-            this.props.userSession.userId === ''
-              ? this.props.userIdentity.id === ''
-                ? ''
-                : this.props.userIdentity.id
-              : this.props.userSession.userId,
+            this.props.userSession.userId,
+            this.props.userIdentity.id,
+            this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
             { feature: 'GO_TO_ONE_FIGMA' }
@@ -530,11 +518,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
-                this.props.userSession.userId === ''
-                  ? this.props.userIdentity.id === ''
-                    ? ''
-                    : this.props.userIdentity.id
-                  : this.props.userSession.userId,
+                this.props.userSession.userId,
+                this.props.userIdentity.id,
+                this.props.planStatus,
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
@@ -556,11 +542,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
-            this.props.userSession.userId === ''
-              ? this.props.userIdentity.id === ''
-                ? ''
-                : this.props.userIdentity.id
-              : this.props.userSession.userId,
+            this.props.userSession.userId,
+            this.props.userIdentity.id,
+            this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
             { feature: 'GO_TO_CHECKOUT' }

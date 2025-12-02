@@ -166,11 +166,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -202,11 +200,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -247,11 +243,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -283,11 +277,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -319,11 +311,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -355,11 +345,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -393,11 +381,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -431,11 +417,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -461,11 +445,9 @@ export default class Colors extends PureComponent<ColorsProps> {
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -491,11 +473,9 @@ export default class Colors extends PureComponent<ColorsProps> {
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -519,11 +499,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -550,11 +528,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -578,11 +554,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -605,11 +579,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       trackSourceColorsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId === ''
-          ? this.props.userIdentity.id === ''
-            ? ''
-            : this.props.userIdentity.id
-          : this.props.userSession.userId,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
         this.props.userConsent.find((consent) => consent.id === 'mixpanel')
           ?.isConsented ?? false,
         {
@@ -654,11 +626,9 @@ export default class Colors extends PureComponent<ColorsProps> {
 
     trackSourceColorsManagementEvent(
       this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId === ''
-        ? this.props.userIdentity.id === ''
-          ? ''
-          : this.props.userIdentity.id
-        : this.props.userSession.userId,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {

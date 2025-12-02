@@ -234,11 +234,9 @@ export default class RemotePalettes extends PureComponent<
 
         trackPublicationEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {
@@ -302,11 +300,9 @@ export default class RemotePalettes extends PureComponent<
 
         trackPublicationEvent(
           this.props.config.env.isMixpanelEnabled,
-          this.props.userSession.userId === ''
-            ? this.props.userIdentity.id === ''
-              ? ''
-              : this.props.userIdentity.id
-            : this.props.userSession.userId,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
           this.props.userConsent.find((consent) => consent.id === 'mixpanel')
             ?.isConsented ?? false,
           {

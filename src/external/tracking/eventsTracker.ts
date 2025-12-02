@@ -14,7 +14,15 @@ import {
   TourEvent,
   TrialEvent,
 } from '../../types/events'
+import { PlanStatus } from '../../types/app'
 import { getEditor, getMixpanel, getMixpanelEnv } from './client'
+
+const getOptimizedUserId = (
+  userSessionId: string,
+  userIdentityId: string
+): string => {
+  return userSessionId !== '' ? userSessionId : userIdentityId
+}
 
 export const trackUserConsentEvent = (
   isEnabled: boolean,
@@ -38,16 +46,20 @@ export const trackUserConsentEvent = (
 
 export const trackEditorEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Editor Run', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
     })
 
   if (id === '') return
@@ -56,16 +68,20 @@ export const trackEditorEvent = (
 
 export const trackSignInEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Signed In', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
     })
 
   if (id === '') return
@@ -74,16 +90,20 @@ export const trackSignInEvent = (
 
 export const trackSignOutEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Signed Out', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
     })
 
   if (id === '') return
@@ -92,17 +112,21 @@ export const trackSignOutEvent = (
 
 export const trackTrialEnablementEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: TrialEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Trial Enabled', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       'Trial Start Date': new Date(options.date).toISOString(),
       'Trial End Date': new Date(
         options.date + options.trialTime * 3600 * 1000
@@ -117,16 +141,20 @@ export const trackTrialEnablementEvent = (
 
 export const trackPurchaseEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Purchase Enabled', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
     })
 
   if (id === '') return
@@ -135,17 +163,21 @@ export const trackPurchaseEvent = (
 
 export const trackPublicationEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: PublicationEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Palette Managed', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -155,17 +187,21 @@ export const trackPublicationEvent = (
 
 export const trackImportEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: ImportEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Colors Imported', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -175,17 +211,21 @@ export const trackImportEvent = (
 
 export const trackScaleManagementEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: ScaleEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Scale Updated', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -195,17 +235,21 @@ export const trackScaleManagementEvent = (
 
 export const trackPreviewManagementEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: PreviewEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Preview Updated', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -215,17 +259,21 @@ export const trackPreviewManagementEvent = (
 
 export const trackSourceColorsManagementEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: SourceColorEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Source Color Updated', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -235,17 +283,21 @@ export const trackSourceColorsManagementEvent = (
 
 export const trackColorThemesManagementEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: ColorThemeEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Color Theme Updated', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -255,17 +307,21 @@ export const trackColorThemesManagementEvent = (
 
 export const trackSettingsManagementEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: SettingEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Setting Updated', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -275,17 +331,21 @@ export const trackSettingsManagementEvent = (
 
 export const trackExportEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: ExportEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Color Shades Exported', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
       'Color Space': options.colorSpace ?? 'NC',
     })
@@ -296,18 +356,22 @@ export const trackExportEvent = (
 
 export const trackActionEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: ActionEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Action Triggered', {
       Env: getMixpanelEnv(),
-      Feature: options.feature,
       Editor: getEditor(),
+      Plan: planStatus,
+      Feature: options.feature,
       Colors: options.colors === undefined ? 0 : options.colors,
       Stops: options.stops === undefined ? 0 : options.stops,
     })
@@ -318,18 +382,22 @@ export const trackActionEvent = (
 
 export const trackOnboardingEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: TourEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Onboarding Consulted', {
       Env: getMixpanelEnv(),
-      Feature: options.feature,
       Editor: getEditor(),
+      Plan: planStatus,
+      Feature: options.feature,
     })
 
   if (id === '') return
@@ -338,18 +406,22 @@ export const trackOnboardingEvent = (
 
 export const trackAnnouncementsEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: TourEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Announcements Consulted', {
       Env: getMixpanelEnv(),
-      Feature: options.feature,
       Editor: getEditor(),
+      Plan: planStatus,
+      Feature: options.feature,
     })
 
   if (id === '') return
@@ -358,17 +430,21 @@ export const trackAnnouncementsEvent = (
 
 export const trackPricingEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: PricingEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Pricing Consulted', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Feature: options.feature,
     })
 
@@ -378,17 +454,21 @@ export const trackPricingEvent = (
 
 export const trackLanguageEvent = (
   isEnabled: boolean,
-  id: string,
+  userSessionId: string,
+  userIdentityId: string,
+  planStatus: PlanStatus,
   consent: boolean,
   options: LanguageEvent
 ) => {
   const mixpanel = getMixpanel()
+  const id = getOptimizedUserId(userSessionId, userIdentityId)
 
   if (!consent || !isEnabled) return
   if (mixpanel)
     mixpanel.track('Language Updated', {
       Env: getMixpanelEnv(),
       Editor: getEditor(),
+      Plan: planStatus,
       Lang: options.lang,
     })
 
