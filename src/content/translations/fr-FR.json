@@ -76,10 +76,6 @@
   "actions": {
     "addToLocal": "Ajouter en local",
     "addToSource": "Ajouter aux sources",
-    "colorThemesNumber": {
-      "several": "{count} modes de couleur",
-      "single": "{count} mode de couleur"
-    },
     "createPalette": "Nouvelle UI Color Palette",
     "duplicate": "Dupliquer",
     "explorePalettes": "Explorer les palettes de la communauté",
@@ -95,14 +91,6 @@
     "publishPalette": "Publier la palette",
     "pushUpdates": "Pousser les mises à jour vers le document",
     "savePalette": "Créer une UI Color Palette",
-    "shadesNumber": {
-      "several": "{count} nuances/teintes",
-      "single": "{count} nuance/teinte"
-    },
-    "sourceColorsNumber": {
-      "several": "{count} couleurs sources",
-      "single": "{count} couleur source"
-    },
     "sync": "Synchroniser avec la bibliothèque locale",
     "syncLocalStyles": "Synchroniser avec les styles locaux",
     "syncLocalVariables": "Synchroniser avec les variables locales",
@@ -161,6 +149,11 @@
       "completeList": "La liste des palettes est complète",
       "loadMore": "Charger plus de palettes",
       "search": "Rechercher des palettes…"
+    },
+    "meta": {
+      "colors": "{count, plural, one {1 couleur source} other {# couleurs sources} =0 {Aucune couleur source}}",
+      "shades": "{count, plural, one {1 nuance/teinte} other {# nuances/teintes} =0 {Aucune teinte/nuance}}",
+      "themes": "{count, plural, one {1 mode de couleur} other {# modes de couleurs} =0 {Aucun mode de couleur}}"
     },
     "page": {
       "title": "UI Color Palettes de cette page"

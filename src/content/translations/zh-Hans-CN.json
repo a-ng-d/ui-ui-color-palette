@@ -76,10 +76,6 @@
   "actions": {
     "addToLocal": "添加到本地库",
     "addToSource": "添加到源颜色",
-    "colorThemesNumber": {
-      "several": "{count} 种颜色模式",
-      "single": "{count} 种颜色模式"
-    },
     "createPalette": "新建 UI Color Palette",
     "duplicate": "复制",
     "explorePalettes": "从社区探索调色板",
@@ -95,14 +91,6 @@
     "publishPalette": "发布调色板",
     "pushUpdates": "推送更新到文档",
     "savePalette": "创建 UI Color Palette",
-    "shadesNumber": {
-      "several": "{count} 个色调/色彩",
-      "single": "{count} 个色调/色彩"
-    },
-    "sourceColorsNumber": {
-      "several": "{count} 个源颜色",
-      "single": "{count} 个源颜色"
-    },
     "sync": "与本地库同步",
     "syncLocalStyles": "与本地样式同步",
     "syncLocalVariables": "与本地变量同步",
@@ -161,6 +149,11 @@
       "completeList": "调色板列表已完整",
       "loadMore": "加载更多调色板",
       "search": "搜索调色板..."
+    },
+    "meta": {
+      "colors": "{count, plural, other {#个源颜色} =0 {无源颜色}}",
+      "shades": "{count, plural, other {#个色调/色彩} =0 {无色调/色彩}}",
+      "themes": "{count, plural, other {#种颜色模式} =0 {无颜色模式}}"
     },
     "page": {
       "title": "此页面的 UI Color Palette"
@@ -472,7 +465,7 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {剩余一积分} other {剩余 # 积分} =0 {没有剩余积分}}",
+      "amount": "{count, plural, other {剩余 # 积分} =0 {没有剩余积分}}",
       "renew": "积分将在 {date} 更新。升级到 /pro 获得无限积分。"
     },
     "dev": "/dev 计划",

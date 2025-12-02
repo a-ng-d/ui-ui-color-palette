@@ -14,40 +14,22 @@ const setPaletteMeta = ({
   stars?: number
   locales: (key: string, params?: Record<string, string>) => string
 }) => {
-  const colorsNumber = colors.length,
-    themesNumber = themes.filter(
-      (theme) => theme.type === 'custom theme'
-    ).length,
-    shadeNumber = Object.values(themes[0].scale).length * colorsNumber
+  const colorsNumber = colors.length
+  const themesNumber = themes.filter(
+    (theme) => theme.type === 'custom theme'
+  ).length
+  const shadeNumber = Object.values(themes[0].scale).length * colorsNumber
 
-  let colorLabel: string, themeLabel: string, shadeLabel: string
-
-  if (colorsNumber > 1)
-    colorLabel = locales('actions.sourceColorsNumber.several', {
-      count: colorsNumber.toString(),
-    })
-  else
-    colorLabel = locales('actions.sourceColorsNumber.single', {
-      count: colorsNumber.toString(),
-    })
-
-  if (themesNumber > 1)
-    themeLabel = locales('actions.colorThemesNumber.several', {
-      count: themesNumber.toString(),
-    })
-  else
-    themeLabel = locales('actions.colorThemesNumber.single', {
-      count: themesNumber.toString(),
-    })
-
-  if (shadeNumber > 1)
-    shadeLabel = locales('actions.shadesNumber.several', {
-      count: shadeNumber.toString(),
-    })
-  else
-    shadeLabel = locales('actions.shadesNumber.single', {
-      count: shadeNumber.toString(),
-    })
+  console.log('shadenumber', themesNumber)
+  const colorLabel = locales('browse.meta.colors', {
+    count: colorsNumber.toString(),
+  })
+  const themeLabel = locales('browse.meta.themes', {
+    count: themesNumber.toString(),
+  })
+  const shadeLabel = locales('browse.meta.shades', {
+    count: shadeNumber.toString(),
+  })
 
   if (stars !== undefined)
     return `${colorLabel}${locales('separator')}${shadeLabel}${locales('separator')}${themeLabel}${locales('separator')}⭐︎ ${stars}`
