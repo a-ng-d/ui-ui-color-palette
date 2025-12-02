@@ -23,6 +23,7 @@ export interface PublicationEvent {
     | 'SHARE_PALETTE'
     | 'SEE_PALETTE'
     | 'STAR_PALETTE'
+  type?: 'ORG' | 'COMMUNITY' | 'SELF' | 'STARRED' | 'UNKNOWN'
 }
 
 export interface ImportEvent {

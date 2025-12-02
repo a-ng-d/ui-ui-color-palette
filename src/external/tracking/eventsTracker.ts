@@ -179,6 +179,7 @@ export const trackPublicationEvent = (
       Editor: getEditor(),
       Plan: planStatus,
       Feature: options.feature,
+      Type: options.type ?? 'UNKNOWN',
     })
 
   if (id === '') return

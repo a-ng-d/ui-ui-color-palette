@@ -168,7 +168,10 @@ export default class RemotePalettes extends PureComponent<
     })
 
   // Direct Actions
-  onSelectPalette = async (id: string) => {
+  onSelectPalette = async (
+    id: string,
+    type: 'ORG' | 'COMMUNITY' | 'SELF' | 'STARRED' | 'UNKNOWN'
+  ) => {
     const supabase = getSupabase()
 
     if (!supabase) throw new Error('Supabase client is not initialized')
@@ -244,6 +247,7 @@ export default class RemotePalettes extends PureComponent<
               this.props.userSession.userId === data[0].creator_id
                 ? 'REUSE_PALETTE'
                 : 'ADD_PALETTE',
+            type: type,
           }
         )
 
@@ -347,7 +351,7 @@ export default class RemotePalettes extends PureComponent<
             onLoadPalettesList={(palettesList) =>
               this.setState({ selfPalettesList: palettesList })
             }
-            onSelectPalette={this.onSelectPalette}
+            onSelectPalette={(id) => this.onSelectPalette(id, 'SELF')}
           />
         )
         break
@@ -373,7 +377,7 @@ export default class RemotePalettes extends PureComponent<
             onLoadPalettesList={(palettesList) =>
               this.setState({ communityPalettesList: palettesList })
             }
-            onSelectPalette={this.onSelectPalette}
+            onSelectPalette={(id) => this.onSelectPalette(id, 'COMMUNITY')}
             onSeePalette={this.onSeePalette}
           />
         )
@@ -400,7 +404,7 @@ export default class RemotePalettes extends PureComponent<
             onLoadPalettesList={(palettesList) =>
               this.setState({ orgPalettesList: palettesList })
             }
-            onSelectPalette={this.onSelectPalette}
+            onSelectPalette={(id) => this.onSelectPalette(id, 'ORG')}
             onSeePalette={this.onSeePalette}
           />
         )
@@ -431,7 +435,7 @@ export default class RemotePalettes extends PureComponent<
             onLoadPalettesList={(palettesList) =>
               this.setState({ starredPalettesList: palettesList })
             }
-            onSelectPalette={this.onSelectPalette}
+            onSelectPalette={(id) => this.onSelectPalette(id, 'STARRED')}
             onSeePalette={this.onSeePalette}
           />
         )
