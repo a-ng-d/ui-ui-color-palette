@@ -472,10 +472,8 @@
   },
   "plan": {
     "credits": {
-      "none": "No credits left",
-      "plural": "{count} credits left",
-      "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits.",
-      "single": "1 credit left"
+      "amount": "{count, plural, one {1 credit left} other {# credits left} =0 {No credit left}}",
+      "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits."
     },
     "dev": "/dev plan",
     "free": "/basic plan",

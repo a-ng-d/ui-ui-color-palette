@@ -472,10 +472,8 @@
   },
   "plan": {
     "credits": {
-      "none": "Aucun crédit restant",
-      "plural": "{count} crédits restants",
-      "renew": "Les crédits se renouvelleront le {date}. Passez à /pro pour des crédits illimités.",
-      "single": "1 crédit restant"
+      "amount": "{count, plural, one {1 crédit restant} other {# crédits restant} =0 {Aucun crédit restant}}",
+      "renew": "Les crédits se renouvelleront le {date}. Passez à /pro pour des crédits illimités."
     },
     "dev": "Forfait /dev",
     "free": "Forfait /basic",

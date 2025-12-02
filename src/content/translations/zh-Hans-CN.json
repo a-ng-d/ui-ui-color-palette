@@ -472,10 +472,8 @@
   },
   "plan": {
     "credits": {
-      "none": "没有剩余积分",
-      "plural": "剩余 {count} 积分",
-      "renew": "积分将在 {date} 更新。升级到 /pro 获得无限积分。",
-      "single": "剩余 1 积分"
+      "amount": "{count, plural, one {剩余一积分} other {剩余 # 积分} =0 {没有剩余积分}}",
+      "renew": "积分将在 {date} 更新。升级到 /pro 获得无限积分。"
     },
     "dev": "/dev 计划",
     "free": "/basic 计划",

@@ -1,4 +1,5 @@
-import { DevTools, FormatSimple, Tolgee, TolgeeInstance } from '@tolgee/react'
+import { DevTools, Tolgee, TolgeeInstance } from '@tolgee/react'
+import { FormatIcu } from '@tolgee/format-icu'
 
 let tolgeeInstance: TolgeeInstance
 
@@ -9,7 +10,7 @@ export const initTolgee = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   staticData: Record<string, any>
 ) => {
-  tolgeeInstance = Tolgee().use(DevTools()).use(FormatSimple()).init({
+  tolgeeInstance = Tolgee().use(DevTools()).use(FormatIcu()).init({
     language: defaultLang,
     apiUrl: url,
     apiKey: apiKey,

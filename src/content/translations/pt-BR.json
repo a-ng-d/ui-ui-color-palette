@@ -472,10 +472,8 @@
   },
   "plan": {
     "credits": {
-      "none": "Nenhum crédito restante",
-      "plural": "{count} créditos restantes",
-      "renew": "Os créditos serão renovados em {date}. Atualize para /pro para créditos ilimitados.",
-      "single": "1 crédito restante"
+      "amount": "{count, plural, one {1 crédito restante} other {# créditos restantes} =0 {Nenhum crédito restante}}",
+      "renew": "Os créditos serão renovados em {date}. Atualize para /pro para créditos ilimitados."
     },
     "dev": "Plano /dev",
     "free": "Plano /básico",

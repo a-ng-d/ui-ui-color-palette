@@ -115,38 +115,30 @@ export default class PlanControls extends PureComponent<
         ])}
       >
         <span>{this.props.t('separator')}</span>
-        {this.state.creditsCount > 0 && (
-          <span>
-            {this.props.t('plan.credits.plural', {
-              count: Math.ceil(this.state.creditsCount).toString(),
-            })}
-          </span>
-        )}
-        {this.state.creditsCount === 1 && (
-          <span>{this.props.t('plan.credits.single')}</span>
-        )}
+        <span>
+          {this.props.t('plan.credits.amount', {
+            count: Math.ceil(this.state.creditsCount).toString(),
+          })}
+        </span>
         {this.state.creditsCount === 0 && (
-          <>
-            <span>{this.props.t('plan.credits.none')}</span>
-            <IconChip
-              iconType="PICTO"
-              iconName="warning"
-              text={this.props.t('plan.credits.renew', {
-                date: new Date(this.props.creditsRenewalDate).toLocaleString(
-                  getTolgee().getLanguage(),
-                  {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  }
-                ),
-              })}
-              pin="TOP"
-              type="MULTI_LINE"
-            />
-          </>
+          <IconChip
+            iconType="PICTO"
+            iconName="warning"
+            text={this.props.t('plan.credits.renew', {
+              date: new Date(this.props.creditsRenewalDate).toLocaleString(
+                getTolgee().getLanguage(),
+                {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                }
+              ),
+            })}
+            pin="TOP"
+            type="MULTI_LINE"
+          />
         )}
       </div>
     )
