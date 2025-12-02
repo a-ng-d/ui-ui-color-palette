@@ -256,11 +256,11 @@ export default class Explore extends PureComponent<
               src={palette.imageUrl?.replace('http', 'https')}
               name={palette.title}
               description={`#${palette.rank}`}
-              subdescription={this.props
-                .t('source.colourLovers.meta')
-                .replace('{votes}', palette.numVotes?.toString() ?? '0')
-                .replace('{views}', palette.numViews?.toString() ?? '0')
-                .replace('{comments}', palette.numComments?.toString() ?? '0')}
+              subdescription={this.props.t('source.colourLovers.meta', {
+                votes: palette.numVotes?.toString() ?? '0',
+                views: palette.numViews?.toString() ?? '0',
+                comments: palette.numComments?.toString() ?? '0',
+              })}
               user={{
                 avatar: undefined,
                 name: palette.userName ?? '',
