@@ -332,39 +332,12 @@
     "announcements": "There is no announcement for now",
     "askDesigner": "or ask designers to create a palette",
     "copiedCode": "The code has been copied to the clipboard",
-    "createdLocalStyles": {
-      "none": "No style created",
-      "plural": "{count} styles created",
-      "single": "1 style created"
-    },
-    "createdLocalVariables": {
-      "none": "No variable created",
-      "plural": "{count} variables created",
-      "single": "1 variable created"
-    },
-    "createdVariablesAndModes": {
-      "noneNone": "No variable and mode created",
-      "nonePlural": "{modeCount} modes created",
-      "noneSingle": "1 mode created",
-      "pluralNone": "{variableCount} variables created",
-      "pluralPlural": "{variableCount} variables and {modeCount} modes created",
-      "pluralSingle": "{variableCount} variables and 1 mode created",
-      "singleNone": "1 variable created",
-      "singlePlural": "1 variable and {modeCount} modes created",
-      "singleSingle": "1 variable and mode created"
-    },
-    "maxNumberOfLocalPalettes": {
-      "plural": "Upgrade to /pro to add more than {maxCount} local palettes",
-      "single": "Upgrade to /pro to add more than one single local palette"
-    },
-    "maxNumberOfSourceColors": {
-      "plural": "Upgrade to /pro to add more than {maxCount} source colors",
-      "single": "Upgrade to /pro to add more than one single source color"
-    },
-    "maxNumberOfStops": {
-      "plural": "Upgrade to /pro to add more than {maxCount} stops",
-      "single": "Upgrade to /pro to add more than one single stop"
-    },
+    "createdLocalStyles": "{count, plural, one {1 style created} other {# styles created} =0 {No style created}}",
+    "createdLocalVariables": "{count, plural, one {1 variable created} other {# variables created} =0 {No variable created}}",
+    "createdLocalModes": "{count, plural, one {1 mode created} other {# modes created} =0 {No mode created}}",
+    "maxNumberOfLocalPalettes": "{count, plural, one {Upgrade to /pro to add more than one single local palette} other {Upgrade to /pro to add more than # local palettes}}",
+    "maxNumberOfSourceColors": "{count, plural, one {Upgrade to /pro to add more than one single source color} other {Upgrade to /pro to add more than # source colors}}",
+    "maxNumberOfStops": "{count, plural, one {Upgrade to /pro to add more than one single stop} other {Upgrade to /pro to add more than # stops}}",
     "multipleBlockingMessages": {
       "chroma": "Reset chroma",
       "head": "You can unlock the creation if you: {messages}",
@@ -376,50 +349,14 @@
     "noResult": "No palette matches your search",
     "onboarding": "There is no onboarding for now",
     "paletteCreated": "{name} palette created",
-    "removedLocalStyles": {
-      "none": "No style removed",
-      "plural": "{count} styles removed",
-      "single": "1 style removed"
-    },
-    "removedLocalVariables": {
-      "none": "No variable removed",
-      "plural": "{count} variables removed",
-      "single": "1 variable removed"
-    },
-    "removedVariablesAndModes": {
-      "noneNone": "No variable and mode removed",
-      "nonePlural": "{modeCount} modes removed",
-      "noneSingle": "1 mode removed",
-      "pluralNone": "{variableCount} variables removed",
-      "pluralPlural": "{variableCount} variables and {modeCount} modes removed",
-      "pluralSingle": "{variableCount} variables and 1 mode removed",
-      "singleNone": "1 variable removed",
-      "singlePlural": "1 variable and {modeCount} modes removed",
-      "singleSingle": "1 variable and mode removed"
-    },
+    "removedLocalStyles": "{count, plural, one {1 style removed} other {# styles removed} =0 {No style removed}}",
+    "removedLocalVariables": "{count, plural, one {1 variable removed} other {# variables removed} =0 {No variable removed}}",
+    "removedLocalModes": "{count, plural, one {1 mode removed} other {# modes removed} =0 {No mode removed}}",
     "signOut": "See you later",
     "themesOnFree": "Upgrade to /pro to add or edit modes",
-    "updatedLocalStyles": {
-      "none": "No style updated",
-      "plural": "{count} styles updated",
-      "single": "1 style updated"
-    },
-    "updatedLocalVariables": {
-      "none": "No variable updated",
-      "plural": "{count} variables updated",
-      "single": "1 variable updated"
-    },
-    "updatedVariablesAndModes": {
-      "noneNone": "No variable and mode updated",
-      "nonePlural": "{modeCount} modes updated",
-      "noneSingle": "1 mode updated",
-      "pluralNone": "{variableCount} variables updated",
-      "pluralPlural": "{variableCount} variables and {modeCount} modes updated",
-      "pluralSingle": "{variableCount} variables and 1 mode updated",
-      "singleNone": "1 variable updated",
-      "singlePlural": "1 variable and {modeCount} modes updated",
-      "singleSingle": "1 variable and mode updated"
-    }
+    "updatedLocalStyles": "{count, plural, one {1 style updated} other {# styles updated} =0 {No style updated}}",
+    "updatedLocalVariables": "{count, plural, one {1 variable updated} other {# variables updated} =0 {No variable updated}}",
+    "updatedLocalModes": "{count, plural, one {1 mode updated} other {# modes updated} =0 {No mode updated}}"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -476,14 +413,8 @@
     "trial": "Trial",
     "trialEnded": "Your trial has ended",
     "trialFeedback": "How was it?",
-    "trialTimeDays": {
-      "plural": "{count} days left in this trial",
-      "single": "1 day left in this trial"
-    },
-    "trialTimeHours": {
-      "plural": "{count} hours left in this trial",
-      "single": "1 hour left in this trial"
-    },
+    "trialTimeDays": "{count, plural, one {1 day left in this trial} other {# days left in this trial}}",
+    "trialTimeHours": "{count, plural, one {1 hour left in this trial} other {# hours left in this trial}}",
     "tryPro": "Try /pro"
   },
   "platform": {

@@ -332,39 +332,12 @@
     "announcements": "目前没有公告",
     "askDesigner": "或请设计师创建调色板",
     "copiedCode": "代码已复制到剪贴板",
-    "createdLocalStyles": {
-      "none": "未创建样式",
-      "plural": "已创建 {count} 个样式",
-      "single": "已创建 1 个样式"
-    },
-    "createdLocalVariables": {
-      "none": "未创建变量",
-      "plural": "已创建 {count} 个变量",
-      "single": "已创建 1 个变量"
-    },
-    "createdVariablesAndModes": {
-      "noneNone": "未创建变量和模式",
-      "nonePlural": "已创建 {modeCount} 个模式",
-      "noneSingle": "已创建 1 个模式",
-      "pluralNone": "已创建 {variableCount} 个变量",
-      "pluralPlural": "已创建 {variableCount} 个变量和 {modeCount} 个模式",
-      "pluralSingle": "已创建 {variableCount} 个变量和 1 个模式",
-      "singleNone": "已创建 1 个变量",
-      "singlePlural": "已创建 1 个变量和 {modeCount} 个模式",
-      "singleSingle": "已创建 1 个变量和模式"
-    },
-    "maxNumberOfLocalPalettes": {
-      "plural": "升级到 /pro 以添加超过 {maxCount} 个本地调色板",
-      "single": "升级到 /pro 以添加超过一个本地调色板"
-    },
-    "maxNumberOfSourceColors": {
-      "plural": "升级到 /pro 以添加超过 {maxCount} 个源颜色",
-      "single": "升级到 /pro 以添加超过一个源颜色"
-    },
-    "maxNumberOfStops": {
-      "plural": "升级到 /pro 以添加超过 {maxCount} 个色阶",
-      "single": "升级到 /pro 以添加超过一个色阶"
-    },
+    "createdLocalStyles": "{count, plural, other {已创建 # 个样式} =0 {未创建样式}}",
+    "createdLocalVariables": "{count, plural, other {已创建 # 个变量} =0 {未创建变量}}",
+    "createdLocalModes": "{count, plural, other {已创建 # 个模式} =0 {未创建模式}}",
+    "maxNumberOfLocalPalettes": "{count, plural, one {升级到 /pro 以添加超过一个本地调色板} other {升级到 /pro 以添加超过 # 个本地调色板}}",
+    "maxNumberOfSourceColors": "{count, plural, one {升级到 /pro 以添加超过一个源颜色} other {升级到 /pro 以添加超过 # 个源颜色}}",
+    "maxNumberOfStops": "{count, plural, one {升级到 /pro 以添加超过一个色阶} other {升级到 /pro 以添加超过 # 个色阶}}",
     "multipleBlockingMessages": {
       "chroma": "重置色度",
       "head": "您可以通过以下方式解锁创建：{messages}",
@@ -376,50 +349,14 @@
     "noResult": "没有调色板匹配您的搜索",
     "onboarding": "目前没有入门指南",
     "paletteCreated": "{name} 调色板已创建",
-    "removedLocalStyles": {
-      "none": "未移除样式",
-      "plural": "已移除 {count} 个样式",
-      "single": "已移除 1 个样式"
-    },
-    "removedLocalVariables": {
-      "none": "未移除变量",
-      "plural": "已移除 {count} 个变量",
-      "single": "已移除 1 个变量"
-    },
-    "removedVariablesAndModes": {
-      "noneNone": "未移除变量和模式",
-      "nonePlural": "已移除 {modeCount} 个模式",
-      "noneSingle": "已移除 1 个模式",
-      "pluralNone": "已移除 {variableCount} 个变量",
-      "pluralPlural": "已移除 {variableCount} 个变量和 {modeCount} 个模式",
-      "pluralSingle": "已移除 {variableCount} 个变量和 1 个模式",
-      "singleNone": "已移除 1 个变量",
-      "singlePlural": "已移除 1 个变量和 {modeCount} 个模式",
-      "singleSingle": "已移除 1 个变量和模式"
-    },
+    "removedLocalStyles": "{count, plural, other {已移除 # 个样式} =0 {未移除样式}}",
+    "removedLocalVariables": "{count, plural, other {已移除 # 个变量} =0 {未移除变量}}",
+    "removedLocalModes": "{count, plural, other {已移除 # 个模式} =0 {未移除模式}}",
     "signOut": "再见",
     "themesOnFree": "升级到 /pro 以添加或编辑模式",
-    "updatedLocalStyles": {
-      "none": "未更新样式",
-      "plural": "已更新 {count} 个样式",
-      "single": "已更新 1 个样式"
-    },
-    "updatedLocalVariables": {
-      "none": "未更新变量",
-      "plural": "已更新 {count} 个变量",
-      "single": "已更新 1 个变量"
-    },
-    "updatedVariablesAndModes": {
-      "noneNone": "未更新变量和模式",
-      "nonePlural": "已更新 {modeCount} 个模式",
-      "noneSingle": "已更新 1 个模式",
-      "pluralNone": "已更新 {variableCount} 个变量",
-      "pluralPlural": "已更新 {variableCount} 个变量和 {modeCount} 个模式",
-      "pluralSingle": "已更新 {variableCount} 个变量和 1 个模式",
-      "singleNone": "已更新 1 个变量",
-      "singlePlural": "已更新 1 个变量和 {modeCount} 个模式",
-      "singleSingle": "已更新 1 个变量和模式"
-    }
+    "updatedLocalStyles": "{count, plural, other {已更新 # 个样式} =0 {未更新样式}}",
+    "updatedLocalVariables": "{count, plural, other {已更新 # 个变量} =0 {未更新变量}}",
+    "updatedLocalModes": "{count, plural, other {已更新 # 个模式} =0 {未更新模式}}"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -476,14 +413,8 @@
     "trial": "试用",
     "trialEnded": "您的试用已结束",
     "trialFeedback": "体验如何？",
-    "trialTimeDays": {
-      "plural": "试用剩余 {count} 天",
-      "single": "试用剩余 1 天"
-    },
-    "trialTimeHours": {
-      "plural": "试用剩余 {count} 小时",
-      "single": "试用剩余 1 小时"
-    },
+    "trialTimeDays": "{count, plural, one {试用剩余 1 天} other {试用剩余 # 天}}",
+    "trialTimeHours": "{count, plural, one {试用剩余 1 小时} other {试用剩余 # 小时}}",
     "tryPro": "试用 /pro"
   },
   "platform": {

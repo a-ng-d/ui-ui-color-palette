@@ -616,12 +616,6 @@ export default class FilePalettes extends PureComponent<
         this.props.service,
         this.props.editor
       ).LOCAL_PALETTES.limit ?? 0
-    const message =
-      limit > 1
-        ? this.props.t('info.maxNumberOfLocalPalettes.plural', {
-            maxCount: limit.toString(),
-          })
-        : this.props.t('info.maxNumberOfLocalPalettes.single')
 
     return (
       <>
@@ -647,7 +641,9 @@ export default class FilePalettes extends PureComponent<
             >
               <SemanticMessage
                 type="INFO"
-                message={message}
+                message={this.props.t('info.maxNumberOfLocalPalettes', {
+                  count: limit.toString(),
+                })}
                 actionsSlot={
                   this.props.config.plan.isTrialEnabled &&
                   this.props.trialStatus !== 'EXPIRED' ? (

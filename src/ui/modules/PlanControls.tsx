@@ -83,7 +83,7 @@ export default class PlanControls extends PureComponent<
       <span>{this.props.t('separator')}</span>
       {Math.ceil(this.props.trialRemainingTime) > 72 && (
         <span>
-          {this.props.t('plan.trialTimeDays.plural', {
+          {this.props.t('plan.trialTimeDays', {
             count:
               Math.ceil(this.props.trialRemainingTime) > 72
                 ? Math.ceil(this.props.trialRemainingTime / 24).toString()
@@ -92,16 +92,14 @@ export default class PlanControls extends PureComponent<
         </span>
       )}
       {Math.ceil(this.props.trialRemainingTime) <= 72 &&
-        Math.ceil(this.props.trialRemainingTime) > 1 && (
+        Math.ceil(this.props.trialRemainingTime) >= 0 && (
           <span>
-            {this.props.t('plan.trialTimeHours.plural', {
+            {this.props.t('plan.trialTimeHours', {
               count: Math.ceil(this.props.trialRemainingTime).toString(),
             })}
           </span>
-        )}
-      {Math.ceil(this.props.trialRemainingTime) <= 1 && (
-        <span>{this.props.t('plan.trialTimeHours.single')}</span>
-      )}
+        )
+      }
     </div>
   )
 

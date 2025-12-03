@@ -646,12 +646,6 @@ export default class Colors extends PureComponent<ColorsProps> {
         this.props.service,
         this.props.editor
       ).COLORS.limit ?? 0
-    const message =
-      limit > 1
-        ? this.props.t('info.maxNumberOfSourceColors.plural', {
-            maxCount: limit.toString(),
-          })
-        : this.props.t('info.maxNumberOfSourceColors.single')
 
     return (
       <Layout
@@ -702,7 +696,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                   >
                     <SemanticMessage
                       type="INFO"
-                      message={message}
+                      message={this.props.t('info.maxNumberOfSourceColors', {
+                        count: limit.toString(),
+                      })}
                       actionsSlot={
                         this.props.config.plan.isTrialEnabled &&
                         this.props.trialStatus !== 'EXPIRED' ? (

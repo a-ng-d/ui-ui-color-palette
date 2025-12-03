@@ -332,39 +332,12 @@
     "announcements": "Il n'y a pas d'annonce pour l'instant",
     "askDesigner": "ou demandez aux designers de créer une palette",
     "copiedCode": "Le code a été copié dans le presse-papiers",
-    "createdLocalStyles": {
-      "none": "Aucun style créé",
-      "plural": "{count} styles créés",
-      "single": "1 style créé"
-    },
-    "createdLocalVariables": {
-      "none": "Aucune variable créée",
-      "plural": "{count} variables créées",
-      "single": "1 variable créée"
-    },
-    "createdVariablesAndModes": {
-      "noneNone": "Aucune variable et mode créé",
-      "nonePlural": "{modeCount} modes créés",
-      "noneSingle": "1 mode créé",
-      "pluralNone": "{variableCount} variables créées",
-      "pluralPlural": "{variableCount} variables et {modeCount} modes créés",
-      "pluralSingle": "{variableCount} variables et 1 mode créés",
-      "singleNone": "1 variable créée",
-      "singlePlural": "1 variable et {modeCount} modes créés",
-      "singleSingle": "1 variable et mode créés"
-    },
-    "maxNumberOfLocalPalettes": {
-      "plural": "Passez à /pro pour ajouter plus de {maxCount} palettes locales",
-      "single": "Passez à /pro pour ajouter plus d'une seule palette locale"
-    },
-    "maxNumberOfSourceColors": {
-      "plural": "Passez à /pro pour ajouter plus de {maxCount} couleurs sources",
-      "single": "Passez à /pro pour ajouter plus d'une seule couleur source"
-    },
-    "maxNumberOfStops": {
-      "plural": "Passez à /pro pour ajouter plus de {maxCount} étapes",
-      "single": "Passez à /pro pour ajouter plus d'une seule étape"
-    },
+    "createdLocalStyles": "{count, plural, one {1 style créé} other {# styles créés} =0 {Aucun style créé}}",
+    "createdLocalVariables": "{count, plural, one {1 variable créée} other {# variables créées} =0 {Aucune variable créée}}",
+    "createdLocalModes": "{count, plural, one {1 mode créé} other {# modes créés} =0 {Aucun mode créé}}",
+    "maxNumberOfLocalPalettes": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule palette locale} other {Passez à /pro pour ajouter plus de # palettes locales}}",
+    "maxNumberOfSourceColors": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule couleur source} other {Passez à /pro pour ajouter plus de # couleurs sources}}",
+    "maxNumberOfStops": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule étape} other {Passez à /pro pour ajouter plus de # étapes}}",
     "multipleBlockingMessages": {
       "chroma": "Réinitialiser la chroma",
       "head": "Vous pouvez débloquer la création si vous : {messages}",
@@ -376,50 +349,14 @@
     "noResult": "Aucune palette ne correspond à votre recherche",
     "onboarding": "Il n'y a pas d'intégration pour l'instant",
     "paletteCreated": "Palette {name} créée",
-    "removedLocalStyles": {
-      "none": "Aucun style supprimé",
-      "plural": "{count} styles supprimés",
-      "single": "1 style supprimé"
-    },
-    "removedLocalVariables": {
-      "none": "Aucune variable supprimée",
-      "plural": "{count} variables supprimées",
-      "single": "1 variable supprimée"
-    },
-    "removedVariablesAndModes": {
-      "noneNone": "Aucune variable et mode supprimé",
-      "nonePlural": "{modeCount} modes supprimés",
-      "noneSingle": "1 mode supprimé",
-      "pluralNone": "{variableCount} variables supprimées",
-      "pluralPlural": "{variableCount} variables et {modeCount} modes supprimés",
-      "pluralSingle": "{variableCount} variables et 1 mode supprimés",
-      "singleNone": "1 variable supprimée",
-      "singlePlural": "1 variable et {modeCount} modes supprimés",
-      "singleSingle": "1 variable et mode supprimés"
-    },
+    "removedLocalStyles": "{count, plural, one {1 style supprimé} other {# styles supprimés} =0 {Aucun style supprimé}}",
+    "removedLocalVariables": "{count, plural, one {1 variable supprimée} other {# variables supprimées} =0 {Aucune variable supprimée}}",
+    "removedLocalModes": "{count, plural, one {1 mode supprimé} other {# modes supprimés} =0 {Aucun mode supprimé}}",
     "signOut": "À bientôt",
     "themesOnFree": "Passez à /pro pour ajouter ou modifier des modes",
-    "updatedLocalStyles": {
-      "none": "Aucun style mis à jour",
-      "plural": "{count} styles mis à jour",
-      "single": "1 style mis à jour"
-    },
-    "updatedLocalVariables": {
-      "none": "Aucune variable mise à jour",
-      "plural": "{count} variables mises à jour",
-      "single": "1 variable mise à jour"
-    },
-    "updatedVariablesAndModes": {
-      "noneNone": "Aucune variable et mode mis à jour",
-      "nonePlural": "{modeCount} modes mis à jour",
-      "noneSingle": "1 mode mis à jour",
-      "pluralNone": "{variableCount} variables mises à jour",
-      "pluralPlural": "{variableCount} variables et {modeCount} modes mis à jour",
-      "pluralSingle": "{variableCount} variables et 1 mode mis à jour",
-      "singleNone": "1 variable mise à jour",
-      "singlePlural": "1 variable et {modeCount} modes mis à jour",
-      "singleSingle": "1 variable et mode mis à jour"
-    }
+    "updatedLocalStyles": "{count, plural, one {1 style mis à jour} other {# styles mis à jour} =0 {Aucun style mis à jour}}",
+    "updatedLocalVariables": "{count, plural, one {1 variable mise à jour} other {# variables mises à jour} =0 {Aucune variable mise à jour}}",
+    "updatedLocalModes": "{count, plural, one {1 mode mis à jour} other {# modes mis à jour} =0 {Aucun mode mis à jour}}"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -476,14 +413,8 @@
     "trial": "Essai",
     "trialEnded": "Votre essai est terminé",
     "trialFeedback": "Comment c'était ?",
-    "trialTimeDays": {
-      "plural": "{count} jours restants dans cet essai",
-      "single": "1 jour restant dans cet essai"
-    },
-    "trialTimeHours": {
-      "plural": "{count} heures restantes dans cet essai",
-      "single": "1 heure restante dans cet essai"
-    },
+    "trialTimeDays": "{count, plural, one {1 jour restant dans cet essai} other {# jours restants dans cet essai}}",
+    "trialTimeHours": "{count, plural, one {1 heure restante dans cet essai} other {# heures restantes dans cet essai}}",
     "tryPro": "Essayer /pro"
   },
   "platform": {

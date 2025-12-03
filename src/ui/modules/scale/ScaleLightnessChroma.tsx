@@ -696,12 +696,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
   private renderHeader = (isReachedOffset = 0) => {
     const limit = this.features.PRESETS_CUSTOM_ADD.limit ?? 0
-    const message =
-      limit > 1
-        ? this.props.t('info.maxNumberOfStops.plural', {
-            maxCount: limit.toString(),
-          })
-        : this.props.t('info.maxNumberOfStops.single')
 
     return (
       <div
@@ -812,7 +806,9 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
             >
               <SemanticMessage
                 type="INFO"
-                message={message}
+                message={this.props.t('info.maxNumberOfStops', {
+                  count: limit.toString(),
+                })}
                 actionsSlot={
                   this.props.config.plan.isTrialEnabled &&
                   this.props.trialStatus !== 'EXPIRED' ? (

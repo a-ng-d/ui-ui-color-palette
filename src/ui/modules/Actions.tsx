@@ -684,12 +684,6 @@ export default class Actions extends PureComponent<
         this.props.service,
         this.props.editor
       ).SOURCE.limit ?? 0
-    const message =
-      limit > 1
-        ? this.props.t('info.maxNumberOfSourceColors.plural', {
-            maxCount: limit.toString(),
-          })
-        : this.props.t('info.maxNumberOfSourceColors.single')
 
     return (
       <Bar
@@ -770,7 +764,11 @@ export default class Actions extends PureComponent<
                   iconName="warning"
                 />
                 {this.state.isTooltipVisible && (
-                  <Tooltip pin="TOP">{message}</Tooltip>
+                  <Tooltip pin="TOP">
+                    {this.props.t('info.maxNumberOfSourceColors', {
+                      count: limit.toString(),
+                    })}
+                  </Tooltip>
                 )}
               </div>
             )}
