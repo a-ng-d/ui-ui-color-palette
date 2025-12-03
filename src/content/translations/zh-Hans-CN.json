@@ -320,6 +320,7 @@
     }
   },
   "fail": "✘",
+  "fullName": "UI Color Palette {instance}・应用和网站的 WCAG 调色板管理器",
   "global": {
     "description": {
       "label": "描述",

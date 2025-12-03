@@ -320,6 +320,7 @@
     }
   },
   "fail": "✘",
+  "fullName": "UI Color Palette {instance}・Gerenciador de paleta de cores WCAG para aplicativos e sites",
   "global": {
     "description": {
       "label": "Descrição",

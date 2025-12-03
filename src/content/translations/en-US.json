@@ -320,6 +320,7 @@
     }
   },
   "fail": "✘",
+  "fullName": "UI Color Palette {instance}・WCAG Color Palette Manager for Apps & Websites",
   "global": {
     "description": {
       "label": "Description",
