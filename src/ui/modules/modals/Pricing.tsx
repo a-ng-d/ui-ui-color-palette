@@ -266,6 +266,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   onSkipAndResetPalette = () => {
     let updatedPreset = this.props.preset
     let updatedStops = this.props.preset.stops
+    let updatedSourceColors = this.props.sourceColors
 
     if (this.props.preset.id.includes('CUSTOM')) {
       const limit =
@@ -287,6 +288,30 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       }
     }
 
+    const sourceColorLimit =
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).SOURCE.limit ?? 1
+
+    const nonDefaultColors = this.props.sourceColors.filter(
+      (color) => color.source !== 'DEFAULT'
+    )
+    const defaultColors = this.props.sourceColors.filter(
+      (color) => color.source === 'DEFAULT'
+    )
+
+    if (nonDefaultColors.length > sourceColorLimit) {
+      const limitedNonDefaultColors = nonDefaultColors.slice(
+        0,
+        sourceColorLimit
+      )
+      updatedSourceColors = [...defaultColors, ...limitedNonDefaultColors]
+      $palette.setKey('sourceColors', updatedSourceColors)
+    }
+
     $palette.setKey('areSourceColorsLocked', false)
     $palette.setKey('visionSimulationMode', 'NONE')
     $palette.setKey('shift.chroma', 100)
@@ -301,6 +326,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     )
 
     this.props.onSkipAndResetPalette({
+      sourceColors: updatedSourceColors,
       preset: updatedPreset,
       areSourceColorsLocked: false,
       visionSimulationMode: 'NONE',
