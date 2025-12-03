@@ -63,11 +63,9 @@ export const tolgee = Tolgee()
   })
 
 // UI > Canvas
-// Prevent duplicate listeners in development (HMR)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if ((window as any).__loadUIListenerAttached)
   console.warn('loadUI listener already attached, skipping')
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 else {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-extra-semi
   ;(window as any).__loadUIListenerAttached = true
