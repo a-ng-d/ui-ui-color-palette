@@ -139,6 +139,7 @@ else {
       },
       UPDATE_LANGUAGE: () => {
         window.localStorage.setItem('user_language', path.data.lang)
+        tolgee.changeLanguage(path.data.lang)
       },
       //
       CREATE_PALETTE: () =>
