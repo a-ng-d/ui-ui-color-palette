@@ -730,13 +730,9 @@ export default class Actions extends PureComponent<
               {this.props.t('separator')}
             </span>
             <div className={texts.type}>
-              {this.refinedNumberOfSourceColors() > 1
-                ? this.props.t('actions.sourceColorsNumber.several', {
-                    count: this.refinedNumberOfSourceColors().toString(),
-                  })
-                : this.props.t('actions.sourceColorsNumber.single', {
-                    count: this.refinedNumberOfSourceColors().toString(),
-                  })}
+              {this.props.t('actions.sourceColorsNumber', {
+                count: this.refinedNumberOfSourceColors().toString(),
+              })}
             </div>
             {Actions.features(
               this.props.planStatus,
