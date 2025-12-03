@@ -638,6 +638,8 @@ const specConfig: SpecConfig = {
 const globalConfig: Config = {
   limits: {
     pageSize: 20,
+    width: 640,
+    height: 640,
     minWidth: 240,
     minHeight: 420,
   },

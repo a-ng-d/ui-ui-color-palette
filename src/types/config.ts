@@ -6,6 +6,8 @@ import { Editor } from './app'
 export interface Config {
   limits: {
     pageSize: number
+    width: number
+    height: number
     minWidth: number
     minHeight: number
   }
