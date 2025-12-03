@@ -98,8 +98,7 @@ export default class PlanControls extends PureComponent<
               count: Math.ceil(this.props.trialRemainingTime).toString(),
             })}
           </span>
-        )
-      }
+        )}
     </div>
   )
 
