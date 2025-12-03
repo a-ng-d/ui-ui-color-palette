@@ -261,9 +261,6 @@ export default class CreatePalette extends PureComponent<
             exchange: {
               ...this.palette.value,
             },
-            locales: {
-              defaultThemeName: this.props.t('themes.switchTheme.defaultTheme'),
-            },
           },
         },
       },

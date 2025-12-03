@@ -1,3 +1,4 @@
+import { tolgee } from '../loadUI'
 import globalConfig from '../../global.config'
 
 const checkUserPreferences = async () => {
@@ -32,6 +33,8 @@ const checkUserPreferences = async () => {
 
   if (userLanguage === null)
     window.localStorage.setItem('user_language', globalConfig.lang)
+
+  tolgee.changeLanguage(userLanguage ?? globalConfig.lang)
 
   return iframe?.contentWindow?.postMessage(
     {

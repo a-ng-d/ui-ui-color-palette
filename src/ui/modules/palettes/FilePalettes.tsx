@@ -167,12 +167,7 @@ export default class FilePalettes extends PureComponent<
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
-          data: {
-            id: id,
-            locales: {
-              errorMessage: this.props.t('error.unfoundPalette'),
-            },
-          },
+          id: id,
         },
       },
       '*'
@@ -184,32 +179,19 @@ export default class FilePalettes extends PureComponent<
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
-          data: {
-            id: id,
-            locales: {
-              errorMessage: this.props.t('error.unfoundPalette'),
-            },
-          },
+          id: id,
         },
       },
       '*'
     )
   }
 
-  onDuplicatePalette = (id: string, name: string) => {
+  onDuplicatePalette = (id: string) => {
     sendPluginMessage(
       {
         pluginMessage: {
           type: 'DUPLICATE_PALETTE',
-          data: {
-            id: id,
-            locales: {
-              errorMessage: this.props.t('error.unfoundPalette'),
-              paletteName: this.props.t('browse.copy', {
-                name: name,
-              }),
-            },
-          },
+          id: id,
         },
       },
       '*'
@@ -379,10 +361,7 @@ export default class FilePalettes extends PureComponent<
                                         i === index ? true : loading
                                     ),
                                 })
-                                this.onDuplicatePalette(
-                                  palette.meta.id,
-                                  palette.base.name
-                                )
+                                this.onDuplicatePalette(palette.meta.id)
                               },
                             },
                             {

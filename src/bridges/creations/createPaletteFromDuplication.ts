@@ -1,26 +1,20 @@
 import { uid } from 'uid'
 import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { tolgee } from '../loadUI'
 
-interface Msg {
-  data: {
-    id: string
-    locales: { [key: string]: string }
-  }
-}
-
-const createPaletteFromDuplication = async (msg: Msg) => {
+const createPaletteFromDuplication = async (id: string) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
-  const rawPalette = window.localStorage.getItem(`palette_${msg.data.id}`)
+  const rawPalette = window.localStorage.getItem(`palette_${id}`)
   const now = new Date().toISOString()
 
   if (rawPalette === undefined || rawPalette === null)
-    throw new Error(msg.data.locales.errorMessage)
+    throw new Error(tolgee.t('error.unfoundPalette'))
 
   const palette = JSON.parse(rawPalette) as FullConfiguration
 
-  palette.base.name = msg.data.locales.paletteName
+  palette.base.name = tolgee.t('browse.copy', { name: palette.base.name })
   palette.meta.id = uid()
   palette.meta.publicationStatus.isPublished = false
   palette.meta.publicationStatus.isShared = false

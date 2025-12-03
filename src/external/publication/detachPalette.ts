@@ -48,13 +48,7 @@ const detachPalette = async ({
     {
       pluginMessage: {
         type: 'DUPLICATE_PALETTE',
-        data: {
-          id: rawData.id,
-          locales: {
-            errorMessage: locales('error.unfoundPalette'),
-            paletteName: locales('browse.copy', { name: rawData.name }),
-          },
-        },
+        id: rawData.id,
       },
     },
     '*'

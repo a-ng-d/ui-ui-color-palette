@@ -216,9 +216,6 @@ export default class RemotePalettes extends PureComponent<
                     creatorId: data[0].creator_id,
                   },
                 } as MetaConfiguration,
-                locales: {
-                  infoMessage: this.props.t('info.addToLocal'),
-                },
               },
             },
           },

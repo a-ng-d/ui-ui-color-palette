@@ -57,52 +57,48 @@ export default class Modal extends PureComponent<ModalProps> {
           {this.props.context === 'NOTIFICATION' && (
             <NotificationBanner {...this.props} />
           )}
-          {
-            this.props.context === 'ANNOUNCEMENTS' && (
-              <Announcements
-                {...this.props}
-                onCloseAnnouncements={() => {
-                  this.props.onClose()
+          {this.props.context === 'ANNOUNCEMENTS' && (
+            <Announcements
+              {...this.props}
+              onCloseAnnouncements={() => {
+                this.props.onClose()
 
-                  trackAnnouncementsEvent(
-                    this.props.config.env.isMixpanelEnabled,
-                    this.props.userSession.userId,
-                    this.props.userIdentity.id,
-                    this.props.planStatus,
-                    this.props.userConsent.find(
-                      (consent) => consent.id === 'mixpanel'
-                    )?.isConsented ?? false,
-                    {
-                      feature: 'END_TOUR',
-                    }
-                  )
-                }}
-              />
-            )
-          }
-          {
-            this.props.context === 'ONBOARDING' && (
-              <Onboarding
-                {...this.props}
-                onCloseOnboarding={() => {
-                  this.props.onClose()
+                trackAnnouncementsEvent(
+                  this.props.config.env.isMixpanelEnabled,
+                  this.props.userSession.userId,
+                  this.props.userIdentity.id,
+                  this.props.planStatus,
+                  this.props.userConsent.find(
+                    (consent) => consent.id === 'mixpanel'
+                  )?.isConsented ?? false,
+                  {
+                    feature: 'END_TOUR',
+                  }
+                )
+              }}
+            />
+          )}
+          {this.props.context === 'ONBOARDING' && (
+            <Onboarding
+              {...this.props}
+              onCloseOnboarding={() => {
+                this.props.onClose()
 
-                  trackOnboardingEvent(
-                    this.props.config.env.isMixpanelEnabled,
-                    this.props.userSession.userId,
-                    this.props.userIdentity.id,
-                    this.props.planStatus,
-                    this.props.userConsent.find(
-                      (consent) => consent.id === 'mixpanel'
-                    )?.isConsented ?? false,
-                    {
-                      feature: 'END_TOUR',
-                    }
-                  )
-                }}
-              />
-            )
-          }
+                trackOnboardingEvent(
+                  this.props.config.env.isMixpanelEnabled,
+                  this.props.userSession.userId,
+                  this.props.userIdentity.id,
+                  this.props.planStatus,
+                  this.props.userConsent.find(
+                    (consent) => consent.id === 'mixpanel'
+                  )?.isConsented ?? false,
+                  {
+                    feature: 'END_TOUR',
+                  }
+                )
+              }}
+            />
+          )}
           {this.props.context === 'PREFERENCES' && (
             <Preferences {...this.props} />
           )}

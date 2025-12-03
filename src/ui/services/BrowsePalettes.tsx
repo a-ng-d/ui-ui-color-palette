@@ -195,12 +195,7 @@ export default class BrowsePalettes extends PureComponent<
       {
         pluginMessage: {
           type: 'JUMP_TO_PALETTE',
-          data: {
-            id: this.props.document.id,
-            locales: {
-              errorMessage: this.props.t('error.unfoundPalette'),
-            },
-          },
+          id: this.props.document.id,
         },
       },
       '*'
