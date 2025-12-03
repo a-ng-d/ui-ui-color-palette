@@ -347,6 +347,7 @@
       "stops": "Decrease stops",
       "visionSimulationMode": "Reset vision simulation"
     },
+    "noChange": "No change",
     "noResult": "No palette matches your search",
     "onboarding": "There is no onboarding for now",
     "paletteCreated": "{name} palette created",

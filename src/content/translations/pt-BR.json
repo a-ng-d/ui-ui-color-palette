@@ -347,6 +347,7 @@
       "stops": "Diminuir paradas",
       "visionSimulationMode": "Resetar simulação de visão"
     },
+    "noChange": "Nenhuma alteração",
     "noResult": "Nenhuma paleta corresponde à sua busca",
     "onboarding": "Não há integração por enquanto",
     "paletteCreated": "Paleta {name} criada",

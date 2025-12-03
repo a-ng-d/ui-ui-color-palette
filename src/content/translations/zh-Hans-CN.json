@@ -347,6 +347,7 @@
       "stops": "减少色阶",
       "visionSimulationMode": "重置视觉模拟"
     },
+    "noChange": "无更改",
     "noResult": "没有调色板匹配您的搜索",
     "onboarding": "目前没有入门指南",
     "paletteCreated": "{name} 调色板已创建",
