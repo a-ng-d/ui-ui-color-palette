@@ -404,7 +404,8 @@ export default class SeePalette extends PureComponent<
   setThemes = (): Array<DropdownOption> => {
     const themes = this.workingThemes().map((theme) => {
       return {
-        label: theme.name,
+        label:
+          theme.name === 'None' ? this.props.t('themes.noneTheme') : theme.name,
         value: theme.id,
         feature: 'SWITCH_THEME',
         type: 'OPTION',
