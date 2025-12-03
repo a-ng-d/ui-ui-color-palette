@@ -16,6 +16,7 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { Language } from '../../types/translations'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { updatePresets } from '../../stores/presets'
+import { updateUserConsent } from '../../stores/consent'
 import { trackLanguageEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -87,7 +88,10 @@ export default class LangPreferences extends PureComponent<
 
   // Handlers
   changeUserLanguageHandler = (lang: Language, tolgee: TolgeeInstance) => {
-    tolgee.changeLanguage(lang).then(() => updatePresets(this.props.t))
+    tolgee.changeLanguage(lang).then(() => {
+      updatePresets(this.props.t)
+      updateUserConsent(this.props.t)
+    })
 
     sendPluginMessage(
       {

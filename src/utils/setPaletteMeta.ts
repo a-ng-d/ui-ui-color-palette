@@ -20,7 +20,6 @@ const setPaletteMeta = ({
   ).length
   const shadeNumber = Object.values(themes[0].scale).length * colorsNumber
 
-  console.log('shadenumber', themesNumber)
   const colorLabel = locales('browse.meta.colors', {
     count: colorsNumber.toString(),
   })

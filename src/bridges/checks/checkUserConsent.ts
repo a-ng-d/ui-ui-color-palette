@@ -1,7 +1,7 @@
-import { getUserConsent } from '../../utils/userConsent'
+import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
 import globalConfig from '../../global.config'
 
-const checkUserConsent = async () => {
+const checkUserConsent = async (userConsent: Array<ConsentConfiguration>) => {
   const iframe = document.querySelector(
     '#ui-container'
   ) as HTMLIFrameElement | null
@@ -10,7 +10,7 @@ const checkUserConsent = async () => {
   )
 
   const userConsentData = await Promise.all(
-    getUserConsent((key) => key).map(async (consent) => {
+    userConsent.map(async (consent) => {
       return {
         ...consent,
         isConsented:

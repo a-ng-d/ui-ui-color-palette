@@ -182,15 +182,17 @@ export const getPresets = (
 ]
 
 export const getDefaultPreset = (
-  locales: (key: string, params?: Record<string, string>) => string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  locales: (key: string, params?: Record<string, any> | undefined) => string
 ): PresetConfiguration => getPresets(locales)[1]
+
+export const updatePresets = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  locales: (key: string, params?: Record<string, any> | undefined) => string
+) => {
+  presets = getPresets(locales)
+  defaultPreset = getDefaultPreset(locales)
+}
 
 export let presets: Array<PresetConfiguration> = []
 export let defaultPreset: PresetConfiguration | null = null
-
-export const updatePresets = (
-  newLocales: (key: string, params?: Record<string, string>) => string
-) => {
-  presets = getPresets(newLocales)
-  defaultPreset = getDefaultPreset(newLocales)
-}

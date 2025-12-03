@@ -32,7 +32,6 @@ import {
   SemanticMessage,
 } from '@a_ng_d/figmug-ui'
 import './stylesheets/app.css'
-import { getUserConsent } from '../utils/userConsent'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { UserSession } from '../types/user'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
@@ -56,6 +55,12 @@ import {
 } from '../stores/preferences'
 import { $palette, initializePaletteStore } from '../stores/palette'
 import { $creditsCount } from '../stores/credits'
+import {
+  $userConsent,
+  getUserConsent,
+  updateUserConsent,
+  updateUserConsentWithData,
+} from '../stores/consent'
 import { getTolgee } from '../external/translation'
 import {
   trackEditorEvent,
@@ -125,8 +130,8 @@ export interface AppStates extends BaseProps {
 
 class App extends Component<AppProps, AppStates> {
   private palette: typeof $palette
-  private subscribeLanguage: (() => void) | undefined
   private subsscribeVsCodeMessage: (() => void) | undefined
+  private subscribeUserConsent: (() => void) | undefined
 
   static features = (
     planStatus: PlanStatus,
@@ -283,16 +288,20 @@ class App extends Component<AppProps, AppStates> {
   // Lifecycle
   componentDidMount = async () => {
     // Load
+    initializePaletteStore()
+    updatePresets(this.props.t)
+    updateUserConsent(this.props.t)
     sendPluginMessage(
       {
         pluginMessage: {
           type: 'LOAD_DATA',
+          data: {
+            userConsent: $userConsent.get(),
+          },
         },
       },
       '*'
     )
-    initializePaletteStore()
-    updatePresets(this.props.t)
 
     this.subsscribeVsCodeMessage = $isVsCodeMessageDisplayed.subscribe(
       (value) => {
@@ -301,6 +310,9 @@ class App extends Component<AppProps, AppStates> {
         })
       }
     )
+    this.subscribeUserConsent = $userConsent.subscribe((value) => {
+      this.setState({ userConsent: [...value] })
+    })
 
     this.setState({
       scale: doScale(
@@ -309,6 +321,7 @@ class App extends Component<AppProps, AppStates> {
         this.state.preset.max,
         this.state.preset.easing
       ),
+      userConsent: $userConsent.get(),
     })
     this.palette.setKey(
       'scale',
@@ -394,8 +407,9 @@ class App extends Component<AppProps, AppStates> {
   }
 
   componentWillUnmount = () => {
-    if (this.subscribeLanguage) this.subscribeLanguage()
     if (this.subsscribeVsCodeMessage) this.subsscribeVsCodeMessage()
+    if (this.subscribeUserConsent) this.subscribeUserConsent()
+
     window.removeEventListener(
       'platformMessage',
       this.handleMessage as EventListener
@@ -455,8 +469,8 @@ class App extends Component<AppProps, AppStates> {
       const checkUserConsent = () => {
         this.setState({
           mustUserConsent: path.data.mustUserConsent,
-          userConsent: path.data.userConsent,
         })
+        updateUserConsentWithData(this.props.t, path.data.userConsent)
       }
 
       const checkUserPreferences = () => {
@@ -469,7 +483,10 @@ class App extends Component<AppProps, AppStates> {
 
         getTolgee()
           .changeLanguage(path.data.userLanguage)
-          .then(() => updatePresets(this.props.t))
+          .then(() => {
+            updatePresets(this.props.t)
+            updateUserConsent(this.props.t)
+          })
       }
 
       const checkUserLicense = () => {
@@ -744,6 +761,7 @@ class App extends Component<AppProps, AppStates> {
       userConsent: e,
       mustUserConsent: false,
     })
+
     sendPluginMessage(
       {
         pluginMessage: {
@@ -764,14 +782,7 @@ class App extends Component<AppProps, AppStates> {
       },
       this.props.config.urls.platformUrl
     )
-    sendPluginMessage(
-      {
-        pluginMessage: {
-          type: 'CHECK_USER_CONSENT',
-        },
-      },
-      '*'
-    )
+
     trackUserConsentEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.config.versions.userConsentVersion,

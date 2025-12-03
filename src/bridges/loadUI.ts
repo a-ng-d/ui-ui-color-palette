@@ -70,7 +70,7 @@ window.addEventListener('message', async (msg: any) => {
       })
 
       // Checks
-      checkUserConsent()
+      checkUserConsent(path.data.userConsent)
         .then(() => checkTrialStatus())
         .then(() => checkCredits())
         .then(() => checkUserPreferences())
@@ -91,7 +91,6 @@ window.addEventListener('message', async (msg: any) => {
         path.data.height.toString()
       )
     },
-    CHECK_USER_CONSENT: () => checkUserConsent(),
     CHECK_ANNOUNCEMENTS_STATUS: () =>
       checkAnnouncementsStatus(path.data.version),
     //
