@@ -531,6 +531,11 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.localStylesSync
+      )
+
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -553,6 +558,11 @@ export default class EditPalette extends PureComponent<
       { pluginMessage: { type: 'SYNC_LOCAL_VARIABLES', id: this.props.id } },
       '*'
     )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.localVariablesSync
+      )
 
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,

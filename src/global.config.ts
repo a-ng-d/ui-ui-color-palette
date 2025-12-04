@@ -792,6 +792,8 @@ const globalConfig: Config = {
     paletteWithPropsGenerate: 75,
     sheetGenerate: 150,
     paletteUpdates: 20,
+    localStylesSync: 10,
+    localVariablesSync: 10,
   },
 }
 

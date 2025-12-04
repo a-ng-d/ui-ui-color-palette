@@ -97,5 +97,7 @@ export interface Config {
     paletteWithPropsGenerate: number
     sheetGenerate: number
     paletteUpdates: number
+    localStylesSync: number
+    localVariablesSync: number
   }
 }

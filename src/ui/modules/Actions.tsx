@@ -1089,7 +1089,12 @@ export default class Actions extends PureComponent<
                     this.props.config,
                     this.props.service,
                     this.props.editor
-                  ).SYNC_LOCAL_STYLES.isBlocked(),
+                  ).SYNC_LOCAL_STYLES.isReached(
+                    (this.props.creditsCount -
+                      this.props.config.fees.localStylesSync) *
+                      -1 -
+                      1
+                  ),
                   isNew: Actions.features(
                     this.props.planStatus,
                     this.props.config,
@@ -1114,7 +1119,12 @@ export default class Actions extends PureComponent<
                     this.props.config,
                     this.props.service,
                     this.props.editor
-                  ).SYNC_LOCAL_VARIABLES.isBlocked(),
+                  ).SYNC_LOCAL_VARIABLES.isReached(
+                    (this.props.creditsCount -
+                      this.props.config.fees.localVariablesSync) *
+                      -1 -
+                      1
+                  ),
                   isNew: Actions.features(
                     this.props.planStatus,
                     this.props.config,

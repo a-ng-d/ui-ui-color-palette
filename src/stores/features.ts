@@ -1,8 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 
-export const featuresScheme: Array<
-  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
-> = [
+export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',
@@ -3033,6 +3031,7 @@ export const featuresScheme: Array<
     availabilityForServices: ['EDIT'],
     proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    limit: 0,
   },
   {
     name: 'SYNC_LOCAL_VARIABLES',
@@ -3044,6 +3043,7 @@ export const featuresScheme: Array<
     availabilityForServices: ['EDIT'],
     proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    limit: 0,
   },
   {
     name: 'PUBLISH_PALETTE',
