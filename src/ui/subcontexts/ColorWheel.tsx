@@ -331,7 +331,13 @@ export default class ColorWheel extends PureComponent<
                     </Feature>
                   }
                   rightPartSlot={
-                    <div className={layouts['snackbar--medium']}>
+                    <div
+                      className={doClassnames([
+                        layouts['snackbar--medium'],
+                        layouts['snackbar--right'],
+                        layouts['snackbar--wrap'],
+                      ])}
+                    >
                       <Feature
                         isActive={ColorWheel.features(
                           this.props.planStatus,
@@ -557,6 +563,7 @@ export default class ColorWheel extends PureComponent<
                     </div>
                   }
                   shouldReflow
+                  isInverted
                   border={['BOTTOM']}
                 />
                 <this.HarmonyPreview />
