@@ -912,6 +912,7 @@ export default class EditPalette extends PureComponent<
                 tabs={this.contexts}
                 active={this.state.context ?? ''}
                 isFlex={isFlex}
+                maxVisibleTabs={3}
                 action={this.navHandler}
               />
             </div>

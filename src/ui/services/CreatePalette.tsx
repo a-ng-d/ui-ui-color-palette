@@ -461,6 +461,7 @@ export default class CreatePalette extends PureComponent<
               tabs={this.contexts}
               active={this.state.context ?? ''}
               isFlex={isFlex}
+              maxVisibleTabs={2}
               action={this.navHandler}
             />
           }

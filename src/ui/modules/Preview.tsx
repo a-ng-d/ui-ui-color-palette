@@ -814,10 +814,11 @@ export default class Preview extends PureComponent<
           }
           rightPartSlot={
             <div
-              className={layouts['snackbar--medium']}
-              style={{
-                justifyContent: 'end',
-              }}
+              className={doClassnames([
+                layouts['snackbar--medium'],
+                layouts['snackbar--right'],
+                layouts['snackbar--wrap'],
+              ])}
             >
               <Feature
                 isActive={

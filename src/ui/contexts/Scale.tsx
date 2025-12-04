@@ -808,7 +808,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                           this.props.editor
                         ).SCALE_HELPER_TIPS.isActive()}
                       >
-                        <div className={layouts['snackbar--tight']}>
+                        <div
+                          className={doClassnames([
+                            layouts['snackbar--tight'],
+                            layouts['snackbar--right'],
+                            layouts['snackbar--wrap'],
+                          ])}
+                        >
                           <Button
                             type="tertiary"
                             label={this.props.t('scale.howTo')}
@@ -911,7 +917,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                           this.props.editor
                         ).SCALE_HELPER_TIPS.isActive()}
                       >
-                        <div className={layouts['snackbar--tight']}>
+                        <div
+                          className={doClassnames([
+                            layouts['snackbar--tight'],
+                            layouts['snackbar--right'],
+                            layouts['snackbar--wrap'],
+                          ])}
+                        >
                           <Button
                             type="tertiary"
                             label={this.props.t('scale.howTo')}

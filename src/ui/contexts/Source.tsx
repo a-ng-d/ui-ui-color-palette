@@ -46,6 +46,7 @@ interface SourceStates {
 
 export default class Source extends PureComponent<SourceProps, SourceStates> {
   private contexts: Array<ContextItem>
+  private theme: string | null
   private subscribeCredits: (() => void) | undefined
 
   static features = (
@@ -85,6 +86,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
       activeFilters: ['ANY'],
       creditsCount: this.props.config.plan.creditsLimit,
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -146,6 +148,24 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   // Render
   render() {
     let fragment
+    let isFlex = true
+
+    switch (this.theme) {
+      case 'figma':
+        isFlex = false
+        break
+      case 'penpot':
+        isFlex = true
+        break
+      case 'sketch':
+        isFlex = false
+        break
+      case 'framer':
+        isFlex = true
+        break
+      default:
+        isFlex = true
+    }
 
     switch (this.state.context) {
       case 'SOURCE_OVERVIEW': {
@@ -236,6 +256,8 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
                   tabs={this.contexts}
                   active={this.state.context ?? ''}
                   direction="VERTICAL"
+                  isFlex={isFlex}
+                  maxVisibleTabs={3}
                   action={this.navHandler}
                 />
               ),

@@ -207,7 +207,13 @@ export default class PlanControls extends PureComponent<
   )
 
   FreePlan = () => (
-    <div className={doClassnames([layouts['snackbar--tight']])}>
+    <div
+      className={doClassnames([
+        layouts['snackbar--tight'],
+        layouts['snackbar--left'],
+        layouts['snackbar--wrap'],
+      ])}
+    >
       <Button
         type="alternative"
         size="small"
@@ -223,7 +229,13 @@ export default class PlanControls extends PureComponent<
   )
 
   TrialPlan = () => (
-    <div className={doClassnames([layouts['snackbar--tight']])}>
+    <div
+      className={doClassnames([
+        layouts['snackbar--tight'],
+        layouts['snackbar--left'],
+        layouts['snackbar--wrap'],
+      ])}
+    >
       <Button
         type="alternative"
         size="small"
@@ -243,7 +255,13 @@ export default class PlanControls extends PureComponent<
   )
 
   PendingTrial = () => (
-    <div className={doClassnames([layouts['snackbar--tight']])}>
+    <div
+      className={doClassnames([
+        layouts['snackbar--tight'],
+        layouts['snackbar--left'],
+        layouts['snackbar--wrap'],
+      ])}
+    >
       <Button
         type="alternative"
         size="small"
@@ -258,7 +276,13 @@ export default class PlanControls extends PureComponent<
   )
 
   ExpiredTrial = () => (
-    <div className={doClassnames([layouts['snackbar--tight']])}>
+    <div
+      className={doClassnames([
+        layouts['snackbar--tight'],
+        layouts['snackbar--left'],
+        layouts['snackbar--wrap'],
+      ])}
+    >
       <Button
         type="alternative"
         size="small"

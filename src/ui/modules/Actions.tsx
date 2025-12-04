@@ -986,7 +986,13 @@ export default class Actions extends PureComponent<
           </div>
         }
         rightPartSlot={
-          <div className={layouts['snackbar--medium']}>
+          <div
+            className={doClassnames([
+              layouts['snackbar--medium'],
+              layouts['snackbar--right'],
+              layouts['snackbar--wrap'],
+            ])}
+          >
             <Feature
               isActive={Actions.features(
                 this.props.planStatus,
