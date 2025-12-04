@@ -80,6 +80,23 @@ export default defineConfig(({ mode }) => {
         'react-dom': 'preact/compat',
         'react/jsx-runtime': 'preact/jsx-runtime',
       },
+      dedupe: ['react', 'react-dom', 'preact'],
+    },
+
+    optimizeDeps: {
+      include: [
+        'preact/compat',
+        'preact/jsx-runtime',
+        '@a_ng_d/figmug-ui',
+        '@a_ng_d/figmug-utils',
+      ],
+      esbuildOptions: {
+        alias: {
+          react: 'preact/compat',
+          'react-dom': 'preact/compat',
+          'react/jsx-runtime': 'preact/jsx-runtime',
+        },
+      },
     },
 
     build: {

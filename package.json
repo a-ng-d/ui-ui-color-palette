@@ -18,6 +18,8 @@
     "update:ext": "git submodule update --remote --merge",
     "update:figmug": "npm i @a_ng_d/figmug-ui@latest @a_ng_d/figmug-utils@latest",
     "update:uicp": "npm i @a_ng_d/utils-ui-color-palette@latest",
+    "link:figmug": "cd ../figmug-utils && npm link && cd ../figmug-ui && npm link && cd ../ui-ui-color-palette && npm link @a_ng_d/figmug-ui @a_ng_d/figmug-utils && rm -rf node_modules/.vite",
+    "unlink:figmug": "npm unlink @a_ng_d/figmug-ui @a_ng_d/figmug-utils && npm install @a_ng_d/figmug-ui @a_ng_d/figmug-utils && rm -rf node_modules/.vite",
     "start:announcements": "npm run start:8888 -w announcements-yelbolt-worker",
     "start:token": "npm run start:8787 -w auth-yelbolt-worker",
     "start:auth": "npm run dev:uicp -w auth-yelbolt",
@@ -69,7 +71,7 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
-    "@a_ng_d/figmug-ui": "^1.19.38",
+    "@a_ng_d/figmug-ui": "^1.19.39",
     "@a_ng_d/figmug-utils": "^0.7.3",
     "@a_ng_d/utils-ui-color-palette": "^1.7.6",
     "@mistralai/mistralai": "^1.10.0",
