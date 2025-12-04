@@ -759,7 +759,13 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                 </Feature>
               </div>
             ) : (
-              <div className={layouts['snackbar--medium']}>
+              <div
+                className={doClassnames([
+                  layouts['snackbar--medium'],
+                  layouts['snackbar--wrap'],
+                  layouts['snackbar--right'],
+                ])}
+              >
                 <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
                   <Dropdown
                     id="presets"
