@@ -663,19 +663,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               boxSizing: 'border-box',
             }}
           >
-            {!this.canSavePalette() && this.props.service === 'CREATE' && (
-              <SemanticMessage
-                type="WARNING"
-                message={this.props.t('pricing.limit.message')}
-                actionsSlot={
-                  <Button
-                    type="secondary"
-                    label={this.props.t('pricing.limit.cta')}
-                    action={this.onSkipAndResetPalette}
-                  />
-                }
-              />
-            )}
             <div
               style={{
                 display: isFlex ? 'block' : 'flex',
@@ -700,6 +687,19 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 action={this.navHandler}
               />
             </div>
+            {!this.canSavePalette() && this.props.service === 'CREATE' && (
+              <SemanticMessage
+                type="WARNING"
+                message={this.props.t('pricing.limit.message')}
+                actionsSlot={
+                  <Button
+                    type="secondary"
+                    label={this.props.t('pricing.limit.cta')}
+                    action={this.onSkipAndResetPalette}
+                  />
+                }
+              />
+            )}
             <div
               style={{
                 display: 'flex',
