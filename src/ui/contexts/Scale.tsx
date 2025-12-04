@@ -852,6 +852,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
+                    isInverted
                     shouldReflow
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}
@@ -961,6 +962,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                         </div>
                       </Feature>
                     }
+                    isInverted
                     shouldReflow
                   />
                   {this.state.isTipsOpen && <this.KeyboardShortcuts />}

@@ -67,6 +67,7 @@ export default class RemotePalettes extends PureComponent<
   RemotePalettesStates
 > {
   private contexts: Array<ContextItem>
+  private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
@@ -138,6 +139,7 @@ export default class RemotePalettes extends PureComponent<
       orgPalettesSearchQuery: '',
       starredPalettesSearchQuery: '',
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -321,6 +323,32 @@ export default class RemotePalettes extends PureComponent<
   // Render
   render() {
     let fragment
+    let isFlex = true
+    let padding
+
+    switch (this.theme) {
+      case 'figma':
+        isFlex = false
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'penpot':
+        isFlex = true
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'sketch':
+        isFlex = false
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        isFlex = true
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      default:
+        isFlex = true
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+    }
+
+    if (this.props.documentWidth > 460) padding = 'var(--size-null)'
 
     switch (this.state.context) {
       case 'REMOTE_PALETTES_SELF': {
@@ -446,12 +474,20 @@ export default class RemotePalettes extends PureComponent<
         column={[
           {
             node: (
-              <Tabs
-                tabs={this.contexts}
-                active={this.state.context ?? ''}
-                direction="VERTICAL"
-                action={this.navHandler}
-              />
+              <div
+                style={{
+                  padding: padding,
+                }}
+              >
+                <Tabs
+                  tabs={this.contexts}
+                  active={this.state.context ?? ''}
+                  direction="VERTICAL"
+                  isFlex={isFlex}
+                  maxVisibleTabs={3}
+                  action={this.navHandler}
+                />
+              </div>
             ),
             typeModifier: 'FIXED',
             fixedWidth: '148px',
