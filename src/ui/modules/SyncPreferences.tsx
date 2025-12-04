@@ -105,12 +105,20 @@ export default class SyncPreferences extends PureComponent<
           name="update-styles-deep-sync"
           label={this.props.t('user.preferences.sync.styles.label')}
           isChecked={this.state.canStylesDeepSync}
-          isBlocked={SyncPreferences.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).USER_PREFERENCES_SYNC_DEEP_STYLES.isBlocked()}
+          isBlocked={
+            !this.state.canStylesDeepSync &&
+            SyncPreferences.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).USER_PREFERENCES_SYNC_DEEP_STYLES.isReached(
+              (this.props.creditsCount -
+                this.props.config.fees.localStylesSync) *
+                -1 -
+                1
+            )
+          }
           isNew={SyncPreferences.features(
             this.props.planStatus,
             this.props.config,
@@ -156,12 +164,20 @@ export default class SyncPreferences extends PureComponent<
           name="update-variables-deep-sync"
           label={this.props.t('user.preferences.sync.variables.label')}
           isChecked={this.state.canVariablesDeepSync}
-          isBlocked={SyncPreferences.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isBlocked()}
+          isBlocked={
+            !this.state.canVariablesDeepSync &&
+            SyncPreferences.features(
+              this.props.planStatus,
+              this.props.config,
+              this.props.service,
+              this.props.editor
+            ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isReached(
+              (this.props.creditsCount -
+                this.props.config.fees.localVariablesSync) *
+                -1 -
+                1
+            )
+          }
           isNew={SyncPreferences.features(
             this.props.planStatus,
             this.props.config,

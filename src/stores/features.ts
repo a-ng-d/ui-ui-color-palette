@@ -3436,6 +3436,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    limit: 0,
   },
   {
     name: 'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
@@ -3447,6 +3448,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    limit: 0,
   },
   {
     name: 'USER_LICENSE',
