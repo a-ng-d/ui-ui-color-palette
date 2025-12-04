@@ -6,7 +6,6 @@ import {
   SourceColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { tolgee } from '../loadUI'
 
 interface Msg {
   data: {
@@ -48,7 +47,7 @@ const createPalette = async (msg: Msg) => {
 
   const themes: Array<ThemeConfiguration> = [
     {
-      name: tolgee.t('defaultThemeName'),
+      name: '',
       description: '',
       scale: msg.data.exchange.scale,
       paletteBackground: '#FFFFFF',

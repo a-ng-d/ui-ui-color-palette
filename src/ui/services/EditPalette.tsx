@@ -749,7 +749,9 @@ export default class EditPalette extends PureComponent<
     const themes = this.workingThemes().map((theme) => {
       return {
         label:
-          theme.name === 'None' ? this.props.t('themes.noneTheme') : theme.name,
+          theme.type === 'default theme'
+            ? this.props.t('themes.switchTheme.defaultTheme')
+            : theme.name,
         value: theme.id,
         feature: 'SWITCH_THEME',
         type: 'OPTION',
