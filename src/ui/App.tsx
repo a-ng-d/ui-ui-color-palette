@@ -41,9 +41,7 @@ import {
   AnnouncementsDigest,
   PlanStatus,
   ModalContext,
-  TrialStatus,
   Service,
-  Plans,
 } from '../types/app'
 import { getDefaultPreset, getPresets, updatePresets } from '../stores/presets'
 import {
@@ -109,12 +107,6 @@ export interface AppStates extends BaseProps {
   dates: DatesConfiguration
   palettesList: Array<ExtractOfBaseConfiguration>
   document: DocumentConfiguration
-  planStatus: PlanStatus
-  trialStatus: TrialStatus
-  trialRemainingTime: number
-  creditsRenewalDate: number
-  editor: Editor
-  plans: Plans
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
   modalContext: ModalContext
@@ -124,7 +116,6 @@ export interface AppStates extends BaseProps {
   isVsCodeMessageDisplayed: boolean
   isLoaded: boolean
   isNotificationDisplayed: boolean
-  documentWidth: number
   onGoingStep: string
 }
 
@@ -132,6 +123,7 @@ class App extends Component<AppProps, AppStates> {
   private palette: typeof $palette
   private subsscribeVsCodeMessage: (() => void) | undefined
   private subscribeUserConsent: (() => void) | undefined
+  private subscribeCreditCount: (() => void) | undefined
 
   static features = (
     planStatus: PlanStatus,
@@ -263,6 +255,7 @@ class App extends Component<AppProps, AppStates> {
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: props.config.plan.trialTime,
+      creditsCount: props.config.plan.creditsLimit,
       creditsRenewalDate: 0,
       editor: props.config.env.editor,
       plans: [],
@@ -312,6 +305,27 @@ class App extends Component<AppProps, AppStates> {
     )
     this.subscribeUserConsent = $userConsent.subscribe((value) => {
       this.setState({ userConsent: [...value] })
+    })
+    this.subscribeCreditCount = $creditsCount.subscribe((value) => {
+      let adjustedValue = value
+      if (adjustedValue < 0) adjustedValue = 0
+      this.setState({ creditsCount: adjustedValue })
+
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'SET_ITEMS',
+            items: [
+              {
+                key: 'credits_count',
+                value: adjustedValue,
+              },
+            ],
+          },
+          pluginId: this.props.config.env.pluginId,
+        },
+        this.props.config.urls.platformUrl
+      )
     })
 
     this.setState({
@@ -409,6 +423,7 @@ class App extends Component<AppProps, AppStates> {
   componentWillUnmount = () => {
     if (this.subsscribeVsCodeMessage) this.subsscribeVsCodeMessage()
     if (this.subscribeUserConsent) this.subscribeUserConsent()
+    if (this.subscribeCreditCount) this.subscribeCreditCount()
 
     window.removeEventListener(
       'platformMessage',
@@ -539,7 +554,10 @@ class App extends Component<AppProps, AppStates> {
 
       const checkCredits = () => {
         $creditsCount.set(path.data.creditsCount)
-        this.setState({ creditsRenewalDate: path.data.creditsRenewalDate })
+        this.setState({
+          creditsCount: path.data.creditsCount,
+          creditsRenewalDate: path.data.creditsRenewalDate,
+        })
       }
 
       const checkAnnouncements = () => {

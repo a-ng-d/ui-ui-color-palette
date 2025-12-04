@@ -120,7 +120,12 @@ export default class ImagePalette extends PureComponent<
           this.props.config,
           this.props.service,
           this.props.editor
-        ).SOURCE_IMAGE_UPLOAD.isReached(this.props.creditsCount * -1 - 1)
+        ).SOURCE_IMAGE_UPLOAD.isReached(
+          (this.props.creditsCount -
+            this.props.config.fees.imageColorsExtract) *
+            -1 -
+            1
+        )
       ) {
         e.preventDefault()
 
@@ -160,7 +165,12 @@ export default class ImagePalette extends PureComponent<
             this.props.config,
             this.props.service,
             this.props.editor
-          ).SOURCE_IMAGE_UPLOAD.isReached(this.props.creditsCount * -1 - 1)
+          ).SOURCE_IMAGE_UPLOAD.isReached(
+            (this.props.creditsCount -
+              this.props.config.fees.imageColorsExtract) *
+              -1 -
+              1
+          )
         ) {
           const arrayBuffer = path.data.arrayBuffer
           const blob = new Blob([arrayBuffer as ArrayBuffer], {
@@ -309,7 +319,12 @@ export default class ImagePalette extends PureComponent<
               this.props.config,
               this.props.service,
               this.props.editor
-            ).SOURCE_IMAGE_UPLOAD.isReached(this.props.creditsCount * -1 - 1)}
+            ).SOURCE_IMAGE_UPLOAD.isReached(
+              (this.props.creditsCount -
+                this.props.config.fees.imageColorsExtract) *
+                -1 -
+                1
+            )}
             isNew={ImagePalette.features(
               this.props.planStatus,
               this.props.config,

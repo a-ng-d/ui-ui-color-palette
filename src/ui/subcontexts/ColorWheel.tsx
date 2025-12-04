@@ -220,7 +220,35 @@ export default class ColorWheel extends PureComponent<
   // Templates
   HarmonyPreview = () => {
     return (
-      <div className="preview__palette">
+      <div
+        className="preview__palette"
+        style={{
+          position: 'relative',
+        }}
+      >
+        {ColorWheel.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_HARMONY_BASE.isReached(
+          (this.props.creditsCount - this.props.config.fees.harmonyCreate) *
+            -1 -
+            1
+        ) && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: '#CCC',
+              opacity: 0.7,
+              zIndex: 2,
+            }}
+          />
+        )}
         <div className="preview__rows">
           <div className="preview__row">
             {this.state.colorHarmony.hexColors.map((color, index) => (
@@ -281,7 +309,10 @@ export default class ColorWheel extends PureComponent<
                             this.props.service,
                             this.props.editor
                           ).SOURCE_HARMONY_BASE.isReached(
-                            this.props.creditsCount * -1 - 1
+                            (this.props.creditsCount -
+                              this.props.config.fees.harmonyCreate) *
+                              -1 -
+                              1
                           )}
                           isNew={ColorWheel.features(
                             this.props.planStatus,
@@ -509,7 +540,10 @@ export default class ColorWheel extends PureComponent<
                             this.props.service,
                             this.props.editor
                           ).SOURCE_HARMONY_ADD.isReached(
-                            this.props.creditsCount * -1 - 1
+                            (this.props.creditsCount -
+                              this.props.config.fees.harmonyCreate) *
+                              -1 -
+                              1
                           )}
                           isNew={ColorWheel.features(
                             this.props.planStatus,

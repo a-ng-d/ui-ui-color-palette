@@ -785,7 +785,10 @@ export default class Overview extends PureComponent<
                     this.props.service,
                     this.props.editor
                   ).SOURCE_COOLORS_ADD.isReached(
-                    this.props.creditsCount * -1 - 1
+                    (this.props.creditsCount -
+                      this.props.config.fees.coolorsImport) *
+                      -1 -
+                      1
                   )}
                   onChange={this.isTypingCoolorsUrlHandler}
                   onBlur={() => {
@@ -911,7 +914,10 @@ export default class Overview extends PureComponent<
                     this.props.service,
                     this.props.editor
                   ).SOURCE_REALTIME_COLORS_ADD.isReached(
-                    this.props.creditsCount * -1 - 1
+                    (this.props.creditsCount -
+                      this.props.config.fees.realtimeColorsImport) *
+                      -1 -
+                      1
                   )}
                   onChange={this.isTypingRealtimeColorsUrlHandler}
                   onBlur={() => {

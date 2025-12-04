@@ -310,7 +310,10 @@ export default class Explore extends PureComponent<
                         this.props.service,
                         this.props.editor
                       ).SOURCE_EXPLORE_ADD.isReached(
-                        this.props.creditsCount * -1 - 1
+                        (this.props.creditsCount -
+                          this.props.config.fees.colourLoversImport) *
+                          -1 -
+                          1
                       )}
                       isNew={Explore.features(
                         this.props.planStatus,

@@ -19,8 +19,12 @@ export interface BaseProps {
   userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
+  plans: Plans
   planStatus: PlanStatus
   trialStatus: TrialStatus
+  trialRemainingTime: number
+  creditsCount: number
+  creditsRenewalDate: number
   editor: Editor
   documentWidth: number
 }

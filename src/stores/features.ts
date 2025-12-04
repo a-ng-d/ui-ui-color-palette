@@ -241,7 +241,6 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: 1,
   },
   {
     name: 'LOCAL_PALETTES_PAGE',
@@ -559,7 +558,6 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: 5,
   },
   {
     name: 'SOURCE_OVERVIEW',
@@ -614,7 +612,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -25,
+    limit: 0,
   },
   {
     name: 'SOURCE_CANVAS',
@@ -687,7 +685,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -25,
+    limit: 0,
   },
   {
     name: 'SOURCE_REALTIME_COLORS',
@@ -706,7 +704,6 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -25,
   },
   {
     name: 'SOURCE_REALTIME_COLORS_ADD',
@@ -725,7 +722,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -25,
+    limit: 0,
   },
   {
     name: 'SOURCE_COLOUR_LOVERS',
@@ -780,7 +777,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -100,
+    limit: 0,
   },
   {
     name: 'SOURCE_IMAGE_ADD',
@@ -835,7 +832,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -50,
+    limit: 0,
   },
   {
     name: 'SOURCE_HARMONY_WHEEL',
@@ -962,7 +959,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -50,
+    limit: 0,
   },
   {
     name: 'SOURCE_AI',
@@ -999,7 +996,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: -100,
+    limit: 0,
   },
   {
     name: 'SOURCE_AI_ADD',
@@ -1414,7 +1411,6 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: 8,
   },
   {
     name: 'SCALE_CONFIGURATION',
@@ -1723,7 +1719,6 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-    limit: 5,
   },
   {
     name: 'COLORS_NAME',
@@ -2495,6 +2490,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
+    limit: 0,
   },
   {
     name: 'VIEWS_PALETTE_WITH_PROPERTIES',
@@ -2513,6 +2509,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
+    limit: 0,
   },
   {
     name: 'VIEWS_SHEET',
@@ -2531,6 +2528,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
+    limit: 0,
   },
   {
     name: 'SETTINGS_COLOR_MANAGEMENT',
@@ -3082,24 +3080,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
-  },
-  {
-    name: 'DOCUMENT_SHEET',
-    description: 'Generates a color sheet document',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'ACTION',
-    availabilityForServices: ['EDIT'],
-    proForServices: ['EDIT'],
-    availabilityForEditors: [
-      'figma',
-      'figjam',
-      'penpot',
-      'sketch',
-      'framer',
-      'buzz',
-    ],
+    limit: 0,
   },
   {
     name: 'DOCUMENT_PALETTE',
@@ -3118,6 +3099,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
+    limit: 0,
   },
   {
     name: 'DOCUMENT_PALETTE_PROPERTIES',
@@ -3136,6 +3118,26 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
+    limit: 0,
+  },
+  {
+    name: 'DOCUMENT_SHEET',
+    description: 'Generates a color sheet document',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    availabilityForServices: ['EDIT'],
+    proForServices: ['EDIT'],
+    availabilityForEditors: [
+      'figma',
+      'figjam',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+    ],
+    limit: 0,
   },
   {
     name: 'DOCUMENT_PUSH_UPDATES',
@@ -3154,6 +3156,7 @@ export const featuresScheme: Array<
       'framer',
       'buzz',
     ],
+    limit: 0,
   },
   {
     name: 'DOWNLOAD_EXPORT',

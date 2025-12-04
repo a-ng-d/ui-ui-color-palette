@@ -10,6 +10,9 @@ export interface Config {
     height: number
     minWidth: number
     minHeight: number
+    localPalettes: number
+    sourceColors: number
+    customStops: number
   }
   env: {
     isDev: boolean
@@ -90,5 +93,9 @@ export interface Config {
     imageColorsExtract: number
     harmonyCreate: number
     aiColorsGenerate: number
+    paletteGenerate: number
+    paletteWithPropsGenerate: number
+    sheetGenerate: number
+    paletteUpdates: number
   }
 }

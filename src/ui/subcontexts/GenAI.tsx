@@ -429,7 +429,12 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                   this.props.config,
                   this.props.service,
                   this.props.editor
-                ).SOURCE_AI_ADD.isReached(this.props.creditsCount * -1 - 1)}
+                ).SOURCE_AI_ADD.isReached(
+                  (this.props.creditsCount -
+                    this.props.config.fees.aiColorsGenerate) *
+                    -1 -
+                    1
+                )}
                 isNew={GenAi.features(
                   this.props.planStatus,
                   this.props.config,
@@ -558,7 +563,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                               this.props.service,
                               this.props.editor
                             ).SOURCE_AI_REQUEST.isReached(
-                              this.props.creditsCount * -1 - 1
+                              (this.props.creditsCount -
+                                this.props.config.fees.aiColorsGenerate) *
+                                -1 -
+                                1
                             )}
                             action={this.generatePalette}
                           />

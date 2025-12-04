@@ -129,13 +129,6 @@ export default class Actions extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    DOCUMENT_SHEET: new FeatureStatus({
-      features: config.features,
-      featureName: 'DOCUMENT_SHEET',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     DOCUMENT_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PALETTE',
@@ -146,6 +139,13 @@ export default class Actions extends PureComponent<
     DOCUMENT_PALETTE_PROPERTIES: new FeatureStatus({
       features: config.features,
       featureName: 'DOCUMENT_PALETTE_PROPERTIES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DOCUMENT_SHEET: new FeatureStatus({
+      features: config.features,
+      featureName: 'DOCUMENT_SHEET',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -394,7 +394,11 @@ export default class Actions extends PureComponent<
           this.props.config,
           this.props.service,
           this.props.editor
-        ).DOCUMENT_PALETTE.isBlocked(),
+        ).DOCUMENT_PALETTE.isReached(
+          (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
+            -1 -
+            1
+        ),
         isNew: Actions.features(
           this.props.planStatus,
           this.props.config,
@@ -418,7 +422,12 @@ export default class Actions extends PureComponent<
           this.props.config,
           this.props.service,
           this.props.editor
-        ).DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
+        ).DOCUMENT_PALETTE_PROPERTIES.isReached(
+          (this.props.creditsCount -
+            this.props.config.fees.paletteWithPropsGenerate) *
+            -1 -
+            1
+        ),
         isNew: Actions.features(
           this.props.planStatus,
           this.props.config,
@@ -442,7 +451,11 @@ export default class Actions extends PureComponent<
           this.props.config,
           this.props.service,
           this.props.editor
-        ).DOCUMENT_SHEET.isBlocked(),
+        ).DOCUMENT_SHEET.isReached(
+          (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
+            -1 -
+            1
+        ),
         isNew: Actions.features(
           this.props.planStatus,
           this.props.config,
@@ -473,7 +486,11 @@ export default class Actions extends PureComponent<
             this.props.config,
             this.props.service,
             this.props.editor
-          ).DOCUMENT_PUSH_UPDATES.isBlocked(),
+          ).DOCUMENT_PUSH_UPDATES.isReached(
+            (this.props.creditsCount - this.props.config.fees.paletteUpdates) *
+              -1 -
+              1
+          ),
           isNew: true,
           action: this.props.onGenerateDocument,
         }
@@ -905,7 +922,12 @@ export default class Actions extends PureComponent<
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).VIEWS_PALETTE.isBlocked(),
+                    ).VIEWS_PALETTE.isReached(
+                      (this.props.creditsCount -
+                        this.props.config.fees.paletteGenerate) *
+                        -1 -
+                        1
+                    ),
                     isNew: Actions.features(
                       this.props.planStatus,
                       this.props.config,
@@ -929,7 +951,12 @@ export default class Actions extends PureComponent<
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).VIEWS_PALETTE_WITH_PROPERTIES.isBlocked(),
+                    ).VIEWS_PALETTE_WITH_PROPERTIES.isReached(
+                      (this.props.creditsCount -
+                        this.props.config.fees.paletteWithPropsGenerate) *
+                        -1 -
+                        1
+                    ),
                     isNew: Actions.features(
                       this.props.planStatus,
                       this.props.config,
@@ -953,7 +980,12 @@ export default class Actions extends PureComponent<
                       this.props.config,
                       this.props.service,
                       this.props.editor
-                    ).VIEWS_SHEET.isBlocked(),
+                    ).VIEWS_SHEET.isReached(
+                      (this.props.creditsCount -
+                        this.props.config.fees.sheetGenerate) *
+                        -1 -
+                        1
+                    ),
                     isNew: Actions.features(
                       this.props.planStatus,
                       this.props.config,

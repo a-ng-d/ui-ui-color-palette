@@ -60,6 +60,7 @@ import {
 } from '../../types/app'
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
+import { $creditsCount } from '../../stores/credits'
 import {
   trackActionEvent,
   trackPreviewManagementEvent,
@@ -387,6 +388,11 @@ export default class EditPalette extends PureComponent<
         },
       })
 
+      if (this.props.config.plan.isProEnabled)
+        $creditsCount.set(
+          $creditsCount.get() - this.props.config.fees.paletteGenerate
+        )
+
       sendPluginMessage(
         {
           pluginMessage: {
@@ -399,38 +405,6 @@ export default class EditPalette extends PureComponent<
       )
     }
 
-    const generateSheet = () => {
-      this.props.onChangeDocument({
-        document: {
-          ...this.props.document,
-          view: 'SHEET',
-        },
-      })
-
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'CREATE_DOCUMENT',
-            id: this.props.id,
-            view: 'SHEET',
-          },
-        },
-        '*'
-      )
-
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'GENERATE_SHEET',
-        }
-      )
-    }
-
     const generatePaletteWithProperties = () => {
       this.props.onChangeDocument({
         document: {
@@ -438,6 +412,11 @@ export default class EditPalette extends PureComponent<
           view: 'PALETTE_WITH_PROPERTIES',
         },
       })
+
+      if (this.props.config.plan.isProEnabled)
+        $creditsCount.set(
+          $creditsCount.get() - this.props.config.fees.paletteWithPropsGenerate
+        )
 
       sendPluginMessage(
         {
@@ -459,6 +438,43 @@ export default class EditPalette extends PureComponent<
           ?.isConsented ?? false,
         {
           feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
+        }
+      )
+    }
+
+    const generateSheet = () => {
+      this.props.onChangeDocument({
+        document: {
+          ...this.props.document,
+          view: 'SHEET',
+        },
+      })
+
+      if (this.props.config.plan.isProEnabled)
+        $creditsCount.set(
+          $creditsCount.get() - this.props.config.fees.sheetGenerate
+        )
+
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'CREATE_DOCUMENT',
+            id: this.props.id,
+            view: 'SHEET',
+          },
+        },
+        '*'
+      )
+
+      trackActionEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'GENERATE_SHEET',
         }
       )
     }
