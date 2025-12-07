@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {Atualize para /pro para adicionar mais de uma cor-fonte} other {Atualize para /pro para adicionar mais de # cores-fonte}}",
     "maxNumberOfStops": "{count, plural, one {Atualize para /pro para adicionar mais de uma parada} other {Atualize para /pro para adicionar mais de # paradas}}",
     "multipleBlockingMessages": {
-      "chroma": "Resetar croma",
+      "chroma": "<li>Resetar croma</li>",
       "head": "Você pode desbloquear a criação se: {messages}",
-      "lockedSourceColors": "Desbloquear cores-fonte",
-      "sourceColors": "Diminuir cores-fonte",
-      "stops": "Diminuir paradas",
-      "visionSimulationMode": "Resetar simulação de visão"
+      "lockedSourceColors": "<li>Desbloquear cores-fonte</li>",
+      "sourceColors": "<li>Diminuir cores-fonte</li>",
+      "stops": "<li>Diminuir paradas</li>",
+      "visionSimulationMode": "<li>Resetar simulação de visão</li>"
     },
     "noChange": "Nenhuma alteração",
     "noResult": "Nenhuma paleta corresponde à sua busca",
@@ -406,6 +406,7 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {1 crédito restante} other {# créditos restantes} =0 {Nenhum crédito restante}}",
+      "fees": "<li>Importar uma paleta do Coolors: {cFee} cdts</li>\n<li>Importar uma paleta do Realtime Colors: {rtFee} cdts</li>\n<li>Importar uma paleta do Colour Lovers: {clFee} cdts</li>\n<li>Criar uma harmonia de cores: {chFee} cdts</li>\n<li>Extrair cores dominantes de imagem: {ipFee} cdts</li>\n<li>Gerar cores com IA: {aiFee} cdts</li>\n<li>Gerar uma paleta simples: {spFee} cdts</li>\n<li>Gerar uma paleta detalhada: {dpFee} cdts</li>\n<li>Gerar uma folha de cores: {csFee} cdts</li>\n<li>Atualizar uma paleta: {puFee} cdts</li>\n<li>Sincronizar com estilos locais: {lsFee} cdts</li>\n<li>Sincronizar com variáveis locais: {lvFee} cdts</li>",
       "renew": "Os créditos serão renovados em {date}. Atualize para /pro para créditos ilimitados."
     },
     "dev": "Plano /dev",
@@ -804,7 +805,7 @@
     "ai": {
       "add": "Gerar cores com IA",
       "empty": "Remover as cores com IA",
-      "helper": "Gerar cores inteligentes baseadas em prompts criativos usando Mistral AI ({fee} créditos)",
+      "helper": "Gerar cores inteligentes baseadas em prompts criativos usando Mistral AI",
       "title": "Cores com IA"
     },
     "canvas": {
@@ -813,7 +814,7 @@
     },
     "colourLovers": {
       "add": "Explorar paletas Colour Lovers",
-      "addColors": "Adicionar à fonte ({fee} créditos). Essas cores substituirão as anteriores se adicionadas",
+      "addColors": "Adicionar à fonte. Essas cores substituirão as anteriores se adicionadas.",
       "empty": "Remover a paleta Colour Lovers",
       "filters": {
         "any": "Qualquer",
@@ -825,7 +826,7 @@
         "violet": "Violeta",
         "yellow": "Amarelo"
       },
-      "helper": "Explorar e importar uma paleta da comunidade Colour Lovers ({fee} créditos)",
+      "helper": "Explorar e importar uma paleta da comunidade Colour Lovers",
       "meta": "{votes} votos・{views} visualizações・{comments} comentários",
       "title": "Colour Lovers"
     },
@@ -838,9 +839,9 @@
     },
     "coolors": {
       "add": "Adicionar uma paleta Coolors",
-      "addColors": "Adicionar à fonte ({fee} créditos)",
+      "addColors": "Adicionar à fonte",
       "empty": "Remover a paleta Coolors",
-      "helper": "Importar uma paleta do famoso Coolors ({fee} créditos)",
+      "helper": "Importar uma paleta do famoso Coolors",
       "title": "Coolors",
       "url": {
         "errorMessage": "A URL deve incluir vários códigos hexadecimais (ex. 8ecae6-…-219ebc)",
@@ -903,19 +904,18 @@
           "placeholder": "Descreva o humor ou tema que você quer (ex. 'Startup de tecnologia moderna com energia vibrante', 'App de meditação calmo com tons terra')"
         }
       },
-      "helper": "Solicitar as cores custa {fee} créditos",
       "title": "Cores geradas por IA"
     },
     "harmony": {
       "add": "Criar uma harmonia de cores",
       "empty": "Remover a harmonia de cores",
-      "helper": "Criar cores harmoniosas baseadas na roda de cores ({fee} créditos)",
+      "helper": "Criar cores harmoniosas baseadas na roda de cores",
       "title": "Harmonia de cores"
     },
     "image": {
       "add": "Extrair cores da imagem",
       "empty": "Remover a paleta de imagem",
-      "helper": "Extrair 5 cores dominantes de qualquer imagem ({fee} créditos)",
+      "helper": "Extrair 5 cores dominantes de qualquer imagem",
       "title": "Paleta de imagem"
     },
     "imagePalette": {
@@ -926,7 +926,6 @@
         "message": "Arraste e solte seu arquivo .png aqui",
         "warning": "O arquivo não foi importado. Tente novamente arrastando e soltando um arquivo .png aqui."
       },
-      "helper": "Fazer upload de uma imagem custa {fee} créditos",
       "message": "Faça upload, cole ou selecione uma imagem para extrair suas 5 cores dominantes",
       "removeImage": "Remover imagem",
       "title": "Cores dominantes"
@@ -939,9 +938,9 @@
     },
     "realtimeColors": {
       "add": "Adicionar uma paleta Realtime Colors",
-      "addColors": "Adicionar à fonte ({fee} créditos)",
+      "addColors": "Adicionar à fonte",
       "empty": "Remover a paleta Realtime Colors",
-      "helper": "Importar uma paleta de uma simulação feita com Realtime Colors ({fee} créditos)",
+      "helper": "Importar uma paleta de uma simulação feita com Realtime Colors",
       "title": "Realtime Colors",
       "url": {
         "errorMessage": "A URL deve incluir vários códigos hexadecimais (ex. 8ecae6-…-219ebc)",
@@ -952,7 +951,7 @@
     },
     "title": "Cores-fonte",
     "wheel": {
-      "addColors": "Adicionar à fonte ({fee} créditos). Essas cores substituirão as anteriores se adicionadas.",
+      "addColors": "Adicionar à fonte. Essas cores substituirão as anteriores se adicionadas.",
       "algorithm": {
         "analogous": "Análogo",
         "complementary": "Complementar",
@@ -961,8 +960,7 @@
         "tetradic": "Tetrádico",
         "triadic": "Triádico"
       },
-      "base": "Cor base",
-      "helper": "Adicionar as cores à paleta custa {fee} créditos"
+      "base": "Cor base"
     }
   },
   "store": {

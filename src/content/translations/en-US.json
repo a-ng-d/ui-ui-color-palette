@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {Upgrade to /pro to add more than one single source color} other {Upgrade to /pro to add more than # source colors}}",
     "maxNumberOfStops": "{count, plural, one {Upgrade to /pro to add more than one single stop} other {Upgrade to /pro to add more than # stops}}",
     "multipleBlockingMessages": {
-      "chroma": "Reset chroma",
+      "chroma": "<li>Reset chroma</li>",
       "head": "You can unlock the creation if you: {messages}",
-      "lockedSourceColors": "Unlock source colors",
-      "sourceColors": "Decrease source colors",
-      "stops": "Decrease stops",
-      "visionSimulationMode": "Reset vision simulation"
+      "lockedSourceColors": "<li>Unlock source colors</li>",
+      "sourceColors": "<li>Decrease source colors</li>",
+      "stops": "<li>Decrease stops</li>",
+      "visionSimulationMode": "<li>Reset vision simulation</li>"
     },
     "noChange": "No change",
     "noResult": "No palette matches your search",
@@ -406,6 +406,7 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {1 credit left} other {# credits left} =0 {No credit left}}",
+      "fees": "<li>Import a palette from Coolors: {cFee} cdts</li>\n<li>Import a palette from Realtime Colors: {rtFee} cdts</li>\n<li>Import a palette from Colour Lovers: {clFee} cdts</li>\n<li>Create a color harmony: {chFee} cdts</li>\n<li>Extract dominant colors from image: {ipFee} cdts</li>\n<li>Generate colors from AI: {aiFee} cdts</li>\n<li>Generate a simple palette: {spFee} cdts</li>\n<li>Generate a detailed palette: {dpFee} cdts</li>\n<li>Generate a color sheet: {csFee} cdts</li>\n<li>Update a palette: {puFee} cdts</li>\n<li>Sync with local styles: {lsFee} cdts</li>\n<li>Sync with local variables: {lvFee} cdts</li>",
       "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits."
     },
     "dev": "/dev plan",
@@ -804,7 +805,7 @@
     "ai": {
       "add": "Generate AI colors",
       "empty": "Remove the AI colors",
-      "helper": "Generate intelligent colors based on creative prompts using Mistral AI ({fee} credits)",
+      "helper": "Generate intelligent colors based on creative prompts using Mistral AI",
       "title": "AI Colors"
     },
     "canvas": {
@@ -813,7 +814,7 @@
     },
     "colourLovers": {
       "add": "Explore Colour Lovers palettes",
-      "addColors": "Add to source ({fee} credits). These colors will override the previous ones if added",
+      "addColors": "Add to source. These colors will override the previous ones if added.",
       "empty": "Remove the Colour Lovers palette",
       "filters": {
         "any": "Any",
@@ -825,7 +826,7 @@
         "violet": "Violet",
         "yellow": "Yellow"
       },
-      "helper": "Explore and import a palette from the Colour Lovers community ({fee} credits)",
+      "helper": "Explore and import a palette from the Colour Lovers community",
       "meta": "{votes} votes・{views} views・{comments} comments",
       "title": "Colour Lovers"
     },
@@ -838,9 +839,9 @@
     },
     "coolors": {
       "add": "Add a Coolors palette",
-      "addColors": "Add to source ({fee} credits)",
+      "addColors": "Add to source",
       "empty": "Remove the Coolors palette",
-      "helper": "Import a or your palette from the famous Coolors ({fee} credits)",
+      "helper": "Import a or your palette from the famous Coolors",
       "title": "Coolors",
       "url": {
         "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
@@ -903,19 +904,18 @@
           "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
         }
       },
-      "helper": "Requesting the colors costs {fee} credits",
       "title": "AI-Generated colors"
     },
     "harmony": {
       "add": "Create a color harmony",
       "empty": "Remove the color harmony",
-      "helper": "Create harmonious colors based on color wheel ({fee} credits)",
+      "helper": "Create harmonious colors based on color wheel",
       "title": "Color harmony"
     },
     "image": {
       "add": "Extract colors from image",
       "empty": "Remove the image palette",
-      "helper": "Extract 5 dominant colors from any image ({fee} credits)",
+      "helper": "Extract 5 dominant colors from any image",
       "title": "Image palette"
     },
     "imagePalette": {
@@ -926,7 +926,6 @@
         "message": "Drag & drop your .png file here",
         "warning": "The file was not imported. Retry dragging & dropping a .png file here."
       },
-      "helper": "Uploading an image costs {fee} credits",
       "message": "Upload, paste or select an image to extract its 5 dominant colors",
       "removeImage": "Remove image",
       "title": "Dominant colors"
@@ -939,9 +938,9 @@
     },
     "realtimeColors": {
       "add": "Add a Realtime Colors palette",
-      "addColors": "Add to source ({fee} credits)",
+      "addColors": "Add to source",
       "empty": "Remove the Realtime Colors palette",
-      "helper": "Import a palette from a simulation made with Realtime Colors ({fee} credits)",
+      "helper": "Import a palette from a simulation made with Realtime Colors",
       "title": "Realtime Colors",
       "url": {
         "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
@@ -952,7 +951,7 @@
     },
     "title": "Source colors",
     "wheel": {
-      "addColors": "Add to source ({fee} credits). These colors will override the previous ones if added.",
+      "addColors": "Add to source. These colors will override the previous ones if added.",
       "algorithm": {
         "analogous": "Analogous",
         "complementary": "Complementary",
@@ -961,8 +960,7 @@
         "tetradic": "Tetradic",
         "triadic": "Triadic"
       },
-      "base": "Base color",
-      "helper": "Adding the colors to the palette costs {fee} credits"
+      "base": "Base color"
     }
   },
   "store": {

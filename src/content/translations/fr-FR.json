@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule couleur source} other {Passez à /pro pour ajouter plus de # couleurs sources}}",
     "maxNumberOfStops": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule étape} other {Passez à /pro pour ajouter plus de # étapes}}",
     "multipleBlockingMessages": {
-      "chroma": "Réinitialiser la chroma",
+      "chroma": "<li>Réinitialiser la chroma</li>",
       "head": "Vous pouvez débloquer la création si vous : {messages}",
-      "lockedSourceColors": "Déverrouiller les couleurs sources",
-      "sourceColors": "Diminuer les couleurs sources",
-      "stops": "Diminuer les étapes",
-      "visionSimulationMode": "Réinitialiser la simulation de vision"
+      "lockedSourceColors": "<li>Déverrouiller les couleurs sources</li>",
+      "sourceColors": "<li>Diminuer les couleurs sources</li>",
+      "stops": "<li>Diminuer les étapes</li>",
+      "visionSimulationMode": "<li>Réinitialiser la simulation de vision</li>"
     },
     "noChange": "Aucun changement",
     "noResult": "Aucune palette ne correspond à votre recherche",
@@ -406,6 +406,7 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {1 crédit restant} other {# crédits restant} =0 {Aucun crédit restant}}",
+      "fees": "<li>Importer une palette de Coolors : {cFee} cdts</li>\n<li>Importer une palette de Realtime Colors : {rtFee} cdts</li>\n<li>Importer une palette de Colour Lovers : {clFee} cdts</li>\n<li>Créer une harmonie de couleur : {chFee} cdts</li>\n<li>Extraire les couleurs dominantes d'une image : {ipFee} cdts</li>\n<li>Générer des couleurs depuis l'IA : {aiFee} cdts</li>\n<li>Générer une palette simple : {spFee} cdts</li>\n<li>Générer une palette détaillée : {dpFee} cdts</li>\n<li>Générer une feuille de couleur : {csFee} cdts</li>\n<li>Mettre à jour une palette : {puFee} cdts</li>\n<li>Synchroniser avec les styles locaux : {lsFee} cdts</li>\n<li>Synchroniser avec les variables locales : {lvFee} cdts</li>",
       "renew": "Les crédits se renouvelleront le {date}. Passez à /pro pour des crédits illimités."
     },
     "dev": "Forfait /dev",
@@ -804,7 +805,7 @@
     "ai": {
       "add": "Générer des couleurs IA",
       "empty": "Supprimer les couleurs IA",
-      "helper": "Générer des couleurs intelligentes basées sur des prompts créatifs utilisant Mistral AI ({fee} crédits)",
+      "helper": "Générer des couleurs intelligentes basées sur des prompts créatifs utilisant Mistral AI",
       "title": "Couleurs IA"
     },
     "canvas": {
@@ -813,7 +814,7 @@
     },
     "colourLovers": {
       "add": "Explorer les palettes Colour Lovers",
-      "addColors": "Ajouter aux sources ({fee} crédits). Ces couleurs remplaceront les précédentes si ajoutées",
+      "addColors": "Ajouter aux sources. Ces couleurs remplaceront les précédentes si ajoutées.",
       "empty": "Supprimer la palette Colour Lovers",
       "filters": {
         "any": "Toutes",
@@ -825,7 +826,7 @@
         "violet": "Violet",
         "yellow": "Jaune"
       },
-      "helper": "Explorer et importer une palette de la communauté Colour Lovers ({fee} crédits)",
+      "helper": "Explorer et importer une palette de la communauté Colour Lovers",
       "meta": "{votes} votes・{views} vues・{comments} commentaires",
       "title": "Colour Lovers"
     },
@@ -838,9 +839,9 @@
     },
     "coolors": {
       "add": "Ajouter une palette Coolors",
-      "addColors": "Ajouter aux sources ({fee} crédits)",
+      "addColors": "Ajouter aux sources",
       "empty": "Supprimer la palette Coolors",
-      "helper": "Importer une palette du célèbre Coolors ({fee} crédits)",
+      "helper": "Importer une palette du célèbre Coolors",
       "title": "Coolors",
       "url": {
         "errorMessage": "L'URL doit inclure plusieurs codes hexadécimaux (ex. 8ecae6-…-219ebc)",
@@ -903,19 +904,18 @@
           "placeholder": "Décrivez l'ambiance ou le thème que vous voulez (ex. 'Startup tech moderne avec énergie vibrante', 'App de méditation calme avec tons terre')"
         }
       },
-      "helper": "Générer des couleurs coûte {fee} crédits",
       "title": "Couleurs générées par IA"
     },
     "harmony": {
       "add": "Créer une harmonie de couleurs",
       "empty": "Supprimer l'harmonie de couleurs",
-      "helper": "Créer des couleurs harmonieuses basées sur la roue chromatique ({fee} crédits)",
+      "helper": "Créer des couleurs harmonieuses basées sur la roue chromatique",
       "title": "Harmonie de couleurs"
     },
     "image": {
       "add": "Extraire les couleurs de l'image",
       "empty": "Supprimer la palette d'image",
-      "helper": "Extraire 5 couleurs dominantes de n'importe quelle image ({fee} crédits)",
+      "helper": "Extraire 5 couleurs dominantes de n'importe quelle image",
       "title": "Palette d'image"
     },
     "imagePalette": {
@@ -926,7 +926,6 @@
         "message": "Glissez-déposez votre fichier .png ici",
         "warning": "Le fichier n'a pas été importé. Réessayez de glisser-déposer un fichier .png ici."
       },
-      "helper": "Télécharger une image coûte {fee} crédits",
       "message": "Téléchargez, collez ou sélectionnez une image pour extraire ses 5 couleurs dominantes",
       "removeImage": "Supprimer l'image",
       "title": "Couleurs dominantes"
@@ -939,9 +938,9 @@
     },
     "realtimeColors": {
       "add": "Ajouter une palette Realtime Colors",
-      "addColors": "Ajouter aux sources ({fee} crédits)",
+      "addColors": "Ajouter aux sources",
       "empty": "Supprimer la palette Realtime Colors",
-      "helper": "Importer une palette d'une simulation faite avec Realtime Colors ({fee} crédits)",
+      "helper": "Importer une palette d'une simulation faite avec Realtime Colors",
       "title": "Realtime Colors",
       "url": {
         "errorMessage": "L'URL doit inclure plusieurs codes hexadécimaux (ex. 8ecae6-…-219ebc)",
@@ -952,7 +951,7 @@
     },
     "title": "Couleurs sources",
     "wheel": {
-      "addColors": "Ajouter aux sources ({fee} crédits). Ces couleurs remplaceront les précédentes si ajoutées.",
+      "addColors": "Ajouter aux sources. Ces couleurs remplaceront les précédentes si ajoutées.",
       "algorithm": {
         "analogous": "Analogue",
         "complementary": "Complémentaire",
@@ -961,8 +960,7 @@
         "tetradic": "Tétradique",
         "triadic": "Triadique"
       },
-      "base": "Couleur de base",
-      "helper": "Ajouter les couleurs à la palette coûte {fee} crédits"
+      "base": "Couleur de base"
     }
   },
   "store": {

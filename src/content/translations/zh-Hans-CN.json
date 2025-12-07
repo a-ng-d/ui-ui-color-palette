@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {升级到 /pro 以添加超过一个源颜色} other {升级到 /pro 以添加超过 # 个源颜色}}",
     "maxNumberOfStops": "{count, plural, one {升级到 /pro 以添加超过一个色阶} other {升级到 /pro 以添加超过 # 个色阶}}",
     "multipleBlockingMessages": {
-      "chroma": "重置色度",
+      "chroma": "<li>重置色度</li>",
       "head": "您可以通过以下方式解锁创建：{messages}",
-      "lockedSourceColors": "解锁源颜色",
-      "sourceColors": "减少源颜色",
-      "stops": "减少色阶",
-      "visionSimulationMode": "重置视觉模拟"
+      "lockedSourceColors": "<li>解锁源颜色</li>",
+      "sourceColors": "<li>减少源颜色</li>",
+      "stops": "<li>减少色阶</li>",
+      "visionSimulationMode": "<li>重置视觉模拟</li>"
     },
     "noChange": "无更改",
     "noResult": "没有调色板匹配您的搜索",
@@ -406,6 +406,7 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, other {剩余 # 积分} =0 {没有剩余积分}}",
+      "fees": "<li>从 Coolors 导入调色板：{cFee} 积分</li>\n<li>从 Realtime Colors 导入调色板：{rtFee} 积分</li>\n<li>从 Colour Lovers 导入调色板：{clFee} 积分</li>\n<li>创建色彩和谐：{chFee} 积分</li>\n<li>从图像提取主色调：{ipFee} 积分</li>\n<li>使用 AI 生成颜色：{aiFee} 积分</li>\n<li>生成简单调色板：{spFee} 积分</li>\n<li>生成详细调色板：{dpFee} 积分</li>\n<li>生成色卡：{csFee} 积分</li>\n<li>更新调色板：{puFee} 积分</li>\n<li>与本地样式同步：{lsFee} 积分</li>\n<li>与本地变量同步：{lvFee} 积分</li>",
       "renew": "积分将在 {date} 更新。升级到 /pro 获得无限积分。"
     },
     "dev": "/dev 计划",
@@ -804,7 +805,7 @@
     "ai": {
       "add": "生成 AI 颜色",
       "empty": "移除 AI 颜色",
-      "helper": "使用 Mistral AI 基于创意提示生成智能颜色（{fee} 积分）",
+      "helper": "使用 Mistral AI 基于创意提示生成智能颜色",
       "title": "AI 颜色"
     },
     "canvas": {
@@ -813,7 +814,7 @@
     },
     "colourLovers": {
       "add": "探索 Colour Lovers 调色板",
-      "addColors": "添加到源（{fee} 积分）。如果添加，这些颜色将覆盖之前的颜色",
+      "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
       "empty": "移除 Colour Lovers 调色板",
       "filters": {
         "any": "任意",
@@ -825,7 +826,7 @@
         "violet": "紫色",
         "yellow": "黄色"
       },
-      "helper": "从 Colour Lovers 社区探索和导入调色板（{fee} 积分）",
+      "helper": "从 Colour Lovers 社区探索和导入调色板",
       "meta": "{votes} 票・{views} 次查看・{comments} 条评论",
       "title": "Colour Lovers"
     },
@@ -838,9 +839,9 @@
     },
     "coolors": {
       "add": "添加 Coolors 调色板",
-      "addColors": "添加到源（{fee} 积分）",
+      "addColors": "添加到源",
       "empty": "移除 Coolors 调色板",
-      "helper": "从著名的 Coolors 导入调色板（{fee} 积分）",
+      "helper": "从著名的 Coolors 导入调色板",
       "title": "Coolors",
       "url": {
         "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
@@ -903,19 +904,18 @@
           "placeholder": "描述您想要的情绪或主题（例如'充满活力的现代科技创业公司'、'大地色调的宁静冥想应用'）"
         }
       },
-      "helper": "请求颜色需要 {fee} 积分",
       "title": "AI 生成颜色"
     },
     "harmony": {
       "add": "创建颜色和谐",
       "empty": "移除颜色和谐",
-      "helper": "基于色轮创建和谐的颜色（{fee} 积分）",
+      "helper": "基于色轮创建和谐的颜色",
       "title": "颜色和谐"
     },
     "image": {
       "add": "从图像提取颜色",
       "empty": "移除图像调色板",
-      "helper": "从任何图像提取 5 种主色（{fee} 积分）",
+      "helper": "从任何图像提取 5 种主色",
       "title": "图像调色板"
     },
     "imagePalette": {
@@ -926,7 +926,6 @@
         "message": "拖放您的 .png 文件到这里",
         "warning": "文件未导入。请重试拖放 .png 文件到这里。"
       },
-      "helper": "上传图像需要 {fee} 积分",
       "message": "上传、粘贴或选择图像以提取其 5 种主色",
       "removeImage": "移除图像",
       "title": "主色"
@@ -939,9 +938,9 @@
     },
     "realtimeColors": {
       "add": "添加 Realtime Colors 调色板",
-      "addColors": "添加到源（{fee} 积分）",
+      "addColors": "添加到源",
       "empty": "移除 Realtime Colors 调色板",
-      "helper": "从 Realtime Colors 制作的模拟中导入调色板（{fee} 积分）",
+      "helper": "从 Realtime Colors 制作的模拟中导入调色板",
       "title": "Realtime Colors",
       "url": {
         "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
@@ -952,7 +951,7 @@
     },
     "title": "源颜色",
     "wheel": {
-      "addColors": "添加到源（{fee} 积分）。如果添加，这些颜色将覆盖之前的颜色。",
+      "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
       "algorithm": {
         "analogous": "类似",
         "complementary": "互补",
@@ -961,8 +960,7 @@
         "tetradic": "四色",
         "triadic": "三色"
       },
-      "base": "基础颜色",
-      "helper": "添加颜色到调色板需要 {fee} 积分"
+      "base": "基础颜色"
     }
   },
   "store": {
