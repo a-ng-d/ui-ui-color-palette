@@ -19,12 +19,11 @@ export const signIn = async ({
   pluginId: string
 }) => {
   return new Promise((resolve, reject) => {
-    fetch(getProxiedUrl(authWorkerUrl), {
+    fetch(getProxiedUrl(`${authWorkerUrl}/passkey`), {
       method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
       headers: {
-        type: 'GET_PASSKEY',
         'distinct-id': disinctId,
       },
     })
@@ -45,12 +44,11 @@ export const signIn = async ({
           '*'
         )
         const poll = setInterval(async () => {
-          fetch(getProxiedUrl(authWorkerUrl), {
+          fetch(getProxiedUrl(`${authWorkerUrl}/tokens`), {
             method: 'GET',
             cache: 'no-cache',
             credentials: 'omit',
             headers: {
-              type: 'GET_TOKENS',
               'distinct-id': disinctId,
               passkey: result.passkey,
             },
