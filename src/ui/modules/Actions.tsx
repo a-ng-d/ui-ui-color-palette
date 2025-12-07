@@ -1,5 +1,6 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import { T } from '@tolgee/react'
 import {
   CreatorConfiguration,
   DatesConfiguration,
@@ -620,68 +621,84 @@ export default class Actions extends PureComponent<
     return true
   }
 
-  proWarning = (): string => {
-    const warningMessage = []
-
-    if (
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
+  proWarning = (): React.ReactNode => {
+    return (
+      <ul className="list-item">
+        {Actions.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1) && (
+          <T
+            keyName="info.multipleBlockingMessages.sourceColors"
+            params={{
+              li: <li />,
+            }}
+          />
+        )}
+        {$palette.get().preset.id.includes('CUSTOM') &&
+          Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).PRESETS_CUSTOM_ADD.isReached(
+            Object.keys(this.props.scale).length - 1
+          ) && (
+            <T
+              keyName="info.multipleBlockingMessages.stops"
+              params={{
+                li: <li />,
+              }}
+            />
+          )}
+        {$palette.get().areSourceColorsLocked &&
+          Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            'EDIT',
+            this.props.editor
+          ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked() && (
+            <T
+              keyName="info.multipleBlockingMessages.lockedSourceColors"
+              params={{
+                li: <li />,
+              }}
+            />
+          )}
+        {$palette.get().shift.chroma !== 100 &&
+          Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            'EDIT',
+            this.props.editor
+          ).SCALE_CHROMA.isBlocked() && (
+            <T
+              keyName="info.multipleBlockingMessages.chroma"
+              params={{
+                li: <li />,
+              }}
+            />
+          )}
+        {$palette.get().visionSimulationMode !== 'NONE' &&
+          Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            'EDIT',
+            this.props.editor
+          )[
+            `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+          ].isBlocked() && (
+            <T
+              keyName="info.multipleBlockingMessages.visionSimulationMode"
+              params={{
+                li: <li />,
+              }}
+            />
+          )}
+      </ul>
     )
-      warningMessage.push(
-        this.props.t('info.multipleBlockingMessages.sourceColors')
-      )
-    if (
-      $palette.get().preset.id.includes('CUSTOM') &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
-    )
-      warningMessage.push(this.props.t('info.multipleBlockingMessages.stops'))
-    if (
-      $palette.get().areSourceColorsLocked &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
-    )
-      warningMessage.push(
-        this.props.t('info.multipleBlockingMessages.lockedSourceColors')
-      )
-    if (
-      $palette.get().shift.chroma !== 100 &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).SCALE_CHROMA.isBlocked()
-    )
-      warningMessage.push(this.props.t('info.multipleBlockingMessages.chroma'))
-    if (
-      $palette.get().visionSimulationMode !== 'NONE' &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      )[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
-      ].isBlocked()
-    )
-      warningMessage.push(
-        this.props.t('info.multipleBlockingMessages.visionSimulationMode')
-      )
-
-    return warningMessage.join(', ')
   }
 
   refinedNumberOfSourceColors = (): number => {
