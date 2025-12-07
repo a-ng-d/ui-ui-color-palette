@@ -19,16 +19,14 @@ export const signIn = async ({
   pluginId: string
 }) => {
   return new Promise((resolve, reject) => {
-    fetch(
-      getProxiedUrl(`${authWorkerUrl}/passkey`, {
+    fetch(getProxiedUrl(`${authWorkerUrl}/passkey`), {
+      method: 'GET',
+      cache: 'no-cache',
+      credentials: 'omit',
+      headers: {
         'distinct-id': disinctId,
-      }),
-      {
-        method: 'GET',
-        cache: 'no-cache',
-        credentials: 'omit',
-      }
-    )
+      },
+    })
       .then((response) => {
         if (response.ok) return response.json()
         else return reject(new Error('Failed to fetch passkey'))
@@ -47,14 +45,14 @@ export const signIn = async ({
         )
         const poll = setInterval(async () => {
           fetch(
-            getProxiedUrl(`${authWorkerUrl}/tokens`, {
-              'distinct-id': disinctId,
-              passkey: result.passkey,
-            }),
+            getProxiedUrl(`${authWorkerUrl}/tokens?passkey=${result.passkey}`),
             {
               method: 'GET',
               cache: 'no-cache',
               credentials: 'omit',
+              headers: {
+                'distinct-id': disinctId,
+              },
             }
           )
             .then((response) => {
