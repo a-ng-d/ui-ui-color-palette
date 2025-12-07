@@ -83,7 +83,23 @@ export const signIn = async ({
                 )
                 checkConnectionStatus(
                   result.tokens.access_token,
-                  result.tokens.refresh_token
+                  result.tokens.refresh_token,
+                  () => {
+                    // Clean up invalid tokens
+                    sendPluginMessage(
+                      {
+                        pluginMessage: {
+                          type: 'DELETE_ITEMS',
+                          items: [
+                            'supabase_access_token',
+                            'supabase_refresh_token',
+                          ],
+                        },
+                        pluginId: pluginId,
+                      },
+                      platformUrl
+                    )
+                  }
                 )
                   .then((sessionData) => {
                     // If session was refreshed, update stored tokens

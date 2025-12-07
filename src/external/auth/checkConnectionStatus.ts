@@ -2,7 +2,8 @@ import { getSupabase } from '.'
 
 const checkConnectionStatus = async (
   accessToken: string | undefined,
-  refreshToken: string | undefined
+  refreshToken: string | undefined,
+  onInvalidToken?: () => void
 ) => {
   if (accessToken !== undefined && refreshToken !== undefined) {
     const supabase = getSupabase()
@@ -17,7 +18,16 @@ const checkConnectionStatus = async (
       })
 
     if (!refreshError && refreshData.session) return refreshData
-    else throw new Error('Session expired and could not be refreshed')
+    else {
+      // If refresh token is invalid, call cleanup callback
+      if (
+        refreshError?.message?.includes('refresh_token_not_found') ||
+        refreshError?.message?.includes('Invalid Refresh Token')
+      ) {
+        onInvalidToken?.()
+      }
+      throw new Error('Session expired and could not be refreshed')
+    }
   }
 }
 
