@@ -371,9 +371,6 @@ export default class ImagePalette extends PureComponent<
             <SectionTitle
               label={this.props.t('source.imagePalette.title')}
               indicator={this.state.dominantColors.length.toString()}
-              helper={this.props.t('source.imagePalette.helper', {
-                fee: this.props.config.fees.imageColorsExtract.toString(),
-              })}
             />
           }
           rightPartSlot={
@@ -389,9 +386,7 @@ export default class ImagePalette extends PureComponent<
                 type="icon"
                 icon="plus"
                 helper={{
-                  label: this.props.t('source.imagePalette.addColors', {
-                    fee: this.props.config.fees.imageColorsExtract.toString(),
-                  }),
+                  label: this.props.t('source.imagePalette.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={this.state.dominantColors.length === 0}

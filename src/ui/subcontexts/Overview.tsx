@@ -722,9 +722,7 @@ export default class Overview extends PureComponent<
           indicator={this.props.sourceColors
             .filter((sourceColor) => sourceColor.source === 'COOLORS')
             .length.toString()}
-          helper={this.props.t('source.coolors.helper', {
-            fee: this.props.config.fees.coolorsImport.toString(),
-          })}
+          helper={this.props.t('source.coolors.helper')}
           helpers={{
             add: this.props.t('source.coolors.add'),
             empty: this.props.t('source.coolors.empty'),
@@ -773,9 +771,7 @@ export default class Overview extends PureComponent<
                   placeholder={this.props.t('source.coolors.url.placeholder')}
                   value={this.state.coolorsUrl.value}
                   helper={{
-                    label: this.props.t('source.coolors.addColors', {
-                      fee: this.props.config.fees.coolorsImport.toString(),
-                    }),
+                    label: this.props.t('source.coolors.addColors'),
                     type: 'MULTI_LINE',
                   }}
                   isAutoFocus
@@ -849,9 +845,7 @@ export default class Overview extends PureComponent<
           indicator={this.props.sourceColors
             .filter((sourceColor) => sourceColor.source === 'REALTIME_COLORS')
             .length.toString()}
-          helper={this.props.t('source.realtimeColors.helper', {
-            fee: this.props.config.fees.realtimeColorsImport.toString(),
-          })}
+          helper={this.props.t('source.realtimeColors.helper')}
           helpers={{
             add: this.props.t('source.realtimeColors.add'),
             empty: this.props.t('source.realtimeColors.empty'),
@@ -902,9 +896,7 @@ export default class Overview extends PureComponent<
                   )}
                   value={this.state.realtimeColorsUrl.value}
                   helper={{
-                    label: this.props.t('source.realtimeColors.addColors', {
-                      fee: this.props.config.fees.realtimeColorsImport.toString(),
-                    }),
+                    label: this.props.t('source.realtimeColors.addColors'),
                     type: 'MULTI_LINE',
                   }}
                   isAutoFocus
@@ -981,9 +973,7 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'COLOUR_LOVERS')
             .length.toString()}
           icon="adjust"
-          helper={this.props.t('source.colourLovers.helper', {
-            fee: this.props.config.fees.colourLoversImport.toString(),
-          })}
+          helper={this.props.t('source.colourLovers.helper')}
           helpers={{
             add: this.props.t('source.colourLovers.add'),
             empty: this.props.t('source.colourLovers.empty'),
@@ -1059,9 +1049,7 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'IMAGE')
             .length.toString()}
           icon="adjust"
-          helper={this.props.t('source.image.helper', {
-            fee: this.props.config.fees.imageColorsExtract.toString(),
-          })}
+          helper={this.props.t('source.image.helper')}
           helpers={{
             add: this.props.t('source.image.add'),
             empty: this.props.t('source.image.empty'),
@@ -1137,9 +1125,7 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'HARMONY')
             .length.toString()}
           icon="adjust"
-          helper={this.props.t('source.harmony.helper', {
-            fee: this.props.config.fees.harmonyCreate.toString(),
-          })}
+          helper={this.props.t('source.harmony.helper')}
           helpers={{
             add: this.props.t('source.harmony.add'),
             empty: this.props.t('source.harmony.empty'),
@@ -1215,9 +1201,7 @@ export default class Overview extends PureComponent<
             .filter((sourceColor) => sourceColor.source === 'AI')
             .length.toString()}
           icon="adjust"
-          helper={this.props.t('source.ai.helper', {
-            fee: this.props.config.fees.aiColorsGenerate.toString(),
-          })}
+          helper={this.props.t('source.ai.helper')}
           helpers={{
             add: this.props.t('source.ai.add'),
             empty: this.props.t('source.ai.empty'),

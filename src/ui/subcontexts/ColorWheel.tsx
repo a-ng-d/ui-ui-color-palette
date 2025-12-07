@@ -535,9 +535,7 @@ export default class ColorWheel extends PureComponent<
                           type="icon"
                           icon="plus"
                           helper={{
-                            label: this.props.t('source.wheel.addColors', {
-                              fee: this.props.config.fees.harmonyCreate.toString(),
-                            }),
+                            label: this.props.t('source.wheel.addColors'),
                             type: 'MULTI_LINE',
                           }}
                           isBlocked={ColorWheel.features(

@@ -299,9 +299,7 @@ export default class Explore extends PureComponent<
                       type="icon"
                       icon="plus"
                       helper={{
-                        label: this.props.t('source.colourLovers.addColors', {
-                          fee: this.props.config.fees.colourLoversImport.toString(),
-                        }),
+                        label: this.props.t('source.colourLovers.addColors'),
                         type: 'MULTI_LINE',
                       }}
                       isBlocked={Explore.features(

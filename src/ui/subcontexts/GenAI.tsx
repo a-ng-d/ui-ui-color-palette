@@ -322,9 +322,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
               <SectionTitle
                 indicator="0"
                 label={this.props.t('source.genAi.title')}
-                helper={this.props.t('source.genAi.helper', {
-                  fee: this.props.config.fees.aiColorsGenerate.toString(),
-                })}
               />
             }
             rightPartSlot={
@@ -400,9 +397,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
             <SectionTitle
               indicator="5"
               label={this.props.t('source.genAi.title')}
-              helper={this.props.t('source.genAi.helper', {
-                fee: this.props.config.fees.aiColorsGenerate.toString(),
-              })}
             />
           }
           rightPartSlot={
@@ -418,9 +412,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                 type="icon"
                 icon="plus"
                 helper={{
-                  label: this.props.t('source.genAi.actions.addColors', {
-                    fee: this.props.config.fees.aiColorsGenerate.toString(),
-                  }),
+                  label: this.props.t('source.genAi.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
