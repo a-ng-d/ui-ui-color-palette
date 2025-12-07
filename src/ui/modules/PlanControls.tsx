@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { T } from '@tolgee/react'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Chip, IconChip, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -117,6 +118,34 @@ export default class PlanControls extends PureComponent<
             count: Math.ceil(this.state.creditsCount).toString(),
           })}
         </span>
+        <IconChip
+          iconType="PICTO"
+          iconName="info"
+          text={
+            <ul className="list-item">
+              <T
+                keyName="plan.credits.fees"
+                params={{
+                  li: <li />,
+                  cFee: this.props.config.fees.coolorsImport,
+                  rtFee: this.props.config.fees.realtimeColorsImport,
+                  clFee: this.props.config.fees.colourLoversImport,
+                  chFee: this.props.config.fees.harmonyCreate,
+                  ipFee: this.props.config.fees.imageColorsExtract,
+                  aiFee: this.props.config.fees.aiColorsGenerate,
+                  spFee: this.props.config.fees.paletteGenerate,
+                  dpFee: this.props.config.fees.paletteWithPropsGenerate,
+                  csFee: this.props.config.fees.sheetGenerate,
+                  puFee: this.props.config.fees.paletteUpdates,
+                  lsFee: this.props.config.fees.localStylesSync,
+                  lvFee: this.props.config.fees.localVariablesSync,
+                }}
+              />
+            </ul>
+          }
+          pin="TOP"
+          type="MULTI_LINE"
+        />
         {this.state.creditsCount === 0 && (
           <IconChip
             iconType="PICTO"

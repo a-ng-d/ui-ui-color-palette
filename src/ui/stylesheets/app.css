@@ -16,6 +16,15 @@ li {
   display: block;
 }
 
+ul.list-item {
+  list-style-type: disc;
+  padding-left: var(--size-pos-xsmall);
+}
+
+ul.list-item li {
+  display: list-item;
+}
+
 div#app {
   width: 100%;
   height: 100%;
