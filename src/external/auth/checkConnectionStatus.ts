@@ -9,13 +9,18 @@ const checkConnectionStatus = async (
 
     if (!supabase) throw new Error('Supabase client is not initialized')
 
-    const { data, error } = await supabase.auth.setSession({
-      access_token: accessToken,
-      refresh_token: refreshToken,
-    })
+    try {
+      // Use refreshSession to create a new session instead of restoring old one
+      const { data, error } = await supabase.auth.refreshSession({
+        refresh_token: refreshToken,
+      })
 
-    if (!error) return data
-    else throw error
+      if (error) throw error
+      return data
+    } catch (error) {
+      console.error('Session refresh failed:', error)
+      throw error
+    }
   }
 }
 
