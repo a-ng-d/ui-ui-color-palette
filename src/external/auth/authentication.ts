@@ -1,4 +1,3 @@
-import { getProxiedUrl } from '../../utils/url'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import checkConnectionStatus from './checkConnectionStatus'
 import { getSupabase } from '.'
@@ -6,26 +5,21 @@ import { getSupabase } from '.'
 let isAuthenticated = false
 
 export const signIn = async ({
-  disinctId,
   authWorkerUrl,
   authUrl,
   platformUrl,
   pluginId,
 }: {
-  disinctId: string
   authWorkerUrl: string
   authUrl: string
   platformUrl: string
   pluginId: string
 }) => {
   return new Promise((resolve, reject) => {
-    fetch(getProxiedUrl(`${authWorkerUrl}/passkey`), {
+    fetch(`${authWorkerUrl}/passkey`, {
       method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
-      headers: {
-        'distinct-id': disinctId,
-      },
     })
       .then((response) => {
         if (response.ok) return response.json()
@@ -44,17 +38,11 @@ export const signIn = async ({
           '*'
         )
         const poll = setInterval(async () => {
-          fetch(
-            getProxiedUrl(`${authWorkerUrl}/tokens?passkey=${result.passkey}`),
-            {
-              method: 'GET',
-              cache: 'no-cache',
-              credentials: 'omit',
-              headers: {
-                'distinct-id': disinctId,
-              },
-            }
-          )
+          fetch(`${authWorkerUrl}/tokens?passkey=${result.passkey}`, {
+            method: 'GET',
+            cache: 'no-cache',
+            credentials: 'omit',
+          })
             .then((response) => {
               if (response.body) return response.json()
               else return reject(new Error('Failed to fetch tokens'))

@@ -733,7 +733,6 @@ export default class StarredPalettes extends PureComponent<
                 action={async () => {
                   this.setState({ isSignInActionLoading: true })
                   signIn({
-                    disinctId: this.props.userIdentity.id,
                     authWorkerUrl: this.props.config.urls.authWorkerUrl,
                     authUrl: this.props.config.urls.authUrl,
                     platformUrl: this.props.config.urls.platformUrl,

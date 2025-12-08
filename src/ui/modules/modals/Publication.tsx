@@ -1322,7 +1322,6 @@ export default class Publication extends PureComponent<
               action: async () => {
                 this.setState({ isPrimaryActionLoading: true })
                 signIn({
-                  disinctId: this.props.userIdentity.id,
                   authWorkerUrl: this.props.config.urls.authWorkerUrl,
                   authUrl: this.props.config.urls.authUrl,
                   platformUrl: this.props.config.urls.platformUrl,

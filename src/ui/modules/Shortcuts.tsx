@@ -528,7 +528,6 @@ export default class Shortcuts extends PureComponent<
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
                                 signIn({
-                                  disinctId: this.props.userIdentity.id,
                                   authWorkerUrl:
                                     this.props.config.urls.authWorkerUrl,
                                   authUrl: this.props.config.urls.authUrl,

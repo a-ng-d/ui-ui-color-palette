@@ -233,7 +233,6 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
     this.setState({ isSecondaryActionLoading: true })
 
     signIn({
-      disinctId: this.props.userIdentity.id,
       authWorkerUrl: this.props.config.urls.authWorkerUrl,
       authUrl: this.props.config.urls.authUrl,
       platformUrl: this.props.config.urls.platformUrl,
