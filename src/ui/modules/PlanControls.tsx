@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { T } from '@tolgee/react'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Chip, IconChip, layouts, texts } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -49,6 +48,111 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SOURCE_COOLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_COOLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_REALTIME_COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_REALTIME_COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_COLOUR_LOVERS: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_COLOUR_LOVERS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_IMAGE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_IMAGE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_HARMONY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_HARMONY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SOURCE_AI: new FeatureStatus({
+      features: config.features,
+      featureName: 'SOURCE_AI',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SYNC_LOCAL_STYLES: new FeatureStatus({
+      features: config.features,
+      featureName: 'SYNC_LOCAL_STYLES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SYNC_LOCAL_VARIABLES: new FeatureStatus({
+      features: config.features,
+      featureName: 'SYNC_LOCAL_VARIABLES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DOCUMENT_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'DOCUMENT_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DOCUMENT_PALETTE_PROPERTIES: new FeatureStatus({
+      features: config.features,
+      featureName: 'DOCUMENT_PALETTE_PROPERTIES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DOCUMENT_SHEET: new FeatureStatus({
+      features: config.features,
+      featureName: 'DOCUMENT_SHEET',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DOCUMENT_PUSH_UPDATES: new FeatureStatus({
+      features: config.features,
+      featureName: 'DOCUMENT_PUSH_UPDATES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    VIEWS_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'VIEWS_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    VIEWS_PALETTE_WITH_PROPERTIES: new FeatureStatus({
+      features: config.features,
+      featureName: 'VIEWS_PALETTE_WITH_PROPERTIES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    VIEWS_SHEET: new FeatureStatus({
+      features: config.features,
+      featureName: 'VIEWS_SHEET',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: PlanControlsProps) {
@@ -72,6 +176,175 @@ export default class PlanControls extends PureComponent<
   }
 
   // Templates
+  Fees = (): React.ReactNode => {
+    return (
+      <ul className="list-item">
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_COOLORS.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.importCoolors', {
+              fee: this.props.config.fees.coolorsImport,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_REALTIME_COLORS.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.importRealtimeColors', {
+              fee: this.props.config.fees.realtimeColorsImport,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_COLOUR_LOVERS.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.importColourLovers', {
+              fee: this.props.config.fees.colourLoversImport,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_AI.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.generateAiColors', {
+              fee: this.props.config.fees.aiColorsGenerate,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_IMAGE.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.extractImageColors', {
+              fee: this.props.config.fees.imageColorsExtract,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SOURCE_HARMONY.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.createColorHarmony', {
+              fee: this.props.config.fees.harmonyCreate,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_PALETTE.isActive() &&
+          PlanControls.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).VIEWS_PALETTE.isActive() && (
+            <li>
+              {this.props.t('plan.credits.fees.generateSimplePalette', {
+                fee: this.props.config.fees.paletteGenerate,
+              })}
+            </li>
+          )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_PALETTE_PROPERTIES.isActive() &&
+          PlanControls.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).VIEWS_PALETTE_WITH_PROPERTIES.isActive() && (
+            <li>
+              {this.props.t('plan.credits.fees.generateDetailedPalette', {
+                fee: this.props.config.fees.paletteWithPropsGenerate,
+              })}
+            </li>
+          )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_SHEET.isActive() &&
+          PlanControls.features(
+            this.props.planStatus,
+            this.props.config,
+            this.props.service,
+            this.props.editor
+          ).VIEWS_SHEET.isActive() && (
+            <li>
+              {this.props.t('plan.credits.fees.generateColorSheet', {
+                fee: this.props.config.fees.sheetGenerate,
+              })}
+            </li>
+          )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).DOCUMENT_PUSH_UPDATES.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.updatePalette', {
+              fee: this.props.config.fees.paletteUpdates,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SYNC_LOCAL_STYLES.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.syncLocalStyles', {
+              fee: this.props.config.fees.localStylesSync,
+            })}
+          </li>
+        )}
+        {PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).SYNC_LOCAL_VARIABLES.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.syncLocalVariables', {
+              fee: this.props.config.fees.localVariablesSync,
+            })}
+          </li>
+        )}
+      </ul>
+    )
+  }
+
   RemainingTime = () => (
     <div
       className={doClassnames([
@@ -121,28 +394,7 @@ export default class PlanControls extends PureComponent<
         <IconChip
           iconType="PICTO"
           iconName="info"
-          text={
-            <ul className="list-item">
-              <T
-                keyName="plan.credits.fees"
-                params={{
-                  li: <li />,
-                  cFee: this.props.config.fees.coolorsImport,
-                  rtFee: this.props.config.fees.realtimeColorsImport,
-                  clFee: this.props.config.fees.colourLoversImport,
-                  chFee: this.props.config.fees.harmonyCreate,
-                  ipFee: this.props.config.fees.imageColorsExtract,
-                  aiFee: this.props.config.fees.aiColorsGenerate,
-                  spFee: this.props.config.fees.paletteGenerate,
-                  dpFee: this.props.config.fees.paletteWithPropsGenerate,
-                  csFee: this.props.config.fees.sheetGenerate,
-                  puFee: this.props.config.fees.paletteUpdates,
-                  lsFee: this.props.config.fees.localStylesSync,
-                  lvFee: this.props.config.fees.localVariablesSync,
-                }}
-              />
-            </ul>
-          }
+          text={this.Fees()}
           pin="TOP"
           type="MULTI_LINE"
         />

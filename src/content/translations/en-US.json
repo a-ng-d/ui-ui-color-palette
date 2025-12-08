@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {Upgrade to /pro to add more than one single source color} other {Upgrade to /pro to add more than # source colors}}",
     "maxNumberOfStops": "{count, plural, one {Upgrade to /pro to add more than one single stop} other {Upgrade to /pro to add more than # stops}}",
     "multipleBlockingMessages": {
-      "chroma": "<li>Reset chroma</li>",
+      "chroma": "Reset chroma",
       "head": "You can unlock the creation if you: {messages}",
-      "lockedSourceColors": "<li>Unlock source colors</li>",
-      "sourceColors": "<li>Decrease source colors</li>",
-      "stops": "<li>Decrease stops</li>",
-      "visionSimulationMode": "<li>Reset vision simulation</li>"
+      "lockedSourceColors": "Unlock source colors",
+      "sourceColors": "Decrease source colors",
+      "stops": "Decrease stops",
+      "visionSimulationMode": "Reset vision simulation"
     },
     "noChange": "No change",
     "noResult": "No palette matches your search",
@@ -406,7 +406,20 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {1 credit left} other {# credits left} =0 {No credit left}}",
-      "fees": "<li>Import a palette from Coolors: {cFee} cdts</li>\n<li>Import a palette from Realtime Colors: {rtFee} cdts</li>\n<li>Import a palette from Colour Lovers: {clFee} cdts</li>\n<li>Create a color harmony: {chFee} cdts</li>\n<li>Extract dominant colors from image: {ipFee} cdts</li>\n<li>Generate colors from AI: {aiFee} cdts</li>\n<li>Generate a simple palette: {spFee} cdts</li>\n<li>Generate a detailed palette: {dpFee} cdts</li>\n<li>Generate a color sheet: {csFee} cdts</li>\n<li>Update a palette: {puFee} cdts</li>\n<li>Sync with local styles: {lsFee} cdts</li>\n<li>Sync with local variables: {lvFee} cdts</li>",
+      "fees": {
+        "createColorHarmony": "Create a color harmony: {fee} cdts",
+        "extractImageColors": "Extract dominant colors from image: {fee} cdts",
+        "generateAiColors": "Generate colors from AI: {fee} cdts",
+        "generateColorSheet": "Generate a color sheet: {fee} cdts",
+        "generateDetailedPalette": "Generate a detailed palette: {fee} cdts",
+        "generateSimplePalette": "Generate a simple palette: {fee} cdts",
+        "importColourLovers": "Import a palette from Colour Lovers: {fee} cdts",
+        "importCoolors": "Import a palette from Coolors: {fee} cdts",
+        "importRealtimeColors": "Import a palette from Realtime Colors: {fee} cdts",
+        "syncLocalStyles": "Sync with local styles: {fee} cdts",
+        "syncLocalVariables": "Sync with local variables: {fee} cdts",
+        "updatePalette": "Update a palette: {fee} cdts"
+      },
       "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits."
     },
     "dev": "/dev plan",
@@ -857,7 +870,7 @@
     "genAi": {
       "actions": {
         "addColors": "Add to source. These colors will override the previous ones if added.",
-        "generate": "Generate colors ⌃⏎ or ⌘⏎"
+        "generate": "Generate colors (⌃⏎ or ⌘⏎)"
       },
       "colorTypes": {
         "alert": "Alert",

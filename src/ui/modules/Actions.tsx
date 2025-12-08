@@ -1,6 +1,5 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { T } from '@tolgee/react'
 import {
   CreatorConfiguration,
   DatesConfiguration,
@@ -77,10 +76,7 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -621,7 +617,7 @@ export default class Actions extends PureComponent<
     return true
   }
 
-  proWarning = (): React.ReactNode => {
+  proWarning = () => {
     return (
       <ul className="list-item">
         {Actions.features(
@@ -630,12 +626,7 @@ export default class Actions extends PureComponent<
           this.props.service,
           this.props.editor
         ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1) && (
-          <T
-            keyName="info.multipleBlockingMessages.sourceColors"
-            params={{
-              li: <li />,
-            }}
-          />
+          <li>{this.props.t('info.multipleBlockingMessages.sourceColors')}</li>
         )}
         {$palette.get().preset.id.includes('CUSTOM') &&
           Actions.features(
@@ -645,14 +636,7 @@ export default class Actions extends PureComponent<
             this.props.editor
           ).PRESETS_CUSTOM_ADD.isReached(
             Object.keys(this.props.scale).length - 1
-          ) && (
-            <T
-              keyName="info.multipleBlockingMessages.stops"
-              params={{
-                li: <li />,
-              }}
-            />
-          )}
+          ) && <li>{this.props.t('info.multipleBlockingMessages.stops')}</li>}
         {$palette.get().areSourceColorsLocked &&
           Actions.features(
             this.props.planStatus,
@@ -660,12 +644,9 @@ export default class Actions extends PureComponent<
             'EDIT',
             this.props.editor
           ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked() && (
-            <T
-              keyName="info.multipleBlockingMessages.lockedSourceColors"
-              params={{
-                li: <li />,
-              }}
-            />
+            <li>
+              {this.props.t('info.multipleBlockingMessages.lockedSourceColors')}
+            </li>
           )}
         {$palette.get().shift.chroma !== 100 &&
           Actions.features(
@@ -674,12 +655,7 @@ export default class Actions extends PureComponent<
             'EDIT',
             this.props.editor
           ).SCALE_CHROMA.isBlocked() && (
-            <T
-              keyName="info.multipleBlockingMessages.chroma"
-              params={{
-                li: <li />,
-              }}
-            />
+            <li>{this.props.t('info.multipleBlockingMessages.chroma')}</li>
           )}
         {$palette.get().visionSimulationMode !== 'NONE' &&
           Actions.features(
@@ -690,12 +666,11 @@ export default class Actions extends PureComponent<
           )[
             `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
           ].isBlocked() && (
-            <T
-              keyName="info.multipleBlockingMessages.visionSimulationMode"
-              params={{
-                li: <li />,
-              }}
-            />
+            <li>
+              {this.props.t(
+                'info.multipleBlockingMessages.visionSimulationMode'
+              )}
+            </li>
           )}
       </ul>
     )

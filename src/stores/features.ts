@@ -655,7 +655,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['CREATE'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE'],
     availabilityForEditors: [
       'figma',
@@ -692,7 +692,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['CREATE'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE'],
     availabilityForEditors: [
       'figma',
@@ -729,7 +729,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['CREATE'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE'],
     availabilityForEditors: [
       'figma',
@@ -747,7 +747,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    availabilityForServices: ['CREATE'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE'],
     availabilityForEditors: [
       'figma',
@@ -802,7 +802,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    availabilityForServices: ['CREATE'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE'],
     availabilityForEditors: [
       'figma',
@@ -966,7 +966,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'DIVISION',
-    availabilityForServices: ['CREATE'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE'],
     availabilityForEditors: [
       'figma',
@@ -2478,7 +2478,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['CREATE', 'EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
@@ -2497,7 +2497,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['CREATE', 'EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
@@ -2516,7 +2516,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['CREATE', 'EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
@@ -3028,7 +3028,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
     limit: 0,
@@ -3040,7 +3040,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['EDIT'],
     availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
     limit: 0,
@@ -3089,7 +3089,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',
@@ -3108,7 +3108,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',
@@ -3127,7 +3127,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',
@@ -3146,7 +3146,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isPro: false,
     isNew: false,
     type: 'ACTION',
-    availabilityForServices: ['EDIT'],
+    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',

@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {升级到 /pro 以添加超过一个源颜色} other {升级到 /pro 以添加超过 # 个源颜色}}",
     "maxNumberOfStops": "{count, plural, one {升级到 /pro 以添加超过一个色阶} other {升级到 /pro 以添加超过 # 个色阶}}",
     "multipleBlockingMessages": {
-      "chroma": "<li>重置色度</li>",
+      "chroma": "重置色度",
       "head": "您可以通过以下方式解锁创建：{messages}",
-      "lockedSourceColors": "<li>解锁源颜色</li>",
-      "sourceColors": "<li>减少源颜色</li>",
-      "stops": "<li>减少色阶</li>",
-      "visionSimulationMode": "<li>重置视觉模拟</li>"
+      "lockedSourceColors": "解锁源颜色",
+      "sourceColors": "减少源颜色",
+      "stops": "减少色阶",
+      "visionSimulationMode": "重置视觉模拟"
     },
     "noChange": "无更改",
     "noResult": "没有调色板匹配您的搜索",
@@ -406,7 +406,20 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, other {剩余 # 积分} =0 {没有剩余积分}}",
-      "fees": "<li>从 Coolors 导入调色板：{cFee} 积分</li>\n<li>从 Realtime Colors 导入调色板：{rtFee} 积分</li>\n<li>从 Colour Lovers 导入调色板：{clFee} 积分</li>\n<li>创建色彩和谐：{chFee} 积分</li>\n<li>从图像提取主色调：{ipFee} 积分</li>\n<li>使用 AI 生成颜色：{aiFee} 积分</li>\n<li>生成简单调色板：{spFee} 积分</li>\n<li>生成详细调色板：{dpFee} 积分</li>\n<li>生成色卡：{csFee} 积分</li>\n<li>更新调色板：{puFee} 积分</li>\n<li>与本地样式同步：{lsFee} 积分</li>\n<li>与本地变量同步：{lvFee} 积分</li>",
+      "fees": {
+        "createColorHarmony": "创建色彩和谐：{fee} 积分",
+        "extractImageColors": "从图像提取主色调：{fee} 积分",
+        "generateAiColors": "使用 AI 生成颜色：{fee} 积分",
+        "generateColorSheet": "生成色卡：{fee} 积分",
+        "generateDetailedPalette": "生成详细调色板：{fee} 积分",
+        "generateSimplePalette": "生成简单调色板：{fee} 积分",
+        "importColourLovers": "从 Colour Lovers 导入调色板：{fee} 积分",
+        "importCoolors": "从 Coolors 导入调色板：{fee} 积分",
+        "importRealtimeColors": "从 Realtime Colors 导入调色板：{fee} 积分",
+        "syncLocalStyles": "与本地样式同步：{fee} 积分",
+        "syncLocalVariables": "与本地变量同步：{fee} 积分",
+        "updatePalette": "更新调色板：{fee} 积分"
+      },
       "renew": "积分将在 {date} 更新。升级到 /pro 获得无限积分。"
     },
     "dev": "/dev 计划",
@@ -788,7 +801,7 @@
     "feedback": "提交反馈",
     "follow": "支持我们",
     "news": "最新功能",
-    "onboarding": "快速开始",
+    "onboarding": "快速上手指南",
     "repository": "贡献代码",
     "request": "分享您的想法",
     "store": "发现更多产品",
@@ -857,7 +870,7 @@
     "genAi": {
       "actions": {
         "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
-        "generate": "生成颜色 ⌃⏎ 或 ⌘⏎"
+        "generate": "生成配色（Ctrl+Enter / ⌘+Enter）"
       },
       "colorTypes": {
         "alert": "警告",
@@ -884,20 +897,20 @@
             "vintage": "复古"
           },
           "usecases": {
-            "blog": "使用亲切、易阅读字体的个人博客设计",
-            "documentation": "层次清晰的技术文档",
-            "ecommerce": "注重转化的电商店铺颜色",
+            "blog": "温暖易读排版的个人博客",
+            "documentation": "具有清晰层级结构的技术文档",
+            "ecommerce": "采用以转化为导向配色的电商店铺设计",
             "landing": "科技新创团队风格的现代化首页设计",
             "portfolio": "展示艺术作品的创意作品集",
-            "resume": "采用清爽且稳重色彩的专业履历设计"
+            "resume": "使用干净且自信配色的专业履历"
           },
           "vibes": {
             "corporate": "专业稳重的企业级设计，搭配可信赖的色彩体系",
             "cyberpunk": "霓虹光效的赛博朋克式未来界面",
             "minimalist": "干净极简并带有细腻对比的设计",
-            "nature": "灵感源自森林与山脉的自然大地色调",
+            "nature": "灵感源自森林与群山启发的自然大地色调",
             "pastel": "打造亲切友善的界面风格的柔和粉彩",
-            "vintage": "温暖柔和配色的复古怀旧视觉风格"
+            "vintage": "复古怀旧风，暖调低饱和配色"
           }
         },
         "prompt": {

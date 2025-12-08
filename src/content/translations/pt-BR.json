@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {Atualize para /pro para adicionar mais de uma cor-fonte} other {Atualize para /pro para adicionar mais de # cores-fonte}}",
     "maxNumberOfStops": "{count, plural, one {Atualize para /pro para adicionar mais de uma parada} other {Atualize para /pro para adicionar mais de # paradas}}",
     "multipleBlockingMessages": {
-      "chroma": "<li>Resetar croma</li>",
+      "chroma": "Resetar croma",
       "head": "Você pode desbloquear a criação se: {messages}",
-      "lockedSourceColors": "<li>Desbloquear cores-fonte</li>",
-      "sourceColors": "<li>Diminuir cores-fonte</li>",
-      "stops": "<li>Diminuir paradas</li>",
-      "visionSimulationMode": "<li>Resetar simulação de visão</li>"
+      "lockedSourceColors": "Desbloquear cores-fonte",
+      "sourceColors": "Diminuir cores-fonte",
+      "stops": "Diminuir paradas",
+      "visionSimulationMode": "Resetar simulação de visão"
     },
     "noChange": "Nenhuma alteração",
     "noResult": "Nenhuma paleta corresponde à sua busca",
@@ -406,7 +406,20 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {1 crédito restante} other {# créditos restantes} =0 {Nenhum crédito restante}}",
-      "fees": "<li>Importar uma paleta do Coolors: {cFee} cdts</li>\n<li>Importar uma paleta do Realtime Colors: {rtFee} cdts</li>\n<li>Importar uma paleta do Colour Lovers: {clFee} cdts</li>\n<li>Criar uma harmonia de cores: {chFee} cdts</li>\n<li>Extrair cores dominantes de imagem: {ipFee} cdts</li>\n<li>Gerar cores com IA: {aiFee} cdts</li>\n<li>Gerar uma paleta simples: {spFee} cdts</li>\n<li>Gerar uma paleta detalhada: {dpFee} cdts</li>\n<li>Gerar uma folha de cores: {csFee} cdts</li>\n<li>Atualizar uma paleta: {puFee} cdts</li>\n<li>Sincronizar com estilos locais: {lsFee} cdts</li>\n<li>Sincronizar com variáveis locais: {lvFee} cdts</li>",
+      "fees": {
+        "createColorHarmony": "Criar uma harmonia de cores: {fee} cdts",
+        "extractImageColors": "Extrair cores dominantes de imagem: {fee} cdts",
+        "generateAiColors": "Gerar cores com IA: {fee} cdts",
+        "generateColorSheet": "Gerar uma folha de cores: {fee} cdts",
+        "generateDetailedPalette": "Gerar uma paleta detalhada: {fee} cdts",
+        "generateSimplePalette": "Gerar uma paleta simples: {fee} cdts",
+        "importColourLovers": "Importar uma paleta do Colour Lovers: {fee} cdts",
+        "importCoolors": "Importar uma paleta do Coolors: {fee} cdts",
+        "importRealtimeColors": "Importar uma paleta do Realtime Colors: {fee} cdts",
+        "syncLocalStyles": "Sincronizar com estilos locais: {fee} cdts",
+        "syncLocalVariables": "Sincronizar com variáveis locais: {fee} cdts",
+        "updatePalette": "Atualizar uma paleta: {fee} cdts"
+      },
       "renew": "Os créditos serão renovados em {date}. Atualize para /pro para créditos ilimitados."
     },
     "dev": "Plano /dev",
@@ -857,7 +870,7 @@
     "genAi": {
       "actions": {
         "addColors": "Adicionar à fonte. Essas cores substituirão as anteriores se adicionadas.",
-        "generate": "Gerar cores ⌃⏎ ou ⌘⏎"
+        "generate": "Gerar cores (⌃⏎ ou ⌘⏎)"
       },
       "colorTypes": {
         "alert": "Alerta",

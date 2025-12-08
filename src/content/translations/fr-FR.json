@@ -340,12 +340,12 @@
     "maxNumberOfSourceColors": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule couleur source} other {Passez à /pro pour ajouter plus de # couleurs sources}}",
     "maxNumberOfStops": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule étape} other {Passez à /pro pour ajouter plus de # étapes}}",
     "multipleBlockingMessages": {
-      "chroma": "<li>Réinitialiser la chroma</li>",
-      "head": "Vous pouvez débloquer la création si vous : {messages}",
-      "lockedSourceColors": "<li>Déverrouiller les couleurs sources</li>",
-      "sourceColors": "<li>Diminuer les couleurs sources</li>",
-      "stops": "<li>Diminuer les étapes</li>",
-      "visionSimulationMode": "<li>Réinitialiser la simulation de vision</li>"
+      "chroma": "Réinitialiser la chroma",
+      "head": "Vous pouvez débloquer la création si vous : {messages}",
+      "lockedSourceColors": "Déverrouiller les couleurs sources",
+      "sourceColors": "Diminuer les couleurs sources",
+      "stops": "Diminuer les étapes",
+      "visionSimulationMode": "Réinitialiser la simulation de vision"
     },
     "noChange": "Aucun changement",
     "noResult": "Aucune palette ne correspond à votre recherche",
@@ -374,7 +374,7 @@
     "base": "Base",
     "bodyText": "Texte courant",
     "closest": "Proche de la source",
-    "colorSpace": "Espace colorimétrique : {name}",
+    "colorSpace": "Espace colorimétrique : {name}",
     "contentText": "Texte de contenu",
     "fail": "Échec",
     "fluentText": "Texte fluide",
@@ -383,16 +383,16 @@
     "locked": "Couleur source verrouillée",
     "nonText": "Non-textuel",
     "pass": "Réussi",
-    "preset": "Préréglage : {name}",
-    "provider": "Fournisseur : {name}",
+    "preset": "Préréglage : {name}",
+    "provider": "Fournisseur : {name}",
     "sourceColors": "Couleurs sources",
     "spotText": "Texte d'accentuation",
-    "theme": "Mode : {name}",
-    "themeDescription": "Description du mode : {description}",
+    "theme": "Mode : {name}",
+    "themeDescription": "Description du mode : {description}",
     "transparent": "Transparent",
     "unknown": "Inconnu",
-    "updatedAt": "Mis à jour le : {date}",
-    "visionSimulation": "Simulation de vision : {mode}",
+    "updatedAt": "Mis à jour le : {date}",
+    "visionSimulation": "Simulation de vision : {mode}",
     "wcag": "Scores WCAG 2.1"
   },
   "pass": "✔",
@@ -406,7 +406,20 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {1 crédit restant} other {# crédits restant} =0 {Aucun crédit restant}}",
-      "fees": "<li>Importer une palette de Coolors : {cFee} cdts</li>\n<li>Importer une palette de Realtime Colors : {rtFee} cdts</li>\n<li>Importer une palette de Colour Lovers : {clFee} cdts</li>\n<li>Créer une harmonie de couleur : {chFee} cdts</li>\n<li>Extraire les couleurs dominantes d'une image : {ipFee} cdts</li>\n<li>Générer des couleurs depuis l'IA : {aiFee} cdts</li>\n<li>Générer une palette simple : {spFee} cdts</li>\n<li>Générer une palette détaillée : {dpFee} cdts</li>\n<li>Générer une feuille de couleur : {csFee} cdts</li>\n<li>Mettre à jour une palette : {puFee} cdts</li>\n<li>Synchroniser avec les styles locaux : {lsFee} cdts</li>\n<li>Synchroniser avec les variables locales : {lvFee} cdts</li>",
+      "fees": {
+        "createColorHarmony": "Créer une harmonie de couleur : {fee} cdts",
+        "extractImageColors": "Extraire les couleurs dominantes d'une image : {fee} cdts",
+        "generateAiColors": "Générer des couleurs depuis l'IA : {fee} cdts",
+        "generateColorSheet": "Générer une feuille de couleur : {fee} cdts",
+        "generateDetailedPalette": "Générer une palette détaillée : {fee} cdts",
+        "generateSimplePalette": "Générer une palette simple : {fee} cdts",
+        "importColourLovers": "Importer une palette de Colour Lovers : {fee} cdts",
+        "importCoolors": "Importer une palette de Coolors : {fee} cdts",
+        "importRealtimeColors": "Importer une palette de Realtime Colors : {fee} cdts",
+        "syncLocalStyles": "Synchroniser avec les styles locaux : {fee} cdts",
+        "syncLocalVariables": "Synchroniser avec les variables locales : {fee} cdts",
+        "updatePalette": "Mettre à jour une palette : {fee} cdts"
+      },
       "renew": "Les crédits se renouvelleront le {date}. Passez à /pro pour des crédits illimités."
     },
     "dev": "Forfait /dev",
@@ -857,7 +870,7 @@
     "genAi": {
       "actions": {
         "addColors": "Ajouter aux sources. Ces couleurs remplaceront les précédentes si ajoutées.",
-        "generate": "Générer des couleurs ⌃⏎ ou ⌘⏎"
+        "generate": "Générer des couleurs (⌃⏎ ou ⌘⏎)"
       },
       "colorTypes": {
         "alert": "Alerte",
