@@ -48,6 +48,13 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    CREDITS: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREDITS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SOURCE_COOLORS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_COOLORS',
@@ -378,47 +385,56 @@ export default class PlanControls extends PureComponent<
 
   RemainingCredits = () => {
     return (
-      <div
-        className={doClassnames([
-          texts.type,
-          texts['type--secondary'],
-          layouts['snackbar--tight'],
-        ])}
+      <Feature
+        isActive={PlanControls.features(
+          this.props.planStatus,
+          this.props.config,
+          this.props.service,
+          this.props.editor
+        ).CREDITS.isActive()}
       >
-        <span>{this.props.t('separator')}</span>
-        <span>
-          {this.props.t('plan.credits.amount', {
-            count: Math.ceil(this.state.creditsCount).toString(),
-          })}
-        </span>
-        <IconChip
-          iconType="PICTO"
-          iconName="info"
-          text={this.Fees()}
-          pin="TOP"
-          type="MULTI_LINE"
-        />
-        {this.state.creditsCount === 0 && (
+        <div
+          className={doClassnames([
+            texts.type,
+            texts['type--secondary'],
+            layouts['snackbar--tight'],
+          ])}
+        >
+          <span>{this.props.t('separator')}</span>
+          <span>
+            {this.props.t('plan.credits.amount', {
+              count: Math.ceil(this.state.creditsCount).toString(),
+            })}
+          </span>
           <IconChip
             iconType="PICTO"
-            iconName="warning"
-            text={this.props.t('plan.credits.renew', {
-              date: new Date(this.props.creditsRenewalDate).toLocaleString(
-                getTolgee().getLanguage(),
-                {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                }
-              ),
-            })}
+            iconName="info"
+            text={this.Fees()}
             pin="TOP"
             type="MULTI_LINE"
           />
-        )}
-      </div>
+          {this.state.creditsCount === 0 && (
+            <IconChip
+              iconType="PICTO"
+              iconName="warning"
+              text={this.props.t('plan.credits.renew', {
+                date: new Date(this.props.creditsRenewalDate).toLocaleString(
+                  getTolgee().getLanguage(),
+                  {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  }
+                ),
+              })}
+              pin="TOP"
+              type="MULTI_LINE"
+            />
+          )}
+        </div>
+      </Feature>
     )
   }
 
