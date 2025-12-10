@@ -52,6 +52,7 @@ export interface Config {
   urls: {
     authWorkerUrl: string
     announcementsWorkerUrl: string
+    corsWorkerUrl: string
     databaseUrl: string
     authUrl: string
     storeApiUrl: string

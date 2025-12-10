@@ -745,6 +745,7 @@ const globalConfig: Config = {
     authWorkerUrl: import.meta.env.VITE_AUTH_WORKER_URL as string,
     announcementsWorkerUrl: import.meta.env
       .VITE_ANNOUNCEMENTS_WORKER_URL as string,
+    corsWorkerUrl: import.meta.env.VITE_CORS_WORKER_URL as string,
     databaseUrl: import.meta.env.VITE_SUPABASE_URL as string,
     authUrl: import.meta.env.VITE_AUTH_URL as string,
     storeApiUrl: import.meta.env.VITE_LEMONSQUEEZY_URL as string,

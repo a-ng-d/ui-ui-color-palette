@@ -506,6 +506,7 @@ class App extends Component<AppProps, AppStates> {
 
       const checkUserLicense = () => {
         validateUserLicenseKey({
+          corsWorkerUrl: this.props.config.urls.corsWorkerUrl,
           storeApiUrl: this.props.config.urls.storeApiUrl,
           licenseKey: path.data.licenseKey,
           instanceId: path.data.instanceId,

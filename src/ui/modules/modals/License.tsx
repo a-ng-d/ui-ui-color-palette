@@ -159,6 +159,7 @@ export default class License extends PureComponent<
         action: () => {
           this.setState({ isPrimaryActionLoading: true })
           activateUserLicenseKey({
+            corsWorkerUrl: this.props.config.urls.corsWorkerUrl,
             storeApiUrl: this.props.config.urls.storeApiUrl,
             licenseKey: this.state.userLicenseKey,
             instanceName: this.state.userInstanceName,
@@ -229,6 +230,7 @@ export default class License extends PureComponent<
         action: () => {
           this.setState({ isPrimaryActionLoading: true })
           desactivateUserLicenseKey({
+            corsWorkerUrl: this.props.config.urls.corsWorkerUrl,
             storeApiUrl: this.props.config.urls.storeApiUrl,
             licenseKey: this.state.userLicenseKey,
             instanceId: this.state.userInstanceId,
@@ -460,6 +462,7 @@ export default class License extends PureComponent<
                     action={() => {
                       this.setState({ isSecondaryActionLoading: true })
                       validateUserLicenseKey({
+                        corsWorkerUrl: this.props.config.urls.corsWorkerUrl,
                         storeApiUrl: this.props.config.urls.storeApiUrl,
                         licenseKey: this.state.userLicenseKey,
                         instanceId: this.state.userInstanceId,

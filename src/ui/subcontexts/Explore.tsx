@@ -124,7 +124,8 @@ export default class Explore extends PureComponent<
   // Direct Actions
   callUICPAgent = async () => {
     return fetch(
-      'https://corsproxy.io/?' +
+      this.props.config.urls.corsWorkerUrl +
+        '?' +
         encodeURIComponent(
           `https://www.colourlovers.com/api/palettes?format=json&numResults=${this.props.config.limits.pageSize}&resultOffset=${
             this.state.currentPage - 1

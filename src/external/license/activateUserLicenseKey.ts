@@ -2,11 +2,13 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { Platform } from '../../types/app'
 
 const activateUserLicenseKey = async ({
+  corsWorkerUrl,
   storeApiUrl,
   licenseKey,
   instanceName,
   platform,
 }: {
+  corsWorkerUrl: string
   storeApiUrl: string
   licenseKey: string
   instanceName: string
@@ -18,7 +20,8 @@ const activateUserLicenseKey = async ({
 }> => {
   return new Promise((resolve, reject) => {
     fetch(
-      'https://corsproxy.io/?' +
+      corsWorkerUrl +
+        '?' +
         encodeURIComponent(
           `${storeApiUrl}/licenses/activate?license_key=${licenseKey}&instance_name=${encodeURI(instanceName + ' - ' + platform)}`
         ),

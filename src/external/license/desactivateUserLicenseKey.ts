@@ -1,17 +1,20 @@
 import { sendPluginMessage } from '../../utils/pluginMessage'
 
 const desactivateUserLicenseKey = async ({
+  corsWorkerUrl,
   storeApiUrl,
   licenseKey,
   instanceId,
 }: {
+  corsWorkerUrl: string
   storeApiUrl: string
   licenseKey: string
   instanceId: string
 }): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     fetch(
-      'https://corsproxy.io/?' +
+      corsWorkerUrl +
+        '?' +
         encodeURIComponent(
           `${storeApiUrl}/licenses/deactivate?license_key=${licenseKey}&instance_id=${instanceId}`
         ),
