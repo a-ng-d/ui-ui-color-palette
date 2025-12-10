@@ -10,3 +10,6 @@
 	path = packages/announcements-yelbolt-worker
 	url = https://github.com/a-ng-d/announcements-yelbolt-worker.git
 	branch = main
+[submodule "packages/cors-yelbolt-worker"]
+	path = packages/cors-yelbolt-worker
+	url = https://github.com/a-ng-d/cors-yelbolt-worker.git
