@@ -11,7 +11,8 @@
     "packages/announcements-yelbolt-worker",
     "packages/auth-yelbolt-worker",
     "packages/auth-yelbolt",
-    "packages/auth-yelbolt/ui-color-palette"
+    "packages/auth-yelbolt/ui-color-palette",
+    "packages/cors-yelbolt-worker"
   ],
   "scripts": {
     "install:ext": "npm install --workspaces",
@@ -22,12 +23,14 @@
     "unlink:figmug": "npm unlink @a_ng_d/figmug-ui @a_ng_d/figmug-utils && npm install @a_ng_d/figmug-ui @a_ng_d/figmug-utils && rm -rf node_modules/.vite",
     "start:announcements": "npm run start:8888 -w announcements-yelbolt-worker",
     "start:token": "npm run start:8787 -w auth-yelbolt-worker",
+    "start:cors": "npm run start:8989 -w cors-yelbolt-worker",
     "start:auth": "npm run dev:uicp -w auth-yelbolt",
-    "start:ext": "npm run start:announcements & npm run start:token & npm run start:auth",
+    "start:ext": "npm run start:announcements & npm run start:token & npm run start:cors & npm run start:auth",
     "poststart:announcements": "npm run clean:port:8888",
     "poststart:token": "npm run clean:port:8787",
+    "poststart:cors": "npm run clean:port:8989",
     "poststart:auth": "npm run clean:port:3000",
-    "poststart:ext": "npm run clean:port:8888 & npm run clean:port:8787 & npm run clean:port:3000",
+    "poststart:ext": "npm run clean:port:8888 & npm run clean:port:8787 & npm run clean:port:8989 & npm run clean:port:3000",
     "start:figma:light:figma": "PLATFORM=figma COLOR_MODE=light EDITOR=figma vite --mode development",
     "start:figma:dark:figma": "PLATFORM=figma COLOR_MODE=dark EDITOR=figma vite --mode development",
     "start:figma:light:dev": "PLATFORM=figma COLOR_MODE=light EDITOR=dev vite --mode development",
@@ -44,6 +47,7 @@
     "format": "npx prettier './src' --write",
     "clean:port:8888": "lsof -ti:8888 | xargs kill -9 2>/dev/null || true",
     "clean:port:8787": "lsof -ti:8787 | xargs kill -9 2>/dev/null || true",
+    "clean:port:8989": "lsof -ti:8989 | xargs kill -9 2>/dev/null || true",
     "clean:port:3000": "lsof -ti:3000 | xargs kill -9 2>/dev/null || true"
   },
   "devDependencies": {
