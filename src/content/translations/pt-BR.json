@@ -472,17 +472,17 @@
       "title": "Ativar /pro"
     },
     "contexts": {
-      "discount": "Desconto (-30%)",
+      "discount": "Desconto (-20%)",
       "regular": "Regular"
     },
     "discount": {
-      "amount": "30% de desconto",
-      "code": "SAVE30"
+      "amount": "20% de desconto",
+      "code": "SAVE20"
     },
     "figma": {
       "cta": "Ir para /pro apenas para Figma",
       "subtitle": {
-        "discount": "$42 /ano no Figma",
+        "discount": "$48 /ano no Figma",
         "regular": "$5 /mês no Figma"
       },
       "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
@@ -495,7 +495,7 @@
     "one": {
       "cta": "Obtenha sua licença",
       "subtitle": {
-        "discount": "$49 /vitalício no Figma, Penpot, Sketch, Framer",
+        "discount": "$56 /vitalício no Figma, Penpot, Sketch, Framer",
         "regular": "$70 /vitalício no Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
@@ -504,7 +504,7 @@
     "oneFigma": {
       "cta": "Obtenha sua licença",
       "subtitle": {
-        "discount": "$49 /vitalício no Figma, Penpot, Sketch, Framer",
+        "discount": "$56 /vitalício no Figma, Penpot, Sketch, Framer",
         "regular": "$70 /vitalício no Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ Todos os recursos /figma</br>◻ Para equipes pequenas e grandes</br>◻ Multiplataforma</br>◻ Múltiplas opções de pagamento</br>◻ Plano vitalício",

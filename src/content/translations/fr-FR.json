@@ -472,17 +472,17 @@
       "title": "Activer /pro"
     },
     "contexts": {
-      "discount": "Réduction (-30%)",
+      "discount": "Réduction (-20%)",
       "regular": "Régulier"
     },
     "discount": {
-      "amount": "30% de réduction",
-      "code": "SAVE30"
+      "amount": "20% de réduction",
+      "code": "SAVE20"
     },
     "figma": {
       "cta": "Passer à /pro pour Figma seulement",
       "subtitle": {
-        "discount": "42$ /an sur Figma",
+        "discount": "48$ /an sur Figma",
         "regular": "5$ /mois sur Figma"
       },
       "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
@@ -495,7 +495,7 @@
     "one": {
       "cta": "Obtenez votre licence",
       "subtitle": {
-        "discount": "49$ /à vie sur Figma, Penpot, Sketch, Framer",
+        "discount": "56$ /à vie sur Figma, Penpot, Sketch, Framer",
         "regular": "70$ /à vie sur Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
@@ -504,7 +504,7 @@
     "oneFigma": {
       "cta": "Obtenez votre licence",
       "subtitle": {
-        "discount": "49$ /à vie sur Figma, Penpot, Sketch, Framer",
+        "discount": "56$ /à vie sur Figma, Penpot, Sketch, Framer",
         "regular": "70$ /à vie sur Figma, Penpot, Sketch, Framer"
       },
       "text": "◻ Toutes les fonctionnalités /figma</br>◻ Pour petites et grandes équipes</br>◻ Multi plateformes</br>◻ Options de paiement multiples</br>◻ Forfait à vie",
