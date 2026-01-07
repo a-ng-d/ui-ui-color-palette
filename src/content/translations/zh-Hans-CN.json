@@ -1041,7 +1041,21 @@
       "frenchFR": "Français (FR)",
       "label": "更改语言",
       "portugueseBR": "Português (BR)",
-      "title": "语言"
+      "title": "语言",
+      "suggestion": {
+        "en": {
+          "message": "It looks like your browser language is English. Would you like to switch?",
+          "cta": "Switch to English"
+        },
+        "fr": {
+          "message": "Il semble que la langue de votre navigateur soit le français. Souhaitez-vous changer ?",
+          "cta": "Passer en Français"
+        },
+        "pt": {
+          "message": "Parece que o idioma do seu navegador é português. Gostaria de mudar?",
+          "cta": "Mudar para Português"
+        }
+      }
     },
     "license": {
       "cta": {

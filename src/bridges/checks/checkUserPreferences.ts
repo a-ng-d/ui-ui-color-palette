@@ -14,6 +14,9 @@ const checkUserPreferences = async () => {
   const isVsCodeMessageDisplayed = window.localStorage.getItem(
     'is_vscode_message_displayed'
   )
+  const $isSuggestedLanguageDisplayed = window.localStorage.getItem(
+    'is_suggested_language_displayed'
+  )
   const userLanguage = window.localStorage.getItem('user_language')
 
   if (isWCAGDisplayed === null)
@@ -30,6 +33,9 @@ const checkUserPreferences = async () => {
 
   if (isVsCodeMessageDisplayed === null)
     window.localStorage.setItem('is_vscode_message_displayed', 'true')
+
+  if ($isSuggestedLanguageDisplayed === null)
+    window.localStorage.setItem('is_suggested_language_displayed', 'true')
 
   if (userLanguage === null)
     window.localStorage.setItem('user_language', globalConfig.lang)
@@ -54,6 +60,10 @@ const checkUserPreferences = async () => {
           isVsCodeMessageDisplayed === null
             ? true
             : isVsCodeMessageDisplayed === 'true',
+        isSuggestedLanguageDisplayed:
+          $isSuggestedLanguageDisplayed === null
+            ? true
+            : $isSuggestedLanguageDisplayed === 'true',
         userLanguage: userLanguage ?? globalConfig.lang,
       },
     },

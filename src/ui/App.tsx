@@ -34,6 +34,7 @@ import {
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { UserSession } from '../types/user'
+import { Language } from '../types/translations'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
 import {
   BaseProps,
@@ -48,6 +49,7 @@ import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
   $isAPCADisplayed,
+  $isSuggestedLanguageDisplayed,
   $isVsCodeMessageDisplayed,
   $isWCAGDisplayed,
 } from '../stores/preferences'
@@ -62,6 +64,7 @@ import {
 import { getTolgee } from '../external/translation'
 import {
   trackEditorEvent,
+  trackLanguageEvent,
   trackPurchaseEvent,
   trackTrialEnablementEvent,
   trackUserConsentEvent,
@@ -114,6 +117,8 @@ export interface AppStates extends BaseProps {
   announcements: AnnouncementsDigest
   notification: NotificationMessage
   isVsCodeMessageDisplayed: boolean
+  suggestedLanguage: Language | null
+  isSuggestedLanguageDisplayed: boolean
   isLoaded: boolean
   isNotificationDisplayed: boolean
   onGoingStep: string
@@ -122,6 +127,7 @@ export interface AppStates extends BaseProps {
 class App extends Component<AppProps, AppStates> {
   private palette: typeof $palette
   private subsscribeVsCodeMessage: (() => void) | undefined
+  private subsscribeSuggestedLanguage: (() => void) | undefined
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
 
@@ -183,6 +189,13 @@ class App extends Component<AppProps, AppStates> {
     VSCODE_MESSAGE: new FeatureStatus({
       features: config.features,
       featureName: 'VSCODE_MESSAGE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE_SUGGESTION: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_SUGGESTION',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -271,6 +284,8 @@ class App extends Component<AppProps, AppStates> {
         timer: 5000,
       },
       isVsCodeMessageDisplayed: true,
+      suggestedLanguage: null,
+      isSuggestedLanguageDisplayed: true,
       isLoaded: false,
       isNotificationDisplayed: false,
       documentWidth: document.documentElement.clientWidth,
@@ -300,6 +315,13 @@ class App extends Component<AppProps, AppStates> {
       (value) => {
         this.setState({
           isVsCodeMessageDisplayed: value,
+        })
+      }
+    )
+    this.subsscribeSuggestedLanguage = $isSuggestedLanguageDisplayed.subscribe(
+      (value) => {
+        this.setState({
+          isSuggestedLanguageDisplayed: value,
         })
       }
     )
@@ -495,6 +517,11 @@ class App extends Component<AppProps, AppStates> {
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
         $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
         $isVsCodeMessageDisplayed.set(path.data.isVsCodeMessageDisplayed)
+        $isSuggestedLanguageDisplayed.set(
+          path.data.isSuggestedLanguageDisplayed
+        )
+
+        this.onDetectBrowserLanguage(path.data.userLanguage)
 
         getTolgee()
           .changeLanguage(path.data.userLanguage)
@@ -806,6 +833,120 @@ class App extends Component<AppProps, AppStates> {
       this.props.config.env.isMixpanelEnabled,
       this.props.config.versions.userConsentVersion,
       e
+    )
+  }
+
+  acceptSuggestedLanguageHandler = () => {
+    if (!this.state.suggestedLanguage) return
+
+    const tolgee = getTolgee()
+    tolgee.changeLanguage(this.state.suggestedLanguage).then(() => {
+      updatePresets(this.props.t)
+      updateUserConsent(this.props.t)
+    })
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_LANGUAGE',
+          data: {
+            lang: this.state.suggestedLanguage,
+          },
+        },
+      },
+      '*'
+    )
+
+    this.onDismissLanguageBannerHandler()
+
+    trackLanguageEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.state.userSession.userId,
+      this.state.userIdentity.id,
+      this.state.planStatus,
+      this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      { lang: this.state.suggestedLanguage }
+    )
+
+    this.setState({
+      isSuggestedLanguageDisplayed: false,
+      suggestedLanguage: null,
+    })
+  }
+
+  getLanguageSuggestionKey = (language: Language | null): string => {
+    const langCodeMap: { [key in Language]?: string } = {
+      'pt-BR': 'pt',
+      'fr-FR': 'fr',
+      'zh-Hans-CN': 'zh',
+    }
+    return language ? langCodeMap[language] || '' : ''
+  }
+
+  getSuggestedLanguageMessage = (): string => {
+    const langCode = this.getLanguageSuggestionKey(this.state.suggestedLanguage)
+    return langCode
+      ? this.props.t(`user.language.suggestion.${langCode}.message`)
+      : ''
+  }
+
+  getSuggestedLanguageCta = (): string => {
+    const langCode = this.getLanguageSuggestionKey(this.state.suggestedLanguage)
+    return langCode
+      ? this.props.t(`user.language.suggestion.${langCode}.cta`)
+      : ''
+  }
+
+  // Direct Actions
+  onDetectBrowserLanguage = (userLanguage: Language) => {
+    const browserLang = navigator.language
+    const currentLang = userLanguage
+
+    const languageMapping: { [key: string]: Language } = {
+      'en-US': 'en-US',
+      en: 'en-US',
+      'pt-BR': 'pt-BR',
+      pt: 'pt-BR',
+      'fr-FR': 'fr-FR',
+      fr: 'fr-FR',
+      'zh-Hans-CN': 'zh-Hans-CN',
+      zh: 'zh-Hans-CN',
+    }
+
+    const suggestedLang =
+      languageMapping[browserLang] || languageMapping[browserLang.split('-')[0]]
+
+    if (
+      suggestedLang &&
+      suggestedLang !== currentLang &&
+      (!userLanguage || suggestedLang !== userLanguage)
+    )
+      this.setState({
+        isSuggestedLanguageDisplayed: true,
+        suggestedLanguage: suggestedLang,
+      })
+  }
+
+  onDismissLanguageBannerHandler = () => {
+    this.setState({
+      isSuggestedLanguageDisplayed: false,
+      suggestedLanguage: null,
+    })
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'SET_ITEMS',
+          items: [
+            {
+              key: 'is_suggested_language_displayed',
+              value: false,
+            },
+          ],
+        },
+      },
+      '*'
     )
   }
 
@@ -1218,6 +1359,38 @@ class App extends Component<AppProps, AppStates> {
                         '*'
                       )
                     }}
+                  />
+                </>
+              }
+              isAnchored
+            />
+          </Feature>
+          <Feature
+            isActive={
+              App.features(
+                this.state.planStatus,
+                this.props.config,
+                this.state.service,
+                this.state.editor
+              ).USER_LANGUAGE_SUGGESTION.isActive() &&
+              this.state.isSuggestedLanguageDisplayed &&
+              this.state.suggestedLanguage !== null
+            }
+          >
+            <SemanticMessage
+              type="INFO"
+              message={this.getSuggestedLanguageMessage()}
+              actionsSlot={
+                <>
+                  <Button
+                    type="secondary"
+                    label={this.getSuggestedLanguageCta()}
+                    action={this.acceptSuggestedLanguageHandler}
+                  />
+                  <Button
+                    type="icon"
+                    icon="close"
+                    action={this.onDismissLanguageBannerHandler}
                   />
                 </>
               }
