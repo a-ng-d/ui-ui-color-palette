@@ -11,7 +11,7 @@ const checkUserPreferences = async () => {
   const canDeepSyncVariables = window.localStorage.getItem(
     'can_deep_sync_variables'
   )
-  const $isSuggestedLanguageDisplayed = window.localStorage.getItem(
+  const isSuggestedLanguageDisplayed = window.localStorage.getItem(
     'is_suggested_language_displayed'
   )
   const userLanguage = window.localStorage.getItem('user_language')
@@ -28,7 +28,7 @@ const checkUserPreferences = async () => {
   if (canDeepSyncVariables === null)
     window.localStorage.setItem('can_deep_sync_variables', 'false')
 
-  if ($isSuggestedLanguageDisplayed === null)
+  if (isSuggestedLanguageDisplayed === null)
     window.localStorage.setItem('is_suggested_language_displayed', 'true')
 
   if (userLanguage === null)
@@ -51,9 +51,9 @@ const checkUserPreferences = async () => {
             ? false
             : canDeepSyncVariables === 'true',
         isSuggestedLanguageDisplayed:
-          $isSuggestedLanguageDisplayed === null
+          isSuggestedLanguageDisplayed === null
             ? true
-            : $isSuggestedLanguageDisplayed === 'true',
+            : isSuggestedLanguageDisplayed === 'true',
         userLanguage: userLanguage ?? globalConfig.lang,
       },
     },
