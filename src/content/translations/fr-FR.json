@@ -214,10 +214,7 @@
     }
   },
   "dev": {
-    "readyForDev": "Prêt pour le développement",
-    "vscode": {
-      "cta": "Essayez-le"
-    }
+    "readyForDev": "Prêt pour le développement"
   },
   "empty": "-",
   "error": {

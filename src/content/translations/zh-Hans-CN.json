@@ -214,10 +214,7 @@
     }
   },
   "dev": {
-    "readyForDev": "准备开发",
-    "vscode": {
-      "cta": "试试看"
-    }
+    "readyForDev": "准备开发"
   },
   "empty": "-",
   "error": {
