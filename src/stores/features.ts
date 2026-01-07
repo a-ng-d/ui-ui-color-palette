@@ -3361,17 +3361,6 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
     availabilityForEditors: ['dev', 'dev_vscode'],
   },
-  {
-    name: 'VSCODE_MESSAGE',
-    description: 'Announcements for the VSCode extension',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'DIVISION',
-    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
-    proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
-    availabilityForEditors: ['dev', 'dev_vscode'],
-  },
   // Shortcuts
   {
     name: 'SHORTCUTS',

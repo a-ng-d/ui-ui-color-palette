@@ -50,7 +50,6 @@ import {
   $canVariablesDeepSync,
   $isAPCADisplayed,
   $isSuggestedLanguageDisplayed,
-  $isVsCodeMessageDisplayed,
   $isWCAGDisplayed,
 } from '../stores/preferences'
 import { $palette, initializePaletteStore } from '../stores/palette'
@@ -116,7 +115,6 @@ export interface AppStates extends BaseProps {
   mustUserConsent: boolean
   announcements: AnnouncementsDigest
   notification: NotificationMessage
-  isVsCodeMessageDisplayed: boolean
   suggestedLanguage: Language | null
   isSuggestedLanguageDisplayed: boolean
   isLoaded: boolean
@@ -126,7 +124,6 @@ export interface AppStates extends BaseProps {
 
 class App extends Component<AppProps, AppStates> {
   private palette: typeof $palette
-  private subsscribeVsCodeMessage: (() => void) | undefined
   private subsscribeSuggestedLanguage: (() => void) | undefined
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
@@ -182,13 +179,6 @@ class App extends Component<AppProps, AppStates> {
     SHORTCUTS: new FeatureStatus({
       features: config.features,
       featureName: 'SHORTCUTS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    VSCODE_MESSAGE: new FeatureStatus({
-      features: config.features,
-      featureName: 'VSCODE_MESSAGE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -283,7 +273,6 @@ class App extends Component<AppProps, AppStates> {
         message: '',
         timer: 5000,
       },
-      isVsCodeMessageDisplayed: true,
       suggestedLanguage: null,
       isSuggestedLanguageDisplayed: true,
       isLoaded: false,
@@ -311,13 +300,6 @@ class App extends Component<AppProps, AppStates> {
       '*'
     )
 
-    this.subsscribeVsCodeMessage = $isVsCodeMessageDisplayed.subscribe(
-      (value) => {
-        this.setState({
-          isVsCodeMessageDisplayed: value,
-        })
-      }
-    )
     this.subsscribeSuggestedLanguage = $isSuggestedLanguageDisplayed.subscribe(
       (value) => {
         this.setState({
@@ -443,7 +425,7 @@ class App extends Component<AppProps, AppStates> {
   }
 
   componentWillUnmount = () => {
-    if (this.subsscribeVsCodeMessage) this.subsscribeVsCodeMessage()
+    if (this.subsscribeSuggestedLanguage) this.subsscribeSuggestedLanguage()
     if (this.subscribeUserConsent) this.subscribeUserConsent()
     if (this.subscribeCreditCount) this.subscribeCreditCount()
 
@@ -516,7 +498,6 @@ class App extends Component<AppProps, AppStates> {
         $isAPCADisplayed.set(path.data.isAPCADisplayed)
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
         $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
-        $isVsCodeMessageDisplayed.set(path.data.isVsCodeMessageDisplayed)
         $isSuggestedLanguageDisplayed.set(
           path.data.isSuggestedLanguageDisplayed
         )
@@ -1094,6 +1075,10 @@ class App extends Component<AppProps, AppStates> {
 
   // Render
   render() {
+    console.log(
+      this.state.isSuggestedLanguageDisplayed,
+      this.state.suggestedLanguage
+    )
     if (this.state.isLoaded)
       return (
         <main
@@ -1305,65 +1290,6 @@ class App extends Component<AppProps, AppStates> {
                 document.getElementById('modal') ??
                   document.createElement('app')
               )}
-          </Feature>
-          <Feature
-            isActive={
-              App.features(
-                this.state.planStatus,
-                this.props.config,
-                this.state.service,
-                this.state.editor
-              ).VSCODE_MESSAGE.isActive() && this.state.isVsCodeMessageDisplayed
-            }
-          >
-            <SemanticMessage
-              type="INFO"
-              message={this.props.t('dev.vscode.message')}
-              actionsSlot={
-                <>
-                  <Button
-                    type="secondary"
-                    label={this.props.t('dev.vscode.cta')}
-                    action={() =>
-                      sendPluginMessage(
-                        {
-                          pluginMessage: {
-                            type: 'OPEN_IN_BROWSER',
-                            data: {
-                              url: this.props.config.urls.vsCodeFigmaPluginUrl,
-                            },
-                          },
-                        },
-                        '*'
-                      )
-                    }
-                  />
-                  <Button
-                    type="icon"
-                    icon="close"
-                    action={() => {
-                      $isVsCodeMessageDisplayed.set(false)
-                      this.setState({ isVsCodeMessageDisplayed: false })
-                      sendPluginMessage(
-                        {
-                          pluginMessage: {
-                            type: 'SET_ITEMS',
-                            items: [
-                              {
-                                key: 'is_vscode_message_displayed',
-                                value: false,
-                              },
-                            ],
-                          },
-                        },
-                        '*'
-                      )
-                    }}
-                  />
-                </>
-              }
-              isAnchored
-            />
           </Feature>
           <Feature
             isActive={

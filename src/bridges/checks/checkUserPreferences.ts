@@ -11,9 +11,6 @@ const checkUserPreferences = async () => {
   const canDeepSyncVariables = window.localStorage.getItem(
     'can_deep_sync_variables'
   )
-  const isVsCodeMessageDisplayed = window.localStorage.getItem(
-    'is_vscode_message_displayed'
-  )
   const $isSuggestedLanguageDisplayed = window.localStorage.getItem(
     'is_suggested_language_displayed'
   )
@@ -30,9 +27,6 @@ const checkUserPreferences = async () => {
 
   if (canDeepSyncVariables === null)
     window.localStorage.setItem('can_deep_sync_variables', 'false')
-
-  if (isVsCodeMessageDisplayed === null)
-    window.localStorage.setItem('is_vscode_message_displayed', 'true')
 
   if ($isSuggestedLanguageDisplayed === null)
     window.localStorage.setItem('is_suggested_language_displayed', 'true')
@@ -56,10 +50,6 @@ const checkUserPreferences = async () => {
           canDeepSyncVariables === null
             ? false
             : canDeepSyncVariables === 'true',
-        isVsCodeMessageDisplayed:
-          isVsCodeMessageDisplayed === null
-            ? true
-            : isVsCodeMessageDisplayed === 'true',
         isSuggestedLanguageDisplayed:
           $isSuggestedLanguageDisplayed === null
             ? true
