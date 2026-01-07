@@ -216,8 +216,7 @@
   "dev": {
     "readyForDev": "Prêt pour le développement",
     "vscode": {
-      "cta": "Essayez-le",
-      "message": "UI Color Palette est également disponible sur le plugin Figma VS Code"
+      "cta": "Essayez-le"
     }
   },
   "empty": "-",
@@ -1041,21 +1040,21 @@
       "frenchFR": "Français (FR)",
       "label": "Changer de langue",
       "portugueseBR": "Português (BR)",
-      "title": "Langue",
       "suggestion": {
         "en": {
-          "message": "It looks like your browser language is English. Would you like to switch?",
-          "cta": "Switch to English"
+          "cta": "Switch to English",
+          "message": "It looks like your browser language is English. Would you like to switch?"
         },
         "pt": {
-          "message": "Parece que o idioma do seu navegador é português. Gostaria de mudar?",
-          "cta": "Mudar para Português"
+          "cta": "Mudar para Português",
+          "message": "Parece que o idioma do seu navegador é português. Gostaria de mudar?"
         },
         "zh": {
-          "message": "看起来您的浏览器语言是中文。是否要切换？",
-          "cta": "切换到中文"
+          "cta": "切换到中文",
+          "message": "看起来您的浏览器语言是中文。是否要切换？"
         }
-      }
+      },
+      "title": "Langue"
     },
     "license": {
       "cta": {
