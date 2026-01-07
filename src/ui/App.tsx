@@ -904,7 +904,6 @@ class App extends Component<AppProps, AppStates> {
       (!userLanguage || suggestedLang !== userLanguage)
     )
       this.setState({
-        isSuggestedLanguageDisplayed: true,
         suggestedLanguage: suggestedLang,
       })
   }
@@ -1075,10 +1074,6 @@ class App extends Component<AppProps, AppStates> {
 
   // Render
   render() {
-    console.log(
-      this.state.isSuggestedLanguageDisplayed,
-      this.state.suggestedLanguage
-    )
     if (this.state.isLoaded)
       return (
         <main
