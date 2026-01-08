@@ -858,6 +858,7 @@ class App extends Component<AppProps, AppStates> {
 
   getLanguageSuggestionKey = (language: Language | null): string => {
     const langCodeMap: { [key in Language]?: string } = {
+      'en-US': 'en',
       'pt-BR': 'pt',
       'fr-FR': 'fr',
       'zh-Hans-CN': 'zh',
