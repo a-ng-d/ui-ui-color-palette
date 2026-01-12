@@ -127,6 +127,7 @@ class App extends Component<AppProps, AppStates> {
   private subsscribeSuggestedLanguage: (() => void) | undefined
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
+  private isFirstCreditCountSubscription = true
 
   static features = (
     planStatus: PlanStatus,
@@ -311,6 +312,11 @@ class App extends Component<AppProps, AppStates> {
       this.setState({ userConsent: [...value] })
     })
     this.subscribeCreditCount = $creditsCount.subscribe((value) => {
+      if (this.isFirstCreditCountSubscription) {
+        this.isFirstCreditCountSubscription = false
+        return
+      }
+
       let adjustedValue = value
       if (adjustedValue < 0) adjustedValue = 0
       this.setState({ creditsCount: adjustedValue })
