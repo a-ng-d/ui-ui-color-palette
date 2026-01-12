@@ -744,6 +744,8 @@ class App extends Component<AppProps, AppStates> {
           userSession: data,
         })
 
+      const reportError = () => console.error(path.data)
+
       const actions: {
         [action: string]: () => void
       } = {
@@ -779,6 +781,7 @@ class App extends Component<AppProps, AppStates> {
         LEAVE_PRO_PLAN: () => leaveProPlan(),
         WELCOME_TO_PRO: () => welcomeToPro(),
         SIGN_OUT: () => signOut(path?.data),
+        REPORT_ERROR: () => reportError(),
         DEFAULT: () => null,
       }
 
