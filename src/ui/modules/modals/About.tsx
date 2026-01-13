@@ -112,7 +112,6 @@ export default class About extends PureComponent<AboutProps> {
                         __html: this.props.t(
                           'about.information.sourceCode.sentence',
                           {
-                            code: this.props.t('name'),
                             license: `<a href='${this.props.config.urls.licenseUrl}' target='_blank' rel='noreferrer'>${this.props.t('about.information.sourceCode.license')}</a>`,
                           }
                         ),
@@ -125,7 +124,6 @@ export default class About extends PureComponent<AboutProps> {
                         __html: this.props.t(
                           'about.information.contribution.sentence',
                           {
-                            code: this.props.t('name'),
                             repository: `<a href='${this.props.config.urls.repositoryUrl}' target='_blank' rel='noreferrer'>${this.props.t('about.information.contribution.repository')}</a>`,
                           }
                         ),
