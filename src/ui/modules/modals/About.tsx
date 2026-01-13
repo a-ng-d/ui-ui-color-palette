@@ -37,9 +37,6 @@ export default class About extends PureComponent<AboutProps> {
     }),
   })
 
-  // Handlers
-  // Aucune fonction de template nécessaire, Tolgee gère les paramètres
-
   // Templates
   QuickInfo = () => {
     return (
