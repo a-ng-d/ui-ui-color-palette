@@ -34,13 +34,6 @@ export default class PlanControls extends PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    ACTIVITIES_RUN: new FeatureStatus({
-      features: config.features,
-      featureName: 'ACTIVITIES_RUN',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     INVOLVE_FEEDBACK: new FeatureStatus({
       features: config.features,
       featureName: 'INVOLVE_FEEDBACK',
