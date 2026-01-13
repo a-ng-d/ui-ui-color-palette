@@ -999,7 +999,6 @@ export default class Shortcuts extends PureComponent<
                     {
                       type: 'SEPARATOR',
                     },
-
                     {
                       label: this.props.t('shortcuts.store'),
                       type: 'OPTION',
