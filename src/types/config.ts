@@ -39,6 +39,7 @@ export interface Config {
   plan: {
     isProEnabled: boolean
     isTrialEnabled: boolean
+    isCreditsEnabled: boolean
     trialTime: number
     creditsLimit: number
     creditsRenewalPeriodDays: number

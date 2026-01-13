@@ -41,13 +41,6 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    CREDITS: new FeatureStatus({
-      features: config.features,
-      featureName: 'CREDITS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     SOURCE_COOLORS: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE_COOLORS',
@@ -378,14 +371,7 @@ export default class PlanControls extends PureComponent<
 
   RemainingCredits = () => {
     return (
-      <Feature
-        isActive={PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).CREDITS.isActive()}
-      >
+      <Feature isActive={this.props.config.plan.isCreditsEnabled}>
         <div
           className={doClassnames([
             texts.type,

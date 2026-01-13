@@ -730,6 +730,7 @@ const globalConfig: Config = {
   plan: {
     isProEnabled: import.meta.env.VITE_PRO_ENABLED === 'true',
     isTrialEnabled: import.meta.env.VITE_TRIAL_ENABLED === 'true',
+    isCreditsEnabled: import.meta.env.VITE_CREDITS_ENABLED === 'true',
     trialTime: 72,
     creditsLimit: 250,
     creditsRenewalPeriodDays: 1,
