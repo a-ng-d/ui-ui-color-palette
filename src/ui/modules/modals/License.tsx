@@ -340,7 +340,7 @@ export default class License extends PureComponent<
                         pluginMessage: {
                           type: 'OPEN_IN_BROWSER',
                           data: {
-                            url: 'https://app.lemonsqueezy.com/my-orders',
+                            url: this.props.config.urls.storeManagementUrl,
                           },
                         },
                       },
