@@ -1,8 +1,7 @@
-import mixpanel from 'mixpanel-browser'
 import { Editor } from '../../types/app'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-let mixpanelInstance: typeof mixpanel | null = null
+let mixpanelInstance: any | null = null
 let mixpanelEnv: 'development' | 'production' = 'development'
 let editor: Editor
 
