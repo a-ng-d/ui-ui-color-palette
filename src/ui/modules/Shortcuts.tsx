@@ -513,7 +513,7 @@ export default class Shortcuts extends PureComponent<
                                   this.props.config,
                                   this.props.service,
                                   this.props.editor
-                                ).BACKSTAGE_AUTHENTICATION.isActive() ||
+                                ).BACKSTAGE_AUTHENTICATION.isActive() &&
                                 this.props.config.env.isSupabaseEnabled,
                               isBlocked: Shortcuts.features(
                                 this.props.planStatus,
