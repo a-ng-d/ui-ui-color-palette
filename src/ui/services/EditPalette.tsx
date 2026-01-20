@@ -610,6 +610,28 @@ export default class EditPalette extends PureComponent<
       },
     })
 
+    if (
+      this.props.config.plan.isProEnabled &&
+      currentElement.dataset.value === 'PALETTE'
+    )
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteGenerate
+      )
+    else if (
+      this.props.config.plan.isProEnabled &&
+      currentElement.dataset.value === 'PALETTE_WITH_PROPERTIES'
+    )
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteWithPropsGenerate
+      )
+    else if (
+      this.props.config.plan.isProEnabled &&
+      currentElement.dataset.value === 'SHEET'
+    )
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.sheetGenerate
+      )
+
     sendPluginMessage(
       {
         pluginMessage: {
