@@ -463,50 +463,54 @@
   },
   "pricing": {
     "activate": {
-      "cta": "Gérer la licence",
-      "text": "Entrez votre clé de licence après l'achat pour débloquer les fonctionnalités /pro",
+      "cta": "Utiliser la licence",
+      "text": "Entrez votre clé de licence après l'achat pour débloquer les fonctionnalités",
       "title": "Activer /pro"
-    },
-    "contexts": {
-      "discount": "Réduction (-20%)",
-      "regular": "Régulier"
-    },
-    "discount": {
-      "amount": "20% de réduction",
-      "code": "SAVE20"
-    },
-    "figma": {
-      "cta": "Passer à /pro pour Figma seulement",
-      "subtitle": {
-        "discount": "48$ /an sur Figma",
-        "regular": "5$ /mois sur Figma"
-      },
-      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
-      "title": "UI Color Palette /pro /figma"
     },
     "limit": {
       "cta": "Réinitialiser et poursuivre",
       "message": "La palette ne peut pas être créée car vous avez dépassé les limites. Passez à /pro ou réinitialisez la palette pour la créer."
     },
-    "one": {
-      "cta": "Obtenez votre licence",
-      "subtitle": {
-        "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
-        "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
+    "operation": "Nouveaux plans",
+    "pro": {
+      "ctas": {
+        "lifetime": "Obtenir /lifetime",
+        "month": "S'abonner à /month",
+        "week": "S'abonner à /week",
+        "year": "S'abonner à /year"
       },
-      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
-      "title": "UI Color Palette /pro /one"
-    },
-    "oneFigma": {
-      "cta": "Obtenez votre licence",
-      "subtitle": {
-        "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
-        "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
+      "subtitles": {
+        "lifetime": "96 $ à vie par util.",
+        "month": "5 $ par util./mois",
+        "week": "3 $ par util./semaine",
+        "year": "48 $ par util./an"
       },
-      "text": "◻ Toutes les fonctionnalités /figma</br>◻ Pour petites et grandes équipes</br>◻ Multi plateformes</br>◻ Options de paiement multiples</br>◻ Forfait à vie",
-      "title": "UI Color Palette /pro /one"
+      "texts": {
+        "lifetime": "◻ Accès à vie</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
+        "month": "◻ Flexible</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
+        "week": "◻ À la carte</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
+        "year": "◻ Économisez</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités"
+      },
+      "titles": {
+        "lifetime": "/pro /lifetime",
+        "month": "/pro /month",
+        "week": "/pro /week",
+        "year": "/pro /year"
+      }
     },
-    "title": "S'abonner à UI Color Palette /pro"
+    "subscriptions": {
+      "lifetime": "Lifetime",
+      "month": "Mois (plus populaire)",
+      "week": "Semaine",
+      "year": "Année (-20%)"
+    },
+    "title": "S'abonner au forfait qui vous convient",
+    "ultimate": {
+      "cta": "Demander l'accès",
+      "subtitle": "Bientôt disponible",
+      "text": "◻ SSO</br>◻ Support dédié</br>◻ Onboarding personnalisé</br>◻ Personnalisé pour l'entreprise</br>◻ Garanties SLA",
+      "title": "/ultimate"
+    }
   },
   "proPlan": {
     "trial": {
@@ -1098,7 +1102,6 @@
     "signOut": "Se déconnecter",
     "updateConsent": "Gérer les cookies",
     "updatePreferences": "Mettre à jour les préférences",
-    "useLicense": "Utiliser une clé de licence",
     "welcomeMessage": "Bonjour {username}"
   },
   "vendors": {

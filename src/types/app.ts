@@ -19,7 +19,6 @@ export interface BaseProps {
   userIdentity: UserConfiguration
   userSession: UserSession
   userConsent: Array<ConsentConfiguration>
-  plans: Plans
   planStatus: PlanStatus
   trialStatus: TrialStatus
   trialRemainingTime: number
@@ -113,8 +112,6 @@ export type ModalContext =
   | 'PRICING'
   | 'WELCOME_TO_PRO'
   | 'WELCOME_TO_TRIAL'
-
-export type Plans = Array<'ONE' | 'ONE_FIGMA' | 'FIGMA' | 'ACTIVATE'>
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 

@@ -20,17 +20,11 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { AppStates } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
-import {
-  BaseProps,
-  Editor,
-  Plans,
-  PlanStatus,
-  Service,
-} from '../../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { $palette } from '../../../stores/palette'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
-import uicpo from '../../../content/images/uicp_one.webp'
-import uicp from '../../../content/images/uicp_figma.webp'
+import uicpu from '../../../content/images/uicp_ultimate.webp'
+import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -38,7 +32,6 @@ interface PricingProps
   extends BaseProps,
     WithConfigProps,
     WithTranslationProps {
-  plans: Plans
   sourceColors: Array<SourceColorConfiguration>
   preset: PresetConfiguration
   scale: ScaleConfiguration
@@ -48,7 +41,7 @@ interface PricingProps
 }
 
 interface PricingState {
-  context: 'REGULAR' | 'DISCOUNT'
+  selectedPlan: 'WEEK' | 'MONTH' | 'YEAR' | 'LIFETIME'
 }
 
 export default class Pricing extends PureComponent<PricingProps, PricingState> {
@@ -172,7 +165,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     super(props)
     this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
-      context: 'DISCOUNT',
+      selectedPlan: 'WEEK',
     }
   }
 
@@ -190,12 +183,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   }
 
   // Handlers
-  navHandler = (e: Event) => {
-    const newContext = (e.currentTarget as HTMLElement).dataset
-      .feature as PricingState['context']
+  planHandler = (e: Event) => {
+    const newPlan = (e.currentTarget as HTMLElement).dataset
+      .feature as PricingState['selectedPlan']
 
     this.setState({
-      context: newContext,
+      selectedPlan: newPlan,
     })
   }
 
@@ -355,37 +348,30 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   }
 
   // Templates
-  One = () => {
+  Week = () => {
     return (
       <Card
-        src={uicpo}
-        title={this.props.t('pricing.one.title')}
-        subtitle={
-          this.state.context === 'REGULAR'
-            ? this.props.t('pricing.one.subtitle.regular')
-            : this.props.t('pricing.one.subtitle.discount')
-        }
+        src={uicpp}
+        title={this.props.t('pricing.pro.titles.week')}
+        subtitle={this.props.t('pricing.pro.subtitles.week')}
         richText={
           <span
             className={texts.type}
             dangerouslySetInnerHTML={{
-              __html: this.props.t('pricing.one.text'),
+              __html: this.props.t('pricing.pro.texts.week'),
             }}
           />
         }
         actions={
           <Button
             type="primary"
-            label={this.props.t('pricing.one.cta')}
+            label={this.props.t('pricing.pro.ctas.week')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
                 {
                   pluginMessage: {
-                    type: 'GO_TO_ONE',
-                    data: {
-                      context: this.state.context,
-                    },
+                    type: 'GO_TO_PRO_WEEK',
                   },
                 },
                 '*'
@@ -399,7 +385,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_ONE' }
+                { feature: 'GO_TO_PRO_WEEK' }
               )
             }}
           />
@@ -409,10 +395,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           sendPluginMessage(
             {
               pluginMessage: {
-                type: 'GO_TO_ONE',
-                data: {
-                  context: this.state.context,
-                },
+                type: 'GO_TO_PRO_WEEK',
               },
             },
             '*'
@@ -425,44 +408,37 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_ONE' }
+            { feature: 'GO_TO_PRO_WEEK' }
           )
         }}
       />
     )
   }
 
-  OneFigma = () => {
+  Month = () => {
     return (
       <Card
-        src={uicpo}
-        title={this.props.t('pricing.oneFigma.title')}
-        subtitle={
-          this.state.context === 'REGULAR'
-            ? this.props.t('pricing.oneFigma.subtitle.regular')
-            : this.props.t('pricing.oneFigma.subtitle.discount')
-        }
+        src={uicpp}
+        title={this.props.t('pricing.pro.titles.month')}
+        subtitle={this.props.t('pricing.pro.subtitles.month')}
         richText={
           <span
             className={texts.type}
             dangerouslySetInnerHTML={{
-              __html: this.props.t('pricing.oneFigma.text'),
+              __html: this.props.t('pricing.pro.texts.month'),
             }}
           />
         }
         actions={
           <Button
             type="primary"
-            label={this.props.t('pricing.oneFigma.cta')}
+            label={this.props.t('pricing.pro.ctas.month')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
                 {
                   pluginMessage: {
-                    type: 'GO_TO_ONE',
-                    data: {
-                      context: this.state.context,
-                    },
+                    type: 'GO_TO_PRO_MONTH',
                   },
                 },
                 '*'
@@ -476,7 +452,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_ONE_FIGMA' }
+                { feature: 'GO_TO_PRO_MONTH' }
               )
             }}
           />
@@ -486,10 +462,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           sendPluginMessage(
             {
               pluginMessage: {
-                type: 'GO_TO_ONE',
-                data: {
-                  context: this.state.context,
-                },
+                type: 'GO_TO_PRO_MONTH',
               },
             },
             '*'
@@ -502,41 +475,37 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_ONE_FIGMA' }
+            { feature: 'GO_TO_PRO_MONTH' }
           )
         }}
       />
     )
   }
 
-  Figma = () => {
+  Year = () => {
     return (
       <Card
-        src={uicp}
-        title={this.props.t('pricing.figma.title')}
-        subtitle={
-          this.state.context === 'REGULAR'
-            ? this.props.t('pricing.figma.subtitle.regular')
-            : this.props.t('pricing.figma.subtitle.discount')
-        }
+        src={uicpp}
+        title={this.props.t('pricing.pro.titles.year')}
+        subtitle={this.props.t('pricing.pro.subtitles.year')}
         richText={
           <span
             className={texts.type}
             dangerouslySetInnerHTML={{
-              __html: this.props.t('pricing.figma.text'),
+              __html: this.props.t('pricing.pro.texts.year'),
             }}
           />
         }
         actions={
           <Button
             type="primary"
-            label={this.props.t('pricing.figma.cta')}
+            label={this.props.t('pricing.pro.ctas.year')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
                 {
                   pluginMessage: {
-                    type: 'GO_TO_CHECKOUT',
+                    type: 'GO_TO_PRO_YEAR',
                   },
                 },
                 '*'
@@ -550,7 +519,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_CHECKOUT' }
+                { feature: 'GO_TO_PRO_YEAR' }
               )
             }}
           />
@@ -560,7 +529,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           sendPluginMessage(
             {
               pluginMessage: {
-                type: 'GO_TO_CHECKOUT',
+                type: 'GO_TO_PRO_YEAR',
               },
             },
             '*'
@@ -573,7 +542,74 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_CHECKOUT' }
+            { feature: 'GO_TO_PRO_YEAR' }
+          )
+        }}
+      />
+    )
+  }
+
+  Lifetime = () => {
+    return (
+      <Card
+        src={uicpp}
+        title={this.props.t('pricing.pro.titles.lifetime')}
+        subtitle={this.props.t('pricing.pro.subtitles.lifetime')}
+        richText={
+          <span
+            className={texts.type}
+            dangerouslySetInnerHTML={{
+              __html: this.props.t('pricing.pro.texts.lifetime'),
+            }}
+          />
+        }
+        actions={
+          <Button
+            type="primary"
+            label={this.props.t('pricing.pro.ctas.lifetime')}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              sendPluginMessage(
+                {
+                  pluginMessage: {
+                    type: 'GO_TO_PRO_LIFETIME',
+                  },
+                },
+                '*'
+              )
+
+              trackPricingEvent(
+                this.props.config.env.isMixpanelEnabled,
+                this.props.userSession.userId,
+                this.props.userIdentity.id,
+                this.props.planStatus,
+                this.props.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                { feature: 'GO_TO_PRO_LIFETIME' }
+              )
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type: 'GO_TO_PRO_LIFETIME',
+              },
+            },
+            '*'
+          )
+
+          trackPricingEvent(
+            this.props.config.env.isMixpanelEnabled,
+            this.props.userSession.userId,
+            this.props.userIdentity.id,
+            this.props.planStatus,
+            this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false,
+            { feature: 'GO_TO_PRO_LIFETIME' }
           )
         }}
       />
@@ -596,17 +632,94 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             label={this.props.t('pricing.activate.cta')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              this.props.onManageLicense({
-                modalContext: 'LICENSE',
-              })
+              sendPluginMessage(
+                {
+                  pluginMessage: {
+                    type: 'GET_LICENSE',
+                  },
+                },
+                '*'
+              )
             }}
           />
         }
         shouldFill
         action={() => {
-          this.props.onManageLicense({
-            modalContext: 'LICENSE',
-          })
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type: 'GET_LICENSE',
+              },
+            },
+            '*'
+          )
+        }}
+      />
+    )
+  }
+
+  Ultimate = () => {
+    return (
+      <Card
+        src={uicpu}
+        title={this.props.t('pricing.ultimate.title')}
+        subtitle={this.props.t('pricing.ultimate.subtitle')}
+        richText={
+          <span
+            className={texts.type}
+            dangerouslySetInnerHTML={{
+              __html: this.props.t('pricing.ultimate.text'),
+            }}
+          />
+        }
+        actions={
+          <Button
+            type="primary"
+            label={this.props.t('pricing.ultimate.cta')}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              sendPluginMessage(
+                {
+                  pluginMessage: {
+                    type: 'GO_TO_ULTIMATE_REQUEST',
+                  },
+                },
+                '*'
+              )
+
+              trackPricingEvent(
+                this.props.config.env.isMixpanelEnabled,
+                this.props.userSession.userId,
+                this.props.userIdentity.id,
+                this.props.planStatus,
+                this.props.userConsent.find(
+                  (consent) => consent.id === 'mixpanel'
+                )?.isConsented ?? false,
+                { feature: 'GO_TO_ULTIMATE_REQUEST' }
+              )
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type: 'GO_TO_ULTIMATE_REQUEST',
+              },
+            },
+            '*'
+          )
+
+          trackPricingEvent(
+            this.props.config.env.isMixpanelEnabled,
+            this.props.userSession.userId,
+            this.props.userIdentity.id,
+            this.props.planStatus,
+            this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false,
+            { feature: 'GO_TO_ULTIMATE_REQUEST' }
+          )
         }}
       />
     )
@@ -672,19 +785,29 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               <Tabs
                 tabs={[
                   {
-                    label: this.props.t('pricing.contexts.discount'),
-                    id: 'DISCOUNT',
+                    label: this.props.t('pricing.subscriptions.week'),
+                    id: 'WEEK',
+                    isUpdated: false,
+                  },
+                  {
+                    label: this.props.t('pricing.subscriptions.month'),
+                    id: 'MONTH',
                     isUpdated: true,
                   },
                   {
-                    label: this.props.t('pricing.contexts.regular'),
-                    id: 'REGULAR',
+                    label: this.props.t('pricing.subscriptions.year'),
+                    id: 'YEAR',
+                    isUpdated: false,
+                  },
+                  {
+                    label: this.props.t('pricing.subscriptions.lifetime'),
+                    id: 'LIFETIME',
                     isUpdated: false,
                   },
                 ]}
-                active={this.state.context}
-                isFlex={isFlex}
-                action={this.navHandler}
+                active={this.state.selectedPlan}
+                isFlex={false}
+                action={this.planHandler}
               />
             </div>
             {!this.canSavePalette() && this.props.service === 'CREATE' && (
@@ -709,20 +832,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 flex: 1,
               }}
             >
-              {this.props.plans.map((plan) => {
-                switch (plan) {
-                  case 'ONE':
-                    return <this.One />
-                  case 'ONE_FIGMA':
-                    return <this.OneFigma />
-                  case 'FIGMA':
-                    return <this.Figma />
-                  case 'ACTIVATE':
-                    return <this.Activate />
-                  default:
-                    return null
-                }
-              })}
+              {this.state.selectedPlan === 'WEEK' && <this.Week />}
+              {this.state.selectedPlan === 'MONTH' && <this.Month />}
+              {this.state.selectedPlan === 'YEAR' && <this.Year />}
+              {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
+              <this.Ultimate />
+              <this.Activate />
             </div>
           </div>
         </Dialog>

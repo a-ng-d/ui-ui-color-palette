@@ -46,10 +46,7 @@ interface ShortcutsStates {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsStates> {
   private theme: string | null
 
   static features = (
@@ -75,13 +72,6 @@ export default class Shortcuts extends PureComponent<
     USER_LICENSE: new FeatureStatus({
       features: config.features,
       featureName: 'USER_LICENSE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    USER_LICENSE_JUMP: new FeatureStatus({
-      features: config.features,
-      featureName: 'USER_LICENSE_JUMP',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -674,37 +664,6 @@ export default class Shortcuts extends PureComponent<
                           this.props.onReOpenLicense({
                             modalContext: 'LICENSE',
                           }),
-                      },
-                      {
-                        label: this.props.t('user.useLicense'),
-                        type: 'OPTION' as const,
-                        isActive: Shortcuts.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LICENSE_JUMP.isActive(),
-                        isBlocked: Shortcuts.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LICENSE_JUMP.isBlocked(),
-                        isNew: Shortcuts.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LICENSE_JUMP.isNew(),
-                        action: () =>
-                          sendPluginMessage(
-                            {
-                              pluginMessage: {
-                                type: 'GO_TO_ONE_FIGMA',
-                              },
-                            },
-                            '*'
-                          ),
                       },
                     ]}
                     state={this.state.isUserMenuLoading ? 'LOADING' : 'DEFAULT'}

@@ -18,12 +18,7 @@ import About from '../modules/modals/About'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { NotificationMessage } from '../../types/messages'
-import {
-  BaseProps,
-  AnnouncementsDigest,
-  ModalContext,
-  Plans,
-} from '../../types/app'
+import { BaseProps, AnnouncementsDigest, ModalContext } from '../../types/app'
 import {
   trackAnnouncementsEvent,
   trackOnboardingEvent,
@@ -35,7 +30,6 @@ interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
   context: ModalContext
   notification: NotificationMessage
   announcements: AnnouncementsDigest
-  plans: Plans
   onChangePublication: React.Dispatch<Partial<AppStates>>
   onManageLicense: React.Dispatch<Partial<AppStates>>
   onSkipAndResetPalette: React.Dispatch<Partial<AppStates>>

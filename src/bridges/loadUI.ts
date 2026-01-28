@@ -269,20 +269,21 @@ else {
       GET_PRO_PLAN: async () =>
         iframe?.contentWindow?.postMessage({
           type: 'GET_PRICING',
-          data: {
-            plans: ['ONE', 'ONE_FIGMA', 'FIGMA', 'ACTIVATE'],
-          },
         }),
-      GO_TO_ONE: async () =>
-        window.open(
-          path.data.context === 'REGULAR'
-            ? globalConfig.urls.storeUrl
-            : globalConfig.urls.storeWithDiscountUrl,
-          '_blank'
-        ),
-      GO_TO_ONE_FIGMA: async () =>
-        window.open('https://uicp.ylb.lt/run-figma-plugin', '_blank'),
-      GO_TO_CHECKOUT: async () => console.log('Pay Pro Plan', path),
+      GET_LICENSE: async () =>
+        iframe?.contentWindow?.postMessage({
+          type: 'GET_LICENSE',
+        }),
+      GO_TO_PRO_WEEK: async () =>
+        window.open(globalConfig.urls.storeProWeekUrl, '_blank'),
+      GO_TO_PRO_MONTH: async () =>
+        window.open(globalConfig.urls.storeProMonthUrl, '_blank'),
+      GO_TO_PRO_YEAR: async () =>
+        window.open(globalConfig.urls.storeProYearUrl, '_blank'),
+      GO_TO_PRO_LIFETIME: async () =>
+        window.open(globalConfig.urls.storeProLifetimeUrl, '_blank'),
+      GO_TO_ULTIMATE_REQUEST: async () =>
+        window.open(globalConfig.urls.storeUltimateRequestUrl, '_blank'),
       ENABLE_PRO_PLAN: async () =>
         iframe?.contentWindow?.postMessage({
           type: 'ENABLE_PRO_PLAN',

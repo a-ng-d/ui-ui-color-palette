@@ -159,9 +159,11 @@ export interface TourEvent {
 export interface PricingEvent {
   feature:
     | 'VIEW_PRICING'
-    | 'GO_TO_CHECKOUT'
-    | 'GO_TO_ONE'
-    | 'GO_TO_ONE_FIGMA'
+    | 'GO_TO_PRO_WEEK'
+    | 'GO_TO_PRO_MONTH'
+    | 'GO_TO_PRO_YEAR'
+    | 'GO_TO_PRO_LIFETIME'
+    | 'GO_TO_ULTIMATE_REQUEST'
     | 'RESET_AND_CONTINUE'
 }
 

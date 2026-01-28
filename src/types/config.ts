@@ -73,9 +73,12 @@ export interface Config {
     vsCodeFigmaPluginUrl: string
     isbUrl: string
     uicpUrl: string
-    storeUrl: string
     storeManagementUrl: string
-    storeWithDiscountUrl: string
+    storeProWeekUrl: string
+    storeProMonthUrl: string
+    storeProYearUrl: string
+    storeProLifetimeUrl: string
+    storeUltimateRequestUrl: string
     howToUseUrl: string
   }
   versions: {

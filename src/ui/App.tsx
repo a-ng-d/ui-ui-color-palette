@@ -706,7 +706,11 @@ class App extends Component<AppProps, AppStates> {
       const getPricing = () =>
         this.setState({
           modalContext: 'PRICING',
-          plans: path.data.plans,
+        })
+
+      const getLicense = () =>
+        this.setState({
+          modalContext: 'LICENSE',
         })
 
       const enableProPlan = () =>
@@ -777,6 +781,7 @@ class App extends Component<AppProps, AppStates> {
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),
         GET_PRICING: () => getPricing(),
+        GET_LICENSE: () => getLicense(),
         ENABLE_PRO_PLAN: () => enableProPlan(),
         LEAVE_PRO_PLAN: () => leaveProPlan(),
         WELCOME_TO_PRO: () => welcomeToPro(),

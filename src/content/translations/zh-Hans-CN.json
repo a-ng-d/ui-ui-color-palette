@@ -463,50 +463,54 @@
   },
   "pricing": {
     "activate": {
-      "cta": "管理许可证",
-      "text": "购买后输入您的许可证密钥以解锁 /pro 功能",
+      "cta": "激活 /pro",
+      "text": "购买后输入您的许可证密钥以解锁 功能",
       "title": "激活 /pro"
-    },
-    "contexts": {
-      "discount": "折扣 (-20%)",
-      "regular": "常规"
-    },
-    "discount": {
-      "amount": "20% 优惠",
-      "code": "SAVE20"
-    },
-    "figma": {
-      "cta": "仅为 Figma 升级 /pro",
-      "subtitle": {
-        "discount": "Figma 上每年 $48",
-        "regular": "Figma 上每月 $5"
-      },
-      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
-      "title": "UI Color Palette /pro /figma"
     },
     "limit": {
       "cta": "重置并继续",
       "message": "无法创建调色板，因为您已超过限制。请升级至 /pro 或重置调色板以创建它。"
     },
-    "one": {
-      "cta": "获取您的许可证",
-      "subtitle": {
-        "discount": "Figma、Penpot、Sketch、Framer 上终身 $47",
-        "regular": "Figma、Penpot、Sketch、Framer 上终身 $59"
+    "operation": "新计划",
+    "pro": {
+      "ctas": {
+        "lifetime": "获取 /lifetime",
+        "month": "订阅 /month",
+        "week": "订阅 /week",
+        "year": "订阅 /year"
       },
-      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
-      "title": "UI Color Palette /pro /one"
-    },
-    "oneFigma": {
-      "cta": "获取您的许可证",
-      "subtitle": {
-        "discount": "Figma、Penpot、Sketch、Framer 上终身 $47",
-        "regular": "Figma、Penpot、Sketch、Framer 上终身 $59"
+      "subtitles": {
+        "lifetime": "每个用户 $96 一次性",
+        "month": "每个用户/月 $5",
+        "week": "每个用户/周 $3",
+        "year": "每个用户/月 $4"
       },
-      "text": "◻ 所有 /figma 功能</br>◻ 适用于小型和大型团队</br>◻ 多平台</br>◻ 多种付款选项</br>◻ 终身计划",
-      "title": "UI Color Palette /pro /one"
+      "texts": {
+        "lifetime": "◻ 终身访问</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式",
+        "month": "◻ 灵活</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式",
+        "week": "◻ 按需付费</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式",
+        "year": "◻ 节省资金</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式"
+      },
+      "titles": {
+        "lifetime": "/pro /lifetime",
+        "month": "/pro /month",
+        "week": "/pro /week",
+        "year": "/pro /year"
+      }
     },
-    "title": "订阅 UI Color Palette /pro"
+    "subscriptions": {
+      "lifetime": "Lifetime",
+      "month": "月份（最受欢迎）",
+      "week": "周",
+      "year": "年份（-20%）"
+    },
+    "title": "订阅适合您需求的计划",
+    "ultimate": {
+      "cta": "申请访问权限",
+      "subtitle": "即将推出",
+      "text": "◻ SSO</br>◻ 专属支持</br>◻ 定制上线</br>◻ 企业定制</br>◻ SLA 保证",
+      "title": "/ultimate"
+    }
   },
   "proPlan": {
     "trial": {
@@ -1098,7 +1102,6 @@
     "signOut": "登出",
     "updateConsent": "管理 Cookie",
     "updatePreferences": "更新偏好设置",
-    "useLicense": "使用许可证密钥",
     "welcomeMessage": "你好 {username}"
   },
   "vendors": {

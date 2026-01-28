@@ -499,7 +499,7 @@ export default class PlanControls extends PureComponent<
           sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
         }
       />
-      <Chip>{this.props.t('pricing.discount.amount')}</Chip>
+      <Chip>{this.props.t('pricing.operation')}</Chip>
       <this.RemainingCredits />
     </div>
   )

@@ -10,7 +10,7 @@ export const initTolgee = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   staticData: Record<string, any>
 ) => {
-  tolgeeInstance = Tolgee().use(DevTools()).use(FormatIcu()).init({
+  tolgeeInstance = Tolgee().use(FormatIcu()).init({
     language: defaultLang,
     apiUrl: url,
     apiKey: apiKey,
