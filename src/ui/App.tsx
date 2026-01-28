@@ -262,7 +262,6 @@ class App extends Component<AppProps, AppStates> {
       creditsCount: props.config.plan.creditsLimit,
       creditsRenewalDate: 0,
       editor: props.config.env.editor,
-      plans: [],
       modalContext: 'EMPTY',
       mustUserConsent: true,
       announcements: {

@@ -142,6 +142,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     availabilityForServices: ['SEE'],
     proForServices: ['SEE'],
   },
+  // Modules
   {
     name: 'RESIZE_UI',
     description: 'Resizes the window',
@@ -160,7 +161,6 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     availabilityForServices: ['CREATE', 'EDIT', 'BROWSE', 'SEE'],
     proForServices: ['CREATE', 'EDIT', 'BROWSE', 'SEE'],
   },
-  // Modules
   {
     name: 'PUBLICATION',
     description: 'Palette publication pitch',
@@ -3313,35 +3313,6 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
       'framer',
       'buzz',
     ],
-  },
-  {
-    name: 'EDITOR_MESSAGES',
-    description: 'Messages from the editor',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'DIVISION',
-    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT'],
-    proForServices: ['BROWSE', 'CREATE', 'EDIT'],
-    availabilityForEditors: [
-      'figma',
-      'figjam',
-      'penpot',
-      'sketch',
-      'framer',
-      'buzz',
-    ],
-  },
-  {
-    name: 'WATCHER_MESSAGES',
-    description: 'Messages from the watcher',
-    isActive: true,
-    isPro: false,
-    isNew: false,
-    type: 'DIVISION',
-    availabilityForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
-    proForServices: ['BROWSE', 'CREATE', 'EDIT', 'SEE'],
-    availabilityForEditors: ['dev', 'dev_vscode'],
   },
   // Shortcuts
   {
