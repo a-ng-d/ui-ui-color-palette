@@ -467,6 +467,11 @@
       "text": "Digite sua chave de licença após a compra para desbloquear recursos",
       "title": "Ativar /pro"
     },
+    "jump": {
+      "cta": "Ir para /one",
+      "text": "Vá para o plugin marcado /one para usar sua chave de licença",
+      "title": "Ativar /pro"
+    },
     "limit": {
       "cta": "Reiniciar e continuar",
       "message": "A paleta não pode ser criada porque você excedeu o limite. Atualize para o /pro ou redefina a paleta para criá-la."
