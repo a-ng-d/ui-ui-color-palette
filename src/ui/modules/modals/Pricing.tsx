@@ -82,6 +82,48 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
+    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE',
@@ -148,6 +190,27 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V1: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V1',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V2: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V2',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V3: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V3',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -240,8 +303,38 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         'EDIT',
         this.props.editor
       )[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
+          typeof Pricing.features
+        >
       ].isBlocked()
+    )
+      return false
+    if (
+      $palette.get().colorSpace !== 'LCH' &&
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      )[
+        `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
+          typeof Pricing.features
+        >
+      ].isBlocked()
+    )
+      return false
+    if (
+      $palette.get().algorithmVersion !== 'v3' &&
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      )[
+        `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
+          typeof Pricing.features
+        >
+      ]?.isBlocked()
     )
       return false
     return true
@@ -307,6 +400,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
     $palette.setKey('areSourceColorsLocked', false)
     $palette.setKey('visionSimulationMode', 'NONE')
+    $palette.setKey('colorSpace', 'LCH')
+    $palette.setKey('algorithmVersion', 'v3')
     $palette.setKey('shift.chroma', 100)
     $palette.setKey(
       'scale',
@@ -323,6 +418,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       preset: updatedPreset,
       areSourceColorsLocked: false,
       visionSimulationMode: 'NONE',
+      colorSpace: 'LCH',
+      algorithmVersion: 'v3',
       shift: {
         chroma: 100,
       },

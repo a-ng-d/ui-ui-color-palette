@@ -136,21 +136,6 @@ export default class Chroma extends PureComponent<ChromaProps> {
             min: 'hsl(187, 0%, 75%)',
             max: 'hsl(187, 100%, 75%)',
           }}
-          warning={
-            this.props.service === 'CREATE' &&
-            this.props.shift.chroma !== 100 &&
-            Chroma.features(
-              this.props.planStatus,
-              this.props.config,
-              'EDIT',
-              this.props.editor
-            ).SCALE_CHROMA.isBlocked()
-              ? {
-                  label: this.props.t('scale.shift.chroma.warning'),
-                  type: 'MULTI_LINE',
-                }
-              : undefined
-          }
           feature="SHIFT_CHROMA"
           isBlocked={Chroma.features(
             this.props.planStatus,

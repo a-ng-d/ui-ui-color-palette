@@ -217,9 +217,44 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       currentService: service,
       currentEditor: editor,
     }),
-    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
+    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
       features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
+      featureName: 'SETTINGS_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -283,6 +318,27 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
     SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V1: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V1',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V2: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V2',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V3: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V3',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -610,8 +666,39 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
         'EDIT',
         this.props.editor
       )[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
+          typeof Actions.features
+        >
       ].isBlocked()
+    )
+      return false
+    if (
+      $palette.get().colorSpace !== 'LCH' &&
+      $palette.get().colorSpace !== 'HSL' &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      )[
+        `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
+          typeof Actions.features
+        >
+      ]?.isBlocked()
+    )
+      return false
+    if (
+      $palette.get().algorithmVersion !== 'v3' &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      )[
+        `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
+          typeof Actions.features
+        >
+      ]?.isBlocked()
     )
       return false
     return true
@@ -664,12 +751,43 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
             'EDIT',
             this.props.editor
           )[
-            `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+            `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
+              typeof Actions.features
+            >
           ].isBlocked() && (
             <li>
               {this.props.t(
                 'info.multipleBlockingMessages.visionSimulationMode'
               )}
+            </li>
+          )}
+        {$palette.get().colorSpace !== 'LCH' &&
+          $palette.get().colorSpace !== 'HSL' &&
+          Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            'EDIT',
+            this.props.editor
+          )[
+            `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
+              typeof Actions.features
+            >
+          ].isBlocked() && (
+            <li>{this.props.t('info.multipleBlockingMessages.colorSpace')}</li>
+          )}
+        {$palette.get().algorithmVersion !== 'v3' &&
+          Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            'EDIT',
+            this.props.editor
+          )[
+            `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
+              typeof Actions.features
+            >
+          ].isBlocked() && (
+            <li>
+              {this.props.t('info.multipleBlockingMessages.algorithmVersion')}
             </li>
           )}
       </ul>

@@ -341,7 +341,9 @@
       "lockedSourceColors": "Unlock source colors",
       "sourceColors": "Decrease source colors",
       "stops": "Decrease stops",
-      "visionSimulationMode": "Reset vision simulation"
+      "visionSimulationMode": "Reset vision simulation",
+      "colorSpace": "Set color space to \"LCH\" or \"HSL\"",
+      "algorithmVersion": "Set chroma velocity to \"Sinusoidal and hyperbolic\""
     },
     "noChange": "No change",
     "noResult": "No palette matches your search",
@@ -450,8 +452,7 @@
     "lock": {
       "label": "Lock source colors",
       "preview": "Lock the source colors to include them in the palette",
-      "tag": "Locked",
-      "warning": "Upgrade to /pro to create a palette with locked source colors"
+      "tag": "Locked"
     },
     "score": {
       "apca": "Show APCA scores",
@@ -644,8 +645,7 @@
     },
     "shift": {
       "chroma": {
-        "label": "Chroma",
-        "warning": "Upgrade to /pro to create a palette with a modified chroma shift. Reset it to 100% or upgrade."
+        "label": "Chroma"
       }
     },
     "tips": {
@@ -755,8 +755,7 @@
         "protanomaly": "Protanomaly (red-weak)",
         "protanopia": "Protanopia (red-blind)",
         "tritanomaly": "Tritanomaly (blue-weak)",
-        "tritanopia": "Tritanopia (blue-blind)",
-        "warning": "Upgrade to /pro to create a palette with this vision simulation"
+        "tritanopia": "Tritanopia (blue-blind)"
       }
     },
     "contexts": {

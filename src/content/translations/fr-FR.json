@@ -341,7 +341,9 @@
       "lockedSourceColors": "Déverrouiller les couleurs sources",
       "sourceColors": "Diminuer les couleurs sources",
       "stops": "Diminuer les étapes",
-      "visionSimulationMode": "Réinitialiser la simulation de vision"
+      "visionSimulationMode": "Réinitialiser la simulation de vision",
+      "colorSpace": "Remettre l'espace colorimétrique sur « LCH » ou « HSL »",
+      "algorithmVersion": "Remettre la vélocité de chroma sur « Sinusoïdal et hyperbolique »"
     },
     "noChange": "Aucun changement",
     "noResult": "Aucune palette ne correspond à votre recherche",
@@ -450,8 +452,7 @@
     "lock": {
       "label": "Verrouiller les couleurs sources",
       "preview": "Verrouillez les couleurs sources pour les inclure dans la palette",
-      "tag": "Verrouillé",
-      "warning": "Passez à /pro pour créer une palette avec des couleurs sources verrouillées"
+      "tag": "Verrouillé"
     },
     "score": {
       "apca": "Afficher les scores APCA",
@@ -644,8 +645,7 @@
     },
     "shift": {
       "chroma": {
-        "label": "Chroma",
-        "warning": "Passez à /pro pour créer une palette avec un décalage de chroma modifié. Réinitialisez-le à 100% ou passez à niveau supérieur."
+        "label": "Chroma"
       }
     },
     "tips": {
@@ -755,8 +755,7 @@
         "protanomaly": "Protanomalie (faiblesse du rouge)",
         "protanopia": "Protanopie (cécité du rouge)",
         "tritanomaly": "Tritanomalie (faiblesse du bleu)",
-        "tritanopia": "Tritanopie (cécité du bleu)",
-        "warning": "Passez à /pro pour créer une palette avec cette simulation de vision"
+        "tritanopia": "Tritanopie (cécité du bleu)"
       }
     },
     "contexts": {
