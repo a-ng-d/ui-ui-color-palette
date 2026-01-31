@@ -367,7 +367,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (item.id === id) {
           item.hue.shift = value
-          item.hue.isLocked = !(value === 0)
+          item.hue.isLocked = !(value === this.props.shift.hue)
         }
         return item
       })
@@ -431,7 +431,7 @@ export default class Colors extends PureComponent<ColorsProps> {
     const resetHue = () => {
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (item.id === id) {
-          item.hue.shift = 0
+          item.hue.shift = this.props.shift.hue
           item.hue.isLocked = false
         }
         return item
@@ -1138,7 +1138,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     value={
                                       color.hue.shift !== undefined
                                         ? color.hue.shift.toString()
-                                        : '100'
+                                        : '0'
                                     }
                                     min="-180"
                                     max="180"

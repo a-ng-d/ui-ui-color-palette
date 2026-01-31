@@ -350,6 +350,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       currentService: service,
       currentEditor: editor,
     }),
+    SCALE_HUE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_HUE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     DOWNLOAD_EXPORT: new FeatureStatus({
       features: config.features,
       featureName: 'DOWNLOAD_EXPORT',
@@ -659,6 +666,16 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
     )
       return false
     if (
+      $palette.get().shift.hue !== 0 &&
+      Actions.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      ).SCALE_HUE.isBlocked()
+    )
+      return false
+    if (
       $palette.get().visionSimulationMode !== 'NONE' &&
       Actions.features(
         this.props.planStatus,
@@ -743,6 +760,15 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
             this.props.editor
           ).SCALE_CHROMA.isBlocked() && (
             <li>{this.props.t('info.multipleBlockingMessages.chroma')}</li>
+          )}
+        {$palette.get().shift.hue !== 0 &&
+          Actions.features(
+            this.props.planStatus,
+            this.props.config,
+            'EDIT',
+            this.props.editor
+          ).SCALE_HUE.isBlocked() && (
+            <li>{this.props.t('info.multipleBlockingMessages.hue')}</li>
           )}
         {$palette.get().visionSimulationMode !== 'NONE' &&
           Actions.features(

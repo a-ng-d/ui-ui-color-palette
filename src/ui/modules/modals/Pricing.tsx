@@ -230,6 +230,13 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
+    SCALE_HUE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_HUE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: PricingProps) {
@@ -301,6 +308,16 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         'EDIT',
         this.props.editor
       ).SCALE_CHROMA.isBlocked()
+    )
+      return false
+    if (
+      $palette.get().shift.hue !== 0 &&
+      Pricing.features(
+        this.props.planStatus,
+        this.props.config,
+        'EDIT',
+        this.props.editor
+      ).SCALE_HUE.isBlocked()
     )
       return false
     if (
@@ -411,6 +428,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     $palette.setKey('colorSpace', 'LCH')
     $palette.setKey('algorithmVersion', 'v3')
     $palette.setKey('shift.chroma', 100)
+    $palette.setKey('shift.hue', 0)
     $palette.setKey(
       'scale',
       doScale(
@@ -430,6 +448,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       algorithmVersion: 'v3',
       shift: {
         chroma: 100,
+        hue: 0,
       },
       scale: doScale(
         updatedStops,

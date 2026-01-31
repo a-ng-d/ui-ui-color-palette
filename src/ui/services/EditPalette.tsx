@@ -345,12 +345,15 @@ export default class EditPalette extends PureComponent<
       const shift: ShiftConfiguration = {
         chroma:
           feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
+        hue: feature === 'SHIFT_HUE' ? (value ?? 0) : this.props.shift.hue,
       }
 
       this.palette.setKey('shift', shift)
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
           item.chroma.shift = value ?? this.props.shift.chroma
+        if (feature === 'SHIFT_HUE' && !item.hue.isLocked)
+          item.hue.shift = value ?? this.props.shift.hue
         return item
       })
 

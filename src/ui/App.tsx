@@ -217,6 +217,7 @@ class App extends Component<AppProps, AppStates> {
       scale: {},
       shift: {
         chroma: 100,
+        hue: 0,
       },
       areSourceColorsLocked: false,
       colors: [],
@@ -968,6 +969,7 @@ class App extends Component<AppProps, AppStates> {
       scale: scale,
       shift: {
         chroma: 100,
+        hue: 0,
       },
       areSourceColorsLocked: false,
       colors: [],
@@ -1004,6 +1006,7 @@ class App extends Component<AppProps, AppStates> {
     this.palette.setKey('scale', scale)
     this.palette.setKey('shift', {
       chroma: 100,
+      hue: 0,
     })
     this.palette.setKey('areSourceColorsLocked', false)
     this.palette.setKey('colorSpace', 'LCH')

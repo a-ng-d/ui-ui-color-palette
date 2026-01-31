@@ -179,7 +179,7 @@
     },
     "callout": {
       "cta": "Create source color",
-      "message": "Create a source color to split it into multiple shades/tints according to your lightness scale"
+      "message": "Create a source color to split it into multiple shades/tints according to your color scale"
     },
     "chromaShifting": {
       "label": "Shift chroma"
@@ -338,6 +338,7 @@
     "multipleBlockingMessages": {
       "algorithmVersion": "Set chroma velocity to \"Sinusoidal and hyperbolic\"",
       "chroma": "Reset chroma",
+      "hue": "Reset hue",
       "colorSpace": "Set color space to \"LCH\" or \"HSL\"",
       "head": "You can unlock the creation if you: {messages}",
       "lockedSourceColors": "Unlock source colors",
@@ -592,7 +593,7 @@
       "applyEasing": "Apply directly the easing to the stops",
       "moreTools": "More tools",
       "removeStop": "Remove stop",
-      "resetScale": "Reset stops and chroma",
+      "resetScale": "Reset stops, chroma, and hue",
       "resetStops": "Reset stops",
       "reverseStops": "Reverse stops"
     },
@@ -651,6 +652,9 @@
     "shift": {
       "chroma": {
         "label": "Chroma"
+      },
+      "hue": {
+        "label": "Hue"
       }
     },
     "tips": {
@@ -683,7 +687,7 @@
       "type": "Type stop value",
       "unselect": "Unselect stop"
     },
-    "title": "Lightness scale"
+    "title": "Color scale"
   },
   "see": {
     "properties": {
@@ -704,7 +708,7 @@
         "title": "Information",
         "updatedAt": "Updated at"
       },
-      "lightnessScale": "Lightness scale",
+      "lightnessScale": "Color scale",
       "settings": {
         "algorithmVersion": "Chroma velocity",
         "colorSpace": "Color space",

@@ -31,6 +31,7 @@ import { $palette } from '../../../stores/palette'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 import Lightness from './Lightness'
+import Hue from './Hue'
 import Chroma from './Chroma'
 import type { AppStates } from '../../App'
 
@@ -497,12 +498,16 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
     this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
     this.scaleMessage.data.shift.chroma = 100
+    this.scaleMessage.data.shift.hue = 0
 
     this.palette.setKey('scale', this.scaleMessage.data.scale)
     this.palette.setKey('shift.chroma', 100)
+    this.palette.setKey('shift.hue', 0)
+
 
     this.props.onChangeScale()
     this.props.onChangeShift('shift.chroma', 'SHIFTED', 100)
+    this.props.onChangeShift('shift.hue', 'SHIFTED', 0)
 
     if (this.props.service === 'EDIT')
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
@@ -875,6 +880,12 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           shift={this.props.shift}
           onChangeShift={this.props.onChangeShift}
         />
+        <Hue
+          {...this.props}
+          id={this.props.id}
+          shift={this.props.shift}
+          onChangeShift={this.props.onChangeShift}
+        />
       </>
     )
   }
@@ -895,6 +906,12 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
           onChangeThemes={this.props.onChangeThemes}
         />
         <Chroma
+          {...this.props}
+          id={this.props.id}
+          shift={this.props.shift}
+          onChangeShift={this.props.onChangeShift}
+        />
+        <Hue
           {...this.props}
           id={this.props.id}
           shift={this.props.shift}

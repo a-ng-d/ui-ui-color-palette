@@ -479,7 +479,10 @@ export default class Preview extends PureComponent<
       const foregroundColorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         alpha: parseFloat((scale / 100).toFixed(2)),
-        hueShifting: this.props.service === 'CREATE' ? 0 : color.hue?.shift,
+        hueShifting:
+          this.props.service === 'CREATE'
+            ? this.props.shift.hue
+            : color.hue?.shift,
         chromaShifting:
           this.props.service === 'CREATE'
             ? this.props.shift.chroma
@@ -562,7 +565,10 @@ export default class Preview extends PureComponent<
       const colorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         lightness: scale,
-        hueShifting: this.props.service === 'CREATE' ? 0 : color.hue?.shift,
+        hueShifting:
+          this.props.service === 'CREATE'
+            ? this.props.shift.hue
+            : color.hue?.shift,
         chromaShifting:
           this.props.service === 'CREATE'
             ? this.props.shift.chroma

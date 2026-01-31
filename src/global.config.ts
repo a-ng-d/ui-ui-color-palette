@@ -71,6 +71,7 @@ const proFeatures = [
   'PRESETS_POLARIS',
   'PRESETS_CUSTOM_ADD',
   'SCALE_CHROMA',
+  'SCALE_HUE',
   'THEMES',
   'THEMES_NAME',
   'THEMES_PARAMS',
