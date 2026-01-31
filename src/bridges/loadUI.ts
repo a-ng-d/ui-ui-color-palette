@@ -269,6 +269,9 @@ else {
       GET_PRO: async () =>
         iframe?.contentWindow?.postMessage({
           type: 'GET_PRICING',
+          data: {
+            licenseTrigger: 'ACTIVATE',
+          },
         }),
       GET_LICENSE: async () =>
         iframe?.contentWindow?.postMessage({

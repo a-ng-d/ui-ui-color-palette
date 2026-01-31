@@ -468,6 +468,11 @@
       "text": "Entrez votre clé de licence après l'achat pour débloquer les fonctionnalités",
       "title": "Activer /pro"
     },
+    "jump": {
+      "cta": "Aller à /one",
+      "text": "Allez au plugin tagué /one pour utiliser votre clé de licence",
+      "title": "Activer /pro"
+    },
     "limit": {
       "cta": "Réinitialiser et poursuivre",
       "message": "La palette ne peut pas être créée car vous avez dépassé les limites. Passez à /pro ou réinitialisez la palette pour la créer."

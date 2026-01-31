@@ -336,14 +336,14 @@
     "maxNumberOfSourceColors": "{count, plural, one {Upgrade to /pro to add more than one single source color} other {Upgrade to /pro to add more than # source colors}}",
     "maxNumberOfStops": "{count, plural, one {Upgrade to /pro to add more than one single stop} other {Upgrade to /pro to add more than # stops}}",
     "multipleBlockingMessages": {
+      "algorithmVersion": "Set chroma velocity to \"Sinusoidal and hyperbolic\"",
       "chroma": "Reset chroma",
+      "colorSpace": "Set color space to \"LCH\" or \"HSL\"",
       "head": "You can unlock the creation if you: {messages}",
       "lockedSourceColors": "Unlock source colors",
       "sourceColors": "Decrease source colors",
       "stops": "Decrease stops",
-      "visionSimulationMode": "Reset vision simulation",
-      "colorSpace": "Set color space to \"LCH\" or \"HSL\"",
-      "algorithmVersion": "Set chroma velocity to \"Sinusoidal and hyperbolic\""
+      "visionSimulationMode": "Reset vision simulation"
     },
     "noChange": "No change",
     "noResult": "No palette matches your search",
@@ -466,6 +466,11 @@
     "activate": {
       "cta": "Use license",
       "text": "Enter a license key after purchasing to unlock features",
+      "title": "Activate /pro"
+    },
+    "jump": {
+      "cta": "Jump to /one",
+      "text": "Jump to the plugin tagged /one to use your license key",
       "title": "Activate /pro"
     },
     "limit": {

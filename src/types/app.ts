@@ -63,6 +63,8 @@ export type PlanStatus = 'UNPAID' | 'PAID' | 'NOT_SUPPORTED'
 
 export type TrialStatus = 'UNUSED' | 'PENDING' | 'EXPIRED' | 'SUSPENDED'
 
+export type LicenseTrigger = 'ACTIVATE' | 'JUMP'
+
 export type Editor =
   | 'figma'
   | 'figjam'

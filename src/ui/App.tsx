@@ -43,6 +43,7 @@ import {
   PlanStatus,
   ModalContext,
   Service,
+  LicenseTrigger,
 } from '../types/app'
 import { getDefaultPreset, getPresets, updatePresets } from '../stores/presets'
 import {
@@ -115,6 +116,7 @@ export interface AppStates extends BaseProps {
   mustUserConsent: boolean
   announcements: AnnouncementsDigest
   notification: NotificationMessage
+  licenseTrigger: LicenseTrigger
   suggestedLanguage: Language | null
   isSuggestedLanguageDisplayed: boolean
   isLoaded: boolean
@@ -273,6 +275,7 @@ class App extends Component<AppProps, AppStates> {
         message: '',
         timer: 5000,
       },
+      licenseTrigger: 'ACTIVATE',
       suggestedLanguage: null,
       isSuggestedLanguageDisplayed: true,
       isLoaded: false,
@@ -705,6 +708,7 @@ class App extends Component<AppProps, AppStates> {
       const getPricing = () =>
         this.setState({
           modalContext: 'PRICING',
+          licenseTrigger: path.data.licenseTrigger,
         })
 
       const getLicense = () =>

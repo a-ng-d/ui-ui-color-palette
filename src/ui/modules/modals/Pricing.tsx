@@ -20,7 +20,13 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { AppStates } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  LicenseTrigger,
+  PlanStatus,
+  Service,
+} from '../../../types/app'
 import { $palette } from '../../../stores/palette'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
@@ -36,6 +42,7 @@ interface PricingProps
   sourceColors: Array<SourceColorConfiguration>
   preset: PresetConfiguration
   scale: ScaleConfiguration
+  licenseTrigger: LicenseTrigger
   onManageLicense: React.Dispatch<Partial<AppStates>>
   onSkipAndResetPalette: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
@@ -977,7 +984,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               {this.state.selectedPlan === 'YEAR' && <this.Year />}
               {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
               <this.Ultimate />
-              <this.Activate />
+              {this.props.licenseTrigger === 'ACTIVATE' ? (
+                <this.Activate />
+              ) : (
+                <this.Jump />
+              )}
             </div>
           </div>
         </Dialog>
