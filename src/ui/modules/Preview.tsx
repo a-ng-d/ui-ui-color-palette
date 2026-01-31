@@ -862,7 +862,7 @@ export default class Preview extends PureComponent<
                   onUnblock={() => {
                     sendPluginMessage(
                       {
-                        pluginMessage: { type: 'GET_PRO_PLAN' },
+                        pluginMessage: { type: 'GET_PRO' },
                       },
                       '*'
                     )

@@ -67,10 +67,7 @@ export default class TryPro extends PureComponent<TryProProps> {
             secondary: {
               label: this.props.t('proPlan.trial.option'),
               action: () =>
-                sendPluginMessage(
-                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                  '*'
-                ),
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*'),
             },
           }}
           onClose={this.props.onClose}

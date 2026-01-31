@@ -663,7 +663,7 @@ export default class FilePalettes extends PureComponent<
                       label={this.props.t('plan.getPro')}
                       action={() =>
                         sendPluginMessage(
-                          { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                          { pluginMessage: { type: 'GET_PRO' } },
                           '*'
                         )
                       }

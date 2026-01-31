@@ -266,7 +266,7 @@ else {
         iframe?.contentWindow?.postMessage({
           type: 'GET_TRIAL',
         }),
-      GET_PRO_PLAN: async () =>
+      GET_PRO: async () =>
         iframe?.contentWindow?.postMessage({
           type: 'GET_PRICING',
         }),

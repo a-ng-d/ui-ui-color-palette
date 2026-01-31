@@ -479,7 +479,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   sendPluginMessage(
                                     {
                                       pluginMessage: {
-                                        type: 'GET_PRO_PLAN',
+                                        type: 'GET_PRO',
                                       },
                                     },
                                     '*'
@@ -543,7 +543,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   sendPluginMessage(
                                     {
                                       pluginMessage: {
-                                        type: 'GET_PRO_PLAN',
+                                        type: 'GET_PRO',
                                       },
                                     },
                                     '*'

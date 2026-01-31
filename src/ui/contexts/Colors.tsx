@@ -718,7 +718,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                             label={this.props.t('plan.getPro')}
                             action={() =>
                               sendPluginMessage(
-                                { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                                { pluginMessage: { type: 'GET_PRO' } },
                                 '*'
                               )
                             }
@@ -866,7 +866,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 onUnblock={() => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO_PLAN' },
+                                      pluginMessage: { type: 'GET_PRO' },
                                     },
                                     '*'
                                   )
@@ -987,7 +987,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                         sendPluginMessage(
                                           {
                                             pluginMessage: {
-                                              type: 'GET_PRO_PLAN',
+                                              type: 'GET_PRO',
                                             },
                                           },
                                           '*'

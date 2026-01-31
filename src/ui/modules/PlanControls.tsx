@@ -496,7 +496,7 @@ export default class PlanControls extends PureComponent<
         icon="lock-off"
         label={this.props.t('plan.getPro')}
         action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
         }
       />
       <Chip>{this.props.t('pricing.operation')}</Chip>
@@ -520,10 +520,7 @@ export default class PlanControls extends PureComponent<
         action={() => {
           this.props.config.plan.isTrialEnabled
             ? sendPluginMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
-            : sendPluginMessage(
-                { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                '*'
-              )
+            : sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
         }}
       />
       <this.RemainingCredits />
@@ -544,7 +541,7 @@ export default class PlanControls extends PureComponent<
         icon="lock-off"
         label={this.props.t('plan.getPro')}
         action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
         }
       />
       <this.RemainingTime />
@@ -565,7 +562,7 @@ export default class PlanControls extends PureComponent<
         icon="lock-off"
         label={this.props.t('plan.getPro')}
         action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO_PLAN' } }, '*')
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
         }
       />
       <this.RemainingCredits />

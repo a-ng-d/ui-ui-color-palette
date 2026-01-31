@@ -941,16 +941,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                       e as React.MouseEvent<HTMLButtonElement>
                     )
                 else
-                  sendPluginMessage(
-                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                    '*'
-                  )
+                  sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
               }}
               onUnblock={() => {
-                sendPluginMessage(
-                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                  '*'
-                )
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
               }}
             />
           </Feature>

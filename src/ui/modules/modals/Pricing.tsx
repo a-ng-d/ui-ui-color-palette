@@ -26,6 +26,7 @@ import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
 import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
+import uicpj from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PricingProps
@@ -727,6 +728,48 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.activate.cta')}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              sendPluginMessage(
+                {
+                  pluginMessage: {
+                    type: 'GET_LICENSE',
+                  },
+                },
+                '*'
+              )
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type: 'GET_LICENSE',
+              },
+            },
+            '*'
+          )
+        }}
+      />
+    )
+  }
+
+  Jump = () => {
+    return (
+      <Card
+        src={uicpj}
+        title={this.props.t('pricing.jump.title')}
+        richText={
+          <span className={texts.type}>
+            {this.props.t('pricing.jump.text')}
+          </span>
+        }
+        actions={
+          <Button
+            type="primary"
+            label={this.props.t('pricing.jump.cta')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(

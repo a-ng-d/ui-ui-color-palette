@@ -840,7 +840,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
                       label={this.props.t('plan.getPro')}
                       action={() =>
                         sendPluginMessage(
-                          { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                          { pluginMessage: { type: 'GET_PRO' } },
                           '*'
                         )
                       }
