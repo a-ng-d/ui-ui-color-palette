@@ -129,7 +129,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
         <SimpleSlider
           id="update-chroma"
           label={this.props.t('scale.shift.chroma.label')}
-          value={this.props.shift.chroma}
+          value={this.props.shift.chroma ?? 100}
           min={0}
           max={200}
           colors={{

@@ -129,7 +129,7 @@ export default class Hue extends PureComponent<HueProps> {
         <SimpleSlider
           id="update-hue"
           label={this.props.t('scale.shift.hue.label')}
-          value={this.props.shift.hue}
+          value={this.props.shift.hue ?? 0}
           min={-180}
           max={180}
           colors={{
