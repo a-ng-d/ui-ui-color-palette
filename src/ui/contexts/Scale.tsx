@@ -23,8 +23,8 @@ import {
   SectionTitle,
   texts,
 } from '@a_ng_d/figmug-ui'
-import ScaleLightnessChroma from '../modules/scale/ScaleLCH'
-import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
+import ScaleLCH from '../modules/scale/ScaleLCH'
+import ScaleCR from '../modules/scale/ScaleCR'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -767,12 +767,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             node: (
               <>
                 {!this.state.isContrastMode ? (
-                  <ScaleLightnessChroma
+                  <ScaleLCH
                     {...this.props}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 ) : (
-                  <ScaleContrastRatio
+                  <ScaleCR
                     {...this.props}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
@@ -876,13 +876,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             node: (
               <>
                 {!this.state.isContrastMode ? (
-                  <ScaleLightnessChroma
+                  <ScaleLCH
                     {...this.props}
                     onChangeThemes={this.themesHandler}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 ) : (
-                  <ScaleContrastRatio
+                  <ScaleCR
                     {...this.props}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
