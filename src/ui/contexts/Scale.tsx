@@ -23,7 +23,7 @@ import {
   SectionTitle,
   texts,
 } from '@a_ng_d/figmug-ui'
-import ScaleLightnessChroma from '../modules/scale/ScaleLightnessChroma'
+import ScaleLightnessChroma from '../modules/scale/ScaleLCH'
 import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'

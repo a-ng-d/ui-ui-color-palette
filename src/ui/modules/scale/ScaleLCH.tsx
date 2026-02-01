@@ -35,7 +35,10 @@ import Hue from './Hue'
 import Chroma from './Chroma'
 import type { AppStates } from '../../App'
 
-interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
+interface ScaleLCHProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   id: string
   preset: PresetConfiguration
   distributionEasing: EasingConfiguration
@@ -51,12 +54,12 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onSwitchMode: () => void
 }
 
-export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
+export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
 
-  static defaultProps: Partial<ScaleProps> = {
+  static defaultProps: Partial<ScaleLCHProps> = {
     distributionEasing: 'LINEAR',
   }
 
@@ -131,7 +134,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     }),
   })
 
-  constructor(props: ScaleProps) {
+  constructor(props: ScaleLCHProps) {
     super(props)
     this.palette = $palette
     this.scaleMessage = {
@@ -154,7 +157,7 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
 
   // Helper to get features
   private get features() {
-    return ScaleLightnessChroma.features(
+    return ScaleLCH.features(
       this.props.planStatus,
       this.props.config,
       this.props.service,
@@ -503,7 +506,6 @@ export default class ScaleLightnessChroma extends PureComponent<ScaleProps> {
     this.palette.setKey('scale', this.scaleMessage.data.scale)
     this.palette.setKey('shift.chroma', 100)
     this.palette.setKey('shift.hue', 0)
-
 
     this.props.onChangeScale()
     this.props.onChangeShift('shift.chroma', 'SHIFTED', 100)
