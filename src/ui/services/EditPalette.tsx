@@ -107,6 +107,7 @@ interface EditPaletteStates {
   export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
+  isCodeCopied: boolean
 }
 
 export default class EditPalette extends PureComponent<
@@ -195,6 +196,7 @@ export default class EditPalette extends PureComponent<
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
+      isCodeCopied: false,
     }
     this.themesRef = React.createRef()
     this.previewRef = React.createRef()
@@ -779,18 +781,10 @@ export default class EditPalette extends PureComponent<
       document.execCommand('copy')
       document.body.removeChild(textarea)
 
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              type: 'INFO',
-              message: this.props.t('info.copiedCode'),
-            },
-          },
-        },
-        '*'
-      )
+      this.setState({ isCodeCopied: true })
+      setTimeout(() => {
+        this.setState({ isCodeCopied: false })
+      }, 2000)
     } catch (error) {
       console.error(error)
       sendPluginMessage(
@@ -935,6 +929,7 @@ export default class EditPalette extends PureComponent<
             {...this.props}
             context={this.state.export.context}
             code={this.state.export.data}
+            isCodeCopied={this.state.isCodeCopied}
             onChangeExport={(exp) => {
               this.setState({
                 export: exp.export,

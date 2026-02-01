@@ -52,6 +52,7 @@ interface ExportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   algorithmVersion: AlgorithmVersionConfiguration
   context: ExportConfiguration['context']
   code: ExportConfiguration['data']
+  isCodeCopied: boolean
   onChangeExport: (args: { export: ExportConfiguration }) => void
   onCopyCode: () => void
 }
@@ -1493,7 +1494,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
                       {this.props.context !== 'CSV' && (
                         <Button
                           type="icon"
-                          icon="draft"
+                          icon={this.props.isCodeCopied ? 'check' : 'draft'}
                           helper={{
                             label: this.props.t('export.actions.copyCode'),
                           }}
