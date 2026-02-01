@@ -78,14 +78,15 @@ div.export-palette__preview {
   display: flex;
   flex: 1;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y : auto;
 }
 
 .preview__rows {
   display: flex;
   flex: 1;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: visible;
 }
 
 .preview__row {
@@ -95,6 +96,22 @@ div.export-palette__preview {
 
 .preview__header {
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+:root[data-theme='figma'] .preview__header .preview__cell {
+  background-color: var(--figma-color-bg);
+}
+:root[data-theme='penpot'] .preview__header .preview__cell {
+  background-color: var(--penpot-color-background-primary);
+}
+:root[data-theme='sketch'] .preview__header .preview__cell {
+  background-color: var(--sketch-color-background-primary);
+}
+:root[data-theme='framer'] .preview__header .preview__cell {
+  background-color: var(--framer-color-bg);
 }
 
 .preview__cell {
@@ -107,6 +124,7 @@ div.export-palette__preview {
   box-sizing: border-box;
   padding: var(--size-pos-xxxsmall);
   min-height: 44px;
+  min-width: 96px;
   overflow: hidden;
 }
 
@@ -127,7 +145,11 @@ div.export-palette__preview {
 }
 
 .preview__cell--frozen {
-  max-width: 96px;
+  min-width: 96px;
+  max-width: 148px;
+  position: sticky;
+  left: 0;
+  z-index: 1;
 }
 
 .preview__cell__stack {
