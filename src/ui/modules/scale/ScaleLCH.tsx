@@ -508,8 +508,8 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
     this.palette.setKey('shift.hue', 0)
 
     this.props.onChangeScale()
-    this.props.onChangeShift('shift.chroma', 'SHIFTED', 100)
-    this.props.onChangeShift('shift.hue', 'SHIFTED', 0)
+    this.props.onChangeShift('SHIFT_CHROMA', 'SHIFTED', 100)
+    this.props.onChangeShift('SHIFT_HUE', 'SHIFTED', 0)
 
     if (this.props.service === 'EDIT')
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
