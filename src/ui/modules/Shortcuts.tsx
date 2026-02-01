@@ -733,12 +733,12 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                     {
                       label: this.props.t('shortcuts.email'),
                       type: 'OPTION',
-                      isActive: Shortcuts.features(
+                      isActive: !Shortcuts.features(
                         this.props.planStatus,
                         this.props.config,
                         this.props.service,
                         this.props.editor
-                      ).HELP_EMAIL.isActive(),
+                      ).HELP_EMAIL.isBlocked(),
                       isBlocked: Shortcuts.features(
                         this.props.planStatus,
                         this.props.config,
