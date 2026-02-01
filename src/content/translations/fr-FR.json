@@ -651,6 +651,9 @@
     "shift": {
       "chroma": {
         "label": "Chroma"
+      },
+      "hue": {
+        "label": "Teinte"
       }
     },
     "tips": {

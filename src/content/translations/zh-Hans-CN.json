@@ -336,8 +336,11 @@
     "maxNumberOfSourceColors": "{count, plural, one {升级到 /pro 以添加超过一个源颜色} other {升级到 /pro 以添加超过 # 个源颜色}}",
     "maxNumberOfStops": "{count, plural, one {升级到 /pro 以添加超过一个色阶} other {升级到 /pro 以添加超过 # 个色阶}}",
     "multipleBlockingMessages": {
+      "algorithmVersion": "将色度速度设置为\"正弦和双曲\"",
       "chroma": "重置色度",
+      "colorSpace": "将颜色空间设置为\"LCH\"或\"HSL\"",
       "head": "您可以通过以下方式解锁创建：{messages}",
+      "hue": "重置色相",
       "lockedSourceColors": "解锁源颜色",
       "sourceColors": "减少源颜色",
       "stops": "减少色阶",
@@ -450,8 +453,7 @@
     "lock": {
       "label": "锁定源颜色",
       "preview": "锁定源颜色以将其包含在调色板中",
-      "tag": "已锁定",
-      "warning": "升级到 /pro 以创建带有锁定源颜色的调色板"
+      "tag": "已锁定"
     },
     "score": {
       "apca": "显示 APCA 分数",
@@ -649,8 +651,10 @@
     },
     "shift": {
       "chroma": {
-        "label": "色度",
-        "warning": "升级到 /pro 以创建具有修改色度偏移的调色板。将其重置为 100% 或升级。"
+        "label": "色度"
+      },
+      "hue": {
+        "label": "色相"
       }
     },
     "tips": {
@@ -760,8 +764,7 @@
         "protanomaly": "红色弱",
         "protanopia": "红色盲",
         "tritanomaly": "蓝色弱",
-        "tritanopia": "蓝色盲",
-        "warning": "升级到 /pro 以创建具有此视觉模拟的调色板"
+        "tritanopia": "蓝色盲"
       }
     },
     "contexts": {

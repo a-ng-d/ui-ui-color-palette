@@ -336,8 +336,11 @@
     "maxNumberOfSourceColors": "{count, plural, one {Atualize para /pro para adicionar mais de uma cor-fonte} other {Atualize para /pro para adicionar mais de # cores-fonte}}",
     "maxNumberOfStops": "{count, plural, one {Atualize para /pro para adicionar mais de uma parada} other {Atualize para /pro para adicionar mais de # paradas}}",
     "multipleBlockingMessages": {
+      "algorithmVersion": "Definir velocidade do croma para \"Senoidal e hiperbólico\"",
       "chroma": "Resetar croma",
+      "colorSpace": "Definir espaço de cor para \"LCH\" ou \"HSL\"",
       "head": "Você pode desbloquear a criação se: {messages}",
+      "hue": "Resetar matiz",
       "lockedSourceColors": "Desbloquear cores-fonte",
       "sourceColors": "Diminuir cores-fonte",
       "stops": "Diminuir paradas",
@@ -450,8 +453,7 @@
     "lock": {
       "label": "Bloquear cores-fonte",
       "preview": "Bloqueie as cores-fonte para incluí-las na paleta",
-      "tag": "Bloqueado",
-      "warning": "Atualize para /pro para criar uma paleta com cores-fonte bloqueadas"
+      "tag": "Bloqueado"
     },
     "score": {
       "apca": "Mostrar pontuações APCA",
@@ -649,8 +651,10 @@
     },
     "shift": {
       "chroma": {
-        "label": "Croma",
-        "warning": "Atualize para /pro para criar uma paleta com deslocamento de croma modificado. Redefina para 100% ou atualize."
+        "label": "Croma"
+      },
+      "hue": {
+        "label": "Matiz"
       }
     },
     "tips": {
@@ -760,8 +764,7 @@
         "protanomaly": "Protanomalia (fraqueza do vermelho)",
         "protanopia": "Protanopia (cegueira do vermelho)",
         "tritanomaly": "Tritanomalia (fraqueza do azul)",
-        "tritanopia": "Tritanopia (cegueira do azul)",
-        "warning": "Atualize para /pro para criar uma paleta com esta simulação de visão"
+        "tritanopia": "Tritanopia (cegueira do azul)"
       }
     },
     "contexts": {
