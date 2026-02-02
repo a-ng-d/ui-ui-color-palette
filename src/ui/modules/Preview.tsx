@@ -15,31 +15,19 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import {
-  Bar,
-  Button,
-  Chip,
-  Drawer,
-  Dropdown,
-  layouts,
-  Menu,
-  Select,
-  texts,
-} from '@a_ng_d/figmug-ui'
+import { Bar, Chip, Drawer } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
 import Shade from '../components/Shade'
-import Feature from '../components/Feature'
 import { AppStates } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { BaseProps } from '../../types/app'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
-import lsc from '../../content/images/lock_source_colors.gif'
-import { ConfigContextType } from '../../config/ConfigContext'
+import SettingsControls from './preview/SettingsControls'
+import ScoresControls from './preview/ScoresControls'
 
 interface PreviewProps
   extends BaseProps,
@@ -66,173 +54,23 @@ interface PreviewStates {
   isAPCADisplayed: boolean
   isDrawerCollapsed: boolean
   drawerMaxHeight?: number
+  scoreFilters: {
+    lightWCAG: 'ALL' | 'PASS' | 'FAIL'
+    lightAPCA: 'ALL' | 'PASS' | 'FAIL'
+    darkWCAG: 'ALL' | 'PASS' | 'FAIL'
+    darkAPCA: 'ALL' | 'PASS' | 'FAIL'
+  }
+  openDialogKey: string | null
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private subscribeWCAG: (() => void) | undefined
   private subscribeAPCA: (() => void) | undefined
   private palette: typeof $palette
   private drawerRef: React.RefObject<Drawer>
+  private paletteContainerRef: React.RefObject<HTMLDivElement>
   private resizeObserver: ResizeObserver | null
   private theme: string | null
-
-  static features = (
-    planStatus: PlanStatus,
-    config: ConfigContextType,
-    service: Service,
-    editor: Editor
-  ) => ({
-    PREVIEW_SCORES: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_SCORES',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    PREVIEW_SCORES_WCAG: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_SCORES_WCAG',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    PREVIEW_SCORES_APCA: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_SCORES_APCA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-  })
 
   static defaultProps = {
     sourceColors: [],
@@ -247,8 +85,17 @@ export default class Preview extends PureComponent<
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
       isDrawerCollapsed: false,
+      scoreFilters: {
+        lightWCAG: 'ALL',
+        lightAPCA: 'ALL',
+        darkWCAG: 'ALL',
+        darkAPCA: 'ALL',
+      },
+      openDialogKey: null,
     }
     this.drawerRef = React.createRef() as React.RefObject<Drawer>
+    this.paletteContainerRef =
+      React.createRef() as React.RefObject<HTMLDivElement>
     this.resizeObserver = null
   }
 
@@ -292,9 +139,30 @@ export default class Preview extends PureComponent<
         .parentElement
       if (parent) this.resizeObserver.unobserve(parent)
     }
+    // Remove wheel listener
+    if (this.paletteContainerRef.current)
+      this.paletteContainerRef.current.removeEventListener(
+        'wheel',
+        this.handleHorizontalScroll
+      )
   }
 
   // Handlers
+  handleHorizontalScroll = (e: WheelEvent) => {
+    const container = this.paletteContainerRef.current
+    if (!container) return
+
+    if (e.deltaX !== 0) return
+
+    const hasHorizontalScroll = container.scrollWidth > container.clientWidth
+    const hasVerticalScroll = container.scrollHeight > container.clientHeight
+
+    if (hasHorizontalScroll && (!hasVerticalScroll || e.shiftKey)) {
+      e.preventDefault()
+      container.scrollLeft += e.deltaY
+    }
+  }
+
   updateDrawerMaxHeight = () => {
     if (!this.drawerRef.current) return
 
@@ -317,11 +185,23 @@ export default class Preview extends PureComponent<
     this.setState({ drawerMaxHeight: maxHeight })
   }
 
-  displayHandler = (): string => {
-    const options = []
-    if (this.state.isWCAGDisplayed) options.push('ENABLE_WCAG_SCORE')
-    if (this.state.isAPCADisplayed) options.push('ENABLE_APCA_SCORE')
-    return options.join(', ')
+  updateScoreFilters = (filters: {
+    lightWCAG?: 'ALL' | 'PASS' | 'FAIL'
+    lightAPCA?: 'ALL' | 'PASS' | 'FAIL'
+    darkWCAG?: 'ALL' | 'PASS' | 'FAIL'
+    darkAPCA?: 'ALL' | 'PASS' | 'FAIL'
+  }) => {
+    this.setState({
+      scoreFilters: {
+        ...this.state.scoreFilters,
+        ...filters,
+      },
+    })
+  }
+
+  toggleDrawer = () => {
+    if (!this.state.isDrawerCollapsed) this.drawerRef.current?.collapseDrawer()
+    else this.drawerRef.current?.expandDrawer()
   }
 
   colorSettingsHandler = (
@@ -469,6 +349,50 @@ export default class Preview extends PureComponent<
   // Direct Actions
   forceCollapseDrawer = () => {
     if (this.drawerRef.current) this.drawerRef.current.collapseDrawer()
+  }
+
+  openDialog = (colorIndex: number, shadeIndex: number) => {
+    const key = `${colorIndex}-${shadeIndex}`
+    this.setState({ openDialogKey: key })
+  }
+
+  closeDialog = () => {
+    this.setState({ openDialogKey: null })
+  }
+
+  navigateShade = (
+    direction: 'previous' | 'next',
+    colorIndex: number,
+    shadeIndex: number
+  ) => {
+    const colors = this.props.colors.filter((color) => {
+      if (this.props.colors.length > 1) {
+        if ('source' in color) return color.source !== 'DEFAULT'
+        return true
+      }
+      return true
+    })
+
+    const totalColors = colors.length
+    const scaleKeys = Object.keys(this.props.scale)
+    const totalShades = scaleKeys.length
+
+    let nextColorIndex = colorIndex
+    let nextShadeIndex = shadeIndex
+
+    if (direction === 'next')
+      if (shadeIndex < totalShades - 1) nextShadeIndex = shadeIndex + 1
+      else {
+        nextColorIndex = (colorIndex + 1) % totalColors
+        nextShadeIndex = 0
+      }
+    else if (shadeIndex > 0) nextShadeIndex = shadeIndex - 1
+    else {
+      nextColorIndex = (colorIndex - 1 + totalColors) % totalColors
+      nextShadeIndex = totalShades - 1
+    }
+
+    this.openDialog(nextColorIndex, nextShadeIndex)
   }
 
   setColor = (
@@ -656,748 +580,42 @@ export default class Preview extends PureComponent<
       >
         <Bar
           leftPartSlot={
-            <div className={layouts['snackbar--medium']}>
-              <Button
-                type="icon"
-                icon={
-                  this.state.isDrawerCollapsed
-                    ? 'toggle-sidebar-top'
-                    : 'toggle-sidebar-bottom'
-                }
-                helper={{
-                  label: this.state.isDrawerCollapsed
-                    ? this.props.t('preview.actions.expandPreview')
-                    : this.props.t('preview.actions.collapsePreview'),
-                }}
-                action={() => {
-                  if (!this.state.isDrawerCollapsed)
-                    this.drawerRef.current?.collapseDrawer()
-                  else this.drawerRef.current?.expandDrawer()
-                }}
-              />
-              <Feature
-                isActive={
-                  Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).PREVIEW_SCORES.isActive() && !this.state.isDrawerCollapsed
-                }
-              >
-                <Menu
-                  id="score-display"
-                  type="ICON"
-                  icon="visible"
-                  options={[
-                    {
-                      label: this.props.t('preview.score.wcag'),
-                      value: 'ENABLE_WCAG_SCORE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_WCAG.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_WCAG.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_WCAG.isNew(),
-                      action: () => {
-                        $isWCAGDisplayed.set(!this.state.isWCAGDisplayed)
-                        sendPluginMessage(
-                          {
-                            pluginMessage: {
-                              type: 'SET_ITEMS',
-                              items: [
-                                {
-                                  key: 'is_wcag_displayed',
-                                  value: !this.state.isWCAGDisplayed,
-                                },
-                              ],
-                            },
-                          },
-                          '*'
-                        )
-
-                        trackPreviewManagementEvent(
-                          this.props.config.env.isMixpanelEnabled,
-                          this.props.userSession.userId,
-                          this.props.userIdentity.id,
-                          this.props.planStatus,
-                          this.props.userConsent.find(
-                            (consent) => consent.id === 'mixpanel'
-                          )?.isConsented ?? false,
-                          {
-                            feature: 'DISPLAY_WCAG_SCORES',
-                          }
-                        )
-                      },
-                    },
-                    {
-                      label: this.props.t('preview.score.apca'),
-                      value: 'ENABLE_APCA_SCORE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_APCA.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_APCA.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_APCA.isNew(),
-                      action: () => {
-                        $isAPCADisplayed.set(!this.state.isAPCADisplayed)
-                        sendPluginMessage(
-                          {
-                            pluginMessage: {
-                              type: 'SET_ITEMS',
-                              items: [
-                                {
-                                  key: 'is_apca_displayed',
-                                  value: !this.state.isAPCADisplayed,
-                                },
-                              ],
-                            },
-                          },
-                          '*'
-                        )
-
-                        trackPreviewManagementEvent(
-                          this.props.config.env.isMixpanelEnabled,
-                          this.props.userSession.userId,
-                          this.props.userIdentity.id,
-                          this.props.planStatus,
-                          this.props.userConsent.find(
-                            (consent) => consent.id === 'mixpanel'
-                          )?.isConsented ?? false,
-                          {
-                            feature: 'DISPLAY_APCA_SCORES',
-                          }
-                        )
-                      },
-                    },
-                  ]}
-                  selected={this.displayHandler()}
-                  alignment="TOP_LEFT"
-                  helper={{
-                    label: this.props.t('preview.actions.displayScores'),
-                  }}
-                  isBlocked={Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).PREVIEW_SCORES.isBlocked()}
-                  isNew={Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).PREVIEW_SCORES.isNew()}
-                />
-              </Feature>
-            </div>
+            <ScoresControls
+              {...this.props}
+              isDrawerCollapsed={this.state.isDrawerCollapsed}
+              isWCAGDisplayed={this.state.isWCAGDisplayed}
+              isAPCADisplayed={this.state.isAPCADisplayed}
+              scoreFilters={this.state.scoreFilters}
+              onToggleDrawer={this.toggleDrawer}
+              onUpdateScoreFilters={this.updateScoreFilters}
+            />
           }
           rightPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--medium'],
-                layouts['snackbar--right'],
-                layouts['snackbar--wrap'],
-              ])}
-            >
-              <Feature
-                isActive={
-                  Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
-                  !this.state.isDrawerCollapsed
-                }
-              >
-                <Select
-                  id="lock-source-colors"
-                  label={this.props.t('preview.lock.label')}
-                  type="SWITCH_BUTTON"
-                  preview={{
-                    image: lsc,
-                    text: this.props.t('preview.lock.preview'),
-                    pin: 'TOP',
-                  }}
-                  feature="LOCK_SOURCE_COLORS"
-                  shouldReflow
-                  isChecked={this.props.areSourceColorsLocked}
-                  isBlocked={
-                    Preview.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked() &&
-                    !this.props.areSourceColorsLocked
-                  }
-                  isNew={Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).PREVIEW_LOCK_SOURCE_COLORS.isNew()}
-                  action={this.colorSettingsHandler}
-                  onUnblock={() => {
-                    sendPluginMessage(
-                      {
-                        pluginMessage: { type: 'GET_PRO' },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-              </Feature>
-              <Feature
-                isActive={
-                  Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SETTINGS_COLOR_SPACE.isActive() &&
-                  !this.state.isDrawerCollapsed
-                }
-              >
-                <Dropdown
-                  id="update-color-space"
-                  options={[
-                    {
-                      label: this.props.t('settings.color.colorSpace.lch'),
-                      value: 'LCH',
-                      feature: 'UPDATE_COLOR_SPACE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_LCH.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_LCH.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_LCH.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t('settings.color.colorSpace.oklch'),
-                      value: 'OKLCH',
-                      feature: 'UPDATE_COLOR_SPACE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_OKLCH.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_OKLCH.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t('settings.color.colorSpace.lab'),
-                      value: 'LAB',
-                      feature: 'UPDATE_COLOR_SPACE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_LAB.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_LAB.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_LAB.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t('settings.color.colorSpace.oklab'),
-                      value: 'OKLAB',
-                      feature: 'UPDATE_COLOR_SPACE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_OKLAB.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_OKLAB.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t('settings.color.colorSpace.hsl'),
-                      value: 'HSL',
-                      feature: 'UPDATE_COLOR_SPACE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_HSL.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_HSL.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_HSL.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t('settings.color.colorSpace.hsluv'),
-                      value: 'HSLUV',
-                      feature: 'UPDATE_COLOR_SPACE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_HSLUV.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_COLOR_SPACE_HSLUV.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                  ]}
-                  selected={this.props.colorSpace}
-                  pin="BOTTOM"
-                  alignment="RIGHT"
-                  helper={{
-                    label: this.props.t('preview.actions.colorSpace'),
-                  }}
-                  shouldReflow={{
-                    isEnabled: true,
-                    icon: 'theme',
-                  }}
-                  isBlocked={Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SETTINGS_COLOR_SPACE.isBlocked()}
-                  isNew={Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SETTINGS_COLOR_SPACE.isNew()}
-                />
-              </Feature>
-              <Feature
-                isActive={
-                  Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SETTINGS_VISION_SIMULATION_MODE.isActive() &&
-                  !this.state.isDrawerCollapsed
-                }
-              >
-                <Dropdown
-                  id="update-color-blind-mode"
-                  options={[
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.noneAlternative'
-                      ),
-                      value: 'NONE',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      type: 'SEPARATOR',
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.colorBlind'
-                      ),
-                      type: 'TITLE',
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.protanomaly'
-                      ),
-                      value: 'PROTANOMALY',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.protanopia'
-                      ),
-                      value: 'PROTANOPIA',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.deuteranomaly'
-                      ),
-                      value: 'DEUTERANOMALY',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.deuteranopia'
-                      ),
-                      value: 'DEUTERANOPIA',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.tritanomaly'
-                      ),
-                      value: 'TRITANOMALY',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.tritanopia'
-                      ),
-                      value: 'TRITANOPIA',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.achromatomaly'
-                      ),
-                      value: 'ACHROMATOMALY',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                    {
-                      label: this.props.t(
-                        'settings.color.visionSimulationMode.achromatopsia'
-                      ),
-                      value: 'ACHROMATOPSIA',
-                      feature: 'UPDATE_COLOR_BLIND_MODE',
-                      type: 'OPTION',
-                      isActive: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
-                      isBlocked: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
-                      isNew: Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
-                      action: this.colorSettingsHandler,
-                    },
-                  ]}
-                  selected={this.props.visionSimulationMode}
-                  pin="BOTTOM"
-                  alignment="RIGHT"
-                  helper={{
-                    label: this.props.t('preview.actions.visionSimulationMode'),
-                  }}
-                  shouldReflow={{
-                    isEnabled: true,
-                    icon: 'effects',
-                  }}
-                  isBlocked={Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
-                  isNew={Preview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
-                />
-              </Feature>
-              {this.props.onResetSourceColors &&
-                !this.state.isDrawerCollapsed && (
-                  <div className={layouts['snackbar--medium']}>
-                    <span
-                      className={doClassnames([
-                        texts['type'],
-                        texts['type--secondary'],
-                      ])}
-                    >
-                      {this.props.t('separator')}
-                    </span>
-                    <Button
-                      type="icon"
-                      icon="trash"
-                      action={this.props.onResetSourceColors}
-                      isDisabled={
-                        this.props.colors.some(
-                          (color) =>
-                            (color as SourceColorConfiguration).source ===
-                              'COOLORS' ||
-                            (color as SourceColorConfiguration).source ===
-                              'REALTIME_COLORS' ||
-                            (color as SourceColorConfiguration).source ===
-                              'COLOUR_LOVERS'
-                        )
-                          ? false
-                          : true
-                      }
-                      helper={{
-                        label: this.props.t(
-                          'preview.actions.resetImportedColors'
-                        ),
-                      }}
-                    />
-                  </div>
-                )}
-            </div>
+            <SettingsControls
+              {...this.props}
+              isDrawerCollapsed={this.state.isDrawerCollapsed}
+              areSourceColorsLocked={this.props.areSourceColorsLocked}
+              colorSpace={this.props.colorSpace}
+              visionSimulationMode={this.props.visionSimulationMode}
+              canResetColors={this.props.colors.some(
+                (color) =>
+                  (color as SourceColorConfiguration).source === 'COOLORS' ||
+                  (color as SourceColorConfiguration).source ===
+                    'REALTIME_COLORS' ||
+                  (color as SourceColorConfiguration).source === 'COLOUR_LOVERS'
+              )}
+              onColorSettingsHandler={this.colorSettingsHandler}
+              onResetSourceColors={this.props.onResetSourceColors}
+            />
           }
           isInverted
           shouldReflow
         />
         {!this.state.isDrawerCollapsed && (
-          <div className="preview__palette">
+          <div
+            className="preview__palette"
+            ref={this.paletteContainerRef}
+          >
             <div className="preview__header">
               <div className="preview__cell preview__cell--no-height preview__cell--frozen">
                 <this.stopTag stop={this.props.t('preview.source.tag')} />
@@ -1436,6 +654,8 @@ export default class Preview extends PureComponent<
                   )
                     .reverse()
                     .map((lightness) => this.setColor(color, lightness))
+                  
+                  const scaleNames = Object.keys(this.props.scale).reverse()
 
                   return (
                     <div
@@ -1451,25 +671,59 @@ export default class Preview extends PureComponent<
                         isTransparent={
                           'alpha' in color ? color.alpha.isEnabled : false
                         }
-                        action={(event) => {
+                        onJumpToColor={(event) => {
                           event.stopPropagation()
                           this.props.onInteractWithSourceColor?.(color.id)
                         }}
                       />
-                      {Object.values(scaledColors).map((scaledColor, index) => {
-                        return (
-                          <Shade
-                            {...this.props}
-                            key={index}
-                            index={index}
-                            color={scaledColor}
-                            sourceColor={color}
-                            scaledColors={scaledColors}
-                            isWCAGDisplayed={this.state.isWCAGDisplayed}
-                            isAPCADisplayed={this.state.isAPCADisplayed}
-                          />
-                        )
-                      })}
+                      {Object.values(scaledColors).map(
+                        (scaledColor, shadeIndex) => {
+                          const dialogKey = `${index}-${shadeIndex}`
+                          const scaleName = scaleNames[shadeIndex] || String(shadeIndex)
+                          return (
+                            <Shade
+                              {...this.props}
+                              key={shadeIndex}
+                              index={shadeIndex}
+                              color={scaledColor}
+                              scaleName={scaleName}
+                              sourceColor={color}
+                              scaledColors={scaledColors}
+                              isWCAGDisplayed={this.state.isWCAGDisplayed}
+                              isAPCADisplayed={this.state.isAPCADisplayed}
+                              scoreFilters={this.state.scoreFilters}
+                              colorIndex={index}
+                              totalColors={
+                                this.props.colors.filter((c) => {
+                                  if (this.props.colors.length > 1) {
+                                    if ('source' in c)
+                                      return c.source !== 'DEFAULT'
+                                    return true
+                                  }
+                                  return true
+                                }).length
+                              }
+                              isDialogOpen={
+                                this.state.openDialogKey === dialogKey
+                              }
+                              onOpenDialog={() =>
+                                this.openDialog(index, shadeIndex)
+                              }
+                              onCloseDialog={this.closeDialog}
+                              onNavigatePrevious={() =>
+                                this.navigateShade(
+                                  'previous',
+                                  index,
+                                  shadeIndex
+                                )
+                              }
+                              onNavigateNext={() =>
+                                this.navigateShade('next', index, shadeIndex)
+                              }
+                            />
+                          )
+                        }
+                      )}
                     </div>
                   )
                 })}

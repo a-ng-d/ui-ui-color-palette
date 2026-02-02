@@ -12,7 +12,8 @@ import {
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Chip, ColorChip, Icon } from '@a_ng_d/figmug-ui'
+import { Button, Chip, ColorChip, Icon, layouts } from '@a_ng_d/figmug-ui'
+import ContrastReport from '../modules/preview/ContrastReport'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
@@ -24,6 +25,7 @@ import Feature from './Feature'
 interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   index: number
   color: HexModel
+  scaleName: string
   sourceColor: SourceColorConfiguration | ColorConfiguration
   scaledColors: HexModel[]
   isWCAGDisplayed: boolean
@@ -31,10 +33,27 @@ interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   areSourceColorsLocked: LockedSourceColorsConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  scoreFilters: {
+    lightWCAG: 'ALL' | 'PASS' | 'FAIL'
+    lightAPCA: 'ALL' | 'PASS' | 'FAIL'
+    darkWCAG: 'ALL' | 'PASS' | 'FAIL'
+    darkAPCA: 'ALL' | 'PASS' | 'FAIL'
+  }
+  totalColors?: number
+  colorIndex?: number
+  allColors?: Array<{
+    sourceColor: SourceColorConfiguration | ColorConfiguration
+    scaledColors: HexModel[]
+  }>
+  isDialogOpen?: boolean
+  onOpenDialog?: () => void
+  onCloseDialog?: () => void
+  onNavigatePrevious?: () => void
+  onNavigateNext?: () => void
 }
 
 interface ShadeStates {
-  isCompact: boolean
+  isMouseEnter: boolean
   isCopied: boolean
 }
 
@@ -59,7 +78,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
   constructor(props: ShadeProps) {
     super(props)
     this.state = {
-      isCompact: false,
+      isMouseEnter: false,
       isCopied: false,
     }
     this.theme = document.documentElement.getAttribute('data-theme')
@@ -112,18 +131,10 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       document.execCommand('copy')
       document.body.removeChild(textarea)
 
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              type: 'INFO',
-              message: this.props.t('info.copiedCode'),
-            },
-          },
-        },
-        '*'
-      )
+      this.setState({ isCopied: true })
+      setTimeout(() => {
+        this.setState({ isCopied: false })
+      }, 2000)
 
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -158,12 +169,12 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     color,
     score,
     friendlyScore,
-    isCompact,
+    isMouseEnter,
   }: {
     color: HexModel
     score: number
     friendlyScore: string
-    isCompact: boolean
+    isMouseEnter: boolean
   }) => (
     <Chip
       state="ON_BACKGROUND"
@@ -185,7 +196,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         </span>
       }
     >
-      {!isCompact ? `${score.toFixed(2)} : 1` : friendlyScore}
+      {!isMouseEnter ? `${score.toFixed(2)} : 1` : friendlyScore}
     </Chip>
   )
 
@@ -193,12 +204,12 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     color,
     score,
     friendlyScore,
-    isCompact,
+    isMouseEnter,
   }: {
     color: HexModel
     score: number
     friendlyScore: string
-    isCompact: boolean
+    isMouseEnter: boolean
   }) => (
     <Chip
       state="ON_BACKGROUND"
@@ -220,7 +231,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         </span>
       }
     >
-      {!isCompact ? `Lc ${score.toFixed(1)}` : friendlyScore}
+      {!isMouseEnter ? `Lc ${score.toFixed(1)}` : friendlyScore}
     </Chip>
   )
 
@@ -282,33 +293,6 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     )
   }
 
-  copiedColorTag = () => {
-    return (
-      <Chip
-        state="ON_BACKGROUND"
-        leftSlot={
-          <div
-            style={{
-              width: 'var(--size-pos-xxsmall)',
-              height: 'var(--size-pos-xxsmall)',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-pos-xsmall)',
-              '--icon-height': 'var(--size-pos-xsmall)',
-            }}
-          >
-            <Icon
-              type="PICTO"
-              iconName="draft"
-            />
-          </div>
-        }
-      ></Chip>
-    )
-  }
-
   // Render
   render() {
     const sourceColor = chroma([
@@ -343,23 +327,97 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
           }).setColor() as HexModel)
         : this.props.color
 
-    const darkText = new Color({
+    const darkForeground = new Color({
       sourceColor: chroma(this.props.textColorsTheme.darkColor).rgb(),
       visionSimulationMode: this.props.visionSimulationMode,
     }).setColor() as HexModel
-    const lightText = new Color({
+    const lightForeground = new Color({
       sourceColor: chroma(this.props.textColorsTheme.lightColor).rgb(),
       visionSimulationMode: this.props.visionSimulationMode,
     }).setColor() as HexModel
 
-    const lightTextContrast = new Contrast({
+    const lightForegroundContrast = new Contrast({
       backgroundColor: chroma(background).rgb(false),
-      textColor: lightText,
+      textColor: lightForeground,
     })
-    const darkTextContrast = new Contrast({
+    const darkForegroundContrast = new Contrast({
       backgroundColor: chroma(background).rgb(false),
-      textColor: darkText,
+      textColor: darkForeground,
     })
+
+    const filters = this.props.scoreFilters
+    const isAnyFilterActive =
+      filters.lightWCAG !== 'ALL' ||
+      filters.lightAPCA !== 'ALL' ||
+      filters.darkWCAG !== 'ALL' ||
+      filters.darkAPCA !== 'ALL'
+    const isAnyScoreDisplayed =
+      this.props.isWCAGDisplayed || this.props.isAPCADisplayed
+    const shouldCalculateScores = isAnyFilterActive || isAnyScoreDisplayed
+
+    let lightWCAGScore = 0
+    let darkWCAGScore = 0
+    let lightAPCAScore = 0
+    let darkAPCAScore = 0
+    let lightWCAGFriendlyScore = ''
+    let darkWCAGFriendlyScore = ''
+    let lightRecommendedUsage: ReturnType<
+      typeof lightForegroundContrast.getRecommendedUsage
+    > = 'UNKNOWN'
+    let darkRecommendedUsage: ReturnType<
+      typeof darkForegroundContrast.getRecommendedUsage
+    > = 'UNKNOWN'
+
+    if (shouldCalculateScores) {
+      lightWCAGScore = lightForegroundContrast.getWCAGContrast()
+      darkWCAGScore = darkForegroundContrast.getWCAGContrast()
+      lightAPCAScore = lightForegroundContrast.getAPCAContrast()
+      darkAPCAScore = darkForegroundContrast.getAPCAContrast()
+      lightWCAGFriendlyScore = lightForegroundContrast.getWCAGScore()
+      darkWCAGFriendlyScore = darkForegroundContrast.getWCAGScore()
+      lightRecommendedUsage = lightForegroundContrast.getRecommendedUsage()
+      darkRecommendedUsage = darkForegroundContrast.getRecommendedUsage()
+    }
+
+    let isOutOfResults = false
+    if (isAnyFilterActive) {
+      const lightWCAGPass = lightWCAGScore > 4.5
+      const darkWCAGPass = darkWCAGScore > 4.5
+      const lightAPCAPass = lightAPCAScore > 45
+      const darkAPCAPass = darkAPCAScore > 45
+
+      const activeMatches: boolean[] = []
+
+      if (filters.lightWCAG !== 'ALL') {
+        const match =
+          (filters.lightWCAG === 'PASS' && lightWCAGPass) ||
+          (filters.lightWCAG === 'FAIL' && !lightWCAGPass)
+        activeMatches.push(match)
+      }
+
+      if (filters.lightAPCA !== 'ALL') {
+        const match =
+          (filters.lightAPCA === 'PASS' && lightAPCAPass) ||
+          (filters.lightAPCA === 'FAIL' && !lightAPCAPass)
+        activeMatches.push(match)
+      }
+
+      if (filters.darkWCAG !== 'ALL') {
+        const match =
+          (filters.darkWCAG === 'PASS' && darkWCAGPass) ||
+          (filters.darkWCAG === 'FAIL' && !darkWCAGPass)
+        activeMatches.push(match)
+      }
+
+      if (filters.darkAPCA !== 'ALL') {
+        const match =
+          (filters.darkAPCA === 'PASS' && darkAPCAPass) ||
+          (filters.darkAPCA === 'FAIL' && !darkAPCAPass)
+        activeMatches.push(match)
+      }
+
+      isOutOfResults = activeMatches.length > 0 && !activeMatches.some((m) => m)
+    }
 
     return (
       <div
@@ -374,54 +432,53 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         style={{
           backgroundColor: background,
         }}
-        onMouseEnter={() => this.setState({ isCompact: true })}
-        onMouseLeave={() => this.setState({ isCompact: false })}
-        onMouseDown={() => {
-          if (
-            Shade.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).PREVIEW_SHADE_HEX.isActive()
-          )
-            return this.onCopyHex()
-        }}
+        onMouseEnter={() => this.setState({ isMouseEnter: true })}
+        onMouseLeave={() => this.setState({ isMouseEnter: false })}
       >
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: '#CCC',
+            opacity: 0.8,
+            pointerEvents: 'none',
+            visibility: isOutOfResults ? 'visible' : 'hidden',
+            zIndex: 2,
+          }}
+        />
         {this.props.isWCAGDisplayed && (
           <this.wcagScoreTag
-            color={lightText}
-            score={lightTextContrast.getWCAGContrast()}
-            friendlyScore={lightTextContrast.getWCAGScore()}
-            isCompact={this.state.isCompact}
+            color={lightForeground}
+            score={lightWCAGScore}
+            friendlyScore={lightWCAGFriendlyScore}
+            isMouseEnter={this.state.isMouseEnter}
           />
         )}
         {this.props.isAPCADisplayed && (
           <this.apcaScoreTag
-            color={lightText}
-            score={lightTextContrast.getAPCAContrast()}
-            friendlyScore={this.recommendationHandler(
-              lightTextContrast.getRecommendedUsage()
-            )}
-            isCompact={this.state.isCompact}
+            color={lightForeground}
+            score={lightAPCAScore}
+            friendlyScore={this.recommendationHandler(lightRecommendedUsage)}
+            isMouseEnter={this.state.isMouseEnter}
           />
         )}
         {this.props.isWCAGDisplayed && (
           <this.wcagScoreTag
-            color={darkText}
-            score={darkTextContrast.getWCAGContrast()}
-            friendlyScore={darkTextContrast.getWCAGScore()}
-            isCompact={this.state.isCompact}
+            color={darkForeground}
+            score={darkWCAGScore}
+            friendlyScore={darkWCAGFriendlyScore}
+            isMouseEnter={this.state.isMouseEnter}
           />
         )}
         {this.props.isAPCADisplayed && (
           <this.apcaScoreTag
-            color={darkText}
-            score={darkTextContrast.getAPCAContrast()}
-            friendlyScore={this.recommendationHandler(
-              darkTextContrast.getRecommendedUsage()
-            )}
-            isCompact={this.state.isCompact}
+            color={darkForeground}
+            score={darkAPCAScore}
+            friendlyScore={this.recommendationHandler(darkRecommendedUsage)}
+            isMouseEnter={this.state.isMouseEnter}
           />
         )}
         {this.props.index === minDistanceIndex &&
@@ -433,18 +490,58 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         {distance < 4 && !this.props.areSourceColorsLocked && (
           <this.closestColorTag />
         )}
-        <Feature
-          isActive={
-            Shade.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).PREVIEW_SHADE_HEX.isActive() && this.state.isCompact
-          }
-        >
-          <this.copiedColorTag />
-        </Feature>
+        {this.state.isMouseEnter && (
+          <div
+            className={doClassnames([
+              'preview__cell__actions',
+              layouts['snackbar--medium'],
+            ])}
+          >
+            <Feature
+              isActive={Shade.features(
+                this.props.planStatus,
+                this.props.config,
+                this.props.service,
+                this.props.editor
+              ).PREVIEW_SHADE_HEX.isActive()}
+            >
+              <Button
+                type="icon"
+                icon={this.state.isCopied ? 'check' : 'draft'}
+                size="small"
+                helper={{
+                  label: this.props.t('preview.actions.copyHex'),
+                  pin: 'TOP',
+                }}
+                action={this.onCopyHex}
+              />
+            </Feature>
+            <Button
+              type="icon"
+              icon="info"
+              size="small"
+              helper={{
+                label: this.props.t('preview.actions.showDetails'),
+                pin: 'TOP',
+              }}
+              action={() => this.props.onOpenDialog?.()}
+            />
+          </div>
+        )}
+        <ContrastReport
+          {...this.props}
+          isOpen={this.props.isDialogOpen ?? false}
+          color={this.props.color}
+          sourceColor={this.props.sourceColor}
+          index={this.props.index}
+          scaleName={this.props.scaleName}
+          actualBackground={background}
+          lightForeground={lightForeground}
+          darkForeground={darkForeground}
+          onClose={() => this.props.onCloseDialog?.()}
+          onPrevious={this.props.onNavigatePrevious}
+          onNext={this.props.onNavigateNext}
+        />
       </div>
     )
   }

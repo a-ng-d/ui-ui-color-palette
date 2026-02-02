@@ -205,6 +205,47 @@
     "source": "源",
     "themes": "模式"
   },
+  "contrast": {
+    "actions": {
+      "next": "下一个颜色",
+      "previous": "上一个颜色"
+    },
+    "details": {
+      "title": "对比度详情"
+    },
+    "fail": "失败",
+    "pass": "通过",
+    "foregroundColors": {
+      "dark": "深色前景色",
+      "light": "浅色前景色"
+    },
+    "minSizeFont": {
+      "title": "最小字体大小"
+    },
+    "playground": {
+      "fontWeight": {
+        "label": "字体粗细",
+        "slider": "Abc"
+      },
+      "previewText": {
+        "label": "预览文本",
+        "placeholder": "敏捷的棕色狐狸跳过懒惰的狗。"
+      },
+      "title": "对比度测试区"
+    },
+    "score": {
+      "apca": {
+        "title": "APCA 分数"
+      },
+      "readability": {
+        "title": "可读性 分数"
+      },
+      "wcag": {
+        "title": "WCAG 2.1 分数"
+      }
+    },
+    "title": "对比度报告"
+  },
   "create": {
     "leavePaletteDialog": {
       "cancel": "取消",
@@ -442,13 +483,27 @@
     "actions": {
       "collapsePreview": "收起预览",
       "colorSpace": "颜色模版",
+      "copyHex": "复制十六进制代码到剪贴板",
       "displayScores": "显示分数",
       "expandPreview": "展开预览",
+      "filterScores": "筛选分数",
+      "jumpToColor": "跳转到源颜色",
       "resetImportedColors": "重置导入的颜色",
+      "showDetails": "查看对比度报告",
       "visionSimulationMode": "视觉模拟"
     },
     "closest": {
       "tag": "最接近"
+    },
+    "filter": {
+      "all": "全部",
+      "apca": "WCAG",
+      "darkForeground": "深色前景",
+      "fail": "失败",
+      "lightForeground": "浅色前景",
+      "pass": "通过",
+      "reset": "重置筛选",
+      "wcag": "APCA"
     },
     "lock": {
       "label": "锁定源颜色",

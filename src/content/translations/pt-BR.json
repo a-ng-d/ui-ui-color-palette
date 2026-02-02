@@ -205,6 +205,47 @@
     "source": "Fontes",
     "themes": "Modos"
   },
+  "contrast": {
+    "actions": {
+      "next": "Próxima cor",
+      "previous": "Cor anterior"
+    },
+    "details": {
+      "title": "Detalhes do contraste"
+    },
+    "fail": "Falhou",
+    "pass": "Passou",
+    "foregroundColors": {
+      "dark": "Cor de primeiro plano escura",
+      "light": "Cor de primeiro plano clara"
+    },
+    "minSizeFont": {
+      "title": "Tamanho mínimo da fonte"
+    },
+    "playground": {
+      "fontWeight": {
+        "label": "Peso da fonte",
+        "slider": "Abc"
+      },
+      "previewText": {
+        "label": "Texto de visualização",
+        "placeholder": "A rápida raposa marrom pula sobre o cão preguiçoso."
+      },
+      "title": "Área de teste de contraste"
+    },
+    "score": {
+      "apca": {
+        "title": "Pontuação APCA"
+      },
+      "readability": {
+        "title": "Pontuação de legibilidade"
+      },
+      "wcag": {
+        "title": "Pontuação WCAG 2.1"
+      }
+    },
+    "title": "Relatório de contraste"
+  },
   "create": {
     "leavePaletteDialog": {
       "cancel": "Cancelar",
@@ -442,13 +483,27 @@
     "actions": {
       "collapsePreview": "Recolher visualização",
       "colorSpace": "Espaço de cor",
+      "copyHex": "Copiar código hexadecimal para a área de transferência",
       "displayScores": "Mostrar pontuações",
       "expandPreview": "Expandir visualização",
+      "filterScores": "Filtrar pontuações",
+      "jumpToColor": "Ir para cor-fonte",
       "resetImportedColors": "Resetar cores importadas",
+      "showDetails": "Ver relatório de contraste",
       "visionSimulationMode": "Simulação de visão"
     },
     "closest": {
       "tag": "Mais próximo"
+    },
+    "filter": {
+      "all": "Todos",
+      "apca": "WCAG",
+      "darkForeground": "Primeiro plano escuro",
+      "fail": "Falhou",
+      "lightForeground": "Primeiro plano claro",
+      "pass": "Passou",
+      "reset": "Redefinir filtro",
+      "wcag": "APCA"
     },
     "lock": {
       "label": "Bloquear cores-fonte",

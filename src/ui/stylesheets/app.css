@@ -76,10 +76,12 @@ div.export-palette__preview {
 /* Preview */
 .preview__palette {
   display: flex;
+  position: relative;
   flex: 1;
   flex-direction: column;
   overflow-x: auto;
   overflow-y : auto;
+  z-index: 1;
 }
 
 .preview__rows {
@@ -98,7 +100,7 @@ div.export-palette__preview {
   display: flex;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 4;
 }
 
 :root[data-theme='figma'] .preview__header .preview__cell {
@@ -125,7 +127,6 @@ div.export-palette__preview {
   padding: var(--size-pos-xxxsmall);
   min-height: 44px;
   min-width: 96px;
-  overflow: hidden;
 }
 
 .preview__cell--no-height {
@@ -134,14 +135,15 @@ div.export-palette__preview {
 
 .preview__cell--compact {
   min-height: var(--size-pos-small);
+  min-width: unset;
 }
 
 .preview__cell--medium {
-  min-height: var(--size-pos-xxlarge);
+  min-height: var(--size-pos-xxxlarge);
 }
 
 .preview__cell--large {
-  min-height: 104px;
+  min-height: 112px;
 }
 
 .preview__cell--frozen {
@@ -149,7 +151,7 @@ div.export-palette__preview {
   max-width: 148px;
   position: sticky;
   left: 0;
-  z-index: 1;
+  z-index: 3;
 }
 
 .preview__cell__stack {
@@ -157,6 +159,37 @@ div.export-palette__preview {
   justify-content: end;
   gap: var(--size-pos-xxxsmall);
   width: 100%;
+}
+
+.preview__cell__actions {
+  position: absolute;
+  inset: auto var(--size-pos-xxxsmall) var(--size-pos-xxxsmall) auto;
+  z-index: 3;
+}
+
+/* Contrast report */
+.contrast {
+  display: grid;
+  grid-template-rows: repeat(4, minmax(0, auto));
+  grid-template-columns: repeat(2, minmax(0, 1fr)); 
+  gap: var(--size-pos-xxsmall) var(--size-pos-xxsmall);
+  align-items: center;
+  padding: var(--size-pos-xxsmall) 0;
+}
+
+.contrast__preview {
+  justify-content: center;
+  align-items: center;
+  min-height: var(--size-pos-xxlarge);
+  max-height: 400px;
+  width: auto;
+  overflow-y: auto;
+}
+
+.contrast__score {
+  outline: var(--thumbnail-border-width) solid var(--thumbnail-border-color);
+  outline-offset: var(--thumbnail-border-offset);
+  width: auto;
 }
 
 /* Box resizer grip */

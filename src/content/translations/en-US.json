@@ -205,6 +205,47 @@
     "source": "Sources",
     "themes": "Modes"
   },
+  "contrast": {
+    "actions": {
+      "next": "Next color",
+      "previous": "Previous color"
+    },
+    "details": {
+      "title": "Contrast details"
+    },
+    "fail": "Fail",
+    "pass": "Pass",
+    "foregroundColors": {
+      "dark": "Dark foreground color",
+      "light": "Light foreground color"
+    },
+    "minSizeFont": {
+      "title": "Minimum font size"
+    },
+    "playground": {
+      "fontWeight": {
+        "label": "Font weight",
+        "slider": "Abc"
+      },
+      "previewText": {
+        "label": "Preview text",
+        "placeholder": "The quick brown fox jumps over the lazy dog."
+      },
+      "title": "Contrast playground"
+    },
+    "score": {
+      "apca": {
+        "title": "APCA score"
+      },
+      "readability": {
+        "title": "Readability score"
+      },
+      "wcag": {
+        "title": "WCAG 2.1 score"
+      }
+    },
+    "title": "Contrast report"
+  },
   "create": {
     "leavePaletteDialog": {
       "cancel": "Cancel",
@@ -338,9 +379,9 @@
     "multipleBlockingMessages": {
       "algorithmVersion": "Set chroma velocity to \"Sinusoidal and hyperbolic\"",
       "chroma": "Reset chroma",
-      "hue": "Reset hue",
       "colorSpace": "Set color space to \"LCH\" or \"HSL\"",
       "head": "You can unlock the creation if you: {messages}",
+      "hue": "Reset hue",
       "lockedSourceColors": "Unlock source colors",
       "sourceColors": "Decrease source colors",
       "stops": "Decrease stops",
@@ -442,13 +483,27 @@
     "actions": {
       "collapsePreview": "Collapse preview",
       "colorSpace": "Color space",
+      "copyHex": "Copy hex code to clipboard",
       "displayScores": "Show scores",
       "expandPreview": "Expand preview",
+      "filterScores": "Filter scores",
+      "jumpToColor": "Jump to source color",
       "resetImportedColors": "Reset imported colors",
+      "showDetails": "See contrast report",
       "visionSimulationMode": "Vision simulation"
     },
     "closest": {
       "tag": "Closest"
+    },
+    "filter": {
+      "all": "All",
+      "apca": "WCAG",
+      "darkForeground": "Dark foreground",
+      "fail": "Fail",
+      "lightForeground": "Light foreground",
+      "pass": "Pass",
+      "reset": "Reset filter",
+      "wcag": "APCA"
     },
     "lock": {
       "label": "Lock source colors",
