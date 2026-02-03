@@ -512,7 +512,13 @@
     },
     "score": {
       "apca": "Mostrar pontuações APCA",
-      "wcag": "Mostrar pontuações WCAG 2.1"
+      "apcaInterval": "Mostrar intervalo APCA",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "Mostrar pontuações WCAG 2.1",
+      "wcagInterval": "Mostrar intervalo WCAG 2.1"
     },
     "source": {
       "tag": "Fonte"

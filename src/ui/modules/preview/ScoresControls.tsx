@@ -23,6 +23,8 @@ interface ScoresControlsProps
   isDrawerCollapsed: boolean
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
+  isWCAGIntervalDisplayed: boolean
+  isAPCAIntervalDisplayed: boolean
   scoreFilters: {
     lightWCAG: ScoreFilterStatus
     lightAPCA: ScoreFilterStatus
@@ -30,6 +32,8 @@ interface ScoresControlsProps
     darkAPCA: ScoreFilterStatus
   }
   onToggleDrawer: () => void
+  onToggleWCAGInterval: () => void
+  onToggleAPCAInterval: () => void
   onUpdateScoreFilters: (filters: {
     lightWCAG?: ScoreFilterStatus
     lightAPCA?: ScoreFilterStatus
@@ -73,6 +77,8 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
     const options = []
     if (this.props.isWCAGDisplayed) options.push('ENABLE_WCAG_SCORE')
     if (this.props.isAPCADisplayed) options.push('ENABLE_APCA_SCORE')
+    if (this.props.isWCAGIntervalDisplayed) options.push('ENABLE_WCAG_INTERVAL')
+    if (this.props.isAPCAIntervalDisplayed) options.push('ENABLE_APCA_INTERVAL')
     return options.join(', ')
   }
 
@@ -183,6 +189,57 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     )?.isConsented ?? false,
                     {
                       feature: 'DISPLAY_APCA_SCORES',
+                    }
+                  )
+                },
+              },
+              {
+                type: 'SEPARATOR',
+              },
+              {
+                label: this.props.t('preview.score.wcagInterval'),
+                value: 'ENABLE_WCAG_INTERVAL',
+                type: 'OPTION',
+                isActive: features.PREVIEW_SCORES_WCAG.isActive(),
+                isBlocked: features.PREVIEW_SCORES_WCAG.isBlocked(),
+                isNew: features.PREVIEW_SCORES_WCAG.isNew(),
+                action: () => {
+                  this.props.onToggleWCAGInterval()
+
+                  trackPreviewManagementEvent(
+                    this.props.config.env.isMixpanelEnabled,
+                    this.props.userSession.userId,
+                    this.props.userIdentity.id,
+                    this.props.planStatus,
+                    this.props.userConsent.find(
+                      (consent) => consent.id === 'mixpanel'
+                    )?.isConsented ?? false,
+                    {
+                      feature: 'DISPLAY_WCAG_INTERVAL',
+                    }
+                  )
+                },
+              },
+              {
+                label: this.props.t('preview.score.apcaInterval'),
+                value: 'ENABLE_APCA_INTERVAL',
+                type: 'OPTION',
+                isActive: features.PREVIEW_SCORES_APCA.isActive(),
+                isBlocked: features.PREVIEW_SCORES_APCA.isBlocked(),
+                isNew: features.PREVIEW_SCORES_APCA.isNew(),
+                action: () => {
+                  this.props.onToggleAPCAInterval()
+
+                  trackPreviewManagementEvent(
+                    this.props.config.env.isMixpanelEnabled,
+                    this.props.userSession.userId,
+                    this.props.userIdentity.id,
+                    this.props.planStatus,
+                    this.props.userConsent.find(
+                      (consent) => consent.id === 'mixpanel'
+                    )?.isConsented ?? false,
+                    {
+                      feature: 'DISPLAY_APCA_INTERVAL',
                     }
                   )
                 },

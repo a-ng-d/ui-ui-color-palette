@@ -103,16 +103,25 @@ div.export-palette__preview {
   z-index: 4;
 }
 
-:root[data-theme='figma'] .preview__header .preview__cell {
+.preview__footer {
+  display: flex;
+  padding: 0 0 var(--size-pos-xxsmall) 0;
+}
+
+:root[data-theme='figma'] .preview__header .preview__cell,
+:root[data-theme='figma'] .preview__footer .preview__cell {
   background-color: var(--figma-color-bg);
 }
-:root[data-theme='penpot'] .preview__header .preview__cell {
+:root[data-theme='penpot'] .preview__header .preview__cell,
+:root[data-theme='penpot'] .preview__footer .preview__cell {
   background-color: var(--penpot-color-background-primary);
 }
-:root[data-theme='sketch'] .preview__header .preview__cell {
+:root[data-theme='sketch'] .preview__header .preview__cell,
+:root[data-theme='sketch'] .preview__footer .preview__cell {
   background-color: var(--sketch-color-background-primary);
 }
-:root[data-theme='framer'] .preview__header .preview__cell {
+:root[data-theme='framer'] .preview__header .preview__cell,
+:root[data-theme='framer'] .preview__footer .preview__cell {
   background-color: var(--framer-color-bg);
 }
 

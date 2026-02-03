@@ -214,7 +214,6 @@
       "title": "Détails du contraste"
     },
     "fail": "Échec",
-    "pass": "Réussi",
     "foregroundColors": {
       "dark": "Couleur de premier plan sombre",
       "light": "Couleur de premier plan claire"
@@ -222,6 +221,7 @@
     "minSizeFont": {
       "title": "Taille de police minimale"
     },
+    "pass": "Réussi",
     "playground": {
       "fontWeight": {
         "label": "Graisse de police",
@@ -512,7 +512,13 @@
     },
     "score": {
       "apca": "Afficher les scores APCA",
-      "wcag": "Afficher les scores WCAG 2.1"
+      "apcaInterval": "Afficher l'intervalle APCA",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "Afficher les scores WCAG 2.1",
+      "wcagInterval": "Afficher l'intervalle WCAG 2.1"
     },
     "source": {
       "tag": "Source"

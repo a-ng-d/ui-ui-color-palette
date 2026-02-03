@@ -214,7 +214,6 @@
       "title": "Contrast details"
     },
     "fail": "Fail",
-    "pass": "Pass",
     "foregroundColors": {
       "dark": "Dark foreground color",
       "light": "Light foreground color"
@@ -222,6 +221,7 @@
     "minSizeFont": {
       "title": "Minimum font size"
     },
+    "pass": "Pass",
     "playground": {
       "fontWeight": {
         "label": "Font weight",
@@ -512,7 +512,13 @@
     },
     "score": {
       "apca": "Show APCA scores",
-      "wcag": "Show WCAG 2.1 scores"
+      "apcaInterval": "Show APCA interval",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "Show WCAG 2.1 scores",
+      "wcagInterval": "Show WCAG 2.1 interval"
     },
     "source": {
       "tag": "Source"

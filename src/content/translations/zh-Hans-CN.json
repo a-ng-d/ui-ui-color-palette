@@ -512,7 +512,13 @@
     },
     "score": {
       "apca": "显示 APCA 分数",
-      "wcag": "显示 WCAG 2.1 分数"
+      "apcaInterval": "显示 APCA 区间",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "显示 WCAG 2.1 分数",
+      "wcagInterval": "显示 WCAG 2.1 区间"
     },
     "source": {
       "tag": "源"

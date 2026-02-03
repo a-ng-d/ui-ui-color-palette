@@ -37,6 +37,8 @@ interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   scaledColors: HexModel[]
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
+  isWCAGIntervalDisplayed: boolean
+  isAPCAIntervalDisplayed: boolean
   areSourceColorsLocked: LockedSourceColorsConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
@@ -360,7 +362,10 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       filters.darkAPCA !== 'ALL'
     const isAnyScoreDisplayed =
       this.props.isWCAGDisplayed || this.props.isAPCADisplayed
-    const shouldCalculateScores = isAnyFilterActive || isAnyScoreDisplayed
+    const isAnyIntervalDisplayed =
+      this.props.isWCAGIntervalDisplayed || this.props.isAPCAIntervalDisplayed
+    const shouldCalculateScores =
+      isAnyFilterActive || isAnyScoreDisplayed || isAnyIntervalDisplayed
 
     let lightWCAGScore = 0
     let darkWCAGScore = 0
@@ -384,6 +389,19 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       darkWCAGFriendlyScore = darkForegroundContrast.getWCAGScore()
       lightRecommendedUsage = lightForegroundContrast.getRecommendedUsage()
       darkRecommendedUsage = darkForegroundContrast.getRecommendedUsage()
+
+      setContrastScore({
+        colorId: this.props.sourceColor.id,
+        colorName: this.props.sourceColor.name,
+        scaleName: this.props.scaleName,
+        shadeIndex: this.props.index,
+        lightWCAG: lightWCAGScore,
+        darkWCAG: darkWCAGScore,
+        lightAPCA: lightAPCAScore,
+        darkAPCA: darkAPCAScore,
+        lightWCAGFriendly: lightWCAGFriendlyScore,
+        darkWCAGFriendly: darkWCAGFriendlyScore,
+      })
     }
 
     let isOutOfResults = false

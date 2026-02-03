@@ -15,7 +15,7 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { Bar, Chip, Drawer } from '@a_ng_d/figmug-ui'
+import { Bar, Chip, ColorChip, Drawer } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
@@ -25,6 +25,10 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, ScoreFilterStatus } from '../../types/app'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
+import {
+  clearContrastScores,
+  getContrastRangesByColumn,
+} from '../../stores/contrasts'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
 import SettingsControls from './preview/SettingsControls'
 import ScoresControls from './preview/ScoresControls'
@@ -52,6 +56,8 @@ interface PreviewProps
 interface PreviewStates {
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
+  isWCAGIntervalDisplayed: boolean
+  isAPCAIntervalDisplayed: boolean
   isDrawerCollapsed: boolean
   drawerMaxHeight?: number
   scoreFilters: {
@@ -84,6 +90,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     this.state = {
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
+      isWCAGIntervalDisplayed: false,
+      isAPCAIntervalDisplayed: false,
       isDrawerCollapsed: false,
       scoreFilters: {
         lightWCAG: 'ALL',
@@ -139,12 +147,14 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         .parentElement
       if (parent) this.resizeObserver.unobserve(parent)
     }
-    // Remove wheel listener
+
     if (this.paletteContainerRef.current)
       this.paletteContainerRef.current.removeEventListener(
         'wheel',
         this.handleHorizontalScroll
       )
+
+    clearContrastScores()
   }
 
   // Handlers
@@ -186,10 +196,10 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
   }
 
   updateScoreFilters = (filters: {
-    lightWCAG?: 'ALL' | 'PASS' | 'FAIL'
-    lightAPCA?: 'ALL' | 'PASS' | 'FAIL'
-    darkWCAG?: 'ALL' | 'PASS' | 'FAIL'
-    darkAPCA?: 'ALL' | 'PASS' | 'FAIL'
+    lightWCAG?: ScoreFilterStatus
+    lightAPCA?: ScoreFilterStatus
+    darkWCAG?: ScoreFilterStatus
+    darkAPCA?: ScoreFilterStatus
   }) => {
     this.setState({
       scoreFilters: {
@@ -197,6 +207,18 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         ...filters,
       },
     })
+  }
+
+  toggleWCAGInterval = () => {
+    this.setState((prevState) => ({
+      isWCAGIntervalDisplayed: !prevState.isWCAGIntervalDisplayed,
+    }))
+  }
+
+  toggleAPCAInterval = () => {
+    this.setState((prevState) => ({
+      isAPCAIntervalDisplayed: !prevState.isAPCAIntervalDisplayed,
+    }))
   }
 
   toggleDrawer = () => {
@@ -529,8 +551,30 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
   }
 
   // Templates
-  stopTag = ({ stop }: { stop: string }) => (
+  StopTag = ({ stop }: { stop: string }) => (
     <Chip state="ON_BACKGROUND">{stop}</Chip>
+  )
+
+  IntervalTag = ({
+    interval,
+    lightForeground,
+  }: {
+    interval: string | React.ReactNode
+    lightForeground: HexModel
+  }) => (
+    <Chip
+      state="ON_BACKGROUND"
+      leftSlot={
+        <ColorChip
+          color={lightForeground}
+          width="var(--size-pos-xxsmall)"
+          height="var(--size-pos-xxsmall)"
+          isRounded
+        />
+      }
+    >
+      {interval}
+    </Chip>
   )
 
   // Render
@@ -553,6 +597,16 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
       default:
         minHeight = 40
     }
+
+    const lightForeground = new Color({
+      sourceColor: chroma(this.props.textColorsTheme.lightColor).rgb(),
+      visionSimulationMode: this.props.visionSimulationMode,
+    }).setColor() as HexModel
+
+    const darkForeground = new Color({
+      sourceColor: chroma(this.props.textColorsTheme.darkColor).rgb(),
+      visionSimulationMode: this.props.visionSimulationMode,
+    }).setColor() as HexModel
 
     return (
       <Drawer
@@ -589,8 +643,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
               isDrawerCollapsed={this.state.isDrawerCollapsed}
               isWCAGDisplayed={this.state.isWCAGDisplayed}
               isAPCADisplayed={this.state.isAPCADisplayed}
+              isWCAGIntervalDisplayed={this.state.isWCAGIntervalDisplayed}
+              isAPCAIntervalDisplayed={this.state.isAPCAIntervalDisplayed}
               scoreFilters={this.state.scoreFilters}
               onToggleDrawer={this.toggleDrawer}
+              onToggleWCAGInterval={this.toggleWCAGInterval}
+              onToggleAPCAInterval={this.toggleAPCAInterval}
               onUpdateScoreFilters={this.updateScoreFilters}
             />
           }
@@ -622,7 +680,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
           >
             <div className="preview__header">
               <div className="preview__cell preview__cell--no-height preview__cell--frozen">
-                <this.stopTag stop={this.props.t('preview.source.tag')} />
+                <this.StopTag stop={this.props.t('preview.source.tag')} />
               </div>
               {Object.keys(this.props.scale)
                 .reverse()
@@ -632,7 +690,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       className="preview__cell preview__cell--no-height"
                       key={index}
                     >
-                      <this.stopTag stop={scale} />
+                      <this.StopTag stop={scale} />
                     </div>
                   )
                 })}
@@ -658,7 +716,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                   )
                     .reverse()
                     .map((lightness) => this.setColor(color, lightness))
-                  
+
                   const scaleNames = Object.keys(this.props.scale).reverse()
 
                   return (
@@ -683,7 +741,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                       {Object.values(scaledColors).map(
                         (scaledColor, shadeIndex) => {
                           const dialogKey = `${index}-${shadeIndex}`
-                          const scaleName = scaleNames[shadeIndex] || String(shadeIndex)
+                          const scaleName =
+                            scaleNames[shadeIndex] || String(shadeIndex)
                           return (
                             <Shade
                               {...this.props}
@@ -695,6 +754,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                               scaledColors={scaledColors}
                               isWCAGDisplayed={this.state.isWCAGDisplayed}
                               isAPCADisplayed={this.state.isAPCADisplayed}
+                              isWCAGIntervalDisplayed={
+                                this.state.isWCAGIntervalDisplayed
+                              }
+                              isAPCAIntervalDisplayed={
+                                this.state.isAPCAIntervalDisplayed
+                              }
                               scoreFilters={this.state.scoreFilters}
                               colorIndex={index}
                               totalColors={
@@ -732,6 +797,84 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                   )
                 })}
             </div>
+            {(this.state.isWCAGIntervalDisplayed ||
+              this.state.isAPCAIntervalDisplayed) &&
+              this.props.colors.length > 1 && (
+                <>
+                  {this.state.isWCAGIntervalDisplayed && (
+                    <div className="preview__footer">
+                      <div className="preview__cell preview__cell--no-height preview__cell--frozen">
+                        <Chip state="ON_BACKGROUND">
+                          {this.props.t('preview.score.tags.wcagInterval')}
+                        </Chip>
+                      </div>
+                      {(() => {
+                        const contrastRanges = getContrastRangesByColumn()
+                        return Object.keys(this.props.scale)
+                          .reverse()
+                          .map((scaleName, index) => {
+                            const rangeData = contrastRanges.get(scaleName)
+                            if (!rangeData) return null
+
+                            return (
+                              <div
+                                className="preview__cell preview__cell--no-height"
+                                key={index}
+                              >
+                                <this.IntervalTag
+                                  interval={rangeData.lightWCAG.range.toFixed(
+                                    2
+                                  )}
+                                  lightForeground={lightForeground}
+                                />
+                                <this.IntervalTag
+                                  interval={rangeData.darkWCAG.range.toFixed(2)}
+                                  lightForeground={darkForeground}
+                                />
+                              </div>
+                            )
+                          })
+                      })()}
+                    </div>
+                  )}
+                  {this.state.isAPCAIntervalDisplayed && (
+                    <div className="preview__footer">
+                      <div className="preview__cell preview__cell--no-height preview__cell--frozen">
+                        <Chip state="ON_BACKGROUND">
+                          {this.props.t('preview.score.tags.apcaInterval')}
+                        </Chip>
+                      </div>
+                      {(() => {
+                        const contrastRanges = getContrastRangesByColumn()
+                        return Object.keys(this.props.scale)
+                          .reverse()
+                          .map((scaleName, index) => {
+                            const rangeData = contrastRanges.get(scaleName)
+                            if (!rangeData) return null
+
+                            return (
+                              <div
+                                className="preview__cell preview__cell--no-height"
+                                key={index}
+                              >
+                                <this.IntervalTag
+                                  interval={rangeData.lightAPCA.range.toFixed(
+                                    2
+                                  )}
+                                  lightForeground={lightForeground}
+                                />
+                                <this.IntervalTag
+                                  interval={rangeData.darkAPCA.range.toFixed(2)}
+                                  lightForeground={darkForeground}
+                                />
+                              </div>
+                            )
+                          })
+                      })()}
+                    </div>
+                  )}
+                </>
+              )}
           </div>
         )}
       </Drawer>
