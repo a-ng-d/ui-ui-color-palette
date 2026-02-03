@@ -136,7 +136,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
         padding = 'var(--size-null) var(--size-pos-xsmall)'
         break
       default:
-        isFlex = true
+        isFlex = false
         padding = 'var(--size-null) var(--size-pos-xsmall)'
     }
 

@@ -54,10 +54,10 @@ export default class Preferences extends PureComponent<PreferencesProps> {
         padding = '0 var(--size-pos-xxsmall)'
         break
       case 'framer':
-        padding = '0 var(--size-pos-xxxsmall)'
+        padding = '0'
         break
       default:
-        padding = 'var(--size-pos-xxsmall)'
+        padding = '0'
     }
 
     return (

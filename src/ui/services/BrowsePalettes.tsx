@@ -246,7 +246,7 @@ export default class BrowsePalettes extends PureComponent<
         isFlex = true
         break
       default:
-        isFlex = true
+        isFlex = false
     }
 
     switch (this.state.context) {

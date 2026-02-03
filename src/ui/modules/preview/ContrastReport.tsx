@@ -53,10 +53,16 @@ export default class ContrastReport extends React.PureComponent<
   ContrastReportProps,
   ContrastReportState
 > {
-  state: ContrastReportState = {
-    previewText: this.props.t('contrast.playground.previewText.placeholder'),
-    textThemeColor: 'LIGHT_TEXT',
-    fontWeight: 400,
+  private theme: string | null
+
+  constructor(props: ContrastReportProps) {
+    super(props)
+    this.state = {
+      previewText: this.props.t('contrast.playground.previewText.placeholder'),
+      textThemeColor: 'LIGHT_TEXT',
+      fontWeight: 400,
+    }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Handlers
@@ -333,6 +339,25 @@ export default class ContrastReport extends React.PureComponent<
   render() {
     if (!this.props.isOpen) return null
 
+    let padding
+
+    switch (this.theme) {
+      case 'figma':
+        padding = 'var(--size-null) var(--size-null)'
+        break
+      case 'penpot':
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'sketch':
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        padding = 'var(--size-null) var(--size-pos-xxxsmall)'
+        break
+      default:
+        padding = 'var(--size-null) var(--size-null)'
+    }
+
     const lightForegroundContrast = new Contrast({
       backgroundColor: chroma(this.props.actualBackground).rgb(false),
       textColor: this.props.lightForeground,
@@ -365,6 +390,8 @@ export default class ContrastReport extends React.PureComponent<
               flexDirection: 'column',
               flex: 1,
               maxWidth: '100%',
+              padding: padding,
+              boxSizing: 'border-box',
             }}
           >
             <Bar

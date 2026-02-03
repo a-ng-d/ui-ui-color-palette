@@ -974,7 +974,7 @@ export default class Export extends PureComponent<ExportProps, ExportStates> {
         break
       default:
         border = '1px solid var(--figma-color-border)'
-        radius = 'var(--border-radius-large)'
+        radius = 'var(--border-radius-medium)'
         selectionBackground = 'var(--figma-color-bg-selected)'
         textColor = 'var(--figma-color-text-disabled)'
     }

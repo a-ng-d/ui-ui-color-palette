@@ -312,8 +312,9 @@ export default class License extends PureComponent<
           '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
         break
       default:
-        modalPadding = '0'
-        messagePadding = '0'
+        modalPadding = 'var(--size-pos-xxsmall) 0'
+        messagePadding =
+          '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall) var(--size-pos-xsmall)'
     }
 
     return (

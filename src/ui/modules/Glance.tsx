@@ -56,6 +56,8 @@ interface GlanceState {
 }
 
 export default class Glance extends PureComponent<GlanceProps, GlanceState> {
+  private theme: string | null
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -109,6 +111,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
         meta: {} as MetaConfiguration,
       },
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -274,6 +277,25 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
   // Render
   render() {
     let modal
+    let padding
+
+    switch (this.theme) {
+      case 'figma':
+        padding = 'var(--size-null) var(--size-null)'
+        break
+      case 'penpot':
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'sketch':
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        padding = 'var(--size-null) var(--size-pos-xxxsmall)'
+        break
+      default:
+        padding = 'var(--size-null) var(--size-null)'
+    }
+
     if (this.state.paletteStatus === 'LOADING')
       modal = (
         <Dialog
@@ -312,6 +334,8 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
               flexDirection: 'column',
               flex: 1,
               maxWidth: '100%',
+              padding: padding,
+              boxSizing: 'border-box',
             }}
           >
             <Bar

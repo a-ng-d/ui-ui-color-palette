@@ -344,7 +344,7 @@ export default class RemotePalettes extends PureComponent<
         padding = 'var(--size-null) var(--size-pos-xsmall)'
         break
       default:
-        isFlex = true
+        isFlex = false
         padding = 'var(--size-null) var(--size-pos-xsmall)'
     }
 
