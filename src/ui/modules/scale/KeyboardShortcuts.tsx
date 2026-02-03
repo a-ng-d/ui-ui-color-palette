@@ -133,7 +133,7 @@ export default class KeyboardShortcuts extends React.PureComponent<KeyboardShort
                       shortcuts={[
                         [this.props.t('scale.tips.inputs.left')],
                         [
-                          isMacOrWinKeyboard,
+                          this.props.t('scale.tips.inputs.shift'),
                           this.props.t('scale.tips.inputs.left'),
                         ],
                       ]}
@@ -149,7 +149,7 @@ export default class KeyboardShortcuts extends React.PureComponent<KeyboardShort
                       shortcuts={[
                         [this.props.t('scale.tips.inputs.right')],
                         [
-                          isMacOrWinKeyboard,
+                          this.props.t('scale.tips.inputs.shift'),
                           this.props.t('scale.tips.inputs.right'),
                         ],
                       ]}
