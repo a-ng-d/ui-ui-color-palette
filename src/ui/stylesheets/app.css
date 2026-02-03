@@ -125,7 +125,7 @@ div.export-palette__preview {
   gap: var(--size-pos-xxxsmall);
   box-sizing: border-box;
   padding: var(--size-pos-xxxsmall);
-  min-height: 44px;
+  min-height: 64px;
   min-width: 96px;
 }
 
