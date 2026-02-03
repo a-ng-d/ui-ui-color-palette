@@ -1002,7 +1002,7 @@
         "message": "Arraste e solte seu arquivo .png aqui",
         "warning": "O arquivo não foi importado. Tente novamente arrastando e soltando um arquivo .png aqui."
       },
-      "message": "Faça upload, cole ou selecione uma imagem para extrair suas 5 cores dominantes",
+      "message": "Faça upload, cole ou selecione uma imagem no canvas para extrair suas 5 cores dominantes",
       "removeImage": "Remover imagem",
       "title": "Cores dominantes"
     },

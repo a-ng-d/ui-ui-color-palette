@@ -1002,7 +1002,7 @@
         "message": "Drag & drop your .png file here",
         "warning": "The file was not imported. Retry dragging & dropping a .png file here."
       },
-      "message": "Upload, paste or select an image to extract its 5 dominant colors",
+      "message": "Upload, paste or select an image on the canvas to extract its 5 dominant colors",
       "removeImage": "Remove image",
       "title": "Dominant colors"
     },
