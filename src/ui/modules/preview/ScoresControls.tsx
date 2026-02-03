@@ -12,7 +12,12 @@ import {
   ScoreFilterStatus,
   Service,
 } from '../../../types/app'
-import { $isAPCADisplayed, $isWCAGDisplayed } from '../../../stores/preferences'
+import {
+  $isAPCADisplayed,
+  $isAPCAIntervalDisplayed,
+  $isWCAGDisplayed,
+  $isWCAGIntervalDisplayed,
+} from '../../../stores/preferences'
 import { trackPreviewManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -32,8 +37,6 @@ interface ScoresControlsProps
     darkAPCA: ScoreFilterStatus
   }
   onToggleDrawer: () => void
-  onToggleWCAGInterval: () => void
-  onToggleAPCAInterval: () => void
   onUpdateScoreFilters: (filters: {
     lightWCAG?: ScoreFilterStatus
     lightAPCA?: ScoreFilterStatus
@@ -204,7 +207,23 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 isBlocked: features.PREVIEW_SCORES_WCAG.isBlocked(),
                 isNew: features.PREVIEW_SCORES_WCAG.isNew(),
                 action: () => {
-                  this.props.onToggleWCAGInterval()
+                  $isWCAGIntervalDisplayed.set(
+                    !this.props.isWCAGIntervalDisplayed
+                  )
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'SET_ITEMS',
+                        items: [
+                          {
+                            key: 'is_wcag_interval_displayed',
+                            value: !this.props.isWCAGIntervalDisplayed,
+                          },
+                        ],
+                      },
+                    },
+                    '*'
+                  )
 
                   trackPreviewManagementEvent(
                     this.props.config.env.isMixpanelEnabled,
@@ -228,7 +247,23 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 isBlocked: features.PREVIEW_SCORES_APCA.isBlocked(),
                 isNew: features.PREVIEW_SCORES_APCA.isNew(),
                 action: () => {
-                  this.props.onToggleAPCAInterval()
+                  $isAPCAIntervalDisplayed.set(
+                    !this.props.isAPCAIntervalDisplayed
+                  )
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'SET_ITEMS',
+                        items: [
+                          {
+                            key: 'is_apca_interval_displayed',
+                            value: !this.props.isAPCAIntervalDisplayed,
+                          },
+                        ],
+                      },
+                    },
+                    '*'
+                  )
 
                   trackPreviewManagementEvent(
                     this.props.config.env.isMixpanelEnabled,

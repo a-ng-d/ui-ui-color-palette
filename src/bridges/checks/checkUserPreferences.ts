@@ -7,6 +7,12 @@ const checkUserPreferences = async () => {
   ) as HTMLIFrameElement | null
   const isWCAGDisplayed = window.localStorage.getItem('is_wcag_displayed')
   const isAPCADisplayed = window.localStorage.getItem('is_apca_displayed')
+  const isWCAGIntervalDisplayed = window.localStorage.getItem(
+    'is_wcag_interval_displayed'
+  )
+  const isAPCAIntervalDisplayed = window.localStorage.getItem(
+    'is_apca_interval_displayed'
+  )
   const canDeepSyncStyles = window.localStorage.getItem('can_deep_sync_styles')
   const canDeepSyncVariables = window.localStorage.getItem(
     'can_deep_sync_variables'
@@ -21,6 +27,12 @@ const checkUserPreferences = async () => {
 
   if (isAPCADisplayed === null)
     window.localStorage.setItem('is_apca_displayed', 'true')
+
+  if (isWCAGIntervalDisplayed === null)
+    window.localStorage.setItem('is_wcag_interval_displayed', 'false')
+
+  if (isAPCAIntervalDisplayed === null)
+    window.localStorage.setItem('is_apca_interval_displayed', 'false')
 
   if (canDeepSyncStyles === null)
     window.localStorage.setItem('can_deep_sync_styles', 'false')
@@ -44,6 +56,14 @@ const checkUserPreferences = async () => {
           isWCAGDisplayed === null ? true : isWCAGDisplayed === 'true',
         isAPCADisplayed:
           isAPCADisplayed === null ? true : isAPCADisplayed === 'true',
+        isWCAGIntervalDisplayed:
+          isWCAGIntervalDisplayed === null
+            ? false
+            : isWCAGIntervalDisplayed === 'true',
+        isAPCAIntervalDisplayed:
+          isAPCAIntervalDisplayed === null
+            ? false
+            : isAPCAIntervalDisplayed === 'true',
         canDeepSyncStyles:
           canDeepSyncStyles === null ? false : canDeepSyncStyles === 'true',
         canDeepSyncVariables:

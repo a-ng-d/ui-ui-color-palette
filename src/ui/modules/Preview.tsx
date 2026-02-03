@@ -23,7 +23,12 @@ import Shade from '../components/Shade'
 import { AppStates } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, ScoreFilterStatus } from '../../types/app'
-import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
+import {
+  $isAPCADisplayed,
+  $isAPCAIntervalDisplayed,
+  $isWCAGDisplayed,
+  $isWCAGIntervalDisplayed,
+} from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
 import {
   clearContrastScores,
@@ -72,6 +77,8 @@ interface PreviewStates {
 export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
   private subscribeWCAG: (() => void) | undefined
   private subscribeAPCA: (() => void) | undefined
+  private subscribeWCAGInterval: (() => void) | undefined
+  private subscribeAPCAInterval: (() => void) | undefined
   private palette: typeof $palette
   private drawerRef: React.RefObject<Drawer>
   private paletteContainerRef: React.RefObject<HTMLDivElement>
@@ -115,6 +122,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     this.subscribeAPCA = $isAPCADisplayed.subscribe((value) => {
       this.setState({ isAPCADisplayed: value })
     })
+    this.subscribeWCAGInterval = $isWCAGIntervalDisplayed.subscribe((value) => {
+      this.setState({ isWCAGIntervalDisplayed: value })
+    })
+    this.subscribeAPCAInterval = $isAPCAIntervalDisplayed.subscribe((value) => {
+      this.setState({ isAPCAIntervalDisplayed: value })
+    })
     if (
       this.drawerRef.current &&
       (this.drawerRef.current.base as unknown as HTMLElement).parentElement
@@ -138,6 +151,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
   componentWillUnmount = (): void => {
     if (this.subscribeWCAG) this.subscribeWCAG()
     if (this.subscribeAPCA) this.subscribeAPCA()
+    if (this.subscribeWCAGInterval) this.subscribeWCAGInterval()
+    if (this.subscribeAPCAInterval) this.subscribeAPCAInterval()
     if (
       this.resizeObserver &&
       this.drawerRef.current &&
@@ -207,18 +222,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
         ...filters,
       },
     })
-  }
-
-  toggleWCAGInterval = () => {
-    this.setState((prevState) => ({
-      isWCAGIntervalDisplayed: !prevState.isWCAGIntervalDisplayed,
-    }))
-  }
-
-  toggleAPCAInterval = () => {
-    this.setState((prevState) => ({
-      isAPCAIntervalDisplayed: !prevState.isAPCAIntervalDisplayed,
-    }))
   }
 
   toggleDrawer = () => {
@@ -684,8 +687,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
               isAPCAIntervalDisplayed={this.state.isAPCAIntervalDisplayed}
               scoreFilters={this.state.scoreFilters}
               onToggleDrawer={this.toggleDrawer}
-              onToggleWCAGInterval={this.toggleWCAGInterval}
-              onToggleAPCAInterval={this.toggleAPCAInterval}
               onUpdateScoreFilters={this.updateScoreFilters}
             />
           }

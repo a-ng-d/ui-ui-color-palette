@@ -50,8 +50,10 @@ import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
   $isAPCADisplayed,
+  $isAPCAIntervalDisplayed,
   $isSuggestedLanguageDisplayed,
   $isWCAGDisplayed,
+  $isWCAGIntervalDisplayed,
 } from '../stores/preferences'
 import { $palette, initializePaletteStore } from '../stores/palette'
 import { $creditsCount } from '../stores/credits'
@@ -505,6 +507,8 @@ class App extends Component<AppProps, AppStates> {
         setTimeout(() => this.setState({ isLoaded: true }), 2000)
         $isWCAGDisplayed.set(path.data.isWCAGDisplayed)
         $isAPCADisplayed.set(path.data.isAPCADisplayed)
+        $isWCAGIntervalDisplayed.set(path.data.isWCAGIntervalDisplayed)
+        $isAPCAIntervalDisplayed.set(path.data.isAPCAIntervalDisplayed)
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
         $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
         $isSuggestedLanguageDisplayed.set(
