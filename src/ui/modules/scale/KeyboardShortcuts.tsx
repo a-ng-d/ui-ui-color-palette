@@ -44,7 +44,7 @@ export default class KeyboardShortcuts extends React.PureComponent<KeyboardShort
       document.getElementById('modal') &&
       createPortal(
         <Dialog
-          title={this.props.t('contrast.title')}
+          title={this.props.t('scale.tips.title')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >
