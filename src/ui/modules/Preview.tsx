@@ -380,16 +380,20 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     let nextColorIndex = colorIndex
     let nextShadeIndex = shadeIndex
 
-    if (direction === 'next')
-      if (shadeIndex < totalShades - 1) nextShadeIndex = shadeIndex + 1
+    if (totalColors === 1)
+      if (direction === 'next')
+        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
+      else nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
+    else if (direction === 'next')
+      if (colorIndex < totalColors - 1) nextColorIndex = colorIndex + 1
       else {
-        nextColorIndex = (colorIndex + 1) % totalColors
-        nextShadeIndex = 0
+        nextColorIndex = 0
+        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
       }
-    else if (shadeIndex > 0) nextShadeIndex = shadeIndex - 1
+    else if (colorIndex > 0) nextColorIndex = colorIndex - 1
     else {
-      nextColorIndex = (colorIndex - 1 + totalColors) % totalColors
-      nextShadeIndex = totalShades - 1
+      nextColorIndex = totalColors - 1
+      nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
     }
 
     this.openDialog(nextColorIndex, nextShadeIndex)

@@ -404,7 +404,7 @@ export default class ContrastReport extends React.PureComponent<
                 <div className={layouts['snackbar--medium']}>
                   <Button
                     type="icon"
-                    icon="back"
+                    icon="upward"
                     helper={{
                       label: this.props.t('contrast.actions.previous'),
                     }}
@@ -413,7 +413,7 @@ export default class ContrastReport extends React.PureComponent<
                   />
                   <Button
                     type="icon"
-                    icon="forward"
+                    icon="downward"
                     helper={{
                       label: this.props.t('contrast.actions.next'),
                     }}
