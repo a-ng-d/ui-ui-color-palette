@@ -230,11 +230,10 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLLIElement>
   ) => {
     const lockSourceColors = () => {
-      const target = e.target as HTMLInputElement
-      this.palette.setKey('areSourceColorsLocked', target.checked ?? false)
+      this.palette.setKey('areSourceColorsLocked', true)
 
       this.props.onLockSourceColors?.({
-        areSourceColorsLocked: target.checked,
+        areSourceColorsLocked: true,
       })
 
       if (this.props.service === 'EDIT')
@@ -246,7 +245,44 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
               items: [
                 {
                   key: 'base.areSourceColorsLocked',
-                  value: target.checked,
+                  value: true,
+                },
+              ],
+            },
+          },
+          '*'
+        )
+
+      trackPreviewManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'LOCK_SOURCE_COLORS',
+        }
+      )
+    }
+
+    const unlockSourceColors = () => {
+      this.palette.setKey('areSourceColorsLocked', false)
+
+      this.props.onLockSourceColors?.({
+        areSourceColorsLocked: false,
+      })
+
+      if (this.props.service === 'EDIT')
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'UPDATE_PALETTE',
+              id: this.props.id,
+              items: [
+                {
+                  key: 'base.areSourceColorsLocked',
+                  value: false,
                 },
               ],
             },
@@ -359,7 +395,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     const actions: {
       [action: string]: () => void
     } = {
-      LOCK_SOURCE_COLORS: () => lockSourceColors(),
+      LOCK_SOURCE_COLORS_ON: () => lockSourceColors(),
+      LOCK_SOURCE_COLORS_OFF: () => unlockSourceColors(),
       UPDATE_COLOR_SPACE: () => updateColorSpace(),
       UPDATE_COLOR_BLIND_MODE: () => updateColorBlindMode(),
       DEFAULT: () => null,

@@ -5,7 +5,7 @@ import {
   LockedSourceColorsConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { layouts, texts, Button, Dropdown, Select } from '@a_ng_d/figmug-ui'
+import { layouts, texts, Button, Dropdown } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -187,18 +187,18 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
             !this.props.isDrawerCollapsed
           }
         >
-          <Select
-            id="lock-source-colors"
-            label={this.props.t('preview.lock.label')}
-            type="SWITCH_BUTTON"
+          <Button
+            type="icon"
+            icon={this.props.areSourceColorsLocked ? 'lock-on' : 'lock-off'}
             preview={{
               image: lsc,
               text: this.props.t('preview.lock.preview'),
               pin: 'TOP',
             }}
-            feature="LOCK_SOURCE_COLORS"
-            shouldReflow
-            isChecked={this.props.areSourceColorsLocked}
+            feature={`LOCK_SOURCE_COLORS_${!this.props.areSourceColorsLocked ? 'ON' : 'OFF'}`}
+            helper={{
+              label: this.props.t('preview.lock.label'),
+            }}
             isBlocked={
               features.PREVIEW_LOCK_SOURCE_COLORS.isBlocked() &&
               !this.props.areSourceColorsLocked
