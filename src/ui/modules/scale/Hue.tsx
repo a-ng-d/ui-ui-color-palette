@@ -132,6 +132,7 @@ export default class Hue extends PureComponent<HueProps> {
           value={this.props.shift.hue ?? 0}
           min={-180}
           max={180}
+          step={1}
           colors={{
             min: 'hsl(0, 100%, 75%)',
             max: 'hsl(180, 100%, 75%)',

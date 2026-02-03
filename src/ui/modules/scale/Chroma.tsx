@@ -132,6 +132,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
           value={this.props.shift.chroma ?? 100}
           min={0}
           max={200}
+          step={1}
           colors={{
             min: 'hsl(187, 0%, 75%)',
             max: 'hsl(187, 100%, 75%)',

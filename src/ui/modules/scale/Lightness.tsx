@@ -255,6 +255,7 @@ export default class Lightness extends PureComponent<
             range={{
               min: 0,
               max: 100,
+              step: 0.1,
             }}
             colors={{
               min: 'black',
@@ -351,6 +352,7 @@ export default class Lightness extends PureComponent<
             range={{
               min: 0,
               max: 100,
+              step: 0.1,
             }}
             colors={{
               min: 'black',
