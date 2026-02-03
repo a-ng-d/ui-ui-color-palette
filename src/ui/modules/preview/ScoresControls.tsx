@@ -5,7 +5,13 @@ import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  ScoreFilterStatus,
+  Service,
+} from '../../../types/app'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../../stores/preferences'
 import { trackPreviewManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -18,17 +24,17 @@ interface ScoresControlsProps
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
   scoreFilters: {
-    lightWCAG: 'ALL' | 'PASS' | 'FAIL'
-    lightAPCA: 'ALL' | 'PASS' | 'FAIL'
-    darkWCAG: 'ALL' | 'PASS' | 'FAIL'
-    darkAPCA: 'ALL' | 'PASS' | 'FAIL'
+    lightWCAG: ScoreFilterStatus
+    lightAPCA: ScoreFilterStatus
+    darkWCAG: ScoreFilterStatus
+    darkAPCA: ScoreFilterStatus
   }
   onToggleDrawer: () => void
   onUpdateScoreFilters: (filters: {
-    lightWCAG?: 'ALL' | 'PASS' | 'FAIL'
-    lightAPCA?: 'ALL' | 'PASS' | 'FAIL'
-    darkWCAG?: 'ALL' | 'PASS' | 'FAIL'
-    darkAPCA?: 'ALL' | 'PASS' | 'FAIL'
+    lightWCAG?: ScoreFilterStatus
+    lightAPCA?: ScoreFilterStatus
+    darkWCAG?: ScoreFilterStatus
+    darkAPCA?: ScoreFilterStatus
   }) => void
 }
 

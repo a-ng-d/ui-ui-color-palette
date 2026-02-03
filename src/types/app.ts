@@ -117,7 +117,7 @@ export type ModalContext =
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 
-export type NamingConvention = 'ONES' | 'TENS' | 'HUNDREDS'
+export type ScoreFilterStatus = 'ALL' | 'PASS' | 'FAIL'
 
 export interface ImportUrl {
   value: string

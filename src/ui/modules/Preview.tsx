@@ -22,7 +22,7 @@ import Source from '../components/Source'
 import Shade from '../components/Shade'
 import { AppStates } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps } from '../../types/app'
+import { BaseProps, ScoreFilterStatus } from '../../types/app'
 import { $isAPCADisplayed, $isWCAGDisplayed } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
@@ -55,10 +55,10 @@ interface PreviewStates {
   isDrawerCollapsed: boolean
   drawerMaxHeight?: number
   scoreFilters: {
-    lightWCAG: 'ALL' | 'PASS' | 'FAIL'
-    lightAPCA: 'ALL' | 'PASS' | 'FAIL'
-    darkWCAG: 'ALL' | 'PASS' | 'FAIL'
-    darkAPCA: 'ALL' | 'PASS' | 'FAIL'
+    lightWCAG: ScoreFilterStatus
+    lightAPCA: ScoreFilterStatus
+    darkWCAG: ScoreFilterStatus
+    darkAPCA: ScoreFilterStatus
   }
   openDialogKey: string | null
 }

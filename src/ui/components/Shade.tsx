@@ -15,7 +15,14 @@ import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Button, Chip, ColorChip, Icon, layouts } from '@a_ng_d/figmug-ui'
 import ContrastReport from '../modules/preview/ContrastReport'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  ScoreFilterStatus,
+  Service,
+} from '../../types/app'
+import { setContrastScore } from '../../stores/contrasts'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
@@ -34,10 +41,10 @@ interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   visionSimulationMode: VisionSimulationModeConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   scoreFilters: {
-    lightWCAG: 'ALL' | 'PASS' | 'FAIL'
-    lightAPCA: 'ALL' | 'PASS' | 'FAIL'
-    darkWCAG: 'ALL' | 'PASS' | 'FAIL'
-    darkAPCA: 'ALL' | 'PASS' | 'FAIL'
+    lightWCAG: ScoreFilterStatus
+    lightAPCA: ScoreFilterStatus
+    darkWCAG: ScoreFilterStatus
+    darkAPCA: ScoreFilterStatus
   }
   totalColors?: number
   colorIndex?: number
