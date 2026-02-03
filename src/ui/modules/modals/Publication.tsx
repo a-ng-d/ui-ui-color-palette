@@ -1205,10 +1205,7 @@ export default class Publication extends PureComponent<
                     {color.shades.map((shade, shadeIndex) => (
                       <div
                         key={`color-${index}-${shadeIndex}`}
-                        className="preview__cell"
-                        style={{
-                          minHeight: 'unset',
-                        }}
+                        className="preview__cell preview__cell--compact"
                       >
                         <div
                           style={{
