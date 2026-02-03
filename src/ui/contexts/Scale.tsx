@@ -1,5 +1,5 @@
 import React from 'react'
-import { createPortal, PureComponent } from 'preact/compat'
+import { PureComponent } from 'preact/compat'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -13,18 +13,15 @@ import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Bar,
   Button,
-  Dialog,
   Dropdown,
   FormItem,
-  KeyboardShortcutItem,
   Layout,
   layouts,
-  List,
-  SectionTitle,
   texts,
 } from '@a_ng_d/figmug-ui'
 import ScaleLCH from '../modules/scale/ScaleLCH'
 import ScaleCR from '../modules/scale/ScaleCR'
+import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -594,170 +591,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     )
   }
 
-  KeyboardShortcuts = () => {
-    let padding
-
-    switch (this.theme) {
-      case 'figma':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'penpot':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'sketch':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'framer':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      default:
-        padding = 'var(--size-pos-xxsmall)'
-    }
-
-    const isMacOrWinKeyboard =
-      navigator.userAgent.indexOf('Mac') !== -1 ? '⌘' : '⌃'
-
-    trackScaleManagementEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'OPEN_KEYBOARD_SHORTCUTS',
-      }
-    )
-
-    return createPortal(
-      <Dialog
-        title={this.props.t('scale.tips.title')}
-        onClose={() =>
-          this.setState({
-            isTipsOpen: false,
-          })
-        }
-      >
-        <div style={{ flex: 1, padding: padding }}>
-          <Layout
-            id="keyboard-shortcuts"
-            column={[
-              {
-                node: (
-                  <List>
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.move')}
-                      shortcuts={[
-                        [
-                          isMacOrWinKeyboard,
-                          this.props.t('scale.tips.inputs.drag'),
-                        ],
-                      ]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.distribute')}
-                      shortcuts={[
-                        [
-                          this.props.t('scale.tips.inputs.shift'),
-                          this.props.t('scale.tips.inputs.drag'),
-                        ],
-                      ]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.select')}
-                      shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.unselect')}
-                      shortcuts={[[this.props.t('scale.tips.inputs.escape')]]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.navPrevious')}
-                      shortcuts={[
-                        [
-                          this.props.t('scale.tips.inputs.shift'),
-                          this.props.t('scale.tips.inputs.tab'),
-                        ],
-                      ]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.navNext')}
-                      shortcuts={[[this.props.t('scale.tips.inputs.tab')]]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.type')}
-                      shortcuts={[
-                        [this.props.t('scale.tips.inputs.dbClick')],
-                        [this.props.t('scale.tips.inputs.enter')],
-                      ]}
-                      separator={this.props.t('scale.tips.inputs.or')}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.shiftLeft')}
-                      shortcuts={[
-                        [this.props.t('scale.tips.inputs.left')],
-                        [
-                          isMacOrWinKeyboard,
-                          this.props.t('scale.tips.inputs.left'),
-                        ],
-                      ]}
-                      separator={this.props.t('scale.tips.inputs.or')}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.shiftRight')}
-                      shortcuts={[
-                        [this.props.t('scale.tips.inputs.right')],
-                        [
-                          isMacOrWinKeyboard,
-                          this.props.t('scale.tips.inputs.right'),
-                        ],
-                      ]}
-                      separator={this.props.t('scale.tips.inputs.or')}
-                    />
-                  </List>
-                ),
-                typeModifier: 'DISTRIBUTED',
-              },
-              {
-                node:
-                  this.props.service === 'EDIT' ? (
-                    <>
-                      <Bar
-                        id="watch-custom-keyboard-shortcuts"
-                        leftPartSlot={
-                          <SectionTitle
-                            label={this.props.t('scale.tips.custom')}
-                          />
-                        }
-                        shouldReflow
-                      />
-                      <List>
-                        <KeyboardShortcutItem
-                          label={this.props.t('scale.tips.add')}
-                          shortcuts={[
-                            [this.props.t('scale.tips.inputs.click')],
-                          ]}
-                        />
-                        <KeyboardShortcutItem
-                          label={this.props.t('scale.tips.remove')}
-                          shortcuts={[
-                            [this.props.t('scale.tips.inputs.backspace')],
-                          ]}
-                        />
-                      </List>
-                    </>
-                  ) : undefined,
-                typeModifier: 'LIST',
-              },
-            ]}
-            isFullWidth
-          />
-        </div>
-      </Dialog>,
-      document.getElementById('modal') ?? document.createElement('app')
-    )
-  }
-
   Create = () => {
     return (
       <Layout
@@ -855,7 +688,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     isInverted
                     shouldReflow
                   />
-                  {this.state.isTipsOpen && <this.KeyboardShortcuts />}
+                  <KeyboardShortcuts
+                    {...this.props}
+                    isOpen={this.state.isTipsOpen}
+                    onClose={() => this.setState({ isTipsOpen: false })}
+                  />
                 </Feature>
               </>
             ),
@@ -965,7 +802,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     isInverted
                     shouldReflow
                   />
-                  {this.state.isTipsOpen && <this.KeyboardShortcuts />}
+                  <KeyboardShortcuts
+                    {...this.props}
+                    isOpen={this.state.isTipsOpen}
+                    onClose={() => this.setState({ isTipsOpen: false })}
+                  />
                 </Feature>
               </>
             ),
