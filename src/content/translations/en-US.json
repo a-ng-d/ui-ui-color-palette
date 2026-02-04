@@ -534,9 +534,13 @@
       "title": "Activate /pro"
     },
     "bestDeal": "Best deal",
+    "checkout": {
+      "figma": "Figma",
+      "lemonsqueezy": "Lemon Squeezy"
+    },
     "jump": {
       "cta": "Jump to /one",
-      "text": "Jump to the plugin tagged /one to use your license key",
+      "text": "Jump to the Figma plugin tagged /one to use your license key",
       "title": "Activate /pro"
     },
     "limit": {

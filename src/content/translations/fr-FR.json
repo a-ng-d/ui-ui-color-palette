@@ -534,9 +534,13 @@
       "title": "Activer /pro"
     },
     "bestDeal": "Meilleur offre",
+    "checkout": {
+      "figma": "Figma",
+      "lemonsqueezy": "Lemon Squeezy"
+    },
     "jump": {
       "cta": "Aller à /one",
-      "text": "Allez au plugin tagué /one pour utiliser votre clé de licence",
+      "text": "Allez au plugin Figma tagué /one pour utiliser votre clé de licence",
       "title": "Activer /pro"
     },
     "limit": {

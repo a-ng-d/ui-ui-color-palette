@@ -534,9 +534,13 @@
       "title": "激活 /pro"
     },
     "bestDeal": "最佳优惠",
+    "checkout": {
+      "figma": "Figma",
+      "lemonsqueezy": "Lemon Squeezy"
+    },
     "jump": {
       "cta": "跳转到 /one",
-      "text": "跳转到标记为 /one 的插件以使用您的许可证密钥",
+      "text": "跳转到标记为 Figma /one 的插件以使用您的许可证密^钥",
       "title": "激活 /pro"
     },
     "limit": {

@@ -486,6 +486,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.props.t('pricing.checkout.lemonsqueezy')}
         actions={
           <Button
             type="primary"
@@ -553,7 +554,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
-        tag={this.props.t('pricing.bestDeal')}
+        tag={
+          this.props.licenseTrigger === 'ACTIVATE'
+            ? this.props.t('pricing.checkout.lemonsqueezy')
+            : this.props.t('pricing.checkout.figma')
+        }
         actions={
           <Button
             type="primary"
@@ -620,6 +625,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               __html: this.props.t('pricing.pro.texts.year'),
             }}
           />
+        }
+        tag={
+          this.props.licenseTrigger === 'ACTIVATE'
+            ? this.props.t('pricing.checkout.lemonsqueezy')
+            : this.props.t('pricing.checkout.figma')
         }
         actions={
           <Button
@@ -688,6 +698,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.props.t('pricing.checkout.lemonsqueezy')}
         actions={
           <Button
             type="primary"
@@ -955,11 +966,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                     label: this.props.t('pricing.subscriptions.week'),
                     id: 'WEEK',
                     isUpdated: false,
+                    isNew: true,
                   },
                   {
                     label: this.props.t('pricing.subscriptions.month'),
                     id: 'MONTH',
-                    isUpdated: true,
+                    isUpdated: false,
                   },
                   {
                     label: this.props.t('pricing.subscriptions.year'),
