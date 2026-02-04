@@ -141,6 +141,14 @@ export default class Publication extends PureComponent<
       this.updateEnabledThemeIndex()
 
     if (
+      prevProps.rawData.publicationStatus.isShared !==
+      this.props.rawData.publicationStatus.isShared
+    )
+      this.setState({
+        isPaletteShared: this.props.rawData.publicationStatus.isShared,
+      })
+
+    if (
       this.props.rawData.publicationStatus.isPublished &&
       prevProps.rawData.id !== this.props.rawData.id
     )
@@ -336,13 +344,16 @@ export default class Publication extends PureComponent<
             publishPalette({
               rawData: this.props.rawData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
-              isShared: this.state.isPaletteShared,
+              isShared: !this.state.isPaletteShared,
               locales: this.props.t,
             })
               .then((data) => {
                 this.props.onChangePublication(data)
                 this.setState({
                   publicationStatus: 'PUBLISHED',
+                  isPaletteShared:
+                    data.publicationStatus?.isShared ??
+                    !this.state.isPaletteShared,
                 })
 
                 sendPluginMessage(
@@ -1045,7 +1056,7 @@ export default class Publication extends PureComponent<
     const actions: Record<string, PublicationOption | undefined> = {
       UNPUBLISHED: {
         label: this.props.t('publication.share'),
-        state: this.state.isPaletteShared,
+        state: !this.state.isPaletteShared,
         action: () =>
           this.setState({ isPaletteShared: !this.state.isPaletteShared }),
       },
