@@ -39,6 +39,7 @@ import {
 } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
 import {
+  $contrastScores,
   clearContrastScores,
   getContrastRangesByColumn,
 } from '../../stores/contrasts'
@@ -81,6 +82,7 @@ interface PreviewStates {
     darkAPCA: ScoreFilterStatus
   }
   openDialogKey: string | null
+  contrastScoresVersion: number
 }
 
 export default class Preview extends PureComponent<
@@ -91,6 +93,7 @@ export default class Preview extends PureComponent<
   private subscribeAPCA: (() => void) | undefined
   private subscribeWCAGInterval: (() => void) | undefined
   private subscribeAPCAInterval: (() => void) | undefined
+  private subscribeContrastScores: (() => void) | undefined
   private palette: typeof $palette
   private drawerRef: React.RefObject<Drawer>
   private paletteContainerRef: React.RefObject<HTMLDivElement>
@@ -150,6 +153,7 @@ export default class Preview extends PureComponent<
         darkAPCA: 'ALL',
       },
       openDialogKey: null,
+      contrastScoresVersion: 0,
     }
     this.drawerRef = React.createRef() as React.RefObject<Drawer>
     this.paletteContainerRef =
@@ -171,6 +175,11 @@ export default class Preview extends PureComponent<
     this.subscribeAPCAInterval = $isAPCAIntervalDisplayed.subscribe((value) => {
       this.setState({ isAPCAIntervalDisplayed: value })
     })
+    this.subscribeContrastScores = $contrastScores.subscribe(() => {
+      this.setState((prev) => ({
+        contrastScoresVersion: prev.contrastScoresVersion + 1,
+      }))
+    })
     if (
       this.drawerRef.current &&
       (this.drawerRef.current.base as unknown as HTMLElement).parentElement
@@ -187,8 +196,25 @@ export default class Preview extends PureComponent<
     setTimeout(this.updateDrawerMaxHeight, 0)
   }
 
-  componentDidUpdate = (): void => {
+  componentDidUpdate = (
+    prevProps: PreviewProps,
+    prevState: PreviewStates
+  ): void => {
     this.updateDrawerMaxHeight()
+
+    const propsChanged =
+      prevProps.colorSpace !== this.props.colorSpace ||
+      prevProps.visionSimulationMode !== this.props.visionSimulationMode ||
+      prevProps.textColorsTheme !== this.props.textColorsTheme ||
+      prevProps.colors !== this.props.colors ||
+      prevProps.scale !== this.props.scale
+
+    const intervalToggled =
+      prevState.isWCAGIntervalDisplayed !==
+        this.state.isWCAGIntervalDisplayed ||
+      prevState.isAPCAIntervalDisplayed !== this.state.isAPCAIntervalDisplayed
+
+    if (propsChanged || intervalToggled) clearContrastScores()
   }
 
   componentWillUnmount = (): void => {
@@ -196,6 +222,7 @@ export default class Preview extends PureComponent<
     if (this.subscribeAPCA) this.subscribeAPCA()
     if (this.subscribeWCAGInterval) this.subscribeWCAGInterval()
     if (this.subscribeAPCAInterval) this.subscribeAPCAInterval()
+    if (this.subscribeContrastScores) this.subscribeContrastScores()
     if (
       this.resizeObserver &&
       this.drawerRef.current &&
@@ -895,7 +922,10 @@ export default class Preview extends PureComponent<
                         </Chip>
                       </div>
                       {(() => {
-                        const contrastRanges = getContrastRangesByColumn()
+                        const contrastRanges = getContrastRangesByColumn({
+                          calculateWCAG: true,
+                          calculateAPCA: false,
+                        })
                         return Object.keys(this.props.scale)
                           .reverse()
                           .map((scaleName, index) => {
@@ -936,7 +966,10 @@ export default class Preview extends PureComponent<
                         </Chip>
                       </div>
                       {(() => {
-                        const contrastRanges = getContrastRangesByColumn()
+                        const contrastRanges = getContrastRangesByColumn({
+                          calculateWCAG: false,
+                          calculateAPCA: true,
+                        })
                         return Object.keys(this.props.scale)
                           .reverse()
                           .map((scaleName, index) => {

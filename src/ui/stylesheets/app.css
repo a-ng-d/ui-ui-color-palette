@@ -108,8 +108,10 @@ div.export-palette__preview {
 }
 
 .preview__footer {
-  display: flex;
+  display: inline-flex;
   padding: 0 0 var(--size-pos-xxsmall) 0;
+  min-width: 100%;
+  width: fit-content;
 }
 
 :root[data-theme='figma'] .preview__header .preview__cell,

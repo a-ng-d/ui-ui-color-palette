@@ -403,17 +403,19 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     })
 
     const filters = this.props.scoreFilters
-    const isAnyFilterActive =
-      filters.lightWCAG !== 'ALL' ||
-      filters.lightAPCA !== 'ALL' ||
-      filters.darkWCAG !== 'ALL' ||
-      filters.darkAPCA !== 'ALL'
-    const isAnyScoreDisplayed =
-      this.props.isWCAGDisplayed || this.props.isAPCADisplayed
-    const isAnyIntervalDisplayed =
-      this.props.isWCAGIntervalDisplayed || this.props.isAPCAIntervalDisplayed
-    const shouldCalculateScores =
-      isAnyFilterActive || isAnyScoreDisplayed || isAnyIntervalDisplayed
+    const isWCAGFilterActive =
+      filters.lightWCAG !== 'ALL' || filters.darkWCAG !== 'ALL'
+    const isAPCAFilterActive =
+      filters.lightAPCA !== 'ALL' || filters.darkAPCA !== 'ALL'
+
+    const shouldCalculateWCAG =
+      this.props.isWCAGDisplayed ||
+      this.props.isWCAGIntervalDisplayed ||
+      isWCAGFilterActive
+    const shouldCalculateAPCA =
+      this.props.isAPCADisplayed ||
+      this.props.isAPCAIntervalDisplayed ||
+      isAPCAFilterActive
 
     let lightWCAGScore = 0
     let darkWCAGScore = 0
@@ -428,16 +430,21 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       typeof darkForegroundContrast.getRecommendedUsage
     > = 'UNKNOWN'
 
-    if (shouldCalculateScores) {
+    if (shouldCalculateWCAG) {
       lightWCAGScore = lightForegroundContrast.getWCAGContrast()
       darkWCAGScore = darkForegroundContrast.getWCAGContrast()
-      lightAPCAScore = lightForegroundContrast.getAPCAContrast()
-      darkAPCAScore = darkForegroundContrast.getAPCAContrast()
       lightWCAGFriendlyScore = lightForegroundContrast.getWCAGScore()
       darkWCAGFriendlyScore = darkForegroundContrast.getWCAGScore()
+    }
+
+    if (shouldCalculateAPCA) {
+      lightAPCAScore = lightForegroundContrast.getAPCAContrast()
+      darkAPCAScore = darkForegroundContrast.getAPCAContrast()
       lightRecommendedUsage = lightForegroundContrast.getRecommendedUsage()
       darkRecommendedUsage = darkForegroundContrast.getRecommendedUsage()
+    }
 
+    if (shouldCalculateWCAG || shouldCalculateAPCA)
       setContrastScore({
         colorId: this.props.sourceColor.id,
         colorName: this.props.sourceColor.name,
@@ -450,10 +457,9 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
         lightWCAGFriendly: lightWCAGFriendlyScore,
         darkWCAGFriendly: darkWCAGFriendlyScore,
       })
-    }
 
     let isOutOfResults = false
-    if (isAnyFilterActive) {
+    if (isWCAGFilterActive || isAPCAFilterActive) {
       const lightWCAGPass = lightWCAGScore > 4.5
       const darkWCAGPass = darkWCAGScore > 4.5
       const lightAPCAPass = lightAPCAScore > 45

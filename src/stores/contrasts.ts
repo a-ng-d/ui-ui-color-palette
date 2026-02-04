@@ -57,7 +57,10 @@ export const getAllContrastScores = (): ContrastScore[] => {
   return Object.values($contrastScores.get())
 }
 
-export const getContrastRangesByColumn = (): Map<
+export const getContrastRangesByColumn = (options?: {
+  calculateWCAG?: boolean
+  calculateAPCA?: boolean
+}): Map<
   string,
   {
     scaleName: string
@@ -68,6 +71,9 @@ export const getContrastRangesByColumn = (): Map<
     darkAPCA: { min: number; max: number; range: number }
   }
 > => {
+  const shouldCalculateWCAG = options?.calculateWCAG ?? true
+  const shouldCalculateAPCA = options?.calculateAPCA ?? true
+
   const allScores = getAllContrastScores()
   const rangesByColumn = new Map<
     string,
@@ -103,46 +109,77 @@ export const getContrastRangesByColumn = (): Map<
   })
 
   groupedByScale.forEach((group, scaleName) => {
-    const lightWCAGScores = group.scores.map((s) => s.lightWCAG)
-    const darkWCAGScores = group.scores.map((s) => s.darkWCAG)
-    const lightAPCAScores = group.scores.map((s) => s.lightAPCA)
-    const darkAPCAScores = group.scores.map((s) => s.darkAPCA)
+    if (group.scores.length === 0) return
 
-    if (lightWCAGScores.length > 0) {
-      const lightWCAGMin = Math.min(...lightWCAGScores)
-      const lightWCAGMax = Math.max(...lightWCAGScores)
-      const darkWCAGMin = Math.min(...darkWCAGScores)
-      const darkWCAGMax = Math.max(...darkWCAGScores)
-      const lightAPCAMin = Math.min(...lightAPCAScores)
-      const lightAPCAMax = Math.max(...lightAPCAScores)
-      const darkAPCAMin = Math.min(...darkAPCAScores)
-      const darkAPCAMax = Math.max(...darkAPCAScores)
+    let lightWCAGMin = 0,
+      lightWCAGMax = 0,
+      darkWCAGMin = 0,
+      darkWCAGMax = 0
+    let lightAPCAMin = 0,
+      lightAPCAMax = 0,
+      darkAPCAMin = 0,
+      darkAPCAMax = 0
 
-      rangesByColumn.set(scaleName, {
-        scaleName: group.scaleName,
-        shadeIndex: group.shadeIndex,
-        lightWCAG: {
-          min: lightWCAGMin,
-          max: lightWCAGMax,
-          range: lightWCAGMax - lightWCAGMin,
-        },
-        darkWCAG: {
-          min: darkWCAGMin,
-          max: darkWCAGMax,
-          range: darkWCAGMax - darkWCAGMin,
-        },
-        lightAPCA: {
-          min: lightAPCAMin,
-          max: lightAPCAMax,
-          range: lightAPCAMax - lightAPCAMin,
-        },
-        darkAPCA: {
-          min: darkAPCAMin,
-          max: darkAPCAMax,
-          range: darkAPCAMax - darkAPCAMin,
-        },
-      })
+    if (shouldCalculateWCAG) {
+      const lightWCAGScores = group.scores
+        .map((s) => s.lightWCAG)
+        .filter((s) => s > 0)
+      const darkWCAGScores = group.scores
+        .map((s) => s.darkWCAG)
+        .filter((s) => s > 0)
+
+      if (lightWCAGScores.length > 0) {
+        lightWCAGMin = Math.min(...lightWCAGScores)
+        lightWCAGMax = Math.max(...lightWCAGScores)
+      }
+      if (darkWCAGScores.length > 0) {
+        darkWCAGMin = Math.min(...darkWCAGScores)
+        darkWCAGMax = Math.max(...darkWCAGScores)
+      }
     }
+
+    if (shouldCalculateAPCA) {
+      const lightAPCAScores = group.scores
+        .map((s) => s.lightAPCA)
+        .filter((s) => s !== 0)
+      const darkAPCAScores = group.scores
+        .map((s) => s.darkAPCA)
+        .filter((s) => s !== 0)
+
+      if (lightAPCAScores.length > 0) {
+        lightAPCAMin = Math.min(...lightAPCAScores)
+        lightAPCAMax = Math.max(...lightAPCAScores)
+      }
+      if (darkAPCAScores.length > 0) {
+        darkAPCAMin = Math.min(...darkAPCAScores)
+        darkAPCAMax = Math.max(...darkAPCAScores)
+      }
+    }
+
+    rangesByColumn.set(scaleName, {
+      scaleName: group.scaleName,
+      shadeIndex: group.shadeIndex,
+      lightWCAG: {
+        min: lightWCAGMin,
+        max: lightWCAGMax,
+        range: lightWCAGMax - lightWCAGMin,
+      },
+      darkWCAG: {
+        min: darkWCAGMin,
+        max: darkWCAGMax,
+        range: darkWCAGMax - darkWCAGMin,
+      },
+      lightAPCA: {
+        min: lightAPCAMin,
+        max: lightAPCAMax,
+        range: lightAPCAMax - lightAPCAMin,
+      },
+      darkAPCA: {
+        min: darkAPCAMin,
+        max: darkAPCAMax,
+        range: darkAPCAMax - darkAPCAMin,
+      },
+    })
   })
 
   return rangesByColumn
