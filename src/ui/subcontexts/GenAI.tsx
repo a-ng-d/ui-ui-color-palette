@@ -73,6 +73,15 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
     }),
   })
 
+  private get features() {
+    return GenAi.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: GenAiProps) {
     super(props)
     this.state = {
@@ -325,14 +334,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
               />
             }
             rightPartSlot={
-              <Feature
-                isActive={GenAi.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SOURCE_AI_ADD.isActive()}
-              >
+              <Feature isActive={this.features.SOURCE_AI_ADD.isActive()}>
                 <Button
                   type="icon"
                   icon="plus"
@@ -341,18 +343,8 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                     type: 'MULTI_LINE',
                   }}
                   isDisabled={true}
-                  isBlocked={GenAi.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SOURCE_AI_ADD.isBlocked()}
-                  isNew={GenAi.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SOURCE_AI_ADD.isNew()}
+                  isBlocked={this.features.SOURCE_AI_ADD.isBlocked()}
+                  isNew={this.features.SOURCE_AI_ADD.isNew()}
                   action={this.onUsePalette}
                 />
               </Feature>
@@ -400,14 +392,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
             />
           }
           rightPartSlot={
-            <Feature
-              isActive={GenAi.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SOURCE_AI_ADD.isActive()}
-            >
+            <Feature isActive={this.features.SOURCE_AI_ADD.isActive()}>
               <Button
                 type="icon"
                 icon="plus"
@@ -416,23 +401,13 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
-                isBlocked={GenAi.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SOURCE_AI_ADD.isReached(
+                isBlocked={this.features.SOURCE_AI_ADD.isReached(
                   (this.props.creditsCount -
                     this.props.config.fees.aiColorsGenerate) *
                     -1 -
                     1
                 )}
-                isNew={GenAi.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SOURCE_AI_ADD.isNew()}
+                isNew={this.features.SOURCE_AI_ADD.isNew()}
                 action={this.onUsePalette}
               />
             </Feature>
@@ -468,14 +443,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
         column={[
           {
             node: (
-              <Feature
-                isActive={GenAi.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SOURCE_AI_REQUEST.isActive()}
-              >
+              <Feature isActive={this.features.SOURCE_AI_REQUEST.isActive()}>
                 <Section
                   body={[
                     ...(this.state.error
@@ -549,12 +517,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
                             isDisabled={
                               !this.state.prompt.trim() || !mistralClient
                             }
-                            isBlocked={GenAi.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).SOURCE_AI_REQUEST.isReached(
+                            isBlocked={this.features.SOURCE_AI_REQUEST.isReached(
                               (this.props.creditsCount -
                                 this.props.config.fees.aiColorsGenerate) *
                                 -1 -

@@ -49,43 +49,30 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
     isLast: false,
   }
 
+  private get features() {
+    return ContrastSettings.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Templates
   LightTextColorsTheme = () => {
     return (
-      <Feature
-        isActive={ContrastSettings.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SETTINGS_TEXT_COLORS_THEME.isActive()}
-      >
+      <Feature isActive={this.features.SETTINGS_TEXT_COLORS_THEME.isActive()}>
         <FormItem
           id="update-text-light-color"
           label={this.props.t('settings.contrast.textColors.textLightColor')}
-          isBlocked={ContrastSettings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+          isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
         >
           <Input
             id="update-text-light-color"
             type="COLOR"
             value={this.props.textColorsTheme?.lightColor ?? '#FFFFFF'}
-            isBlocked={ContrastSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
-            isNew={ContrastSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_TEXT_COLORS_THEME.isNew()}
+            isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+            isNew={this.features.SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_LIGHT_COLOR"
             onPick={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}
@@ -98,40 +85,18 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
 
   DarkTextColorsTheme = () => {
     return (
-      <Feature
-        isActive={ContrastSettings.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SETTINGS_TEXT_COLORS_THEME.isActive()}
-      >
+      <Feature isActive={this.features.SETTINGS_TEXT_COLORS_THEME.isActive()}>
         <FormItem
           id="update-text-dark-color"
           label={this.props.t('settings.contrast.textColors.textDarkColor')}
-          isBlocked={ContrastSettings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+          isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
         >
           <Input
             id="update-text-dark-color"
             type="COLOR"
             value={this.props.textColorsTheme?.darkColor ?? '#OOOOOO'}
-            isBlocked={ContrastSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_TEXT_COLORS_THEME.isBlocked()}
-            isNew={ContrastSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_TEXT_COLORS_THEME.isNew()}
+            isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+            isNew={this.features.SETTINGS_TEXT_COLORS_THEME.isNew()}
             feature="UPDATE_TEXT_DARK_COLOR"
             onPick={this.props.onChangeSettings}
             onBlur={this.props.onChangeSettings}

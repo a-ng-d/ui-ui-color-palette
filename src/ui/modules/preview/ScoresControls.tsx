@@ -103,6 +103,15 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
     }),
   })
 
+  private get features() {
+    return ScoresControls.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Handlers
   displayHandler = (): string => {
     const options = []
@@ -124,13 +133,6 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
 
   // Render
   render() {
-    const features = ScoresControls.features(
-      this.props.planStatus,
-      this.props.config,
-      this.props.service,
-      this.props.editor
-    )
-
     return (
       <div className={layouts['snackbar--medium']}>
         <Button
@@ -149,7 +151,8 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
         />
         <Feature
           isActive={
-            features.PREVIEW_SCORES.isActive() && !this.props.isDrawerCollapsed
+            this.features.PREVIEW_SCORES.isActive() &&
+            !this.props.isDrawerCollapsed
           }
         >
           <Menu
@@ -161,11 +164,11 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.score.wcag'),
                 value: 'ENABLE_WCAG_SCORE',
                 type: 'OPTION',
-                isActive: features.PREVIEW_SCORES_WCAG_SCORE.isActive(),
+                isActive: this.features.PREVIEW_SCORES_WCAG_SCORE.isActive(),
                 isBlocked:
-                  features.PREVIEW_SCORES_WCAG_SCORE.isBlocked() &&
+                  this.features.PREVIEW_SCORES_WCAG_SCORE.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_WCAG_SCORE'),
-                isNew: features.PREVIEW_SCORES_WCAG_SCORE.isNew(),
+                isNew: this.features.PREVIEW_SCORES_WCAG_SCORE.isNew(),
                 action: () => {
                   $isWCAGDisplayed.set(!this.props.isWCAGDisplayed)
                   sendPluginMessage(
@@ -201,11 +204,11 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.score.apca'),
                 value: 'ENABLE_APCA_SCORE',
                 type: 'OPTION',
-                isActive: features.PREVIEW_SCORES_APCA_SCORE.isActive(),
+                isActive: this.features.PREVIEW_SCORES_APCA_SCORE.isActive(),
                 isBlocked:
-                  features.PREVIEW_SCORES_APCA_SCORE.isBlocked() &&
+                  this.features.PREVIEW_SCORES_APCA_SCORE.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_APCA_SCORE'),
-                isNew: features.PREVIEW_SCORES_APCA_SCORE.isNew(),
+                isNew: this.features.PREVIEW_SCORES_APCA_SCORE.isNew(),
                 action: () => {
                   $isAPCADisplayed.set(!this.props.isAPCADisplayed)
                   sendPluginMessage(
@@ -240,18 +243,18 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
               {
                 type: 'SEPARATOR',
                 isActive:
-                  features.PREVIEW_SCORES_WCAG_INTERVAL.isActive() ||
-                  features.PREVIEW_SCORES_APCA_INTERVAL.isActive(),
+                  this.features.PREVIEW_SCORES_WCAG_INTERVAL.isActive() ||
+                  this.features.PREVIEW_SCORES_APCA_INTERVAL.isActive(),
               },
               {
                 label: this.props.t('preview.score.wcagInterval'),
                 value: 'ENABLE_WCAG_INTERVAL',
                 type: 'OPTION',
-                isActive: features.PREVIEW_SCORES_WCAG_INTERVAL.isActive(),
+                isActive: this.features.PREVIEW_SCORES_WCAG_INTERVAL.isActive(),
                 isBlocked:
-                  features.PREVIEW_SCORES_WCAG_INTERVAL.isBlocked() &&
+                  this.features.PREVIEW_SCORES_WCAG_INTERVAL.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_WCAG_INTERVAL'),
-                isNew: features.PREVIEW_SCORES_WCAG_INTERVAL.isNew(),
+                isNew: this.features.PREVIEW_SCORES_WCAG_INTERVAL.isNew(),
                 action: () => {
                   $isWCAGIntervalDisplayed.set(
                     !this.props.isWCAGIntervalDisplayed
@@ -289,11 +292,11 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.score.apcaInterval'),
                 value: 'ENABLE_APCA_INTERVAL',
                 type: 'OPTION',
-                isActive: features.PREVIEW_SCORES_APCA_INTERVAL.isActive(),
+                isActive: this.features.PREVIEW_SCORES_APCA_INTERVAL.isActive(),
                 isBlocked:
-                  features.PREVIEW_SCORES_APCA_INTERVAL.isBlocked() &&
+                  this.features.PREVIEW_SCORES_APCA_INTERVAL.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_APCA_INTERVAL'),
-                isNew: features.PREVIEW_SCORES_APCA_INTERVAL.isNew(),
+                isNew: this.features.PREVIEW_SCORES_APCA_INTERVAL.isNew(),
                 action: () => {
                   $isAPCAIntervalDisplayed.set(
                     !this.props.isAPCAIntervalDisplayed
@@ -333,13 +336,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
             helper={{
               label: this.props.t('preview.actions.displayScores'),
             }}
-            isBlocked={features.PREVIEW_SCORES.isBlocked()}
-            isNew={features.PREVIEW_SCORES.isNew()}
+            isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
+            isNew={this.features.PREVIEW_SCORES.isNew()}
           />
         </Feature>
         <Feature
           isActive={
-            features.PREVIEW_SCORES.isActive() && !this.props.isDrawerCollapsed
+            this.features.PREVIEW_SCORES.isActive() &&
+            !this.props.isDrawerCollapsed
           }
         >
           <Menu
@@ -355,9 +359,9 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.filter.lightForeground'),
                 value: 'LIGHT_WCAG_HEADER',
                 type: 'GROUP',
-                isActive: features.PREVIEW_FILTER_WCAG.isActive(),
-                isBlocked: features.PREVIEW_FILTER_WCAG.isBlocked(),
-                isNew: features.PREVIEW_FILTER_WCAG.isNew(),
+                isActive: this.features.PREVIEW_FILTER_WCAG.isActive(),
+                isBlocked: this.features.PREVIEW_FILTER_WCAG.isBlocked(),
+                isNew: this.features.PREVIEW_FILTER_WCAG.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -389,9 +393,9 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.filter.darkForeground'),
                 value: 'DARK_WCAG_HEADER',
                 type: 'GROUP',
-                isActive: features.PREVIEW_FILTER_WCAG.isActive(),
-                isBlocked: features.PREVIEW_FILTER_WCAG.isBlocked(),
-                isNew: features.PREVIEW_FILTER_WCAG.isNew(),
+                isActive: this.features.PREVIEW_FILTER_WCAG.isActive(),
+                isBlocked: this.features.PREVIEW_FILTER_WCAG.isBlocked(),
+                isNew: this.features.PREVIEW_FILTER_WCAG.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -430,9 +434,9 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.filter.lightForeground'),
                 value: 'LIGHT_APCA_HEADER',
                 type: 'GROUP',
-                isActive: features.PREVIEW_FILTER_APCA.isActive(),
-                isBlocked: features.PREVIEW_FILTER_APCA.isBlocked(),
-                isNew: features.PREVIEW_FILTER_APCA.isNew(),
+                isActive: this.features.PREVIEW_FILTER_APCA.isActive(),
+                isBlocked: this.features.PREVIEW_FILTER_APCA.isBlocked(),
+                isNew: this.features.PREVIEW_FILTER_APCA.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -464,9 +468,9 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.filter.darkForeground'),
                 value: 'DARK_APCA_HEADER',
                 type: 'GROUP',
-                isActive: features.PREVIEW_FILTER_APCA.isActive(),
-                isBlocked: features.PREVIEW_FILTER_APCA.isBlocked(),
-                isNew: features.PREVIEW_FILTER_APCA.isNew(),
+                isActive: this.features.PREVIEW_FILTER_APCA.isActive(),
+                isBlocked: this.features.PREVIEW_FILTER_APCA.isBlocked(),
+                isNew: this.features.PREVIEW_FILTER_APCA.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -518,7 +522,7 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
             helper={{
               label: this.props.t('preview.actions.filterScores'),
             }}
-            isBlocked={features.PREVIEW_SCORES.isBlocked()}
+            isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
             isNew={this.isFiltersEnabled()}
           />
         </Feature>

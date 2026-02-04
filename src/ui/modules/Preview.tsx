@@ -121,6 +121,15 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     }),
   })
 
+  private get features() {
+    return Preview.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: PreviewProps) {
     super(props)
     this.palette = $palette
@@ -872,12 +881,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                 <>
                   <Feature
                     isActive={
-                      Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_WCAG_INTERVAL.isActive() &&
+                      this.features.PREVIEW_SCORES_WCAG_INTERVAL.isActive() &&
                       this.state.isWCAGIntervalDisplayed
                     }
                   >
@@ -918,12 +922,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                   </Feature>
                   <Feature
                     isActive={
-                      Preview.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).PREVIEW_SCORES_APCA_INTERVAL.isActive() &&
+                      this.features.PREVIEW_SCORES_APCA_INTERVAL.isActive() &&
                       this.state.isAPCAIntervalDisplayed
                     }
                   >

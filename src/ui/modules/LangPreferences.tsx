@@ -78,6 +78,15 @@ export default class LangPreferences extends PureComponent<
     }),
   })
 
+  private get features() {
+    return LangPreferences.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   static defaultProps = {
     isLast: false,
   }
@@ -121,14 +130,7 @@ export default class LangPreferences extends PureComponent<
     const tolgee = useTolgee(['language'])
 
     return (
-      <Feature
-        isActive={LangPreferences.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).USER_LANGUAGE.isActive()}
-      >
+      <Feature isActive={this.features.USER_LANGUAGE.isActive()}>
         <Section
           title={
             <SimpleItem
@@ -154,24 +156,10 @@ export default class LangPreferences extends PureComponent<
                         label: this.props.t('user.language.englishUS'),
                         value: 'en-US',
                         type: 'OPTION' as const,
-                        isActive: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_EN_US.isActive(),
-                        isBlocked: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_EN_US.isBlocked(),
-                        isNew: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_EN_US.isNew(),
+                        isActive: this.features.USER_LANGUAGE_EN_US.isActive(),
+                        isBlocked:
+                          this.features.USER_LANGUAGE_EN_US.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_EN_US.isNew(),
                         action: () =>
                           this.changeUserLanguageHandler('en-US', tolgee),
                       },
@@ -179,24 +167,10 @@ export default class LangPreferences extends PureComponent<
                         label: this.props.t('user.language.chineseCN'),
                         value: 'zh-Hans-CN',
                         type: 'OPTION' as const,
-                        isActive: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_ZH_CN.isActive(),
-                        isBlocked: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_ZH_CN.isBlocked(),
-                        isNew: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_ZH_CN.isNew(),
+                        isActive: this.features.USER_LANGUAGE_ZH_CN.isActive(),
+                        isBlocked:
+                          this.features.USER_LANGUAGE_ZH_CN.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_ZH_CN.isNew(),
                         action: () =>
                           this.changeUserLanguageHandler('zh-Hans-CN', tolgee),
                       },
@@ -204,24 +178,10 @@ export default class LangPreferences extends PureComponent<
                         label: this.props.t('user.language.frenchFR'),
                         value: 'fr-FR',
                         type: 'OPTION' as const,
-                        isActive: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_FR_FR.isActive(),
-                        isBlocked: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_FR_FR.isBlocked(),
-                        isNew: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_FR_FR.isNew(),
+                        isActive: this.features.USER_LANGUAGE_FR_FR.isActive(),
+                        isBlocked:
+                          this.features.USER_LANGUAGE_FR_FR.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_FR_FR.isNew(),
                         action: () =>
                           this.changeUserLanguageHandler('fr-FR', tolgee),
                       },
@@ -229,41 +189,17 @@ export default class LangPreferences extends PureComponent<
                         label: this.props.t('user.language.portugueseBR'),
                         value: 'pt-BR',
                         type: 'OPTION' as const,
-                        isActive: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_PT_BR.isActive(),
-                        isBlocked: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_PT_BR.isBlocked(),
-                        isNew: LangPreferences.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).USER_LANGUAGE_PT_BR.isNew(),
+                        isActive: this.features.USER_LANGUAGE_PT_BR.isActive(),
+                        isBlocked:
+                          this.features.USER_LANGUAGE_PT_BR.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_PT_BR.isNew(),
                         action: () =>
                           this.changeUserLanguageHandler('pt-BR', tolgee),
                       },
                     ]}
                     selected={tolgee.getLanguage() as Language}
-                    isBlocked={LangPreferences.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).USER_LANGUAGE.isBlocked()}
-                    isNew={LangPreferences.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).USER_LANGUAGE.isNew()}
+                    isBlocked={this.features.USER_LANGUAGE.isBlocked()}
+                    isNew={this.features.USER_LANGUAGE.isNew()}
                   />
                 </FormItem>
               ),

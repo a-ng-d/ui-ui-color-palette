@@ -148,6 +148,15 @@ export default class PlanControls extends PureComponent<
     }),
   })
 
+  private get features() {
+    return PlanControls.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: PlanControlsProps) {
     super(props)
     this.state = {
@@ -172,162 +181,87 @@ export default class PlanControls extends PureComponent<
   Fees = (): React.ReactNode => {
     return (
       <ul className="list-item">
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_COOLORS.isActive() && (
+        {this.features.SOURCE_COOLORS.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.importCoolors', {
               fee: this.props.config.fees.coolorsImport,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_REALTIME_COLORS.isActive() && (
+        {this.features.SOURCE_REALTIME_COLORS.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.importRealtimeColors', {
               fee: this.props.config.fees.realtimeColorsImport,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_COLOUR_LOVERS.isActive() && (
+        {this.features.SOURCE_COLOUR_LOVERS.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.importColourLovers', {
               fee: this.props.config.fees.colourLoversImport,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_AI.isActive() && (
+        {this.features.SOURCE_AI.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.generateAiColors', {
               fee: this.props.config.fees.aiColorsGenerate,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_IMAGE.isActive() && (
+        {this.features.SOURCE_IMAGE.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.extractImageColors', {
               fee: this.props.config.fees.imageColorsExtract,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_HARMONY.isActive() && (
+        {this.features.SOURCE_HARMONY.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.createColorHarmony', {
               fee: this.props.config.fees.harmonyCreate,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE.isActive() &&
-          PlanControls.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).VIEWS_PALETTE.isActive() && (
+        {this.features.DOCUMENT_PALETTE.isActive() &&
+          this.features.VIEWS_PALETTE.isActive() && (
             <li>
               {this.props.t('plan.credits.fees.generateSimplePalette', {
                 fee: this.props.config.fees.paletteGenerate,
               })}
             </li>
           )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE_PROPERTIES.isActive() &&
-          PlanControls.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).VIEWS_PALETTE_WITH_PROPERTIES.isActive() && (
+        {this.features.DOCUMENT_PALETTE_PROPERTIES.isActive() &&
+          this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive() && (
             <li>
               {this.props.t('plan.credits.fees.generateDetailedPalette', {
                 fee: this.props.config.fees.paletteWithPropsGenerate,
               })}
             </li>
           )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_SHEET.isActive() &&
-          PlanControls.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).VIEWS_SHEET.isActive() && (
+        {this.features.DOCUMENT_SHEET.isActive() &&
+          this.features.VIEWS_SHEET.isActive() && (
             <li>
               {this.props.t('plan.credits.fees.generateColorSheet', {
                 fee: this.props.config.fees.sheetGenerate,
               })}
             </li>
           )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PUSH_UPDATES.isActive() && (
+        {this.features.DOCUMENT_PUSH_UPDATES.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.updatePalette', {
               fee: this.props.config.fees.paletteUpdates,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SYNC_LOCAL_STYLES.isActive() && (
+        {this.features.SYNC_LOCAL_STYLES.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.syncLocalStyles', {
               fee: this.props.config.fees.localStylesSync,
             })}
           </li>
         )}
-        {PlanControls.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SYNC_LOCAL_VARIABLES.isActive() && (
+        {this.features.SYNC_LOCAL_VARIABLES.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.syncLocalVariables', {
               fee: this.props.config.fees.localVariablesSync,
@@ -433,14 +367,7 @@ export default class PlanControls extends PureComponent<
   )
 
   trialFeedback = () => (
-    <Feature
-      isActive={PlanControls.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).INVOLVE_FEEDBACK.isActive()}
-    >
+    <Feature isActive={this.features.INVOLVE_FEEDBACK.isActive()}>
       <div
         className={doClassnames([
           texts.type,
@@ -452,18 +379,8 @@ export default class PlanControls extends PureComponent<
         <Button
           type="tertiary"
           label={this.props.t('plan.trialFeedback')}
-          isBlocked={PlanControls.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).INVOLVE_FEEDBACK.isBlocked()}
-          isNew={PlanControls.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).INVOLVE_FEEDBACK.isNew()}
+          isBlocked={this.features.INVOLVE_FEEDBACK.isBlocked()}
+          isNew={this.features.INVOLVE_FEEDBACK.isNew()}
           action={() =>
             sendPluginMessage(
               {

@@ -87,10 +87,7 @@ interface SeePaletteStates {
   isCodeCopied: boolean
 }
 
-export default class SeePalette extends PureComponent<
-  SeePaletteProps,
-  SeePaletteStates
-> {
+export default class SeePalette extends PureComponent<SeePaletteProps, SeePaletteStates> {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
   private previewRef: React.RefObject<Preview>
@@ -125,6 +122,15 @@ export default class SeePalette extends PureComponent<
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return SeePalette.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: SeePaletteProps) {
     super(props)
@@ -497,14 +503,7 @@ export default class SeePalette extends PureComponent<
             </div>
           }
           rightPartSlot={
-            <Feature
-              isActive={SeePalette.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).THEMES.isActive()}
-            >
+            <Feature isActive={this.features.THEMES.isActive()}>
               <FormItem
                 id="switch-theme"
                 label={this.props.t('themes.switchTheme.label')}
@@ -525,14 +524,7 @@ export default class SeePalette extends PureComponent<
           border={['BOTTOM']}
         />
         <section className="context">{fragment}</section>
-        <Feature
-          isActive={SeePalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).PREVIEW.isActive()}
-        >
+        <Feature isActive={this.features.PREVIEW.isActive()}>
           <Preview
             {...this.props}
             ref={this.previewRef}
@@ -540,12 +532,7 @@ export default class SeePalette extends PureComponent<
         </Feature>
         <Feature
           isActive={
-            SeePalette.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).ACTIONS.isActive() && this.state.context === 'EXPORT'
+            this.features.ACTIONS.isActive() && this.state.context === 'EXPORT'
           }
         >
           <Actions

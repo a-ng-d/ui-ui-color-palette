@@ -41,6 +41,15 @@ export default class Hue extends PureComponent<HueProps> {
     }),
   })
 
+  private get features() {
+    return Hue.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: HueProps) {
     super(props)
     this.palette = $palette
@@ -118,14 +127,7 @@ export default class Hue extends PureComponent<HueProps> {
   // Render
   render() {
     return (
-      <Feature
-        isActive={Hue.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SCALE_HUE.isActive()}
-      >
+      <Feature isActive={this.features.SCALE_HUE.isActive()}>
         <SimpleSlider
           id="update-hue"
           label={this.props.t('scale.shift.hue.label')}
@@ -138,18 +140,8 @@ export default class Hue extends PureComponent<HueProps> {
             max: 'hsl(180, 100%, 75%)',
           }}
           feature="SHIFT_HUE"
-          isBlocked={Hue.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_HUE.isBlocked()}
-          isNew={Hue.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_HUE.isNew()}
+          isBlocked={this.features.SCALE_HUE.isBlocked()}
+          isNew={this.features.SCALE_HUE.isNew()}
           onChange={this.shiftHandler}
         />
       </Feature>

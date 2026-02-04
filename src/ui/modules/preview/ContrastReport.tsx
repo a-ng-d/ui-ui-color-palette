@@ -74,6 +74,15 @@ export default class ContrastReport extends React.PureComponent<
     }),
   })
 
+  private get features() {
+    return ContrastReport.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ContrastReportProps) {
     super(props)
     this.state = {
@@ -384,12 +393,7 @@ export default class ContrastReport extends React.PureComponent<
         background = 'var(--figma-color-bg)'
     }
 
-    const isBlocked = ContrastReport.features(
-      this.props.planStatus,
-      this.props.config,
-      this.props.service,
-      this.props.editor
-    ).PREVIEW_SHADE_REPORT.isBlocked()
+    const isBlocked = this.features.PREVIEW_SHADE_REPORT.isBlocked()
 
     const templateBackground: HexModel = '#88ebf9'
     const templateLightForeground: HexModel = '#ffffff'
@@ -426,14 +430,7 @@ export default class ContrastReport extends React.PureComponent<
     return (
       document.getElementById('modal') &&
       createPortal(
-        <Feature
-          isActive={ContrastReport.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).PREVIEW_SHADE_REPORT.isActive()}
-        >
+        <Feature isActive={this.features.PREVIEW_SHADE_REPORT.isActive()}>
           <Dialog
             title={this.props.t('contrast.title')}
             pin="RIGHT"

@@ -78,6 +78,15 @@ export default class Themes extends PureComponent<ThemesProps> {
     }),
   })
 
+  private get features() {
+    return Themes.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ThemesProps) {
     super(props)
     this.themesMessage = {
@@ -430,12 +439,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                       helper={{
                         label: this.props.t('themes.actions.new'),
                       }}
-                      isBlocked={Themes.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).THEMES.isBlocked()}
+                      isBlocked={this.features.THEMES.isBlocked()}
                       feature="ADD_THEME"
                       action={this.themesHandler}
                     />
@@ -451,12 +455,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                       orientation="VERTICAL"
                       actionsSlot={
                         <>
-                          {Themes.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).THEMES.isBlocked() &&
+                          {this.features.THEMES.isBlocked() &&
                             (this.props.config.plan.isTrialEnabled &&
                             this.props.trialStatus !== 'EXPIRED' ? (
                               <Button
@@ -491,12 +490,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                             type="primary"
                             feature="ADD_THEME"
                             label={this.props.t('themes.callout.cta')}
-                            isBlocked={Themes.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).THEMES.isBlocked()}
+                            isBlocked={this.features.THEMES.isBlocked()}
                             action={this.themesHandler}
                           />
                         </>
@@ -505,12 +499,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                   </div>
                 ) : (
                   <>
-                    {Themes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).THEMES.isBlocked() && (
+                    {this.features.THEMES.isBlocked() && (
                       <div
                         style={{
                           padding:
@@ -561,12 +550,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                         return (
                           <>
                             <Feature
-                              isActive={Themes.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).THEMES_NAME.isActive()}
+                              isActive={this.features.THEMES_NAME.isActive()}
                             >
                               <div className="draggable-item__param--compact">
                                 <Input
@@ -580,18 +564,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     ),
                                   }}
                                   canBeEmpty={false}
-                                  isBlocked={Themes.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).THEMES_NAME.isBlocked()}
-                                  isNew={Themes.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).THEMES_NAME.isNew()}
+                                  isBlocked={this.features.THEMES_NAME.isBlocked()}
+                                  isNew={this.features.THEMES_NAME.isNew()}
                                   onBlur={this.themesHandler}
                                   onValid={this.themesHandler}
                                 />
@@ -599,12 +573,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                             </Feature>
                             <Feature
                               isActive={
-                                Themes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).THEMES_PARAMS.isActive() &&
+                                this.features.THEMES_PARAMS.isActive() &&
                                 this.props.documentWidth > 460
                               }
                             >
@@ -615,12 +584,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     'themes.paletteBackgroundColor.label'
                                   )}
                                   shouldFill={false}
-                                  isBlocked={Themes.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).THEMES_PARAMS.isBlocked()}
+                                  isBlocked={this.features.THEMES_PARAMS.isBlocked()}
                                 >
                                   <Input
                                     id={`update-palette-background-color-${index}`}
@@ -632,18 +596,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                                       ),
                                     }}
                                     feature="UPDATE_PALETTE_BACKGROUND"
-                                    isBlocked={Themes.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).THEMES_PARAMS.isBlocked()}
-                                    isNew={Themes.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).THEMES_PARAMS.isNew()}
+                                    isBlocked={this.features.THEMES_PARAMS.isBlocked()}
+                                    isNew={this.features.THEMES_PARAMS.isNew()}
                                     onPick={this.themesHandler}
                                     onBlur={this.themesHandler}
                                     onValid={this.themesHandler}
@@ -663,24 +617,14 @@ export default class Themes extends PureComponent<ThemesProps> {
                             <>
                               {this.props.documentWidth <= 460 && (
                                 <Feature
-                                  isActive={Themes.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).THEMES_PARAMS.isActive()}
+                                  isActive={this.features.THEMES_PARAMS.isActive()}
                                 >
                                   <FormItem
                                     id={`update-palette-background-color-secondary-${theme.id}`}
                                     label={this.props.t(
                                       'themes.paletteBackgroundColor.label'
                                     )}
-                                    isBlocked={Themes.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).THEMES_PARAMS.isBlocked()}
+                                    isBlocked={this.features.THEMES_PARAMS.isBlocked()}
                                   >
                                     <Input
                                       id={`update-palette-background-color-secondary-${theme.id}`}
@@ -692,18 +636,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         ),
                                       }}
                                       feature="UPDATE_PALETTE_BACKGROUND"
-                                      isBlocked={Themes.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).THEMES_PARAMS.isBlocked()}
-                                      isNew={Themes.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).THEMES_PARAMS.isNew()}
+                                      isBlocked={this.features.THEMES_PARAMS.isBlocked()}
+                                      isNew={this.features.THEMES_PARAMS.isNew()}
                                       onPick={this.themesHandler}
                                       onBlur={this.themesHandler}
                                       onValid={this.themesHandler}
@@ -712,12 +646,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 </Feature>
                               )}
                               <Feature
-                                isActive={Themes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).THEMES_DESCRIPTION.isActive()}
+                                isActive={this.features.THEMES_DESCRIPTION.isActive()}
                               >
                                 <div className="draggable-item__param">
                                   <FormItem
@@ -726,12 +655,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                       'global.description.label'
                                     )}
                                     isMultiLine
-                                    isBlocked={Themes.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).THEMES_DESCRIPTION.isBlocked()}
+                                    isBlocked={this.features.THEMES_DESCRIPTION.isBlocked()}
                                   >
                                     <Input
                                       id="update-theme-description"
@@ -741,18 +665,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         'global.description.placeholder'
                                       )}
                                       feature="UPDATE_DESCRIPTION"
-                                      isBlocked={Themes.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).THEMES_DESCRIPTION.isBlocked()}
-                                      isNew={Themes.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).THEMES_DESCRIPTION.isNew()}
+                                      isBlocked={this.features.THEMES_DESCRIPTION.isBlocked()}
+                                      isNew={this.features.THEMES_DESCRIPTION.isNew()}
                                       isGrowing
                                       onBlur={this.themesHandler}
                                       onValid={this.themesHandler}
@@ -772,12 +686,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                       isTopBorderEnabled
                       onChangeSortableList={this.onChangeOrder}
                       onRemoveItem={this.themesHandler}
-                      isBlocked={Themes.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).THEMES.isBlocked()}
+                      isBlocked={this.features.THEMES.isBlocked()}
                     />
                   </>
                 )}

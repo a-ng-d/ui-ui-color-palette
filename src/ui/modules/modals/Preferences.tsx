@@ -34,6 +34,15 @@ export default class Preferences extends PureComponent<PreferencesProps> {
     }),
   })
 
+  private get features() {
+    return Preferences.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: PreferencesProps) {
     super(props)
     this.theme = document.documentElement.getAttribute('data-theme')
@@ -61,14 +70,7 @@ export default class Preferences extends PureComponent<PreferencesProps> {
     }
 
     return (
-      <Feature
-        isActive={Preferences.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).USER_PREFERENCES.isActive()}
-      >
+      <Feature isActive={this.features.USER_PREFERENCES.isActive()}>
         <Dialog
           title={this.props.t('user.updatePreferences')}
           pin="RIGHT"

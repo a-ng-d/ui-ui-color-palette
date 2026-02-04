@@ -155,7 +155,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
     if (this.subscribePalette) this.subscribePalette()
   }
 
-  // Helper to get features
   private get features() {
     return ScaleLCH.features(
       this.props.planStatus,

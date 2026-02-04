@@ -151,6 +151,15 @@ export default class EditPalette extends PureComponent<
     }),
   })
 
+  private get features() {
+    return EditPalette.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: EditPaletteProps) {
     super(props)
     this.palette = $palette
@@ -823,24 +832,9 @@ export default class EditPalette extends PureComponent<
         label: this.props.t('themes.callout.cta'),
         feature: 'ADD_THEME',
         type: 'OPTION',
-        isActive: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isActive(),
-        isBlocked: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isBlocked(),
-        isNew: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isNew(),
+        isActive: this.features.THEMES.isActive(),
+        isBlocked: this.features.THEMES.isBlocked(),
+        isNew: this.features.THEMES.isNew(),
         action: () => {
           this.setState({ context: 'THEMES' })
           setTimeout(() => this.themesRef.current?.onAddTheme(), 1)
@@ -978,14 +972,7 @@ export default class EditPalette extends PureComponent<
             </div>
           }
           rightPartSlot={
-            <Feature
-              isActive={EditPalette.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).THEMES.isActive()}
-            >
+            <Feature isActive={this.features.THEMES.isActive()}>
               <FormItem
                 id="switch-theme"
                 label={this.props.t('themes.switchTheme.label')}
@@ -1006,14 +993,7 @@ export default class EditPalette extends PureComponent<
           border={['BOTTOM']}
         />
         <section className="context">{fragment}</section>
-        <Feature
-          isActive={EditPalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).PREVIEW.isActive()}
-        >
+        <Feature isActive={this.features.PREVIEW.isActive()}>
           <Preview
             {...this.props}
             service="EDIT"
@@ -1021,14 +1001,7 @@ export default class EditPalette extends PureComponent<
             ref={this.previewRef}
           />
         </Feature>
-        <Feature
-          isActive={EditPalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).ACTIONS.isActive()}
-        >
+        <Feature isActive={this.features.ACTIONS.isActive()}>
           <Actions
             {...this.props}
             {...this.state}

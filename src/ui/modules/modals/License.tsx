@@ -39,10 +39,7 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<
-  LicenseProps,
-  LicenseStates
-> {
+export default class License extends PureComponent<LicenseProps, LicenseStates> {
   private theme: string | null
 
   static features = (
@@ -59,6 +56,15 @@ export default class License extends PureComponent<
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return License.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: LicenseProps) {
     super(props)
@@ -318,14 +324,7 @@ export default class License extends PureComponent<
     }
 
     return (
-      <Feature
-        isActive={License.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).USER_LICENSE.isActive()}
-      >
+      <Feature isActive={this.features.USER_LICENSE.isActive()}>
         <Dialog
           title={this.props.t('user.manageLicense')}
           actions={{

@@ -164,15 +164,17 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
     }),
   })
 
-  // Render
-  render() {
-    const features = SettingsControls.features(
+  private get features() {
+    return SettingsControls.features(
       this.props.planStatus,
       this.props.config,
       this.props.service,
       this.props.editor
     )
+  }
 
+  // Render
+  render() {
     return (
       <div
         className={doClassnames([
@@ -183,7 +185,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
       >
         <Feature
           isActive={
-            features.PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
+            this.features.PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
             !this.props.isDrawerCollapsed
           }
         >
@@ -200,10 +202,10 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
               label: this.props.t('preview.lock.label'),
             }}
             isBlocked={
-              features.PREVIEW_LOCK_SOURCE_COLORS.isBlocked() &&
+              this.features.PREVIEW_LOCK_SOURCE_COLORS.isBlocked() &&
               !this.props.areSourceColorsLocked
             }
-            isNew={features.PREVIEW_LOCK_SOURCE_COLORS.isNew()}
+            isNew={this.features.PREVIEW_LOCK_SOURCE_COLORS.isNew()}
             action={this.props.onColorSettingsHandler}
             onUnblock={() => {
               sendPluginMessage(
@@ -217,7 +219,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
         </Feature>
         <Feature
           isActive={
-            features.SETTINGS_COLOR_SPACE.isActive() &&
+            this.features.SETTINGS_COLOR_SPACE.isActive() &&
             !this.props.isDrawerCollapsed
           }
         >
@@ -229,9 +231,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 value: 'LCH',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: features.SETTINGS_COLOR_SPACE_LCH.isActive(),
-                isBlocked: features.SETTINGS_COLOR_SPACE_LCH.isBlocked(),
-                isNew: features.SETTINGS_COLOR_SPACE_LCH.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_LCH.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_LCH.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_LCH.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -239,9 +241,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 value: 'OKLCH',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: features.SETTINGS_COLOR_SPACE_OKLCH.isActive(),
-                isBlocked: features.SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
-                isNew: features.SETTINGS_COLOR_SPACE_OKLCH.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_OKLCH.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_OKLCH.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -249,9 +251,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 value: 'LAB',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: features.SETTINGS_COLOR_SPACE_LAB.isActive(),
-                isBlocked: features.SETTINGS_COLOR_SPACE_LAB.isBlocked(),
-                isNew: features.SETTINGS_COLOR_SPACE_LAB.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_LAB.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_LAB.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_LAB.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -259,9 +261,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 value: 'OKLAB',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: features.SETTINGS_COLOR_SPACE_OKLAB.isActive(),
-                isBlocked: features.SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
-                isNew: features.SETTINGS_COLOR_SPACE_OKLAB.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_OKLAB.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_OKLAB.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -269,9 +271,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 value: 'HSL',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: features.SETTINGS_COLOR_SPACE_HSL.isActive(),
-                isBlocked: features.SETTINGS_COLOR_SPACE_HSL.isBlocked(),
-                isNew: features.SETTINGS_COLOR_SPACE_HSL.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_HSL.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_HSL.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_HSL.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -279,9 +281,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 value: 'HSLUV',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: features.SETTINGS_COLOR_SPACE_HSLUV.isActive(),
-                isBlocked: features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
-                isNew: features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_HSLUV.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
             ]}
@@ -295,13 +297,13 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
               isEnabled: true,
               icon: 'theme',
             }}
-            isBlocked={features.SETTINGS_COLOR_SPACE.isBlocked()}
-            isNew={features.SETTINGS_COLOR_SPACE.isNew()}
+            isBlocked={this.features.SETTINGS_COLOR_SPACE.isBlocked()}
+            isNew={this.features.SETTINGS_COLOR_SPACE.isNew()}
           />
         </Feature>
         <Feature
           isActive={
-            features.SETTINGS_VISION_SIMULATION_MODE.isActive() &&
+            this.features.SETTINGS_VISION_SIMULATION_MODE.isActive() &&
             !this.props.isDrawerCollapsed
           }
         >
@@ -316,10 +318,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
-                isNew: features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -339,11 +342,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -354,11 +357,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -369,11 +372,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -384,11 +387,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -399,11 +402,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -414,11 +417,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -429,11 +432,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
               {
@@ -444,11 +447,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
                 isActive:
-                  features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
                 isBlocked:
-                  features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
                 isNew:
-                  features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
                 action: this.props.onColorSettingsHandler,
               },
             ]}
@@ -462,8 +465,8 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
               isEnabled: true,
               icon: 'effects',
             }}
-            isBlocked={features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
-            isNew={features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
+            isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+            isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
           />
         </Feature>
         {this.props.onResetSourceColors && !this.props.isDrawerCollapsed && (

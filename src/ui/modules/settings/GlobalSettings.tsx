@@ -55,26 +55,23 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
     isLast: false,
   }
 
+  private get features() {
+    return GlobalSettings.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Templates
   Name = () => {
     return (
-      <Feature
-        isActive={GlobalSettings.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SETTINGS_NAME.isActive()}
-      >
+      <Feature isActive={this.features.SETTINGS_NAME.isActive()}>
         <FormItem
           label={this.props.t('settings.global.name.label')}
           id="update-palette-name"
-          isBlocked={GlobalSettings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_NAME.isBlocked()}
+          isBlocked={this.features.SETTINGS_NAME.isBlocked()}
         >
           <Input
             id="update-palette-name"
@@ -82,18 +79,8 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
             placeholder={this.props.t('name')}
             value={this.props.name !== '' ? this.props.name : ''}
             charactersLimit={64}
-            isBlocked={GlobalSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_NAME.isBlocked()}
-            isNew={GlobalSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_NAME.isNew()}
+            isBlocked={this.features.SETTINGS_NAME.isBlocked()}
+            isNew={this.features.SETTINGS_NAME.isNew()}
             feature="RENAME_PALETTE"
             onBlur={this.props.onChangeSettings}
             onValid={this.props.onChangeSettings}
@@ -105,42 +92,20 @@ export default class GlobalSettings extends PureComponent<GlobalSettingsProps> {
 
   Description = () => {
     return (
-      <Feature
-        isActive={GlobalSettings.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SETTINGS_DESCRIPTION.isActive()}
-      >
+      <Feature isActive={this.features.SETTINGS_DESCRIPTION.isActive()}>
         <FormItem
           label={this.props.t('settings.global.description.label')}
           id="update-palette-description"
           isMultiLine
-          isBlocked={GlobalSettings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_DESCRIPTION.isBlocked()}
+          isBlocked={this.features.SETTINGS_DESCRIPTION.isBlocked()}
         >
           <Input
             id="update-palette-description"
             type="LONG_TEXT"
             placeholder={this.props.t('global.description.placeholder')}
             value={this.props.description}
-            isBlocked={GlobalSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_DESCRIPTION.isBlocked()}
-            isNew={GlobalSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_DESCRIPTION.isNew()}
+            isBlocked={this.features.SETTINGS_DESCRIPTION.isBlocked()}
+            isNew={this.features.SETTINGS_DESCRIPTION.isNew()}
             feature="UPDATE_DESCRIPTION"
             isGrowing
             onBlur={this.props.onChangeSettings}

@@ -148,6 +148,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     }),
   })
 
+  private get features() {
+    return Scale.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ScaleProps) {
     super(props)
     this.state = {
@@ -328,12 +337,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         id="update-distribution-easing"
         label={this.props.t('scale.easing.label')}
         shouldFill={false}
-        isBlocked={Scale.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
+        isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
       >
         <div className={layouts['snackbar--tight']}>
           <Dropdown
@@ -343,24 +347,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 label: this.props.t('scale.easing.linear'),
                 value: 'LINEAR',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
               {
@@ -370,89 +361,41 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 label: this.props.t('scale.easing.easeIn'),
                 value: 'EASEIN',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
               {
                 label: this.props.t('scale.easing.easeOut'),
                 value: 'EASEOUT',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
               {
                 label: this.props.t('scale.easing.easeInOut'),
                 value: 'EASEINOUT',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
+                isNew:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
             ]}
             selected={this.props.distributionEasing.split('_')[0]}
             pin="BOTTOM"
-            isBlocked={Scale.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
-            isNew={Scale.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_HELPER_DISTRIBUTION.isNew()}
+            isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
+            isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
           />
           {this.props.distributionEasing !== 'LINEAR' && (
             <Dropdown
@@ -462,98 +405,44 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   label: this.props.t('scale.easing.sine'),
                   value: 'SINE',
                   type: 'OPTION',
-                  isActive: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_SINE.isActive(),
-                  isBlocked: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
-                  isNew: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
+                  isActive:
+                    this.features.SCALE_HELPER_DISTRIBUTION_SINE.isActive(),
+                  isBlocked:
+                    this.features.SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
+                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
                 {
                   label: this.props.t('scale.easing.quad'),
                   value: 'QUAD',
                   type: 'OPTION',
-                  isActive: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_QUAD.isActive(),
-                  isBlocked: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
-                  isNew: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
+                  isActive:
+                    this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isActive(),
+                  isBlocked:
+                    this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
+                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
                 {
                   label: this.props.t('scale.easing.cubic'),
                   value: 'CUBIC',
                   type: 'OPTION',
-                  isActive: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_CUBIC.isActive(),
-                  isBlocked: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
-                  isNew: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
+                  isActive:
+                    this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isActive(),
+                  isBlocked:
+                    this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
+                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
               ]}
               selected={this.props.distributionEasing.split('_')[1]}
               pin="BOTTOM"
-              isBlocked={Scale.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
-              isNew={Scale.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_HELPER_DISTRIBUTION.isNew()}
+              isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
+              isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
             />
           )}
           <Feature
-            isActive={Scale.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_HELPER_DISTRIBUTION_APPLY.isActive()}
+            isActive={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isActive()}
           >
             <Button
               type="icon"
@@ -610,36 +499,19 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 )}
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER.isActive()}
-                >
+                <Feature isActive={this.features.SCALE_HELPER.isActive()}>
                   <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_DISTRIBUTION.isActive()}
+                        isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
                       >
                         <this.DistributionEasing />
                       </Feature>
                     }
                     rightPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_TIPS.isActive()}
+                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
                       >
                         <div
                           className={doClassnames([
@@ -724,36 +596,19 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 )}
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER.isActive()}
-                >
+                <Feature isActive={this.features.SCALE_HELPER.isActive()}>
                   <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_DISTRIBUTION.isActive()}
+                        isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
                       >
                         <this.DistributionEasing />
                       </Feature>
                     }
                     rightPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_TIPS.isActive()}
+                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
                       >
                         <div
                           className={doClassnames([

@@ -498,6 +498,13 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRStates> 
 
   // Render
   render() {
+    const features = ScaleCR.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+    
     return (
       <>
         <div
@@ -518,14 +525,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRStates> 
             }
             rightPartSlot={
               <div className={layouts['snackbar--medium']}>
-                <Feature
-                  isActive={ScaleCR.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_RESET.isActive()}
-                >
+                <Feature isActive={features.SCALE_RESET.isActive()}>
                   <Button
                     type="icon"
                     icon="reset"
@@ -533,48 +533,21 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRStates> 
                       label: this.props.t('scale.actions.resetStops'),
                     }}
                     feature="RESET_SCALE"
-                    isBlocked={ScaleCR.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_RESET.isBlocked()}
-                    isNew={ScaleCR.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_RESET.isNew()}
+                    isBlocked={features.SCALE_RESET.isBlocked()}
+                    isNew={features.SCALE_RESET.isNew()}
                     action={this.onResetStops}
                   />
                 </Feature>
                 <span className={texts.type}>{this.props.t('separator')}</span>
-                <Feature
-                  isActive={ScaleCR.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_CONTRAST_RATIO.isActive()}
-                >
+                <Feature isActive={features.SCALE_CONTRAST_RATIO.isActive()}>
                   <Select
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
                     label={this.props.t('scale.contrast.label')}
                     shouldReflow
                     isChecked={true}
-                    isBlocked={ScaleCR.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isBlocked()}
-                    isNew={ScaleCR.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isNew()}
+                    isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+                    isNew={features.SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />
                 </Feature>
@@ -605,18 +578,8 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRStates> 
           tips={{
             minMax: this.props.t('scale.tips.distributeAsTooltip'),
           }}
-          isBlocked={ScaleCR.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isBlocked()}
-          isNew={ScaleCR.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isNew()}
+          isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+          isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onChange={this.contrastLightForegroundHandler}
         />
         <MultipleSlider
@@ -640,18 +603,8 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRStates> 
           tips={{
             minMax: this.props.t('scale.tips.distributeAsTooltip'),
           }}
-          isBlocked={ScaleCR.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isBlocked()}
-          isNew={ScaleCR.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isNew()}
+          isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+          isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onChange={this.contrastDarkForegroundHandler}
         />
       </>

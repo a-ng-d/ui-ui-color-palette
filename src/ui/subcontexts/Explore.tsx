@@ -63,10 +63,7 @@ interface ExploreStates {
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<
-  ExploreProps,
-  ExploreStates
-> {
+export default class Explore extends PureComponent<ExploreProps, ExploreStates> {
   private filters: Array<FilterOptions>
 
   static features = (
@@ -83,6 +80,15 @@ export default class Explore extends PureComponent<
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return Explore.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: ExploreProps) {
     super(props)
@@ -289,12 +295,7 @@ export default class Explore extends PureComponent<
                     }
                   />
                   <Feature
-                    isActive={Explore.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SOURCE_EXPLORE_ADD.isActive()}
+                    isActive={this.features.SOURCE_EXPLORE_ADD.isActive()}
                   >
                     <Button
                       type="icon"
@@ -303,23 +304,13 @@ export default class Explore extends PureComponent<
                         label: this.props.t('source.colourLovers.addColors'),
                         type: 'MULTI_LINE',
                       }}
-                      isBlocked={Explore.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SOURCE_EXPLORE_ADD.isReached(
+                      isBlocked={this.features.SOURCE_EXPLORE_ADD.isReached(
                         (this.props.creditsCount -
                           this.props.config.fees.colourLoversImport) *
                           -1 -
                           1
                       )}
-                      isNew={Explore.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SOURCE_EXPLORE_ADD.isNew()}
+                      isNew={this.features.SOURCE_EXPLORE_ADD.isNew()}
                       action={() => {
                         this.onUsePalette(palette)
                       }}

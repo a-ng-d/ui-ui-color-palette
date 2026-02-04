@@ -60,6 +60,15 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
     }),
   })
 
+  private get features() {
+    return Source.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: SourceProps) {
     super(props)
     this.contexts = setContexts(

@@ -52,6 +52,15 @@ export default class DangerZone extends PureComponent<
     }),
   })
 
+  private get features() {
+    return DangerZone.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   static defaultProps = {
     isLast: false,
   }
@@ -168,14 +177,7 @@ export default class DangerZone extends PureComponent<
   // Render
   render() {
     return (
-      <Feature
-        isActive={DangerZone.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DELETE_PALETTE.isActive()}
-      >
+      <Feature isActive={this.features.DELETE_PALETTE.isActive()}>
         <Section
           title={
             <SimpleItem

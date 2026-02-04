@@ -50,10 +50,7 @@ interface ColorWheelStates {
   colorHarmony: ColorHarmonyResult
 }
 
-export default class ColorWheel extends PureComponent<
-  ColorWheelProps,
-  ColorWheelStates
-> {
+export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWheelStates> {
   private harmony: ColorHarmony
 
   static features = (
@@ -119,6 +116,15 @@ export default class ColorWheel extends PureComponent<
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return ColorWheel.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: ColorWheelProps) {
     super(props)
@@ -226,12 +232,7 @@ export default class ColorWheel extends PureComponent<
           position: 'relative',
         }}
       >
-        {ColorWheel.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_HARMONY_BASE.isReached(
+        {this.features.SOURCE_HARMONY_BASE.isReached(
           (this.props.creditsCount - this.props.config.fees.harmonyCreate) *
             -1 -
             1
@@ -283,12 +284,7 @@ export default class ColorWheel extends PureComponent<
                 <Bar
                   leftPartSlot={
                     <Feature
-                      isActive={ColorWheel.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SOURCE_HARMONY_BASE.isActive()}
+                      isActive={this.features.SOURCE_HARMONY_BASE.isActive()}
                     >
                       <FormItem
                         id="color-harmony-base-color"
@@ -303,23 +299,13 @@ export default class ColorWheel extends PureComponent<
                             this.props.baseColor.g * 255,
                             this.props.baseColor.b * 255,
                           ]).hex()}
-                          isBlocked={ColorWheel.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).SOURCE_HARMONY_BASE.isReached(
+                          isBlocked={this.features.SOURCE_HARMONY_BASE.isReached(
                             (this.props.creditsCount -
                               this.props.config.fees.harmonyCreate) *
                               -1 -
                               1
                           )}
-                          isNew={ColorWheel.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).SOURCE_HARMONY_BASE.isNew()}
+                          isNew={this.features.SOURCE_HARMONY_BASE.isNew()}
                           onPick={(e) => {
                             const value = (e.target as HTMLInputElement).value
                             const rgb = chroma(value).rgb()
@@ -339,22 +325,12 @@ export default class ColorWheel extends PureComponent<
                       ])}
                     >
                       <Feature
-                        isActive={ColorWheel.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SOURCE_HARMONY_WHEEL.isActive()}
+                        isActive={this.features.SOURCE_HARMONY_WHEEL.isActive()}
                       >
                         <FormItem
                           id="color-harmony-algorithm"
                           label={this.props.t('source.wheel.algorithm.label')}
-                          isBlocked={ColorWheel.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).SOURCE_HARMONY_WHEEL.isBlocked()}
+                          isBlocked={this.features.SOURCE_HARMONY_WHEEL.isBlocked()}
                           shouldFill={false}
                         >
                           <Dropdown
@@ -366,24 +342,12 @@ export default class ColorWheel extends PureComponent<
                                   'source.wheel.algorithm.analogous'
                                 ),
                                 value: 'ANALOGOUS',
-                                isActive: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_ANALOGOUS.isActive(),
-                                isBlocked: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_ANALOGOUS.isBlocked(),
-                                isNew: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_ANALOGOUS.isNew(),
+                                isActive:
+                                  this.features.SOURCE_HARMONY_WHEEL_ANALOGOUS.isActive(),
+                                isBlocked:
+                                  this.features.SOURCE_HARMONY_WHEEL_ANALOGOUS.isBlocked(),
+                                isNew:
+                                  this.features.SOURCE_HARMONY_WHEEL_ANALOGOUS.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'ANALOGOUS',
@@ -396,24 +360,12 @@ export default class ColorWheel extends PureComponent<
                                   'source.wheel.algorithm.complementary'
                                 ),
                                 value: 'COMPLEMENTARY',
-                                isActive: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isActive(),
-                                isBlocked: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isBlocked(),
-                                isNew: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isNew(),
+                                isActive:
+                                  this.features.SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isActive(),
+                                isBlocked:
+                                  this.features.SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isBlocked(),
+                                isNew:
+                                  this.features.SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPLEMENTARY',
@@ -426,24 +378,12 @@ export default class ColorWheel extends PureComponent<
                                   'source.wheel.algorithm.compound'
                                 ),
                                 value: 'COMPOUND',
-                                isActive: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_COMPOUND.isActive(),
-                                isBlocked: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_COMPOUND.isBlocked(),
-                                isNew: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_COMPOUND.isNew(),
+                                isActive:
+                                  this.features.SOURCE_HARMONY_WHEEL_COMPOUND.isActive(),
+                                isBlocked:
+                                  this.features.SOURCE_HARMONY_WHEEL_COMPOUND.isBlocked(),
+                                isNew:
+                                  this.features.SOURCE_HARMONY_WHEEL_COMPOUND.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPOUND',
@@ -456,24 +396,12 @@ export default class ColorWheel extends PureComponent<
                                   'source.wheel.algorithm.triadic'
                                 ),
                                 value: 'TRIADIC',
-                                isActive: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_TRIADIC.isActive(),
-                                isBlocked: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_TRIADIC.isBlocked(),
-                                isNew: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_TRIADIC.isNew(),
+                                isActive:
+                                  this.features.SOURCE_HARMONY_WHEEL_TRIADIC.isActive(),
+                                isBlocked:
+                                  this.features.SOURCE_HARMONY_WHEEL_TRIADIC.isBlocked(),
+                                isNew:
+                                  this.features.SOURCE_HARMONY_WHEEL_TRIADIC.isNew(),
                                 action: () => {
                                   this.setState({ wheelRule: 'TRIADIC' })
                                 },
@@ -484,24 +412,12 @@ export default class ColorWheel extends PureComponent<
                                   'source.wheel.algorithm.tetradic'
                                 ),
                                 value: 'TETRADIC',
-                                isActive: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_TETRADIC.isActive(),
-                                isBlocked: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_TETRADIC.isBlocked(),
-                                isNew: ColorWheel.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).SOURCE_HARMONY_WHEEL_TETRADIC.isNew(),
+                                isActive:
+                                  this.features.SOURCE_HARMONY_WHEEL_TETRADIC.isActive(),
+                                isBlocked:
+                                  this.features.SOURCE_HARMONY_WHEEL_TETRADIC.isBlocked(),
+                                isNew:
+                                  this.features.SOURCE_HARMONY_WHEEL_TETRADIC.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'TETRADIC',
@@ -524,12 +440,7 @@ export default class ColorWheel extends PureComponent<
                         {this.props.t('separator')}
                       </span>
                       <Feature
-                        isActive={ColorWheel.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SOURCE_HARMONY_ADD.isActive()}
+                        isActive={this.features.SOURCE_HARMONY_ADD.isActive()}
                       >
                         <Button
                           type="icon"
@@ -538,23 +449,13 @@ export default class ColorWheel extends PureComponent<
                             label: this.props.t('source.wheel.addColors'),
                             type: 'MULTI_LINE',
                           }}
-                          isBlocked={ColorWheel.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).SOURCE_HARMONY_ADD.isReached(
+                          isBlocked={this.features.SOURCE_HARMONY_ADD.isReached(
                             (this.props.creditsCount -
                               this.props.config.fees.harmonyCreate) *
                               -1 -
                               1
                           )}
-                          isNew={ColorWheel.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).SOURCE_HARMONY_ADD.isNew()}
+                          isNew={this.features.SOURCE_HARMONY_ADD.isNew()}
                           action={this.onUsePalette}
                         />
                       </Feature>

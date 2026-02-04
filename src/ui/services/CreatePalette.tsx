@@ -115,6 +115,15 @@ export default class CreatePalette extends PureComponent<
     }),
   })
 
+  private get features() {
+    return CreatePalette.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: CreatePaletteProps) {
     super(props)
     this.palette = $palette
@@ -471,12 +480,8 @@ export default class CreatePalette extends PureComponent<
         <section className="context">{fragment}</section>
         <Feature
           isActive={
-            CreatePalette.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).PREVIEW.isActive() && this.props.sourceColors.length > 0
+            this.features.PREVIEW.isActive() &&
+            this.props.sourceColors.length > 0
           }
         >
           <Preview
@@ -487,14 +492,7 @@ export default class CreatePalette extends PureComponent<
             onInteractWithSourceColor={() => this.onJumpToSourceColor()}
           />
         </Feature>
-        <Feature
-          isActive={CreatePalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).ACTIONS.isActive()}
-        >
+        <Feature isActive={this.features.ACTIONS.isActive()}>
           <Actions
             {...this.props}
             {...this.state}

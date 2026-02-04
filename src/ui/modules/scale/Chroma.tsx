@@ -41,6 +41,15 @@ export default class Chroma extends PureComponent<ChromaProps> {
     }),
   })
 
+  private get features() {
+    return Chroma.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ChromaProps) {
     super(props)
     this.palette = $palette
@@ -118,14 +127,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
   // Render
   render() {
     return (
-      <Feature
-        isActive={Chroma.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SCALE_CHROMA.isActive()}
-      >
+      <Feature isActive={this.features.SCALE_CHROMA.isActive()}>
         <SimpleSlider
           id="update-chroma"
           label={this.props.t('scale.shift.chroma.label')}
@@ -138,18 +140,8 @@ export default class Chroma extends PureComponent<ChromaProps> {
             max: 'hsl(187, 100%, 75%)',
           }}
           feature="SHIFT_CHROMA"
-          isBlocked={Chroma.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CHROMA.isBlocked()}
-          isNew={Chroma.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CHROMA.isNew()}
+          isBlocked={this.features.SCALE_CHROMA.isBlocked()}
+          isNew={this.features.SCALE_CHROMA.isNew()}
           onChange={this.shiftHandler}
         />
       </Feature>

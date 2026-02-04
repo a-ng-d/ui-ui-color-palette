@@ -64,10 +64,7 @@ interface OverviewStates {
   isGenAIOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewStates> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -159,6 +156,15 @@ export default class Overview extends PureComponent<
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return Overview.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: OverviewProps) {
     super(props)
@@ -471,23 +477,10 @@ export default class Overview extends PureComponent<
 
   // Templates
   SelectedColors = () => {
-    const limit =
-      Overview.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.limit ?? 0
+    const limit = this.features.SOURCE.limit ?? 0
 
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_CANVAS.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_CANVAS.isActive()}>
         <SimpleItem
           id="watch-swatchs"
           leftPartSlot={
@@ -503,12 +496,9 @@ export default class Overview extends PureComponent<
           alignment="CENTER"
           isListItem={false}
         />
-        {Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1) && (
+        {this.features.SOURCE.isReached(
+          this.refinedNumberOfSourceColors() - 1
+        ) && (
           <div
             style={{
               padding: '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
@@ -601,14 +591,7 @@ export default class Overview extends PureComponent<
     )
 
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_DEFAULT.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_DEFAULT.isActive()}>
         <Section
           title={
             <SimpleItem
@@ -709,14 +692,7 @@ export default class Overview extends PureComponent<
 
   CoolorsColors = () => {
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_COOLORS.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_COOLORS.isActive()}>
         <Accordion
           label={this.props.t('source.coolors.title')}
           indicator={this.props.sourceColors
@@ -728,18 +704,8 @@ export default class Overview extends PureComponent<
             empty: this.props.t('source.coolors.empty'),
           }}
           isExpanded={this.state.isCoolorsImportOpen}
-          isBlocked={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_COOLORS.isBlocked()}
-          isNew={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_COOLORS.isNew()}
+          isBlocked={this.features.SOURCE_COOLORS.isBlocked()}
+          isNew={this.features.SOURCE_COOLORS.isNew()}
           onAdd={() => {
             this.setState({ isCoolorsImportOpen: true })
           }}
@@ -775,12 +741,7 @@ export default class Overview extends PureComponent<
                     type: 'MULTI_LINE',
                   }}
                   isAutoFocus
-                  isBlocked={Overview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SOURCE_COOLORS_ADD.isReached(
+                  isBlocked={this.features.SOURCE_COOLORS_ADD.isReached(
                     (this.props.creditsCount -
                       this.props.config.fees.coolorsImport) *
                       -1 -
@@ -832,14 +793,7 @@ export default class Overview extends PureComponent<
 
   RealtimeColorsColors = () => {
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_REALTIME_COLORS.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_REALTIME_COLORS.isActive()}>
         <Accordion
           label={this.props.t('source.realtimeColors.title')}
           indicator={this.props.sourceColors
@@ -851,18 +805,8 @@ export default class Overview extends PureComponent<
             empty: this.props.t('source.realtimeColors.empty'),
           }}
           isExpanded={this.state.isRealtimeColorsImportOpen}
-          isBlocked={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_REALTIME_COLORS.isBlocked()}
-          isNew={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_REALTIME_COLORS.isNew()}
+          isBlocked={this.features.SOURCE_REALTIME_COLORS.isBlocked()}
+          isNew={this.features.SOURCE_REALTIME_COLORS.isNew()}
           onAdd={() => {
             this.setState({ isRealtimeColorsImportOpen: true })
           }}
@@ -900,12 +844,7 @@ export default class Overview extends PureComponent<
                     type: 'MULTI_LINE',
                   }}
                   isAutoFocus
-                  isBlocked={Overview.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SOURCE_REALTIME_COLORS_ADD.isReached(
+                  isBlocked={this.features.SOURCE_REALTIME_COLORS_ADD.isReached(
                     (this.props.creditsCount -
                       this.props.config.fees.realtimeColorsImport) *
                       -1 -
@@ -959,14 +898,7 @@ export default class Overview extends PureComponent<
 
   ColourLoversColors = () => {
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_COLOUR_LOVERS.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_COLOUR_LOVERS.isActive()}>
         <Accordion
           label={this.props.t('source.colourLovers.title')}
           indicator={this.props.sourceColors
@@ -979,18 +911,8 @@ export default class Overview extends PureComponent<
             empty: this.props.t('source.colourLovers.empty'),
           }}
           isExpanded={this.state.isColourLoversImportOpen}
-          isBlocked={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_EXPLORE.isBlocked()}
-          isNew={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_EXPLORE.isNew()}
+          isBlocked={this.features.SOURCE_EXPLORE.isBlocked()}
+          isNew={this.features.SOURCE_EXPLORE.isNew()}
           onAdd={() => this.props.onChangeContexts('SOURCE_EXPLORE')}
           onEmpty={() => {
             this.props.onChangeColorsFromImport([], 'COLOUR_LOVERS')
@@ -1035,14 +957,7 @@ export default class Overview extends PureComponent<
 
   ImagePalette = () => {
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_COLOUR_LOVERS.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_COLOUR_LOVERS.isActive()}>
         <Accordion
           label={this.props.t('source.image.title')}
           indicator={this.props.sourceColors
@@ -1055,18 +970,8 @@ export default class Overview extends PureComponent<
             empty: this.props.t('source.image.empty'),
           }}
           isExpanded={this.state.isImagePaletteOpen}
-          isBlocked={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_IMAGE.isBlocked()}
-          isNew={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_IMAGE.isNew()}
+          isBlocked={this.features.SOURCE_IMAGE.isBlocked()}
+          isNew={this.features.SOURCE_IMAGE.isNew()}
           onAdd={() => this.props.onChangeContexts('SOURCE_IMAGE')}
           onEmpty={() => {
             this.props.onChangeColorsFromImport([], 'IMAGE')
@@ -1111,14 +1016,7 @@ export default class Overview extends PureComponent<
 
   ColorHarmony = () => {
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_HARMONY.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_HARMONY.isActive()}>
         <Accordion
           label={this.props.t('source.harmony.title')}
           indicator={this.props.sourceColors
@@ -1131,18 +1029,8 @@ export default class Overview extends PureComponent<
             empty: this.props.t('source.harmony.empty'),
           }}
           isExpanded={this.state.isColorHarmonyOpen}
-          isBlocked={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_HARMONY.isBlocked()}
-          isNew={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_HARMONY.isNew()}
+          isBlocked={this.features.SOURCE_HARMONY.isBlocked()}
+          isNew={this.features.SOURCE_HARMONY.isNew()}
           onAdd={() => this.props.onChangeContexts('SOURCE_HARMONY')}
           onEmpty={() => {
             this.props.onChangeColorsFromImport([], 'HARMONY')
@@ -1187,14 +1075,7 @@ export default class Overview extends PureComponent<
 
   GenAi = () => {
     return (
-      <Feature
-        isActive={Overview.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_HARMONY.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_HARMONY.isActive()}>
         <Accordion
           label={this.props.t('source.ai.title')}
           indicator={this.props.sourceColors
@@ -1207,18 +1088,8 @@ export default class Overview extends PureComponent<
             empty: this.props.t('source.ai.empty'),
           }}
           isExpanded={this.state.isGenAIOpen}
-          isBlocked={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_AI.isBlocked()}
-          isNew={Overview.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_AI.isNew()}
+          isBlocked={this.features.SOURCE_AI.isBlocked()}
+          isNew={this.features.SOURCE_AI.isNew()}
           onAdd={() => this.props.onChangeContexts('SOURCE_AI')}
           onEmpty={() => {
             this.props.onChangeColorsFromImport([], 'AI')

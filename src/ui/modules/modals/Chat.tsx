@@ -36,6 +36,15 @@ export default class Chat extends PureComponent<ChatProps> {
     }),
   })
 
+  private get features() {
+    return Chat.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   componentDidMount() {
     const s1 = document.createElement('script')
     s1.async = true
@@ -53,14 +62,7 @@ export default class Chat extends PureComponent<ChatProps> {
   // Render
   render() {
     return (
-      <Feature
-        isActive={Chat.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).HELP_CHAT.isActive()}
-      >
+      <Feature isActive={this.features.HELP_CHAT.isActive()}>
         <Dialog
           title={this.props.t('shortcuts.chat')}
           pin="RIGHT"

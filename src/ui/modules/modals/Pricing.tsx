@@ -239,6 +239,24 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }),
   })
 
+  private get features() {
+    return Pricing.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
+  private get specificFeatures() {
+    return Pricing.features(
+      this.props.planStatus,
+      this.props.config,
+      'EDIT',
+      this.props.editor
+    )
+  }
+
   constructor(props: PricingProps) {
     super(props)
     this.theme = document.documentElement.getAttribute('data-theme')
@@ -272,62 +290,36 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   canSavePalette = (): boolean => {
     if (
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
+      this.specificFeatures.SOURCE.isReached(
+        this.refinedNumberOfSourceColors() - 1
+      )
     )
       return false
     if (
       $palette.get().preset.id.includes('CUSTOM') &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
+      this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
+        Object.keys(this.props.scale).length - 1
+      )
     )
       return false
     if (
       $palette.get().areSourceColorsLocked &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
+      this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
     )
       return false
     if (
       $palette.get().shift.chroma !== 100 &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).SCALE_CHROMA.isBlocked()
+      this.specificFeatures.SCALE_CHROMA.isBlocked()
     )
       return false
     if (
       $palette.get().shift.hue !== 0 &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).SCALE_HUE.isBlocked()
+      this.specificFeatures.SCALE_HUE.isBlocked()
     )
       return false
     if (
       $palette.get().visionSimulationMode !== 'NONE' &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      )[
+      this.specificFeatures[
         `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
           typeof Pricing.features
         >
@@ -336,12 +328,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       return false
     if (
       $palette.get().colorSpace !== 'LCH' &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      )[
+      this.specificFeatures[
         `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
           typeof Pricing.features
         >
@@ -350,12 +337,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       return false
     if (
       $palette.get().algorithmVersion !== 'v3' &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      )[
+      this.specificFeatures[
         `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
           typeof Pricing.features
         >
@@ -380,13 +362,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     let updatedSourceColors = this.props.sourceColors
 
     if (this.props.preset.id.includes('CUSTOM')) {
-      const limit =
-        Pricing.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PRESETS_CUSTOM_ADD.limit ?? 0
+      const limit = this.features.PRESETS_CUSTOM_ADD.limit ?? 0
       const currentStopsCount = this.props.preset.stops?.length ?? 0
 
       if (limit > 0 && currentStopsCount > limit) {
@@ -399,13 +375,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       }
     }
 
-    const sourceColorLimit =
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.limit ?? 1
+    const sourceColorLimit = this.features.SOURCE.limit ?? 1
 
     const nonDefaultColors = this.props.sourceColors.filter(
       (color) => color.source !== 'DEFAULT'
@@ -930,14 +900,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }
 
     return (
-      <Feature
-        isActive={Pricing.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PRO_PLAN.isActive()}
-      >
+      <Feature isActive={this.features.PRO_PLAN.isActive()}>
         <Dialog
           title={this.props.t('pricing.title')}
           onClose={this.props.onClose}

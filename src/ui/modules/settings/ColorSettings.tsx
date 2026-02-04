@@ -195,26 +195,23 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
     isLast: false,
   }
 
+  private get features() {
+    return ColorSettings.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Templates
   ColorSpace = () => {
     return (
-      <Feature
-        isActive={ColorSettings.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SETTINGS_COLOR_SPACE.isActive()}
-      >
+      <Feature isActive={this.features.SETTINGS_COLOR_SPACE.isActive()}>
         <FormItem
           id="update-color-space"
           label={this.props.t('settings.color.colorSpace.label')}
-          isBlocked={ColorSettings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_COLOR_SPACE.isBlocked()}
+          isBlocked={this.features.SETTINGS_COLOR_SPACE.isBlocked()}
         >
           <Dropdown
             id="update-color-space"
@@ -224,24 +221,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'LCH',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_LCH.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_LCH.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_LCH.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_LCH.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_LCH.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_LCH.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -249,24 +231,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'OKLCH',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_OKLCH.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_OKLCH.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_OKLCH.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_OKLCH.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -274,24 +241,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'LAB',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_LAB.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_LAB.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_LAB.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_LAB.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_LAB.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_LAB.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -299,24 +251,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'OKLAB',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_OKLAB.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_OKLAB.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_OKLAB.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_OKLAB.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -324,24 +261,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'HSL',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_HSL.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_HSL.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_HSL.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_HSL.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_HSL.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_HSL.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -349,40 +271,15 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'HSLUV',
                 feature: 'UPDATE_COLOR_SPACE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_HSLUV.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_COLOR_SPACE_HSLUV.isNew(),
+                isActive: this.features.SETTINGS_COLOR_SPACE_HSLUV.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
                 action: this.props.onChangeSettings,
               },
             ]}
             selected={this.props.colorSpace}
-            isBlocked={ColorSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_COLOR_SPACE.isBlocked()}
-            isNew={ColorSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_COLOR_SPACE.isNew()}
+            isBlocked={this.features.SETTINGS_COLOR_SPACE.isBlocked()}
+            isNew={this.features.SETTINGS_COLOR_SPACE.isNew()}
           />
         </FormItem>
         {this.props.colorSpace === 'HSL' && (
@@ -398,22 +295,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
   VisionSimulationMode = () => {
     return (
       <Feature
-        isActive={ColorSettings.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SETTINGS_VISION_SIMULATION_MODE.isActive()}
+        isActive={this.features.SETTINGS_VISION_SIMULATION_MODE.isActive()}
       >
         <FormItem
           id="update-color-blind-mode"
           label={this.props.t('settings.color.visionSimulationMode.label')}
-          isBlocked={ColorSettings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+          isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
         >
           <Dropdown
             id="update-color-blind-mode"
@@ -423,24 +310,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'NONE',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -459,24 +334,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'PROTANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -486,24 +349,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'PROTANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -513,24 +364,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'DEUTERANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -540,24 +379,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'DEUTERANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -567,24 +394,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'TRITANOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -594,24 +409,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'TRITANOPIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -621,24 +424,12 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'ACHROMATOMALY',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -648,40 +439,18 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'ACHROMATOPSIA',
                 feature: 'UPDATE_COLOR_BLIND_MODE',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
+                isActive:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
+                isBlocked:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
+                isNew:
+                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
                 action: this.props.onChangeSettings,
               },
             ]}
             selected={this.props.visionSimulationMode}
-            isBlocked={ColorSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
-            isNew={ColorSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_VISION_SIMULATION_MODE.isNew()}
+            isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+            isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
           />
         </FormItem>
       </Feature>
@@ -690,23 +459,11 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
 
   ChromaVelocity = () => {
     return (
-      <Feature
-        isActive={ColorSettings.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SETTINGS_ALGORITHM.isActive()}
-      >
+      <Feature isActive={this.features.SETTINGS_ALGORITHM.isActive()}>
         <FormItem
           id="update-algorithm"
           label={this.props.t('settings.color.algorithmVersion.label')}
-          isBlocked={ColorSettings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_ALGORITHM.isBlocked()}
+          isBlocked={this.features.SETTINGS_ALGORITHM.isBlocked()}
         >
           <Dropdown
             id="update-algorithm"
@@ -716,24 +473,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'v1',
                 feature: 'UPDATE_ALGORITHM_VERSION',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V1.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V1.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V1.isNew(),
+                isActive: this.features.SETTINGS_ALGORITHM_V1.isActive(),
+                isBlocked: this.features.SETTINGS_ALGORITHM_V1.isBlocked(),
+                isNew: this.features.SETTINGS_ALGORITHM_V1.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -741,24 +483,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'v2',
                 feature: 'UPDATE_ALGORITHM_VERSION',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V2.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V2.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V2.isNew(),
+                isActive: this.features.SETTINGS_ALGORITHM_V2.isActive(),
+                isBlocked: this.features.SETTINGS_ALGORITHM_V2.isBlocked(),
+                isNew: this.features.SETTINGS_ALGORITHM_V2.isNew(),
                 action: this.props.onChangeSettings,
               },
               {
@@ -766,40 +493,15 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 value: 'v3',
                 feature: 'UPDATE_ALGORITHM_VERSION',
                 type: 'OPTION',
-                isActive: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V3.isActive(),
-                isBlocked: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V3.isBlocked(),
-                isNew: ColorSettings.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_ALGORITHM_V3.isNew(),
+                isActive: this.features.SETTINGS_ALGORITHM_V3.isActive(),
+                isBlocked: this.features.SETTINGS_ALGORITHM_V3.isBlocked(),
+                isNew: this.features.SETTINGS_ALGORITHM_V3.isNew(),
                 action: this.props.onChangeSettings,
               },
             ]}
             selected={this.props.algorithmVersion}
-            isBlocked={ColorSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_ALGORITHM.isBlocked()}
-            isNew={ColorSettings.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SETTINGS_ALGORITHM.isNew()}
+            isBlocked={this.features.SETTINGS_ALGORITHM.isBlocked()}
+            isNew={this.features.SETTINGS_ALGORITHM.isNew()}
           />
         </FormItem>
       </Feature>

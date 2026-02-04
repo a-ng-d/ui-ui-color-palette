@@ -38,6 +38,15 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
     }),
   })
 
+  private get features() {
+    return Source.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   static defaultProps: Partial<SourceProps> = {
     isTransparent: false,
   }
@@ -75,12 +84,8 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
           <div className="preview__cell__actions">
             <Feature
               isActive={
-                Source.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).PREVIEW_SOURCE_JUMP.isActive() && this.state.isMouseEnter
+                this.features.PREVIEW_SOURCE_JUMP.isActive() &&
+                this.state.isMouseEnter
               }
             >
               <Button

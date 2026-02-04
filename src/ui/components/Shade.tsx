@@ -105,6 +105,15 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     }),
   })
 
+  private get features() {
+    return Shade.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ShadeProps) {
     super(props)
     this.state = {
@@ -561,14 +570,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
               layouts['snackbar--medium'],
             ])}
           >
-            <Feature
-              isActive={Shade.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).PREVIEW_SHADE_HEX.isActive()}
-            >
+            <Feature isActive={this.features.PREVIEW_SHADE_HEX.isActive()}>
               <Button
                 type="icon"
                 icon={this.state.isCopied ? 'check' : 'draft'}
@@ -580,14 +582,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
                 action={this.onCopyHex}
               />
             </Feature>
-            <Feature
-              isActive={Shade.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).PREVIEW_SHADE_REPORT.isActive()}
-            >
+            <Feature isActive={this.features.PREVIEW_SHADE_REPORT.isActive()}>
               <Button
                 type="icon"
                 icon="info"
