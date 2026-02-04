@@ -533,6 +533,7 @@
       "text": "Enter a license key after purchasing to unlock features",
       "title": "Activate /pro"
     },
+    "bestDeal": "Best deal",
     "jump": {
       "cta": "Jump to /one",
       "text": "Jump to the plugin tagged /one to use your license key",
@@ -571,7 +572,7 @@
     },
     "subscriptions": {
       "lifetime": "Lifetime",
-      "month": "Month (most popular)",
+      "month": "Month",
       "week": "Week",
       "year": "Year (-20%)"
     },
@@ -579,7 +580,7 @@
     "ultimate": {
       "cta": "Request access",
       "subtitle": "Coming soon",
-      "text": "◻ SSO</br>◻ Dedicated support</br>◻ Custom onboarding</br>◻ Enterprise tailored</br>◻ SLA guarantees",
+      "text": "◻ Everything in /pro</br>◻ SSO</br>◻ Dedicated support</br>◻ Custom onboarding</br>◻ SLA guarantees",
       "title": "/ultimate"
     }
   },

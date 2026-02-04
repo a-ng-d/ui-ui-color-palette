@@ -533,6 +533,7 @@
       "text": "Entrez votre clé de licence après l'achat pour débloquer les fonctionnalités",
       "title": "Activer /pro"
     },
+    "bestDeal": "Meilleur offre",
     "jump": {
       "cta": "Aller à /one",
       "text": "Allez au plugin tagué /one pour utiliser votre clé de licence",
@@ -571,7 +572,7 @@
     },
     "subscriptions": {
       "lifetime": "Lifetime",
-      "month": "Mois (plus populaire)",
+      "month": "Mois",
       "week": "Semaine",
       "year": "Année (-20%)"
     },
@@ -579,7 +580,7 @@
     "ultimate": {
       "cta": "Demander l'accès",
       "subtitle": "Bientôt disponible",
-      "text": "◻ SSO</br>◻ Support dédié</br>◻ Onboarding personnalisé</br>◻ Personnalisé pour l'entreprise</br>◻ Garanties SLA",
+      "text": "◻ Tout de /pro</br>◻ SSO</br>◻ Support dédié</br>◻ Onboarding personnalisé</br>◻ Garanties SLA",
       "title": "/ultimate"
     }
   },

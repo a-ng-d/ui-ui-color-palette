@@ -553,6 +553,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.props.t('pricing.bestDeal')}
         actions={
           <Button
             type="primary"

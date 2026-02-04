@@ -217,7 +217,6 @@
       "title": "对比度详情"
     },
     "fail": "失败",
-    "pass": "通过",
     "foregroundColors": {
       "dark": "深色前景色",
       "light": "浅色前景色"
@@ -225,6 +224,7 @@
     "minSizeFont": {
       "title": "最小字体大小"
     },
+    "pass": "通过",
     "playground": {
       "fontWeight": {
         "label": "字体粗细",
@@ -533,6 +533,7 @@
       "text": "购买后输入您的许可证密钥以解锁 功能",
       "title": "激活 /pro"
     },
+    "bestDeal": "最佳优惠",
     "jump": {
       "cta": "跳转到 /one",
       "text": "跳转到标记为 /one 的插件以使用您的许可证密钥",
@@ -571,7 +572,7 @@
     },
     "subscriptions": {
       "lifetime": "Lifetime",
-      "month": "月份（最受欢迎）",
+      "month": "月份",
       "week": "周",
       "year": "年份（-20%）"
     },
@@ -579,7 +580,7 @@
     "ultimate": {
       "cta": "申请访问权限",
       "subtitle": "即将推出",
-      "text": "◻ SSO</br>◻ 专属支持</br>◻ 定制上线</br>◻ 企业定制</br>◻ SLA 保证",
+      "text": "◻ 一切在 /pro</br>◻ SSO</br>◻ 专属支持</br>◻ 定制上线</br>◻ SLA 保证",
       "title": "/ultimate"
     }
   },

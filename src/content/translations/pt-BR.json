@@ -217,7 +217,6 @@
       "title": "Detalhes do contraste"
     },
     "fail": "Falhou",
-    "pass": "Passou",
     "foregroundColors": {
       "dark": "Cor de primeiro plano escura",
       "light": "Cor de primeiro plano clara"
@@ -225,6 +224,7 @@
     "minSizeFont": {
       "title": "Tamanho mínimo da fonte"
     },
+    "pass": "Passou",
     "playground": {
       "fontWeight": {
         "label": "Peso da fonte",
@@ -533,6 +533,7 @@
       "text": "Digite sua chave de licença após a compra para desbloquear recursos",
       "title": "Ativar /pro"
     },
+    "bestDeal": "Melhor oferta",
     "jump": {
       "cta": "Ir para /one",
       "text": "Vá para o plugin marcado /one para usar sua chave de licença",
@@ -571,7 +572,7 @@
     },
     "subscriptions": {
       "lifetime": "Lifetime",
-      "month": "Mês (mais popular)",
+      "month": "Mês",
       "week": "Semana",
       "year": "Ano (-20%)"
     },
@@ -579,7 +580,7 @@
     "ultimate": {
       "cta": "Solicitar acesso",
       "subtitle": "Em breve",
-      "text": "◻ SSO</br>◻ Suporte dedicado</br>◻ Integração personalizada</br>◻ Personalizado para empresas</br>◻ Garantias SLA",
+      "text": "◻ Tudo em /pro</br>◻ SSO</br>◻ Suporte dedicado</br>◻ Integração personalizada</br>◻ Garantias SLA",
       "title": "/ultimate"
     }
   },
