@@ -82,6 +82,13 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       currentService: service,
       currentEditor: editor,
     }),
+    PREVIEW_SHADE_REPORT: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_SHADE_REPORT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     PREVIEW_SCORES_WCAG_SCORE: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_SCORES_WCAG_SCORE',
@@ -573,16 +580,25 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
                 action={this.onCopyHex}
               />
             </Feature>
-            <Button
-              type="icon"
-              icon="info"
-              size="small"
-              helper={{
-                label: this.props.t('preview.actions.showDetails'),
-                pin: 'TOP',
-              }}
-              action={() => this.props.onOpenDialog?.()}
-            />
+            <Feature
+              isActive={Shade.features(
+                this.props.planStatus,
+                this.props.config,
+                this.props.service,
+                this.props.editor
+              ).PREVIEW_SHADE_REPORT.isActive()}
+            >
+              <Button
+                type="icon"
+                icon="info"
+                size="small"
+                helper={{
+                  label: this.props.t('preview.actions.showDetails'),
+                  pin: 'TOP',
+                }}
+                action={() => this.props.onOpenDialog?.()}
+              />
+            </Feature>
           </div>
         )}
         <ContrastReport

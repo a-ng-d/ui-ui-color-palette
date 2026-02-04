@@ -29,9 +29,9 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
     service: Service,
     editor: Editor
   ) => ({
-    PREVIEW_SOURCE_HELPER: new FeatureStatus({
+    PREVIEW_SOURCE_JUMP: new FeatureStatus({
       features: config.features,
-      featureName: 'PREVIEW_SOURCE_HELPER',
+      featureName: 'PREVIEW_SOURCE_JUMP',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -80,7 +80,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
                   this.props.config,
                   this.props.service,
                   this.props.editor
-                ).PREVIEW_SOURCE_HELPER.isActive() && this.state.isMouseEnter
+                ).PREVIEW_SOURCE_JUMP.isActive() && this.state.isMouseEnter
               }
             >
               <Button

@@ -3375,7 +3375,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     ],
   },
   {
-    name: 'PREVIEW_SOURCE_HELPER',
+    name: 'PREVIEW_SOURCE_JUMP',
     description: 'Helps with source color preview',
     isActive: true,
     isPro: false,
