@@ -511,7 +511,8 @@
     "lock": {
       "label": "Lock source colors",
       "preview": "Lock the source colors to include them in the palette",
-      "tag": "Locked"
+      "tag": "Locked",
+      "warning": "Upgrade to /pro to create a palette with locked source colors"
     },
     "score": {
       "apca": "Show APCA scores",
@@ -538,6 +539,23 @@
       "figma": "Figma",
       "lemonsqueezy": "Lemon Squeezy"
     },
+    "contexts": {
+      "discount": "Discount (-20%)",
+      "regular": "Regular"
+    },
+    "discount": {
+      "amount": "20% off",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "Go /pro for Figma only",
+      "subtitle": {
+        "discount": "$48 /year on Figma",
+        "regular": "$5 /month on Figma"
+      },
+      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
+      "title": "UI Color Palette /pro /figma"
+    },
     "jump": {
       "cta": "Jump to /one",
       "text": "Jump to the Figma plugin tagged /one to use your license key",
@@ -546,6 +564,24 @@
     "limit": {
       "cta": "Reset and continue",
       "message": "The palette cannot be created because you have exceeded the limit. Upgrade to /pro or reset the palette to create it."
+    },
+    "one": {
+      "cta": "Get your license",
+      "subtitle": {
+        "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "Get your license",
+      "subtitle": {
+        "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ All /figma features</br>◻ For small and large teams</br>◻ Multi platforms</br>◻ Multi payment options</br>◻ Lifetime plan",
+      "title": "UI Color Palette /pro /one"
     },
     "operation": "New plans",
     "pro": {
@@ -720,7 +756,8 @@
     },
     "shift": {
       "chroma": {
-        "label": "Chroma"
+        "label": "Chroma",
+        "warning": "Upgrade to /pro to create a palette with a modified chroma shift. Reset it to 100% or upgrade."
       },
       "hue": {
         "label": "Hue"
@@ -833,7 +870,8 @@
         "protanomaly": "Protanomaly (red-weak)",
         "protanopia": "Protanopia (red-blind)",
         "tritanomaly": "Tritanomaly (blue-weak)",
-        "tritanopia": "Tritanopia (blue-blind)"
+        "tritanopia": "Tritanopia (blue-blind)",
+        "warning": "Upgrade to /pro to create a palette with this vision simulation"
       }
     },
     "contexts": {
@@ -1179,6 +1217,7 @@
     "signOut": "Sign out",
     "updateConsent": "Manage cookies",
     "updatePreferences": "Update preferences",
+    "useLicense": "Use license key",
     "welcomeMessage": "Hello {username}"
   },
   "vendors": {

@@ -511,7 +511,8 @@
     "lock": {
       "label": "Verrouiller les couleurs sources",
       "preview": "Verrouillez les couleurs sources pour les inclure dans la palette",
-      "tag": "Verrouillé"
+      "tag": "Verrouillé",
+      "warning": "Passez à /pro pour créer une palette avec des couleurs sources verrouillées"
     },
     "score": {
       "apca": "Afficher les scores APCA",
@@ -538,6 +539,23 @@
       "figma": "Figma",
       "lemonsqueezy": "Lemon Squeezy"
     },
+    "contexts": {
+      "discount": "Réduction (-20%)",
+      "regular": "Régulier"
+    },
+    "discount": {
+      "amount": "20% de réduction",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "Passer à /pro pour Figma seulement",
+      "subtitle": {
+        "discount": "48$ /an sur Figma",
+        "regular": "5$ /mois sur Figma"
+      },
+      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
+      "title": "UI Color Palette /pro /figma"
+    },
     "jump": {
       "cta": "Aller à /one",
       "text": "Allez au plugin Figma tagué /one pour utiliser votre clé de licence",
@@ -546,6 +564,24 @@
     "limit": {
       "cta": "Réinitialiser et poursuivre",
       "message": "La palette ne peut pas être créée car vous avez dépassé les limites. Passez à /pro ou réinitialisez la palette pour la créer."
+    },
+    "one": {
+      "cta": "Obtenez votre licence",
+      "subtitle": {
+        "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "Obtenez votre licence",
+      "subtitle": {
+        "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Toutes les fonctionnalités /figma</br>◻ Pour petites et grandes équipes</br>◻ Multi plateformes</br>◻ Options de paiement multiples</br>◻ Forfait à vie",
+      "title": "UI Color Palette /pro /one"
     },
     "operation": "Nouveaux plans",
     "pro": {
@@ -720,7 +756,8 @@
     },
     "shift": {
       "chroma": {
-        "label": "Chroma"
+        "label": "Chroma",
+        "warning": "Passez à /pro pour créer une palette avec un décalage de chroma modifié. Réinitialisez-le à 100% ou passez à niveau supérieur."
       },
       "hue": {
         "label": "Teinte"
@@ -833,7 +870,8 @@
         "protanomaly": "Protanomalie (faiblesse du rouge)",
         "protanopia": "Protanopie (cécité du rouge)",
         "tritanomaly": "Tritanomalie (faiblesse du bleu)",
-        "tritanopia": "Tritanopie (cécité du bleu)"
+        "tritanopia": "Tritanopie (cécité du bleu)",
+        "warning": "Passez à /pro pour créer une palette avec cette simulation de vision"
       }
     },
     "contexts": {
@@ -1179,6 +1217,7 @@
     "signOut": "Se déconnecter",
     "updateConsent": "Gérer les cookies",
     "updatePreferences": "Mettre à jour les préférences",
+    "useLicense": "Utiliser une clé de licence",
     "welcomeMessage": "Bonjour {username}"
   },
   "vendors": {

@@ -511,7 +511,8 @@
     "lock": {
       "label": "Bloquear cores-fonte",
       "preview": "Bloqueie as cores-fonte para incluí-las na paleta",
-      "tag": "Bloqueado"
+      "tag": "Bloqueado",
+      "warning": "Atualize para /pro para criar uma paleta com cores-fonte bloqueadas"
     },
     "score": {
       "apca": "Mostrar pontuações APCA",
@@ -538,6 +539,23 @@
       "figma": "Figma",
       "lemonsqueezy": "Lemon Squeezy"
     },
+    "contexts": {
+      "discount": "Desconto (-20%)",
+      "regular": "Regular"
+    },
+    "discount": {
+      "amount": "20% de desconto",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "Ir para /pro apenas para Figma",
+      "subtitle": {
+        "discount": "$48 /ano no Figma",
+        "regular": "$5 /mês no Figma"
+      },
+      "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
+      "title": "UI Color Palette /pro /figma"
+    },
     "jump": {
       "cta": "Ir para /one",
       "text": "Vá para o plugin Figma marcado /one para usar sua chave de licença",
@@ -546,6 +564,24 @@
     "limit": {
       "cta": "Reiniciar e continuar",
       "message": "A paleta não pode ser criada porque você excedeu o limite. Atualize para o /pro ou redefina a paleta para criá-la."
+    },
+    "one": {
+      "cta": "Obtenha sua licença",
+      "subtitle": {
+        "discount": "$47 /vitalício no Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /vitalício no Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "Obtenha sua licença",
+      "subtitle": {
+        "discount": "$47 /vitalício no Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /vitalício no Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Todos os recursos /figma</br>◻ Para equipes pequenas e grandes</br>◻ Multiplataforma</br>◻ Múltiplas opções de pagamento</br>◻ Plano vitalício",
+      "title": "UI Color Palette /pro /one"
     },
     "operation": "Novos planos",
     "pro": {
@@ -720,7 +756,8 @@
     },
     "shift": {
       "chroma": {
-        "label": "Croma"
+        "label": "Croma",
+        "warning": "Atualize para /pro para criar uma paleta com deslocamento de croma modificado. Redefina para 100% ou atualize."
       },
       "hue": {
         "label": "Matiz"
@@ -833,7 +870,8 @@
         "protanomaly": "Protanomalia (fraqueza do vermelho)",
         "protanopia": "Protanopia (cegueira do vermelho)",
         "tritanomaly": "Tritanomalia (fraqueza do azul)",
-        "tritanopia": "Tritanopia (cegueira do azul)"
+        "tritanopia": "Tritanopia (cegueira do azul)",
+        "warning": "Atualize para /pro para criar uma paleta com esta simulação de visão"
       }
     },
     "contexts": {
@@ -1179,6 +1217,7 @@
     "signOut": "Sair",
     "updateConsent": "Gerenciar cookies",
     "updatePreferences": "Atualizar preferências",
+    "useLicense": "Usar chave de licença",
     "welcomeMessage": "Olá {username}"
   },
   "vendors": {
