@@ -29,6 +29,7 @@ import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../..'
+import { trackPreviewManagementEvent } from '../../../external/tracking/eventsTracker'
 
 interface ContrastReportProps
   extends BaseProps,
@@ -426,6 +427,18 @@ export default class ContrastReport extends React.PureComponent<
     const darkWCAGFriendlyScore = darkForegroundContrast.getWCAGScore()
     const lightRecommendedUsage = lightForegroundContrast.getRecommendedUsage()
     const darkRecommendedUsage = darkForegroundContrast.getRecommendedUsage()
+
+    trackPreviewManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'OPEN_CONTRAST_REPORT',
+      }
+    )
 
     return (
       document.getElementById('modal') &&

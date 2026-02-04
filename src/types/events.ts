@@ -78,6 +78,7 @@ export interface PreviewEvent {
     | 'DISPLAY_APCA_INTERVAL'
     | 'JUMP_TO_COLOR'
     | 'COPY_COLOR_HEX'
+    | 'OPEN_CONTRAST_REPORT'
 }
 
 export interface SourceColorEvent {
