@@ -10,15 +10,13 @@ export const initTolgee = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   staticData: Record<string, any>
 ) => {
-  tolgeeInstance = Tolgee() /*.use(DevTools())*/
-    .use(FormatIcu())
-    .init({
-      language: defaultLang,
-      apiUrl: url,
-      apiKey: apiKey,
-      fallbackLanguage: defaultLang,
-      staticData: staticData,
-    })
+  tolgeeInstance = Tolgee().use(DevTools()).use(FormatIcu()).init({
+    language: defaultLang,
+    apiUrl: url,
+    apiKey: apiKey,
+    fallbackLanguage: defaultLang,
+    staticData: staticData,
+  })
 
   return tolgeeInstance
 }
