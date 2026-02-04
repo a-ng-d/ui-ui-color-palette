@@ -139,12 +139,8 @@ export const getContrastRangesByColumn = (options?: {
     }
 
     if (shouldCalculateAPCA) {
-      const lightAPCAScores = group.scores
-        .map((s) => s.lightAPCA)
-        .filter((s) => s !== 0)
-      const darkAPCAScores = group.scores
-        .map((s) => s.darkAPCA)
-        .filter((s) => s !== 0)
+      const lightAPCAScores = group.scores.map((s) => s.lightAPCA)
+      const darkAPCAScores = group.scores.map((s) => s.darkAPCA)
 
       if (lightAPCAScores.length > 0) {
         lightAPCAMin = Math.min(...lightAPCAScores)
