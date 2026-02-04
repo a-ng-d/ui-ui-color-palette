@@ -25,7 +25,10 @@ interface OnboardingStates {
   isImageLoaded: boolean
 }
 
-export default class Onboarding extends PureComponent<OnboardingProps, OnboardingStates> {
+export default class Onboarding extends PureComponent<
+  OnboardingProps,
+  OnboardingStates
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

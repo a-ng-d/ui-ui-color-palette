@@ -49,7 +49,10 @@ interface ScaleCRStates {
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRStates> {
+export default class ScaleCR extends PureComponent<
+  ScaleCRProps,
+  ScaleCRStates
+> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
@@ -504,7 +507,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRStates> 
       this.props.service,
       this.props.editor
     )
-    
+
     return (
       <>
         <div

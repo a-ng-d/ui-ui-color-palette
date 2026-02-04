@@ -28,8 +28,8 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
-import { ConfigContextType } from '../../..'
 import { trackPreviewManagementEvent } from '../../../external/tracking/eventsTracker'
+import { ConfigContextType } from '../../..'
 
 interface ContrastReportProps
   extends BaseProps,

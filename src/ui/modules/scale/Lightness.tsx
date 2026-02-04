@@ -38,7 +38,10 @@ interface LightnessState {
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class Lightness extends PureComponent<LightnessProps, LightnessState> {
+export default class Lightness extends PureComponent<
+  LightnessProps,
+  LightnessState
+> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette

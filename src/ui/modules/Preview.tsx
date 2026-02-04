@@ -83,7 +83,10 @@ interface PreviewStates {
   openDialogKey: string | null
 }
 
-export default class Preview extends PureComponent<PreviewProps, PreviewStates> {
+export default class Preview extends PureComponent<
+  PreviewProps,
+  PreviewStates
+> {
   private subscribeWCAG: (() => void) | undefined
   private subscribeAPCA: (() => void) | undefined
   private subscribeWCAGInterval: (() => void) | undefined
