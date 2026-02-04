@@ -210,6 +210,9 @@
       "next": "Couleur suivante",
       "previous": "Couleur précédente"
     },
+    "callout": {
+      "message": "Inspectez les rapports de contraste de vos combinaisons de couleurs pour assurer la conformité à l'accessibilité"
+    },
     "details": {
       "title": "Détails du contraste"
     },

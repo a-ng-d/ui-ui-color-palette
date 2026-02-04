@@ -972,7 +972,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   },
                 ]}
                 active={this.state.selectedPlan}
-                isFlex={false}
+                isFlex={isFlex}
                 action={this.planHandler}
               />
             </div>

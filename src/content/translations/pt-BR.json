@@ -210,6 +210,9 @@
       "next": "Próxima cor",
       "previous": "Cor anterior"
     },
+    "callout": {
+      "message": "Inspecione as taxas de contraste das suas combinações de cores para garantir a conformidade com acessibilidade"
+    },
     "details": {
       "title": "Detalhes do contraste"
     },

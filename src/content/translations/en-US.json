@@ -210,6 +210,9 @@
       "next": "Next color",
       "previous": "Previous color"
     },
+    "callout": {
+      "message": "Inspect the contrast ratios of your color combinations to ensure accessibility compliance"
+    },
     "details": {
       "title": "Contrast details"
     },
