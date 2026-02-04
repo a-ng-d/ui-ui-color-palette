@@ -19,6 +19,7 @@ export const $palette = deepMap<ExchangeConfiguration>({
   scale: {},
   shift: {
     chroma: 100,
+    hue: 0,
   },
   areSourceColorsLocked: false,
   colorSpace: 'LCH',

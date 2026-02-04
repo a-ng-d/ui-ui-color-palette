@@ -3,7 +3,7 @@ import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { RgbModel } from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Chip, Icon } from '@a_ng_d/figmug-ui'
+import { Button, Chip } from '@a_ng_d/figmug-ui'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
@@ -15,11 +15,11 @@ interface SourceProps extends BaseProps, WithConfigProps, WithTranslationProps {
   name: string
   color: RgbModel
   isTransparent: boolean
-  action: React.MouseEventHandler<HTMLDivElement>
+  onJumpToColor: React.MouseEventHandler<HTMLDivElement>
 }
 
 interface SourceStates {
-  isHelperRevealer: boolean
+  isMouseEnter: boolean
 }
 
 export default class Source extends PureComponent<SourceProps, SourceStates> {
@@ -29,14 +29,23 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
     service: Service,
     editor: Editor
   ) => ({
-    PREVIEW_SOURCE_HELPER: new FeatureStatus({
+    PREVIEW_SOURCE_JUMP: new FeatureStatus({
       features: config.features,
-      featureName: 'PREVIEW_SOURCE_HELPER',
+      featureName: 'PREVIEW_SOURCE_JUMP',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return Source.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   static defaultProps: Partial<SourceProps> = {
     isTransparent: false,
@@ -45,7 +54,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
   constructor(props: SourceProps) {
     super(props)
     this.state = {
-      isHelperRevealer: false,
+      isMouseEnter: false,
     }
   }
 
@@ -62,50 +71,32 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
           ]).hex(),
         }}
         data-color-id={this.props.id}
-        onMouseEnter={() => this.setState({ isHelperRevealer: true })}
-        onMouseLeave={() => this.setState({ isHelperRevealer: false })}
-        onMouseDown={this.props.action}
+        onMouseEnter={() => this.setState({ isMouseEnter: true })}
+        onMouseLeave={() => this.setState({ isMouseEnter: false })}
       >
         <Chip state="ON_BACKGROUND">{this.props.name}</Chip>
-        {(this.state.isHelperRevealer || this.props.isTransparent) && (
-          <div className="preview__cell__stack">
-            {this.props.isTransparent && (
-              <Chip state="ON_BACKGROUND">
-                {this.props.t('paletteProperties.transparent')}
-              </Chip>
-            )}
+        {this.props.isTransparent && (
+          <Chip state="ON_BACKGROUND">
+            {this.props.t('paletteProperties.transparent')}
+          </Chip>
+        )}
+        {(this.state.isMouseEnter || this.props.isTransparent) && (
+          <div className="preview__cell__actions">
             <Feature
               isActive={
-                Source.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).PREVIEW_SOURCE_HELPER.isActive() &&
-                this.state.isHelperRevealer
+                this.features.PREVIEW_SOURCE_JUMP.isActive() &&
+                this.state.isMouseEnter
               }
             >
-              <Chip
-                state="ON_BACKGROUND"
-                leftSlot={
-                  <div
-                    style={{
-                      width: 'var(--size-pos-xxsmall)',
-                      height: 'var(--size-pos-xxsmall)',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      '--icon-picto-color': 'black',
-                      '--icon-width': 'var(--size-pos-xsmall)',
-                      '--icon-height': 'var(--size-pos-xsmall)',
-                    }}
-                  >
-                    <Icon
-                      type="PICTO"
-                      iconName="target"
-                    />
-                  </div>
-                }
+              <Button
+                type="icon"
+                icon="target"
+                size="small"
+                helper={{
+                  label: this.props.t('preview.actions.jumpToColor'),
+                  pin: 'TOP',
+                }}
+                action={this.props.onJumpToColor}
               />
             </Feature>
           </div>

@@ -15,13 +15,13 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { $palette } from '../../../stores/palette'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface ChromaProps extends BaseProps, WithConfigProps, WithTranslationProps {
+interface HueProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   shift: ShiftConfiguration
   onChangeShift: (feature?: string, state?: string, value?: number) => void
 }
 
-export default class Chroma extends PureComponent<ChromaProps> {
+export default class Hue extends PureComponent<HueProps> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
@@ -32,9 +32,9 @@ export default class Chroma extends PureComponent<ChromaProps> {
     service: Service,
     editor: Editor
   ) => ({
-    SCALE_CHROMA: new FeatureStatus({
+    SCALE_HUE: new FeatureStatus({
       features: config.features,
-      featureName: 'SCALE_CHROMA',
+      featureName: 'SCALE_HUE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -42,7 +42,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
   })
 
   private get features() {
-    return Chroma.features(
+    return Hue.features(
       this.props.planStatus,
       this.props.config,
       this.props.service,
@@ -50,7 +50,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
     )
   }
 
-  constructor(props: ChromaProps) {
+  constructor(props: HueProps) {
     super(props)
     this.palette = $palette
     this.scaleMessage = {
@@ -84,7 +84,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
     }
 
     const onChangeStop = () => {
-      this.palette.setKey('shift.chroma', value)
+      this.palette.setKey('shift.hue', value)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
@@ -96,7 +96,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
     }
 
     const onTypeStopValue = () => {
-      this.palette.setKey('shift.chroma', value)
+      this.palette.setKey('shift.hue', value)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
@@ -107,7 +107,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
     }
 
     const onUpdatingStop = () => {
-      this.palette.setKey('shift.chroma', value)
+      this.palette.setKey('shift.hue', value)
       this.props.onChangeShift(feature, state, value)
     }
 
@@ -127,21 +127,21 @@ export default class Chroma extends PureComponent<ChromaProps> {
   // Render
   render() {
     return (
-      <Feature isActive={this.features.SCALE_CHROMA.isActive()}>
+      <Feature isActive={this.features.SCALE_HUE.isActive()}>
         <SimpleSlider
-          id="update-chroma"
-          label={this.props.t('scale.shift.chroma.label')}
-          value={this.props.shift.chroma ?? 100}
-          min={0}
-          max={200}
+          id="update-hue"
+          label={this.props.t('scale.shift.hue.label')}
+          value={this.props.shift.hue ?? 0}
+          min={-180}
+          max={180}
           step={1}
           colors={{
-            min: 'hsl(187, 0%, 75%)',
-            max: 'hsl(187, 100%, 75%)',
+            min: 'hsl(0, 100%, 75%)',
+            max: 'hsl(180, 100%, 75%)',
           }}
-          feature="SHIFT_CHROMA"
-          isBlocked={this.features.SCALE_CHROMA.isBlocked()}
-          isNew={this.features.SCALE_CHROMA.isNew()}
+          feature="SHIFT_HUE"
+          isBlocked={this.features.SCALE_HUE.isBlocked()}
+          isNew={this.features.SCALE_HUE.isNew()}
           onChange={this.shiftHandler}
         />
       </Feature>

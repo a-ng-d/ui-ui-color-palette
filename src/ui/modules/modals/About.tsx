@@ -37,6 +37,15 @@ export default class About extends PureComponent<AboutProps> {
     }),
   })
 
+  private get features() {
+    return About.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Templates
   QuickInfo = () => {
     return (
@@ -64,12 +73,7 @@ export default class About extends PureComponent<AboutProps> {
                       </span>
                       <Feature
                         isActive={
-                          About.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).PRO_PLAN.isActive() &&
+                          this.features.PRO_PLAN.isActive() &&
                           this.props.config.plan.isProEnabled
                         }
                       >
@@ -257,14 +261,7 @@ export default class About extends PureComponent<AboutProps> {
   // Render
   render() {
     return (
-      <Feature
-        isActive={About.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PRO_PLAN.isActive()}
-      >
+      <Feature isActive={this.features.PRO_PLAN.isActive()}>
         <Dialog
           title={this.props.t('about.title')}
           pin="RIGHT"

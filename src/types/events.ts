@@ -74,8 +74,11 @@ export interface PreviewEvent {
     | 'UPDATE_VISION_SIMULATION_MODE'
     | 'DISPLAY_WCAG_SCORES'
     | 'DISPLAY_APCA_SCORES'
+    | 'DISPLAY_WCAG_INTERVAL'
+    | 'DISPLAY_APCA_INTERVAL'
     | 'JUMP_TO_COLOR'
     | 'COPY_COLOR_HEX'
+    | 'OPEN_CONTRAST_REPORT'
 }
 
 export interface SourceColorEvent {

@@ -205,6 +205,50 @@
     "source": "源",
     "themes": "模式"
   },
+  "contrast": {
+    "actions": {
+      "next": "下一个颜色",
+      "previous": "上一个颜色"
+    },
+    "callout": {
+      "message": "检查颜色组合的对比度以确保符合无障碍标准"
+    },
+    "details": {
+      "title": "对比度详情"
+    },
+    "fail": "失败",
+    "foregroundColors": {
+      "dark": "深色前景色",
+      "light": "浅色前景色"
+    },
+    "minSizeFont": {
+      "title": "最小字体大小"
+    },
+    "pass": "通过",
+    "playground": {
+      "fontWeight": {
+        "label": "字体粗细",
+        "slider": "Abc"
+      },
+      "previewText": {
+        "label": "预览文本",
+        "placeholder": "敏捷的棕色狐狸跳过懒惰的狗。"
+      },
+      "title": "对比度测试区"
+    },
+    "score": {
+      "apca": {
+        "title": "APCA 分数"
+      },
+      "readability": {
+        "title": "可读性 分数"
+      },
+      "wcag": {
+        "title": "WCAG 2.1 分数"
+      }
+    },
+    "title": "对比度报告"
+  },
   "create": {
     "leavePaletteDialog": {
       "cancel": "取消",
@@ -336,8 +380,11 @@
     "maxNumberOfSourceColors": "{count, plural, one {升级到 /pro 以添加超过一个源颜色} other {升级到 /pro 以添加超过 # 个源颜色}}",
     "maxNumberOfStops": "{count, plural, one {升级到 /pro 以添加超过一个色阶} other {升级到 /pro 以添加超过 # 个色阶}}",
     "multipleBlockingMessages": {
+      "algorithmVersion": "将色度速度设置为\"正弦和双曲\"",
       "chroma": "重置色度",
+      "colorSpace": "将颜色空间设置为\"LCH\"或\"HSL\"",
       "head": "您可以通过以下方式解锁创建：{messages}",
+      "hue": "重置色相",
       "lockedSourceColors": "解锁源颜色",
       "sourceColors": "减少源颜色",
       "stops": "减少色阶",
@@ -439,13 +486,27 @@
     "actions": {
       "collapsePreview": "收起预览",
       "colorSpace": "颜色模版",
+      "copyHex": "复制十六进制代码到剪贴板",
       "displayScores": "显示分数",
       "expandPreview": "展开预览",
+      "filterScores": "筛选分数",
+      "jumpToColor": "跳转到源颜色",
       "resetImportedColors": "重置导入的颜色",
+      "showDetails": "查看对比度报告",
       "visionSimulationMode": "视觉模拟"
     },
     "closest": {
       "tag": "最接近"
+    },
+    "filter": {
+      "all": "全部",
+      "apca": "WCAG",
+      "darkForeground": "深色前景",
+      "fail": "失败",
+      "lightForeground": "浅色前景",
+      "pass": "通过",
+      "reset": "重置筛选",
+      "wcag": "APCA"
     },
     "lock": {
       "label": "锁定源颜色",
@@ -455,7 +516,13 @@
     },
     "score": {
       "apca": "显示 APCA 分数",
-      "wcag": "显示 WCAG 2.1 分数"
+      "apcaInterval": "显示 APCA 区间",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "显示 WCAG 2.1 分数",
+      "wcagInterval": "显示 WCAG 2.1 区间"
     },
     "source": {
       "tag": "源"
@@ -467,9 +534,54 @@
       "text": "购买后输入您的许可证密钥以解锁 功能",
       "title": "激活 /pro"
     },
+    "bestDeal": "最佳优惠",
+    "checkout": {
+      "figma": "Figma",
+      "lemonsqueezy": "Lemon Squeezy"
+    },
+    "contexts": {
+      "discount": "折扣 (-20%)",
+      "regular": "常规"
+    },
+    "discount": {
+      "amount": "20% 优惠",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "仅为 Figma 升级 /pro",
+      "subtitle": {
+        "discount": "Figma 上每年 $48",
+        "regular": "Figma 上每月 $5"
+      },
+      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
+      "title": "UI Color Palette /pro /figma"
+    },
+    "jump": {
+      "cta": "跳转到 /one",
+      "text": "跳转到标记为 Figma /one 的插件以使用您的许可证密^钥",
+      "title": "激活 /pro"
+    },
     "limit": {
       "cta": "重置并继续",
       "message": "无法创建调色板，因为您已超过限制。请升级至 /pro 或重置调色板以创建它。"
+    },
+    "one": {
+      "cta": "获取您的许可证",
+      "subtitle": {
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $47",
+        "regular": "Figma、Penpot、Sketch、Framer 上终身 $59"
+      },
+      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "获取您的许可证",
+      "subtitle": {
+        "discount": "Figma、Penpot、Sketch、Framer 上终身 $47",
+        "regular": "Figma、Penpot、Sketch、Framer 上终身 $59"
+      },
+      "text": "◻ 所有 /figma 功能</br>◻ 适用于小型和大型团队</br>◻ 多平台</br>◻ 多种付款选项</br>◻ 终身计划",
+      "title": "UI Color Palette /pro /one"
     },
     "operation": "新计划",
     "pro": {
@@ -500,7 +612,7 @@
     },
     "subscriptions": {
       "lifetime": "Lifetime",
-      "month": "月份（最受欢迎）",
+      "month": "月份",
       "week": "周",
       "year": "年份（-20%）"
     },
@@ -508,7 +620,7 @@
     "ultimate": {
       "cta": "申请访问权限",
       "subtitle": "即将推出",
-      "text": "◻ SSO</br>◻ 专属支持</br>◻ 定制上线</br>◻ 企业定制</br>◻ SLA 保证",
+      "text": "◻ 一切在 /pro</br>◻ SSO</br>◻ 专属支持</br>◻ 定制上线</br>◻ SLA 保证",
       "title": "/ultimate"
     }
   },
@@ -646,6 +758,9 @@
       "chroma": {
         "label": "色度",
         "warning": "升级到 /pro 以创建具有修改色度偏移的调色板。将其重置为 100% 或升级。"
+      },
+      "hue": {
+        "label": "色相"
       }
     },
     "tips": {
@@ -939,7 +1054,7 @@
         "message": "拖放您的 .png 文件到这里",
         "warning": "文件未导入。请重试拖放 .png 文件到这里。"
       },
-      "message": "上传、粘贴或选择图像以提取其 5 种主色",
+      "message": "上传、粘贴或选择画布上的图像以提取其 5 种主色",
       "removeImage": "移除图像",
       "title": "主色"
     },
@@ -1102,6 +1217,7 @@
     "signOut": "登出",
     "updateConsent": "管理 Cookie",
     "updatePreferences": "更新偏好设置",
+    "useLicense": "使用许可证密钥",
     "welcomeMessage": "你好 {username}"
   },
   "vendors": {

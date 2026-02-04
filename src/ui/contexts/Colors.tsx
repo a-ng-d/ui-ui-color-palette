@@ -106,6 +106,15 @@ export default class Colors extends PureComponent<ColorsProps> {
     }),
   })
 
+  private get features() {
+    return Colors.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ColorsProps) {
     super(props)
     this.colorsMessage = {
@@ -367,7 +376,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (item.id === id) {
           item.hue.shift = value
-          item.hue.isLocked = !(value === 0)
+          item.hue.isLocked = !(value === this.props.shift.hue)
         }
         return item
       })
@@ -431,7 +440,7 @@ export default class Colors extends PureComponent<ColorsProps> {
     const resetHue = () => {
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (item.id === id) {
-          item.hue.shift = 0
+          item.hue.shift = this.props.shift.hue
           item.hue.isLocked = false
         }
         return item
@@ -639,13 +648,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
   // Render
   render() {
-    const limit =
-      Colors.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).COLORS.limit ?? 0
+    const limit = this.features.COLORS.limit ?? 0
 
     return (
       <Layout
@@ -670,24 +673,16 @@ export default class Colors extends PureComponent<ColorsProps> {
                       helper={{
                         label: this.props.t('colors.actions.new'),
                       }}
-                      isBlocked={Colors.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).COLORS.isReached(this.props.colors.length)}
+                      isBlocked={this.features.COLORS.isReached(
+                        this.props.colors.length
+                      )}
                       action={(e: Event) => this.colorsHandler(e)}
                     />
                   }
                   alignment="CENTER"
                   isListItem={false}
                 />
-                {Colors.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).COLORS.isReached(this.props.colors.length) && (
+                {this.features.COLORS.isReached(this.props.colors.length) && (
                   <div
                     style={{
                       padding:
@@ -718,7 +713,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                             label={this.props.t('plan.getPro')}
                             action={() =>
                               sendPluginMessage(
-                                { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                                { pluginMessage: { type: 'GET_PRO' } },
                                 '*'
                               )
                             }
@@ -757,12 +752,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       return (
                         <>
                           <Feature
-                            isActive={Colors.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).COLORS_NAME.isActive()}
+                            isActive={this.features.COLORS_NAME.isActive()}
                           >
                             <div className="draggable-item__param--compact">
                               <Input
@@ -776,48 +766,23 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   ),
                                 }}
                                 canBeEmpty={false}
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_NAME.isBlocked()}
-                                isNew={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_NAME.isNew()}
+                                isBlocked={this.features.COLORS_NAME.isBlocked()}
+                                isNew={this.features.COLORS_NAME.isNew()}
                                 onBlur={this.colorsHandler}
                                 onValid={this.colorsHandler}
                               />
                             </div>
                           </Feature>
                           <Feature
-                            isActive={Colors.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).COLORS_PARAMS.isActive()}
+                            isActive={this.features.COLORS_PARAMS.isActive()}
                           >
                             <div className="draggable-item__param">
                               <Input
                                 type="COLOR"
                                 value={hex}
                                 feature="UPDATE_HEX"
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_PARAMS.isBlocked()}
-                                isNew={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_PARAMS.isNew()}
+                                isBlocked={this.features.COLORS_PARAMS.isBlocked()}
+                                isNew={this.features.COLORS_PARAMS.isNew()}
                                 onPick={this.colorsHandler}
                                 onBlur={this.colorsHandler}
                                 onValid={this.colorsHandler}
@@ -826,12 +791,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                           </Feature>
                           <Feature
                             isActive={
-                              Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_ALPHA.isActive() &&
+                              this.features.COLORS_ALPHA.isActive() &&
                               this.props.documentWidth > 460
                             }
                           >
@@ -848,25 +808,15 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 }}
                                 isChecked={color.alpha.isEnabled}
                                 isBlocked={
-                                  Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_ALPHA.isBlocked() &&
+                                  this.features.COLORS_ALPHA.isBlocked() &&
                                   !color.alpha.isEnabled
                                 }
-                                isNew={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_ALPHA.isNew()}
+                                isNew={this.features.COLORS_ALPHA.isNew()}
                                 action={this.colorsHandler}
                                 onUnblock={() => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO_PLAN' },
+                                      pluginMessage: { type: 'GET_PRO' },
                                     },
                                     '*'
                                   )
@@ -876,12 +826,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                           </Feature>
                           <Feature
                             isActive={
-                              Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_BACKGROUND_COLOR.isActive() &&
+                              this.features.COLORS_BACKGROUND_COLOR.isActive() &&
                               color.alpha.isEnabled &&
                               this.props.documentWidth > 460
                             }
@@ -898,18 +843,8 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   ),
                                 }}
                                 data-color-id={color.id}
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_BACKGROUND_COLOR.isBlocked()}
-                                isNew={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_BACKGROUND_COLOR.isNew()}
+                                isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
+                                isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
                                 onPick={this.colorsHandler}
                                 onBlur={this.colorsHandler}
                                 onValid={this.colorsHandler}
@@ -935,23 +870,13 @@ export default class Colors extends PureComponent<ColorsProps> {
                             {this.props.documentWidth <= 460 && (
                               <>
                                 <Feature
-                                  isActive={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_ALPHA.isActive()}
+                                  isActive={this.features.COLORS_ALPHA.isActive()}
                                 >
                                   <FormItem
                                     id={`switch-alpha-mode-secondary-${color.id}`}
                                     label={this.props.t('colors.alpha.label')}
                                     isBlocked={
-                                      Colors.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).COLORS_ALPHA.isBlocked() &&
+                                      this.features.COLORS_ALPHA.isBlocked() &&
                                       !color.alpha.isEnabled
                                     }
                                   >
@@ -968,26 +893,16 @@ export default class Colors extends PureComponent<ColorsProps> {
                                       }}
                                       isChecked={color.alpha.isEnabled}
                                       isBlocked={
-                                        Colors.features(
-                                          this.props.planStatus,
-                                          this.props.config,
-                                          this.props.service,
-                                          this.props.editor
-                                        ).COLORS_ALPHA.isBlocked() &&
+                                        this.features.COLORS_ALPHA.isBlocked() &&
                                         !color.alpha.isEnabled
                                       }
-                                      isNew={Colors.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).COLORS_ALPHA.isNew()}
+                                      isNew={this.features.COLORS_ALPHA.isNew()}
                                       action={this.colorsHandler}
                                       onUnblock={() => {
                                         sendPluginMessage(
                                           {
                                             pluginMessage: {
-                                              type: 'GET_PRO_PLAN',
+                                              type: 'GET_PRO',
                                             },
                                           },
                                           '*'
@@ -998,12 +913,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 </Feature>
                                 <Feature
                                   isActive={
-                                    Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_BACKGROUND_COLOR.isActive() &&
+                                    this.features.COLORS_BACKGROUND_COLOR.isActive() &&
                                     color.alpha.isEnabled
                                   }
                                 >
@@ -1012,12 +922,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     label={this.props.t(
                                       'colors.actions.alphaBackground'
                                     )}
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_BACKGROUND_COLOR.isBlocked()}
+                                    isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
                                   >
                                     <Input
                                       id={`update-color-background-secondary-${color.id}`}
@@ -1025,18 +930,8 @@ export default class Colors extends PureComponent<ColorsProps> {
                                       value={color.alpha.backgroundColor}
                                       feature="UPDATE_BACKGROUND_COLOR"
                                       data-color-id={color.id}
-                                      isBlocked={Colors.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).COLORS_BACKGROUND_COLOR.isBlocked()}
-                                      isNew={Colors.features(
-                                        this.props.planStatus,
-                                        this.props.config,
-                                        this.props.service,
-                                        this.props.editor
-                                      ).COLORS_BACKGROUND_COLOR.isNew()}
+                                      isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
+                                      isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
                                       onPick={this.colorsHandler}
                                       onBlur={this.colorsHandler}
                                       onValid={this.colorsHandler}
@@ -1046,24 +941,14 @@ export default class Colors extends PureComponent<ColorsProps> {
                               </>
                             )}
                             <Feature
-                              isActive={Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_CHROMA_SHIFTING.isActive()}
+                              isActive={this.features.COLORS_CHROMA_SHIFTING.isActive()}
                             >
                               <FormItem
                                 id="shift-chroma"
                                 label={this.props.t(
                                   'colors.chromaShifting.label'
                                 )}
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_CHROMA_SHIFTING.isBlocked()}
+                                isBlocked={this.features.COLORS_CHROMA_SHIFTING.isBlocked()}
                               >
                                 <div className={layouts['snackbar--tight']}>
                                   <Input
@@ -1079,27 +964,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     min="0"
                                     max="200"
                                     feature="SHIFT_CHROMA"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_CHROMA_SHIFTING.isBlocked()}
-                                    isNew={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_CHROMA_SHIFTING.isNew()}
+                                    isBlocked={this.features.COLORS_CHROMA_SHIFTING.isBlocked()}
+                                    isNew={this.features.COLORS_CHROMA_SHIFTING.isNew()}
                                     onBlur={this.colorsHandler}
                                     onShift={this.colorsHandler}
                                   />
-                                  {!Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_CHROMA_SHIFTING.isBlocked() && (
+                                  {!this.features.COLORS_CHROMA_SHIFTING.isBlocked() && (
                                     <Button
                                       type="icon"
                                       icon="reset"
@@ -1112,22 +982,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                               </FormItem>
                             </Feature>
                             <Feature
-                              isActive={Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_HUE_SHIFTING.isActive()}
+                              isActive={this.features.COLORS_HUE_SHIFTING.isActive()}
                             >
                               <FormItem
                                 id="shift-hue"
                                 label={this.props.t('colors.hueShifting.label')}
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_HUE_SHIFTING.isBlocked()}
+                                isBlocked={this.features.COLORS_HUE_SHIFTING.isBlocked()}
                               >
                                 <div className={layouts['snackbar--tight']}>
                                   <Input
@@ -1138,32 +998,17 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     value={
                                       color.hue.shift !== undefined
                                         ? color.hue.shift.toString()
-                                        : '100'
+                                        : '0'
                                     }
                                     min="-180"
                                     max="180"
                                     feature="SHIFT_HUE"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_HUE_SHIFTING.isBlocked()}
-                                    isNew={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_HUE_SHIFTING.isNew()}
+                                    isBlocked={this.features.COLORS_HUE_SHIFTING.isBlocked()}
+                                    isNew={this.features.COLORS_HUE_SHIFTING.isNew()}
                                     onBlur={this.colorsHandler}
                                     onShift={this.colorsHandler}
                                   />
-                                  {!Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_HUE_SHIFTING.isBlocked() && (
+                                  {!this.features.COLORS_HUE_SHIFTING.isBlocked() && (
                                     <Button
                                       type="icon"
                                       icon="reset"
@@ -1176,22 +1021,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                               </FormItem>
                             </Feature>
                             <Feature
-                              isActive={Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_PARAMS.isActive()}
+                              isActive={this.features.COLORS_PARAMS.isActive()}
                             >
                               <FormItem
                                 id="shift-lch"
                                 label={this.props.t('colors.lch.label')}
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_PARAMS.isBlocked()}
+                                isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                               >
                                 <InputsBar customClassName="draggable-item__param">
                                   <Input
@@ -1199,12 +1034,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     value={lch[0].toFixed(0)}
                                     min="0"
                                     max="100"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_PARAMS.isBlocked()}
+                                    isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                                     feature="UPDATE_LIGHTNESS"
                                     onBlur={this.colorsHandler}
                                     onShift={this.colorsHandler}
@@ -1214,12 +1044,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     value={lch[1].toFixed(0)}
                                     min="0"
                                     max="100"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_PARAMS.isBlocked()}
+                                    isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                                     feature="UPDATE_CHROMA"
                                     onBlur={this.colorsHandler}
                                     onShift={this.colorsHandler}
@@ -1233,12 +1058,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     }
                                     min="0"
                                     max="360"
-                                    isBlocked={Colors.features(
-                                      this.props.planStatus,
-                                      this.props.config,
-                                      this.props.service,
-                                      this.props.editor
-                                    ).COLORS_PARAMS.isBlocked()}
+                                    isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                                     feature="UPDATE_HUE"
                                     onBlur={this.colorsHandler}
                                     onShift={this.colorsHandler}
@@ -1247,23 +1067,13 @@ export default class Colors extends PureComponent<ColorsProps> {
                               </FormItem>
                             </Feature>
                             <Feature
-                              isActive={Colors.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).COLORS_DESCRIPTION.isActive()}
+                              isActive={this.features.COLORS_DESCRIPTION.isActive()}
                             >
                               <FormItem
                                 id="update-color-description"
                                 label={this.props.t('global.description.label')}
                                 isMultiLine
-                                isBlocked={Colors.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).COLORS_DESCRIPTION.isBlocked()}
+                                isBlocked={this.features.COLORS_DESCRIPTION.isBlocked()}
                               >
                                 <Input
                                   id="update-color-description"
@@ -1273,18 +1083,8 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     'global.description.placeholder'
                                   )}
                                   feature="UPDATE_DESCRIPTION"
-                                  isBlocked={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_DESCRIPTION.isBlocked()}
-                                  isNew={Colors.features(
-                                    this.props.planStatus,
-                                    this.props.config,
-                                    this.props.service,
-                                    this.props.editor
-                                  ).COLORS_DESCRIPTION.isNew()}
+                                  isBlocked={this.features.COLORS_DESCRIPTION.isBlocked()}
+                                  isNew={this.features.COLORS_DESCRIPTION.isNew()}
                                   isGrowing
                                   onBlur={this.colorsHandler}
                                   onValid={this.colorsHandler}

@@ -29,7 +29,10 @@ import { $palette } from '../../../stores/palette'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
+interface ScaleCRProps
+  extends BaseProps,
+    WithConfigProps,
+    WithTranslationProps {
   id: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
@@ -41,20 +44,20 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onSwitchMode: () => void
 }
 
-interface ScaleStates {
+interface ScaleCRStates {
   ratioLightForeground: ScaleConfiguration
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class ScaleContrastRatio extends PureComponent<
-  ScaleProps,
-  ScaleStates
+export default class ScaleCR extends PureComponent<
+  ScaleCRProps,
+  ScaleCRStates
 > {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
 
-  static defaultProps: Partial<ScaleProps> = {
+  static defaultProps: Partial<ScaleCRProps> = {
     distributionEasing: 'LINEAR',
   }
 
@@ -80,7 +83,7 @@ export default class ScaleContrastRatio extends PureComponent<
     }),
   })
 
-  constructor(props: ScaleProps) {
+  constructor(props: ScaleCRProps) {
     super(props)
     this.palette = $palette
     this.scaleMessage = {
@@ -102,7 +105,7 @@ export default class ScaleContrastRatio extends PureComponent<
     })
   }
 
-  componentDidUpdate(previousProps: Readonly<ScaleProps>): void {
+  componentDidUpdate(previousProps: Readonly<ScaleCRProps>): void {
     if (previousProps.scale !== this.props.scale) this.setContrastMode()
   }
 
@@ -498,6 +501,13 @@ export default class ScaleContrastRatio extends PureComponent<
 
   // Render
   render() {
+    const features = ScaleCR.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+
     return (
       <>
         <div
@@ -518,14 +528,7 @@ export default class ScaleContrastRatio extends PureComponent<
             }
             rightPartSlot={
               <div className={layouts['snackbar--medium']}>
-                <Feature
-                  isActive={ScaleContrastRatio.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_RESET.isActive()}
-                >
+                <Feature isActive={features.SCALE_RESET.isActive()}>
                   <Button
                     type="icon"
                     icon="reset"
@@ -533,48 +536,21 @@ export default class ScaleContrastRatio extends PureComponent<
                       label: this.props.t('scale.actions.resetStops'),
                     }}
                     feature="RESET_SCALE"
-                    isBlocked={ScaleContrastRatio.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_RESET.isBlocked()}
-                    isNew={ScaleContrastRatio.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_RESET.isNew()}
+                    isBlocked={features.SCALE_RESET.isBlocked()}
+                    isNew={features.SCALE_RESET.isNew()}
                     action={this.onResetStops}
                   />
                 </Feature>
                 <span className={texts.type}>{this.props.t('separator')}</span>
-                <Feature
-                  isActive={ScaleContrastRatio.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_CONTRAST_RATIO.isActive()}
-                >
+                <Feature isActive={features.SCALE_CONTRAST_RATIO.isActive()}>
                   <Select
                     id="switch-contrast-mode"
                     type="SWITCH_BUTTON"
                     label={this.props.t('scale.contrast.label')}
                     shouldReflow
                     isChecked={true}
-                    isBlocked={ScaleContrastRatio.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isBlocked()}
-                    isNew={ScaleContrastRatio.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).SCALE_CONTRAST_RATIO.isNew()}
+                    isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+                    isNew={features.SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />
                 </Feature>
@@ -605,18 +581,8 @@ export default class ScaleContrastRatio extends PureComponent<
           tips={{
             minMax: this.props.t('scale.tips.distributeAsTooltip'),
           }}
-          isBlocked={ScaleContrastRatio.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isBlocked()}
-          isNew={ScaleContrastRatio.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isNew()}
+          isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+          isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onChange={this.contrastLightForegroundHandler}
         />
         <MultipleSlider
@@ -640,18 +606,8 @@ export default class ScaleContrastRatio extends PureComponent<
           tips={{
             minMax: this.props.t('scale.tips.distributeAsTooltip'),
           }}
-          isBlocked={ScaleContrastRatio.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isBlocked()}
-          isNew={ScaleContrastRatio.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONTRAST_RATIO.isNew()}
+          isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+          isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onChange={this.contrastDarkForegroundHandler}
         />
       </>

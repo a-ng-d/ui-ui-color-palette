@@ -105,6 +105,15 @@ export default class RemotePalettes extends PureComponent<
     }),
   })
 
+  private get features() {
+    return RemotePalettes.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: RemotePalettesProps) {
     super(props)
     this.contexts = setContexts(
@@ -344,7 +353,7 @@ export default class RemotePalettes extends PureComponent<
         padding = 'var(--size-null) var(--size-pos-xsmall)'
         break
       default:
-        isFlex = true
+        isFlex = false
         padding = 'var(--size-null) var(--size-pos-xsmall)'
     }
 

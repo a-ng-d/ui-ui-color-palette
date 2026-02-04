@@ -1,5 +1,5 @@
 import React from 'react'
-import { createPortal, PureComponent } from 'preact/compat'
+import { PureComponent } from 'preact/compat'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -13,18 +13,15 @@ import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
 import {
   Bar,
   Button,
-  Dialog,
   Dropdown,
   FormItem,
-  KeyboardShortcutItem,
   Layout,
   layouts,
-  List,
-  SectionTitle,
   texts,
 } from '@a_ng_d/figmug-ui'
-import ScaleLightnessChroma from '../modules/scale/ScaleLightnessChroma'
-import ScaleContrastRatio from '../modules/scale/ScaleContrastRatio'
+import ScaleLCH from '../modules/scale/ScaleLCH'
+import ScaleCR from '../modules/scale/ScaleCR'
+import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -150,6 +147,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return Scale.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: ScaleProps) {
     super(props)
@@ -331,12 +337,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
         id="update-distribution-easing"
         label={this.props.t('scale.easing.label')}
         shouldFill={false}
-        isBlocked={Scale.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
+        isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
       >
         <div className={layouts['snackbar--tight']}>
           <Dropdown
@@ -346,24 +347,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 label: this.props.t('scale.easing.linear'),
                 value: 'LINEAR',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
               {
@@ -373,89 +361,41 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                 label: this.props.t('scale.easing.easeIn'),
                 value: 'EASEIN',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
               {
                 label: this.props.t('scale.easing.easeOut'),
                 value: 'EASEOUT',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
               {
                 label: this.props.t('scale.easing.easeInOut'),
                 value: 'EASEINOUT',
                 type: 'OPTION',
-                isActive: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
-                isBlocked: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
-                isNew: Scale.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
+                isActive:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
+                isBlocked:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
+                isNew:
+                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
                 action: this.onChangeDistributionEasingCurve,
               },
             ]}
             selected={this.props.distributionEasing.split('_')[0]}
             pin="BOTTOM"
-            isBlocked={Scale.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
-            isNew={Scale.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_HELPER_DISTRIBUTION.isNew()}
+            isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
+            isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
           />
           {this.props.distributionEasing !== 'LINEAR' && (
             <Dropdown
@@ -465,98 +405,44 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                   label: this.props.t('scale.easing.sine'),
                   value: 'SINE',
                   type: 'OPTION',
-                  isActive: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_SINE.isActive(),
-                  isBlocked: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
-                  isNew: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
+                  isActive:
+                    this.features.SCALE_HELPER_DISTRIBUTION_SINE.isActive(),
+                  isBlocked:
+                    this.features.SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
+                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
                 {
                   label: this.props.t('scale.easing.quad'),
                   value: 'QUAD',
                   type: 'OPTION',
-                  isActive: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_QUAD.isActive(),
-                  isBlocked: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
-                  isNew: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
+                  isActive:
+                    this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isActive(),
+                  isBlocked:
+                    this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
+                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
                 {
                   label: this.props.t('scale.easing.cubic'),
                   value: 'CUBIC',
                   type: 'OPTION',
-                  isActive: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_CUBIC.isActive(),
-                  isBlocked: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
-                  isNew: Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
+                  isActive:
+                    this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isActive(),
+                  isBlocked:
+                    this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
+                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
                   action: this.onChangeDistributionEasingVelocity,
                 },
               ]}
               selected={this.props.distributionEasing.split('_')[1]}
               pin="BOTTOM"
-              isBlocked={Scale.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_HELPER_DISTRIBUTION.isBlocked()}
-              isNew={Scale.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SCALE_HELPER_DISTRIBUTION.isNew()}
+              isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
+              isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
             />
           )}
           <Feature
-            isActive={Scale.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_HELPER_DISTRIBUTION_APPLY.isActive()}
+            isActive={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isActive()}
           >
             <Button
               type="icon"
@@ -594,170 +480,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
     )
   }
 
-  KeyboardShortcuts = () => {
-    let padding
-
-    switch (this.theme) {
-      case 'figma':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'penpot':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'sketch':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'framer':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      default:
-        padding = 'var(--size-pos-xxsmall)'
-    }
-
-    const isMacOrWinKeyboard =
-      navigator.userAgent.indexOf('Mac') !== -1 ? '⌘' : '⌃'
-
-    trackScaleManagementEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'OPEN_KEYBOARD_SHORTCUTS',
-      }
-    )
-
-    return createPortal(
-      <Dialog
-        title={this.props.t('scale.tips.title')}
-        onClose={() =>
-          this.setState({
-            isTipsOpen: false,
-          })
-        }
-      >
-        <div style={{ flex: 1, padding: padding }}>
-          <Layout
-            id="keyboard-shortcuts"
-            column={[
-              {
-                node: (
-                  <List>
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.move')}
-                      shortcuts={[
-                        [
-                          isMacOrWinKeyboard,
-                          this.props.t('scale.tips.inputs.drag'),
-                        ],
-                      ]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.distribute')}
-                      shortcuts={[
-                        [
-                          this.props.t('scale.tips.inputs.shift'),
-                          this.props.t('scale.tips.inputs.drag'),
-                        ],
-                      ]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.select')}
-                      shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.unselect')}
-                      shortcuts={[[this.props.t('scale.tips.inputs.escape')]]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.navPrevious')}
-                      shortcuts={[
-                        [
-                          this.props.t('scale.tips.inputs.shift'),
-                          this.props.t('scale.tips.inputs.tab'),
-                        ],
-                      ]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.navNext')}
-                      shortcuts={[[this.props.t('scale.tips.inputs.tab')]]}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.type')}
-                      shortcuts={[
-                        [this.props.t('scale.tips.inputs.dbClick')],
-                        [this.props.t('scale.tips.inputs.enter')],
-                      ]}
-                      separator={this.props.t('scale.tips.inputs.or')}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.shiftLeft')}
-                      shortcuts={[
-                        [this.props.t('scale.tips.inputs.left')],
-                        [
-                          isMacOrWinKeyboard,
-                          this.props.t('scale.tips.inputs.left'),
-                        ],
-                      ]}
-                      separator={this.props.t('scale.tips.inputs.or')}
-                    />
-                    <KeyboardShortcutItem
-                      label={this.props.t('scale.tips.shiftRight')}
-                      shortcuts={[
-                        [this.props.t('scale.tips.inputs.right')],
-                        [
-                          isMacOrWinKeyboard,
-                          this.props.t('scale.tips.inputs.right'),
-                        ],
-                      ]}
-                      separator={this.props.t('scale.tips.inputs.or')}
-                    />
-                  </List>
-                ),
-                typeModifier: 'DISTRIBUTED',
-              },
-              {
-                node:
-                  this.props.service === 'EDIT' ? (
-                    <>
-                      <Bar
-                        id="watch-custom-keyboard-shortcuts"
-                        leftPartSlot={
-                          <SectionTitle
-                            label={this.props.t('scale.tips.custom')}
-                          />
-                        }
-                        shouldReflow
-                      />
-                      <List>
-                        <KeyboardShortcutItem
-                          label={this.props.t('scale.tips.add')}
-                          shortcuts={[
-                            [this.props.t('scale.tips.inputs.click')],
-                          ]}
-                        />
-                        <KeyboardShortcutItem
-                          label={this.props.t('scale.tips.remove')}
-                          shortcuts={[
-                            [this.props.t('scale.tips.inputs.backspace')],
-                          ]}
-                        />
-                      </List>
-                    </>
-                  ) : undefined,
-                typeModifier: 'LIST',
-              },
-            ]}
-            isFullWidth
-          />
-        </div>
-      </Dialog>,
-      document.getElementById('modal') ?? document.createElement('app')
-    )
-  }
-
   Create = () => {
     return (
       <Layout
@@ -767,46 +489,29 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             node: (
               <>
                 {!this.state.isContrastMode ? (
-                  <ScaleLightnessChroma
+                  <ScaleLCH
                     {...this.props}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 ) : (
-                  <ScaleContrastRatio
+                  <ScaleCR
                     {...this.props}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 )}
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER.isActive()}
-                >
+                <Feature isActive={this.features.SCALE_HELPER.isActive()}>
                   <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_DISTRIBUTION.isActive()}
+                        isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
                       >
                         <this.DistributionEasing />
                       </Feature>
                     }
                     rightPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_TIPS.isActive()}
+                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
                       >
                         <div
                           className={doClassnames([
@@ -855,7 +560,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     isInverted
                     shouldReflow
                   />
-                  {this.state.isTipsOpen && <this.KeyboardShortcuts />}
+                  <KeyboardShortcuts
+                    {...this.props}
+                    isOpen={this.state.isTipsOpen}
+                    onClose={() => this.setState({ isTipsOpen: false })}
+                  />
                 </Feature>
               </>
             ),
@@ -876,47 +585,30 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
             node: (
               <>
                 {!this.state.isContrastMode ? (
-                  <ScaleLightnessChroma
+                  <ScaleLCH
                     {...this.props}
                     onChangeThemes={this.themesHandler}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 ) : (
-                  <ScaleContrastRatio
+                  <ScaleCR
                     {...this.props}
                     onSwitchMode={this.onSwitchContrasteMode}
                   />
                 )}
-                <Feature
-                  isActive={Scale.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SCALE_HELPER.isActive()}
-                >
+                <Feature isActive={this.features.SCALE_HELPER.isActive()}>
                   <Bar
                     id="update-easing"
                     leftPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_DISTRIBUTION.isActive()}
+                        isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
                       >
                         <this.DistributionEasing />
                       </Feature>
                     }
                     rightPartSlot={
                       <Feature
-                        isActive={Scale.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SCALE_HELPER_TIPS.isActive()}
+                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
                       >
                         <div
                           className={doClassnames([
@@ -965,7 +657,11 @@ export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
                     isInverted
                     shouldReflow
                   />
-                  {this.state.isTipsOpen && <this.KeyboardShortcuts />}
+                  <KeyboardShortcuts
+                    {...this.props}
+                    isOpen={this.state.isTipsOpen}
+                    onClose={() => this.setState({ isTipsOpen: false })}
+                  />
                 </Feature>
               </>
             ),

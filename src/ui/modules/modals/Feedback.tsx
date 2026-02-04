@@ -31,17 +31,19 @@ export default class Feedback extends PureComponent<FeedbackProps> {
     }),
   })
 
+  private get features() {
+    return Feedback.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Render
   render() {
     return (
-      <Feature
-        isActive={Feedback.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).INVOLVES_FEEDBACK.isActive()}
-      >
+      <Feature isActive={this.features.INVOLVES_FEEDBACK.isActive()}>
         <Dialog
           title={this.props.t('shortcuts.feedback')}
           pin="RIGHT"

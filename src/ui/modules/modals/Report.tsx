@@ -38,6 +38,15 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
     }),
   })
 
+  private get features() {
+    return Report.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ReportProps) {
     super(props)
     this.state = {
@@ -103,14 +112,7 @@ export default class Report extends PureComponent<ReportProps, ReportStates> {
   } // Render
   render() {
     return (
-      <Feature
-        isActive={Report.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).INVOLVE_ISSUES.isActive()}
-      >
+      <Feature isActive={this.features.INVOLVE_ISSUES.isActive()}>
         <Dialog
           title={this.props.t('report.title')}
           pin="RIGHT"

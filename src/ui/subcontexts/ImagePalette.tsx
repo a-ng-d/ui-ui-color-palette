@@ -80,6 +80,15 @@ export default class ImagePalette extends PureComponent<
     }),
   })
 
+  private get features() {
+    return ImagePalette.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: ImagePaletteProps) {
     super(props)
     this.state = {
@@ -115,12 +124,7 @@ export default class ImagePalette extends PureComponent<
 
     if (imageItem && imageItem.type === 'image/png')
       if (
-        !ImagePalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_IMAGE_UPLOAD.isReached(
+        !this.features.SOURCE_IMAGE_UPLOAD.isReached(
           (this.props.creditsCount -
             this.props.config.fees.imageColorsExtract) *
             -1 -
@@ -160,12 +164,7 @@ export default class ImagePalette extends PureComponent<
     } = {
       GET_IMAGE_HASH: async () => {
         if (
-          !ImagePalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_IMAGE_UPLOAD.isReached(
+          !this.features.SOURCE_IMAGE_UPLOAD.isReached(
             (this.props.creditsCount -
               this.props.config.fees.imageColorsExtract) *
               -1 -
@@ -248,14 +247,7 @@ export default class ImagePalette extends PureComponent<
   ImageZone = () => {
     if (this.state.imageUrl)
       return (
-        <Feature
-          isActive={ImagePalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SOURCE_IMAGE_UPLOAD.isActive()}
-        >
+        <Feature isActive={this.features.SOURCE_IMAGE_UPLOAD.isActive()}>
           <div
             style={{
               padding: 'var(--size-pos-small)',
@@ -292,14 +284,7 @@ export default class ImagePalette extends PureComponent<
         </Feature>
       )
     return (
-      <Feature
-        isActive={ImagePalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE_IMAGE_UPLOAD.isActive()}
-      >
+      <Feature isActive={this.features.SOURCE_IMAGE_UPLOAD.isActive()}>
         <div
           style={{
             padding: 'var(--size-pos-small)',
@@ -314,23 +299,13 @@ export default class ImagePalette extends PureComponent<
             cta={this.props.t('source.imagePalette.dropzone.cta')}
             acceptedMimeTypes={['image/png']}
             isMultiple={false}
-            isBlocked={ImagePalette.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SOURCE_IMAGE_UPLOAD.isReached(
+            isBlocked={this.features.SOURCE_IMAGE_UPLOAD.isReached(
               (this.props.creditsCount -
                 this.props.config.fees.imageColorsExtract) *
                 -1 -
                 1
             )}
-            isNew={ImagePalette.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SOURCE_IMAGE_UPLOAD.isNew()}
+            isNew={this.features.SOURCE_IMAGE_UPLOAD.isNew()}
             onImportFiles={async (files) => {
               const arrayBuffer = files[0].content
               const blob = new Blob([arrayBuffer as ArrayBuffer], {
@@ -374,14 +349,7 @@ export default class ImagePalette extends PureComponent<
             />
           }
           rightPartSlot={
-            <Feature
-              isActive={ImagePalette.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).SOURCE_IMAGE_ADD.isActive()}
-            >
+            <Feature isActive={this.features.SOURCE_IMAGE_ADD.isActive()}>
               <Button
                 type="icon"
                 icon="plus"
@@ -390,18 +358,8 @@ export default class ImagePalette extends PureComponent<
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={this.state.dominantColors.length === 0}
-                isBlocked={ImagePalette.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SOURCE_IMAGE_ADD.isBlocked()}
-                isNew={ImagePalette.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SOURCE_IMAGE_ADD.isNew()}
+                isBlocked={this.features.SOURCE_IMAGE_ADD.isBlocked()}
+                isNew={this.features.SOURCE_IMAGE_ADD.isNew()}
                 action={this.onUsePalette}
               />
             </Feature>

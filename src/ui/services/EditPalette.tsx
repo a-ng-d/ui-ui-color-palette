@@ -107,6 +107,7 @@ interface EditPaletteStates {
   export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
+  isCodeCopied: boolean
 }
 
 export default class EditPalette extends PureComponent<
@@ -149,6 +150,15 @@ export default class EditPalette extends PureComponent<
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return EditPalette.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: EditPaletteProps) {
     super(props)
@@ -195,6 +205,7 @@ export default class EditPalette extends PureComponent<
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
+      isCodeCopied: false,
     }
     this.themesRef = React.createRef()
     this.previewRef = React.createRef()
@@ -345,12 +356,15 @@ export default class EditPalette extends PureComponent<
       const shift: ShiftConfiguration = {
         chroma:
           feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
+        hue: feature === 'SHIFT_HUE' ? (value ?? 0) : this.props.shift.hue,
       }
 
       this.palette.setKey('shift', shift)
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
           item.chroma.shift = value ?? this.props.shift.chroma
+        if (feature === 'SHIFT_HUE' && !item.hue.isLocked)
+          item.hue.shift = value ?? this.props.shift.hue
         return item
       })
 
@@ -776,18 +790,10 @@ export default class EditPalette extends PureComponent<
       document.execCommand('copy')
       document.body.removeChild(textarea)
 
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              type: 'INFO',
-              message: this.props.t('info.copiedCode'),
-            },
-          },
-        },
-        '*'
-      )
+      this.setState({ isCodeCopied: true })
+      setTimeout(() => {
+        this.setState({ isCodeCopied: false })
+      }, 2000)
     } catch (error) {
       console.error(error)
       sendPluginMessage(
@@ -826,24 +832,9 @@ export default class EditPalette extends PureComponent<
         label: this.props.t('themes.callout.cta'),
         feature: 'ADD_THEME',
         type: 'OPTION',
-        isActive: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isActive(),
-        isBlocked: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isBlocked(),
-        isNew: EditPalette.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).THEMES.isNew(),
+        isActive: this.features.THEMES.isActive(),
+        isBlocked: this.features.THEMES.isBlocked(),
+        isNew: this.features.THEMES.isNew(),
         action: () => {
           this.setState({ context: 'THEMES' })
           setTimeout(() => this.themesRef.current?.onAddTheme(), 1)
@@ -898,7 +889,7 @@ export default class EditPalette extends PureComponent<
         isFlex = true
         break
       default:
-        isFlex = true
+        isFlex = false
     }
 
     switch (this.state.context) {
@@ -932,6 +923,7 @@ export default class EditPalette extends PureComponent<
             {...this.props}
             context={this.state.export.context}
             code={this.state.export.data}
+            isCodeCopied={this.state.isCodeCopied}
             onChangeExport={(exp) => {
               this.setState({
                 export: exp.export,
@@ -980,14 +972,7 @@ export default class EditPalette extends PureComponent<
             </div>
           }
           rightPartSlot={
-            <Feature
-              isActive={EditPalette.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).THEMES.isActive()}
-            >
+            <Feature isActive={this.features.THEMES.isActive()}>
               <FormItem
                 id="switch-theme"
                 label={this.props.t('themes.switchTheme.label')}
@@ -1008,14 +993,7 @@ export default class EditPalette extends PureComponent<
           border={['BOTTOM']}
         />
         <section className="context">{fragment}</section>
-        <Feature
-          isActive={EditPalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).PREVIEW.isActive()}
-        >
+        <Feature isActive={this.features.PREVIEW.isActive()}>
           <Preview
             {...this.props}
             service="EDIT"
@@ -1023,14 +1001,7 @@ export default class EditPalette extends PureComponent<
             ref={this.previewRef}
           />
         </Feature>
-        <Feature
-          isActive={EditPalette.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).ACTIONS.isActive()}
-        >
+        <Feature isActive={this.features.ACTIONS.isActive()}>
           <Actions
             {...this.props}
             {...this.state}

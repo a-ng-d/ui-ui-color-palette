@@ -32,6 +32,15 @@ export default class Store extends PureComponent<StoreProps> {
     }),
   })
 
+  private get features() {
+    return Store.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: StoreProps) {
     super(props)
     this.theme = document.documentElement.getAttribute('data-theme')
@@ -59,14 +68,7 @@ export default class Store extends PureComponent<StoreProps> {
     }
 
     return (
-      <Feature
-        isActive={Store.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).MORE_STORE.isActive()}
-      >
+      <Feature isActive={this.features.MORE_STORE.isActive()}>
         <Dialog
           title={this.props.t('store.title')}
           pin="RIGHT"

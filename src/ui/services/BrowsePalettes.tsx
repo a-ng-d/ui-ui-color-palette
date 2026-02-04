@@ -100,6 +100,15 @@ export default class BrowsePalettes extends PureComponent<
     }),
   })
 
+  private get features() {
+    return BrowsePalettes.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: BrowsePalettesProps) {
     super(props)
     this.contexts = setContexts(
@@ -246,7 +255,7 @@ export default class BrowsePalettes extends PureComponent<
         isFlex = true
         break
       default:
-        isFlex = true
+        isFlex = false
     }
 
     switch (this.state.context) {
@@ -278,80 +287,36 @@ export default class BrowsePalettes extends PureComponent<
     if (this.props.document.isLinkedToPalette !== undefined)
       if (this.props.document.isLinkedToPalette)
         buttons.push(
-          <Feature
-            isActive={BrowsePalettes.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_OPEN.isActive()}
-          >
+          <Feature isActive={this.features.DOCUMENT_OPEN.isActive()}>
             <Button
               type="secondary"
               label={this.props.t('browse.document.open')}
-              isBlocked={BrowsePalettes.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).DOCUMENT_OPEN.isBlocked()}
-              isNew={BrowsePalettes.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).DOCUMENT_OPEN.isNew()}
+              isBlocked={this.features.DOCUMENT_OPEN.isBlocked()}
+              isNew={this.features.DOCUMENT_OPEN.isNew()}
               action={this.onEditPalette}
             />
           </Feature>
         )
       else
         buttons.push(
-          <Feature
-            isActive={BrowsePalettes.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).DOCUMENT_CREATE.isActive()}
-          >
+          <Feature isActive={this.features.DOCUMENT_CREATE.isActive()}>
             <Button
               type="secondary"
               label={this.props.t('browse.document.restore')}
               isLoading={this.state.isSecondaryActionLoading}
               isBlocked={
-                BrowsePalettes.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).DOCUMENT_CREATE.isBlocked() ||
-                BrowsePalettes.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).LOCAL_PALETTES.isReached(this.state.localPalettesList.length)
+                this.features.DOCUMENT_CREATE.isBlocked() ||
+                this.features.LOCAL_PALETTES.isReached(
+                  this.state.localPalettesList.length
+                )
               }
-              isNew={BrowsePalettes.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).DOCUMENT_CREATE.isNew()}
+              isNew={this.features.DOCUMENT_CREATE.isNew()}
               action={this.onCreateFromDocument}
             />
           </Feature>
         )
 
-    if (
-      BrowsePalettes.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).CREATE_PALETTE.isActive()
-    )
+    if (this.features.CREATE_PALETTE.isActive())
       buttons.push(
         <Button
           type="primary"
@@ -359,25 +324,12 @@ export default class BrowsePalettes extends PureComponent<
           label={this.props.t('browse.actions.new')}
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
           isBlocked={
-            BrowsePalettes.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).CREATE_PALETTE.isBlocked() ||
-            BrowsePalettes.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).LOCAL_PALETTES.isReached(this.state.localPalettesList.length)
+            this.features.CREATE_PALETTE.isBlocked() ||
+            this.features.LOCAL_PALETTES.isReached(
+              this.state.localPalettesList.length
+            )
           }
-          isNew={BrowsePalettes.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).CREATE_PALETTE.isNew()}
+          isNew={this.features.CREATE_PALETTE.isNew()}
           action={this.onCreatePalette}
         />
       )

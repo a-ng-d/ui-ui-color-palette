@@ -68,6 +68,15 @@ export default class Lightness extends PureComponent<
     }),
   })
 
+  private get features() {
+    return Lightness.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: LightnessProps) {
     super(props)
     this.palette = $palette
@@ -235,14 +244,7 @@ export default class Lightness extends PureComponent<
   render() {
     if (this.props.service === 'CREATE')
       return (
-        <Feature
-          isActive={Lightness.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SCALE_CONFIGURATION.isActive()}
-        >
+        <Feature isActive={this.features.SCALE_CONFIGURATION.isActive()}>
           <MultipleSlider
             {...this.props}
             type="EDIT"
@@ -255,6 +257,7 @@ export default class Lightness extends PureComponent<
             range={{
               min: 0,
               max: 100,
+              step: 0.1,
             }}
             colors={{
               min: 'black',
@@ -263,18 +266,8 @@ export default class Lightness extends PureComponent<
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
-            isBlocked={Lightness.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isBlocked()}
-            isNew={Lightness.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isNew()}
+            isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
+            isNew={this.features.SCALE_CONFIGURATION.isNew()}
             onChange={this.lightnessHandler}
           />
         </Feature>
@@ -282,14 +275,7 @@ export default class Lightness extends PureComponent<
 
     // EDIT mode
     return (
-      <Feature
-        isActive={Lightness.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SCALE_CONFIGURATION.isActive()}
-      >
+      <Feature isActive={this.features.SCALE_CONFIGURATION.isActive()}>
         {this.props.preset.id.includes('CUSTOM') ? (
           <MultipleSlider
             {...this.props}
@@ -298,18 +284,10 @@ export default class Lightness extends PureComponent<
             stops={{
               list: this.props.preset.stops,
               min: 2,
-              max: Lightness.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).PRESETS_CUSTOM_ADD.isReached(this.props.preset.stops.length)
-                ? Lightness.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).PRESETS_CUSTOM_ADD.limit
+              max: this.features.PRESETS_CUSTOM_ADD.isReached(
+                this.props.preset.stops.length
+              )
+                ? this.features.PRESETS_CUSTOM_ADD.limit
                 : 24,
             }}
             range={{
@@ -324,18 +302,8 @@ export default class Lightness extends PureComponent<
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
-            isBlocked={Lightness.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isBlocked()}
-            isNew={Lightness.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isNew()}
+            isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
+            isNew={this.features.SCALE_CONFIGURATION.isNew()}
             onChange={this.lightnessHandler}
           />
         ) : (
@@ -351,6 +319,7 @@ export default class Lightness extends PureComponent<
             range={{
               min: 0,
               max: 100,
+              step: 0.1,
             }}
             colors={{
               min: 'black',
@@ -359,18 +328,8 @@ export default class Lightness extends PureComponent<
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
-            isBlocked={Lightness.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isBlocked()}
-            isNew={Lightness.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SCALE_CONFIGURATION.isNew()}
+            isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
+            isNew={this.features.SCALE_CONFIGURATION.isNew()}
             onChange={this.lightnessHandler}
           />
         )}

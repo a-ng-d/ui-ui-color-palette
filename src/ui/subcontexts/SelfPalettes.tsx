@@ -79,6 +79,15 @@ export default class SelfPalettes extends PureComponent<
     }),
   })
 
+  private get features() {
+    return SelfPalettes.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: SelfPalettesProps) {
     super(props)
     this.state = {
@@ -552,12 +561,7 @@ export default class SelfPalettes extends PureComponent<
                         isEnabled: true,
                         icon: 'plus',
                       }}
-                      isBlocked={SelfPalettes.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).LOCAL_PALETTES.isReached(
+                      isBlocked={this.features.LOCAL_PALETTES.isReached(
                         this.props.localPalettesList.length
                       )}
                       action={() => {

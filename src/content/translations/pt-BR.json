@@ -205,6 +205,50 @@
     "source": "Fontes",
     "themes": "Modos"
   },
+  "contrast": {
+    "actions": {
+      "next": "Próxima cor",
+      "previous": "Cor anterior"
+    },
+    "callout": {
+      "message": "Inspecione as taxas de contraste das suas combinações de cores para garantir a conformidade com acessibilidade"
+    },
+    "details": {
+      "title": "Detalhes do contraste"
+    },
+    "fail": "Falhou",
+    "foregroundColors": {
+      "dark": "Cor de primeiro plano escura",
+      "light": "Cor de primeiro plano clara"
+    },
+    "minSizeFont": {
+      "title": "Tamanho mínimo da fonte"
+    },
+    "pass": "Passou",
+    "playground": {
+      "fontWeight": {
+        "label": "Peso da fonte",
+        "slider": "Abc"
+      },
+      "previewText": {
+        "label": "Texto de visualização",
+        "placeholder": "A rápida raposa marrom pula sobre o cão preguiçoso."
+      },
+      "title": "Área de teste de contraste"
+    },
+    "score": {
+      "apca": {
+        "title": "Pontuação APCA"
+      },
+      "readability": {
+        "title": "Pontuação de legibilidade"
+      },
+      "wcag": {
+        "title": "Pontuação WCAG 2.1"
+      }
+    },
+    "title": "Relatório de contraste"
+  },
   "create": {
     "leavePaletteDialog": {
       "cancel": "Cancelar",
@@ -336,8 +380,11 @@
     "maxNumberOfSourceColors": "{count, plural, one {Atualize para /pro para adicionar mais de uma cor-fonte} other {Atualize para /pro para adicionar mais de # cores-fonte}}",
     "maxNumberOfStops": "{count, plural, one {Atualize para /pro para adicionar mais de uma parada} other {Atualize para /pro para adicionar mais de # paradas}}",
     "multipleBlockingMessages": {
+      "algorithmVersion": "Definir velocidade do croma para \"Senoidal e hiperbólico\"",
       "chroma": "Resetar croma",
+      "colorSpace": "Definir espaço de cor para \"LCH\" ou \"HSL\"",
       "head": "Você pode desbloquear a criação se: {messages}",
+      "hue": "Resetar matiz",
       "lockedSourceColors": "Desbloquear cores-fonte",
       "sourceColors": "Diminuir cores-fonte",
       "stops": "Diminuir paradas",
@@ -439,13 +486,27 @@
     "actions": {
       "collapsePreview": "Recolher visualização",
       "colorSpace": "Espaço de cor",
+      "copyHex": "Copiar código hexadecimal para a área de transferência",
       "displayScores": "Mostrar pontuações",
       "expandPreview": "Expandir visualização",
+      "filterScores": "Filtrar pontuações",
+      "jumpToColor": "Ir para cor-fonte",
       "resetImportedColors": "Resetar cores importadas",
+      "showDetails": "Ver relatório de contraste",
       "visionSimulationMode": "Simulação de visão"
     },
     "closest": {
       "tag": "Mais próximo"
+    },
+    "filter": {
+      "all": "Todos",
+      "apca": "WCAG",
+      "darkForeground": "Primeiro plano escuro",
+      "fail": "Falhou",
+      "lightForeground": "Primeiro plano claro",
+      "pass": "Passou",
+      "reset": "Redefinir filtro",
+      "wcag": "APCA"
     },
     "lock": {
       "label": "Bloquear cores-fonte",
@@ -455,7 +516,13 @@
     },
     "score": {
       "apca": "Mostrar pontuações APCA",
-      "wcag": "Mostrar pontuações WCAG 2.1"
+      "apcaInterval": "Mostrar intervalo APCA",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "Mostrar pontuações WCAG 2.1",
+      "wcagInterval": "Mostrar intervalo WCAG 2.1"
     },
     "source": {
       "tag": "Fonte"
@@ -467,9 +534,54 @@
       "text": "Digite sua chave de licença após a compra para desbloquear recursos",
       "title": "Ativar /pro"
     },
+    "bestDeal": "Melhor oferta",
+    "checkout": {
+      "figma": "Figma",
+      "lemonsqueezy": "Lemon Squeezy"
+    },
+    "contexts": {
+      "discount": "Desconto (-20%)",
+      "regular": "Regular"
+    },
+    "discount": {
+      "amount": "20% de desconto",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "Ir para /pro apenas para Figma",
+      "subtitle": {
+        "discount": "$48 /ano no Figma",
+        "regular": "$5 /mês no Figma"
+      },
+      "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
+      "title": "UI Color Palette /pro /figma"
+    },
+    "jump": {
+      "cta": "Ir para /one",
+      "text": "Vá para o plugin Figma marcado /one para usar sua chave de licença",
+      "title": "Ativar /pro"
+    },
     "limit": {
       "cta": "Reiniciar e continuar",
       "message": "A paleta não pode ser criada porque você excedeu o limite. Atualize para o /pro ou redefina a paleta para criá-la."
+    },
+    "one": {
+      "cta": "Obtenha sua licença",
+      "subtitle": {
+        "discount": "$47 /vitalício no Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /vitalício no Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "Obtenha sua licença",
+      "subtitle": {
+        "discount": "$47 /vitalício no Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /vitalício no Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Todos os recursos /figma</br>◻ Para equipes pequenas e grandes</br>◻ Multiplataforma</br>◻ Múltiplas opções de pagamento</br>◻ Plano vitalício",
+      "title": "UI Color Palette /pro /one"
     },
     "operation": "Novos planos",
     "pro": {
@@ -500,7 +612,7 @@
     },
     "subscriptions": {
       "lifetime": "Lifetime",
-      "month": "Mês (mais popular)",
+      "month": "Mês",
       "week": "Semana",
       "year": "Ano (-20%)"
     },
@@ -508,7 +620,7 @@
     "ultimate": {
       "cta": "Solicitar acesso",
       "subtitle": "Em breve",
-      "text": "◻ SSO</br>◻ Suporte dedicado</br>◻ Integração personalizada</br>◻ Personalizado para empresas</br>◻ Garantias SLA",
+      "text": "◻ Tudo em /pro</br>◻ SSO</br>◻ Suporte dedicado</br>◻ Integração personalizada</br>◻ Garantias SLA",
       "title": "/ultimate"
     }
   },
@@ -646,6 +758,9 @@
       "chroma": {
         "label": "Croma",
         "warning": "Atualize para /pro para criar uma paleta com deslocamento de croma modificado. Redefina para 100% ou atualize."
+      },
+      "hue": {
+        "label": "Matiz"
       }
     },
     "tips": {
@@ -939,7 +1054,7 @@
         "message": "Arraste e solte seu arquivo .png aqui",
         "warning": "O arquivo não foi importado. Tente novamente arrastando e soltando um arquivo .png aqui."
       },
-      "message": "Faça upload, cole ou selecione uma imagem para extrair suas 5 cores dominantes",
+      "message": "Faça upload, cole ou selecione uma imagem no canvas para extrair suas 5 cores dominantes",
       "removeImage": "Remover imagem",
       "title": "Cores dominantes"
     },
@@ -1102,6 +1217,7 @@
     "signOut": "Sair",
     "updateConsent": "Gerenciar cookies",
     "updatePreferences": "Atualizar preferências",
+    "useLicense": "Usar chave de licença",
     "welcomeMessage": "Olá {username}"
   },
   "vendors": {

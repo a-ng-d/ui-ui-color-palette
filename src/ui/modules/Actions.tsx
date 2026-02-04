@@ -76,7 +76,10 @@ interface ActionsStates {
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<ActionsProps, ActionsStates> {
+export default class Actions extends PureComponent<
+  ActionsProps,
+  ActionsStates
+> {
   private palette: typeof $palette
 
   static defaultProps = {
@@ -217,9 +220,44 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       currentService: service,
       currentEditor: editor,
     }),
-    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
+    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
       features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
+      featureName: 'SETTINGS_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -287,9 +325,37 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       currentService: service,
       currentEditor: editor,
     }),
+    SETTINGS_ALGORITHM_V1: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V1',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V2: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V2',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V3: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V3',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SCALE_CHROMA: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CHROMA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SCALE_HUE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_HUE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -310,6 +376,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
       isTooltipVisible: false,
       canUpdateDocument: false,
     }
+  }
+
+  private get features() {
+    return Actions.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
+  private get specificFeatures() {
+    return Actions.features(
+      this.props.planStatus,
+      this.props.config,
+      'EDIT',
+      this.props.editor
+    )
   }
 
   // Lifecycle
@@ -380,85 +464,40 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
         label: this.props.t('actions.generateDocument.palette'),
         feature: 'GENERATE_PALETTE',
         type: 'OPTION',
-        isActive: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE.isActive(),
-        isBlocked: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE.isReached(
+        isActive: this.features.DOCUMENT_PALETTE.isActive(),
+        isBlocked: this.features.DOCUMENT_PALETTE.isReached(
           (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
             -1 -
             1
         ),
-        isNew: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE.isNew(),
+        isNew: this.features.DOCUMENT_PALETTE.isNew(),
         action: this.props.onGenerateDocument,
       },
       {
         label: this.props.t('actions.generateDocument.paletteWithProperties'),
         feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
         type: 'OPTION',
-        isActive: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE_PROPERTIES.isActive(),
-        isBlocked: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE_PROPERTIES.isReached(
+        isActive: this.features.DOCUMENT_PALETTE_PROPERTIES.isActive(),
+        isBlocked: this.features.DOCUMENT_PALETTE_PROPERTIES.isReached(
           (this.props.creditsCount -
             this.props.config.fees.paletteWithPropsGenerate) *
             -1 -
             1
         ),
-        isNew: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_PALETTE_PROPERTIES.isNew(),
+        isNew: this.features.DOCUMENT_PALETTE_PROPERTIES.isNew(),
         action: this.props.onGenerateDocument,
       },
       {
         label: this.props.t('actions.generateDocument.sheet'),
         feature: 'GENERATE_SHEET',
         type: 'OPTION',
-        isActive: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_SHEET.isActive(),
-        isBlocked: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_SHEET.isReached(
+        isActive: this.features.DOCUMENT_SHEET.isActive(),
+        isBlocked: this.features.DOCUMENT_SHEET.isReached(
           (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
             -1 -
             1
         ),
-        isNew: Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOCUMENT_SHEET.isNew(),
+        isNew: this.features.DOCUMENT_SHEET.isNew(),
         action: this.props.onGenerateDocument,
       },
     ] as Array<DropdownOption>
@@ -472,18 +511,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
           label: this.props.t('actions.pushUpdates'),
           feature: 'PUSH_UPDATES',
           type: 'OPTION',
-          isActive: Actions.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).DOCUMENT_PUSH_UPDATES.isActive(),
-          isBlocked: Actions.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).DOCUMENT_PUSH_UPDATES.isReached(
+          isActive: this.features.DOCUMENT_PUSH_UPDATES.isActive(),
+          isBlocked: this.features.DOCUMENT_PUSH_UPDATES.isReached(
             (this.props.creditsCount - this.props.config.fees.paletteUpdates) *
               -1 -
               1
@@ -564,54 +593,59 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
 
   canSavePalette = (): boolean => {
     if (
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
+      this.specificFeatures.SOURCE.isReached(
+        this.refinedNumberOfSourceColors() - 1
+      )
     )
       return false
     if (
       $palette.get().preset.id.includes('CUSTOM') &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
+      this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
+        Object.keys(this.props.scale).length - 1
+      )
     )
       return false
     if (
       $palette.get().areSourceColorsLocked &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
+      this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
     )
       return false
     if (
       $palette.get().shift.chroma !== 100 &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).SCALE_CHROMA.isBlocked()
+      this.specificFeatures.SCALE_CHROMA.isBlocked()
+    )
+      return false
+    if (
+      $palette.get().shift.hue !== 0 &&
+      this.specificFeatures.SCALE_HUE.isBlocked()
     )
       return false
     if (
       $palette.get().visionSimulationMode !== 'NONE' &&
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      )[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+      this.specificFeatures[
+        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
+          typeof Actions.features
+        >
       ].isBlocked()
+    )
+      return false
+    if (
+      $palette.get().colorSpace !== 'LCH' &&
+      $palette.get().colorSpace !== 'HSL' &&
+      this.specificFeatures[
+        `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
+          typeof Actions.features
+        >
+      ]?.isBlocked()
+    )
+      return false
+    if (
+      $palette.get().algorithmVersion !== 'v3' &&
+      this.specificFeatures[
+        `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
+          typeof Actions.features
+        >
+      ]?.isBlocked()
     )
       return false
     return true
@@ -620,56 +654,58 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
   proWarning = () => {
     return (
       <ul className="list-item">
-        {Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1) && (
+        {this.specificFeatures.SOURCE.isReached(
+          this.refinedNumberOfSourceColors() - 1
+        ) && (
           <li>{this.props.t('info.multipleBlockingMessages.sourceColors')}</li>
         )}
         {$palette.get().preset.id.includes('CUSTOM') &&
-          Actions.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).PRESETS_CUSTOM_ADD.isReached(
+          this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
             Object.keys(this.props.scale).length - 1
           ) && <li>{this.props.t('info.multipleBlockingMessages.stops')}</li>}
         {$palette.get().areSourceColorsLocked &&
-          Actions.features(
-            this.props.planStatus,
-            this.props.config,
-            'EDIT',
-            this.props.editor
-          ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked() && (
+          this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked() && (
             <li>
               {this.props.t('info.multipleBlockingMessages.lockedSourceColors')}
             </li>
           )}
         {$palette.get().shift.chroma !== 100 &&
-          Actions.features(
-            this.props.planStatus,
-            this.props.config,
-            'EDIT',
-            this.props.editor
-          ).SCALE_CHROMA.isBlocked() && (
+          this.specificFeatures.SCALE_CHROMA.isBlocked() && (
             <li>{this.props.t('info.multipleBlockingMessages.chroma')}</li>
           )}
+        {$palette.get().shift.hue !== 0 &&
+          this.specificFeatures.SCALE_HUE.isBlocked() && (
+            <li>{this.props.t('info.multipleBlockingMessages.hue')}</li>
+          )}
         {$palette.get().visionSimulationMode !== 'NONE' &&
-          Actions.features(
-            this.props.planStatus,
-            this.props.config,
-            'EDIT',
-            this.props.editor
-          )[
-            `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+          this.specificFeatures[
+            `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
+              typeof Actions.features
+            >
           ].isBlocked() && (
             <li>
               {this.props.t(
                 'info.multipleBlockingMessages.visionSimulationMode'
               )}
+            </li>
+          )}
+        {$palette.get().colorSpace !== 'LCH' &&
+          $palette.get().colorSpace !== 'HSL' &&
+          this.specificFeatures[
+            `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
+              typeof Actions.features
+            >
+          ].isBlocked() && (
+            <li>{this.props.t('info.multipleBlockingMessages.colorSpace')}</li>
+          )}
+        {$palette.get().algorithmVersion !== 'v3' &&
+          this.specificFeatures[
+            `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
+              typeof Actions.features
+            >
+          ].isBlocked() && (
+            <li>
+              {this.props.t('info.multipleBlockingMessages.algorithmVersion')}
             </li>
           )}
       </ul>
@@ -686,13 +722,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
 
   // Templates
   Create = () => {
-    const limit =
-      Actions.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.limit ?? 0
+    const limit = this.features.SOURCE.limit ?? 0
 
     return (
       <Bar
@@ -713,18 +743,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                   label: this.props.t('settings.actions.paletteName'),
                   pin: 'TOP',
                 }}
-                isBlocked={Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_NAME.isBlocked()}
-                isNew={Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_NAME.isNew()}
+                isBlocked={this.features.SETTINGS_NAME.isBlocked()}
+                isNew={this.features.SETTINGS_NAME.isNew()}
                 feature="RENAME_PALETTE"
                 onBlur={this.nameHandler}
                 onValid={this.nameHandler}
@@ -743,12 +763,9 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 count: this.refinedNumberOfSourceColors().toString(),
               })}
             </div>
-            {Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1) && (
+            {this.features.SOURCE.isReached(
+              this.refinedNumberOfSourceColors() - 1
+            ) && (
               <div
                 style={{
                   position: 'relative',
@@ -780,14 +797,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
           </div>
         }
         rightPartSlot={
-          <Feature
-            isActive={Actions.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).CREATE_PALETTE.isActive()}
-          >
+          <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
             <Button
               type="primary"
               label={this.props.t('actions.savePalette')}
@@ -823,16 +833,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                       e as React.MouseEvent<HTMLButtonElement>
                     )
                 else
-                  sendPluginMessage(
-                    { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                    '*'
-                  )
+                  sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
               }}
               onUnblock={() => {
-                sendPluginMessage(
-                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                  '*'
-                )
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
               }}
             />
           </Feature>
@@ -851,12 +855,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
           <div className={layouts['snackbar--medium']}>
             <Feature
               isActive={
-                Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).PUBLICATION.isActive() &&
+                this.features.PUBLICATION.isActive() &&
                 this.props.publicationStatus?.isPublished
               }
             >
@@ -877,18 +876,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                   label: this.props.t('settings.actions.paletteName'),
                   pin: 'TOP',
                 }}
-                isBlocked={Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_NAME.isBlocked()}
-                isNew={Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).SETTINGS_NAME.isNew()}
+                isBlocked={this.features.SETTINGS_NAME.isBlocked()}
+                isNew={this.features.SETTINGS_NAME.isNew()}
                 feature="RENAME_PALETTE"
                 onBlur={this.nameHandler}
                 onValid={this.nameHandler}
@@ -903,87 +892,44 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                     label: this.props.t('settings.global.views.simple'),
                     value: 'PALETTE',
                     type: 'OPTION',
-                    isActive: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_PALETTE.isActive(),
-                    isBlocked: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_PALETTE.isReached(
+                    isActive: this.features.VIEWS_PALETTE.isActive(),
+                    isBlocked: this.features.VIEWS_PALETTE.isReached(
                       (this.props.creditsCount -
                         this.props.config.fees.paletteGenerate) *
                         -1 -
                         1
                     ),
-                    isNew: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_PALETTE.isNew(),
+                    isNew: this.features.VIEWS_PALETTE.isNew(),
                     action: this.props.onChangeView,
                   },
                   {
                     label: this.props.t('settings.global.views.detailed'),
                     value: 'PALETTE_WITH_PROPERTIES',
                     type: 'OPTION',
-                    isActive: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
-                    isBlocked: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_PALETTE_WITH_PROPERTIES.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.paletteWithPropsGenerate) *
-                        -1 -
-                        1
-                    ),
-                    isNew: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
+                    isActive:
+                      this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
+                    isBlocked:
+                      this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.paletteWithPropsGenerate) *
+                          -1 -
+                          1
+                      ),
+                    isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
                     action: this.props.onChangeView,
                   },
                   {
                     label: this.props.t('settings.global.views.sheet'),
                     value: 'SHEET',
                     type: 'OPTION',
-                    isActive: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_SHEET.isActive(),
-                    isBlocked: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_SHEET.isReached(
+                    isActive: this.features.VIEWS_SHEET.isActive(),
+                    isBlocked: this.features.VIEWS_SHEET.isReached(
                       (this.props.creditsCount -
                         this.props.config.fees.sheetGenerate) *
                         -1 -
                         1
                     ),
-                    isNew: Actions.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).VIEWS_SHEET.isNew(),
+                    isNew: this.features.VIEWS_SHEET.isNew(),
                     action: this.props.onChangeView,
                   },
                 ]}
@@ -993,18 +939,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                   label: this.props.t('settings.global.views.helper'),
                   pin: 'TOP',
                 }}
-                isBlocked={Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).VIEWS.isBlocked()}
-                isNew={Actions.features(
-                  this.props.planStatus,
-                  this.props.config,
-                  this.props.service,
-                  this.props.editor
-                ).VIEWS.isNew()}
+                isBlocked={this.features.VIEWS.isBlocked()}
+                isNew={this.features.VIEWS.isNew()}
               />
             )}
           </div>
@@ -1017,14 +953,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
               layouts['snackbar--wrap'],
             ])}
           >
-            <Feature
-              isActive={Actions.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).PUBLICATION.isActive()}
-            >
+            <Feature isActive={this.features.PUBLICATION.isActive()}>
               <Button
                 type="icon"
                 icon={this.publicationIcon()}
@@ -1037,14 +966,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                 ) => this.props.onPublishPalette?.(e)}
               />
             </Feature>
-            <Feature
-              isActive={Actions.features(
-                this.props.planStatus,
-                this.props.config,
-                this.props.service,
-                this.props.editor
-              ).DOCUMENT.isActive()}
-            >
+            <Feature isActive={this.features.DOCUMENT.isActive()}>
               <Menu
                 id="generate-documentation"
                 type="ICON"
@@ -1070,29 +992,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                   value: 'LOCAL_STYLES',
                   feature: 'SYNC_LOCAL_STYLES',
                   type: 'OPTION',
-                  isActive: Actions.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SYNC_LOCAL_STYLES.isActive(),
-                  isBlocked: Actions.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SYNC_LOCAL_STYLES.isReached(
+                  isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
+                  isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
                     (this.props.creditsCount -
                       this.props.config.fees.localStylesSync) *
                       -1 -
                       1
                   ),
-                  isNew: Actions.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SYNC_LOCAL_STYLES.isNew(),
+                  isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
                   action: (e) => this.props.onSyncLocalStyles?.(e),
                 },
                 {
@@ -1100,29 +1007,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
                   value: 'LOCAL_VARIABLES',
                   feature: 'SYNC_LOCAL_VARIABLES',
                   type: 'OPTION',
-                  isActive: Actions.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SYNC_LOCAL_VARIABLES.isActive(),
-                  isBlocked: Actions.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SYNC_LOCAL_VARIABLES.isReached(
+                  isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
+                  isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
                     (this.props.creditsCount -
                       this.props.config.fees.localVariablesSync) *
                       -1 -
                       1
                   ),
-                  isNew: Actions.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).SYNC_LOCAL_VARIABLES.isNew(),
+                  isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                   action: (e) => this.props.onSyncLocalVariables?.(e),
                 },
               ]}
@@ -1140,14 +1032,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsStates> 
 
   Export = () => {
     return (
-      <Feature
-        isActive={Actions.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).DOWNLOAD_EXPORT.isActive()}
-      >
+      <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
         <Bar
           rightPartSlot={
             <Button

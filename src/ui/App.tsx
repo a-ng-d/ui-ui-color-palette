@@ -43,14 +43,17 @@ import {
   PlanStatus,
   ModalContext,
   Service,
+  LicenseTrigger,
 } from '../types/app'
 import { getDefaultPreset, getPresets, updatePresets } from '../stores/presets'
 import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
   $isAPCADisplayed,
+  $isAPCAIntervalDisplayed,
   $isSuggestedLanguageDisplayed,
   $isWCAGDisplayed,
+  $isWCAGIntervalDisplayed,
 } from '../stores/preferences'
 import { $palette, initializePaletteStore } from '../stores/palette'
 import { $creditsCount } from '../stores/credits'
@@ -115,6 +118,7 @@ export interface AppStates extends BaseProps {
   mustUserConsent: boolean
   announcements: AnnouncementsDigest
   notification: NotificationMessage
+  licenseTrigger: LicenseTrigger
   suggestedLanguage: Language | null
   isSuggestedLanguageDisplayed: boolean
   isLoaded: boolean
@@ -215,6 +219,7 @@ class App extends Component<AppProps, AppStates> {
       scale: {},
       shift: {
         chroma: 100,
+        hue: 0,
       },
       areSourceColorsLocked: false,
       colors: [],
@@ -273,6 +278,7 @@ class App extends Component<AppProps, AppStates> {
         message: '',
         timer: 5000,
       },
+      licenseTrigger: 'ACTIVATE',
       suggestedLanguage: null,
       isSuggestedLanguageDisplayed: true,
       isLoaded: false,
@@ -501,6 +507,8 @@ class App extends Component<AppProps, AppStates> {
         setTimeout(() => this.setState({ isLoaded: true }), 2000)
         $isWCAGDisplayed.set(path.data.isWCAGDisplayed)
         $isAPCADisplayed.set(path.data.isAPCADisplayed)
+        $isWCAGIntervalDisplayed.set(path.data.isWCAGIntervalDisplayed)
+        $isAPCAIntervalDisplayed.set(path.data.isAPCAIntervalDisplayed)
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
         $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
         $isSuggestedLanguageDisplayed.set(
@@ -705,6 +713,7 @@ class App extends Component<AppProps, AppStates> {
       const getPricing = () =>
         this.setState({
           modalContext: 'PRICING',
+          licenseTrigger: path.data.licenseTrigger,
         })
 
       const getLicense = () =>
@@ -964,6 +973,7 @@ class App extends Component<AppProps, AppStates> {
       scale: scale,
       shift: {
         chroma: 100,
+        hue: 0,
       },
       areSourceColorsLocked: false,
       colors: [],
@@ -1000,6 +1010,7 @@ class App extends Component<AppProps, AppStates> {
     this.palette.setKey('scale', scale)
     this.palette.setKey('shift', {
       chroma: 100,
+      hue: 0,
     })
     this.palette.setKey('areSourceColorsLocked', false)
     this.palette.setKey('colorSpace', 'LCH')

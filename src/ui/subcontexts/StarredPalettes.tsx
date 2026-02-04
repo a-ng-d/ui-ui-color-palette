@@ -100,6 +100,15 @@ export default class StarredPalettes extends PureComponent<
     }),
   })
 
+  private get features() {
+    return StarredPalettes.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: StarredPalettesProps) {
     super(props)
     this.state = {
@@ -487,14 +496,7 @@ export default class StarredPalettes extends PureComponent<
                 }}
                 actionsSlot={
                   <>
-                    <Feature
-                      isActive={StarredPalettes.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).STAR_PALETTE.isActive()}
-                    >
+                    <Feature isActive={this.features.STAR_PALETTE.isActive()}>
                       <Button
                         type="icon"
                         icon="star-on"
@@ -502,18 +504,8 @@ export default class StarredPalettes extends PureComponent<
                           label: this.props.t('browse.actions.unstarPalette'),
                         }}
                         isLoading={this.state.isRemoveFromStarredLoading[index]}
-                        isBlocked={StarredPalettes.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).STAR_PALETTE.isBlocked()}
-                        isNew={StarredPalettes.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).STAR_PALETTE.isNew()}
+                        isBlocked={this.features.STAR_PALETTE.isBlocked()}
+                        isNew={this.features.STAR_PALETTE.isNew()}
                         action={() => {
                           this.setState({
                             isRemoveFromStarredLoading:
@@ -525,14 +517,7 @@ export default class StarredPalettes extends PureComponent<
                         }}
                       />
                     </Feature>
-                    <Feature
-                      isActive={StarredPalettes.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).SEE_PALETTE.isActive()}
-                    >
+                    <Feature isActive={this.features.SEE_PALETTE.isActive()}>
                       <Button
                         type="secondary"
                         label={this.props.t('browse.actions.openPalette')}
@@ -541,18 +526,8 @@ export default class StarredPalettes extends PureComponent<
                           isEnabled: true,
                           icon: 'forward',
                         }}
-                        isBlocked={StarredPalettes.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SEE_PALETTE.isBlocked()}
-                        isNew={StarredPalettes.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).SEE_PALETTE.isNew()}
+                        isBlocked={this.features.SEE_PALETTE.isBlocked()}
+                        isNew={this.features.SEE_PALETTE.isNew()}
                         action={() => {
                           this.setState({
                             isAddToLocalActionLoading: this.state[
@@ -589,14 +564,7 @@ export default class StarredPalettes extends PureComponent<
                         }}
                       />
                     </Feature>
-                    <Feature
-                      isActive={StarredPalettes.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).ADD_PALETTE.isActive()}
-                    >
+                    <Feature isActive={this.features.ADD_PALETTE.isActive()}>
                       <Button
                         type="secondary"
                         label={this.props.t('actions.addToLocal')}
@@ -605,12 +573,7 @@ export default class StarredPalettes extends PureComponent<
                           isEnabled: true,
                           icon: 'plus',
                         }}
-                        isBlocked={StarredPalettes.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).LOCAL_PALETTES.isReached(
+                        isBlocked={this.features.LOCAL_PALETTES.isReached(
                           this.props.localPalettesList.length
                         )}
                         action={() => {

@@ -63,6 +63,8 @@ export type PlanStatus = 'UNPAID' | 'PAID' | 'NOT_SUPPORTED'
 
 export type TrialStatus = 'UNUSED' | 'PENDING' | 'EXPIRED' | 'SUSPENDED'
 
+export type LicenseTrigger = 'ACTIVATE' | 'JUMP'
+
 export type Editor =
   | 'figma'
   | 'figjam'
@@ -115,7 +117,7 @@ export type ModalContext =
 
 export type ThirdParty = 'COOLORS' | 'REALTIME_COLORS' | 'COLOUR_LOVERS'
 
-export type NamingConvention = 'ONES' | 'TENS' | 'HUNDREDS'
+export type ScoreFilterStatus = 'ALL' | 'PASS' | 'FAIL'
 
 export interface ImportUrl {
   value: string

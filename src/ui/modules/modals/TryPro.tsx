@@ -30,17 +30,19 @@ export default class TryPro extends PureComponent<TryProProps> {
     }),
   })
 
+  private get features() {
+    return TryPro.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Render
   render() {
     return (
-      <Feature
-        isActive={TryPro.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PRO_PLAN.isActive()}
-      >
+      <Feature isActive={this.features.PRO_PLAN.isActive()}>
         <Dialog
           title={this.props.t('proPlan.trial.title', {
             hours: this.props.config.plan.trialTime.toString(),
@@ -67,10 +69,7 @@ export default class TryPro extends PureComponent<TryProProps> {
             secondary: {
               label: this.props.t('proPlan.trial.option'),
               action: () =>
-                sendPluginMessage(
-                  { pluginMessage: { type: 'GET_PRO_PLAN' } },
-                  '*'
-                ),
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*'),
             },
           }}
           onClose={this.props.onClose}

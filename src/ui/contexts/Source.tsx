@@ -60,6 +60,15 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
     }),
   })
 
+  private get features() {
+    return Source.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: SourceProps) {
     super(props)
     this.contexts = setContexts(
@@ -136,7 +145,7 @@ export default class Source extends PureComponent<SourceProps, SourceStates> {
         padding = 'var(--size-null) var(--size-pos-xsmall)'
         break
       default:
-        isFlex = true
+        isFlex = false
         padding = 'var(--size-null) var(--size-pos-xsmall)'
     }
 

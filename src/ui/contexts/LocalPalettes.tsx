@@ -60,6 +60,15 @@ export default class LocalPalettes extends PureComponent<
     }),
   })
 
+  private get features() {
+    return LocalPalettes.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: LocalPalettesProps) {
     super(props)
     this.contexts = setContexts(

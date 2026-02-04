@@ -20,12 +20,19 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { AppStates } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  LicenseTrigger,
+  PlanStatus,
+  Service,
+} from '../../../types/app'
 import { $palette } from '../../../stores/palette'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
 import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
+import uicpj from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PricingProps
@@ -35,6 +42,7 @@ interface PricingProps
   sourceColors: Array<SourceColorConfiguration>
   preset: PresetConfiguration
   scale: ScaleConfiguration
+  licenseTrigger: LicenseTrigger
   onManageLicense: React.Dispatch<Partial<AppStates>>
   onSkipAndResetPalette: React.Dispatch<Partial<AppStates>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
@@ -78,6 +86,48 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -152,6 +202,27 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
+    SETTINGS_ALGORITHM_V1: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V1',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V2: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V2',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_ALGORITHM_V3: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_ALGORITHM_V3',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SCALE_CHROMA: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_CHROMA',
@@ -159,7 +230,32 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
+    SCALE_HUE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_HUE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
+
+  private get features() {
+    return Pricing.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
+  private get specificFeatures() {
+    return Pricing.features(
+      this.props.planStatus,
+      this.props.config,
+      'EDIT',
+      this.props.editor
+    )
+  }
 
   constructor(props: PricingProps) {
     super(props)
@@ -194,54 +290,58 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   canSavePalette = (): boolean => {
     if (
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.isReached(this.refinedNumberOfSourceColors() - 1)
+      this.specificFeatures.SOURCE.isReached(
+        this.refinedNumberOfSourceColors() - 1
+      )
     )
       return false
     if (
       $palette.get().preset.id.includes('CUSTOM') &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).PRESETS_CUSTOM_ADD.isReached(Object.keys(this.props.scale).length - 1)
+      this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
+        Object.keys(this.props.scale).length - 1
+      )
     )
       return false
     if (
       $palette.get().areSourceColorsLocked &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
+      this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
     )
       return false
     if (
       $palette.get().shift.chroma !== 100 &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      ).SCALE_CHROMA.isBlocked()
+      this.specificFeatures.SCALE_CHROMA.isBlocked()
+    )
+      return false
+    if (
+      $palette.get().shift.hue !== 0 &&
+      this.specificFeatures.SCALE_HUE.isBlocked()
     )
       return false
     if (
       $palette.get().visionSimulationMode !== 'NONE' &&
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        'EDIT',
-        this.props.editor
-      )[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}`
+      this.specificFeatures[
+        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
+          typeof Pricing.features
+        >
       ].isBlocked()
+    )
+      return false
+    if (
+      $palette.get().colorSpace !== 'LCH' &&
+      this.specificFeatures[
+        `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
+          typeof Pricing.features
+        >
+      ].isBlocked()
+    )
+      return false
+    if (
+      $palette.get().algorithmVersion !== 'v3' &&
+      this.specificFeatures[
+        `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
+          typeof Pricing.features
+        >
+      ]?.isBlocked()
     )
       return false
     return true
@@ -262,13 +362,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     let updatedSourceColors = this.props.sourceColors
 
     if (this.props.preset.id.includes('CUSTOM')) {
-      const limit =
-        Pricing.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PRESETS_CUSTOM_ADD.limit ?? 0
+      const limit = this.features.PRESETS_CUSTOM_ADD.limit ?? 0
       const currentStopsCount = this.props.preset.stops?.length ?? 0
 
       if (limit > 0 && currentStopsCount > limit) {
@@ -281,13 +375,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       }
     }
 
-    const sourceColorLimit =
-      Pricing.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).SOURCE.limit ?? 1
+    const sourceColorLimit = this.features.SOURCE.limit ?? 1
 
     const nonDefaultColors = this.props.sourceColors.filter(
       (color) => color.source !== 'DEFAULT'
@@ -307,7 +395,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
     $palette.setKey('areSourceColorsLocked', false)
     $palette.setKey('visionSimulationMode', 'NONE')
+    $palette.setKey('colorSpace', 'LCH')
+    $palette.setKey('algorithmVersion', 'v3')
     $palette.setKey('shift.chroma', 100)
+    $palette.setKey('shift.hue', 0)
     $palette.setKey(
       'scale',
       doScale(
@@ -323,8 +414,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       preset: updatedPreset,
       areSourceColorsLocked: false,
       visionSimulationMode: 'NONE',
+      colorSpace: 'LCH',
+      algorithmVersion: 'v3',
       shift: {
         chroma: 100,
+        hue: 0,
       },
       scale: doScale(
         updatedStops,
@@ -362,6 +456,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.props.t('pricing.checkout.lemonsqueezy')}
         actions={
           <Button
             type="primary"
@@ -428,6 +523,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               __html: this.props.t('pricing.pro.texts.month'),
             }}
           />
+        }
+        tag={
+          this.props.licenseTrigger === 'ACTIVATE'
+            ? this.props.t('pricing.checkout.lemonsqueezy')
+            : this.props.t('pricing.checkout.figma')
         }
         actions={
           <Button
@@ -496,6 +596,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={
+          this.props.licenseTrigger === 'ACTIVATE'
+            ? this.props.t('pricing.checkout.lemonsqueezy')
+            : this.props.t('pricing.checkout.figma')
+        }
         actions={
           <Button
             type="primary"
@@ -563,6 +668,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.props.t('pricing.checkout.lemonsqueezy')}
         actions={
           <Button
             type="primary"
@@ -630,6 +736,48 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.activate.cta')}
+            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation()
+              sendPluginMessage(
+                {
+                  pluginMessage: {
+                    type: 'GET_LICENSE',
+                  },
+                },
+                '*'
+              )
+            }}
+          />
+        }
+        shouldFill
+        action={() => {
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type: 'GET_LICENSE',
+              },
+            },
+            '*'
+          )
+        }}
+      />
+    )
+  }
+
+  Jump = () => {
+    return (
+      <Card
+        src={uicpj}
+        title={this.props.t('pricing.jump.title')}
+        richText={
+          <span className={texts.type}>
+            {this.props.t('pricing.jump.text')}
+          </span>
+        }
+        actions={
+          <Button
+            type="primary"
+            label={this.props.t('pricing.jump.cta')}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
@@ -752,14 +900,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }
 
     return (
-      <Feature
-        isActive={Pricing.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PRO_PLAN.isActive()}
-      >
+      <Feature isActive={this.features.PRO_PLAN.isActive()}>
         <Dialog
           title={this.props.t('pricing.title')}
           onClose={this.props.onClose}
@@ -788,11 +929,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                     label: this.props.t('pricing.subscriptions.week'),
                     id: 'WEEK',
                     isUpdated: false,
+                    isNew: true,
                   },
                   {
                     label: this.props.t('pricing.subscriptions.month'),
                     id: 'MONTH',
-                    isUpdated: true,
+                    isUpdated: false,
                   },
                   {
                     label: this.props.t('pricing.subscriptions.year'),
@@ -806,7 +948,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   },
                 ]}
                 active={this.state.selectedPlan}
-                isFlex={false}
+                isFlex={isFlex}
                 action={this.planHandler}
               />
             </div>
@@ -837,7 +979,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               {this.state.selectedPlan === 'YEAR' && <this.Year />}
               {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
               <this.Ultimate />
-              <this.Activate />
+              {this.props.licenseTrigger === 'ACTIVATE' ? (
+                <this.Activate />
+              ) : (
+                <this.Jump />
+              )}
             </div>
           </div>
         </Dialog>

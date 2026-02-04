@@ -100,6 +100,15 @@ export default class Publication extends PureComponent<
     }),
   })
 
+  private get features() {
+    return Publication.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: PublicationProps) {
     super(props)
     this.enabledThemeIndex = this.props.rawData.themes.findIndex(
@@ -1112,50 +1121,26 @@ export default class Publication extends PureComponent<
   StarButton = () => {
     if (this.state.isStarred)
       return (
-        <Feature
-          isActive={Publication.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).STAR_PALETTE.isActive()}
-        >
+        <Feature isActive={this.features.STAR_PALETTE.isActive()}>
           <Button
             type="tertiary"
             icon="star-on"
             label={this.props.t('publication.unstar')}
             isLoading={this.state.isTertiaryActionLoading}
-            isBlocked={Publication.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).STAR_PALETTE.isBlocked()}
+            isBlocked={this.features.STAR_PALETTE.isBlocked()}
             action={this.onStarPalette}
           />
         </Feature>
       )
 
     return (
-      <Feature
-        isActive={Publication.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).STAR_PALETTE.isActive()}
-      >
+      <Feature isActive={this.features.STAR_PALETTE.isActive()}>
         <Button
           type="tertiary"
           icon="star-off"
           label={this.props.t('publication.star')}
           isLoading={this.state.isTertiaryActionLoading}
-          isBlocked={Publication.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).STAR_PALETTE.isBlocked()}
+          isBlocked={this.features.STAR_PALETTE.isBlocked()}
           action={this.onStarPalette}
         />
       </Feature>
@@ -1166,14 +1151,7 @@ export default class Publication extends PureComponent<
   render() {
     if (this.props.userSession.connectionStatus === 'CONNECTED')
       return (
-        <Feature
-          isActive={Publication.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).PUBLICATION.isActive()}
-        >
+        <Feature isActive={this.features.PUBLICATION.isActive()}>
           <Dialog
             title={
               this.props.rawData.creatorIdentity.creatorId ===
@@ -1205,10 +1183,7 @@ export default class Publication extends PureComponent<
                     {color.shades.map((shade, shadeIndex) => (
                       <div
                         key={`color-${index}-${shadeIndex}`}
-                        className="preview__cell"
-                        style={{
-                          minHeight: 'unset',
-                        }}
+                        className="preview__cell preview__cell--compact"
                       >
                         <div
                           style={{
@@ -1304,14 +1279,7 @@ export default class Publication extends PureComponent<
         </Feature>
       )
     return (
-      <Feature
-        isActive={Publication.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PUBLICATION.isActive()}
-      >
+      <Feature isActive={this.features.PUBLICATION.isActive()}>
         <Dialog
           title={this.props.t('publication.titleSignIn')}
           actions={{

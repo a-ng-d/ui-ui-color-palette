@@ -61,6 +61,15 @@ export default class SyncPreferences extends PureComponent<
     }),
   })
 
+  private get features() {
+    return SyncPreferences.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   static defaultProps = {
     isLast: false,
   }
@@ -92,12 +101,7 @@ export default class SyncPreferences extends PureComponent<
   StylesDeepSync = () => {
     return (
       <Feature
-        isActive={SyncPreferences.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()}
+        isActive={this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()}
       >
         <Select
           id="update-styles-deep-sync"
@@ -107,24 +111,14 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canStylesDeepSync}
           isBlocked={
             !this.state.canStylesDeepSync &&
-            SyncPreferences.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).USER_PREFERENCES_SYNC_DEEP_STYLES.isReached(
+            this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isReached(
               (this.props.creditsCount -
                 this.props.config.fees.localStylesSync) *
                 -1 -
                 1
             )
           }
-          isNew={SyncPreferences.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
+          isNew={this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
           action={() => {
             $canStylesDeepSync.set(!this.state.canStylesDeepSync)
@@ -151,12 +145,7 @@ export default class SyncPreferences extends PureComponent<
   VariablesDeepSync = () => {
     return (
       <Feature
-        isActive={SyncPreferences.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive()}
+        isActive={this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive()}
       >
         <Select
           id="update-variables-deep-sync"
@@ -166,24 +155,14 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canVariablesDeepSync}
           isBlocked={
             !this.state.canVariablesDeepSync &&
-            SyncPreferences.features(
-              this.props.planStatus,
-              this.props.config,
-              this.props.service,
-              this.props.editor
-            ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isReached(
+            this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isReached(
               (this.props.creditsCount -
                 this.props.config.fees.localVariablesSync) *
                 -1 -
                 1
             )
           }
-          isNew={SyncPreferences.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
+          isNew={this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
           action={() => {
             $canVariablesDeepSync.set(!this.state.canVariablesDeepSync)
@@ -212,18 +191,8 @@ export default class SyncPreferences extends PureComponent<
     return (
       <Feature
         isActive={
-          SyncPreferences.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive() ||
-          SyncPreferences.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()
+          this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive() ||
+          this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()
         }
       >
         <Section

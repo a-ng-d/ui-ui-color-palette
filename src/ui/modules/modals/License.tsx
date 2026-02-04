@@ -60,6 +60,15 @@ export default class License extends PureComponent<
     }),
   })
 
+  private get features() {
+    return License.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: LicenseProps) {
     super(props)
     this.state = {
@@ -312,19 +321,13 @@ export default class License extends PureComponent<
           '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
         break
       default:
-        modalPadding = '0'
-        messagePadding = '0'
+        modalPadding = 'var(--size-pos-xxsmall) 0'
+        messagePadding =
+          '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall) var(--size-pos-xsmall)'
     }
 
     return (
-      <Feature
-        isActive={License.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).USER_LICENSE.isActive()}
-      >
+      <Feature isActive={this.features.USER_LICENSE.isActive()}>
         <Dialog
           title={this.props.t('user.manageLicense')}
           actions={{

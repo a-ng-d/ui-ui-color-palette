@@ -56,6 +56,8 @@ interface GlanceState {
 }
 
 export default class Glance extends PureComponent<GlanceProps, GlanceState> {
+  private theme: string | null
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -92,6 +94,15 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
     }),
   })
 
+  private get features() {
+    return Glance.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   static defaultProps = {
     isLast: false,
   }
@@ -109,6 +120,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
         meta: {} as MetaConfiguration,
       },
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -274,6 +286,25 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
   // Render
   render() {
     let modal
+    let padding
+
+    switch (this.theme) {
+      case 'figma':
+        padding = 'var(--size-null) var(--size-null)'
+        break
+      case 'penpot':
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'sketch':
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        padding = 'var(--size-null) var(--size-pos-xxxsmall)'
+        break
+      default:
+        padding = 'var(--size-null) var(--size-null)'
+    }
+
     if (this.state.paletteStatus === 'LOADING')
       modal = (
         <Dialog
@@ -312,6 +343,8 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
               flexDirection: 'column',
               flex: 1,
               maxWidth: '100%',
+              padding: padding,
+              boxSizing: 'border-box',
             }}
           >
             <Bar
@@ -323,12 +356,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                 <div className={layouts['snackbar--medium']}>
                   <Feature
                     isActive={
-                      Glance.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).STAR_PALETTE.isActive() &&
+                      this.features.STAR_PALETTE.isActive() &&
                       this.props.userSession.connectionStatus === 'CONNECTED'
                     }
                   >
@@ -340,12 +368,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                           label: this.props.t('browse.actions.unstarPalette'),
                         }}
                         isLoading={this.state.isSecondaryActionLoading}
-                        isBlocked={Glance.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).STAR_PALETTE.isBlocked()}
+                        isBlocked={this.features.STAR_PALETTE.isBlocked()}
                         action={this.onStarPalette}
                       />
                     ) : (
@@ -356,24 +379,14 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                           label: this.props.t('browse.actions.starPalette'),
                         }}
                         isLoading={this.state.isSecondaryActionLoading}
-                        isBlocked={Glance.features(
-                          this.props.planStatus,
-                          this.props.config,
-                          this.props.service,
-                          this.props.editor
-                        ).STAR_PALETTE.isBlocked()}
+                        isBlocked={this.features.STAR_PALETTE.isBlocked()}
                         action={this.onStarPalette}
                       />
                     )}
                   </Feature>
                   <Feature
                     isActive={
-                      Glance.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).STAR_PALETTE.isActive() &&
+                      this.features.STAR_PALETTE.isActive() &&
                       this.props.userSession.connectionStatus === 'UNCONNECTED'
                     }
                   >
@@ -382,41 +395,19 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                       icon="star-on"
                       label={this.props.t('browse.actions.signInToStar')}
                       isLoading={this.state.isSecondaryActionLoading}
-                      isBlocked={Glance.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).STAR_PALETTE.isBlocked()}
+                      isBlocked={this.features.STAR_PALETTE.isBlocked()}
                       action={this.onAuthenticate}
                     />
                   </Feature>
-                  <Feature
-                    isActive={Glance.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).ADD_PALETTE.isActive()}
-                  >
+                  <Feature isActive={this.features.ADD_PALETTE.isActive()}>
                     <Button
                       type="primary"
                       label={this.props.t('actions.addToLocal')}
                       isLoading={this.state.isPrimaryActionLoading}
-                      isBlocked={Glance.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).LOCAL_PALETTES.isReached(
+                      isBlocked={this.features.LOCAL_PALETTES.isReached(
                         this.props.localPalettesList.length
                       )}
-                      isNew={Glance.features(
-                        this.props.planStatus,
-                        this.props.config,
-                        this.props.service,
-                        this.props.editor
-                      ).ADD_PALETTE.isNew()}
+                      isNew={this.features.ADD_PALETTE.isNew()}
                       action={() => {
                         this.setState({ isPrimaryActionLoading: true })
                         this.props.onSelectPalette(this.props.id)
@@ -450,14 +441,7 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
       )
 
     return (
-      <Feature
-        isActive={Glance.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).GLANCE_PALETTE.isActive()}
-      >
+      <Feature isActive={this.features.GLANCE_PALETTE.isActive()}>
         {document.getElementById('modal') &&
           createPortal(
             modal,

@@ -44,6 +44,15 @@ export default class Onboarding extends PureComponent<
     }),
   })
 
+  private get features() {
+    return Onboarding.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: OnboardingProps) {
     super(props)
     this.state = {
@@ -233,14 +242,7 @@ export default class Onboarding extends PureComponent<
   render() {
     if (this.state.status === 'LOADING')
       return (
-        <Feature
-          isActive={Onboarding.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).HELP_ONBOARDING.isActive()}
-        >
+        <Feature isActive={this.features.HELP_ONBOARDING.isActive()}>
           <Dialog
             title={this.props.t('shortcuts.onboarding')}
             isLoading
@@ -250,14 +252,7 @@ export default class Onboarding extends PureComponent<
       )
     else if (this.state.status === 'ERROR')
       return (
-        <Feature
-          isActive={Onboarding.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).HELP_ONBOARDING.isActive()}
-        >
+        <Feature isActive={this.features.HELP_ONBOARDING.isActive()}>
           <Dialog
             title={this.props.t('shortcuts.onboarding')}
             isMessage
@@ -272,14 +267,7 @@ export default class Onboarding extends PureComponent<
       )
     else if (this.state.announcements.length === 0)
       return (
-        <Feature
-          isActive={Onboarding.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).HELP_ONBOARDING.isActive()}
-        >
+        <Feature isActive={this.features.HELP_ONBOARDING.isActive()}>
           <Dialog
             title={this.props.t('shortcuts.onboarding')}
             isMessage
@@ -310,14 +298,7 @@ export default class Onboarding extends PureComponent<
       )
     else
       return (
-        <Feature
-          isActive={Onboarding.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).HELP_ONBOARDING.isActive()}
-        >
+        <Feature isActive={this.features.HELP_ONBOARDING.isActive()}>
           <Dialog
             title={
               this.state.announcements[this.state.position].properties.Titre

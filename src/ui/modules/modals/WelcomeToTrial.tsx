@@ -32,17 +32,19 @@ export default class WelcomeToTrial extends PureComponent<WelcomeToTrialProps> {
     }),
   })
 
+  private get features() {
+    return WelcomeToTrial.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   // Render
   render() {
     return (
-      <Feature
-        isActive={WelcomeToTrial.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).PRO_PLAN.isActive()}
-      >
+      <Feature isActive={this.features.PRO_PLAN.isActive()}>
         <Dialog
           title={this.props.t('proPlan.welcome.title')}
           actions={{

@@ -205,6 +205,50 @@
     "source": "Sources",
     "themes": "Modes"
   },
+  "contrast": {
+    "actions": {
+      "next": "Couleur suivante",
+      "previous": "Couleur précédente"
+    },
+    "callout": {
+      "message": "Inspectez les rapports de contraste de vos combinaisons de couleurs pour assurer la conformité à l'accessibilité"
+    },
+    "details": {
+      "title": "Détails du contraste"
+    },
+    "fail": "Échec",
+    "foregroundColors": {
+      "dark": "Couleur de premier plan sombre",
+      "light": "Couleur de premier plan claire"
+    },
+    "minSizeFont": {
+      "title": "Taille de police minimale"
+    },
+    "pass": "Réussi",
+    "playground": {
+      "fontWeight": {
+        "label": "Graisse de police",
+        "slider": "Abc"
+      },
+      "previewText": {
+        "label": "Texte de prévisualisation",
+        "placeholder": "Portez ce vieux whisky au juge blond qui fume."
+      },
+      "title": "Zone de test du contraste"
+    },
+    "score": {
+      "apca": {
+        "title": "Score APCA"
+      },
+      "readability": {
+        "title": "Score de lisibilité"
+      },
+      "wcag": {
+        "title": "Score WCAG 2.1"
+      }
+    },
+    "title": "Rapport de contraste"
+  },
   "create": {
     "leavePaletteDialog": {
       "cancel": "Annuler",
@@ -336,8 +380,11 @@
     "maxNumberOfSourceColors": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule couleur source} other {Passez à /pro pour ajouter plus de # couleurs sources}}",
     "maxNumberOfStops": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule étape} other {Passez à /pro pour ajouter plus de # étapes}}",
     "multipleBlockingMessages": {
+      "algorithmVersion": "Remettre la vélocité de chroma sur « Sinusoïdal et hyperbolique »",
       "chroma": "Réinitialiser la chroma",
+      "colorSpace": "Remettre l'espace colorimétrique sur « LCH » ou « HSL »",
       "head": "Vous pouvez débloquer la création si vous : {messages}",
+      "hue": "Réinitialiser la teinte",
       "lockedSourceColors": "Déverrouiller les couleurs sources",
       "sourceColors": "Diminuer les couleurs sources",
       "stops": "Diminuer les étapes",
@@ -439,13 +486,27 @@
     "actions": {
       "collapsePreview": "Réduire l'aperçu",
       "colorSpace": "Espace colorimétrique",
+      "copyHex": "Copier le code hexadécimal dans le presse-papiers",
       "displayScores": "Afficher les scores",
       "expandPreview": "Agrandir l'aperçu",
+      "filterScores": "Filtrer les scores",
+      "jumpToColor": "Aller à la couleur source",
       "resetImportedColors": "Réinitialiser les couleurs importées",
+      "showDetails": "Voir le rapport de contraste",
       "visionSimulationMode": "Simulation de vision"
     },
     "closest": {
       "tag": "Proche"
+    },
+    "filter": {
+      "all": "Tous",
+      "apca": "WCAG",
+      "darkForeground": "Premier plan sombre",
+      "fail": "Échec",
+      "lightForeground": "Premier plan clair",
+      "pass": "Réussi",
+      "reset": "Réinitialiser le filtre",
+      "wcag": "APCA"
     },
     "lock": {
       "label": "Verrouiller les couleurs sources",
@@ -455,7 +516,13 @@
     },
     "score": {
       "apca": "Afficher les scores APCA",
-      "wcag": "Afficher les scores WCAG 2.1"
+      "apcaInterval": "Afficher l'intervalle APCA",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "Afficher les scores WCAG 2.1",
+      "wcagInterval": "Afficher l'intervalle WCAG 2.1"
     },
     "source": {
       "tag": "Source"
@@ -467,9 +534,54 @@
       "text": "Entrez votre clé de licence après l'achat pour débloquer les fonctionnalités",
       "title": "Activer /pro"
     },
+    "bestDeal": "Meilleur offre",
+    "checkout": {
+      "figma": "Figma",
+      "lemonsqueezy": "Lemon Squeezy"
+    },
+    "contexts": {
+      "discount": "Réduction (-20%)",
+      "regular": "Régulier"
+    },
+    "discount": {
+      "amount": "20% de réduction",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "Passer à /pro pour Figma seulement",
+      "subtitle": {
+        "discount": "48$ /an sur Figma",
+        "regular": "5$ /mois sur Figma"
+      },
+      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
+      "title": "UI Color Palette /pro /figma"
+    },
+    "jump": {
+      "cta": "Aller à /one",
+      "text": "Allez au plugin Figma tagué /one pour utiliser votre clé de licence",
+      "title": "Activer /pro"
+    },
     "limit": {
       "cta": "Réinitialiser et poursuivre",
       "message": "La palette ne peut pas être créée car vous avez dépassé les limites. Passez à /pro ou réinitialisez la palette pour la créer."
+    },
+    "one": {
+      "cta": "Obtenez votre licence",
+      "subtitle": {
+        "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "Obtenez votre licence",
+      "subtitle": {
+        "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
+        "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
+      },
+      "text": "◻ Toutes les fonctionnalités /figma</br>◻ Pour petites et grandes équipes</br>◻ Multi plateformes</br>◻ Options de paiement multiples</br>◻ Forfait à vie",
+      "title": "UI Color Palette /pro /one"
     },
     "operation": "Nouveaux plans",
     "pro": {
@@ -500,7 +612,7 @@
     },
     "subscriptions": {
       "lifetime": "Lifetime",
-      "month": "Mois (plus populaire)",
+      "month": "Mois",
       "week": "Semaine",
       "year": "Année (-20%)"
     },
@@ -508,7 +620,7 @@
     "ultimate": {
       "cta": "Demander l'accès",
       "subtitle": "Bientôt disponible",
-      "text": "◻ SSO</br>◻ Support dédié</br>◻ Onboarding personnalisé</br>◻ Personnalisé pour l'entreprise</br>◻ Garanties SLA",
+      "text": "◻ Tout de /pro</br>◻ SSO</br>◻ Support dédié</br>◻ Onboarding personnalisé</br>◻ Garanties SLA",
       "title": "/ultimate"
     }
   },
@@ -646,6 +758,9 @@
       "chroma": {
         "label": "Chroma",
         "warning": "Passez à /pro pour créer une palette avec un décalage de chroma modifié. Réinitialisez-le à 100% ou passez à niveau supérieur."
+      },
+      "hue": {
+        "label": "Teinte"
       }
     },
     "tips": {
@@ -939,7 +1054,7 @@
         "message": "Glissez-déposez votre fichier .png ici",
         "warning": "Le fichier n'a pas été importé. Réessayez de glisser-déposer un fichier .png ici."
       },
-      "message": "Téléchargez, collez ou sélectionnez une image pour extraire ses 5 couleurs dominantes",
+      "message": "Téléchargez, collez ou sélectionnez une image sur le canevas pour extraire ses 5 couleurs dominantes",
       "removeImage": "Supprimer l'image",
       "title": "Couleurs dominantes"
     },
@@ -1102,6 +1217,7 @@
     "signOut": "Se déconnecter",
     "updateConsent": "Gérer les cookies",
     "updatePreferences": "Mettre à jour les préférences",
+    "useLicense": "Utiliser une clé de licence",
     "welcomeMessage": "Bonjour {username}"
   },
   "vendors": {

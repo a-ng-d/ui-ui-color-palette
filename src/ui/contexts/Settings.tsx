@@ -89,6 +89,15 @@ export default class Settings extends PureComponent<SettingsProps> {
     }),
   })
 
+  private get features() {
+    return Settings.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: SettingsProps) {
     super(props)
     this.palette = $palette
@@ -420,39 +429,20 @@ export default class Settings extends PureComponent<SettingsProps> {
   Palette = () => {
     return (
       <>
-        <Feature
-          isActive={Settings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_GLOBAL.isActive()}
-        >
+        <Feature isActive={this.features.SETTINGS_GLOBAL.isActive()}>
           <GlobalSettings
             {...this.props}
             onChangeSettings={this.settingsHandler}
           />
         </Feature>
-        <Feature
-          isActive={Settings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_COLOR_MANAGEMENT.isActive()}
-        >
+        <Feature isActive={this.features.SETTINGS_COLOR_MANAGEMENT.isActive()}>
           <ColorSettings
             {...this.props}
             onChangeSettings={this.settingsHandler}
           />
         </Feature>
         <Feature
-          isActive={Settings.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).SETTINGS_CONTRAST_MANAGEMENT.isActive()}
+          isActive={this.features.SETTINGS_CONTRAST_MANAGEMENT.isActive()}
         >
           <ContrastSettings
             {...this.props}

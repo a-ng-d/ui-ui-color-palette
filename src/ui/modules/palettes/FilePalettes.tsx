@@ -101,6 +101,15 @@ export default class FilePalettes extends PureComponent<
     }),
   })
 
+  private get features() {
+    return FilePalettes.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
   constructor(props: FilePalettesProps) {
     super(props)
     this.state = {
@@ -217,12 +226,8 @@ export default class FilePalettes extends PureComponent<
     return (
       <Feature
         isActive={
-          FilePalettes.features(
-            this.props.planStatus,
-            this.props.config,
-            this.props.service,
-            this.props.editor
-          ).DELETE_PALETTE.isActive() && this.state.isDeleteDialogOpen
+          this.features.DELETE_PALETTE.isActive() &&
+          this.state.isDeleteDialogOpen
         }
       >
         {document.getElementById('modal') &&
@@ -326,33 +331,14 @@ export default class FilePalettes extends PureComponent<
                                 'browse.actions.duplicatePalette'
                               ),
                               type: 'OPTION',
-                              isActive: FilePalettes.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).DUPLICATE_PALETTE.isActive(),
+                              isActive:
+                                this.features.DUPLICATE_PALETTE.isActive(),
                               isBlocked:
-                                FilePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).DUPLICATE_PALETTE.isBlocked() ||
-                                FilePalettes.features(
-                                  this.props.planStatus,
-                                  this.props.config,
-                                  this.props.service,
-                                  this.props.editor
-                                ).LOCAL_PALETTES.isReached(
+                                this.features.DUPLICATE_PALETTE.isBlocked() ||
+                                this.features.LOCAL_PALETTES.isReached(
                                   this.props.localPalettesList.length
                                 ),
-                              isNew: FilePalettes.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).DUPLICATE_PALETTE.isNew(),
+                              isNew: this.features.DUPLICATE_PALETTE.isNew(),
                               action: () => {
                                 this.setState({
                                   isContextActionLoading:
@@ -369,24 +355,10 @@ export default class FilePalettes extends PureComponent<
                                 'browse.actions.deletePalette'
                               ),
                               type: 'OPTION',
-                              isActive: FilePalettes.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).DELETE_PALETTE.isActive(),
-                              isBlocked: FilePalettes.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).DELETE_PALETTE.isBlocked(),
-                              isNew: FilePalettes.features(
-                                this.props.planStatus,
-                                this.props.config,
-                                this.props.service,
-                                this.props.editor
-                              ).DELETE_PALETTE.isNew(),
+                              isActive: this.features.DELETE_PALETTE.isActive(),
+                              isBlocked:
+                                this.features.DELETE_PALETTE.isBlocked(),
+                              isNew: this.features.DELETE_PALETTE.isNew(),
                               action: () =>
                                 this.setState({
                                   isDeleteDialogOpen: true,
@@ -408,12 +380,7 @@ export default class FilePalettes extends PureComponent<
                           }}
                         />
                         <Feature
-                          isActive={FilePalettes.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).OPEN_PALETTE.isActive()}
+                          isActive={this.features.OPEN_PALETTE.isActive()}
                         >
                           <Button
                             type="secondary"
@@ -422,28 +389,13 @@ export default class FilePalettes extends PureComponent<
                               isEnabled: true,
                               icon: 'forward',
                             }}
-                            isBlocked={FilePalettes.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).OPEN_PALETTE.isBlocked()}
-                            isNew={FilePalettes.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).OPEN_PALETTE.isNew()}
+                            isBlocked={this.features.OPEN_PALETTE.isBlocked()}
+                            isNew={this.features.OPEN_PALETTE.isNew()}
                             action={() => this.onEditPalette(palette.meta.id)}
                           />
                         </Feature>
                         <Feature
-                          isActive={FilePalettes.features(
-                            this.props.planStatus,
-                            this.props.config,
-                            this.props.service,
-                            this.props.editor
-                          ).SEE_PALETTE.isActive()}
+                          isActive={this.features.SEE_PALETTE.isActive()}
                         >
                           <Button
                             type="secondary"
@@ -452,18 +404,8 @@ export default class FilePalettes extends PureComponent<
                               isEnabled: true,
                               icon: 'forward',
                             }}
-                            isBlocked={FilePalettes.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).SEE_PALETTE.isBlocked()}
-                            isNew={FilePalettes.features(
-                              this.props.planStatus,
-                              this.props.config,
-                              this.props.service,
-                              this.props.editor
-                            ).SEE_PALETTE.isNew()}
+                            isBlocked={this.features.SEE_PALETTE.isBlocked()}
+                            isNew={this.features.SEE_PALETTE.isNew()}
                             action={() => this.onSeePalette(palette.meta.id)}
                           />
                         </Feature>
@@ -538,62 +480,26 @@ export default class FilePalettes extends PureComponent<
               <>
                 <Feature
                   isActive={
-                    FilePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).CREATE_PALETTE.isActive() &&
-                    FilePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).REMOTE_PALETTES_COMMUNITY.isActive()
+                    this.features.CREATE_PALETTE.isActive() &&
+                    this.features.REMOTE_PALETTES_COMMUNITY.isActive()
                   }
                 >
                   <Button
                     type="secondary"
                     label={this.props.t('actions.explorePalettes')}
-                    isNew={FilePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).REMOTE_PALETTES_COMMUNITY.isNew()}
+                    isNew={this.features.REMOTE_PALETTES_COMMUNITY.isNew()}
                     action={this.props.onExplorePalettes}
                   />
                 </Feature>
-                <Feature
-                  isActive={FilePalettes.features(
-                    this.props.planStatus,
-                    this.props.config,
-                    this.props.service,
-                    this.props.editor
-                  ).CREATE_PALETTE.isActive()}
-                >
+                <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
                   <Button
                     type="primary"
                     label={this.props.t('actions.createPalette')}
-                    isNew={FilePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).CREATE_PALETTE.isNew()}
+                    isNew={this.features.CREATE_PALETTE.isNew()}
                     action={this.props.onCreatePalette}
                   />
                 </Feature>
-                <Feature
-                  isActive={
-                    !FilePalettes.features(
-                      this.props.planStatus,
-                      this.props.config,
-                      this.props.service,
-                      this.props.editor
-                    ).CREATE_PALETTE.isActive()
-                  }
-                >
+                <Feature isActive={!this.features.CREATE_PALETTE.isActive()}>
                   <span className={doClassnames([texts.type, texts.label])}>
                     {this.props.t('info.askDesigner')}
                   </span>
@@ -609,13 +515,7 @@ export default class FilePalettes extends PureComponent<
 
   // Render
   render() {
-    const limit =
-      FilePalettes.features(
-        this.props.planStatus,
-        this.props.config,
-        this.props.service,
-        this.props.editor
-      ).LOCAL_PALETTES.limit ?? 0
+    const limit = this.features.LOCAL_PALETTES.limit ?? 0
 
     return (
       <>
@@ -627,12 +527,9 @@ export default class FilePalettes extends PureComponent<
           }
           isListItem={false}
         />
-        {FilePalettes.features(
-          this.props.planStatus,
-          this.props.config,
-          this.props.service,
-          this.props.editor
-        ).LOCAL_PALETTES.isReached(this.props.localPalettesList.length) &&
+        {this.features.LOCAL_PALETTES.isReached(
+          this.props.localPalettesList.length
+        ) &&
           !this.props.editor.includes('dev') && (
             <div
               style={{
@@ -663,7 +560,7 @@ export default class FilePalettes extends PureComponent<
                       label={this.props.t('plan.getPro')}
                       action={() =>
                         sendPluginMessage(
-                          { pluginMessage: { type: 'GET_PRO_PLAN' } },
+                          { pluginMessage: { type: 'GET_PRO' } },
                           '*'
                         )
                       }
