@@ -492,6 +492,7 @@ export default class ContrastReport extends React.PureComponent<
                 maxWidth: '100%',
                 padding: padding,
                 boxSizing: 'border-box',
+                overflow: isBlocked ? 'hidden' : 'auto',
               }}
             >
               <Bar

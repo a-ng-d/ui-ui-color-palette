@@ -85,10 +85,12 @@ div.export-palette__preview {
 }
 
 .preview__rows {
-  display: flex;
+  display: inline-flex;
   flex: 1;
   flex-direction: column;
   overflow: visible;
+  min-width: 100%;
+  width: fit-content;
 }
 
 .preview__row {
@@ -97,10 +99,12 @@ div.export-palette__preview {
 }
 
 .preview__header {
-  display: flex;
+  display: inline-flex;
   position: sticky;
   top: 0;
-  z-index: 4;
+  z-index: 5;
+  min-width: 100%;
+  width: fit-content;
 }
 
 .preview__footer {
@@ -158,7 +162,7 @@ div.export-palette__preview {
 .preview__cell--frozen {
   position: sticky;
   left: 0;
-  z-index: 3;
+  z-index: 4;
   min-width: 96px;
   max-width: 148px;
 }
