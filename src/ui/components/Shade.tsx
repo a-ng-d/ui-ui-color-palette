@@ -82,6 +82,20 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
       currentService: service,
       currentEditor: editor,
     }),
+    PREVIEW_SCORES_WCAG_SCORE: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_SCORES_WCAG_SCORE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PREVIEW_SCORES_APCA_SCORE: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_SCORES_APCA_SCORE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: ShadeProps) {
@@ -185,28 +199,37 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     friendlyScore: string
     isMouseEnter: boolean
   }) => (
-    <Chip
-      state="ON_BACKGROUND"
-      leftSlot={
-        <ColorChip
-          color={color}
-          width="var(--size-pos-xxsmall)"
-          height="var(--size-pos-xxsmall)"
-          isRounded
-        />
-      }
-      rightSlot={
-        <span
-          style={{
-            fontSize: '10px',
-          }}
-        >
-          {score <= 4.5 ? this.props.t('fail') : this.props.t('pass')}
-        </span>
-      }
+    <Feature
+      isActive={Shade.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).PREVIEW_SCORES_WCAG_SCORE.isActive()}
     >
-      {!isMouseEnter ? `${score.toFixed(2)} : 1` : friendlyScore}
-    </Chip>
+      <Chip
+        state="ON_BACKGROUND"
+        leftSlot={
+          <ColorChip
+            color={color}
+            width="var(--size-pos-xxsmall)"
+            height="var(--size-pos-xxsmall)"
+            isRounded
+          />
+        }
+        rightSlot={
+          <span
+            style={{
+              fontSize: '10px',
+            }}
+          >
+            {score <= 4.5 ? this.props.t('fail') : this.props.t('pass')}
+          </span>
+        }
+      >
+        {!isMouseEnter ? `${score.toFixed(2)} : 1` : friendlyScore}
+      </Chip>
+    </Feature>
   )
 
   apcaScoreTag = ({
@@ -220,28 +243,37 @@ export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
     friendlyScore: string
     isMouseEnter: boolean
   }) => (
-    <Chip
-      state="ON_BACKGROUND"
-      leftSlot={
-        <ColorChip
-          color={color}
-          width="var(--size-pos-xxsmall)"
-          height="var(--size-pos-xxsmall)"
-          isRounded
-        />
-      }
-      rightSlot={
-        <span
-          style={{
-            fontSize: '10px',
-          }}
-        >
-          {score <= 45 ? this.props.t('fail') : this.props.t('pass')}
-        </span>
-      }
+    <Feature
+      isActive={Shade.features(
+        this.props.planStatus,
+        this.props.config,
+        this.props.service,
+        this.props.editor
+      ).PREVIEW_SCORES_APCA_SCORE.isActive()}
     >
-      {!isMouseEnter ? `Lc ${score.toFixed(1)}` : friendlyScore}
-    </Chip>
+      <Chip
+        state="ON_BACKGROUND"
+        leftSlot={
+          <ColorChip
+            color={color}
+            width="var(--size-pos-xxsmall)"
+            height="var(--size-pos-xxsmall)"
+            isRounded
+          />
+        }
+        rightSlot={
+          <span
+            style={{
+              fontSize: '10px',
+            }}
+          >
+            {score <= 45 ? this.props.t('fail') : this.props.t('pass')}
+          </span>
+        }
+      >
+        {!isMouseEnter ? `Lc ${score.toFixed(1)}` : friendlyScore}
+      </Chip>
+    </Feature>
   )
 
   lockColorTag = () => {

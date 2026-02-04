@@ -15,14 +15,22 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { FeatureStatus } from '@a_ng_d/figmug-utils'
 import { Bar, Chip, ColorChip, Drawer } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
 import Shade from '../components/Shade'
+import Feature from '../components/Feature'
 import { AppStates } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps, ScoreFilterStatus } from '../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  ScoreFilterStatus,
+  Service,
+} from '../../types/app'
 import {
   $isAPCADisplayed,
   $isAPCAIntervalDisplayed,
@@ -35,6 +43,7 @@ import {
   getContrastRangesByColumn,
 } from '../../stores/contrasts'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
+import { ConfigContextType } from '../..'
 import SettingsControls from './preview/SettingsControls'
 import ScoresControls from './preview/ScoresControls'
 
@@ -89,6 +98,28 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
     sourceColors: [],
     scale: {},
   }
+
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service,
+    editor: Editor
+  ) => ({
+    PREVIEW_SCORES_WCAG_INTERVAL: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_SCORES_WCAG_INTERVAL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PREVIEW_SCORES_APCA_INTERVAL: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_SCORES_APCA_INTERVAL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+  })
 
   constructor(props: PreviewProps) {
     super(props)
@@ -839,7 +870,17 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
               this.state.isAPCAIntervalDisplayed) &&
               this.props.colors.length > 1 && (
                 <>
-                  {this.state.isWCAGIntervalDisplayed && (
+                  <Feature
+                    isActive={
+                      Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_WCAG_INTERVAL.isActive() &&
+                      this.state.isWCAGIntervalDisplayed
+                    }
+                  >
                     <div className="preview__footer">
                       <div className="preview__cell preview__cell--no-height preview__cell--frozen">
                         <Chip state="ON_BACKGROUND">
@@ -874,8 +915,18 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                           })
                       })()}
                     </div>
-                  )}
-                  {this.state.isAPCAIntervalDisplayed && (
+                  </Feature>
+                  <Feature
+                    isActive={
+                      Preview.features(
+                        this.props.planStatus,
+                        this.props.config,
+                        this.props.service,
+                        this.props.editor
+                      ).PREVIEW_SCORES_APCA_INTERVAL.isActive() &&
+                      this.state.isAPCAIntervalDisplayed
+                    }
+                  >
                     <div className="preview__footer">
                       <div className="preview__cell preview__cell--no-height preview__cell--frozen">
                         <Chip state="ON_BACKGROUND">
@@ -910,7 +961,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewStates> 
                           })
                       })()}
                     </div>
-                  )}
+                  </Feature>
                 </>
               )}
           </div>

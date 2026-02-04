@@ -162,7 +162,9 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 value: 'ENABLE_WCAG_SCORE',
                 type: 'OPTION',
                 isActive: features.PREVIEW_SCORES_WCAG_SCORE.isActive(),
-                isBlocked: features.PREVIEW_SCORES_WCAG_SCORE.isBlocked(),
+                isBlocked:
+                  features.PREVIEW_SCORES_WCAG_SCORE.isBlocked() &&
+                  !this.displayHandler().includes('ENABLE_WCAG_SCORE'),
                 isNew: features.PREVIEW_SCORES_WCAG_SCORE.isNew(),
                 action: () => {
                   $isWCAGDisplayed.set(!this.props.isWCAGDisplayed)
@@ -200,7 +202,9 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 value: 'ENABLE_APCA_SCORE',
                 type: 'OPTION',
                 isActive: features.PREVIEW_SCORES_APCA_SCORE.isActive(),
-                isBlocked: features.PREVIEW_SCORES_APCA_SCORE.isBlocked(),
+                isBlocked:
+                  features.PREVIEW_SCORES_APCA_SCORE.isBlocked() &&
+                  !this.displayHandler().includes('ENABLE_APCA_SCORE'),
                 isNew: features.PREVIEW_SCORES_APCA_SCORE.isNew(),
                 action: () => {
                   $isAPCADisplayed.set(!this.props.isAPCADisplayed)
@@ -235,13 +239,18 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
               },
               {
                 type: 'SEPARATOR',
+                isActive:
+                  features.PREVIEW_SCORES_WCAG_INTERVAL.isActive() ||
+                  features.PREVIEW_SCORES_APCA_INTERVAL.isActive(),
               },
               {
                 label: this.props.t('preview.score.wcagInterval'),
                 value: 'ENABLE_WCAG_INTERVAL',
                 type: 'OPTION',
                 isActive: features.PREVIEW_SCORES_WCAG_INTERVAL.isActive(),
-                isBlocked: features.PREVIEW_SCORES_WCAG_INTERVAL.isBlocked(),
+                isBlocked:
+                  features.PREVIEW_SCORES_WCAG_INTERVAL.isBlocked() &&
+                  !this.displayHandler().includes('ENABLE_WCAG_INTERVAL'),
                 isNew: features.PREVIEW_SCORES_WCAG_INTERVAL.isNew(),
                 action: () => {
                   $isWCAGIntervalDisplayed.set(
@@ -281,7 +290,9 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 value: 'ENABLE_APCA_INTERVAL',
                 type: 'OPTION',
                 isActive: features.PREVIEW_SCORES_APCA_INTERVAL.isActive(),
-                isBlocked: features.PREVIEW_SCORES_APCA_INTERVAL.isBlocked(),
+                isBlocked:
+                  features.PREVIEW_SCORES_APCA_INTERVAL.isBlocked() &&
+                  !this.displayHandler().includes('ENABLE_APCA_INTERVAL'),
                 isNew: features.PREVIEW_SCORES_APCA_INTERVAL.isNew(),
                 action: () => {
                   $isAPCAIntervalDisplayed.set(
@@ -508,9 +519,7 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
               label: this.props.t('preview.actions.filterScores'),
             }}
             isBlocked={features.PREVIEW_SCORES.isBlocked()}
-            isNew={
-              this.isFiltersEnabled()
-            }
+            isNew={this.isFiltersEnabled()}
           />
         </Feature>
       </div>
