@@ -758,7 +758,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                     label={this.props.t('scale.contrast.label')}
                     shouldReflow
                     isChecked={false}
-                    isBlocked={this.features.SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />
@@ -799,7 +798,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                     label={this.props.t('scale.contrast.label')}
                     shouldReflow
                     isChecked={false}
-                    isBlocked={this.features.SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />

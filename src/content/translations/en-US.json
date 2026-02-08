@@ -372,6 +372,7 @@
     "addToLocal": "The palette already exists",
     "announcements": "There is no announcement for now",
     "askDesigner": "or ask designers to create a palette",
+    "contrastRatioOnFree": "Upgrade to /pro to adjust the scale using the contrast ratio of the shades/tints with their foreground colors",
     "copiedCode": "The code has been copied to the clipboard",
     "createdLocalModes": "{count, plural, one {1 mode created} other {# modes created} =0 {No mode created}}",
     "createdLocalStyles": "{count, plural, one {1 style created} other {# styles created} =0 {No style created}}",

@@ -372,6 +372,7 @@
     "addToLocal": "调色板已存在",
     "announcements": "目前没有公告",
     "askDesigner": "或请设计师创建调色板",
+    "contrastRatioOnFree": "升级到 /pro 以使用色调/色彩与前景色的对比度来调整比例",
     "copiedCode": "代码已复制到剪贴板",
     "createdLocalModes": "{count, plural, other {已创建 # 个模式} =0 {未创建模式}}",
     "createdLocalStyles": "{count, plural, other {已创建 # 个样式} =0 {未创建样式}}",

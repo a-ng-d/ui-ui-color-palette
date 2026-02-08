@@ -372,6 +372,7 @@
     "addToLocal": "A paleta já existe",
     "announcements": "Não há anúncio por enquanto",
     "askDesigner": "ou peça aos designers para criar uma paleta",
+    "contrastRatioOnFree": "Atualize para /pro para ajustar a escala usando a proporção de contraste das tones/matizes com suas cores de primeiro plano",
     "copiedCode": "O código foi copiado para a área de transferência",
     "createdLocalModes": "{count, plural, one {1 modo criado} other {# modos criados} =0 {Nenhum modo criado}}",
     "createdLocalStyles": "{count, plural, one {1 estilo criado} other {# estilos criados} =0 {Nenhum estilo criado}}",

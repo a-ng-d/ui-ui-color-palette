@@ -15,6 +15,7 @@ import {
   MultipleSlider,
   SectionTitle,
   Select,
+  SemanticMessage,
   SimpleItem,
   texts,
 } from '@a_ng_d/figmug-ui'
@@ -549,7 +550,6 @@ export default class ScaleCR extends PureComponent<
                     label={this.props.t('scale.contrast.label')}
                     shouldReflow
                     isChecked={true}
-                    isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={features.SCALE_CONTRAST_RATIO.isNew()}
                     action={this.props.onSwitchMode}
                   />
@@ -559,6 +559,44 @@ export default class ScaleCR extends PureComponent<
             alignment="CENTER"
             isListItem={false}
           />
+          {features.SCALE_CONTRAST_RATIO.isBlocked() && (
+            <div
+              style={{
+                padding: '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall)',
+              }}
+            >
+              <SemanticMessage
+                type="INFO"
+                message={this.props.t('info.contrastRatioOnFree')}
+                actionsSlot={
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED' ? (
+                    <Button
+                      type="secondary"
+                      label={this.props.t('plan.tryPro')}
+                      action={() =>
+                        sendPluginMessage(
+                          { pluginMessage: { type: 'GET_TRIAL' } },
+                          '*'
+                        )
+                      }
+                    />
+                  ) : (
+                    <Button
+                      type="secondary"
+                      label={this.props.t('plan.getPro')}
+                      action={() =>
+                        sendPluginMessage(
+                          { pluginMessage: { type: 'GET_PRO' } },
+                          '*'
+                        )
+                      }
+                    />
+                  )
+                }
+              />
+            </div>
+          )}
         </div>
         <MultipleSlider
           {...this.props}
