@@ -1,8 +1,6 @@
 import { Feature } from '@a_ng_d/figmug-utils'
 
-export const featuresScheme: Array<
-  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
-> = [
+export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',
@@ -1456,7 +1454,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -1474,7 +1472,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2610,7 +2608,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2628,7 +2626,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2646,7 +2644,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2664,7 +2662,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2682,7 +2680,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2736,7 +2734,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2754,7 +2752,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2772,7 +2770,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2790,7 +2788,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2808,7 +2806,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2826,7 +2824,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2844,7 +2842,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2862,7 +2860,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2899,7 +2897,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2918,7 +2916,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -2937,7 +2935,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -3366,7 +3364,7 @@ export const featuresScheme: Array<
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',
