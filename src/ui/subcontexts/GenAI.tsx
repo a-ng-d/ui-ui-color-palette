@@ -306,7 +306,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 'var(--size-pos-xxsmall',
+          gap: 'var(--size-pos-xxsmall)',
           padding: 'var(--size-pos-xxxsmall) var(--size-null)',
         }}
       >
