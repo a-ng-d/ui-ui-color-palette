@@ -1,16 +1,16 @@
 import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import type { AppStates } from '../../ui/App'
+import type { AppState } from '../../ui/App'
 
 const detachPalette = async ({
   rawData,
   locales,
 }: {
-  rawData: Partial<AppStates>
+  rawData: Partial<AppState>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locales: (key: string, params?: Record<string, any> | undefined) => string
-}): Promise<Partial<AppStates>> => {
+}): Promise<Partial<AppState>> => {
   const now = new Date().toISOString()
 
   const meta: MetaConfiguration = {

@@ -45,15 +45,12 @@ interface ScaleCRProps
   onSwitchMode: () => void
 }
 
-interface ScaleCRStates {
+interface ScaleCRState {
   ratioLightForeground: ScaleConfiguration
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class ScaleCR extends PureComponent<
-  ScaleCRProps,
-  ScaleCRStates
-> {
+export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette

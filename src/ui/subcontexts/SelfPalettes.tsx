@@ -53,17 +53,14 @@ interface SelfPalettesProps
   onSelectPalette: (id: string) => Promise<void>
 }
 
-interface SelfPalettesStates {
+interface SelfPalettesState {
   isLoadMoreActionLoading: boolean
   isSignInActionLoading: boolean
   isAddToLocalActionLoading: Array<boolean>
   isContextActionLoading: Array<boolean>
 }
 
-export default class SelfPalettes extends PureComponent<
-  SelfPalettesProps,
-  SelfPalettesStates
-> {
+export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfPalettesState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

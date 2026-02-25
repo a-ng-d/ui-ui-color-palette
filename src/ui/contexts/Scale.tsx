@@ -30,7 +30,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
@@ -42,21 +42,21 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   actions?: string
-  onChangePreset: React.Dispatch<Partial<AppStates>>
+  onChangePreset: React.Dispatch<Partial<AppState>>
   onChangeScale: () => void
-  onAddStop: React.Dispatch<Partial<AppStates>>
-  onRemoveStop: React.Dispatch<Partial<AppStates>>
+  onAddStop: React.Dispatch<Partial<AppState>>
+  onRemoveStop: React.Dispatch<Partial<AppState>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
-  onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
-  onChangeThemes: React.Dispatch<Partial<AppStates>>
+  onChangeDistributionEasing: React.Dispatch<Partial<AppState>>
+  onChangeThemes: React.Dispatch<Partial<AppState>>
 }
 
-interface ScaleStates {
+interface ScaleState {
   isTipsOpen: boolean
   isContrastMode: boolean
 }
 
-export default class Scale extends PureComponent<ScaleProps, ScaleStates> {
+export default class Scale extends PureComponent<ScaleProps, ScaleState> {
   private theme: string | null
 
   static defaultProps: Partial<ScaleProps> = {

@@ -28,17 +28,17 @@ import {
   trackAnnouncementsEvent,
   trackOnboardingEvent,
 } from '../../external/tracking/eventsTracker'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
-  rawData: AppStates
+  rawData: AppState
   context: ModalContext
   notification: NotificationMessage
   announcements: AnnouncementsDigest
   licenseTrigger: LicenseTrigger
-  onChangePublication: React.Dispatch<Partial<AppStates>>
-  onManageLicense: React.Dispatch<Partial<AppStates>>
-  onSkipAndResetPalette: React.Dispatch<Partial<AppStates>>
+  onChangePublication: React.Dispatch<Partial<AppState>>
+  onManageLicense: React.Dispatch<Partial<AppState>>
+  onSkipAndResetPalette: React.Dispatch<Partial<AppState>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

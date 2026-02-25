@@ -17,7 +17,7 @@ interface OnboardingProps
   onCloseOnboarding: (e: MouseEvent) => void
 }
 
-interface OnboardingStates {
+interface OnboardingState {
   position: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   announcements: Array<any>
@@ -25,10 +25,7 @@ interface OnboardingStates {
   isImageLoaded: boolean
 }
 
-export default class Onboarding extends PureComponent<
-  OnboardingProps,
-  OnboardingStates
-> {
+export default class Onboarding extends PureComponent<OnboardingProps, OnboardingState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

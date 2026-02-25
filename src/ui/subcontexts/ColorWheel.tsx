@@ -44,16 +44,13 @@ interface ColorWheelProps
   onChangeContexts: (context: Context) => void
 }
 
-interface ColorWheelStates {
+interface ColorWheelState {
   baseColor: Channel
   wheelRule: string
   colorHarmony: ColorHarmonyResult
 }
 
-export default class ColorWheel extends PureComponent<
-  ColorWheelProps,
-  ColorWheelStates
-> {
+export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWheelState> {
   private harmony: ColorHarmony
 
   static features = (
@@ -153,7 +150,7 @@ export default class ColorWheel extends PureComponent<
   // Lifecycle
   componentDidUpdate(
     _: Readonly<ColorWheelProps>,
-    previousState: Readonly<ColorWheelStates>
+    previousState: Readonly<ColorWheelState>
   ): void {
     if (
       previousState.baseColor !== this.state.baseColor ||

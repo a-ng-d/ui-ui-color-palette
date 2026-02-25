@@ -18,11 +18,11 @@ interface SourceProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onJumpToColor: React.MouseEventHandler<HTMLDivElement>
 }
 
-interface SourceStates {
+interface SourceState {
   isMouseEnter: boolean
 }
 
-export default class Source extends PureComponent<SourceProps, SourceStates> {
+export default class Source extends PureComponent<SourceProps, SourceState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

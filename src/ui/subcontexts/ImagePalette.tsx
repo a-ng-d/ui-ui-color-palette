@@ -48,16 +48,13 @@ interface ImagePaletteProps
   onChangeContexts: (context: Context) => void
 }
 
-interface ImagePaletteStates {
+interface ImagePaletteState {
   dominantColors: Array<DominantColorResult>
   imageUrl: string
   imageTitle: string
 }
 
-export default class ImagePalette extends PureComponent<
-  ImagePaletteProps,
-  ImagePaletteStates
-> {
+export default class ImagePalette extends PureComponent<ImagePaletteProps, ImagePaletteState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

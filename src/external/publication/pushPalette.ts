@@ -1,6 +1,6 @@
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import type { AppStates } from '../../ui/App'
+import type { AppState } from '../../ui/App'
 
 const pushPalette = async ({
   rawData,
@@ -8,12 +8,12 @@ const pushPalette = async ({
   isShared = false,
   locales,
 }: {
-  rawData: AppStates
+  rawData: AppState
   palettesDbTableName: string
   isShared?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locales: (key: string, params?: Record<string, any> | undefined) => string
-}): Promise<Partial<AppStates>> => {
+}): Promise<Partial<AppState>> => {
   const now = new Date().toISOString()
   const name =
     rawData.name === '' ||

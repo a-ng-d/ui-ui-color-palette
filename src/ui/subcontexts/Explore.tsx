@@ -57,16 +57,13 @@ interface ExploreProps
   onChangeFilters: (filters: Array<FilterOptions>) => void
 }
 
-interface ExploreStates {
+interface ExploreState {
   colourLoversPalettesListStatus: FetchStatus
   currentPage: number
   isLoadMoreActionLoading: boolean
 }
 
-export default class Explore extends PureComponent<
-  ExploreProps,
-  ExploreStates
-> {
+export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   private filters: Array<FilterOptions>
 
   static features = (
@@ -114,7 +111,7 @@ export default class Explore extends PureComponent<
 
   componentDidUpdate = (
     prevProps: Readonly<ExploreProps>,
-    prevState: Readonly<ExploreStates>
+    prevState: Readonly<ExploreState>
   ): void => {
     if (prevState.currentPage !== this.state.currentPage) this.callUICPAgent()
 

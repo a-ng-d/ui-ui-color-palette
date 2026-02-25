@@ -57,14 +57,14 @@ interface ExportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onCopyCode: () => void
 }
 
-interface ExportStates {
+interface ExportState {
   colorSpace: {
     selected: ColorSpaceConfiguration
     options: Array<DropdownOption>
   }
 }
 
-export default class Export extends PureComponent<ExportProps, ExportStates> {
+export default class Export extends PureComponent<ExportProps, ExportState> {
   private theme: string | null
   private mode: string | null
 

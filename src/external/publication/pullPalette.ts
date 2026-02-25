@@ -1,15 +1,15 @@
 import { ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import type { AppStates } from '../../ui/App'
+import type { AppState } from '../../ui/App'
 
 const pullPalette = async ({
   rawData,
   palettesDbViewName,
 }: {
-  rawData: AppStates
+  rawData: AppState
   palettesDbViewName: string
-}): Promise<Partial<AppStates>> => {
+}): Promise<Partial<AppState>> => {
   const supabase = getSupabase()
 
   if (!supabase) throw new Error('Supabase client is not initialized')

@@ -18,7 +18,7 @@ import {
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
-import { AppStates } from '../../App'
+import { AppState } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import {
   BaseProps,
@@ -43,8 +43,8 @@ interface PricingProps
   preset: PresetConfiguration
   scale: ScaleConfiguration
   licenseTrigger: LicenseTrigger
-  onManageLicense: React.Dispatch<Partial<AppStates>>
-  onSkipAndResetPalette: React.Dispatch<Partial<AppStates>>
+  onManageLicense: React.Dispatch<Partial<AppState>>
+  onSkipAndResetPalette: React.Dispatch<Partial<AppState>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

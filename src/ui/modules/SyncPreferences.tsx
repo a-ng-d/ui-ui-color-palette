@@ -27,14 +27,14 @@ interface SyncPreferencesProps
   isLast?: boolean
 }
 
-interface SyncPreferencesStates {
+interface SyncPreferencesState {
   canStylesDeepSync: boolean
   canVariablesDeepSync: boolean
 }
 
 export default class SyncPreferences extends PureComponent<
   SyncPreferencesProps,
-  SyncPreferencesStates
+  SyncPreferencesState
 > {
   private subscribeStyles: (() => void) | undefined
   private subscribeVariables: (() => void) | undefined

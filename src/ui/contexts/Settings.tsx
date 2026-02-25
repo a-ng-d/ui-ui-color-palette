@@ -30,7 +30,7 @@ import {
 import { $palette } from '../../stores/palette'
 import { trackSettingsManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface SettingsProps
   extends BaseProps,
@@ -45,7 +45,7 @@ interface SettingsProps
   visionSimulationMode: VisionSimulationModeConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   algorithmVersion?: AlgorithmVersionConfiguration
-  onChangeSettings: React.Dispatch<Partial<AppStates>>
+  onChangeSettings: React.Dispatch<Partial<AppState>>
   onDeletePalette?: () => void
 }
 

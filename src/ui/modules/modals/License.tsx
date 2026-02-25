@@ -28,7 +28,7 @@ interface LicenseProps
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
-interface LicenseStates {
+interface LicenseState {
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
   hasLicense: boolean
@@ -39,10 +39,7 @@ interface LicenseStates {
   userInstanceName: string
 }
 
-export default class License extends PureComponent<
-  LicenseProps,
-  LicenseStates
-> {
+export default class License extends PureComponent<LicenseProps, LicenseState> {
   private theme: string | null
 
   static features = (

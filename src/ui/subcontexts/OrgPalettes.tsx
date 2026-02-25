@@ -51,7 +51,7 @@ interface OrgPalettesProps
   onSeePalette: (id: string) => Promise<void>
 }
 
-interface OrgPalettesStates {
+interface OrgPalettesState {
   isLoadMoreActionLoading: boolean
   isSignInLoading: boolean
   isSecondaryActionLoading: Array<boolean>
@@ -59,10 +59,7 @@ interface OrgPalettesStates {
   seenPaletteId: string
 }
 
-export default class OrgPalettes extends PureComponent<
-  OrgPalettesProps,
-  OrgPalettesStates
-> {
+export default class OrgPalettes extends PureComponent<OrgPalettesProps, OrgPalettesState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

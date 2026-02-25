@@ -30,13 +30,13 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackSourceColorsManagementEvent } from '../../external/tracking/eventsTracker'
 import am from '../../content/images/alpha_mode.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface ColorsProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   colors: Array<ColorConfiguration>
   shift: ShiftConfiguration
-  onChangeColors: React.Dispatch<Partial<AppStates>>
+  onChangeColors: React.Dispatch<Partial<AppState>>
 }
 
 export default class Colors extends PureComponent<ColorsProps> {

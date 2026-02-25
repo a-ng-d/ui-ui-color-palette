@@ -14,7 +14,7 @@ import LocalPalettes from '../contexts/LocalPalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { AppStates } from '../App'
+import { AppState } from '../App'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
@@ -33,7 +33,7 @@ interface BrowsePalettesProps
     WithConfigProps,
     WithTranslationProps {
   document: DocumentConfiguration
-  onCreatePalette: React.Dispatch<Partial<AppStates>>
+  onCreatePalette: React.Dispatch<Partial<AppState>>
   onSeePalette: (palette: {
     base: BaseConfiguration
     themes: Array<ThemeConfiguration>
@@ -41,7 +41,7 @@ interface BrowsePalettesProps
   }) => void
 }
 
-interface BrowsePalettesStates {
+interface BrowsePalettesState {
   context: Context | ''
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
@@ -51,7 +51,7 @@ interface BrowsePalettesStates {
 
 export default class BrowsePalettes extends PureComponent<
   BrowsePalettesProps,
-  BrowsePalettesStates
+  BrowsePalettesState
 > {
   private contexts: Array<ContextItem>
   private theme: string | null

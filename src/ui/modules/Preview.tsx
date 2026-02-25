@@ -22,7 +22,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
 import Shade from '../components/Shade'
 import Feature from '../components/Feature'
-import { AppStates } from '../App'
+import { AppState } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
@@ -62,13 +62,13 @@ interface PreviewProps
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onLockSourceColors?: React.Dispatch<Partial<AppStates>>
+  onLockSourceColors?: React.Dispatch<Partial<AppState>>
   onResetSourceColors?: () => void
-  onChangeSettings?: React.Dispatch<Partial<AppStates>>
+  onChangeSettings?: React.Dispatch<Partial<AppState>>
   onInteractWithSourceColor?: (colorId: string) => void
 }
 
-interface PreviewStates {
+interface PreviewState {
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
   isWCAGIntervalDisplayed: boolean
@@ -85,10 +85,7 @@ interface PreviewStates {
   contrastScoresVersion: number
 }
 
-export default class Preview extends PureComponent<
-  PreviewProps,
-  PreviewStates
-> {
+export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   private subscribeWCAG: (() => void) | undefined
   private subscribeAPCA: (() => void) | undefined
   private subscribeWCAGInterval: (() => void) | undefined
@@ -198,7 +195,7 @@ export default class Preview extends PureComponent<
 
   componentDidUpdate = (
     prevProps: PreviewProps,
-    prevState: PreviewStates
+    prevState: PreviewState
   ): void => {
     this.updateDrawerMaxHeight()
 

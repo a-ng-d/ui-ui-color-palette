@@ -33,7 +33,7 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 import Lightness from './Lightness'
 import Hue from './Hue'
 import Chroma from './Chroma'
-import type { AppStates } from '../../App'
+import type { AppState } from '../../App'
 
 interface ScaleLCHProps
   extends BaseProps,
@@ -45,10 +45,10 @@ interface ScaleLCHProps
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   textColorsTheme: { lightColor: string; darkColor: string }
-  onChangePreset: React.Dispatch<Partial<AppStates>>
+  onChangePreset: React.Dispatch<Partial<AppState>>
   onChangeScale: () => void
-  onAddStop: React.Dispatch<Partial<AppStates>>
-  onRemoveStop: React.Dispatch<Partial<AppStates>>
+  onAddStop: React.Dispatch<Partial<AppState>>
+  onRemoveStop: React.Dispatch<Partial<AppState>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeThemes?: (scale: ScaleConfiguration) => void
   onSwitchMode: () => void

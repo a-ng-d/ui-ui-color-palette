@@ -28,13 +28,13 @@ interface LocalPalettesProps
   onExplorePalettes: () => void
 }
 
-interface LocalPalettesStates {
+interface LocalPalettesState {
   context: Context | ''
 }
 
 export default class LocalPalettes extends PureComponent<
   LocalPalettesProps,
-  LocalPalettesStates
+  LocalPalettesState
 > {
   private contexts: Array<ContextItem>
 

@@ -23,14 +23,14 @@ import { signIn } from '../../../external/auth/authentication'
 import { getSupabase } from '../../../external/auth'
 import p from '../../../content/images/publication.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
-import type { AppStates } from '../../App'
+import type { AppState } from '../../App'
 
 interface PublicationProps
   extends BaseProps,
     WithConfigProps,
     WithTranslationProps {
-  rawData: AppStates
-  onChangePublication: React.Dispatch<Partial<AppStates>>
+  rawData: AppState
+  onChangePublication: React.Dispatch<Partial<AppState>>
   onClosePublication: React.MouseEventHandler<HTMLButtonElement>
 }
 
@@ -45,7 +45,7 @@ type PublicationStatus =
   | 'IS_NOT_FOUND'
   | 'WAITING'
 
-interface PublicationStates {
+interface PublicationState {
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
   isTertiaryActionLoading: boolean
@@ -72,10 +72,7 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<
-  PublicationProps,
-  PublicationStates
-> {
+export default class Publication extends PureComponent<PublicationProps, PublicationState> {
   private enabledThemeIndex: number
 
   static features = (

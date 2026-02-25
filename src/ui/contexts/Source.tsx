@@ -35,13 +35,13 @@ interface SourceProps extends BaseProps, WithConfigProps, WithTranslationProps {
   ) => void
 }
 
-interface SourceStates {
+interface SourceState {
   context: Context | ''
   colourLoversPaletteList: Array<ColourLovers>
   activeFilters: Array<FilterOptions>
 }
 
-export default class Source extends PureComponent<SourceProps, SourceStates> {
+export default class Source extends PureComponent<SourceProps, SourceState> {
   private contexts: Array<ContextItem>
   private theme: string | null
 

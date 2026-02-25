@@ -67,7 +67,7 @@ import {
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface EditPaletteProps
   extends BaseProps,
@@ -89,20 +89,20 @@ interface EditPaletteProps
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   document: DocumentConfiguration
   dates: DatesConfiguration
-  onChangeScale: React.Dispatch<Partial<AppStates>>
-  onChangePreset: React.Dispatch<Partial<AppStates>>
-  onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
-  onChangeColors: React.Dispatch<Partial<AppStates>>
-  onChangeThemes: React.Dispatch<Partial<AppStates>>
-  onChangeSettings: React.Dispatch<Partial<AppStates>>
-  onPublishPalette: React.Dispatch<Partial<AppStates>>
-  onLockSourceColors: React.Dispatch<Partial<AppStates>>
+  onChangeScale: React.Dispatch<Partial<AppState>>
+  onChangePreset: React.Dispatch<Partial<AppState>>
+  onChangeDistributionEasing: React.Dispatch<Partial<AppState>>
+  onChangeColors: React.Dispatch<Partial<AppState>>
+  onChangeThemes: React.Dispatch<Partial<AppState>>
+  onChangeSettings: React.Dispatch<Partial<AppState>>
+  onPublishPalette: React.Dispatch<Partial<AppState>>
+  onLockSourceColors: React.Dispatch<Partial<AppState>>
   onUnloadPalette: () => void
-  onChangeDocument: React.Dispatch<Partial<AppStates>>
+  onChangeDocument: React.Dispatch<Partial<AppState>>
   onDeletePalette: () => void
 }
 
-interface EditPaletteStates {
+interface EditPaletteState {
   context: Context | ''
   export: ExportConfiguration
   isPrimaryLoading: boolean
@@ -110,10 +110,7 @@ interface EditPaletteStates {
   isCodeCopied: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteStates
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteState> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>

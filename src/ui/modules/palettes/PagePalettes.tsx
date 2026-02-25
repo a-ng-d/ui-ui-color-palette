@@ -32,7 +32,7 @@ interface PagePalettesProps
   onExplorePalettes: () => void
 }
 
-interface PagePalettesStates {
+interface PagePalettesState {
   isDeleteDialogOpen: boolean
   targetedPaletteId: string
   targetedPaletteName: string
@@ -40,10 +40,7 @@ interface PagePalettesStates {
   isDestructiveActionLoading: boolean
 }
 
-export default class PagePalettes extends PureComponent<
-  PagePalettesProps,
-  PagePalettesStates
-> {
+export default class PagePalettes extends PureComponent<PagePalettesProps, PagePalettesState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

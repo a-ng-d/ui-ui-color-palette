@@ -14,7 +14,7 @@ interface ReportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
-interface ReportStates {
+interface ReportState {
   isPrimaryActionLoading: boolean
   isSecondaryActionLoading: boolean
   userFullName: string
@@ -22,7 +22,7 @@ interface ReportStates {
   userMessage: string
 }
 
-export default class Report extends PureComponent<ReportProps, ReportStates> {
+export default class Report extends PureComponent<ReportProps, ReportState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

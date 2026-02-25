@@ -26,7 +26,7 @@ import {
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { AppStates } from '../App'
+import { AppState } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -68,18 +68,15 @@ interface ActionsProps
   ) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
-  onChangeSettings?: React.Dispatch<Partial<AppStates>>
+  onChangeSettings?: React.Dispatch<Partial<AppState>>
 }
 
-interface ActionsStates {
+interface ActionsState {
   isTooltipVisible: boolean
   canUpdateDocument: boolean
 }
 
-export default class Actions extends PureComponent<
-  ActionsProps,
-  ActionsStates
-> {
+export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   private palette: typeof $palette
 
   static defaultProps = {

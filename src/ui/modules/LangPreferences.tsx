@@ -27,13 +27,13 @@ interface LangPreferencesProps
   isLast?: boolean
 }
 
-interface LangPreferencesStates {
+interface LangPreferencesState {
   userLanguage: Language
 }
 
 export default class LangPreferences extends PureComponent<
   LangPreferencesProps,
-  LangPreferencesStates
+  LangPreferencesState
 > {
   static features = (
     planStatus: PlanStatus,

@@ -42,7 +42,7 @@ interface GenAiProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onChangeContexts: (context: Context) => void
 }
 
-interface GenAiStates {
+interface GenAiState {
   prompt: string
   isLoading: boolean
   error: string | null
@@ -50,7 +50,7 @@ interface GenAiStates {
   previewPrompt: string | null
 }
 
-export default class GenAi extends PureComponent<GenAiProps, GenAiStates> {
+export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

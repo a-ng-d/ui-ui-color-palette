@@ -24,7 +24,7 @@ interface AnnouncementsProps
   onCloseAnnouncements: (e: MouseEvent) => void
 }
 
-interface AnnouncementsStates {
+interface AnnouncementsState {
   position: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   announcements: Array<any>
@@ -34,7 +34,7 @@ interface AnnouncementsStates {
 
 export default class Announcements extends PureComponent<
   AnnouncementsProps,
-  AnnouncementsStates
+  AnnouncementsState
 > {
   static features = (
     planStatus: PlanStatus,

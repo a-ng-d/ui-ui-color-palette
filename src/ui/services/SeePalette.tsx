@@ -53,7 +53,7 @@ import {
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface SeePaletteProps
   extends BaseProps,
@@ -75,11 +75,11 @@ interface SeePaletteProps
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
-  onChangeThemes: React.Dispatch<Partial<AppStates>>
+  onChangeThemes: React.Dispatch<Partial<AppState>>
   onUnloadPalette: () => void
 }
 
-interface SeePaletteStates {
+interface SeePaletteState {
   context: Context | ''
   export: ExportConfiguration
   isPrimaryLoading: boolean
@@ -87,10 +87,7 @@ interface SeePaletteStates {
   isCodeCopied: boolean
 }
 
-export default class SeePalette extends PureComponent<
-  SeePaletteProps,
-  SeePaletteStates
-> {
+export default class SeePalette extends PureComponent<SeePaletteProps, SeePaletteState> {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
   private previewRef: React.RefObject<Preview>

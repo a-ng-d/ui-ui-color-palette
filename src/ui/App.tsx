@@ -92,7 +92,7 @@ import Feature from './components/Feature'
 
 type AppProps = WithConfigProps & WithTranslationProps
 
-export interface AppStates extends BaseProps {
+export interface AppState extends BaseProps {
   sourceColors: Array<SourceColorConfiguration>
   id: string
   name: string
@@ -126,7 +126,7 @@ export interface AppStates extends BaseProps {
   onGoingStep: string
 }
 
-class App extends Component<AppProps, AppStates> {
+class App extends Component<AppProps, AppState> {
   private palette: typeof $palette
   private subsscribeSuggestedLanguage: (() => void) | undefined
   private subscribeUserConsent: (() => void) | undefined

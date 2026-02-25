@@ -2,17 +2,17 @@ import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import type { AppStates } from '../../ui/App'
+import type { AppState } from '../../ui/App'
 
 const unpublishPalette = async ({
   rawData,
   palettesDbTableName,
   isRemote = false,
 }: {
-  rawData: Partial<AppStates>
+  rawData: Partial<AppState>
   palettesDbTableName: string
   isRemote?: boolean
-}): Promise<Partial<AppStates>> => {
+}): Promise<Partial<AppState>> => {
   const id = rawData.id ?? uid()
   const now = new Date().toISOString()
 

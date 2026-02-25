@@ -10,7 +10,7 @@ import { $creditsCount } from '../../stores/credits'
 import { getTolgee } from '../../external/translation'
 import { ConfigContextType } from '../../config/ConfigContext'
 
-interface PlanControlsStates {
+interface PlanControlsState {
   creditsCount: number
 }
 
@@ -22,10 +22,7 @@ interface PlanControlsProps
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<
-  PlanControlsProps,
-  PlanControlsStates
-> {
+export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (

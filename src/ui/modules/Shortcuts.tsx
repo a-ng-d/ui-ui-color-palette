@@ -5,7 +5,7 @@ import { Bar, Button, Icon, layouts, Menu } from '@a_ng_d/figmug-ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { AppStates } from '../App'
+import { AppState } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
@@ -29,27 +29,24 @@ interface ShortcutsProps
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
-  onReOpenAnnouncements: React.Dispatch<Partial<AppStates>>
-  onReOpenOnboarding: React.Dispatch<Partial<AppStates>>
-  onReOpenStore: React.Dispatch<Partial<AppStates>>
-  onReOpenAbout: React.Dispatch<Partial<AppStates>>
-  onReOpenReport: React.Dispatch<Partial<AppStates>>
-  onReOpenPreferences: React.Dispatch<Partial<AppStates>>
-  onReOpenLicense: React.Dispatch<Partial<AppStates>>
-  onReOpenChat: React.Dispatch<Partial<AppStates>>
-  onReOpenFeedback: React.Dispatch<Partial<AppStates>>
-  onUpdateConsent: React.Dispatch<Partial<AppStates>>
-  onUpdateLanguage: React.Dispatch<Partial<AppStates>>
+  onReOpenAnnouncements: React.Dispatch<Partial<AppState>>
+  onReOpenOnboarding: React.Dispatch<Partial<AppState>>
+  onReOpenStore: React.Dispatch<Partial<AppState>>
+  onReOpenAbout: React.Dispatch<Partial<AppState>>
+  onReOpenReport: React.Dispatch<Partial<AppState>>
+  onReOpenPreferences: React.Dispatch<Partial<AppState>>
+  onReOpenLicense: React.Dispatch<Partial<AppState>>
+  onReOpenChat: React.Dispatch<Partial<AppState>>
+  onReOpenFeedback: React.Dispatch<Partial<AppState>>
+  onUpdateConsent: React.Dispatch<Partial<AppState>>
+  onUpdateLanguage: React.Dispatch<Partial<AppState>>
 }
 
-interface ShortcutsStates {
+interface ShortcutsState {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<
-  ShortcutsProps,
-  ShortcutsStates
-> {
+export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsState> {
   private theme: string | null
 
   static features = (

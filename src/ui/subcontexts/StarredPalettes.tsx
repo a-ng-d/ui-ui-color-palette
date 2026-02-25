@@ -53,7 +53,7 @@ interface StarredPalettesProps
   onSeePalette: (id: string) => Promise<void>
 }
 
-interface StarredPalettesStates {
+interface StarredPalettesState {
   isLoadMoreActionLoading: boolean
   isSignInActionLoading: boolean
   isAddToLocalActionLoading: Array<boolean>
@@ -62,7 +62,7 @@ interface StarredPalettesStates {
 
 export default class StarredPalettes extends PureComponent<
   StarredPalettesProps,
-  StarredPalettesStates
+  StarredPalettesState
 > {
   static features = (
     planStatus: PlanStatus,

@@ -1,7 +1,7 @@
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { AppStates } from '../../ui/App'
+import { AppState } from '../../ui/App'
 
 const publishPalette = async ({
   rawData,
@@ -9,12 +9,12 @@ const publishPalette = async ({
   isShared = false,
   locales,
 }: {
-  rawData: AppStates
+  rawData: AppState
   palettesDbTableName: string
   isShared?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locales: (key: string, params?: Record<string, any> | undefined) => string
-}): Promise<Partial<AppStates>> => {
+}): Promise<Partial<AppState>> => {
   const now = new Date().toISOString()
   const name =
     rawData.name === '' ||

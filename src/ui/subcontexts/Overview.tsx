@@ -53,7 +53,7 @@ interface OverviewProps
   onChangeContexts: (context: Context) => void
 }
 
-interface OverviewStates {
+interface OverviewState {
   coolorsUrl: ImportUrl
   realtimeColorsUrl: ImportUrl
   isCoolorsImportOpen: boolean
@@ -64,10 +64,7 @@ interface OverviewStates {
   isGenAIOpen: boolean
 }
 
-export default class Overview extends PureComponent<
-  OverviewProps,
-  OverviewStates
-> {
+export default class Overview extends PureComponent<OverviewProps, OverviewState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

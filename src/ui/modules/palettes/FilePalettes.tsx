@@ -32,7 +32,7 @@ interface FilePalettesProps
   onExplorePalettes: () => void
 }
 
-interface FilePalettesStates {
+interface FilePalettesState {
   isDeleteDialogOpen: boolean
   targetedPaletteId: string
   targetedPaletteName: string
@@ -40,10 +40,7 @@ interface FilePalettesStates {
   isDestructiveActionLoading: boolean
 }
 
-export default class FilePalettes extends PureComponent<
-  FilePalettesProps,
-  FilePalettesStates
-> {
+export default class FilePalettes extends PureComponent<FilePalettesProps, FilePalettesState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

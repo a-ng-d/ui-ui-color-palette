@@ -42,7 +42,7 @@ interface RemotePalettesProps
   }) => void
 }
 
-interface RemotePalettesStates {
+interface RemotePalettesState {
   context: Context | ''
   selfPalettesListStatus: FetchStatus
   communityPalettesListStatus: FetchStatus
@@ -64,7 +64,7 @@ interface RemotePalettesStates {
 
 export default class RemotePalettes extends PureComponent<
   RemotePalettesProps,
-  RemotePalettesStates
+  RemotePalettesState
 > {
   private contexts: Array<ContextItem>
   private theme: string | null

@@ -61,12 +61,12 @@ interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onNavigateNext?: () => void
 }
 
-interface ShadeStates {
+interface ShadeState {
   isMouseEnter: boolean
   isCopied: boolean
 }
 
-export default class Shade extends PureComponent<ShadeProps, ShadeStates> {
+export default class Shade extends PureComponent<ShadeProps, ShadeState> {
   private theme: string | null
 
   static features = (

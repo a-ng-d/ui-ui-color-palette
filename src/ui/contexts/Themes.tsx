@@ -28,7 +28,7 @@ import { ThemesMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackColorThemesManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
@@ -36,7 +36,7 @@ interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   scale: ScaleConfiguration
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onChangeThemes: React.Dispatch<Partial<AppStates>>
+  onChangeThemes: React.Dispatch<Partial<AppState>>
 }
 
 export default class Themes extends PureComponent<ThemesProps> {

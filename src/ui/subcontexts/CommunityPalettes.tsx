@@ -51,7 +51,7 @@ interface CommunityPalettesProps
   onSeePalette: (id: string) => Promise<void>
 }
 
-interface CommunityPalettesStates {
+interface CommunityPalettesState {
   isLoadMoreActionLoading: boolean
   isSignInLoading: boolean
   isSecondaryActionLoading: Array<boolean>
@@ -61,7 +61,7 @@ interface CommunityPalettesStates {
 
 export default class CommunityPalettes extends PureComponent<
   CommunityPalettesProps,
-  CommunityPalettesStates
+  CommunityPalettesState
 > {
   static features = (
     planStatus: PlanStatus,

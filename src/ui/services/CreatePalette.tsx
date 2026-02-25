@@ -43,7 +43,7 @@ import {
   trackPreviewManagementEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppStates } from '../App'
+import type { AppState } from '../App'
 
 interface CreatePaletteProps
   extends BaseProps,
@@ -63,22 +63,22 @@ interface CreatePaletteProps
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   onGoingStep: string
-  onChangeDefaultColor: React.Dispatch<Partial<AppStates>>
-  onChangeColorsFromImport: React.Dispatch<Partial<AppStates>>
-  onChangeScale: React.Dispatch<Partial<AppStates>>
-  onChangePreset: React.Dispatch<Partial<AppStates>>
-  onChangeShift: React.Dispatch<Partial<AppStates>>
-  onCustomPreset: React.Dispatch<Partial<AppStates>>
-  onChangeSettings: React.Dispatch<Partial<AppStates>>
-  onConfigureExternalSourceColors: React.Dispatch<Partial<AppStates>>
-  onResetSourceColors: React.Dispatch<Partial<AppStates>>
-  onLockSourceColors: React.Dispatch<Partial<AppStates>>
-  onChangeDistributionEasing: React.Dispatch<Partial<AppStates>>
+  onChangeDefaultColor: React.Dispatch<Partial<AppState>>
+  onChangeColorsFromImport: React.Dispatch<Partial<AppState>>
+  onChangeScale: React.Dispatch<Partial<AppState>>
+  onChangePreset: React.Dispatch<Partial<AppState>>
+  onChangeShift: React.Dispatch<Partial<AppState>>
+  onCustomPreset: React.Dispatch<Partial<AppState>>
+  onChangeSettings: React.Dispatch<Partial<AppState>>
+  onConfigureExternalSourceColors: React.Dispatch<Partial<AppState>>
+  onResetSourceColors: React.Dispatch<Partial<AppState>>
+  onLockSourceColors: React.Dispatch<Partial<AppState>>
+  onChangeDistributionEasing: React.Dispatch<Partial<AppState>>
   onCancelPalette: () => void
-  onSavedPalette: React.Dispatch<Partial<AppStates>>
+  onSavedPalette: React.Dispatch<Partial<AppState>>
 }
 
-interface CreatePaletteStates {
+interface CreatePaletteState {
   context: Context | ''
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
@@ -87,7 +87,7 @@ interface CreatePaletteStates {
 
 export default class CreatePalette extends PureComponent<
   CreatePaletteProps,
-  CreatePaletteStates
+  CreatePaletteState
 > {
   private contexts: Array<ContextItem>
   private palette: typeof $palette
