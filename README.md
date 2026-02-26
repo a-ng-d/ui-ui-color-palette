@@ -19,8 +19,8 @@ The architecture is built around a modular approach with shared core components 
 
 The project relies on several external packages and modules:
 
-- **@a_ng_d/figmug-ui**: UI components library
-- **@a_ng_d/figmug-utils**: Utility functions
+- **@unoff/ui**: UI components library
+- **@unoff/utils**: Utility functions
 - **@a_ng_d/utils-ui-color-palette**: Color palette specific utilities
 - **@supabase/supabase-js**: Backend database integration
 - **chroma-js**: Color manipulation library

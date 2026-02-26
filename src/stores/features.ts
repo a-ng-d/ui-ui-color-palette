@@ -1,6 +1,8 @@
-import { Feature } from '@a_ng_d/figmug-utils'
+import { Feature } from '@unoff/utils'
 
-export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>> = [
+export const featuresScheme: Array<
+  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
+> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',

@@ -4,8 +4,8 @@ import {
   ExchangeConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { SimpleSlider } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { SimpleSlider } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

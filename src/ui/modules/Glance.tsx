@@ -6,7 +6,7 @@ import {
   MetaConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   Bar,
   Button,
@@ -14,7 +14,7 @@ import {
   layouts,
   SectionTitle,
   SemanticMessage,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import Properties from '../contexts/Properties'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'

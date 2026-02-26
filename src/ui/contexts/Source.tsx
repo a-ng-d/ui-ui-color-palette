@@ -5,8 +5,8 @@ import {
   ColourLovers,
   RgbModel,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Layout, Tabs } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { Layout, Tabs } from '@unoff/ui'
 import Overview from '../subcontexts/Overview'
 import ImagePalette from '../subcontexts/ImagePalette'
 import GenAI from '../subcontexts/GenAI'

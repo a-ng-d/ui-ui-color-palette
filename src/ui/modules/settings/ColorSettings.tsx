@@ -5,7 +5,7 @@ import {
   ColorSpaceConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   Dropdown,
   FormItem,
@@ -13,7 +13,7 @@ import {
   SectionTitle,
   SemanticMessage,
   SimpleItem,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

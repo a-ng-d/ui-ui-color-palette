@@ -1,4 +1,4 @@
-import { Feature } from '@a_ng_d/figmug-utils'
+import { Feature } from '@unoff/utils'
 import { Config } from './types/config'
 import { doSpecificMode } from './stores/features'
 

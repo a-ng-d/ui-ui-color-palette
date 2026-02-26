@@ -4,8 +4,8 @@ import {
   VisionSimulationModeConfiguration,
   LockedSourceColorsConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { layouts, texts, Button, Dropdown } from '@a_ng_d/figmug-ui'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { layouts, texts, Button, Dropdown } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

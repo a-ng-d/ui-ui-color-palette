@@ -1,5 +1,5 @@
 import { atom } from 'nanostores'
-import { ConsentConfiguration } from '@a_ng_d/figmug-ui'
+import { ConsentConfiguration } from '@unoff/ui'
 
 export const getUserConsent = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

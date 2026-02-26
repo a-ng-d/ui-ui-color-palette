@@ -1,4 +1,4 @@
-import { Feature, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { Feature, FeatureStatus } from '@unoff/utils'
 import { Context, Editor, PlanStatus, Service } from '../types/app'
 
 export const setContexts = (

@@ -9,8 +9,8 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Layout } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { Layout } from '@unoff/ui'
 import GlobalSettings from '../modules/settings/GlobalSettings'
 import ContrastSettings from '../modules/settings/ContrastSettings'
 import ColorSettings from '../modules/settings/ColorSettings'

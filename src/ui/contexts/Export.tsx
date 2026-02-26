@@ -1,4 +1,4 @@
-import type { DropdownOption } from '@a_ng_d/figmug-ui'
+import type { DropdownOption } from '@unoff/ui'
 import {
   docco,
   atomOneDark,
@@ -20,7 +20,7 @@ import {
   ShiftConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
   Dropdown,
@@ -30,7 +30,7 @@ import {
   SectionTitle,
   SemanticMessage,
   SimpleItem,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { ExportEvent } from '../../types/events'

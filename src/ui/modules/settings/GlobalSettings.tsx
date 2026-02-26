@@ -1,13 +1,7 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import {
-  FormItem,
-  Input,
-  Section,
-  SectionTitle,
-  SimpleItem,
-} from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { FormItem, Input, Section, SectionTitle, SimpleItem } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

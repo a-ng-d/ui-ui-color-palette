@@ -1,6 +1,6 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Dialog,
   Layout,
@@ -9,7 +9,7 @@ import {
   SectionTitle,
   SimpleItem,
   texts,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import Icon from '../Icon'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'

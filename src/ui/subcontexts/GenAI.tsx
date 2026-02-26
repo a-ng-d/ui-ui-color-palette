@@ -3,7 +3,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
   ColorItem,
@@ -15,8 +15,8 @@ import {
   Section,
   SectionTitle,
   SimpleItem,
-} from '@a_ng_d/figmug-ui'
-import { SemanticMessage } from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
+import { SemanticMessage } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

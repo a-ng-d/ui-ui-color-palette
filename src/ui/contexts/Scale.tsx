@@ -9,7 +9,7 @@ import {
   ShiftConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
   Button,
@@ -18,7 +18,7 @@ import {
   Layout,
   layouts,
   texts,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import ScaleLCH from '../modules/scale/ScaleLCH'
 import ScaleCR from '../modules/scale/ScaleCR'
 import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'

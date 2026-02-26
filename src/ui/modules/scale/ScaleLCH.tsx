@@ -7,7 +7,7 @@ import {
   EasingConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus, doScale } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus, doScale } from '@unoff/utils'
 import {
   Button,
   Dropdown,
@@ -19,7 +19,7 @@ import {
   SemanticMessage,
   SimpleItem,
   texts,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

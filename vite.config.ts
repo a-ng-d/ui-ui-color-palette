@@ -87,8 +87,8 @@ export default defineConfig(({ mode }) => {
       include: [
         'preact/compat',
         'preact/jsx-runtime',
-        '@a_ng_d/figmug-ui',
-        '@a_ng_d/figmug-utils',
+        '@unoff/ui',
+        '@unoff/utils',
       ],
       esbuildOptions: {
         alias: {

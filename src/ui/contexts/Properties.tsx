@@ -12,7 +12,7 @@ import {
   PublicationConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames } from '@a_ng_d/figmug-utils'
+import { doClassnames } from '@unoff/utils'
 import {
   ColorItem,
   FormItem,
@@ -21,7 +21,7 @@ import {
   SectionTitle,
   SimpleItem,
   texts,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { BaseProps } from '../../types/app'

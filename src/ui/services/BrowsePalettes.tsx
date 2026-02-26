@@ -7,8 +7,8 @@ import {
   MetaConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Bar, Button, layouts, Tabs } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Button, layouts, Tabs } from '@unoff/ui'
 import RemotePalettes from '../contexts/RemotePalettes'
 import LocalPalettes from '../contexts/LocalPalettes'
 import { WithTranslationProps } from '../components/WithTranslation'

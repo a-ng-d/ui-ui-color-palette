@@ -1,14 +1,14 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { TolgeeInstance, useTolgee } from '@tolgee/react'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   Dropdown,
   FormItem,
   Section,
   SectionTitle,
   SimpleItem,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

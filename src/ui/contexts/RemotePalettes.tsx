@@ -7,8 +7,8 @@ import {
   ThemeConfiguration,
   MetaConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Layout, Tabs } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { Layout, Tabs } from '@unoff/ui'
 import StarredPalettes from '../subcontexts/StarredPalettes'
 import SelfPalettes from '../subcontexts/SelfPalettes'
 import OrgPalettes from '../subcontexts/OrgPalettes'

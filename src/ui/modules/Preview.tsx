@@ -15,8 +15,8 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Bar, Chip, ColorChip, Drawer } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Chip, ColorChip, Drawer } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'

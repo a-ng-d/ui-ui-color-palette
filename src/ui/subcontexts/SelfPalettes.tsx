@@ -5,7 +5,7 @@ import {
   ExternalPalettes,
   FullConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
   Bar,
@@ -15,7 +15,7 @@ import {
   Menu,
   Message,
   SemanticMessage,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import setPaletteMeta from '../../utils/setPaletteMeta'

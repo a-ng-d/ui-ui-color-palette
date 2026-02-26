@@ -7,7 +7,7 @@ import {
   DominantColors,
   SourceColorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
   ColorItem,
@@ -16,10 +16,10 @@ import {
   Message,
   SectionTitle,
   SimpleItem,
-} from '@a_ng_d/figmug-ui'
-import { Dropzone } from '@a_ng_d/figmug-ui'
-import { Card } from '@a_ng_d/figmug-ui'
-import { texts } from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
+import { Dropzone } from '@unoff/ui'
+import { Card } from '@unoff/ui'
+import { texts } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

@@ -6,7 +6,7 @@ import {
   HexModel,
   SourceColorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
   Button,
@@ -22,7 +22,7 @@ import {
   SimpleSlider,
   Tabs,
   texts,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

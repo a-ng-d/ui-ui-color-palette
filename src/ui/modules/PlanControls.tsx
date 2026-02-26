@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, Chip, IconChip, layouts, texts } from '@a_ng_d/figmug-ui'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { Button, Chip, IconChip, layouts, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

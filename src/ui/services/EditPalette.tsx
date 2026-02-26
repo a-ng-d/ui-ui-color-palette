@@ -1,4 +1,4 @@
-import type { DropdownOption } from '@a_ng_d/figmug-ui'
+import type { DropdownOption } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
@@ -22,16 +22,9 @@ import {
   Data,
   Code,
 } from '@a_ng_d/utils-ui-color-palette'
-import { Case, doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { doScale } from '@a_ng_d/figmug-utils'
-import {
-  Bar,
-  Button,
-  Dropdown,
-  FormItem,
-  layouts,
-  Tabs,
-} from '@a_ng_d/figmug-ui'
+import { Case, doClassnames, FeatureStatus } from '@unoff/utils'
+import { doScale } from '@unoff/utils'
+import { Bar, Button, Dropdown, FormItem, layouts, Tabs } from '@unoff/ui'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Themes from '../contexts/Themes'
@@ -110,7 +103,10 @@ interface EditPaletteState {
   isCodeCopied: boolean
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteState> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteState
+> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>

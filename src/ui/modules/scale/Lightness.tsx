@@ -8,8 +8,8 @@ import {
   TextColorsThemeConfiguration,
   EasingConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { MultipleSlider } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { MultipleSlider } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

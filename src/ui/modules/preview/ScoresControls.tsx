@@ -1,6 +1,6 @@
 import React from 'react'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { layouts, Button, Menu } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { layouts, Button, Menu } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

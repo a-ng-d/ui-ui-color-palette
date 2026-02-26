@@ -11,8 +11,8 @@ import {
   TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Button, Chip, ColorChip, Icon, layouts } from '@a_ng_d/figmug-ui'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
 import ContrastReport from '../modules/preview/ContrastReport'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {

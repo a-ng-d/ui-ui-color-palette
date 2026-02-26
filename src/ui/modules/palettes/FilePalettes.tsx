@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
   Button,
@@ -12,7 +12,7 @@ import {
   SemanticMessage,
   SimpleItem,
   texts,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

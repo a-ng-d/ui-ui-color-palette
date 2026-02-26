@@ -1,5 +1,5 @@
 import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
-import { Feature } from '@a_ng_d/figmug-utils'
+import { Feature } from '@unoff/utils'
 import { Language } from './translations'
 import { Editor } from './app'
 

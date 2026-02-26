@@ -8,7 +8,7 @@ import {
   ScaleConfiguration,
   TextColorsThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, doScale, FeatureStatus } from '@a_ng_d/figmug-utils'
+import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
   Button,
   layouts,
@@ -18,7 +18,7 @@ import {
   SemanticMessage,
   SimpleItem,
   texts,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

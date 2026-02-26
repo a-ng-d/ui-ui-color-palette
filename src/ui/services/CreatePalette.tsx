@@ -16,8 +16,8 @@ import {
   VisionSimulationModeConfiguration,
   RgbModel,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@a_ng_d/figmug-utils'
-import { Bar, Button, Dialog, Tabs, texts } from '@a_ng_d/figmug-ui'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Button, Dialog, Tabs, texts } from '@unoff/ui'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Source from '../contexts/Source'

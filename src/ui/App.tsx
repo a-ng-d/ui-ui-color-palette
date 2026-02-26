@@ -22,7 +22,7 @@ import {
   BaseConfiguration,
   MetaConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus, doScale } from '@a_ng_d/figmug-utils'
+import { FeatureStatus, doScale } from '@unoff/utils'
 import {
   Button,
   Consent,
@@ -30,7 +30,7 @@ import {
   Icon,
   layouts,
   SemanticMessage,
-} from '@a_ng_d/figmug-ui'
+} from '@unoff/ui'
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { UserSession } from '../types/user'
