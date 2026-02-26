@@ -2,13 +2,6 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import {
-  SourceColorConfiguration,
-  ColorHarmonyResult,
-  RgbModel,
-  Channel,
-} from '@a_ng_d/utils-ui-color-palette'
-import { ColorHarmony } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Bar, Dropdown, FormItem, Layout } from '@unoff/ui'
 import { Input } from '@unoff/ui'
@@ -16,6 +9,13 @@ import { layouts } from '@unoff/ui'
 import { Chip } from '@unoff/ui'
 import { Button } from '@unoff/ui'
 import { texts } from '@unoff/ui'
+import { ColorHarmony } from '@a_ng_d/utils-ui-color-palette'
+import {
+  SourceColorConfiguration,
+  ColorHarmonyResult,
+  RgbModel,
+  Channel,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

@@ -2,6 +2,8 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent, createPortal } from 'preact/compat'
 import chroma from 'chroma-js'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Button, Dialog, Tabs, texts } from '@unoff/ui'
 import {
   HexModel,
   PresetConfiguration,
@@ -16,8 +18,6 @@ import {
   VisionSimulationModeConfiguration,
   RgbModel,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@unoff/utils'
-import { Bar, Button, Dialog, Tabs, texts } from '@unoff/ui'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Source from '../contexts/Source'

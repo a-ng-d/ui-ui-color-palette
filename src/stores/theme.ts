@@ -1,5 +1,5 @@
-import { ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { doScale } from '@unoff/utils'
+import { ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { presets } from './presets'
 
 const defaultTheme: ThemeConfiguration = {

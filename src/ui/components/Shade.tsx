@@ -1,6 +1,8 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
@@ -11,8 +13,6 @@ import {
   TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
 import ContrastReport from '../modules/preview/ContrastReport'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {

@@ -1,6 +1,16 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import { doClassnames } from '@unoff/utils'
+import {
+  ColorItem,
+  FormItem,
+  Layout,
+  Section,
+  SectionTitle,
+  SimpleItem,
+  texts,
+} from '@unoff/ui'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -12,16 +22,6 @@ import {
   PublicationConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { doClassnames } from '@unoff/utils'
-import {
-  ColorItem,
-  FormItem,
-  Layout,
-  Section,
-  SectionTitle,
-  SimpleItem,
-  texts,
-} from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { BaseProps } from '../../types/app'

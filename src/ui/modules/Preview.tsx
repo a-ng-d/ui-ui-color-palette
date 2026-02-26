@@ -1,6 +1,8 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Chip, ColorChip, Drawer } from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
@@ -15,8 +17,6 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus } from '@unoff/utils'
-import { Bar, Chip, ColorChip, Drawer } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'

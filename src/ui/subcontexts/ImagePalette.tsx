@@ -2,11 +2,6 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import {
-  DominantColorResult,
-  DominantColors,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -20,6 +15,11 @@ import {
 import { Dropzone } from '@unoff/ui'
 import { Card } from '@unoff/ui'
 import { texts } from '@unoff/ui'
+import {
+  DominantColorResult,
+  DominantColors,
+  SourceColorConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

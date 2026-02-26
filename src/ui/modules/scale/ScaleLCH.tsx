@@ -1,12 +1,5 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import {
-  ExchangeConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  EasingConfiguration,
-  ShiftConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus, doScale } from '@unoff/utils'
 import {
   Button,
@@ -20,6 +13,13 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
+import {
+  ExchangeConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  EasingConfiguration,
+  ShiftConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

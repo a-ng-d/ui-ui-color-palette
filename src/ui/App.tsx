@@ -1,5 +1,14 @@
 import React from 'react'
 import { Component, createPortal } from 'preact/compat'
+import { FeatureStatus, doScale } from '@unoff/utils'
+import {
+  Button,
+  Consent,
+  ConsentConfiguration,
+  Icon,
+  layouts,
+  SemanticMessage,
+} from '@unoff/ui'
 import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
@@ -22,15 +31,6 @@ import {
   BaseConfiguration,
   MetaConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { FeatureStatus, doScale } from '@unoff/utils'
-import {
-  Button,
-  Consent,
-  ConsentConfiguration,
-  Icon,
-  layouts,
-  SemanticMessage,
-} from '@unoff/ui'
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { UserSession } from '../types/user'

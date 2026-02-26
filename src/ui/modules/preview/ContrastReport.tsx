@@ -1,11 +1,5 @@
 import React, { createPortal } from 'react'
 import chroma from 'chroma-js'
-import {
-  ColorConfiguration,
-  Contrast,
-  HexModel,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -23,6 +17,12 @@ import {
   Tabs,
   texts,
 } from '@unoff/ui'
+import {
+  ColorConfiguration,
+  Contrast,
+  HexModel,
+  SourceColorConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

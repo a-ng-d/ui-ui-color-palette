@@ -1,13 +1,5 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import {
-  CreatorConfiguration,
-  DatesConfiguration,
-  DocumentConfiguration,
-  PublicationConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -23,6 +15,14 @@ import {
   texts,
   Tooltip,
 } from '@unoff/ui'
+import {
+  CreatorConfiguration,
+  DatesConfiguration,
+  DocumentConfiguration,
+  PublicationConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

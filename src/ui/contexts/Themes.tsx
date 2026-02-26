@@ -1,12 +1,5 @@
 import { uid } from 'uid'
 import React, { PureComponent } from 'react'
-import {
-  HexModel,
-  PresetConfiguration,
-  ScaleConfiguration,
-  TextColorsThemeConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import {
@@ -20,6 +13,13 @@ import {
   SimpleItem,
   SortableList,
 } from '@unoff/ui'
+import {
+  HexModel,
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

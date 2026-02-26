@@ -1,13 +1,5 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import {
-  Contrast,
-  EasingConfiguration,
-  ExchangeConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -19,6 +11,14 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
+import {
+  Contrast,
+  EasingConfiguration,
+  ExchangeConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

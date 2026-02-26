@@ -1,14 +1,5 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  TextColorsThemeConfiguration,
-  EasingConfiguration,
-  ShiftConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -19,6 +10,15 @@ import {
   layouts,
   texts,
 } from '@unoff/ui'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  TextColorsThemeConfiguration,
+  EasingConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import ScaleLCH from '../modules/scale/ScaleLCH'
 import ScaleCR from '../modules/scale/ScaleCR'
 import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'

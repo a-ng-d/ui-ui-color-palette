@@ -1,5 +1,5 @@
-import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Feature } from '@unoff/utils'
+import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Language } from './translations'
 import { Editor } from './app'
 

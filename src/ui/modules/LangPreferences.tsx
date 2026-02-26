@@ -1,6 +1,5 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { TolgeeInstance, useTolgee } from '@tolgee/react'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Dropdown,
@@ -9,6 +8,7 @@ import {
   SectionTitle,
   SimpleItem,
 } from '@unoff/ui'
+import { TolgeeInstance, useTolgee } from '@tolgee/react'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

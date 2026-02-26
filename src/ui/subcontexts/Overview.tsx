@@ -2,11 +2,6 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import {
-  RgbModel,
-  SourceColorConfiguration,
-  ThirdParty,
-} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Accordion,
@@ -22,6 +17,11 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
+import {
+  RgbModel,
+  SourceColorConfiguration,
+  ThirdParty,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

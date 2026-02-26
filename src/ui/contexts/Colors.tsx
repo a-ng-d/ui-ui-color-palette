@@ -2,11 +2,6 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import {
-  ColorConfiguration,
-  HexModel,
-  ShiftConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -21,6 +16,11 @@ import {
   SimpleItem,
   SortableList,
 } from '@unoff/ui'
+import {
+  ColorConfiguration,
+  HexModel,
+  ShiftConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

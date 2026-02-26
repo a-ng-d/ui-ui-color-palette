@@ -1,5 +1,5 @@
-import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { ConsentConfiguration } from '@unoff/ui'
+import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { UserSession } from './user'
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'

@@ -1,7 +1,6 @@
 import { createPortal } from 'react-dom'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
@@ -13,6 +12,7 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
+import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

@@ -1,8 +1,10 @@
-import type { DropdownOption } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
 import * as fflate from 'fflate'
+import { Case, doClassnames, FeatureStatus } from '@unoff/utils'
+import { doScale } from '@unoff/utils'
+import { Bar, Button, Dropdown, FormItem, layouts, Tabs } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -22,9 +24,7 @@ import {
   Data,
   Code,
 } from '@a_ng_d/utils-ui-color-palette'
-import { Case, doClassnames, FeatureStatus } from '@unoff/utils'
-import { doScale } from '@unoff/utils'
-import { Bar, Button, Dropdown, FormItem, layouts, Tabs } from '@unoff/ui'
+import type { DropdownOption } from '@unoff/ui'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Themes from '../contexts/Themes'
