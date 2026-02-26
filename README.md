@@ -75,7 +75,7 @@ npm run install:packages
 npm run update:packages
 
 # Update Figmug UI and utils
-npm run update:figmug
+npm run update:unoff
 
 # Update color palette utils
 npm run update:uicp
