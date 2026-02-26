@@ -452,6 +452,8 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 pin: 'TOP',
                 type: 'MULTI_LINE',
               }}
+              isBlocked={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isBlocked()}
+              isNew={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isNew()}
               action={() => {
                 const newScale = this.onApplyDistributionEasing(
                   this.props.scale,
