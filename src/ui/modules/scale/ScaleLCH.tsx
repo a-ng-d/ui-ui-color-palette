@@ -650,10 +650,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
   MoreTools = () => {
     const menuOptions: Array<DropdownOption> = []
 
-    if (
-      this.props.preset.id.includes('CUSTOM') &&
-      this.props.service === 'CREATE'
-    ) {
+    if (this.props.preset.id.includes('CUSTOM')) {
       if (this.props.preset.stops.length > 2)
         menuOptions.push({
           label: this.props.t('scale.actions.removeStop'),
@@ -672,6 +669,10 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
           value: 'ADD_STOP',
           feature: 'ADD_STOP',
           type: 'OPTION',
+          isBlocked:
+            this.features.PRESETS_CUSTOM_ADD.isReached(
+              this.props.preset.stops.length
+            ) && this.props.service === 'EDIT',
           action: this.customHandler,
         })
     }
