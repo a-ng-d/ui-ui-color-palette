@@ -738,7 +738,6 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
                   value={this.state.coolorsUrl.value}
                   helper={{
                     label: this.props.t('source.coolors.addColors'),
-                    type: 'MULTI_LINE',
                   }}
                   isAutoFocus
                   isBlocked={this.features.SOURCE_COOLORS_ADD.isReached(
@@ -841,7 +840,6 @@ export default class Overview extends PureComponent<OverviewProps, OverviewState
                   value={this.state.realtimeColorsUrl.value}
                   helper={{
                     label: this.props.t('source.realtimeColors.addColors'),
-                    type: 'MULTI_LINE',
                   }}
                   isAutoFocus
                   isBlocked={this.features.SOURCE_REALTIME_COLORS_ADD.isReached(
