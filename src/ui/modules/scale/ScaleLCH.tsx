@@ -459,6 +459,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       if (stops.length < 24) {
         stops.push(stops.slice(-1)[0] + stops[0])
         preset.stops = stops
+        this.palette.setKey('preset', preset)
         this.palette.setKey('scale', scale())
 
         if (this.props.service === 'EDIT') {
@@ -476,6 +477,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       if (stops.length > 2) {
         stops.pop()
         preset.stops = stops
+        this.palette.setKey('preset', preset)
         this.palette.setKey('scale', scale())
 
         if (this.props.service === 'EDIT') {
@@ -942,6 +944,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
   // Render
   render() {
+    console.log(this.props.preset)
     if (this.props.service === 'EDIT') return <this.Edit />
     else return <this.Create />
   }
