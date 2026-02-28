@@ -273,7 +273,6 @@ export default class Lightness extends PureComponent<
         </Feature>
       )
 
-    // EDIT mode
     return (
       <Feature isActive={this.features.SCALE_CONFIGURATION.isActive()}>
         {this.props.preset.id.includes('CUSTOM') ? (
