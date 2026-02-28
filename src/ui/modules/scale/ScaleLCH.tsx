@@ -944,7 +944,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
   // Render
   render() {
-    console.log(this.props.preset)
     if (this.props.service === 'EDIT') return <this.Edit />
     else return <this.Create />
   }
