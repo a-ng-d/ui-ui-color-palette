@@ -1,3 +1,4 @@
+import type { DropdownOption } from '@unoff/ui'
 import {
   docco,
   atomOneDark,
@@ -30,7 +31,6 @@ import {
   ShiftConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import type { DropdownOption } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { ExportEvent } from '../../types/events'

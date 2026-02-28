@@ -1,3 +1,4 @@
+import type { DropdownOption } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
@@ -24,7 +25,6 @@ import {
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import type { DropdownOption } from '@unoff/ui'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Properties from '../contexts/Properties'
