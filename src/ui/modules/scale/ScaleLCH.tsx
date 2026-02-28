@@ -461,10 +461,14 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         preset.stops = stops
         this.palette.setKey('scale', scale())
 
-        this.props.onAddStop({
-          preset: preset,
-          scale: scale(),
-        })
+        if (this.props.service === 'EDIT') {
+          this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+          sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+        } else
+          this.props.onAddStop({
+            preset: preset,
+            scale: scale(),
+          })
       }
     }
 
@@ -474,10 +478,14 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         preset.stops = stops
         this.palette.setKey('scale', scale())
 
-        this.props.onRemoveStop({
-          preset: preset,
-          scale: scale(),
-        })
+        if (this.props.service === 'EDIT') {
+          this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+          sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+        } else
+          this.props.onRemoveStop({
+            preset: preset,
+            scale: scale(),
+          })
       }
     }
 
@@ -571,41 +579,44 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
   ToolsButtons = () => {
     return (
       <>
-        {this.props.service === 'CREATE' && (
-          <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
-            {this.props.preset.id.includes('CUSTOM') && (
-              <>
-                {this.props.preset.stops.length > 2 && (
-                  <Button
-                    type="icon"
-                    icon="minus"
-                    helper={{
-                      label: this.props.t('scale.actions.removeStop'),
-                    }}
-                    feature="REMOVE_STOP"
-                    action={this.customHandler}
-                  />
-                )}
-                <Feature isActive={this.features.PRESETS_CUSTOM_ADD.isActive()}>
-                  <Button
-                    type="icon"
-                    icon="plus"
-                    isDisabled={this.props.preset.stops.length === 24}
-                    helper={{
-                      label: this.props.t('scale.actions.addStop'),
-                    }}
-                    feature="ADD_STOP"
-                    action={
-                      this.props.preset.stops.length >= 24
-                        ? () => null
-                        : this.customHandler
-                    }
-                  />
-                </Feature>
-              </>
-            )}
-          </Feature>
-        )}
+        <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
+          {this.props.preset.id.includes('CUSTOM') && (
+            <>
+              {this.props.preset.stops.length > 2 && (
+                <Button
+                  type="icon"
+                  icon="minus"
+                  helper={{
+                    label: this.props.t('scale.actions.removeStop'),
+                  }}
+                  feature="REMOVE_STOP"
+                  action={this.customHandler}
+                />
+              )}
+              <Feature isActive={this.features.PRESETS_CUSTOM_ADD.isActive()}>
+                <Button
+                  type="icon"
+                  icon="plus"
+                  isDisabled={this.props.preset.stops.length === 24}
+                  helper={{
+                    label: this.props.t('scale.actions.addStop'),
+                  }}
+                  feature="ADD_STOP"
+                  isBlocked={
+                    this.features.PRESETS_CUSTOM_ADD.isReached(
+                      this.props.preset.stops.length
+                    ) && this.props.service === 'EDIT'
+                  }
+                  action={
+                    this.props.preset.stops.length >= 24
+                      ? () => null
+                      : this.customHandler
+                  }
+                />
+              </Feature>
+            </>
+          )}
+        </Feature>
         <Feature isActive={this.features.SCALE_REVERSE.isActive()}>
           <Button
             type="icon"
