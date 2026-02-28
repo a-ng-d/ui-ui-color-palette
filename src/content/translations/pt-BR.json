@@ -90,12 +90,13 @@
     "publishOrSyncPalette": "Publicar ou sincronizar paleta",
     "publishPalette": "Publicar paleta",
     "pushUpdates": "Enviar atualizações para o documento",
-    "savePalette": "Criar UI Color Palette",
+    "savePalette": "Salvar UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 cor-fonte} other {# cores-fonte} =0 {Nenhuma cor-fonte}}",
     "sync": "Sincronizar com biblioteca local",
     "syncLocalStyles": "Sincronizar com estilos locais",
     "syncLocalVariables": "Sincronizar com variáveis locais",
-    "syncPalette": "Sincronizar paleta"
+    "syncPalette": "Sincronizar paleta",
+    "unlockSavePalette": "Desbloquear e salvar UI Color Palette"
   },
   "announcements": {
     "cta": {

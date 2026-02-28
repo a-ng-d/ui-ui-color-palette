@@ -797,7 +797,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
             <Button
               type="primary"
-              label={this.props.t('actions.savePalette')}
+              label={
+                !this.canSavePalette()
+                  ? this.props.t('actions.unlockSavePalette')
+                  : this.props.t('actions.savePalette')
+              }
               feature="CREATE_PALETTE"
               warning={
                 !this.canSavePalette()

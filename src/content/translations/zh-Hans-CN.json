@@ -90,12 +90,13 @@
     "publishOrSyncPalette": "发布或同步调色板",
     "publishPalette": "发布调色板",
     "pushUpdates": "推送更新到文档",
-    "savePalette": "创建 UI Color Palette",
+    "savePalette": "保存 UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 个源颜色} other {# 个源颜色} =0 {无源颜色}}",
     "sync": "与本地库同步",
     "syncLocalStyles": "与本地样式同步",
     "syncLocalVariables": "与本地变量同步",
-    "syncPalette": "同步调色板"
+    "syncPalette": "同步调色板",
+    "unlockSavePalette": "解锁并保存 UI Color Palette"
   },
   "announcements": {
     "cta": {

@@ -90,12 +90,13 @@
     "publishOrSyncPalette": "Publish or Synchronize palette",
     "publishPalette": "Publish palette",
     "pushUpdates": "Push updates to the document",
-    "savePalette": "Create UI Color Palette",
+    "savePalette": "Save UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 source color} other {# source colors} =0 {No source color}}",
     "sync": "Sync with local library",
     "syncLocalStyles": "Sync with local styles",
     "syncLocalVariables": "Sync with local variables",
-    "syncPalette": "Synchronize palette"
+    "syncPalette": "Synchronize palette",
+    "unlockSavePalette": "Unlock and save UI Color Palette"
   },
   "announcements": {
     "cta": {
