@@ -506,15 +506,23 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
   onResetScale = () => {
     const preset = this.props.preset ?? defaultPreset
 
+    if (preset.id === 'CUSTOM_1_10') preset.stops = [1, 2, 3, 4, 5, 6]
+    else if (preset.id === 'CUSTOM_10_100')
+      preset.stops = [10, 20, 30, 40, 50, 60]
+    else if (preset.id === 'CUSTOM_100_1000')
+      preset.stops = [100, 200, 300, 400, 500, 600]
+
     this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
     this.scaleMessage.data.shift.chroma = 100
     this.scaleMessage.data.shift.hue = 0
 
+    this.palette.setKey('preset', preset)
     this.palette.setKey('scale', this.scaleMessage.data.scale)
     this.palette.setKey('shift.chroma', 100)
     this.palette.setKey('shift.hue', 0)
 
     this.props.onChangeScale()
+    this.props.onChangePreset({ preset: preset })
     this.props.onChangeShift('SHIFT_CHROMA', 'SHIFTED', 100)
     this.props.onChangeShift('SHIFT_HUE', 'SHIFTED', 0)
 
