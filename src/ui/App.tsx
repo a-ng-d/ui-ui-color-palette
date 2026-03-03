@@ -90,7 +90,7 @@ import {
 import { WithConfig, WithConfigProps } from './components/WithConfig'
 import Feature from './components/Feature'
 
-type AppProps = WithConfigProps & WithTranslationProps
+type AppProps = WithConfigProps & WithTranslationProps & BaseProps
 
 export interface AppState extends BaseProps {
   sourceColors: Array<SourceColorConfiguration>
@@ -196,6 +196,15 @@ class App extends Component<AppProps, AppState> {
       currentEditor: editor,
     }),
   })
+
+  private get features() {
+    return App.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: AppProps) {
     super(props)
@@ -365,12 +374,7 @@ class App extends Component<AppProps, AppState> {
     // Authentication
     if (
       getSupabase() !== null &&
-      App.features(
-        this.state.planStatus,
-        this.props.config,
-        this.state.service,
-        this.state.editor
-      ).BACKSTAGE_AUTHENTICATION.isActive()
+      this.features.BACKSTAGE_AUTHENTICATION.isActive()
     )
       getSupabase()?.auth.onAuthStateChange((event, session) => {
         const actions: {
@@ -482,14 +486,7 @@ class App extends Component<AppProps, AppState> {
             avatar: path.data.avatar,
           },
         })
-        if (
-          App.features(
-            this.state.planStatus,
-            this.props.config,
-            this.state.service,
-            this.state.editor
-          ).BACKSTAGE_AUTHENTICATION.isActive()
-        )
+        if (this.features.BACKSTAGE_AUTHENTICATION.isActive())
           await checkConnectionStatus(
             path.data.accessToken,
             path.data.refreshToken
@@ -1109,12 +1106,7 @@ class App extends Component<AppProps, AppState> {
         >
           <Feature
             isActive={
-              App.features(
-                this.state.planStatus,
-                this.props.config,
-                this.state.service,
-                this.state.editor
-              ).BROWSE.isActive() && this.state.service === 'BROWSE'
+              this.features.BROWSE.isActive() && this.state.service === 'BROWSE'
             }
           >
             <BrowsePalettes
@@ -1126,12 +1118,7 @@ class App extends Component<AppProps, AppState> {
           </Feature>
           <Feature
             isActive={
-              App.features(
-                this.state.planStatus,
-                this.props.config,
-                this.state.service,
-                this.state.editor
-              ).CREATE.isActive() && this.state.service === 'CREATE'
+              this.features.CREATE.isActive() && this.state.service === 'CREATE'
             }
           >
             <CreatePalette
@@ -1154,12 +1141,7 @@ class App extends Component<AppProps, AppState> {
           </Feature>
           <Feature
             isActive={
-              App.features(
-                this.state.planStatus,
-                this.props.config,
-                this.state.service,
-                this.state.editor
-              ).EDIT.isActive() && this.state.service === 'EDIT'
+              this.features.EDIT.isActive() && this.state.service === 'EDIT'
             }
           >
             <EditPalette
@@ -1182,12 +1164,7 @@ class App extends Component<AppProps, AppState> {
           </Feature>
           <Feature
             isActive={
-              App.features(
-                this.state.planStatus,
-                this.props.config,
-                this.state.service,
-                this.state.editor
-              ).SEE.isActive() && this.state.service === 'SEE'
+              this.features.SEE.isActive() && this.state.service === 'SEE'
             }
           >
             <SeePalette
@@ -1251,12 +1228,7 @@ class App extends Component<AppProps, AppState> {
           <Feature
             isActive={
               this.state.mustUserConsent &&
-              App.features(
-                this.state.planStatus,
-                this.props.config,
-                this.state.service,
-                this.state.editor
-              ).USER_CONSENT.isActive()
+              this.features.USER_CONSENT.isActive()
             }
           >
             {document.getElementById('modal') &&
@@ -1313,12 +1285,7 @@ class App extends Component<AppProps, AppState> {
           </Feature>
           <Feature
             isActive={
-              App.features(
-                this.state.planStatus,
-                this.props.config,
-                this.state.service,
-                this.state.editor
-              ).USER_LANGUAGE_SUGGESTION.isActive() &&
+              this.features.USER_LANGUAGE_SUGGESTION.isActive() &&
               this.state.isSuggestedLanguageDisplayed &&
               this.state.suggestedLanguage !== null
             }
@@ -1343,14 +1310,7 @@ class App extends Component<AppProps, AppState> {
               isAnchored
             />
           </Feature>
-          <Feature
-            isActive={App.features(
-              this.state.planStatus,
-              this.props.config,
-              this.state.service,
-              this.state.editor
-            ).SHORTCUTS.isActive()}
-          >
+          <Feature isActive={this.features.SHORTCUTS.isActive()}>
             <Shortcuts
               {...this.props}
               {...this.state}
