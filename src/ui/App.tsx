@@ -90,7 +90,7 @@ import {
 import { WithConfig, WithConfigProps } from './components/WithConfig'
 import Feature from './components/Feature'
 
-type AppProps = WithConfigProps & WithTranslationProps & BaseProps
+type AppProps = WithConfigProps & WithTranslationProps
 
 export interface AppState extends BaseProps {
   sourceColors: Array<SourceColorConfiguration>
@@ -199,10 +199,10 @@ class App extends Component<AppProps, AppState> {
 
   private get features() {
     return App.features(
-      this.props.planStatus,
+      this.state.planStatus,
       this.props.config,
-      this.props.service,
-      this.props.editor
+      this.state.service,
+      this.state.editor
     )
   }
 
