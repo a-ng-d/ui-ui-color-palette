@@ -848,9 +848,11 @@
         "v3": "Sinusoïdal et hyperbolique"
       },
       "colorSpace": {
+        "cmyk": "CMJN",
         "hex": "HEX",
         "hsl": "HSL",
         "hsluv": "HSLuv",
+        "hsv": "HSV",
         "lab": "CIELAB",
         "label": "Espace colorimétrique",
         "lch": "LCH",

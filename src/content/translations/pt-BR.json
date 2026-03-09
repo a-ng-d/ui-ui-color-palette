@@ -848,9 +848,11 @@
         "v3": "Senoidal e hiperbólico"
       },
       "colorSpace": {
+        "cmyk": "CMYK",
         "hex": "HEX",
         "hsl": "HSL",
         "hsluv": "HSLuv",
+        "hsv": "HSV",
         "lab": "CIELAB",
         "label": "Espaço de cor",
         "lch": "LCH",

@@ -848,9 +848,11 @@
         "v3": "正弦和双曲"
       },
       "colorSpace": {
+        "cmyk": "CMYK",
         "hex": "HEX",
         "hsl": "HSL",
         "hsluv": "HSLuv",
+        "hsv": "HSV",
         "lab": "CIELAB",
         "label": "颜色模版",
         "lch": "LCH",
