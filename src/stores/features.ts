@@ -3400,7 +3400,7 @@ export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
     isNew: false,
     type: 'ACTION',
     availabilityForServices: ['CREATE', 'EDIT'],
-    proForServices: ['CREATE', 'EDIT'],
+    proForServices: ['EDIT'],
     availabilityForEditors: [
       'figma',
       'figjam',

@@ -388,7 +388,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     return Actions.features(
       this.props.planStatus,
       this.props.config,
-      this.props.service,
+      'EDIT',
       this.props.editor
     )
   }

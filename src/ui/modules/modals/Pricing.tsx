@@ -252,7 +252,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     return Pricing.features(
       this.props.planStatus,
       this.props.config,
-      this.props.service,
+      'EDIT',
       this.props.editor
     )
   }
