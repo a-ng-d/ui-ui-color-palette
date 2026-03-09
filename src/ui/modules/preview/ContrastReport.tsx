@@ -584,10 +584,7 @@ export default class ContrastReport extends React.PureComponent<
                             min={100}
                             max={900}
                             step={100}
-                            colors={{
-                              min: 'hsl(187, 0%, 75%, 0)',
-                              max: 'hsl(187, 0%, 75%, 0)',
-                            }}
+                            hasProgressBar
                             onChange={(_: string, __: string, value: number) =>
                               this.setState({ fontWeight: value })
                             }
