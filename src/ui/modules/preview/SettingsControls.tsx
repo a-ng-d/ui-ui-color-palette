@@ -281,6 +281,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 action: this.props.onColorSettingsHandler,
               },
               {
+                type: 'SEPARATOR',
+              },
+              {
                 label: this.props.t('settings.color.colorSpace.hsl'),
                 value: 'HSL',
                 feature: 'UPDATE_COLOR_SPACE',
@@ -309,6 +312,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
                 action: this.props.onColorSettingsHandler,
+              },
+              {
+                type: 'SEPARATOR',
               },
               {
                 label: this.props.t('settings.color.colorSpace.cmyk'),

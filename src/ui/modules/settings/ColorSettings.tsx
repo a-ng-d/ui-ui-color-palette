@@ -271,6 +271,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 action: this.props.onChangeSettings,
               },
               {
+                type: 'SEPARATOR',
+              },
+              {
                 label: this.props.t('settings.color.colorSpace.hsl'),
                 value: 'HSL',
                 feature: 'UPDATE_COLOR_SPACE',
@@ -299,6 +302,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
                 action: this.props.onChangeSettings,
+              },
+              {
+                type: 'SEPARATOR',
               },
               {
                 label: this.props.t('settings.color.colorSpace.cmyk'),
