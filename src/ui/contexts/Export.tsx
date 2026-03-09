@@ -1254,7 +1254,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                       {this.props.context !== 'CSV' && (
                         <Button
                           type="icon"
-                          icon={this.props.isCodeCopied ? 'check' : 'draft'}
+                          icon={this.props.isCodeCopied ? 'check' : 'copy'}
                           helper={{
                             label: this.props.t('export.actions.copyCode'),
                           }}

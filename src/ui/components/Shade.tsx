@@ -579,7 +579,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
             <Feature isActive={this.features.PREVIEW_SHADE_HEX.isActive()}>
               <Button
                 type="icon"
-                icon={this.state.isCopied ? 'check' : 'draft'}
+                icon={this.state.isCopied ? 'check' : 'copy'}
                 size="small"
                 helper={{
                   label: this.props.t('preview.actions.copyHex'),
