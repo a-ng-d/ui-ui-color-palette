@@ -1,8 +1,6 @@
 import { Feature } from '@unoff/utils'
 
-export const featuresScheme: Array<
-  Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>
-> = [
+export const featuresScheme: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>> = [
   // Backstage
   {
     name: 'BACKSTAGE_ANALYTICS',
@@ -2675,8 +2673,44 @@ export const featuresScheme: Array<
     ],
   },
   {
+    name: 'SETTINGS_COLOR_SPACE_HSV',
+    description: 'HSV color space settings',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    availabilityForServices: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: [
+      'figma',
+      'figjam',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+    ],
+  },
+  {
     name: 'SETTINGS_COLOR_SPACE_HSLUV',
     description: 'HSLUV color space settings',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    availabilityForServices: ['CREATE', 'EDIT'],
+    proForServices: ['CREATE', 'EDIT'],
+    availabilityForEditors: [
+      'figma',
+      'figjam',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+    ],
+  },
+  {
+    name: 'SETTINGS_COLOR_SPACE_CMYK',
+    description: 'CMYK color space settings',
     isActive: true,
     isPro: false,
     isNew: false,

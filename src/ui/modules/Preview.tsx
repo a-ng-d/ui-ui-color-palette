@@ -605,6 +605,16 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                 foregroundColorData.hsla() as HexModel,
                 backgroundColorData.hsla() as HexModel
               )
+        case 'HSV':
+          return this.props.areSourceColorsLocked
+            ? foregroundColorData.mixColorsHex(
+                foregroundColorData.setColorWithAlpha() as HexModel,
+                backgroundColorData.setColorWithAlpha() as HexModel
+              )
+            : foregroundColorData.mixColorsHex(
+                foregroundColorData.hsva() as HexModel,
+                backgroundColorData.hsva() as HexModel
+              )
         case 'HSLUV':
           return this.props.areSourceColorsLocked
             ? foregroundColorData.mixColorsHex(
@@ -614,6 +624,16 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
             : foregroundColorData.mixColorsHex(
                 foregroundColorData.hsluva() as HexModel,
                 backgroundColorData.hsluva() as HexModel
+              )
+        case 'CMYK':
+          return this.props.areSourceColorsLocked
+            ? foregroundColorData.mixColorsHex(
+                foregroundColorData.setColorWithAlpha() as HexModel,
+                backgroundColorData.setColorWithAlpha() as HexModel
+              )
+            : foregroundColorData.mixColorsHex(
+                foregroundColorData.cmyka() as HexModel,
+                backgroundColorData.cmyka() as HexModel
               )
         default:
           return '#000000'
@@ -649,8 +669,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
           return colorData.oklab() as HexModel
         case 'HSL':
           return colorData.hsl() as HexModel
+        case 'HSV':
+          return colorData.hsv() as HexModel
         case 'HSLUV':
           return colorData.hsluv() as HexModel
+        case 'CMYK':
+          return colorData.cmyk() as HexModel
         default:
           return '#000000'
       }
