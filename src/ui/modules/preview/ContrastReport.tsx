@@ -375,7 +375,7 @@ export default class ContrastReport extends React.PureComponent<
     switch (this.theme) {
       case 'figma':
         padding = 'var(--size-null) var(--size-null)'
-        background = 'var(--figma-color-bg)'
+        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
         break
       case 'penpot':
         padding = 'var(--size-null) var(--size-pos-xsmall)'
@@ -391,7 +391,7 @@ export default class ContrastReport extends React.PureComponent<
         break
       default:
         padding = 'var(--size-null) var(--size-null)'
-        background = 'var(--figma-color-bg)'
+        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
     }
 
     const isBlocked = this.features.PREVIEW_SHADE_REPORT.isBlocked()

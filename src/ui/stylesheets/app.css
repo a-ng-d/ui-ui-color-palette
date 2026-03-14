@@ -117,7 +117,7 @@ div.export-palette__preview {
 
 :root[data-theme='figma'] .preview__header .preview__cell,
 :root[data-theme='figma'] .preview__footer .preview__cell {
-  background-color: var(--figma-color-bg);
+  background-color: var(--figma-color-bg-default, var(--figma-color-bg));
 }
 :root[data-theme='penpot'] .preview__header .preview__cell,
 :root[data-theme='penpot'] .preview__footer .preview__cell {
@@ -129,7 +129,7 @@ div.export-palette__preview {
 }
 :root[data-theme='framer'] .preview__header .preview__cell,
 :root[data-theme='framer'] .preview__footer .preview__cell {
-  background-color: var(--framer-color-bg);
+  background-color: var(--framer-color-bg-default, var(--framer-color-bg));
 }
 
 .preview__cell {
@@ -224,7 +224,7 @@ div.export-palette__preview {
 
 /* Background */
 :root[data-theme='figma'] #app {
-  background-color: var(--figma-color-bg);
+  background-color: var(--figma-color-bg-default, var(--figma-color-bg));
 }
 :root[data-theme='penpot'] #app {
   background-color: var(--penpot-color-background-primary);
@@ -233,5 +233,5 @@ div.export-palette__preview {
   background-color: var(--sketch-color-background-primary);
 }
 :root[data-theme='framer'] #app {
-  background-color: var(--framer-color-bg);
+  background-color: var(--framer-color-bg-default, var(--framer-color-bg));
 }

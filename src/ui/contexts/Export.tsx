@@ -957,7 +957,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
     switch (this.theme) {
       case 'figma':
-        border = '1px solid var(--figma-color-border)'
+        border = '1px solid var(--figma-color-border-default, var(--figma-color-border))'
         radius = 'var(--border-radius-medium)'
         selectionBackground = 'var(--figma-color-bg-selected)'
         textColor = 'var(--figma-color-text-disabled)'
@@ -981,7 +981,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         textColor = 'var(--framer-color-text-tertiary)'
         break
       default:
-        border = '1px solid var(--figma-color-border)'
+        border = '1px solid var(--figma-color-border-default, var(--figma-color-border))'
         radius = 'var(--border-radius-medium)'
         selectionBackground = 'var(--figma-color-bg-selected)'
         textColor = 'var(--figma-color-text-disabled)'
