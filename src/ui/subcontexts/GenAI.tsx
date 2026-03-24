@@ -20,37 +20,35 @@ import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import {
-  BaseProps,
-  Context,
-  Editor,
-  PlanStatus,
-  Service,
-} from '../../types/app'
+import { AppState } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
-import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import {
+  trackActionEvent,
+  trackImportEvent,
+} from '../../external/tracking/eventsTracker'
 import { getMistral, MistralColorPalette } from '../../external/mistral'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface GenAiProps extends BaseProps, WithConfigProps, WithTranslationProps {
-  sourceColors: Array<SourceColorConfiguration>
   creditsCount: number
-  onChangeColorsFromImport: (
-    colors: Array<SourceColorConfiguration>,
-    source: SourceColorConfiguration['source']
-  ) => void
-  onChangeContexts: (context: Context) => void
+  onChangeService: React.Dispatch<Partial<AppState>>
 }
 
 interface GenAiState {
   prompt: string
-  isLoading: boolean
+  isRequestProcessing: boolean
+  isActionLoading?: boolean
   error: string | null
   generatedPalette: MistralColorPalette | null
   previewPrompt: string | null
 }
 
 export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
+  private palette = $palette
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -84,9 +82,11 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
 
   constructor(props: GenAiProps) {
     super(props)
+    this.palette = $palette
     this.state = {
       prompt: '',
-      isLoading: false,
+      isRequestProcessing: false,
+      isActionLoading: false,
       error: null,
       generatedPalette: null,
       previewPrompt: null,
@@ -193,14 +193,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       return
     }
 
-    this.setState({ isLoading: true, error: null })
+    this.setState({ isRequestProcessing: true, error: null })
 
     try {
       const palette = await mistralClient.generateColorPalette(
         this.state.prompt
       )
 
-      this.setState({ generatedPalette: palette, isLoading: false })
+      this.setState({ generatedPalette: palette, isRequestProcessing: false })
 
       if (this.props.config.plan.isProEnabled)
         $creditsCount.set(
@@ -210,7 +210,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       console.error(error)
       this.setState({
         error: this.props.t('error.unavailableAi'),
-        isLoading: false,
+        isRequestProcessing: false,
       })
     }
   }
@@ -274,14 +274,53 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     return colors
   }
 
+  // Direct Actions
+  onCreatePalette = (sourceColors: Array<SourceColorConfiguration>) => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'CREATE_PALETTE',
+          data: {
+            sourceColors: sourceColors,
+            exchange: {
+              ...this.palette.value,
+            },
+          },
+        },
+      },
+      '*'
+    )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+        colors: 5,
+        stops: this.palette.value?.preset.stops.length,
+      }
+    )
+  }
+
   onUsePalette = () => {
     if (!this.state.generatedPalette) return
 
     const sourceColors = this.convertMistralToSourceColors(
       this.state.generatedPalette
     )
-    this.props.onChangeColorsFromImport(sourceColors, 'AI')
-    this.props.onChangeContexts('SOURCE_OVERVIEW')
+
+    this.props.onChangeService({
+      service: 'MANAGE',
+    })
+    this.onCreatePalette(sourceColors)
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -342,6 +381,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                     label: this.props.t('source.genAi.actions.addColors'),
                     type: 'MULTI_LINE',
                   }}
+                  isLoading={this.state.isActionLoading}
                   isDisabled={true}
                   isBlocked={this.features.SOURCE_AI_ADD.isBlocked()}
                   isNew={this.features.SOURCE_AI_ADD.isNew()}
@@ -513,7 +553,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                             label={this.props.t(
                               'source.genAi.actions.generate'
                             )}
-                            isLoading={this.state.isLoading}
+                            isLoading={this.state.isRequestProcessing}
                             isDisabled={
                               !this.state.prompt.trim() || !mistralClient
                             }

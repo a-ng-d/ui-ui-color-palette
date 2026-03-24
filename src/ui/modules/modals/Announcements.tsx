@@ -17,9 +17,7 @@ import { trackAnnouncementsEvent } from '../../../external/tracking/eventsTracke
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface AnnouncementsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   announcements: AnnouncementsDigest
   onCloseAnnouncements: (e: MouseEvent) => void
 }

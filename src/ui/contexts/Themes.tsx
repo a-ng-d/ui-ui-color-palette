@@ -20,6 +20,7 @@ import {
   TextColorsThemeConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -28,7 +29,6 @@ import { ThemesMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackColorThemesManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
 
 interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
@@ -36,7 +36,7 @@ interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   scale: ScaleConfiguration
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onChangeThemes: React.Dispatch<Partial<AppState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 export default class Themes extends PureComponent<ThemesProps> {
@@ -146,7 +146,6 @@ export default class Themes extends PureComponent<ThemesProps> {
           lightColor: '#FFFFFF',
           darkColor: '#000000',
         },
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -182,7 +181,6 @@ export default class Themes extends PureComponent<ThemesProps> {
         scale:
           this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
         themes: this.themesMessage.data,
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -217,7 +215,6 @@ export default class Themes extends PureComponent<ThemesProps> {
             this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ??
             {},
           themes: this.themesMessage.data,
-          onGoingStep: 'themes changed',
         })
       }
 
@@ -246,7 +243,6 @@ export default class Themes extends PureComponent<ThemesProps> {
         scale:
           this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
         themes: this.themesMessage.data,
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -291,7 +287,6 @@ export default class Themes extends PureComponent<ThemesProps> {
           lightColor: '#FFFFFF',
           darkColor: '#000000',
         },
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -364,7 +359,6 @@ export default class Themes extends PureComponent<ThemesProps> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      onGoingStep: 'themes changed',
     })
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -393,7 +387,6 @@ export default class Themes extends PureComponent<ThemesProps> {
       scale:
         this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
       themes: this.themesMessage.data,
-      onGoingStep: 'themes changed',
     })
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')

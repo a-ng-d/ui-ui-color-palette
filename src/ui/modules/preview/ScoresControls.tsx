@@ -22,9 +22,7 @@ import { trackPreviewManagementEvent } from '../../../external/tracking/eventsTr
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ScoresControlsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   isDrawerCollapsed: boolean
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean

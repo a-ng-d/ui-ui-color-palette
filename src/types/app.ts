@@ -4,7 +4,8 @@ import { UserSession } from './user'
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
-export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'
+export type Service = 'MANAGE' | 'GEN' | 'EXTRACT' | 'WHEEL' | 'EXPLORE'
+export type Subservice = 'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'
 
 export interface ContextItem {
   label: string

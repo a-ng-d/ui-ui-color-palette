@@ -22,9 +22,7 @@ import activateUserLicenseKey from '../../../external/license/activateUserLicens
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface LicenseProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

@@ -10,9 +10,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface NotificationBannerProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   notification: NotificationMessage
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }

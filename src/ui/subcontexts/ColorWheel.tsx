@@ -13,45 +13,42 @@ import { ColorHarmony } from '@a_ng_d/utils-ui-color-palette'
 import {
   SourceColorConfiguration,
   ColorHarmonyResult,
-  RgbModel,
   Channel,
 } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { AppState } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
-import {
-  BaseProps,
-  Context,
-  Editor,
-  PlanStatus,
-  Service,
-} from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
-import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import {
+  trackActionEvent,
+  trackImportEvent,
+} from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ColorWheelProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
-  baseColor: RgbModel
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
-  onChangeColorsFromImport: (
-    onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: SourceColorConfiguration['source']
-  ) => void
-  onChangeContexts: (context: Context) => void
+  onChangeService: React.Dispatch<Partial<AppState>>
 }
 
 interface ColorWheelState {
+  isActionLoading: boolean
   baseColor: Channel
   wheelRule: string
   colorHarmony: ColorHarmonyResult
 }
 
-export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWheelState> {
+export default class ColorWheel extends PureComponent<
+  ColorWheelProps,
+  ColorWheelState
+> {
   private harmony: ColorHarmony
+  private palette = $palette
 
   static features = (
     planStatus: PlanStatus,
@@ -129,19 +126,13 @@ export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWhee
   constructor(props: ColorWheelProps) {
     super(props)
     this.harmony = new ColorHarmony({
-      baseColor: [
-        this.props.baseColor.r * 255,
-        this.props.baseColor.g * 255,
-        this.props.baseColor.b * 255,
-      ],
+      baseColor: [0.533 * 255, 0.921 * 255, 0.976 * 255],
       analogousSpread: 30,
     })
+    this.palette = $palette
     this.state = {
-      baseColor: [
-        this.props.baseColor.r * 255,
-        this.props.baseColor.g * 255,
-        this.props.baseColor.b * 255,
-      ],
+      isActionLoading: false,
+      baseColor: [0.533 * 255, 0.921 * 255, 0.976 * 255],
       wheelRule: 'ANALOGOUS',
       colorHarmony: this.harmony.generateAnalogous(),
     }
@@ -177,33 +168,69 @@ export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWhee
   }
 
   // Direct Actions
-  onUsePalette = () => {
-    this.props.onChangeColorsFromImport(
-      this.state.colorHarmony.hexColors.map((color) => {
-        const gl = chroma(color).gl()
-        return {
-          name: getClosestColorName(color),
-          rgb: {
-            r: gl[0],
-            g: gl[1],
-            b: gl[2],
+  onCreatePalette = (sourceColors: Array<SourceColorConfiguration>) => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'CREATE_PALETTE',
+          data: {
+            sourceColors: sourceColors,
+            exchange: {
+              ...this.palette.value,
+            },
           },
-          hue: {
-            shift: 0,
-            isLocked: false,
-          },
-          chroma: {
-            shift: 0,
-            isLocked: false,
-          },
-          source: 'HARMONY',
-          id: uid(),
-          isRemovable: false,
-        }
-      }),
-      'HARMONY'
+        },
+      },
+      '*'
     )
-    this.props.onChangeContexts('SOURCE_OVERVIEW')
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+        colors: 5,
+        stops: this.palette.value?.preset.stops.length,
+      }
+    )
+  }
+
+  onUsePalette = () => {
+    const sourceColors = this.state.colorHarmony.hexColors.map((color) => {
+      const gl = chroma(color).gl()
+      return {
+        name: getClosestColorName(color),
+        rgb: {
+          r: gl[0],
+          g: gl[1],
+          b: gl[2],
+        },
+        hue: {
+          shift: 0,
+          isLocked: false,
+        },
+        chroma: {
+          shift: 0,
+          isLocked: false,
+        },
+        source: 'HARMONY',
+        id: uid(),
+        isRemovable: false,
+      }
+    }) as Array<SourceColorConfiguration>
+
+    this.props.onChangeService({
+      service: 'MANAGE',
+    })
+    this.onCreatePalette(sourceColors)
 
     if (this.props.config.plan.isProEnabled)
       $creditsCount.set(
@@ -295,9 +322,9 @@ export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWhee
                           id="color-harmony-base-color"
                           type="COLOR"
                           value={chroma([
-                            this.props.baseColor.r * 255,
-                            this.props.baseColor.g * 255,
-                            this.props.baseColor.b * 255,
+                            0.533 * 255,
+                            0.921 * 255,
+                            0.976 * 255,
                           ]).hex()}
                           isBlocked={this.features.SOURCE_HARMONY_BASE.isReached(
                             (this.props.creditsCount -
@@ -449,6 +476,7 @@ export default class ColorWheel extends PureComponent<ColorWheelProps, ColorWhee
                             label: this.props.t('source.wheel.addColors'),
                             type: 'MULTI_LINE',
                           }}
+                          isLoading={this.state.isActionLoading}
                           isBlocked={this.features.SOURCE_HARMONY_ADD.isReached(
                             (this.props.creditsCount -
                               this.props.config.fees.harmonyCreate) *

@@ -1,28 +1,31 @@
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { ManagePaletteState } from '../../ui/services/ManagePalette'
 import { AppState } from '../../ui/App'
 
 const publishPalette = async ({
-  rawData,
+  paletteData,
+  appData,
   palettesDbTableName,
   isShared = false,
   locales,
 }: {
-  rawData: AppState
+  paletteData: ManagePaletteState
+  appData: AppState
   palettesDbTableName: string
   isShared?: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locales: (key: string, params?: Record<string, any> | undefined) => string
-}): Promise<Partial<AppState>> => {
+}): Promise<Partial<ManagePaletteState>> => {
   const now = new Date().toISOString()
   const name =
-    rawData.name === '' ||
-    rawData.name === locales('settings.global.name.default')
+    paletteData.name === '' ||
+    paletteData.name === locales('settings.global.name.default')
       ? locales('settings.global.name.self', {
-          username: rawData.userSession.userFullName,
+          username: appData.userSession.userFullName,
         })
-      : rawData.name
+      : paletteData.name
 
   const supabase = getSupabase()
 
@@ -32,19 +35,19 @@ const publishPalette = async ({
     .from(palettesDbTableName)
     .insert([
       {
-        palette_id: rawData.id,
+        palette_id: paletteData.id,
         name: name,
-        description: rawData.description,
-        preset: rawData.preset,
-        shift: rawData.shift,
-        are_source_colors_locked: rawData.areSourceColorsLocked,
-        colors: rawData.colors,
-        color_space: rawData.colorSpace,
-        themes: rawData.themes,
-        algorithm_version: rawData.algorithmVersion,
+        description: paletteData.description,
+        preset: paletteData.preset,
+        shift: paletteData.shift,
+        are_source_colors_locked: paletteData.areSourceColorsLocked,
+        colors: paletteData.colors,
+        color_space: paletteData.colorSpace,
+        themes: paletteData.themes,
+        algorithm_version: paletteData.algorithmVersion,
         is_shared: isShared,
-        creator_id: rawData.userSession.userId,
-        created_at: rawData.dates.createdAt,
+        creator_id: appData.userSession.userId,
+        created_at: paletteData.dates.createdAt,
         updated_at: now,
         published_at: now,
       },
@@ -53,21 +56,21 @@ const publishPalette = async ({
 
   if (!error) {
     const meta: MetaConfiguration = {
-      id: rawData.id,
+      id: paletteData.id,
       dates: {
-        createdAt: rawData.dates.createdAt,
+        createdAt: paletteData.dates.createdAt,
         updatedAt: now,
         publishedAt: now,
-        openedAt: rawData.dates.openedAt,
+        openedAt: paletteData.dates.openedAt,
       },
       publicationStatus: {
         isPublished: true,
         isShared: isShared,
       },
       creatorIdentity: {
-        creatorId: rawData.userSession.userId,
-        creatorFullName: rawData.userSession.userFullName,
-        creatorAvatar: rawData.userSession.userAvatar,
+        creatorId: appData.userSession.userId,
+        creatorFullName: appData.userSession.userFullName,
+        creatorAvatar: appData.userSession.userAvatar,
       },
     }
 

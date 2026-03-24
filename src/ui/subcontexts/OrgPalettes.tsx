@@ -34,9 +34,7 @@ import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OrgPalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -59,7 +57,10 @@ interface OrgPalettesState {
   seenPaletteId: string
 }
 
-export default class OrgPalettes extends PureComponent<OrgPalettesProps, OrgPalettesState> {
+export default class OrgPalettes extends PureComponent<
+  OrgPalettesProps,
+  OrgPalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

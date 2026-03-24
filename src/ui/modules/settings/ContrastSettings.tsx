@@ -17,9 +17,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ContrastSettingsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   isLast?: boolean
   onChangeSettings: (

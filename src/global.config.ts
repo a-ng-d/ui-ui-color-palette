@@ -1,5 +1,6 @@
 import { Feature } from '@unoff/utils'
 import { Config } from './types/config'
+import { Service } from './types/app'
 import { doSpecificMode } from './stores/features'
 
 declare const __PLATFORM__: 'figma' | 'penpot' | 'sketch' | 'framer'
@@ -27,7 +28,7 @@ interface SpecConfig {
             | 'framer-light'
             | 'framer-dark'
         }
-        features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
+        features: Array<Feature<Service>>
       }
     }
   }

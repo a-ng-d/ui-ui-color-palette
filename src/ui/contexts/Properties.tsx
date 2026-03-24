@@ -28,9 +28,7 @@ import { BaseProps } from '../../types/app'
 import { getTolgee } from '../../external/translation'
 
 interface PropertiesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
   description: string

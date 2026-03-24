@@ -23,9 +23,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface FilePalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
@@ -40,7 +38,10 @@ interface FilePalettesState {
   isDestructiveActionLoading: boolean
 }
 
-export default class FilePalettes extends PureComponent<FilePalettesProps, FilePalettesState> {
+export default class FilePalettes extends PureComponent<
+  FilePalettesProps,
+  FilePalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

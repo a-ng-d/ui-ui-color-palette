@@ -89,9 +89,9 @@ div.export-palette__preview {
   display: inline-flex;
   flex: 1;
   flex-direction: column;
-  overflow: visible;
-  min-width: 100%;
   width: fit-content;
+  min-width: 100%;
+  overflow: visible;
 }
 
 .preview__row {
@@ -104,15 +104,15 @@ div.export-palette__preview {
   position: sticky;
   top: 0;
   z-index: 5;
-  min-width: 100%;
   width: fit-content;
+  min-width: 100%;
 }
 
 .preview__footer {
   display: inline-flex;
   padding: 0 0 var(--size-pos-xxsmall) 0;
-  min-width: 100%;
   width: fit-content;
+  min-width: 100%;
 }
 
 :root[data-theme='figma'] .preview__header .preview__cell,

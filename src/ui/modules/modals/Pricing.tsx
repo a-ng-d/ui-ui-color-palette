@@ -1,20 +1,7 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
-import {
-  Button,
-  Card,
-  Dialog,
-  layouts,
-  SemanticMessage,
-  Tabs,
-  texts,
-} from '@unoff/ui'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { Button, Card, Dialog, layouts, Tabs, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -27,7 +14,6 @@ import {
   PlanStatus,
   Service,
 } from '../../../types/app'
-import { $palette } from '../../../stores/palette'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
 import uicpp from '../../../content/images/uicp_pro.webp'
@@ -36,15 +22,9 @@ import uicpj from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PricingProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
-  sourceColors: Array<SourceColorConfiguration>
-  preset: PresetConfiguration
-  scale: ScaleConfiguration
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   licenseTrigger: LicenseTrigger
   onManageLicense: React.Dispatch<Partial<AppState>>
-  onSkipAndResetPalette: React.Dispatch<Partial<AppState>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -75,168 +55,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
-    PRESETS_CUSTOM_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'PRESETS_CUSTOM_ADD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-
-    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V1: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V1',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V2: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V2',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V3: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V3',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SCALE_CHROMA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_CHROMA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SCALE_HUE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_HUE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
   })
 
   private get features() {
@@ -244,15 +62,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.props.planStatus,
       this.props.config,
       this.props.service,
-      this.props.editor
-    )
-  }
-
-  private get specificFeatures() {
-    return Pricing.features(
-      this.props.planStatus,
-      this.props.config,
-      'EDIT',
       this.props.editor
     )
   }
@@ -286,159 +95,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     this.setState({
       selectedPlan: newPlan,
     })
-  }
-
-  canSavePalette = (): boolean => {
-    if (
-      this.specificFeatures.SOURCE.isReached(
-        this.refinedNumberOfSourceColors() - 1
-      )
-    )
-      return false
-    if (
-      $palette.get().preset.id.includes('CUSTOM') &&
-      this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
-        Object.keys(this.props.scale).length - 1
-      )
-    )
-      return false
-    if (
-      $palette.get().areSourceColorsLocked &&
-      this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().shift.chroma !== 100 &&
-      this.specificFeatures.SCALE_CHROMA.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().shift.hue !== 0 &&
-      this.specificFeatures.SCALE_HUE.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().visionSimulationMode !== 'NONE' &&
-      this.specificFeatures[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
-          typeof Pricing.features
-        >
-      ].isBlocked()
-    )
-      return false
-    if (
-      $palette.get().colorSpace !== 'LCH' &&
-      this.specificFeatures[
-        `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
-          typeof Pricing.features
-        >
-      ].isBlocked()
-    )
-      return false
-    if (
-      $palette.get().algorithmVersion !== 'v3' &&
-      this.specificFeatures[
-        `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
-          typeof Pricing.features
-        >
-      ]?.isBlocked()
-    )
-      return false
-    return true
-  }
-
-  refinedNumberOfSourceColors = (): number => {
-    if (this.props.sourceColors.length > 1)
-      return this.props.sourceColors.filter(
-        (color) => color.source !== 'DEFAULT'
-      ).length
-    return this.props.sourceColors.length
-  }
-
-  // Direct Actions
-  onSkipAndResetPalette = () => {
-    let updatedPreset = this.props.preset
-    let updatedStops = this.props.preset.stops
-    let updatedSourceColors = this.props.sourceColors
-
-    if (this.props.preset.id.includes('CUSTOM')) {
-      const limit = this.features.PRESETS_CUSTOM_ADD.limit ?? 0
-      const currentStopsCount = this.props.preset.stops?.length ?? 0
-
-      if (limit > 0 && currentStopsCount > limit) {
-        updatedStops = this.props.preset.stops?.slice(0, limit) ?? []
-        updatedPreset = {
-          ...this.props.preset,
-          stops: updatedStops,
-        }
-        $palette.setKey('preset', updatedPreset)
-      }
-    }
-
-    const sourceColorLimit = this.features.SOURCE.limit ?? 1
-
-    const nonDefaultColors = this.props.sourceColors.filter(
-      (color) => color.source !== 'DEFAULT'
-    )
-    const defaultColors = this.props.sourceColors.filter(
-      (color) => color.source === 'DEFAULT'
-    )
-
-    if (nonDefaultColors.length > sourceColorLimit) {
-      const limitedNonDefaultColors = nonDefaultColors.slice(
-        0,
-        sourceColorLimit
-      )
-      updatedSourceColors = [...defaultColors, ...limitedNonDefaultColors]
-      $palette.setKey('sourceColors', updatedSourceColors)
-    }
-
-    $palette.setKey('areSourceColorsLocked', false)
-    $palette.setKey('visionSimulationMode', 'NONE')
-    $palette.setKey('colorSpace', 'LCH')
-    $palette.setKey('algorithmVersion', 'v3')
-    $palette.setKey('shift.chroma', 100)
-    $palette.setKey('shift.hue', 0)
-    $palette.setKey(
-      'scale',
-      doScale(
-        updatedStops,
-        this.props.preset.min,
-        this.props.preset.max,
-        this.props.preset.easing
-      )
-    )
-
-    this.props.onSkipAndResetPalette({
-      sourceColors: updatedSourceColors,
-      preset: updatedPreset,
-      areSourceColorsLocked: false,
-      visionSimulationMode: 'NONE',
-      colorSpace: 'LCH',
-      algorithmVersion: 'v3',
-      shift: {
-        chroma: 100,
-        hue: 0,
-      },
-      scale: doScale(
-        updatedStops,
-        this.props.preset.min,
-        this.props.preset.max,
-        this.props.preset.easing
-      ),
-    })
-
-    this.props.onClose()
-
-    trackPricingEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      { feature: 'RESET_AND_CONTINUE' }
-    )
   }
 
   // Templates
@@ -952,19 +608,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 action={this.planHandler}
               />
             </div>
-            {!this.canSavePalette() && this.props.service === 'CREATE' && (
-              <SemanticMessage
-                type="WARNING"
-                message={this.props.t('pricing.limit.message')}
-                actionsSlot={
-                  <Button
-                    type="secondary"
-                    label={this.props.t('pricing.limit.cta')}
-                    action={this.onSkipAndResetPalette}
-                  />
-                }
-              />
-            )}
             <div
               style={{
                 display: 'flex',

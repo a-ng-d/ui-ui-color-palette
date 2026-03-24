@@ -3,9 +3,11 @@ import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Avatar, Button, Chip, Dialog, texts } from '@unoff/ui'
 import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../../services/ManagePalette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { AppState } from '../../App'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -23,14 +25,12 @@ import { signIn } from '../../../external/auth/authentication'
 import { getSupabase } from '../../../external/auth'
 import p from '../../../content/images/publication.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
-import type { AppState } from '../../App'
 
 interface PublicationProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
-  rawData: AppState
-  onChangePublication: React.Dispatch<Partial<AppState>>
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  paletteData: ManagePaletteState
+  appData: AppState
+  onChangePublication: React.Dispatch<Partial<ManagePaletteState & AppState>>
   onClosePublication: React.MouseEventHandler<HTMLButtonElement>
 }
 
@@ -72,7 +72,10 @@ interface PublicationActions {
   secondary: PublicationAction | undefined
 }
 
-export default class Publication extends PureComponent<PublicationProps, PublicationState> {
+export default class Publication extends PureComponent<
+  PublicationProps,
+  PublicationState
+> {
   private enabledThemeIndex: number
 
   static features = (
@@ -108,7 +111,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
   constructor(props: PublicationProps) {
     super(props)
-    this.enabledThemeIndex = this.props.rawData.themes.findIndex(
+    this.enabledThemeIndex = this.props.paletteData.themes.findIndex(
       (theme) => theme.isEnabled
     )
 
@@ -118,7 +121,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
       isTertiaryActionLoading: false,
-      isPaletteShared: this.props.rawData.publicationStatus.isShared,
+      isPaletteShared: this.props.paletteData.publicationStatus.isShared,
       publicationStatus: 'WAITING',
       isStarred: false,
     }
@@ -126,7 +129,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
   // Lifecycle
   componentDidMount = () => {
-    if (this.props.rawData.publicationStatus.isPublished) this.callUICPAgent()
+    if (this.props.paletteData.publicationStatus.isPublished)
+      this.callUICPAgent()
     else
       this.setState({
         publicationStatus: 'UNPUBLISHED',
@@ -134,25 +138,25 @@ export default class Publication extends PureComponent<PublicationProps, Publica
   }
 
   componentDidUpdate = (prevProps: Readonly<PublicationProps>) => {
-    if (prevProps.rawData.themes !== this.props.rawData.themes)
+    if (prevProps.paletteData.themes !== this.props.paletteData.themes)
       this.updateEnabledThemeIndex()
 
     if (
-      prevProps.rawData.publicationStatus.isShared !==
-      this.props.rawData.publicationStatus.isShared
+      prevProps.paletteData.publicationStatus.isShared !==
+      this.props.paletteData.publicationStatus.isShared
     )
       this.setState({
-        isPaletteShared: this.props.rawData.publicationStatus.isShared,
+        isPaletteShared: this.props.paletteData.publicationStatus.isShared,
       })
 
     if (
-      this.props.rawData.publicationStatus.isPublished &&
-      prevProps.rawData.id !== this.props.rawData.id
+      this.props.paletteData.publicationStatus.isPublished &&
+      prevProps.paletteData.id !== this.props.paletteData.id
     )
       this.callUICPAgent()
     else if (
-      !this.props.rawData.publicationStatus.isPublished &&
-      prevProps.rawData.id !== this.props.rawData.id
+      !this.props.paletteData.publicationStatus.isPublished &&
+      prevProps.paletteData.id !== this.props.paletteData.id
     )
       this.setState({
         publicationStatus: 'UNPUBLISHED',
@@ -160,13 +164,13 @@ export default class Publication extends PureComponent<PublicationProps, Publica
   }
 
   updateEnabledThemeIndex = () => {
-    const newEnabledIndex = this.props.rawData.themes.findIndex(
+    const newEnabledIndex = this.props.paletteData.themes.findIndex(
       (theme) => theme.isEnabled
     )
 
     if (
       newEnabledIndex === -1 ||
-      newEnabledIndex >= this.props.rawData.themes.length
+      newEnabledIndex >= this.props.paletteData.themes.length
     )
       this.enabledThemeIndex = 0
     else this.enabledThemeIndex = newEnabledIndex
@@ -176,32 +180,33 @@ export default class Publication extends PureComponent<PublicationProps, Publica
   buildPaletteData = (): PaletteData => {
     return new Data({
       base: {
-        name: this.props.rawData.name,
-        description: this.props.rawData.description,
-        preset: this.props.rawData.preset,
-        shift: this.props.rawData.shift,
-        areSourceColorsLocked: this.props.rawData.areSourceColorsLocked,
-        colors: this.props.rawData.colors,
-        colorSpace: this.props.rawData.colorSpace,
-        algorithmVersion: this.props.rawData.algorithmVersion,
+        name: this.props.paletteData.name,
+        description: this.props.paletteData.description,
+        preset: this.props.paletteData.preset,
+        shift: this.props.paletteData.shift,
+        areSourceColorsLocked: this.props.paletteData.areSourceColorsLocked,
+        colors: this.props.paletteData.colors,
+        colorSpace: this.props.paletteData.colorSpace,
+        algorithmVersion: this.props.paletteData.algorithmVersion,
       },
-      themes: this.props.rawData.themes,
+      themes: this.props.paletteData.themes,
       meta: {
-        id: this.props.rawData.id,
+        id: this.props.paletteData.id,
         dates: {
-          createdAt: this.props.rawData.dates.createdAt,
-          updatedAt: this.props.rawData.dates.updatedAt,
-          publishedAt: this.props.rawData.dates.publishedAt,
-          openedAt: this.props.rawData.dates.openedAt,
+          createdAt: this.props.paletteData.dates.createdAt,
+          updatedAt: this.props.paletteData.dates.updatedAt,
+          publishedAt: this.props.paletteData.dates.publishedAt,
+          openedAt: this.props.paletteData.dates.openedAt,
         },
         creatorIdentity: {
-          creatorId: this.props.rawData.creatorIdentity.creatorId,
-          creatorFullName: this.props.rawData.creatorIdentity.creatorFullName,
-          creatorAvatar: this.props.rawData.creatorIdentity.creatorAvatar,
+          creatorId: this.props.paletteData.creatorIdentity.creatorId,
+          creatorFullName:
+            this.props.paletteData.creatorIdentity.creatorFullName,
+          creatorAvatar: this.props.paletteData.creatorIdentity.creatorAvatar,
         },
         publicationStatus: {
-          isShared: this.props.rawData.publicationStatus.isShared,
-          isPublished: this.props.rawData.publicationStatus.isPublished,
+          isShared: this.props.paletteData.publicationStatus.isShared,
+          isPublished: this.props.paletteData.publicationStatus.isPublished,
         },
       },
     }).makePaletteData()
@@ -209,8 +214,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
 
   callUICPAgent = async () => {
     const localUserId = this.props.userSession.userId,
-      localPublicationDate = new Date(this.props.rawData.dates.publishedAt),
-      localUpdatedDate = new Date(this.props.rawData.dates.updatedAt)
+      localPublicationDate = new Date(this.props.paletteData.dates.publishedAt),
+      localUpdatedDate = new Date(this.props.paletteData.dates.updatedAt)
 
     const supabase = getSupabase()
 
@@ -236,7 +241,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
     const { data: paletteData, error: paletteError } = await supabase
       .from(this.props.config.dbs.palettesDbViewName)
       .select('*')
-      .eq('palette_id', this.props.rawData.id)
+      .eq('palette_id', this.props.paletteData.id)
 
     if (!paletteError && paletteData.length !== 0) {
       const isMyPalette = paletteData[0].creator_id === localUserId
@@ -257,7 +262,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
       const { data: starredData, error: starredError } = await supabase
         .from(this.props.config.dbs.starredPalettesDbTableName)
         .select('*')
-        .eq('palette_id', this.props.rawData.id)
+        .eq('palette_id', this.props.paletteData.id)
         .eq('user_id', this.props.userSession.userId)
 
       if (!starredError && starredData.length > 0)
@@ -339,7 +344,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             publishPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
               isShared: !this.state.isPaletteShared,
               locales: this.props.t,
@@ -409,7 +415,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pushPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
               isShared: this.state.isPaletteShared,
               locales: this.props.t,
@@ -473,7 +480,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             pullPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
@@ -538,7 +546,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
@@ -600,7 +609,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             detachPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               locales: this.props.t,
             })
               .then(() => {
@@ -636,7 +646,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
@@ -698,7 +709,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             detachPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               locales: this.props.t,
             })
               .then(() => {
@@ -731,7 +743,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           label: this.props.t('publication.publish'),
           state: (() => {
             if (
-              this.props.rawData.publicationStatus.isShared !==
+              this.props.paletteData.publicationStatus.isShared !==
               this.state.isPaletteShared
             )
               return this.state.isPrimaryActionLoading ? 'LOADING' : 'DEFAULT'
@@ -741,7 +753,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pushPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
               isShared: this.state.isPaletteShared,
               locales: this.props.t,
@@ -805,7 +818,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             unpublishPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbTableName: this.props.config.dbs.palettesDbTableName,
             })
               .then((data) => {
@@ -869,7 +883,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             detachPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               locales: this.props.t,
             })
               .then(() => {
@@ -905,7 +920,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             pullPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               palettesDbViewName: this.props.config.dbs.palettesDbViewName,
             })
               .then((data) => {
@@ -967,7 +983,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isSecondaryActionLoading: true })
             detachPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               locales: this.props.t,
             })
               .then(() => {
@@ -1001,7 +1018,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
           action: async () => {
             this.setState({ isPrimaryActionLoading: true })
             detachPalette({
-              rawData: this.props.rawData,
+              paletteData: this.props.paletteData,
+              appData: this.props.appData,
               locales: this.props.t,
             })
               .then(() => {
@@ -1084,7 +1102,7 @@ export default class Publication extends PureComponent<PublicationProps, Publica
     this.setState({ isTertiaryActionLoading: true })
 
     starPalette({
-      id: this.props.rawData.id,
+      id: this.props.paletteData.id,
       starredPalettesDbTableName:
         this.props.config.dbs.starredPalettesDbTableName,
       userId: this.props.userSession.userId,
@@ -1162,9 +1180,9 @@ export default class Publication extends PureComponent<PublicationProps, Publica
         <Feature isActive={this.features.PUBLICATION.isActive()}>
           <Dialog
             title={
-              this.props.rawData.creatorIdentity.creatorId ===
-                this.props.rawData.userSession.userId ||
-              this.props.rawData.creatorIdentity.creatorId === ''
+              this.props.paletteData.creatorIdentity.creatorId ===
+                this.props.appData.userSession.userId ||
+              this.props.paletteData.creatorIdentity.creatorId === ''
                 ? this.props.t('publication.titlePublish')
                 : this.props.t('publication.titleSynchronize')
             }
@@ -1239,13 +1257,13 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                   <div
                     className={doClassnames([texts.type, texts['type--large']])}
                   >
-                    {this.props.rawData.name === ''
+                    {this.props.paletteData.name === ''
                       ? this.props.t('name')
-                      : this.props.rawData.name}
+                      : this.props.paletteData.name}
                     {this.getPaletteStatus()}
                   </div>
                   <div className={texts.type}>
-                    {this.props.rawData.preset.name}
+                    {this.props.paletteData.preset.name}
                   </div>
                   <div
                     className={doClassnames([
@@ -1257,8 +1275,8 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                     }}
                   >
                     {setPaletteMeta({
-                      colors: this.props.rawData.colors,
-                      themes: this.props.rawData.themes,
+                      colors: this.props.paletteData.colors,
+                      themes: this.props.paletteData.themes,
                       stars: undefined,
                       locales: this.props.t,
                     })}
@@ -1268,9 +1286,11 @@ export default class Publication extends PureComponent<PublicationProps, Publica
                   this.state.publicationStatus === 'MAY_BE_PULLED' ||
                   this.state.publicationStatus === 'CAN_BE_REVERTED') && (
                   <Avatar
-                    avatar={this.props.rawData.creatorIdentity.creatorAvatar}
+                    avatar={
+                      this.props.paletteData.creatorIdentity.creatorAvatar
+                    }
                     fullName={
-                      this.props.rawData.creatorIdentity.creatorFullName
+                      this.props.paletteData.creatorIdentity.creatorFullName
                     }
                   />
                 )}

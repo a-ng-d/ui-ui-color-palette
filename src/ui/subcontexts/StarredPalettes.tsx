@@ -36,9 +36,7 @@ import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface StarredPalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number

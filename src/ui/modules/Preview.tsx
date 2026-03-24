@@ -17,12 +17,12 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
 import Shade from '../components/Shade'
 import Feature from '../components/Feature'
-import { AppState } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
@@ -30,6 +30,7 @@ import {
   PlanStatus,
   ScoreFilterStatus,
   Service,
+  Subservice,
 } from '../../types/app'
 import {
   $isAPCADisplayed,
@@ -49,9 +50,8 @@ import SettingsControls from './preview/SettingsControls'
 import ScoresControls from './preview/ScoresControls'
 
 interface PreviewProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  subservice: Subservice
   id: string
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
@@ -62,9 +62,9 @@ interface PreviewProps
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onLockSourceColors?: React.Dispatch<Partial<AppState>>
+  onLockSourceColors?: React.Dispatch<Partial<ManagePaletteState>>
   onResetSourceColors?: () => void
-  onChangeSettings?: React.Dispatch<Partial<AppState>>
+  onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
   onInteractWithSourceColor?: (colorId: string) => void
 }
 
@@ -306,22 +306,21 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         areSourceColorsLocked: true,
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage(
-          {
-            pluginMessage: {
-              type: 'UPDATE_PALETTE',
-              id: this.props.id,
-              items: [
-                {
-                  key: 'base.areSourceColorsLocked',
-                  value: true,
-                },
-              ],
-            },
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_PALETTE',
+            id: this.props.id,
+            items: [
+              {
+                key: 'base.areSourceColorsLocked',
+                value: true,
+              },
+            ],
           },
-          '*'
-        )
+        },
+        '*'
+      )
 
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -343,22 +342,21 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         areSourceColorsLocked: false,
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage(
-          {
-            pluginMessage: {
-              type: 'UPDATE_PALETTE',
-              id: this.props.id,
-              items: [
-                {
-                  key: 'base.areSourceColorsLocked',
-                  value: false,
-                },
-              ],
-            },
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_PALETTE',
+            id: this.props.id,
+            items: [
+              {
+                key: 'base.areSourceColorsLocked',
+                value: false,
+              },
+            ],
           },
-          '*'
-        )
+        },
+        '*'
+      )
 
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -384,22 +382,21 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         colorSpace: target.dataset.value as ColorSpaceConfiguration,
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage(
-          {
-            pluginMessage: {
-              type: 'UPDATE_PALETTE',
-              id: this.props.id,
-              items: [
-                {
-                  key: 'base.colorSpace',
-                  value: target.dataset.value,
-                },
-              ],
-            },
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_PALETTE',
+            id: this.props.id,
+            items: [
+              {
+                key: 'base.colorSpace',
+                value: target.dataset.value,
+              },
+            ],
           },
-          '*'
-        )
+        },
+        '*'
+      )
 
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -427,7 +424,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
           .value as VisionSimulationModeConfiguration,
       })
 
-      if (this.props.service === 'EDIT' && this.props.themes !== undefined)
+      if (this.props.themes !== undefined)
         sendPluginMessage(
           {
             pluginMessage: {
@@ -536,14 +533,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       const foregroundColorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         alpha: parseFloat((scale / 100).toFixed(2)),
-        hueShifting:
-          this.props.service === 'CREATE'
-            ? this.props.shift.hue
-            : color.hue?.shift,
-        chromaShifting:
-          this.props.service === 'CREATE'
-            ? this.props.shift.chroma
-            : color.chroma?.shift,
+        hueShifting: color.hue?.shift,
+        chromaShifting: color.chroma?.shift,
         algorithmVersion: this.props.algorithmVersion,
         visionSimulationMode: this.props.visionSimulationMode,
       })
@@ -642,14 +633,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       const colorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         lightness: scale,
-        hueShifting:
-          this.props.service === 'CREATE'
-            ? this.props.shift.hue
-            : color.hue?.shift,
-        chromaShifting:
-          this.props.service === 'CREATE'
-            ? this.props.shift.chroma
-            : color.chroma?.shift,
+        hueShifting: color.hue?.shift,
+        chromaShifting: color.chroma?.shift,
         algorithmVersion: this.props.algorithmVersion,
         visionSimulationMode: this.props.visionSimulationMode,
         alpha:
@@ -834,7 +819,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                   return true
                 })
                 .sort((a, b) => {
-                  if (this.props.service === 'EDIT') return 0
+                  // if (this.props.subservice === 'EDIT') return 0
                   if (a.name.localeCompare(b.name) > 0) return 1
                   else if (a.name.localeCompare(b.name) < 0) return -1
                   else return 0

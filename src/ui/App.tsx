@@ -1,36 +1,16 @@
 import React from 'react'
 import { Component, createPortal } from 'preact/compat'
-import { FeatureStatus, doScale } from '@unoff/utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
+  Bar,
   Button,
   Consent,
   ConsentConfiguration,
   Icon,
+  Layout,
   layouts,
   SemanticMessage,
 } from '@unoff/ui'
-import {
-  AlgorithmVersionConfiguration,
-  ColorConfiguration,
-  ColorSpaceConfiguration,
-  CreatorConfiguration,
-  DocumentConfiguration,
-  EasingConfiguration,
-  ExtractOfBaseConfiguration,
-  LockedSourceColorsConfiguration,
-  PublicationConfiguration,
-  ThemeConfiguration,
-  ViewConfiguration,
-  VisionSimulationModeConfiguration,
-  DatesConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  TextColorsThemeConfiguration,
-  ShiftConfiguration,
-  BaseConfiguration,
-  MetaConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { UserSession } from '../types/user'
@@ -45,7 +25,7 @@ import {
   Service,
   LicenseTrigger,
 } from '../types/app'
-import { getDefaultPreset, getPresets, updatePresets } from '../stores/presets'
+import { updatePresets } from '../stores/presets'
 import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
@@ -55,7 +35,6 @@ import {
   $isWCAGDisplayed,
   $isWCAGIntervalDisplayed,
 } from '../stores/preferences'
-import { $palette, initializePaletteStore } from '../stores/palette'
 import { $creditsCount } from '../stores/credits'
 import {
   $userConsent,
@@ -77,10 +56,11 @@ import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { getSupabase } from '../external/auth'
 import { ConfigContextType } from '../config/ConfigContext'
-import SeePalette from './services/SeePalette'
-import EditPalette from './services/EditPalette'
-import CreatePalette from './services/CreatePalette'
-import BrowsePalettes from './services/BrowsePalettes'
+import ImagePalette from './subcontexts/ImagePalette'
+import GenAI from './subcontexts/GenAI'
+import Explore from './subcontexts/Explore'
+import ColorWheel from './subcontexts/ColorWheel'
+import ManagePalette from './services/ManagePalette'
 import Shortcuts from './modules/Shortcuts'
 import Modal from './contexts/Modal'
 import {
@@ -93,27 +73,6 @@ import Feature from './components/Feature'
 type AppProps = WithConfigProps & WithTranslationProps
 
 export interface AppState extends BaseProps {
-  sourceColors: Array<SourceColorConfiguration>
-  id: string
-  name: string
-  description: string
-  preset: PresetConfiguration
-  distributionEasing: EasingConfiguration
-  scale: ScaleConfiguration
-  shift: ShiftConfiguration
-  areSourceColorsLocked: LockedSourceColorsConfiguration
-  colors: Array<ColorConfiguration>
-  colorSpace: ColorSpaceConfiguration
-  visionSimulationMode: VisionSimulationModeConfiguration
-  themes: Array<ThemeConfiguration>
-  view: ViewConfiguration
-  algorithmVersion: AlgorithmVersionConfiguration
-  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  dates: DatesConfiguration
-  palettesList: Array<ExtractOfBaseConfiguration>
-  document: DocumentConfiguration
-  publicationStatus: PublicationConfiguration
-  creatorIdentity: CreatorConfiguration
   modalContext: ModalContext
   mustUserConsent: boolean
   announcements: AnnouncementsDigest
@@ -127,7 +86,6 @@ export interface AppState extends BaseProps {
 }
 
 class App extends Component<AppProps, AppState> {
-  private palette: typeof $palette
   private subsscribeSuggestedLanguage: (() => void) | undefined
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
@@ -208,68 +166,20 @@ class App extends Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props)
-    this.palette = $palette
     this.state = {
-      service: 'BROWSE',
-      sourceColors: [
-        {
-          name: props.t('colors.defaultName'),
-          rgb: { r: 0.533, g: 0.921, b: 0.976 },
-          source: 'DEFAULT',
-          id: '00000000000',
-          isRemovable: false,
-        },
-      ],
-      id: '',
-      name: props.t('settings.global.name.default'),
-      description: '',
-      preset: getDefaultPreset(props.t),
-      distributionEasing: 'LINEAR',
-      scale: {},
-      shift: {
-        chroma: 100,
-        hue: 0,
-      },
-      areSourceColorsLocked: false,
-      colors: [],
-      colorSpace: 'LCH',
-      visionSimulationMode: 'NONE',
-      themes: [],
-      view: 'PALETTE_WITH_PROPERTIES',
-      algorithmVersion: props.config.versions.algorithmVersion,
-      textColorsTheme: {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      },
-      palettesList: [],
-      document: {},
-      dates: {
-        createdAt: '',
-        updatedAt: '',
-        publishedAt: '',
-        openedAt: '',
-      },
-      publicationStatus: {
-        isPublished: false,
-        isShared: false,
-      },
-      creatorIdentity: {
-        creatorId: '',
-        creatorFullName: '',
-        creatorAvatar: '',
-      },
+      service: 'MANAGE',
       userSession: {
         connectionStatus: 'UNCONNECTED',
         userId: '',
         userFullName: '',
         userAvatar: '',
       },
-      userConsent: getUserConsent(props.t),
       userIdentity: {
         id: '',
         fullName: '',
         avatar: '',
       },
+      userConsent: getUserConsent(props.t),
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: props.config.plan.trialTime,
@@ -300,8 +210,6 @@ class App extends Component<AppProps, AppState> {
   // Lifecycle
   componentDidMount = async () => {
     // Load
-    initializePaletteStore()
-    updatePresets(this.props.t)
     updateUserConsent(this.props.t)
     sendPluginMessage(
       {
@@ -353,23 +261,8 @@ class App extends Component<AppProps, AppState> {
     })
 
     this.setState({
-      scale: doScale(
-        this.state.preset.stops,
-        this.state.preset.min,
-        this.state.preset.max,
-        this.state.preset.easing
-      ),
       userConsent: $userConsent.get(),
     })
-    this.palette.setKey(
-      'scale',
-      doScale(
-        this.state.preset.stops,
-        this.state.preset.min,
-        this.state.preset.max,
-        this.state.preset.easing
-      )
-    )
 
     // Authentication
     if (
@@ -636,51 +529,6 @@ class App extends Component<AppProps, AppState> {
         })
       }
 
-      const updateWhileEmptySelection = () => {
-        this.setState({
-          sourceColors: this.state.sourceColors.filter(
-            (sourceColor: SourceColorConfiguration) =>
-              sourceColor.source !== 'CANVAS'
-          ),
-          document: {},
-          onGoingStep: 'selection empty',
-        })
-      }
-
-      const updateWhileColorSelected = () => {
-        this.setState({
-          sourceColors: this.state.sourceColors
-            .filter(
-              (sourceColor: SourceColorConfiguration) =>
-                sourceColor.source !== 'CANVAS'
-            )
-            .concat(path.data.selection),
-          document: {},
-          onGoingStep: 'colors selected',
-        })
-      }
-
-      const updateWhileDocumentSelected = () => {
-        this.setState({
-          document: {
-            view: path.data.view,
-            id: path.data.id,
-            isLinkedToPalette: path.data.isLinkedToPalette,
-            updatedAt: path.data.updatedAt,
-          },
-        })
-      }
-
-      const updatePaletteDate = (date: Date) =>
-        this.setState({
-          dates: {
-            createdAt: this.state.dates['createdAt'],
-            updatedAt: date,
-            publishedAt: this.state.dates['publishedAt'],
-            openedAt: this.state.dates['openedAt'],
-          },
-        })
-
       const getTrial = () =>
         this.setState({
           modalContext: 'TRY',
@@ -773,16 +621,6 @@ class App extends Component<AppProps, AppState> {
         POST_MESSAGE: () => postMessage(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
         PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
-        EMPTY_SELECTION: () => updateWhileEmptySelection(),
-        COLOR_SELECTED: () => updateWhileColorSelected(),
-        DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
-        LOAD_PALETTE: () =>
-          this.onLoadPalette(
-            path.data,
-            !this.state.editor.includes('dev') ? 'EDIT' : 'SEE'
-          ),
-        RESET_PALETTE: () => this.onResetPalette(),
-        UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),
         GET_PRICING: () => getPricing(),
@@ -950,152 +788,69 @@ class App extends Component<AppProps, AppState> {
     )
   }
 
-  onResetPalette = () => {
-    const preset =
-      getPresets(this.props.t).find(
-        (preset) => preset.id === 'CUSTOM_10_100'
-      ) ?? getDefaultPreset(this.props.t)
-    const scale = doScale(preset.stops, preset.min, preset.max, preset.easing)
-
-    this.setState({
-      service: 'BROWSE',
-      id: '',
-      sourceColors: this.state.sourceColors.filter(
-        (sourceColor: SourceColorConfiguration) =>
-          sourceColor.source === 'CANVAS' || sourceColor.source === 'DEFAULT'
-      ),
-      name: this.props.t('settings.global.name.default'),
-      description: '',
-      preset: preset,
-      scale: scale,
-      shift: {
-        chroma: 100,
-        hue: 0,
-      },
-      areSourceColorsLocked: false,
-      colors: [],
-      themes: [],
-      colorSpace: 'LCH',
-      visionSimulationMode: 'NONE',
-      view: 'PALETTE_WITH_PROPERTIES',
-      algorithmVersion: this.props.config.versions.algorithmVersion,
-      textColorsTheme: {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      },
-      dates: {
-        createdAt: '',
-        updatedAt: '',
-        publishedAt: '',
-        openedAt: '',
-      },
-      publicationStatus: {
-        isPublished: false,
-        isShared: false,
-      },
-      creatorIdentity: {
-        creatorId: '',
-        creatorFullName: '',
-        creatorAvatar: '',
-      },
-      onGoingStep: 'palette reset',
-    })
-
-    this.palette.setKey('name', this.props.t('settings.global.name.default'))
-    this.palette.setKey('description', '')
-    this.palette.setKey('preset', preset)
-    this.palette.setKey('scale', scale)
-    this.palette.setKey('shift', {
-      chroma: 100,
-      hue: 0,
-    })
-    this.palette.setKey('areSourceColorsLocked', false)
-    this.palette.setKey('colorSpace', 'LCH')
-    this.palette.setKey('visionSimulationMode', 'NONE')
-    this.palette.setKey('view', 'PALETTE_WITH_PROPERTIES')
-    this.palette.setKey('textColorsTheme', {
-      lightColor: '#FFFFFF',
-      darkColor: '#000000',
-    })
-  }
-
-  onLoadPalette = (
-    palette: {
-      base: BaseConfiguration
-      themes: Array<ThemeConfiguration>
-      meta: MetaConfiguration
-    },
-    service: Service
-  ) => {
-    const theme: ThemeConfiguration | undefined = palette.themes.find(
-      (theme: ThemeConfiguration) => theme.isEnabled
-    )
-
-    this.palette.setKey('id', palette.meta.id)
-    this.palette.setKey('name', palette.base.name)
-    this.palette.setKey('description', palette.base.description)
-    this.palette.setKey('preset', palette.base.preset)
-    this.palette.setKey('scale', theme?.scale ?? {})
-    this.palette.setKey('shift', palette.base.shift)
-    this.palette.setKey(
-      'areSourceColorsLocked',
-      palette.base.areSourceColorsLocked
-    )
-    this.palette.setKey('colors', palette.base.colors)
-    this.palette.setKey('colorSpace', palette.base.colorSpace)
-    this.palette.setKey(
-      'visionSimulationMode',
-      theme?.visionSimulationMode ?? 'NONE'
-    )
-    this.palette.setKey('algorithmVersion', palette.base.algorithmVersion)
-    this.palette.setKey(
-      'textColorsTheme',
-      theme?.textColorsTheme ?? {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      }
-    )
-
-    this.setState({
-      service: service,
-      id: palette.meta.id,
-      name: palette.base.name,
-      description: palette.base.description,
-      preset: palette.base.preset,
-      scale: theme?.scale ?? {},
-      shift: palette.base.shift,
-      areSourceColorsLocked: palette.base.areSourceColorsLocked,
-      colors: palette.base.colors,
-      colorSpace: palette.base.colorSpace,
-      visionSimulationMode: theme?.visionSimulationMode ?? 'NONE',
-      themes: palette.themes,
-      view: (palette.base.view as ViewConfiguration) ?? 'PALETTE',
-      algorithmVersion: palette.base.algorithmVersion,
-      textColorsTheme: theme?.textColorsTheme ?? {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      },
-      dates: {
-        createdAt: palette.meta.dates.createdAt,
-        updatedAt: palette.meta.dates.updatedAt,
-        publishedAt: palette.meta.dates.publishedAt,
-        openedAt: palette.meta.dates.openedAt,
-      },
-      publicationStatus: {
-        isPublished: palette.meta.publicationStatus.isPublished,
-        isShared: palette.meta.publicationStatus.isShared,
-      },
-      creatorIdentity: {
-        creatorId: palette.meta.creatorIdentity.creatorId,
-        creatorFullName: palette.meta.creatorIdentity.creatorFullName,
-        creatorAvatar: palette.meta.creatorIdentity.creatorAvatar,
-      },
-      onGoingStep: 'palette loaded',
-    })
-  }
-
   // Render
   render() {
+    let fragment
+
+    switch (this.state.service) {
+      case 'MANAGE': {
+        fragment = (
+          <Feature
+            isActive={
+              true //this.features.MANAGE.isActive()
+            }
+          >
+            <ManagePalette
+              {...this.state}
+              {...this.props}
+              appData={this.state}
+            />
+          </Feature>
+        )
+        break
+      }
+      case 'GEN': {
+        fragment = (
+          <GenAI
+            {...this.state}
+            {...this.props}
+            onChangeService={(e) => this.setState({ ...e })}
+          />
+        )
+        break
+      }
+      case 'EXTRACT': {
+        fragment = (
+          <ImagePalette
+            {...this.props}
+            {...this.state}
+            onChangeService={(e) => this.setState({ ...e })}
+          />
+        )
+        break
+      }
+      case 'WHEEL': {
+        fragment = (
+          <ColorWheel
+            {...this.props}
+            {...this.state}
+            onChangeService={(e) => this.setState({ ...e })}
+          />
+        )
+        break
+      }
+      case 'EXPLORE': {
+        fragment = (
+          <Explore
+            {...this.props}
+            {...this.state}
+            onChangeService={(e) => this.setState({ ...e })}
+          />
+        )
+        break
+      }
+    }
+
     if (this.state.isLoaded)
       return (
         <main
@@ -1104,74 +859,116 @@ class App extends Component<AppProps, AppState> {
             this.state.modalContext !== 'EMPTY' || this.state.mustUserConsent
           }
         >
-          <Feature
-            isActive={
-              this.features.BROWSE.isActive() && this.state.service === 'BROWSE'
-            }
-          >
-            <BrowsePalettes
+          <Layout
+            id="services"
+            column={[
+              {
+                node: (
+                  <Bar
+                    id="services-nav"
+                    leftPartSlot={
+                      <div className={layouts['stackbar--medium']}>
+                        <Button
+                          type="icon"
+                          icon="theme"
+                          state={
+                            this.state.service === 'MANAGE'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              service: 'MANAGE',
+                            })
+                          }
+                        />
+                        <Button
+                          type="icon"
+                          icon="timer"
+                          state={
+                            this.state.service === 'GEN'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              service: 'GEN',
+                            })
+                          }
+                        />
+                        <Button
+                          type="icon"
+                          icon="image"
+                          state={
+                            this.state.service === 'EXTRACT'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              service: 'EXTRACT',
+                            })
+                          }
+                        />
+                        <Button
+                          type="icon"
+                          icon="styles"
+                          state={
+                            this.state.service === 'WHEEL'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              service: 'WHEEL',
+                            })
+                          }
+                        />
+                        <Button
+                          type="icon"
+                          icon="share"
+                          state={
+                            this.state.service === 'EXPLORE'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              service: 'EXPLORE',
+                            })
+                          }
+                        />
+                      </div>
+                    }
+                    isVertical
+                  />
+                ),
+                typeModifier: 'FIXED',
+                fixedWidth: 'var(--bar-min-height)',
+              },
+              {
+                node: fragment,
+                typeModifier: 'BLANK',
+              },
+            ]}
+            isFullHeight
+            isFullWidth
+          />
+          <Feature isActive={this.features.SHORTCUTS.isActive()}>
+            <Shortcuts
               {...this.props}
               {...this.state}
-              onCreatePalette={(e) => this.setState({ ...e })}
-              onSeePalette={(palette) => this.onLoadPalette(palette, 'SEE')}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              this.features.CREATE.isActive() && this.state.service === 'CREATE'
-            }
-          >
-            <CreatePalette
-              {...this.props}
-              {...this.state}
-              onChangeDefaultColor={(e) => this.setState({ ...e })}
-              onChangeColorsFromImport={(e) => this.setState({ ...e })}
-              onResetSourceColors={(e) => this.setState({ ...e })}
-              onLockSourceColors={(e) => this.setState({ ...e })}
-              onChangeScale={(e) => this.setState({ ...e })}
-              onChangeShift={(e) => this.setState({ ...e })}
-              onChangePreset={(e) => this.setState({ ...e })}
-              onCustomPreset={(e) => this.setState({ ...e })}
-              onChangeDistributionEasing={(e) => this.setState({ ...e })}
-              onChangeSettings={(e) => this.setState({ ...e })}
-              onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
-              onCancelPalette={this.onResetPalette}
-              onSavedPalette={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              this.features.EDIT.isActive() && this.state.service === 'EDIT'
-            }
-          >
-            <EditPalette
-              {...this.props}
-              {...this.state}
-              onChangeScale={(e) => this.setState({ ...e })}
-              onChangePreset={(e) => this.setState({ ...e })}
-              onChangeDistributionEasing={(e) => this.setState({ ...e })}
-              onChangeColors={(e) => this.setState({ ...e })}
-              onChangeThemes={(e) => this.setState({ ...e })}
-              onChangeSettings={(e) => this.setState({ ...e })}
-              onPublishPalette={() =>
-                this.setState({ modalContext: 'PUBLICATION' })
-              }
-              onLockSourceColors={(e) => this.setState({ ...e })}
-              onUnloadPalette={this.onResetPalette}
-              onChangeDocument={(e) => this.setState({ ...e })}
-              onDeletePalette={this.onResetPalette}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              this.features.SEE.isActive() && this.state.service === 'SEE'
-            }
-          >
-            <SeePalette
-              {...this.props}
-              {...this.state}
-              onChangeThemes={(e) => this.setState({ ...e })}
-              onUnloadPalette={this.onResetPalette}
+              onReOpenAnnouncements={(e) => this.setState({ ...e })}
+              onReOpenOnboarding={(e) => this.setState({ ...e })}
+              onReOpenReport={(e) => this.setState({ ...e })}
+              onReOpenStore={(e) => this.setState({ ...e })}
+              onReOpenAbout={(e) => this.setState({ ...e })}
+              onReOpenPreferences={(e) => this.setState({ ...e })}
+              onReOpenLicense={(e) => this.setState({ ...e })}
+              onReOpenChat={(e) => this.setState({ ...e })}
+              onReOpenFeedback={(e) => this.setState({ ...e })}
+              onUpdateConsent={(e) => this.setState({ ...e })}
+              onUpdateLanguage={(e) => this.setState({ ...e })}
             />
           </Feature>
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>
@@ -1180,7 +977,6 @@ class App extends Component<AppProps, AppState> {
                 <Modal
                   {...this.props}
                   {...this.state}
-                  rawData={this.state}
                   context={this.state.modalContext}
                   onChangePublication={(e) => this.setState({ ...e })}
                   onManageLicense={(e) => this.setState({ ...e })}
@@ -1205,7 +1001,6 @@ class App extends Component<AppProps, AppState> {
                 <Modal
                   {...this.props}
                   {...this.state}
-                  rawData={this.state}
                   context="NOTIFICATION"
                   onChangePublication={(e) => this.setState({ ...e })}
                   onManageLicense={(e) => this.setState({ ...e })}
@@ -1310,23 +1105,66 @@ class App extends Component<AppProps, AppState> {
               isAnchored
             />
           </Feature>
-          <Feature isActive={this.features.SHORTCUTS.isActive()}>
-            <Shortcuts
+          {/*
+          <Feature
+            isActive={
+              this.features.CREATE.isActive() && this.state.service === 'CREATE'
+            }
+          >
+            <CreatePalette
               {...this.props}
               {...this.state}
-              onReOpenAnnouncements={(e) => this.setState({ ...e })}
-              onReOpenOnboarding={(e) => this.setState({ ...e })}
-              onReOpenReport={(e) => this.setState({ ...e })}
-              onReOpenStore={(e) => this.setState({ ...e })}
-              onReOpenAbout={(e) => this.setState({ ...e })}
-              onReOpenPreferences={(e) => this.setState({ ...e })}
-              onReOpenLicense={(e) => this.setState({ ...e })}
-              onReOpenChat={(e) => this.setState({ ...e })}
-              onReOpenFeedback={(e) => this.setState({ ...e })}
-              onUpdateConsent={(e) => this.setState({ ...e })}
-              onUpdateLanguage={(e) => this.setState({ ...e })}
+              onChangeDefaultColor={(e) => this.setState({ ...e })}
+              onChangeColorsFromImport={(e) => this.setState({ ...e })}
+              onResetSourceColors={(e) => this.setState({ ...e })}
+              onLockSourceColors={(e) => this.setState({ ...e })}
+              onChangeScale={(e) => this.setState({ ...e })}
+              onChangeShift={(e) => this.setState({ ...e })}
+              onChangePreset={(e) => this.setState({ ...e })}
+              onCustomPreset={(e) => this.setState({ ...e })}
+              onChangeDistributionEasing={(e) => this.setState({ ...e })}
+              onChangeSettings={(e) => this.setState({ ...e })}
+              onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
+              onCancelPalette={this.onResetPalette}
+              onSavedPalette={(e) => this.setState({ ...e })}
             />
           </Feature>
+          <Feature
+            isActive={
+              this.features.EDIT.isActive() && this.state.service === 'EDIT'
+            }
+          >
+            <EditPalette
+              {...this.props}
+              {...this.state}
+              onChangeScale={(e) => this.setState({ ...e })}
+              onChangePreset={(e) => this.setState({ ...e })}
+              onChangeDistributionEasing={(e) => this.setState({ ...e })}
+              onChangeColors={(e) => this.setState({ ...e })}
+              onChangeThemes={(e) => this.setState({ ...e })}
+              onChangeSettings={(e) => this.setState({ ...e })}
+              onPublishPalette={() =>
+                this.setState({ modalContext: 'PUBLICATION' })
+              }
+              onLockSourceColors={(e) => this.setState({ ...e })}
+              onUnloadPalette={this.onResetPalette}
+              onChangeDocument={(e) => this.setState({ ...e })}
+              onDeletePalette={this.onResetPalette}
+            />
+          </Feature>
+          <Feature
+            isActive={
+              this.features.SEE.isActive() && this.state.service === 'SEE'
+            }
+          >
+            <SeePalette
+              {...this.props}
+              {...this.state}
+              onChangeThemes={(e) => this.setState({ ...e })}
+              onUnloadPalette={this.onResetPalette}
+            />
+          </Feature>
+           */}
         </main>
       )
     else

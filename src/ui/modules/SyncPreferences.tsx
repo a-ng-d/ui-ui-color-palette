@@ -21,9 +21,7 @@ import {
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface SyncPreferencesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   isLast?: boolean
 }
 

@@ -10,9 +10,7 @@ import t from '../../../content/images/trial.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface WelcomeToTrialProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

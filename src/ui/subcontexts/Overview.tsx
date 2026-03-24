@@ -40,9 +40,7 @@ import { trackImportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OverviewProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   sourceColors: Array<SourceColorConfiguration>
   creditsCount: number
   onChangeDefaultColor: (name: string, rgb: RgbModel) => void
@@ -64,7 +62,10 @@ interface OverviewState {
   isGenAIOpen: boolean
 }
 
-export default class Overview extends PureComponent<OverviewProps, OverviewState> {
+export default class Overview extends PureComponent<
+  OverviewProps,
+  OverviewState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

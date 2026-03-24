@@ -32,9 +32,7 @@ import { trackPreviewManagementEvent } from '../../../external/tracking/eventsTr
 import { ConfigContextType } from '../../..'
 
 interface ContrastReportProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   isOpen: boolean
   color: HexModel
   sourceColor: SourceColorConfiguration | ColorConfiguration

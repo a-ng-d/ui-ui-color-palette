@@ -23,9 +23,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PagePalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
@@ -40,7 +38,10 @@ interface PagePalettesState {
   isDestructiveActionLoading: boolean
 }
 
-export default class PagePalettes extends PureComponent<PagePalettesProps, PagePalettesState> {
+export default class PagePalettes extends PureComponent<
+  PagePalettesProps,
+  PagePalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

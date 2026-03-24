@@ -15,9 +15,7 @@ import lsc from '../../../content/images/lock_source_colors.gif'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface SettingsControlsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   isDrawerCollapsed: boolean
   areSourceColorsLocked: LockedSourceColorsConfiguration
   colorSpace: ColorSpaceConfiguration

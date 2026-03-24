@@ -31,9 +31,7 @@ import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface RemotePalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   localPalettesList: Array<FullConfiguration>
   onSeePalette: (palette: {
     base: BaseConfiguration

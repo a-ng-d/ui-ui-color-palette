@@ -7,40 +7,38 @@ import {
   Chip,
   Dropdown,
   DropdownOption,
-  Icon,
   IconList,
   Input,
   layouts,
   Menu,
-  texts,
-  Tooltip,
 } from '@unoff/ui'
 import {
   CreatorConfiguration,
   DatesConfiguration,
   DocumentConfiguration,
   PublicationConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { AppState } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  Service,
+  Subservice,
+} from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ActionsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
-  sourceColors: Array<SourceColorConfiguration> | []
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  subservice: Subservice
   id: string
-  scale: ScaleConfiguration
-  name?: string
-  dates?: DatesConfiguration
+  name: string
+  dates: DatesConfiguration
   creatorIdentity?: CreatorConfiguration
   format?: string
   document?: DocumentConfiguration
@@ -55,9 +53,7 @@ interface ActionsProps
   onSyncLocalVariables?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
-  onPublishPalette?: (
-    e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
-  ) => void
+  onPublishPalette?: React.Dispatch<Partial<ManagePaletteState>>
   onGenerateDocument?: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
@@ -68,7 +64,7 @@ interface ActionsProps
   ) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
-  onChangeSettings?: React.Dispatch<Partial<AppState>>
+  onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ActionsState {
@@ -80,7 +76,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   private palette: typeof $palette
 
   static defaultProps = {
-    sourceColors: [],
     scale: {},
     document: {},
   }
@@ -161,13 +156,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
-    PRESETS_CUSTOM_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'PRESETS_CUSTOM_ADD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     VIEWS: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS',
@@ -210,153 +198,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
-    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V1: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V1',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V2: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V2',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V3: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V3',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SCALE_CHROMA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_CHROMA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SCALE_HUE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_HUE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     DOWNLOAD_EXPORT: new FeatureStatus({
       features: config.features,
       featureName: 'DOWNLOAD_EXPORT',
@@ -388,7 +229,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     return Actions.features(
       this.props.planStatus,
       this.props.config,
-      'EDIT',
+      'MANAGE',
       this.props.editor
     )
   }
@@ -437,22 +278,21 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       this.props.onChangeSettings({
         name: e.currentTarget.value,
       })
-    if (this.props.service === 'EDIT')
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_PALETTE',
-            id: this.props.id,
-            items: [
-              {
-                key: 'base.name',
-                value: e.currentTarget.value,
-              },
-            ],
-          },
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_PALETTE',
+          id: this.props.id,
+          items: [
+            {
+              key: 'base.name',
+              value: e.currentTarget.value,
+            },
+          ],
         },
-        '*'
-      )
+      },
+      '*'
+    )
   }
 
   documentOptionsHandler = () => {
@@ -588,267 +428,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     else return 'library'
   }
 
-  canSavePalette = (): boolean => {
-    if (
-      this.specificFeatures.SOURCE.isReached(
-        this.refinedNumberOfSourceColors() - 1
-      )
-    )
-      return false
-    if (
-      $palette.get().preset.id.includes('CUSTOM') &&
-      this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
-        Object.keys(this.props.scale).length - 1
-      )
-    )
-      return false
-    if (
-      $palette.get().areSourceColorsLocked &&
-      this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().shift.chroma !== 100 &&
-      this.specificFeatures.SCALE_CHROMA.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().shift.hue !== 0 &&
-      this.specificFeatures.SCALE_HUE.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().visionSimulationMode !== 'NONE' &&
-      this.specificFeatures[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
-          typeof Actions.features
-        >
-      ].isBlocked()
-    )
-      return false
-    if (
-      $palette.get().colorSpace !== 'LCH' &&
-      $palette.get().colorSpace !== 'HSL' &&
-      this.specificFeatures[
-        `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
-          typeof Actions.features
-        >
-      ]?.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().algorithmVersion !== 'v3' &&
-      this.specificFeatures[
-        `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
-          typeof Actions.features
-        >
-      ]?.isBlocked()
-    )
-      return false
-    return true
-  }
-
-  proWarning = () => {
-    return (
-      <ul className="list-item">
-        {this.specificFeatures.SOURCE.isReached(
-          this.refinedNumberOfSourceColors() - 1
-        ) && (
-          <li>{this.props.t('info.multipleBlockingMessages.sourceColors')}</li>
-        )}
-        {$palette.get().preset.id.includes('CUSTOM') &&
-          this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
-            Object.keys(this.props.scale).length - 1
-          ) && <li>{this.props.t('info.multipleBlockingMessages.stops')}</li>}
-        {$palette.get().areSourceColorsLocked &&
-          this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked() && (
-            <li>
-              {this.props.t('info.multipleBlockingMessages.lockedSourceColors')}
-            </li>
-          )}
-        {$palette.get().shift.chroma !== 100 &&
-          this.specificFeatures.SCALE_CHROMA.isBlocked() && (
-            <li>{this.props.t('info.multipleBlockingMessages.chroma')}</li>
-          )}
-        {$palette.get().shift.hue !== 0 &&
-          this.specificFeatures.SCALE_HUE.isBlocked() && (
-            <li>{this.props.t('info.multipleBlockingMessages.hue')}</li>
-          )}
-        {$palette.get().visionSimulationMode !== 'NONE' &&
-          this.specificFeatures[
-            `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
-              typeof Actions.features
-            >
-          ].isBlocked() && (
-            <li>
-              {this.props.t(
-                'info.multipleBlockingMessages.visionSimulationMode'
-              )}
-            </li>
-          )}
-        {$palette.get().colorSpace !== 'LCH' &&
-          $palette.get().colorSpace !== 'HSL' &&
-          this.specificFeatures[
-            `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
-              typeof Actions.features
-            >
-          ].isBlocked() && (
-            <li>{this.props.t('info.multipleBlockingMessages.colorSpace')}</li>
-          )}
-        {$palette.get().algorithmVersion !== 'v3' &&
-          this.specificFeatures[
-            `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
-              typeof Actions.features
-            >
-          ].isBlocked() && (
-            <li>
-              {this.props.t('info.multipleBlockingMessages.algorithmVersion')}
-            </li>
-          )}
-      </ul>
-    )
-  }
-
-  refinedNumberOfSourceColors = (): number => {
-    if (this.props.sourceColors.length > 1)
-      return this.props.sourceColors.filter(
-        (color) => color.source !== 'DEFAULT'
-      ).length
-    return this.props.sourceColors.length
-  }
-
   // Templates
-  Create = () => {
-    const limit = this.features.SOURCE.limit ?? 0
-
-    return (
-      <Bar
-        leftPartSlot={
-          <div className={layouts['snackbar--medium']}>
-            <div
-              style={{
-                flex: '0 1 200px',
-              }}
-            >
-              <Input
-                id="update-palette-name"
-                type="TEXT"
-                placeholder={this.props.t('name')}
-                value={this.props.name !== '' ? this.props.name : ''}
-                charactersLimit={64}
-                helper={{
-                  label: this.props.t('settings.actions.paletteName'),
-                  pin: 'TOP',
-                }}
-                isBlocked={this.features.SETTINGS_NAME.isBlocked()}
-                isNew={this.features.SETTINGS_NAME.isNew()}
-                feature="RENAME_PALETTE"
-                onBlur={this.nameHandler}
-                onValid={this.nameHandler}
-              />
-            </div>
-            <span
-              className={doClassnames([
-                texts['type'],
-                texts['type--secondary'],
-              ])}
-            >
-              {this.props.t('separator')}
-            </span>
-            <div className={texts.type}>
-              {this.props.t('actions.sourceColorsNumber', {
-                count: this.refinedNumberOfSourceColors().toString(),
-              })}
-            </div>
-            {this.features.SOURCE.isReached(
-              this.refinedNumberOfSourceColors() - 1
-            ) && (
-              <div
-                style={{
-                  position: 'relative',
-                }}
-                onMouseEnter={() =>
-                  this.setState({
-                    isTooltipVisible: true,
-                  })
-                }
-                onMouseLeave={() =>
-                  this.setState({
-                    isTooltipVisible: false,
-                  })
-                }
-              >
-                <Icon
-                  type="PICTO"
-                  iconName="warning"
-                />
-                {this.state.isTooltipVisible && (
-                  <Tooltip pin="TOP">
-                    {this.props.t('info.maxNumberOfSourceColors', {
-                      count: limit.toString(),
-                    })}
-                  </Tooltip>
-                )}
-              </div>
-            )}
-          </div>
-        }
-        rightPartSlot={
-          <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
-            <Button
-              type="primary"
-              label={
-                !this.canSavePalette()
-                  ? this.props.t('actions.unlockSavePalette')
-                  : this.props.t('actions.savePalette')
-              }
-              feature="CREATE_PALETTE"
-              warning={
-                !this.canSavePalette()
-                  ? {
-                      label: this.props.t(
-                        'info.multipleBlockingMessages.head',
-                        {
-                          messages: this.proWarning(),
-                        }
-                      ),
-                      pin: 'TOP',
-                      type: 'MULTI_LINE',
-                    }
-                  : undefined
-              }
-              isDisabled={this.props.sourceColors.length === 0}
-              isLoading={this.props.isPrimaryLoading}
-              action={(
-                e:
-                  | React.MouseEvent<HTMLButtonElement>
-                  | React.KeyboardEvent<HTMLButtonElement>
-              ) => {
-                if (this.canSavePalette())
-                  if ('key' in e)
-                    this.props.onCreatePalette?.(
-                      e as React.KeyboardEvent<HTMLButtonElement>
-                    )
-                  else
-                    this.props.onCreatePalette?.(
-                      e as React.MouseEvent<HTMLButtonElement>
-                    )
-                else
-                  sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-              }}
-              onUnblock={() => {
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-              }}
-            />
-          </Feature>
-        }
-        padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
-        shouldReflow
-        border={['TOP']}
-      />
-    )
-  }
-
   Deploy = () => {
     return (
       <Bar
@@ -962,9 +542,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   label: this.publicationLabel(),
                   pin: 'TOP',
                 }}
-                action={(
-                  e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
-                ) => this.props.onPublishPalette?.(e)}
+                action={() =>
+                  this.props.onPublishPalette?.({
+                    canBePublished: true,
+                  })
+                }
               />
             </Feature>
             <Feature isActive={this.features.DOCUMENT.isActive()}>
@@ -1058,9 +640,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   render() {
     return (
       <>
-        {this.props.service === 'CREATE' && <this.Create />}
-        {this.props.service === 'EDIT' && <this.Deploy />}
-        {this.props.service === 'SEE' && <this.Export />}
+        {this.props.subservice === 'EDIT' && <this.Deploy />}
+        {this.props.subservice === 'SEE' && <this.Export />}
       </>
     )
   }

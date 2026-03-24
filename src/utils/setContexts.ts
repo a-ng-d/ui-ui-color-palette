@@ -4,7 +4,7 @@ import { Context, Editor, PlanStatus, Service } from '../types/app'
 export const setContexts = (
   contextList: Array<Context>,
   planStatus: PlanStatus,
-  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>,
+  features: Array<Feature<Service>>,
   editor: Editor,
   service: Service,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -23,38 +23,38 @@ import {
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { AppState } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import { PluginMessageData } from '../../types/messages'
-import {
-  BaseProps,
-  Context,
-  Editor,
-  PlanStatus,
-  Service,
-} from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
-import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import {
+  trackActionEvent,
+  trackImportEvent,
+} from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ImagePaletteProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
-  onChangeColorsFromImport: (
-    onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: SourceColorConfiguration['source']
-  ) => void
-  onChangeContexts: (context: Context) => void
+  onChangeService: React.Dispatch<Partial<AppState>>
 }
 
 interface ImagePaletteState {
+  isActionLoading: boolean
   dominantColors: Array<DominantColorResult>
   imageUrl: string
   imageTitle: string
 }
 
-export default class ImagePalette extends PureComponent<ImagePaletteProps, ImagePaletteState> {
+export default class ImagePalette extends PureComponent<
+  ImagePaletteProps,
+  ImagePaletteState
+> {
+  private palette = $palette
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -88,7 +88,9 @@ export default class ImagePalette extends PureComponent<ImagePaletteProps, Image
 
   constructor(props: ImagePaletteProps) {
     super(props)
+    this.palette = $palette
     this.state = {
+      isActionLoading: false,
       dominantColors: [],
       imageUrl: '',
       imageTitle: '',
@@ -198,34 +200,69 @@ export default class ImagePalette extends PureComponent<ImagePaletteProps, Image
   }
 
   // Direct Actions
-  onUsePalette = () => {
-    this.props.onChangeColorsFromImport(
-      this.state.dominantColors.map((color) => {
-        const gl = chroma(color.hex).gl()
-        return {
-          name: getClosestColorName(color.hex),
-          rgb: {
-            r: gl[0],
-            g: gl[1],
-            b: gl[2],
+  onCreatePalette = (sourceColors: Array<SourceColorConfiguration>) => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'CREATE_PALETTE',
+          data: {
+            sourceColors: sourceColors,
+            exchange: {
+              ...this.palette.value,
+            },
           },
-          hue: {
-            shift: 0,
-            isLocked: false,
-          },
-          chroma: {
-            shift: 0,
-            isLocked: false,
-          },
-          source: 'IMAGE',
-          id: uid(),
-          isRemovable: false,
-        }
-      }),
-      'IMAGE'
+        },
+      },
+      '*'
     )
 
-    this.props.onChangeContexts('SOURCE_OVERVIEW')
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+        colors: 5,
+        stops: this.palette.value?.preset.stops.length,
+      }
+    )
+  }
+
+  onUsePalette = () => {
+    const sourceColors = this.state.dominantColors.map((color) => {
+      const gl = chroma(color.hex).gl()
+      return {
+        name: getClosestColorName(color.hex),
+        rgb: {
+          r: gl[0],
+          g: gl[1],
+          b: gl[2],
+        },
+        hue: {
+          shift: 0,
+          isLocked: false,
+        },
+        chroma: {
+          shift: 0,
+          isLocked: false,
+        },
+        source: 'IMAGE',
+        id: uid(),
+        isRemovable: false,
+      }
+    }) as Array<SourceColorConfiguration>
+
+    this.props.onChangeService({
+      service: 'MANAGE',
+    })
+    this.onCreatePalette(sourceColors)
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -354,6 +391,7 @@ export default class ImagePalette extends PureComponent<ImagePaletteProps, Image
                   label: this.props.t('source.imagePalette.addColors'),
                   type: 'MULTI_LINE',
                 }}
+                isLoading={this.state.isActionLoading}
                 isDisabled={this.state.dominantColors.length === 0}
                 isBlocked={this.features.SOURCE_IMAGE_ADD.isBlocked()}
                 isNew={this.features.SOURCE_IMAGE_ADD.isNew()}

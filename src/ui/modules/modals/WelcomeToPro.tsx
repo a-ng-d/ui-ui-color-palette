@@ -10,9 +10,7 @@ import pp from '../../../content/images/pro_plan.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface WelcomeToProProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 

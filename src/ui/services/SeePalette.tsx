@@ -46,12 +46,10 @@ import {
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
+import { ManagePaletteState } from './ManagePalette'
 
 interface SeePaletteProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
   description: string
@@ -68,7 +66,7 @@ interface SeePaletteProps
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
-  onChangeThemes: React.Dispatch<Partial<AppState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
 }
 
@@ -263,7 +261,6 @@ export default class SeePalette extends PureComponent<
       themes: this.themesMessage.data,
       visionSimulationMode: newVisionSimulationMode,
       textColorsTheme: newTextColorsTheme,
-      onGoingStep: 'themes changed',
     })
   }
 
@@ -523,6 +520,7 @@ export default class SeePalette extends PureComponent<
         <Feature isActive={this.features.PREVIEW.isActive()}>
           <Preview
             {...this.props}
+            subservice="SEE"
             ref={this.previewRef}
           />
         </Feature>
@@ -534,7 +532,7 @@ export default class SeePalette extends PureComponent<
           <Actions
             {...this.props}
             {...this.state}
-            service="SEE"
+            subservice="SEE"
             format={this.state.export.format}
             onExportPalette={this.onExport}
           />

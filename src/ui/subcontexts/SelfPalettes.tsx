@@ -37,9 +37,7 @@ import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface SelfPalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -60,7 +58,10 @@ interface SelfPalettesState {
   isContextActionLoading: Array<boolean>
 }
 
-export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfPalettesState> {
+export default class SelfPalettes extends PureComponent<
+  SelfPalettesProps,
+  SelfPalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

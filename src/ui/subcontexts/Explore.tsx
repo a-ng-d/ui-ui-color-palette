@@ -22,42 +22,35 @@ import {
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { AppState } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
   BaseProps,
-  Context,
   Editor,
   FetchStatus,
   FilterOptions,
   PlanStatus,
   Service,
-  ThirdParty,
 } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
-import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import {
+  trackActionEvent,
+  trackImportEvent,
+} from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ExploreProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
-  colourLoversPaletteList: Array<ColourLovers>
-  activeFilters: Array<FilterOptions>
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
-  onChangeColorsFromImport: (
-    onChangeColorsFromImport: Array<SourceColorConfiguration>,
-    source: ThirdParty
-  ) => void
-  onChangeContexts: (context: Context) => void
-  onLoadColourLoversPalettesList: (
-    palettes: Array<ColourLovers>,
-    shouldBeEmpty: boolean
-  ) => void
-  onChangeFilters: (filters: Array<FilterOptions>) => void
+  onChangeService: React.Dispatch<Partial<AppState>>
 }
 
 interface ExploreState {
+  isActionLoading: boolean
+  colourLoversPaletteList: Array<ColourLovers>
+  activeFilters: Array<FilterOptions>
   colourLoversPalettesListStatus: FetchStatus
   currentPage: number
   isLoadMoreActionLoading: boolean
@@ -65,6 +58,7 @@ interface ExploreState {
 
 export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   private filters: Array<FilterOptions>
+  private palette = $palette
 
   static features = (
     planStatus: PlanStatus,
@@ -93,7 +87,11 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   constructor(props: ExploreProps) {
     super(props)
     this.filters = ['ANY', 'YELLOW', 'ORANGE', 'RED', 'GREEN', 'VIOLET', 'BLUE']
+    this.palette = $palette
     this.state = {
+      isActionLoading: false,
+      colourLoversPaletteList: [],
+      activeFilters: ['ANY'],
       colourLoversPalettesListStatus: 'LOADING',
       currentPage: 1,
       isLoadMoreActionLoading: false,
@@ -102,11 +100,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
 
   // Lifecycle
   componentDidMount = () => {
-    if (this.props.colourLoversPaletteList.length === 0) this.callUICPAgent()
-    else
-      this.setState({
-        colourLoversPalettesListStatus: 'LOADED',
-      })
+    this.callUICPAgent()
   }
 
   componentDidUpdate = (
@@ -117,12 +111,12 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
 
     if (this.state.colourLoversPalettesListStatus === 'ERROR') return
 
-    if (this.props.activeFilters !== prevProps.activeFilters) {
+    if (this.state.activeFilters !== prevState.activeFilters) {
       this.setState({
         currentPage: 1,
+        colourLoversPaletteList: [],
         colourLoversPalettesListStatus: 'LOADING',
       })
-      this.props.onLoadColourLoversPalettesList([], true)
       this.callUICPAgent()
     }
   }
@@ -135,7 +129,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
         encodeURIComponent(
           `https://www.colourlovers.com/api/palettes?format=json&numResults=${this.props.config.limits.pageSize}&resultOffset=${
             this.state.currentPage - 1
-          }&hueOption=${this.props.activeFilters
+          }&hueOption=${this.state.activeFilters
             .filter((filter) => filter !== 'ANY')
             .map((filter) => filter.toLowerCase())
             .join(',')}`
@@ -155,8 +149,9 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
             data.length === this.props.config.limits.pageSize
               ? 'LOADED'
               : 'COMPLETE',
+          colourLoversPaletteList:
+            this.state.colourLoversPaletteList.concat(data),
         })
-        this.props.onLoadColourLoversPalettesList(data, false)
       })
       .finally(() =>
         this.setState({
@@ -189,44 +184,87 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   }
 
   onAddFilter = (value: FilterOptions) => {
-    if (value === 'ANY' || this.props.activeFilters.length === 0)
-      this.props.onChangeFilters(
-        this.props.activeFilters.filter((filter) => filter === 'ANY')
-      )
-    else if (this.props.activeFilters.includes(value))
-      this.props.onChangeFilters(
-        this.props.activeFilters.filter((filter) => filter !== value)
-      )
-    else this.props.onChangeFilters(this.props.activeFilters.concat(value))
+    if (value === 'ANY' || this.state.activeFilters.length === 0)
+      this.setState({
+        activeFilters: this.state.activeFilters.filter(
+          (filter) => filter === 'ANY'
+        ),
+      })
+    else if (this.state.activeFilters.includes(value))
+      this.setState({
+        activeFilters: this.state.activeFilters.filter(
+          (filter) => filter !== value
+        ),
+      })
+    else
+      this.setState({
+        activeFilters: this.state.activeFilters.concat(value),
+      })
+  }
+
+  onCreatePalette = (sourceColors: Array<SourceColorConfiguration>) => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'CREATE_PALETTE',
+          data: {
+            sourceColors: sourceColors,
+            exchange: {
+              ...this.palette.value,
+            },
+          },
+        },
+      },
+      '*'
+    )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+        colors: 5,
+        stops: this.palette.value?.preset.stops.length,
+      }
+    )
   }
 
   onUsePalette = (palette: ColourLovers) => {
-    this.props.onChangeContexts('SOURCE_OVERVIEW')
-    this.props.onChangeColorsFromImport(
-      palette.colors.map((color) => {
-        const gl = chroma(color).gl()
-        return {
-          name: getClosestColorName(`#${color}`),
-          rgb: {
-            r: gl[0],
-            g: gl[1],
-            b: gl[2],
-          },
-          hue: {
-            shift: 0,
-            isLocked: false,
-          },
-          chroma: {
-            shift: 100,
-            isLocked: false,
-          },
-          id: uid(),
-          source: 'COLOUR_LOVERS',
-          isRemovable: true,
-        }
-      }),
-      'COLOUR_LOVERS'
-    )
+    const sourceColors = palette.colors.map((color) => {
+      const gl = chroma(color).gl()
+      return {
+        name: getClosestColorName(`#${color}`),
+        rgb: {
+          r: gl[0],
+          g: gl[1],
+          b: gl[2],
+        },
+        hue: {
+          shift: 0,
+          isLocked: false,
+        },
+        chroma: {
+          shift: 100,
+          isLocked: false,
+        },
+        id: uid(),
+        source: 'COLOUR_LOVERS',
+        isRemovable: true,
+      }
+    }) as Array<SourceColorConfiguration>
+
+    this.props.onChangeService({
+      service: 'MANAGE',
+    })
+    this.onCreatePalette(sourceColors)
 
     if (this.props.config.plan.isProEnabled)
       $creditsCount.set(
@@ -256,7 +294,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     )
       fragment = (
         <>
-          {this.props.colourLoversPaletteList.map((palette, index: number) => (
+          {this.state.colourLoversPaletteList.map((palette, index: number) => (
             <ActionsItem
               id={palette.id?.toString() ?? ''}
               key={`source-colors-${index}`}
@@ -304,6 +342,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                         label: this.props.t('source.colourLovers.addColors'),
                         type: 'MULTI_LINE',
                       }}
+                      isLoading={this.state.isActionLoading}
                       isBlocked={this.features.SOURCE_EXPLORE_ADD.isReached(
                         (this.props.creditsCount -
                           this.props.config.fees.colourLoversImport) *
@@ -384,12 +423,12 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                         id="explore-filters"
                         options={this.setFilters()}
                         selected={
-                          this.props.activeFilters.includes('ANY') &&
-                          this.props.activeFilters.length > 1
-                            ? this.props.activeFilters
+                          this.state.activeFilters.includes('ANY') &&
+                          this.state.activeFilters.length > 1
+                            ? this.state.activeFilters
                                 .filter((filter) => filter !== 'ANY')
                                 .join(', ')
-                            : this.props.activeFilters.join(', ')
+                            : this.state.activeFilters.join(', ')
                         }
                         pin="TOP"
                         isDisabled={

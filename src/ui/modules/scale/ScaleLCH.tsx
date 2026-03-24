@@ -20,12 +20,19 @@ import {
   EasingConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../../services/ManagePalette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
-import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  Service,
+  Subservice,
+} from '../../../types/app'
 import { defaultPreset, presets } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
@@ -33,22 +40,20 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 import Lightness from './Lightness'
 import Hue from './Hue'
 import Chroma from './Chroma'
-import type { AppState } from '../../App'
 
 interface ScaleLCHProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  subservice: Subservice
   id: string
   preset: PresetConfiguration
   distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   textColorsTheme: { lightColor: string; darkColor: string }
-  onChangePreset: React.Dispatch<Partial<AppState>>
+  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeScale: () => void
-  onAddStop: React.Dispatch<Partial<AppState>>
-  onRemoveStop: React.Dispatch<Partial<AppState>>
+  onAddStop: React.Dispatch<Partial<ManagePaletteState>>
+  onRemoveStop: React.Dispatch<Partial<ManagePaletteState>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeThemes?: (scale: ScaleConfiguration) => void
   onSwitchMode: () => void
@@ -242,13 +247,10 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
-        onGoingStep: 'preset changed',
       })
 
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -276,13 +278,10 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       this.props.onChangePreset({
         preset: preset,
         scale: scale(preset),
-        onGoingStep: 'preset changed',
       })
 
-      if (this.props.service === 'EDIT') {
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      }
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -462,14 +461,8 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         this.palette.setKey('preset', preset)
         this.palette.setKey('scale', scale())
 
-        if (this.props.service === 'EDIT') {
-          this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-          sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        } else
-          this.props.onAddStop({
-            preset: preset,
-            scale: scale(),
-          })
+        this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
       }
     }
 
@@ -480,14 +473,8 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         this.palette.setKey('preset', preset)
         this.palette.setKey('scale', scale())
 
-        if (this.props.service === 'EDIT') {
-          this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-          sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        } else
-          this.props.onRemoveStop({
-            preset: preset,
-            scale: scale(),
-          })
+        this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
       }
     }
 
@@ -528,8 +515,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
     this.props.onChangeShift('SHIFT_CHROMA', 'SHIFTED', 100)
     this.props.onChangeShift('SHIFT_HUE', 'SHIFTED', 0)
 
-    if (this.props.service === 'EDIT')
-      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -567,10 +553,8 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
     this.props.onChangeScale()
 
-    if (this.props.service === 'EDIT') {
-      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-    }
+    this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -612,11 +596,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                     label: this.props.t('scale.actions.addStop'),
                   }}
                   feature="ADD_STOP"
-                  isBlocked={
-                    this.features.PRESETS_CUSTOM_ADD.isReached(
-                      this.props.preset.stops.length
-                    ) && this.props.service === 'EDIT'
-                  }
+                  isBlocked={this.features.PRESETS_CUSTOM_ADD.isReached(
+                    this.props.preset.stops.length
+                  )}
                   action={
                     this.props.preset.stops.length >= 24
                       ? () => null
@@ -679,10 +661,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
           value: 'ADD_STOP',
           feature: 'ADD_STOP',
           type: 'OPTION',
-          isBlocked:
-            this.features.PRESETS_CUSTOM_ADD.isReached(
-              this.props.preset.stops.length
-            ) && this.props.service === 'EDIT',
+          isBlocked: this.features.PRESETS_CUSTOM_ADD.isReached(
+            this.props.preset.stops.length
+          ),
           action: this.customHandler,
         })
     }
@@ -733,9 +714,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         ])}
       >
         <SimpleItem
-          id={
-            this.props.service === 'CREATE' ? 'update-preset' : 'watch-preset'
-          }
+          id={'watch-preset'}
           leftPartSlot={
             <SectionTitle
               label={this.props.t('scale.title')}
@@ -880,37 +859,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
     )
   }
 
-  Create = () => {
-    return (
-      <>
-        {this.renderHeader(-1)}
-        <Lightness
-          {...this.props}
-          id={this.props.id}
-          preset={this.props.preset}
-          scale={this.props.scale}
-          distributionEasing={this.props.distributionEasing}
-          textColorsTheme={this.props.textColorsTheme}
-          documentWidth={this.props.documentWidth}
-          onChangeScale={this.props.onChangeScale}
-          onChangeThemes={this.props.onChangeThemes}
-        />
-        <Chroma
-          {...this.props}
-          id={this.props.id}
-          shift={this.props.shift}
-          onChangeShift={this.props.onChangeShift}
-        />
-        <Hue
-          {...this.props}
-          id={this.props.id}
-          shift={this.props.shift}
-          onChangeShift={this.props.onChangeShift}
-        />
-      </>
-    )
-  }
-
   Edit = () => {
     return (
       <>
@@ -944,7 +892,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
   // Render
   render() {
-    if (this.props.service === 'EDIT') return <this.Edit />
-    else return <this.Create />
+    return <this.Edit />
   }
 }

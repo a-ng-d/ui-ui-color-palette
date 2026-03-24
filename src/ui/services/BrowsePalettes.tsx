@@ -7,6 +7,7 @@ import {
   DocumentConfiguration,
   FullConfiguration,
   MetaConfiguration,
+  SourceColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import RemotePalettes from '../contexts/RemotePalettes'
@@ -14,7 +15,6 @@ import LocalPalettes from '../contexts/LocalPalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { AppState } from '../App'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
@@ -26,14 +26,16 @@ import {
   Service,
   Editor,
 } from '../../types/app'
+import { $palette } from '../../stores/palette'
+import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
+import { ManagePaletteState } from './ManagePalette'
 
 interface BrowsePalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   document: DocumentConfiguration
-  onCreatePalette: React.Dispatch<Partial<AppState>>
+  sourceColors: Array<SourceColorConfiguration>
+  onCreatePalette: React.Dispatch<Partial<ManagePaletteState>>
   onSeePalette: (palette: {
     base: BaseConfiguration
     themes: Array<ThemeConfiguration>
@@ -56,6 +58,7 @@ export default class BrowsePalettes extends PureComponent<
   private contexts: Array<ContextItem>
   private theme: string | null
   private remotePalettesRef = React.createRef<RemotePalettes>()
+  private palette = $palette
 
   static features = (
     planStatus: PlanStatus,
@@ -119,6 +122,7 @@ export default class BrowsePalettes extends PureComponent<
       props.service,
       props.t
     )
+    this.palette = $palette
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       localPalettesListStatus: 'LOADING',
@@ -193,10 +197,41 @@ export default class BrowsePalettes extends PureComponent<
 
   // Direct Actions
   onCreatePalette = () => {
-    this.props.onCreatePalette({
-      service: 'CREATE',
-      onGoingStep: 'palette creation opened',
-    })
+    const sourceColors =
+      this.props.sourceColors.length > 1
+        ? this.props.sourceColors.filter(
+            (sourceColor) => sourceColor.source !== 'CANVAS'
+          )
+        : this.props.sourceColors
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'CREATE_PALETTE',
+          data: {
+            sourceColors: sourceColors,
+            exchange: {
+              ...this.palette.value,
+            },
+          },
+        },
+      },
+      '*'
+    )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+        colors: 1,
+        stops: this.palette.value?.preset.stops.length,
+      }
+    )
   }
 
   onEditPalette = () => {

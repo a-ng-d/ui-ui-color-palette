@@ -1,15 +1,17 @@
 import { ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { ManagePaletteState } from '../../ui/services/ManagePalette'
 import type { AppState } from '../../ui/App'
 
 const pullPalette = async ({
-  rawData,
+  paletteData,
   palettesDbViewName,
 }: {
-  rawData: AppState
+  paletteData: ManagePaletteState
+  appData: AppState
   palettesDbViewName: string
-}): Promise<Partial<AppState>> => {
+}): Promise<Partial<ManagePaletteState & AppState>> => {
   const supabase = getSupabase()
 
   if (!supabase) throw new Error('Supabase client is not initialized')
@@ -17,7 +19,7 @@ const pullPalette = async ({
   const { data, error } = await supabase
     .from(palettesDbViewName)
     .select('*')
-    .eq('palette_id', rawData.id)
+    .eq('palette_id', paletteData.id)
 
   if (!error && data.length === 1) {
     sendPluginMessage(
@@ -76,7 +78,7 @@ const pullPalette = async ({
             },
             {
               key: 'meta.dates.openedAt',
-              value: rawData.dates.openedAt,
+              value: paletteData.dates.openedAt,
             },
             {
               key: 'meta.publicationStatus.isPublished',
@@ -123,7 +125,7 @@ const pullPalette = async ({
         publishedAt: data[0].published_at,
         createdAt: data[0].created_at,
         updatedAt: data[0].updated_at,
-        openedAt: rawData.dates.openedAt,
+        openedAt: paletteData.dates.openedAt,
       },
       publicationStatus: {
         isPublished: true,

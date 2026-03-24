@@ -60,12 +60,10 @@ import {
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
+import { ManagePaletteState } from './ManagePalette'
 
 interface EditPaletteProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
   description: string
@@ -82,16 +80,16 @@ interface EditPaletteProps
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   document: DocumentConfiguration
   dates: DatesConfiguration
-  onChangeScale: React.Dispatch<Partial<AppState>>
-  onChangePreset: React.Dispatch<Partial<AppState>>
-  onChangeDistributionEasing: React.Dispatch<Partial<AppState>>
-  onChangeColors: React.Dispatch<Partial<AppState>>
-  onChangeThemes: React.Dispatch<Partial<AppState>>
-  onChangeSettings: React.Dispatch<Partial<AppState>>
-  onPublishPalette: React.Dispatch<Partial<AppState>>
-  onLockSourceColors: React.Dispatch<Partial<AppState>>
+  onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
+  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
+  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onLockSourceColors: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
-  onChangeDocument: React.Dispatch<Partial<AppState>>
+  onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
 }
 
@@ -297,7 +295,6 @@ export default class EditPalette extends PureComponent<
       themes: this.themesMessage.data,
       visionSimulationMode: newVisionSimulationMode,
       textColorsTheme: newTextColorsTheme,
-      onGoingStep: 'themes changed',
     })
   }
 
@@ -309,7 +306,6 @@ export default class EditPalette extends PureComponent<
         if (theme.isEnabled) theme.scale = this.palette.get().scale
         return theme
       }),
-      onGoingStep: 'scale changed',
     })
   }
 
@@ -364,7 +360,6 @@ export default class EditPalette extends PureComponent<
       this.props.onChangeColors({
         shift: shift,
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
     }
 
@@ -594,10 +589,6 @@ export default class EditPalette extends PureComponent<
         feature: 'SYNC_VARIABLES',
       }
     )
-  }
-
-  onPublishPalette = () => {
-    this.props.onPublishPalette({ modalContext: 'PUBLICATION' })
   }
 
   onChangeView = (
@@ -890,7 +881,7 @@ export default class EditPalette extends PureComponent<
         fragment = (
           <Scale
             {...this.props}
-            service="EDIT"
+            subservice="EDIT"
             onChangeScale={this.slideHandler}
             onChangeShift={this.shiftHandler}
           />
@@ -931,7 +922,7 @@ export default class EditPalette extends PureComponent<
         fragment = (
           <Settings
             {...this.props}
-            service="EDIT"
+            subservice="EDIT"
           />
         )
         break
@@ -989,7 +980,7 @@ export default class EditPalette extends PureComponent<
         <Feature isActive={this.features.PREVIEW.isActive()}>
           <Preview
             {...this.props}
-            service="EDIT"
+            subservice="EDIT"
             onInteractWithSourceColor={() => this.onJumpToSourceColor()}
             ref={this.previewRef}
           />
@@ -998,11 +989,10 @@ export default class EditPalette extends PureComponent<
           <Actions
             {...this.props}
             {...this.state}
-            service={this.state.context === 'EXPORT' ? 'SEE' : 'EDIT'}
+            subservice={this.state.context === 'EXPORT' ? 'SEE' : 'EDIT'}
             format={this.state.export.format}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
-            onPublishPalette={this.onPublishPalette}
             onGenerateDocument={this.documentHandler}
             onChangeView={this.onChangeView}
             onExportPalette={this.onExport}

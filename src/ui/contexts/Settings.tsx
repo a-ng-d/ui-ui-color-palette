@@ -11,6 +11,7 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import GlobalSettings from '../modules/settings/GlobalSettings'
 import ContrastSettings from '../modules/settings/ContrastSettings'
 import ColorSettings from '../modules/settings/ColorSettings'
@@ -26,16 +27,15 @@ import {
   Editor,
   PlanStatus,
   Service,
+  Subservice,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { trackSettingsManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
 
 interface SettingsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  subservice: Subservice
   id: string
   sourceColors?: Array<SourceColorConfiguration>
   name: string
@@ -45,7 +45,7 @@ interface SettingsProps
   visionSimulationMode: VisionSimulationModeConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   algorithmVersion?: AlgorithmVersionConfiguration
-  onChangeSettings: React.Dispatch<Partial<AppState>>
+  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
   onDeletePalette?: () => void
 }
 
@@ -76,6 +76,13 @@ export default class Settings extends PureComponent<SettingsProps> {
     SETTINGS_CONTRAST_MANAGEMENT: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_CONTRAST_MANAGEMENT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    DELETE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'DELETE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -143,11 +150,9 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       this.props.onChangeSettings({
         name: this.settingsMessage.data.name,
-        onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -177,11 +182,9 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       this.props.onChangeSettings({
         description: this.settingsMessage.data.description,
-        onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -215,11 +218,9 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       this.props.onChangeSettings({
         colorSpace: this.settingsMessage.data.colorSpace,
-        onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -258,11 +259,9 @@ export default class Settings extends PureComponent<SettingsProps> {
           return theme
         }),
         visionSimulationMode: this.settingsMessage.data.visionSimulationMode,
-        onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -294,11 +293,9 @@ export default class Settings extends PureComponent<SettingsProps> {
 
       this.props.onChangeSettings({
         algorithmVersion: this.settingsMessage.data.algorithmVersion,
-        onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -342,11 +339,9 @@ export default class Settings extends PureComponent<SettingsProps> {
           return theme
         }),
         textColorsTheme: this.settingsMessage.data.textColorsTheme,
-        onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -390,11 +385,9 @@ export default class Settings extends PureComponent<SettingsProps> {
           return theme
         }),
         textColorsTheme: this.settingsMessage.data.textColorsTheme,
-        onGoingStep: 'settings changed',
       })
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
       trackSettingsManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -446,11 +439,10 @@ export default class Settings extends PureComponent<SettingsProps> {
         >
           <ContrastSettings
             {...this.props}
-            isLast={this.props.service === 'CREATE'}
             onChangeSettings={this.settingsHandler}
           />
         </Feature>
-        <Feature isActive={this.props.service === 'EDIT'}>
+        <Feature isActive={this.features.DELETE_PALETTE.isActive()}>
           <DangerZone
             {...this.props}
             isLast

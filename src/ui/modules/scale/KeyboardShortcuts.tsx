@@ -8,14 +8,11 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
-import Feature from '../../components/Feature'
 import { BaseProps } from '../../../types/app'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 
 interface KeyboardShortcutsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   isOpen: boolean
   onClose: () => void
 }
@@ -159,43 +156,41 @@ export default class KeyboardShortcuts extends React.PureComponent<KeyboardShort
                   spacingModifier: 'TIGHT',
                 },
               ]}
-              border={this.props.service === 'EDIT' ? ['BOTTOM'] : []}
+              border={['BOTTOM']}
             />
-            <Feature isActive={this.props.service === 'EDIT'}>
-              <Section
-                title={
-                  <SimpleItem
-                    leftPartSlot={
-                      <SectionTitle label={this.props.t('scale.tips.custom')} />
-                    }
-                    isListItem={false}
-                    alignment="CENTER"
-                  />
-                }
-                body={[
-                  {
-                    node: (
-                      <KeyboardShortcutItem
-                        label={this.props.t('scale.tips.add')}
-                        shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
-                      />
-                    ),
-                    spacingModifier: 'TIGHT',
-                  },
-                  {
-                    node: (
-                      <KeyboardShortcutItem
-                        label={this.props.t('scale.tips.remove')}
-                        shortcuts={[
-                          [this.props.t('scale.tips.inputs.backspace')],
-                        ]}
-                      />
-                    ),
-                    spacingModifier: 'TIGHT',
-                  },
-                ]}
-              />
-            </Feature>
+            <Section
+              title={
+                <SimpleItem
+                  leftPartSlot={
+                    <SectionTitle label={this.props.t('scale.tips.custom')} />
+                  }
+                  isListItem={false}
+                  alignment="CENTER"
+                />
+              }
+              body={[
+                {
+                  node: (
+                    <KeyboardShortcutItem
+                      label={this.props.t('scale.tips.add')}
+                      shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
+                    />
+                  ),
+                  spacingModifier: 'TIGHT',
+                },
+                {
+                  node: (
+                    <KeyboardShortcutItem
+                      label={this.props.t('scale.tips.remove')}
+                      shortcuts={[
+                        [this.props.t('scale.tips.inputs.backspace')],
+                      ]}
+                    />
+                  ),
+                  spacingModifier: 'TIGHT',
+                },
+              ]}
+            />
           </div>
         </Dialog>,
         document.getElementById('modal') ?? document.createElement('app')

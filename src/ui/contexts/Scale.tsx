@@ -19,6 +19,7 @@ import {
   ShiftConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import ScaleLCH from '../modules/scale/ScaleLCH'
 import ScaleCR from '../modules/scale/ScaleCR'
 import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'
@@ -26,13 +27,19 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  Service,
+  Subservice,
+} from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
 
 interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
+  subservice: Subservice
   id: string
   sourceColors?: Array<SourceColorConfiguration>
   preset: PresetConfiguration
@@ -42,13 +49,13 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   actions?: string
-  onChangePreset: React.Dispatch<Partial<AppState>>
+  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeScale: () => void
-  onAddStop: React.Dispatch<Partial<AppState>>
-  onRemoveStop: React.Dispatch<Partial<AppState>>
+  onAddStop: React.Dispatch<Partial<ManagePaletteState>>
+  onRemoveStop: React.Dispatch<Partial<ManagePaletteState>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
-  onChangeDistributionEasing: React.Dispatch<Partial<AppState>>
-  onChangeThemes: React.Dispatch<Partial<AppState>>
+  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ScaleState {
@@ -463,118 +470,21 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 $palette.setKey('scale', newScale)
                 this.props.onChangeScale()
 
-                if (this.props.service === 'EDIT')
-                  sendPluginMessage(
-                    {
-                      pluginMessage: {
-                        type: 'UPDATE_SCALE',
-                        id: this.props.id,
-                        data: $palette.value,
-                      },
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type: 'UPDATE_SCALE',
+                      id: this.props.id,
+                      data: $palette.value,
                     },
-                    '*'
-                  )
+                  },
+                  '*'
+                )
               }}
             />
           </Feature>
         </div>
       </FormItem>
-    )
-  }
-
-  Create = () => {
-    return (
-      <Layout
-        id="scale"
-        column={[
-          {
-            node: (
-              <>
-                {!this.state.isContrastMode ? (
-                  <ScaleLCH
-                    {...this.props}
-                    onSwitchMode={this.onSwitchContrasteMode}
-                  />
-                ) : (
-                  <ScaleCR
-                    {...this.props}
-                    onSwitchMode={this.onSwitchContrasteMode}
-                  />
-                )}
-                <Feature isActive={this.features.SCALE_HELPER.isActive()}>
-                  <Bar
-                    id="update-easing"
-                    leftPartSlot={
-                      <Feature
-                        isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
-                      >
-                        <this.DistributionEasing />
-                      </Feature>
-                    }
-                    rightPartSlot={
-                      <Feature
-                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
-                      >
-                        <div
-                          className={doClassnames([
-                            layouts['snackbar--tight'],
-                            layouts['snackbar--right'],
-                            layouts['snackbar--wrap'],
-                          ])}
-                        >
-                          <Button
-                            type="tertiary"
-                            label={this.props.t('scale.howTo')}
-                            action={() =>
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'OPEN_IN_BROWSER',
-                                    data: {
-                                      url: this.props.config.urls.howToUseUrl,
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                            }
-                          />
-                          <span
-                            className={doClassnames([
-                              texts.type,
-                              texts['type--secondary'],
-                            ])}
-                          >
-                            {this.props.t('separator')}
-                          </span>
-                          <Button
-                            type="tertiary"
-                            label={this.props.t('scale.keyboardShortcuts')}
-                            action={() =>
-                              this.setState({
-                                isTipsOpen: true,
-                              })
-                            }
-                          />
-                        </div>
-                      </Feature>
-                    }
-                    isInverted
-                    shouldReflow
-                  />
-                  <KeyboardShortcuts
-                    {...this.props}
-                    isOpen={this.state.isTipsOpen}
-                    onClose={() => this.setState({ isTipsOpen: false })}
-                  />
-                </Feature>
-              </>
-            ),
-            typeModifier: 'DISTRIBUTED',
-          },
-        ]}
-        isFullHeight
-      />
     )
   }
 
@@ -677,7 +587,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
 
   // Render
   render() {
-    if (this.props.service === 'EDIT') return <this.Edit />
-    else return <this.Create />
+    return <this.Edit />
   }
 }

@@ -31,9 +31,7 @@ import { trackScaleManagementEvent } from '../../../external/tracking/eventsTrac
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ScaleCRProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
@@ -146,8 +144,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -184,8 +181,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -217,8 +213,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -276,8 +271,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -314,8 +308,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -351,8 +344,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -481,8 +473,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
     this.props.onChangeScale()
 
-    if (this.props.service === 'EDIT')
-      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,

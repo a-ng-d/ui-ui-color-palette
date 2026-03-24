@@ -11,9 +11,7 @@ import { trackOnboardingEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface OnboardingProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   onCloseOnboarding: (e: MouseEvent) => void
 }
 
@@ -25,7 +23,10 @@ interface OnboardingState {
   isImageLoaded: boolean
 }
 
-export default class Onboarding extends PureComponent<OnboardingProps, OnboardingState> {
+export default class Onboarding extends PureComponent<
+  OnboardingProps,
+  OnboardingState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

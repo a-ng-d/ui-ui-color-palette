@@ -23,9 +23,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
 
 interface ShortcutsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
@@ -46,7 +44,10 @@ interface ShortcutsState {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsState> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsState
+> {
   private theme: string | null
 
   static features = (
