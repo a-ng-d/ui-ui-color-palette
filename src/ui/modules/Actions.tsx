@@ -11,6 +11,7 @@ import {
   Input,
   layouts,
   Menu,
+  SegmentedControl,
 } from '@unoff/ui'
 import {
   CreatorConfiguration,
@@ -26,6 +27,7 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
   Editor,
+  Mode,
   PlanStatus,
   Service,
   Subservice,
@@ -36,6 +38,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 interface ActionsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   subservice: Subservice
+  mode: Mode
   id: string
   name: string
   dates: DatesConfiguration
@@ -45,26 +48,26 @@ interface ActionsProps
   publicationStatus?: PublicationConfiguration
   isPrimaryLoading?: boolean
   isSecondaryLoading?: boolean
-  onCreatePalette?: React.MouseEventHandler<HTMLButtonElement> &
-    React.KeyboardEventHandler<HTMLButtonElement>
-  onSyncLocalStyles?: (
+  onChangeMode: React.Dispatch<Partial<ManagePaletteState>>
+  onSyncLocalStyles: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
-  onSyncLocalVariables?: (
+  onSyncLocalVariables: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
-  onPublishPalette?: React.Dispatch<Partial<ManagePaletteState>>
-  onGenerateDocument?: (
+  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onGenerateDocument: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
-  onChangeView?: (
+  onChangeView: (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
-  onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
+  onExportPalette: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
-  onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
+  onUnloadPalette: () => void
 }
 
 interface ActionsState {
@@ -434,14 +437,59 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       <Bar
         leftPartSlot={
           <div className={layouts['snackbar--medium']}>
-            <Feature
-              isActive={
-                this.features.PUBLICATION.isActive() &&
-                this.props.publicationStatus?.isPublished
-              }
-            >
-              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
-            </Feature>
+            <Button
+              type="icon"
+              icon="back"
+              helper={{
+                label: this.props.t('contexts.back'),
+              }}
+              action={this.props.onUnloadPalette}
+            />
+            <SegmentedControl
+              items={[
+                {
+                  id: 'EDIT',
+                  icon: {
+                    type: 'PICTO',
+                    name: 'adjust',
+                  },
+                  helper: {
+                    label: this.props.t('views.edit'),
+                    pin: 'BOTTOM',
+                  },
+                },
+                {
+                  id: 'SEE',
+                  icon: {
+                    type: 'PICTO',
+                    name: 'visible',
+                  },
+                  helper: {
+                    label: this.props.t('views.see'),
+                    pin: 'BOTTOM',
+                  },
+                },
+                {
+                  id: 'CODE',
+                  icon: {
+                    type: 'PICTO',
+                    name: 'code',
+                  },
+                  helper: {
+                    label: this.props.t('views.code'),
+                    pin: 'BOTTOM',
+                  },
+                },
+              ]}
+              active={this.props.mode}
+              action={(
+                e: React.MouseEvent<HTMLButtonElement> &
+                  React.KeyboardEvent<HTMLButtonElement>
+              ) => {
+                const feature = e.currentTarget.dataset.feature as Mode
+                this.props.onChangeMode({ mode: feature ?? 'EDIT' })
+              }}
+            />
             <div
               style={{
                 flex: '0 1 200px',
@@ -464,7 +512,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 onValid={this.nameHandler}
               />
             </div>
-
+            <Feature
+              isActive={
+                this.features.PUBLICATION.isActive() &&
+                this.props.publicationStatus?.isPublished
+              }
+            >
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
+            </Feature>
             {this.props.document?.id === this.props.id && (
               <Dropdown
                 id="views"
@@ -606,9 +661,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             />
           </div>
         }
-        padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
         shouldReflow
-        border={['TOP']}
+        border={['BOTTOM']}
       />
     )
   }
@@ -617,6 +671,95 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     return (
       <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
         <Bar
+          leftPartSlot={
+            <div className={layouts['snackbar--medium']}>
+              <Button
+                type="icon"
+                icon="back"
+                helper={{
+                  label: this.props.t('contexts.back'),
+                }}
+                action={this.props.onUnloadPalette}
+              />
+              <SegmentedControl
+                items={[
+                  {
+                    id: 'EDIT',
+                    icon: {
+                      type: 'PICTO',
+                      name: 'adjust',
+                    },
+                    helper: {
+                      label: this.props.t('views.edit'),
+                      pin: 'BOTTOM',
+                    },
+                  },
+                  {
+                    id: 'SEE',
+                    icon: {
+                      type: 'PICTO',
+                      name: 'visible',
+                    },
+                    helper: {
+                      label: this.props.t('views.see'),
+                      pin: 'BOTTOM',
+                    },
+                  },
+                  {
+                    id: 'CODE',
+                    icon: {
+                      type: 'PICTO',
+                      name: 'code',
+                    },
+                    helper: {
+                      label: this.props.t('views.code'),
+                      pin: 'BOTTOM',
+                    },
+                  },
+                ]}
+                active={this.props.mode}
+                action={(
+                  e: React.MouseEvent<HTMLButtonElement> &
+                    React.KeyboardEvent<HTMLButtonElement>
+                ) => {
+                  const feature = e.currentTarget.dataset.feature as Mode
+                  this.props.onChangeMode({ mode: feature ?? 'EDIT' })
+                }}
+              />
+              <div
+                style={{
+                  flex: '0 1 200px',
+                }}
+              >
+                <Input
+                  id="update-palette-name"
+                  type="TEXT"
+                  placeholder={this.props.t('name')}
+                  value={this.props.name !== '' ? this.props.name : ''}
+                  charactersLimit={64}
+                  helper={{
+                    label: this.props.t('settings.actions.paletteName'),
+                    pin: 'TOP',
+                  }}
+                  isBlocked={this.features.SETTINGS_NAME.isBlocked()}
+                  isNew={this.features.SETTINGS_NAME.isNew()}
+                  feature="RENAME_PALETTE"
+                  onBlur={this.nameHandler}
+                  onValid={this.nameHandler}
+                />
+              </div>
+              <Feature
+                isActive={
+                  this.features.PUBLICATION.isActive() &&
+                  this.props.publicationStatus?.isPublished
+                }
+              >
+                <Chip isSolo>
+                  {this.props.t('publication.statusPublished')}
+                </Chip>
+              </Feature>
+            </div>
+          }
           rightPartSlot={
             <Button
               type="primary"
@@ -629,8 +772,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               <a></a>
             </Button>
           }
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
-          border={['TOP']}
+          border={['BOTTOM']}
         />
       </Feature>
     )

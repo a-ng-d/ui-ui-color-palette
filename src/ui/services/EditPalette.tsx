@@ -3,9 +3,9 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
 import * as fflate from 'fflate'
-import { Case, doClassnames, FeatureStatus } from '@unoff/utils'
+import { Case, FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
-import { Bar, Button, Dropdown, FormItem, layouts, Tabs } from '@unoff/ui'
+import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -50,6 +50,7 @@ import {
   PlanStatus,
   Service,
   Editor,
+  Mode,
 } from '../../types/app'
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
@@ -64,6 +65,7 @@ import { ManagePaletteState } from './ManagePalette'
 
 interface EditPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
+  mode: Mode
   id: string
   name: string
   description: string
@@ -80,6 +82,7 @@ interface EditPaletteProps
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   document: DocumentConfiguration
   dates: DatesConfiguration
+  onChangeMode: React.Dispatch<Partial<ManagePaletteState>>
   onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
   onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
@@ -258,12 +261,6 @@ export default class EditPalette extends PureComponent<
     this.setState({
       context: newContext,
     })
-
-    if (newContext === 'EXPORT') this.forceCollapsePreview()
-  }
-
-  forceCollapsePreview = () => {
-    if (this.previewRef.current) this.previewRef.current.forceCollapseDrawer()
   }
 
   switchThemeHandler = (e: Event) => {
@@ -856,29 +853,12 @@ export default class EditPalette extends PureComponent<
 
   // Render
   render() {
-    let fragment
-    let isFlex = true
-
-    switch (this.theme) {
-      case 'figma':
-        isFlex = false
-        break
-      case 'penpot':
-        isFlex = true
-        break
-      case 'sketch':
-        isFlex = false
-        break
-      case 'framer':
-        isFlex = true
-        break
-      default:
-        isFlex = false
-    }
+    let fragmentSubservice
+    let fragmentMode
 
     switch (this.state.context) {
       case 'SCALE': {
-        fragment = (
+        fragmentSubservice = (
           <Scale
             {...this.props}
             subservice="EDIT"
@@ -889,11 +869,11 @@ export default class EditPalette extends PureComponent<
         break
       }
       case 'COLORS': {
-        fragment = <Colors {...this.props} />
+        fragmentSubservice = <Colors {...this.props} />
         break
       }
       case 'THEMES': {
-        fragment = (
+        fragmentSubservice = (
           <Themes
             {...this.props}
             ref={this.themesRef}
@@ -901,25 +881,8 @@ export default class EditPalette extends PureComponent<
         )
         break
       }
-      case 'EXPORT': {
-        fragment = (
-          <Export
-            {...this.props}
-            context={this.state.export.context}
-            code={this.state.export.data}
-            isCodeCopied={this.state.isCodeCopied}
-            onChangeExport={(exp) => {
-              this.setState({
-                export: exp.export,
-              })
-            }}
-            onCopyCode={this.onCopyCode}
-          />
-        )
-        break
-      }
       case 'SETTINGS': {
-        fragment = (
+        fragmentSubservice = (
           <Settings
             {...this.props}
             subservice="EDIT"
@@ -928,68 +891,191 @@ export default class EditPalette extends PureComponent<
         break
       }
     }
+
+    switch (this.props.mode) {
+      case 'EDIT': {
+        fragmentMode = (
+          <Layout
+            id="edit-palette"
+            column={[
+              {
+                node: (
+                  <Feature isActive={this.features.PREVIEW.isActive()}>
+                    <Preview
+                      {...this.props}
+                      onInteractWithSourceColor={() =>
+                        this.onJumpToSourceColor()
+                      }
+                      ref={this.previewRef}
+                    />
+                  </Feature>
+                ),
+                typeModifier: 'BLANK',
+              },
+              {
+                node: (
+                  <section className="context">{fragmentSubservice}</section>
+                ),
+                typeModifier: 'DRAWER' as const,
+                drawerOptions: {
+                  minSize: {
+                    value: 200,
+                    unit: 'PIXEL' as const,
+                  },
+                  defaultSize: {
+                    value: 296,
+                    unit: 'PIXEL' as const,
+                  },
+                  maxSize: {
+                    value: 400,
+                    unit: 'PIXEL' as const,
+                  },
+                  pin: 'RIGHT' as const,
+                  direction: 'HORIZONTAL' as const,
+                },
+              },
+              {
+                node: (
+                  <Bar
+                    id="contexts-nav"
+                    leftPartSlot={
+                      <div className={layouts['stackbar--medium']}>
+                        <Button
+                          type="icon"
+                          icon="adjust"
+                          state={
+                            this.state.context === 'SCALE'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              context: 'SCALE',
+                            })
+                          }
+                        />
+                        <Button
+                          type="icon"
+                          icon="eyedropper"
+                          state={
+                            this.state.context === 'COLORS'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              context: 'COLORS',
+                            })
+                          }
+                        />
+                        <Button
+                          type="icon"
+                          icon="theme"
+                          state={
+                            this.state.context === 'THEMES'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              context: 'THEMES',
+                            })
+                          }
+                        />
+                        <Button
+                          type="icon"
+                          icon="settings"
+                          state={
+                            this.state.context === 'SETTINGS'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() =>
+                            this.setState({
+                              context: 'SETTINGS',
+                            })
+                          }
+                        />
+                      </div>
+                    }
+                    isVertical
+                  />
+                ),
+                typeModifier: 'FIXED' as const,
+                fixedWidth: 'var(--bar-min-height)',
+              },
+            ]}
+            isFullHeight
+            isFullWidth
+          />
+        )
+        break
+      }
+      case 'SEE': {
+        fragmentMode = (
+          <Layout
+            id="edit-palette"
+            column={[
+              {
+                node: (
+                  <Feature isActive={this.features.PREVIEW.isActive()}>
+                    <Preview
+                      {...this.props}
+                      onInteractWithSourceColor={() =>
+                        this.onJumpToSourceColor()
+                      }
+                      ref={this.previewRef}
+                    />
+                  </Feature>
+                ),
+                typeModifier: 'BLANK',
+              },
+            ]}
+            isFullHeight
+            isFullWidth
+          />
+        )
+        break
+      }
+      case 'CODE': {
+        fragmentMode = (
+          <Layout
+            id="edit-palette"
+            column={[
+              {
+                node: (
+                  <Export
+                    {...this.props}
+                    context={this.state.export.context}
+                    code={this.state.export.data}
+                    isCodeCopied={this.state.isCodeCopied}
+                    onChangeExport={(exp) => {
+                      this.setState({
+                        export: exp.export,
+                      })
+                    }}
+                    onCopyCode={this.onCopyCode}
+                  />
+                ),
+                typeModifier: 'BLANK',
+              },
+            ]}
+            isFullHeight
+            isFullWidth
+          />
+        )
+        break
+      }
+    }
+
     return (
       <>
-        <Bar
-          leftPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--tight'],
-                isFlex && 'patch-2',
-              ])}
-            >
-              <Button
-                type="icon"
-                icon="back"
-                helper={{
-                  label: this.props.t('contexts.back'),
-                }}
-                action={this.props.onUnloadPalette}
-              />
-              <Tabs
-                tabs={this.contexts}
-                active={this.state.context ?? ''}
-                isFlex={isFlex}
-                maxVisibleTabs={3}
-                action={this.navHandler}
-              />
-            </div>
-          }
-          rightPartSlot={
-            <Feature isActive={this.features.THEMES.isActive()}>
-              <FormItem
-                id="switch-theme"
-                label={this.props.t('themes.switchTheme.label')}
-                shouldFill={false}
-              >
-                <Dropdown
-                  id="switch-theme"
-                  options={this.setThemes()}
-                  selected={
-                    this.props.themes.find((theme) => theme.isEnabled)?.id
-                  }
-                  alignment="RIGHT"
-                  pin="TOP"
-                />
-              </FormItem>
-            </Feature>
-          }
-          border={['BOTTOM']}
-        />
-        <section className="context">{fragment}</section>
-        <Feature isActive={this.features.PREVIEW.isActive()}>
-          <Preview
-            {...this.props}
-            subservice="EDIT"
-            onInteractWithSourceColor={() => this.onJumpToSourceColor()}
-            ref={this.previewRef}
-          />
-        </Feature>
         <Feature isActive={this.features.ACTIONS.isActive()}>
           <Actions
             {...this.props}
             {...this.state}
             subservice={this.state.context === 'EXPORT' ? 'SEE' : 'EDIT'}
+            mode={this.props.mode}
             format={this.state.export.format}
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
@@ -998,6 +1084,54 @@ export default class EditPalette extends PureComponent<
             onExportPalette={this.onExport}
           />
         </Feature>
+        {fragmentMode}
+        {/* <Bar
+                  leftPartSlot={
+                    <div
+                      className={doClassnames([
+                        layouts['snackbar--tight'],
+                        isFlex && 'patch-2',
+                      ])}
+                    >
+                      <Button
+                        type="icon"
+                        icon="back"
+                        helper={{
+                          label: this.props.t('contexts.back'),
+                        }}
+                        action={this.props.onUnloadPalette}
+                      />
+                      <Tabs
+                        tabs={this.contexts}
+                        active={this.state.context ?? ''}
+                        isFlex={isFlex}
+                        maxVisibleTabs={3}
+                        action={this.navHandler}
+                      />
+                    </div>
+                  }
+                  rightPartSlot={
+                    <Feature isActive={this.features.THEMES.isActive()}>
+                      <FormItem
+                        id="switch-theme"
+                        label={this.props.t('themes.switchTheme.label')}
+                        shouldFill={false}
+                      >
+                        <Dropdown
+                          id="switch-theme"
+                          options={this.setThemes()}
+                          selected={
+                            this.props.themes.find((theme) => theme.isEnabled)
+                              ?.id
+                          }
+                          alignment="RIGHT"
+                          pin="TOP"
+                        />
+                      </FormItem>
+                    </Feature>
+                  }
+                  border={['BOTTOM']}
+                /> */}
       </>
     )
   }

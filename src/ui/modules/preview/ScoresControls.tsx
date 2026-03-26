@@ -1,6 +1,6 @@
 import React from 'react'
 import { FeatureStatus } from '@unoff/utils'
-import { layouts, Button, Menu } from '@unoff/ui'
+import { layouts, Menu } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -23,7 +23,6 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ScoresControlsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  isDrawerCollapsed: boolean
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
   isWCAGIntervalDisplayed: boolean
@@ -34,7 +33,6 @@ interface ScoresControlsProps
     darkWCAG: ScoreFilterStatus
     darkAPCA: ScoreFilterStatus
   }
-  onToggleDrawer: () => void
   onUpdateScoreFilters: (filters: {
     lightWCAG?: ScoreFilterStatus
     lightAPCA?: ScoreFilterStatus
@@ -133,26 +131,7 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
   render() {
     return (
       <div className={layouts['snackbar--medium']}>
-        <Button
-          type="icon"
-          icon={
-            this.props.isDrawerCollapsed
-              ? 'toggle-sidebar-top'
-              : 'toggle-sidebar-bottom'
-          }
-          helper={{
-            label: this.props.isDrawerCollapsed
-              ? this.props.t('preview.actions.expandPreview')
-              : this.props.t('preview.actions.collapsePreview'),
-          }}
-          action={this.props.onToggleDrawer}
-        />
-        <Feature
-          isActive={
-            this.features.PREVIEW_SCORES.isActive() &&
-            !this.props.isDrawerCollapsed
-          }
-        >
+        <Feature isActive={this.features.PREVIEW_SCORES.isActive()}>
           <Menu
             id="score-display"
             type="ICON"
@@ -338,12 +317,7 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
             isNew={this.features.PREVIEW_SCORES.isNew()}
           />
         </Feature>
-        <Feature
-          isActive={
-            this.features.PREVIEW_SCORES.isActive() &&
-            !this.props.isDrawerCollapsed
-          }
-        >
+        <Feature isActive={this.features.PREVIEW_SCORES.isActive()}>
           <Menu
             id="score-filter"
             type="ICON"

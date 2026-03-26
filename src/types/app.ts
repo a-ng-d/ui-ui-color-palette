@@ -6,6 +6,7 @@ export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
 export type Service = 'MANAGE' | 'GEN' | 'EXTRACT' | 'WHEEL' | 'EXPLORE'
 export type Subservice = 'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'
+export type Mode = 'EDIT' | 'SEE' | 'CODE'
 
 export interface ContextItem {
   label: string

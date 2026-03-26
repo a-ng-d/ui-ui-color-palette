@@ -35,6 +35,7 @@ import {
   Service,
   Editor,
   Subservice,
+  Mode,
 } from '../../types/app'
 import {
   getDefaultPreset,
@@ -54,6 +55,7 @@ interface ManagePaletteProps
 
 export interface ManagePaletteState {
   subservice: Subservice
+  mode: Mode
   sourceColors: Array<SourceColorConfiguration>
   id: string
   name: string
@@ -135,6 +137,7 @@ export default class ManagePalette extends PureComponent<
     this.palette = $palette
     this.state = {
       subservice: 'BROWSE',
+      mode: 'EDIT',
       sourceColors: [
         {
           name: props.t('colors.defaultName'),
@@ -462,6 +465,7 @@ export default class ManagePalette extends PureComponent<
             <EditPalette
               {...this.props}
               {...this.state}
+              onChangeMode={(e) => this.setState({ ...e })}
               onChangeScale={(e) => this.setState({ ...e })}
               onChangePreset={(e) => this.setState({ ...e })}
               onChangeDistributionEasing={(e) => this.setState({ ...e })}

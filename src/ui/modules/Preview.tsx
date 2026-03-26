@@ -2,7 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
-import { Bar, Chip, ColorChip, Drawer } from '@unoff/ui'
+import { Bar, Chip, ColorChip, Layout } from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
@@ -27,10 +27,10 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
   Editor,
+  Mode,
   PlanStatus,
   ScoreFilterStatus,
   Service,
-  Subservice,
 } from '../../types/app'
 import {
   $isAPCADisplayed,
@@ -51,7 +51,7 @@ import ScoresControls from './preview/ScoresControls'
 
 interface PreviewProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  subservice: Subservice
+  mode: Mode
   id: string
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
   scale: ScaleConfiguration
@@ -73,8 +73,6 @@ interface PreviewState {
   isAPCADisplayed: boolean
   isWCAGIntervalDisplayed: boolean
   isAPCAIntervalDisplayed: boolean
-  isDrawerCollapsed: boolean
-  drawerMaxHeight?: number
   scoreFilters: {
     lightWCAG: ScoreFilterStatus
     lightAPCA: ScoreFilterStatus
@@ -92,9 +90,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   private subscribeAPCAInterval: (() => void) | undefined
   private subscribeContrastScores: (() => void) | undefined
   private palette: typeof $palette
-  private drawerRef: React.RefObject<Drawer>
   private paletteContainerRef: React.RefObject<HTMLDivElement>
-  private resizeObserver: ResizeObserver | null
   private theme: string | null
 
   static defaultProps = {
@@ -142,7 +138,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       isAPCADisplayed: true,
       isWCAGIntervalDisplayed: false,
       isAPCAIntervalDisplayed: false,
-      isDrawerCollapsed: false,
       scoreFilters: {
         lightWCAG: 'ALL',
         lightAPCA: 'ALL',
@@ -152,10 +147,8 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       openDialogKey: null,
       contrastScoresVersion: 0,
     }
-    this.drawerRef = React.createRef() as React.RefObject<Drawer>
     this.paletteContainerRef =
       React.createRef() as React.RefObject<HTMLDivElement>
-    this.resizeObserver = null
   }
 
   // Lifecycle
@@ -177,28 +170,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         contrastScoresVersion: prev.contrastScoresVersion + 1,
       }))
     })
-    if (
-      this.drawerRef.current &&
-      (this.drawerRef.current.base as unknown as HTMLElement).parentElement
-    ) {
-      const parent = (this.drawerRef.current.base as unknown as HTMLElement)
-        .parentElement
-      if (parent) {
-        this.resizeObserver = new window.ResizeObserver(
-          this.updateDrawerMaxHeight
-        )
-        this.resizeObserver.observe(parent)
-      }
-    }
-    setTimeout(this.updateDrawerMaxHeight, 0)
   }
 
   componentDidUpdate = (
     prevProps: PreviewProps,
     prevState: PreviewState
   ): void => {
-    this.updateDrawerMaxHeight()
-
     const propsChanged =
       prevProps.colorSpace !== this.props.colorSpace ||
       prevProps.visionSimulationMode !== this.props.visionSimulationMode ||
@@ -220,16 +197,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     if (this.subscribeWCAGInterval) this.subscribeWCAGInterval()
     if (this.subscribeAPCAInterval) this.subscribeAPCAInterval()
     if (this.subscribeContrastScores) this.subscribeContrastScores()
-    if (
-      this.resizeObserver &&
-      this.drawerRef.current &&
-      (this.drawerRef.current.base as unknown as HTMLElement).parentElement
-    ) {
-      const parent = (this.drawerRef.current as unknown as HTMLElement)
-        .parentElement
-      if (parent) this.resizeObserver.unobserve(parent)
-    }
-
     if (this.paletteContainerRef.current)
       this.paletteContainerRef.current.removeEventListener(
         'wheel',
@@ -255,28 +222,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     }
   }
 
-  updateDrawerMaxHeight = () => {
-    if (!this.drawerRef.current) return
-
-    const drawerEl = this.drawerRef.current.base as unknown as HTMLElement
-    const parent = drawerEl?.parentElement
-
-    if (!parent) return
-
-    const parentHeight = parent.offsetHeight
-    const siblings = Array.from(parent.children).filter(
-      (el) => el !== drawerEl && !el.classList.contains('context')
-    )
-    const siblingsHeight = siblings.reduce(
-      (acc, el) => acc + (el as HTMLElement).offsetHeight,
-      0
-    )
-    const maxHeight = parentHeight - siblingsHeight
-
-    drawerEl.style.maxHeight = `${maxHeight - 28}px`
-    this.setState({ drawerMaxHeight: maxHeight })
-  }
-
   updateScoreFilters = (filters: {
     lightWCAG?: ScoreFilterStatus
     lightAPCA?: ScoreFilterStatus
@@ -289,11 +234,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         ...filters,
       },
     })
-  }
-
-  toggleDrawer = () => {
-    if (!this.state.isDrawerCollapsed) this.drawerRef.current?.collapseDrawer()
-    else this.drawerRef.current?.expandDrawer()
   }
 
   colorSettingsHandler = (
@@ -473,10 +413,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   }
 
   // Direct Actions
-  forceCollapseDrawer = () => {
-    if (this.drawerRef.current) this.drawerRef.current.collapseDrawer()
-  }
-
   openDialog = (colorIndex: number, shadeIndex: number) => {
     const key = `${colorIndex}-${shadeIndex}`
     this.setState({ openDialogKey: key })
@@ -695,25 +631,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
 
   // Render
   render() {
-    let minHeight: string | number = 40
-
-    switch (this.theme) {
-      case 'figma':
-        minHeight = 40
-        break
-      case 'penpot':
-        minHeight = 40
-        break
-      case 'sketch':
-        minHeight = 40
-        break
-      case 'framer':
-        minHeight = 48
-        break
-      default:
-        minHeight = 40
-    }
-
     const lightForeground = new Color({
       sourceColor: chroma(this.props.textColorsTheme.lightColor).rgb(),
       visionSimulationMode: this.props.visionSimulationMode,
@@ -725,289 +642,295 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     }).setColor() as HexModel
 
     return (
-      <Drawer
+      <Layout
         id="preview"
-        direction="VERTICAL"
-        pin="BOTTOM"
-        defaultSize={{
-          unit: 'AUTO',
-        }}
-        maxSize={
-          this.state.drawerMaxHeight
-            ? {
-                value: this.state.drawerMaxHeight,
-                unit: 'PIXEL',
-              }
-            : {
-                value: 100,
-                unit: 'PERCENT',
-              }
-        }
-        minSize={{
-          value: minHeight,
-          unit: 'PIXEL',
-        }}
-        border={['TOP']}
-        onCollapse={() => this.setState({ isDrawerCollapsed: true })}
-        onExpand={() => this.setState({ isDrawerCollapsed: false })}
-        ref={this.drawerRef}
-      >
-        <Bar
-          leftPartSlot={
-            <ScoresControls
-              {...this.props}
-              isDrawerCollapsed={this.state.isDrawerCollapsed}
-              isWCAGDisplayed={this.state.isWCAGDisplayed}
-              isAPCADisplayed={this.state.isAPCADisplayed}
-              isWCAGIntervalDisplayed={this.state.isWCAGIntervalDisplayed}
-              isAPCAIntervalDisplayed={this.state.isAPCAIntervalDisplayed}
-              scoreFilters={this.state.scoreFilters}
-              onToggleDrawer={this.toggleDrawer}
-              onUpdateScoreFilters={this.updateScoreFilters}
-            />
-          }
-          rightPartSlot={
-            <SettingsControls
-              {...this.props}
-              isDrawerCollapsed={this.state.isDrawerCollapsed}
-              areSourceColorsLocked={this.props.areSourceColorsLocked}
-              colorSpace={this.props.colorSpace}
-              visionSimulationMode={this.props.visionSimulationMode}
-              canResetColors={this.props.colors.some(
-                (color) =>
-                  (color as SourceColorConfiguration).source === 'COOLORS' ||
-                  (color as SourceColorConfiguration).source ===
-                    'REALTIME_COLORS' ||
-                  (color as SourceColorConfiguration).source === 'COLOUR_LOVERS'
-              )}
-              onColorSettingsHandler={this.colorSettingsHandler}
-              onResetSourceColors={this.props.onResetSourceColors}
-            />
-          }
-          isInverted
-          shouldReflow
-        />
-        {!this.state.isDrawerCollapsed && (
-          <div
-            className="preview__palette"
-            ref={this.paletteContainerRef}
-          >
-            <div className="preview__header">
-              <div className="preview__cell preview__cell--no-height preview__cell--frozen">
-                <this.StopTag stop={this.props.t('preview.source.tag')} />
-              </div>
-              {Object.keys(this.props.scale)
-                .reverse()
-                .map((scale, index) => {
-                  return (
-                    <div
-                      className="preview__cell preview__cell--no-height"
-                      key={index}
-                    >
-                      <this.StopTag stop={scale} />
+        column={[
+          {
+            node: (
+              <>
+                <div
+                  className="preview__palette"
+                  ref={this.paletteContainerRef}
+                >
+                  <div className="preview__header">
+                    <div className="preview__cell preview__cell--no-height preview__cell--frozen">
+                      <this.StopTag stop={this.props.t('preview.source.tag')} />
                     </div>
-                  )
-                })}
-            </div>
-            <div className="preview__rows">
-              {this.props.colors
-                .filter((color) => {
-                  if (this.props.colors.length > 1) {
-                    if ('source' in color) return color.source !== 'DEFAULT'
-                    return true
-                  }
-                  return true
-                })
-                .sort((a, b) => {
-                  // if (this.props.subservice === 'EDIT') return 0
-                  if (a.name.localeCompare(b.name) > 0) return 1
-                  else if (a.name.localeCompare(b.name) < 0) return -1
-                  else return 0
-                })
-                .map((color, index) => {
-                  const scaledColors: Array<HexModel> = Object.values(
-                    this.props.scale
-                  )
-                    .reverse()
-                    .map((lightness) => this.setColor(color, lightness))
-
-                  const scaleNames = Object.keys(this.props.scale).reverse()
-
-                  return (
-                    <div
-                      className="preview__row"
-                      key={index}
-                    >
-                      <Source
-                        {...this.props}
-                        key="source"
-                        id={color.id}
-                        name={color.name}
-                        color={color.rgb}
-                        isTransparent={
-                          'alpha' in color ? color.alpha.isEnabled : false
+                    {Object.keys(this.props.scale)
+                      .reverse()
+                      .map((scale, index) => {
+                        return (
+                          <div
+                            className="preview__cell preview__cell--no-height"
+                            key={index}
+                          >
+                            <this.StopTag stop={scale} />
+                          </div>
+                        )
+                      })}
+                  </div>
+                  <div className="preview__rows">
+                    {this.props.colors
+                      .filter((color) => {
+                        if (this.props.colors.length > 1) {
+                          if ('source' in color)
+                            return color.source !== 'DEFAULT'
+                          return true
                         }
-                        onJumpToColor={(event) => {
-                          event.stopPropagation()
-                          this.props.onInteractWithSourceColor?.(color.id)
-                        }}
-                      />
-                      {Object.values(scaledColors).map(
-                        (scaledColor, shadeIndex) => {
-                          const dialogKey = `${index}-${shadeIndex}`
-                          const scaleName =
-                            scaleNames[shadeIndex] || String(shadeIndex)
-                          return (
-                            <Shade
+                        return true
+                      })
+                      .sort((a, b) => {
+                        if (a.name.localeCompare(b.name) > 0) return 1
+                        else if (a.name.localeCompare(b.name) < 0) return -1
+                        else return 0
+                      })
+                      .map((color, index) => {
+                        const scaledColors: Array<HexModel> = Object.values(
+                          this.props.scale
+                        )
+                          .reverse()
+                          .map((lightness) => this.setColor(color, lightness))
+
+                        const scaleNames = Object.keys(
+                          this.props.scale
+                        ).reverse()
+
+                        return (
+                          <div
+                            className="preview__row"
+                            key={index}
+                          >
+                            <Source
                               {...this.props}
-                              key={shadeIndex}
-                              index={shadeIndex}
-                              color={scaledColor}
-                              scaleName={scaleName}
-                              sourceColor={color}
-                              scaledColors={scaledColors}
-                              isWCAGDisplayed={this.state.isWCAGDisplayed}
-                              isAPCADisplayed={this.state.isAPCADisplayed}
-                              isWCAGIntervalDisplayed={
-                                this.state.isWCAGIntervalDisplayed
+                              key="source"
+                              id={color.id}
+                              name={color.name}
+                              color={color.rgb}
+                              isTransparent={
+                                'alpha' in color ? color.alpha.isEnabled : false
                               }
-                              isAPCAIntervalDisplayed={
-                                this.state.isAPCAIntervalDisplayed
-                              }
-                              scoreFilters={this.state.scoreFilters}
-                              colorIndex={index}
-                              totalColors={
-                                this.props.colors.filter((c) => {
-                                  if (this.props.colors.length > 1) {
-                                    if ('source' in c)
-                                      return c.source !== 'DEFAULT'
-                                    return true
-                                  }
-                                  return true
-                                }).length
-                              }
-                              isDialogOpen={
-                                this.state.openDialogKey === dialogKey
-                              }
-                              onOpenDialog={() =>
-                                this.openDialog(index, shadeIndex)
-                              }
-                              onCloseDialog={this.closeDialog}
-                              onNavigatePrevious={() =>
-                                this.navigateShade(
-                                  'previous',
-                                  index,
-                                  shadeIndex
+                              onJumpToColor={(event) => {
+                                event.stopPropagation()
+                                this.props.onInteractWithSourceColor?.(color.id)
+                              }}
+                            />
+                            {Object.values(scaledColors).map(
+                              (scaledColor, shadeIndex) => {
+                                const dialogKey = `${index}-${shadeIndex}`
+                                const scaleName =
+                                  scaleNames[shadeIndex] || String(shadeIndex)
+                                return (
+                                  <Shade
+                                    {...this.props}
+                                    key={shadeIndex}
+                                    index={shadeIndex}
+                                    color={scaledColor}
+                                    scaleName={scaleName}
+                                    sourceColor={color}
+                                    scaledColors={scaledColors}
+                                    isWCAGDisplayed={this.state.isWCAGDisplayed}
+                                    isAPCADisplayed={this.state.isAPCADisplayed}
+                                    isWCAGIntervalDisplayed={
+                                      this.state.isWCAGIntervalDisplayed
+                                    }
+                                    isAPCAIntervalDisplayed={
+                                      this.state.isAPCAIntervalDisplayed
+                                    }
+                                    scoreFilters={this.state.scoreFilters}
+                                    colorIndex={index}
+                                    totalColors={
+                                      this.props.colors.filter((c) => {
+                                        if (this.props.colors.length > 1) {
+                                          if ('source' in c)
+                                            return c.source !== 'DEFAULT'
+                                          return true
+                                        }
+                                        return true
+                                      }).length
+                                    }
+                                    isDialogOpen={
+                                      this.state.openDialogKey === dialogKey
+                                    }
+                                    onOpenDialog={() =>
+                                      this.openDialog(index, shadeIndex)
+                                    }
+                                    onCloseDialog={this.closeDialog}
+                                    onNavigatePrevious={() =>
+                                      this.navigateShade(
+                                        'previous',
+                                        index,
+                                        shadeIndex
+                                      )
+                                    }
+                                    onNavigateNext={() =>
+                                      this.navigateShade(
+                                        'next',
+                                        index,
+                                        shadeIndex
+                                      )
+                                    }
+                                  />
                                 )
                               }
-                              onNavigateNext={() =>
-                                this.navigateShade('next', index, shadeIndex)
-                              }
-                            />
-                          )
-                        }
-                      )}
-                    </div>
-                  )
-                })}
-            </div>
-            {(this.state.isWCAGIntervalDisplayed ||
-              this.state.isAPCAIntervalDisplayed) &&
-              this.props.colors.length > 1 && (
-                <>
-                  <Feature
-                    isActive={
-                      this.features.PREVIEW_SCORES_WCAG_INTERVAL.isActive() &&
-                      this.state.isWCAGIntervalDisplayed
-                    }
-                  >
-                    <div className="preview__footer">
-                      <div className="preview__cell preview__cell--no-height preview__cell--frozen">
-                        <Chip state="ON_BACKGROUND">
-                          {this.props.t('preview.score.tags.wcagInterval')}
-                        </Chip>
-                      </div>
-                      {(() => {
-                        const contrastRanges = getContrastRangesByColumn({
-                          calculateWCAG: true,
-                          calculateAPCA: false,
-                        })
-                        return Object.keys(this.props.scale)
-                          .reverse()
-                          .map((scaleName, index) => {
-                            const rangeData = contrastRanges.get(scaleName)
-                            if (!rangeData) return null
+                            )}
+                          </div>
+                        )
+                      })}
+                  </div>
+                  {(this.state.isWCAGIntervalDisplayed ||
+                    this.state.isAPCAIntervalDisplayed) &&
+                    this.props.colors.length > 1 && (
+                      <>
+                        <Feature
+                          isActive={
+                            this.features.PREVIEW_SCORES_WCAG_INTERVAL.isActive() &&
+                            this.state.isWCAGIntervalDisplayed
+                          }
+                        >
+                          <div className="preview__footer">
+                            <div className="preview__cell preview__cell--no-height preview__cell--frozen">
+                              <Chip state="ON_BACKGROUND">
+                                {this.props.t(
+                                  'preview.score.tags.wcagInterval'
+                                )}
+                              </Chip>
+                            </div>
+                            {(() => {
+                              const contrastRanges = getContrastRangesByColumn({
+                                calculateWCAG: true,
+                                calculateAPCA: false,
+                              })
+                              return Object.keys(this.props.scale)
+                                .reverse()
+                                .map((scaleName, index) => {
+                                  const rangeData =
+                                    contrastRanges.get(scaleName)
+                                  if (!rangeData) return null
 
-                            return (
-                              <div
-                                className="preview__cell preview__cell--no-height"
-                                key={index}
-                              >
-                                <this.IntervalTag
-                                  interval={rangeData.lightWCAG.range.toFixed(
-                                    2
-                                  )}
-                                  lightForeground={lightForeground}
-                                />
-                                <this.IntervalTag
-                                  interval={rangeData.darkWCAG.range.toFixed(2)}
-                                  lightForeground={darkForeground}
-                                />
-                              </div>
-                            )
-                          })
-                      })()}
-                    </div>
-                  </Feature>
-                  <Feature
-                    isActive={
-                      this.features.PREVIEW_SCORES_APCA_INTERVAL.isActive() &&
-                      this.state.isAPCAIntervalDisplayed
-                    }
-                  >
-                    <div className="preview__footer">
-                      <div className="preview__cell preview__cell--no-height preview__cell--frozen">
-                        <Chip state="ON_BACKGROUND">
-                          {this.props.t('preview.score.tags.apcaInterval')}
-                        </Chip>
-                      </div>
-                      {(() => {
-                        const contrastRanges = getContrastRangesByColumn({
-                          calculateWCAG: false,
-                          calculateAPCA: true,
-                        })
-                        return Object.keys(this.props.scale)
-                          .reverse()
-                          .map((scaleName, index) => {
-                            const rangeData = contrastRanges.get(scaleName)
-                            if (!rangeData) return null
+                                  return (
+                                    <div
+                                      className="preview__cell preview__cell--no-height"
+                                      key={index}
+                                    >
+                                      <this.IntervalTag
+                                        interval={rangeData.lightWCAG.range.toFixed(
+                                          2
+                                        )}
+                                        lightForeground={lightForeground}
+                                      />
+                                      <this.IntervalTag
+                                        interval={rangeData.darkWCAG.range.toFixed(
+                                          2
+                                        )}
+                                        lightForeground={darkForeground}
+                                      />
+                                    </div>
+                                  )
+                                })
+                            })()}
+                          </div>
+                        </Feature>
+                        <Feature
+                          isActive={
+                            this.features.PREVIEW_SCORES_APCA_INTERVAL.isActive() &&
+                            this.state.isAPCAIntervalDisplayed
+                          }
+                        >
+                          <div className="preview__footer">
+                            <div className="preview__cell preview__cell--no-height preview__cell--frozen">
+                              <Chip state="ON_BACKGROUND">
+                                {this.props.t(
+                                  'preview.score.tags.apcaInterval'
+                                )}
+                              </Chip>
+                            </div>
+                            {(() => {
+                              const contrastRanges = getContrastRangesByColumn({
+                                calculateWCAG: false,
+                                calculateAPCA: true,
+                              })
+                              return Object.keys(this.props.scale)
+                                .reverse()
+                                .map((scaleName, index) => {
+                                  const rangeData =
+                                    contrastRanges.get(scaleName)
+                                  if (!rangeData) return null
 
-                            return (
-                              <div
-                                className="preview__cell preview__cell--no-height"
-                                key={index}
-                              >
-                                <this.IntervalTag
-                                  interval={rangeData.lightAPCA.range.toFixed(
-                                    2
-                                  )}
-                                  lightForeground={lightForeground}
-                                />
-                                <this.IntervalTag
-                                  interval={rangeData.darkAPCA.range.toFixed(2)}
-                                  lightForeground={darkForeground}
-                                />
-                              </div>
-                            )
-                          })
-                      })()}
-                    </div>
-                  </Feature>
-                </>
-              )}
-          </div>
-        )}
-      </Drawer>
+                                  return (
+                                    <div
+                                      className="preview__cell preview__cell--no-height"
+                                      key={index}
+                                    >
+                                      <this.IntervalTag
+                                        interval={rangeData.lightAPCA.range.toFixed(
+                                          2
+                                        )}
+                                        lightForeground={lightForeground}
+                                      />
+                                      <this.IntervalTag
+                                        interval={rangeData.darkAPCA.range.toFixed(
+                                          2
+                                        )}
+                                        lightForeground={darkForeground}
+                                      />
+                                    </div>
+                                  )
+                                })
+                            })()}
+                          </div>
+                        </Feature>
+                      </>
+                    )}
+                </div>
+                <Bar
+                  leftPartSlot={
+                    <ScoresControls
+                      {...this.props}
+                      isWCAGDisplayed={this.state.isWCAGDisplayed}
+                      isAPCADisplayed={this.state.isAPCADisplayed}
+                      isWCAGIntervalDisplayed={
+                        this.state.isWCAGIntervalDisplayed
+                      }
+                      isAPCAIntervalDisplayed={
+                        this.state.isAPCAIntervalDisplayed
+                      }
+                      scoreFilters={this.state.scoreFilters}
+                      onUpdateScoreFilters={this.updateScoreFilters}
+                    />
+                  }
+                  rightPartSlot={
+                    <Feature isActive={this.props.mode === 'EDIT'}>
+                      <SettingsControls
+                        {...this.props}
+                        areSourceColorsLocked={this.props.areSourceColorsLocked}
+                        colorSpace={this.props.colorSpace}
+                        visionSimulationMode={this.props.visionSimulationMode}
+                        canResetColors={this.props.colors.some(
+                          (color) =>
+                            (color as SourceColorConfiguration).source ===
+                              'COOLORS' ||
+                            (color as SourceColorConfiguration).source ===
+                              'REALTIME_COLORS' ||
+                            (color as SourceColorConfiguration).source ===
+                              'COLOUR_LOVERS'
+                        )}
+                        onColorSettingsHandler={this.colorSettingsHandler}
+                        onResetSourceColors={this.props.onResetSourceColors}
+                      />
+                    </Feature>
+                  }
+                  isInverted
+                  shouldReflow
+                  border={['TOP']}
+                />
+              </>
+            ),
+            typeModifier: 'BLANK',
+          },
+        ]}
+        isFullHeight
+        isFullWidth
+      />
     )
   }
 }

@@ -16,7 +16,6 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface SettingsControlsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  isDrawerCollapsed: boolean
   areSourceColorsLocked: LockedSourceColorsConfiguration
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
@@ -195,12 +194,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
           layouts['snackbar--wrap'],
         ])}
       >
-        <Feature
-          isActive={
-            this.features.PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
-            !this.props.isDrawerCollapsed
-          }
-        >
+        <Feature isActive={this.features.PREVIEW_LOCK_SOURCE_COLORS.isActive()}>
           <Button
             type="icon"
             icon={this.props.areSourceColorsLocked ? 'lock-on' : 'lock-off'}
@@ -229,12 +223,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
             }}
           />
         </Feature>
-        <Feature
-          isActive={
-            this.features.SETTINGS_COLOR_SPACE.isActive() &&
-            !this.props.isDrawerCollapsed
-          }
-        >
+        <Feature isActive={this.features.SETTINGS_COLOR_SPACE.isActive()}>
           <Dropdown
             id="update-color-space"
             options={[
@@ -340,10 +329,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
           />
         </Feature>
         <Feature
-          isActive={
-            this.features.SETTINGS_VISION_SIMULATION_MODE.isActive() &&
-            !this.props.isDrawerCollapsed
-          }
+          isActive={this.features.SETTINGS_VISION_SIMULATION_MODE.isActive()}
         >
           <Dropdown
             id="update-color-blind-mode"
@@ -507,7 +493,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
             isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
           />
         </Feature>
-        {this.props.onResetSourceColors && !this.props.isDrawerCollapsed && (
+        {this.props.onResetSourceColors && (
           <div className={layouts['snackbar--medium']}>
             <span
               className={doClassnames([
