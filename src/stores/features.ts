@@ -71,8 +71,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    availabilityForServices: ['MANAGE'],
-    proForServices: ['MANAGE'],
+    availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
+    proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -91,8 +91,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    availabilityForServices: ['GEN'],
-    proForServices: ['GEN'],
+    availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
+    proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -112,8 +112,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    availabilityForServices: ['EXTRACT'],
-    proForServices: ['EXTRACT'],
+    availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
+    proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -132,8 +132,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    availabilityForServices: ['WHEEL'],
-    proForServices: ['WHEEL'],
+    availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
+    proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -152,8 +152,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     isPro: false,
     isNew: false,
     type: 'SERVICE',
-    availabilityForServices: ['EXPLORE'],
-    proForServices: ['EXPLORE'],
+    availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
+    proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     availabilityForEditors: [
       'figma',
       'figjam',
@@ -3122,7 +3122,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'buzz',
     ],
   },
-    {
+  {
     name: 'REPORT',
     description: 'Contrast report of a shade from preview',
     isActive: true,
