@@ -29,7 +29,7 @@ import {
 import { $palette } from '../../stores/palette'
 import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { ManagePaletteState } from './OpenPalette'
+import { ManagePaletteState } from './ManagePalette'
 
 interface BrowsePalettesProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
