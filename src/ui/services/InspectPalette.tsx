@@ -163,7 +163,7 @@ export default class EditPalette extends PureComponent<
       data: [],
     }
     this.contexts = setContexts(
-      ['REPORT', 'PROPERTIES'],
+      ['PROPERTIES', 'REPORT'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -196,7 +196,7 @@ export default class EditPalette extends PureComponent<
   componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
     if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
-        ['REPORT', 'PROPERTIES'],
+        ['PROPERTIES', 'REPORT'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
@@ -327,6 +327,14 @@ export default class EditPalette extends PureComponent<
     let fragment
 
     switch (this.state.context) {
+      case 'PROPERTIES': {
+        fragment = (
+          <Feature isActive={this.features.PROPERTIES.isActive()}>
+            <Properties {...this.props} />
+          </Feature>
+        )
+        break
+      }
       case 'REPORT': {
         fragment = (
           <Feature isActive={this.features.REPORT.isActive()}>
@@ -342,14 +350,6 @@ export default class EditPalette extends PureComponent<
                 onNext={this.onNavigateNext}
               />
             )}
-          </Feature>
-        )
-        break
-      }
-      case 'PROPERTIES': {
-        fragment = (
-          <Feature isActive={this.features.PROPERTIES.isActive()}>
-            <Properties {...this.props} />
           </Feature>
         )
         break
@@ -415,22 +415,6 @@ export default class EditPalette extends PureComponent<
                   id="contexts-nav"
                   leftPartSlot={
                     <div className={layouts['stackbar--medium']}>
-                      <Feature isActive={this.features.REPORT.isActive()}>
-                        <Button
-                          type="icon"
-                          icon="info"
-                          state={
-                            this.state.context === 'REPORT'
-                              ? 'selected'
-                              : undefined
-                          }
-                          action={() => {
-                            this.setState({ context: 'REPORT' })
-                            if (!this.state.shadeReport)
-                              this.previewRef.current?.openShadeAt(0, 0)
-                          }}
-                        />
-                      </Feature>
                       <Feature isActive={this.features.PROPERTIES.isActive()}>
                         <Button
                           type="icon"
@@ -445,6 +429,22 @@ export default class EditPalette extends PureComponent<
                               context: 'PROPERTIES',
                             })
                           }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.REPORT.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="info"
+                          state={
+                            this.state.context === 'REPORT'
+                              ? 'selected'
+                              : undefined
+                          }
+                          action={() => {
+                            this.setState({ context: 'REPORT' })
+                            if (!this.state.shadeReport)
+                              this.previewRef.current?.openShadeAt(0, 0)
+                          }}
                         />
                       </Feature>
                       <Button
