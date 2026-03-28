@@ -188,6 +188,9 @@ export default class EditPalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    if (this.state.context === 'REPORT')
+      this.previewRef.current?.openShadeAt(0, 0)
   }
 
   componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
@@ -421,11 +424,11 @@ export default class EditPalette extends PureComponent<
                               ? 'selected'
                               : undefined
                           }
-                          action={() =>
-                            this.setState({
-                              context: 'REPORT',
-                            })
-                          }
+                          action={() => {
+                            this.setState({ context: 'REPORT' })
+                            if (!this.state.shadeReport)
+                              this.previewRef.current?.openShadeAt(0, 0)
+                          }}
                         />
                       </Feature>
                       <Feature isActive={this.features.PROPERTIES.isActive()}>

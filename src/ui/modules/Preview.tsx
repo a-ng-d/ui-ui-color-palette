@@ -471,57 +471,21 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     this.openDialog(nextColorIndex, nextShadeIndex)
   }
 
-  navigateShadeReport = (
-    direction: 'previous' | 'next',
+  private openShadeData = (
+    colors: Array<SourceColorConfiguration | ColorConfiguration>,
     colorIndex: number,
     shadeIndex: number
   ) => {
-    const colors = this.props.colors
-      .filter((color) => {
-        if (this.props.colors.length > 1) {
-          if ('source' in color) return color.source !== 'DEFAULT'
-          return true
-        }
-        return true
-      })
-      .sort((a, b) => {
-        if (a.name.localeCompare(b.name) > 0) return 1
-        else if (a.name.localeCompare(b.name) < 0) return -1
-        else return 0
-      })
-
-    const totalColors = colors.length
-    const scaleKeys = Object.keys(this.props.scale)
-    const totalShades = scaleKeys.length
-
-    let nextColorIndex = colorIndex
-    let nextShadeIndex = shadeIndex
-
-    if (totalColors === 1)
-      if (direction === 'next')
-        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
-      else nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
-    else if (direction === 'next')
-      if (colorIndex < totalColors - 1) nextColorIndex = colorIndex + 1
-      else {
-        nextColorIndex = 0
-        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
-      }
-    else if (colorIndex > 0) nextColorIndex = colorIndex - 1
-    else {
-      nextColorIndex = totalColors - 1
-      nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
-    }
-
-    const color = colors[nextColorIndex]
+    const color = colors[colorIndex]
     if (!color) return
 
     const scaledColors: Array<HexModel> = Object.values(this.props.scale)
       .reverse()
       .map((lightness) => this.setColor(color, lightness))
     const scaleNames = Object.keys(this.props.scale).reverse()
-    const scaleName = scaleNames[nextShadeIndex] || String(nextShadeIndex)
-    const scaledColor = scaledColors[nextShadeIndex]
+    const scaleName = scaleNames[shadeIndex] || String(shadeIndex)
+    const scaledColor = scaledColors[shadeIndex]
+    if (!scaledColor) return
 
     const sourceColorHex = chroma([
       color.rgb.r * 255,
@@ -534,7 +498,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     const minDistanceIndex = distances.indexOf(Math.min(...distances))
 
     const actualBackground: HexModel =
-      nextShadeIndex === minDistanceIndex &&
+      shadeIndex === minDistanceIndex &&
       this.props.areSourceColorsLocked &&
       !('alpha' in color && color.alpha.isEnabled)
         ? (new Color({
@@ -559,9 +523,59 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       actualBackground,
       lightForeground,
       darkForeground,
-      colorIndex: nextColorIndex,
-      shadeIndex: nextShadeIndex,
+      colorIndex,
+      shadeIndex,
     })
+  }
+
+  private filteredSortedColors = () =>
+    this.props.colors
+      .filter((color) => {
+        if (this.props.colors.length > 1) {
+          if ('source' in color) return color.source !== 'DEFAULT'
+          return true
+        }
+        return true
+      })
+      .sort((a, b) => {
+        if (a.name.localeCompare(b.name) > 0) return 1
+        else if (a.name.localeCompare(b.name) < 0) return -1
+        else return 0
+      })
+
+  navigateShadeReport = (
+    direction: 'previous' | 'next',
+    colorIndex: number,
+    shadeIndex: number
+  ) => {
+    const colors = this.filteredSortedColors()
+    const totalColors = colors.length
+    const totalShades = Object.keys(this.props.scale).length
+
+    let nextColorIndex = colorIndex
+    let nextShadeIndex = shadeIndex
+
+    if (totalColors === 1)
+      if (direction === 'next')
+        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
+      else nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
+    else if (direction === 'next')
+      if (colorIndex < totalColors - 1) nextColorIndex = colorIndex + 1
+      else {
+        nextColorIndex = 0
+        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
+      }
+    else if (colorIndex > 0) nextColorIndex = colorIndex - 1
+    else {
+      nextColorIndex = totalColors - 1
+      nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
+    }
+
+    this.openShadeData(colors, nextColorIndex, nextShadeIndex)
+  }
+
+  openShadeAt = (colorIndex: number, shadeIndex: number) => {
+    this.openShadeData(this.filteredSortedColors(), colorIndex, shadeIndex)
   }
 
   setColor = (
