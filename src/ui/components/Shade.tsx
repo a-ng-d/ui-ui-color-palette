@@ -511,7 +511,9 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           this.props.isAPCADisplayed &&
             this.props.isWCAGDisplayed &&
             'preview__cell--large',
+          this.props.isSelected && 'preview__cell--selected',
         ])}
+        data-shade-key={`${this.props.colorIndex}-${this.props.index}`}
         style={{
           backgroundColor: background,
         }}

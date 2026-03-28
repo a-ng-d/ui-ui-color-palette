@@ -199,6 +199,15 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       prevState.isAPCAIntervalDisplayed !== this.state.isAPCAIntervalDisplayed
 
     if (propsChanged || intervalToggled) clearContrastScores()
+
+    const prev = prevProps.selectedShade
+    const next = this.props.selectedShade
+    if (
+      next &&
+      (prev?.colorIndex !== next.colorIndex ||
+        prev?.shadeIndex !== next.shadeIndex)
+    )
+      this.scrollToSelectedShade(next.colorIndex, next.shadeIndex)
   }
 
   componentWillUnmount = (): void => {
@@ -217,6 +226,33 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   }
 
   // Handlers
+  scrollToSelectedShade = (colorIndex: number, shadeIndex: number) => {
+    const container = this.paletteContainerRef.current
+    if (!container) return
+
+    const cell = container.querySelector(
+      `[data-shade-key="${colorIndex}-${shadeIndex}"]`
+    ) as HTMLElement | null
+    if (!cell) return
+
+    const containerRect = container.getBoundingClientRect()
+    const cellRect = cell.getBoundingClientRect()
+
+    container.scrollTo({
+      left:
+        container.scrollLeft +
+        cellRect.left -
+        containerRect.left -
+        (containerRect.width - cellRect.width) / 2,
+      top:
+        container.scrollTop +
+        cellRect.top -
+        containerRect.top -
+        (containerRect.height - cellRect.height) / 2,
+      behavior: 'smooth',
+    })
+  }
+
   handleHorizontalScroll = (e: WheelEvent) => {
     const container = this.paletteContainerRef.current
     if (!container) return
