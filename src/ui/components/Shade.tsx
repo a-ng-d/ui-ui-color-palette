@@ -17,6 +17,7 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
   Editor,
+  Mode,
   PlanStatus,
   ScoreFilterStatus,
   Service,
@@ -29,6 +30,7 @@ import { WithConfigProps } from './WithConfig'
 import Feature from './Feature'
 
 interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
+  mode: Mode
   index: number
   color: HexModel
   scaleName: string
@@ -590,7 +592,11 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                 action={this.onCopyHex}
               />
             </Feature>
-            <Feature isActive={this.features.REPORT.isActive()}>
+            <Feature
+              isActive={
+                this.features.REPORT.isActive() && this.props.mode === 'INSPECT'
+              }
+            >
               <Button
                 type="icon"
                 icon={this.props.isSelected ? 'visible' : 'info'}

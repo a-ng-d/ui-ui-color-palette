@@ -4,13 +4,14 @@ import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
 import { Button, Chip } from '@unoff/ui'
 import { RgbModel } from '@a_ng_d/utils-ui-color-palette'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
 import { WithConfigProps } from './WithConfig'
 import Feature from './Feature'
 
 interface SourceProps extends BaseProps, WithConfigProps, WithTranslationProps {
+  mode: Mode
   id: string
   name: string
   color: RgbModel
@@ -85,7 +86,7 @@ export default class Source extends PureComponent<SourceProps, SourceState> {
             <Feature
               isActive={
                 this.features.PREVIEW_SOURCE_JUMP.isActive() &&
-                this.state.isMouseEnter
+                this.props.mode === 'EDIT'
               }
             >
               <Button
