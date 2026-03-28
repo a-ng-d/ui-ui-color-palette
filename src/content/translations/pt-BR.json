@@ -208,6 +208,7 @@
   },
   "contrast": {
     "actions": {
+      "close": "Fechar",
       "next": "Próxima cor",
       "previous": "Cor anterior"
     },

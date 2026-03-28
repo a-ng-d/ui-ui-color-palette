@@ -208,6 +208,7 @@
   },
   "contrast": {
     "actions": {
+      "close": "Close",
       "next": "Next color",
       "previous": "Previous color"
     },

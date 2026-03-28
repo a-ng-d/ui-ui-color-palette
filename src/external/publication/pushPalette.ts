@@ -1,6 +1,6 @@
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { ManagePaletteState } from '../../ui/services/ManagePalette'
+import { ManagePaletteState } from '../../ui/services/OpenPalette'
 import type { AppState } from '../../ui/App'
 
 const pushPalette = async ({

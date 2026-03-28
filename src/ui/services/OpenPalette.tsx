@@ -1,0 +1,188 @@
+import React from 'react'
+import { PureComponent } from 'preact/compat'
+import { FeatureStatus } from '@unoff/utils'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
+  ShiftConfiguration,
+  VisionSimulationModeConfiguration,
+  ThemeConfiguration,
+  DocumentConfiguration,
+  ColorConfiguration,
+  ViewConfiguration,
+  DatesConfiguration,
+  PublicationConfiguration,
+  CreatorConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
+import { WithTranslationProps } from '../components/WithTranslation'
+import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { BaseProps, PlanStatus, Service, Editor, Mode } from '../../types/app'
+import { $palette } from '../../stores/palette'
+import { ConfigContextType } from '../../config/ConfigContext'
+import { ManagePaletteState } from './ManagePalette'
+import InspectPalette from './InspectPalette'
+import ExportPalette from './ExportPalette'
+import EditPalette from './EditPalette'
+
+interface OpenPaletteProps
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  id: string
+  name: string
+  description: string
+  preset: PresetConfiguration
+  scale: ScaleConfiguration
+  shift: ShiftConfiguration
+  areSourceColorsLocked: LockedSourceColorsConfiguration
+  colors: Array<ColorConfiguration>
+  colorSpace: ColorSpaceConfiguration
+  visionSimulationMode: VisionSimulationModeConfiguration
+  themes: Array<ThemeConfiguration>
+  view: ViewConfiguration
+  algorithmVersion: AlgorithmVersionConfiguration
+  textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  document: DocumentConfiguration
+  dates: DatesConfiguration
+  publicationStatus: PublicationConfiguration
+  creatorIdentity: CreatorConfiguration
+  onChangeMode: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
+  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
+  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onLockSourceColors: React.Dispatch<Partial<ManagePaletteState>>
+  onUnloadPalette: () => void
+  onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
+  onDeletePalette: () => void
+  onResetPalette: () => void
+}
+
+export interface OpenPaletteState {
+  mode: Mode
+}
+
+export default class OpenPalette extends PureComponent<
+  OpenPaletteProps,
+  OpenPaletteState
+> {
+  private palette: typeof $palette
+  private modes: Array<Mode>
+
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service,
+    editor: Editor
+  ) => ({
+    BROWSE: new FeatureStatus({
+      features: config.features,
+      featureName: 'BROWSE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EDIT: new FeatureStatus({
+      features: config.features,
+      featureName: 'EDIT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    INSPECT: new FeatureStatus({
+      features: config.features,
+      featureName: 'INSPECT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PUBLICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+  })
+
+  private get features() {
+    return OpenPalette.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
+
+  constructor(props: OpenPaletteProps) {
+    super(props)
+    this.palette = $palette
+    this.modes = [
+      ...(this.features.EDIT.isActive() ? ['EDIT' as Mode] : []),
+      ...(this.features.INSPECT.isActive() ? ['INSPECT' as Mode] : []),
+      ...(this.features.EXPORT.isActive() ? ['EXPORT' as Mode] : []),
+    ]
+    this.state = {
+      mode: this.modes[0] || 'EDIT',
+    }
+  }
+
+  // Renders
+  render() {
+    let fragment
+
+    switch (this.state.mode) {
+      case 'EDIT': {
+        fragment = (
+          <Feature isActive={this.features.EDIT.isActive()}>
+            <EditPalette
+              {...this.props}
+              {...this.state}
+              onChangeMode={(e) => this.setState({ ...e })}
+            />
+          </Feature>
+        )
+        break
+      }
+      case 'INSPECT': {
+        fragment = (
+          <Feature isActive={this.features.INSPECT.isActive()}>
+            <InspectPalette
+              {...this.props}
+              {...this.state}
+              onChangeMode={(e) => this.setState({ ...e })}
+            />
+          </Feature>
+        )
+        break
+      }
+      case 'EXPORT': {
+        fragment = (
+          <Feature isActive={this.features.EXPORT.isActive()}>
+            <ExportPalette
+              {...this.props}
+              {...this.state}
+              onChangeMode={(e) => this.setState({ ...e })}
+            />
+          </Feature>
+        )
+        break
+      }
+    }
+
+    return fragment
+  }
+}

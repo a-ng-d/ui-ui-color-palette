@@ -27,7 +27,6 @@ import {
   Editor,
   PlanStatus,
   Service,
-  Subservice,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { trackSettingsManagementEvent } from '../../external/tracking/eventsTracker'
@@ -35,7 +34,6 @@ import { ConfigContextType } from '../../config/ConfigContext'
 
 interface SettingsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  subservice: Subservice
   id: string
   sourceColors?: Array<SourceColorConfiguration>
   name: string

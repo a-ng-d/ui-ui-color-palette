@@ -66,6 +66,16 @@ interface PreviewProps
   onResetSourceColors?: () => void
   onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
   onInteractWithSourceColor?: (colorId: string) => void
+  selectedShade?: { colorIndex: number; shadeIndex: number } | null
+  onShadeReportOpen?: (data: {
+    sourceColor: SourceColorConfiguration | ColorConfiguration
+    scaleName: string
+    actualBackground: HexModel
+    lightForeground: HexModel
+    darkForeground: HexModel
+    colorIndex: number
+    shadeIndex: number
+  }) => void
 }
 
 interface PreviewState {
@@ -461,6 +471,99 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     this.openDialog(nextColorIndex, nextShadeIndex)
   }
 
+  navigateShadeReport = (
+    direction: 'previous' | 'next',
+    colorIndex: number,
+    shadeIndex: number
+  ) => {
+    const colors = this.props.colors
+      .filter((color) => {
+        if (this.props.colors.length > 1) {
+          if ('source' in color) return color.source !== 'DEFAULT'
+          return true
+        }
+        return true
+      })
+      .sort((a, b) => {
+        if (a.name.localeCompare(b.name) > 0) return 1
+        else if (a.name.localeCompare(b.name) < 0) return -1
+        else return 0
+      })
+
+    const totalColors = colors.length
+    const scaleKeys = Object.keys(this.props.scale)
+    const totalShades = scaleKeys.length
+
+    let nextColorIndex = colorIndex
+    let nextShadeIndex = shadeIndex
+
+    if (totalColors === 1)
+      if (direction === 'next')
+        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
+      else nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
+    else if (direction === 'next')
+      if (colorIndex < totalColors - 1) nextColorIndex = colorIndex + 1
+      else {
+        nextColorIndex = 0
+        nextShadeIndex = shadeIndex < totalShades - 1 ? shadeIndex + 1 : 0
+      }
+    else if (colorIndex > 0) nextColorIndex = colorIndex - 1
+    else {
+      nextColorIndex = totalColors - 1
+      nextShadeIndex = shadeIndex > 0 ? shadeIndex - 1 : totalShades - 1
+    }
+
+    const color = colors[nextColorIndex]
+    if (!color) return
+
+    const scaledColors: Array<HexModel> = Object.values(this.props.scale)
+      .reverse()
+      .map((lightness) => this.setColor(color, lightness))
+    const scaleNames = Object.keys(this.props.scale).reverse()
+    const scaleName = scaleNames[nextShadeIndex] || String(nextShadeIndex)
+    const scaledColor = scaledColors[nextShadeIndex]
+
+    const sourceColorHex = chroma([
+      color.rgb.r * 255,
+      color.rgb.g * 255,
+      color.rgb.b * 255,
+    ]).hex()
+    const distances = scaledColors.map((sc) =>
+      chroma.distance(sourceColorHex, sc, 'rgb')
+    )
+    const minDistanceIndex = distances.indexOf(Math.min(...distances))
+
+    const actualBackground: HexModel =
+      nextShadeIndex === minDistanceIndex &&
+      this.props.areSourceColorsLocked &&
+      !('alpha' in color && color.alpha.isEnabled)
+        ? (new Color({
+            sourceColor: chroma(sourceColorHex).rgb(),
+            visionSimulationMode: this.props.visionSimulationMode,
+          }).setColor() as HexModel)
+        : scaledColor
+
+    const lightForeground = new Color({
+      sourceColor: chroma(this.props.textColorsTheme.lightColor).rgb(),
+      visionSimulationMode: this.props.visionSimulationMode,
+    }).setColor() as HexModel
+
+    const darkForeground = new Color({
+      sourceColor: chroma(this.props.textColorsTheme.darkColor).rgb(),
+      visionSimulationMode: this.props.visionSimulationMode,
+    }).setColor() as HexModel
+
+    this.props.onShadeReportOpen?.({
+      sourceColor: color,
+      scaleName,
+      actualBackground,
+      lightForeground,
+      darkForeground,
+      colorIndex: nextColorIndex,
+      shadeIndex: nextShadeIndex,
+    })
+  }
+
   setColor = (
     color: ColorConfiguration | SourceColorConfiguration,
     scale: number
@@ -751,23 +854,19 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                                     isDialogOpen={
                                       this.state.openDialogKey === dialogKey
                                     }
-                                    onOpenDialog={() =>
-                                      this.openDialog(index, shadeIndex)
-                                    }
-                                    onCloseDialog={this.closeDialog}
-                                    onNavigatePrevious={() =>
-                                      this.navigateShade(
-                                        'previous',
-                                        index,
+                                    isSelected={
+                                      this.props.selectedShade?.colorIndex ===
+                                        index &&
+                                      this.props.selectedShade?.shadeIndex ===
                                         shadeIndex
-                                      )
                                     }
-                                    onNavigateNext={() =>
-                                      this.navigateShade(
-                                        'next',
-                                        index,
-                                        shadeIndex
-                                      )
+                                    onOpenReport={(data) =>
+                                      this.props.onShadeReportOpen?.({
+                                        ...data,
+                                        scaleName,
+                                        colorIndex: index,
+                                        shadeIndex,
+                                      })
                                     }
                                   />
                                 )

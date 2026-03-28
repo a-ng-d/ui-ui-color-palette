@@ -2,7 +2,7 @@ import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { ManagePaletteState } from '../../ui/services/ManagePalette'
+import { ManagePaletteState } from '../../ui/services/OpenPalette'
 import type { AppState } from '../../ui/App'
 
 const unpublishPalette = async ({

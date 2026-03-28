@@ -208,6 +208,7 @@
   },
   "contrast": {
     "actions": {
+      "close": "关闭",
       "next": "下一个颜色",
       "previous": "上一个颜色"
     },

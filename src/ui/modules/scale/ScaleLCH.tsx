@@ -20,7 +20,7 @@ import {
   EasingConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../../services/ManagePalette'
+import { ManagePaletteState } from '../../services/OpenPalette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

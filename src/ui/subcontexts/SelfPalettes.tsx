@@ -236,8 +236,6 @@ export default class SelfPalettes extends PureComponent<
     } else this.props.onChangeStatus('ERROR')
   }
 
-  onSelectPalette = this.props.onSelectPalette
-
   // Templates
   ExternalPalettesList = () => {
     let fragment
@@ -367,8 +365,10 @@ export default class SelfPalettes extends PureComponent<
                                 ),
                             })
                             unpublishPalette({
-                              rawData: {
+                              paletteData: {
                                 id: palette.palette_id,
+                              },
+                              appData: {
                                 userSession: this.props.userSession,
                               },
                               palettesDbTableName:
@@ -568,7 +568,8 @@ export default class SelfPalettes extends PureComponent<
                             'isAddToLocalActionLoading'
                           ].map((loading, i) => (i === index ? true : loading)),
                         })
-                        this.onSelectPalette(palette.palette_id)
+                        this.props
+                          .onSelectPalette(palette.palette_id)
                           .finally(() => {
                             this.setState({
                               isAddToLocalActionLoading: Array(

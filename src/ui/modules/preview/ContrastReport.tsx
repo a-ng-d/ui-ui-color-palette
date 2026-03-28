@@ -1,11 +1,10 @@
-import React, { createPortal } from 'react'
+import React from 'react'
 import chroma from 'chroma-js'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
   Button,
   Chip,
-  Dialog,
   FormItem,
   Input,
   layouts,
@@ -33,15 +32,11 @@ import { ConfigContextType } from '../../..'
 
 interface ContrastReportProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  isOpen: boolean
-  color: HexModel
   sourceColor: SourceColorConfiguration | ColorConfiguration
-  index: number
   scaleName: string
   actualBackground: HexModel
   lightForeground: HexModel
   darkForeground: HexModel
-  onClose: () => void
   onPrevious?: () => void
   onNext?: () => void
 }
@@ -64,9 +59,9 @@ export default class ContrastReport extends React.PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    PREVIEW_SHADE_REPORT: new FeatureStatus({
+    REPORT: new FeatureStatus({
       features: config.features,
-      featureName: 'PREVIEW_SHADE_REPORT',
+      featureName: 'REPORT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -365,8 +360,6 @@ export default class ContrastReport extends React.PureComponent<
 
   // Render
   render() {
-    if (!this.props.isOpen) return null
-
     let padding
     let background
 
@@ -392,7 +385,7 @@ export default class ContrastReport extends React.PureComponent<
         background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
     }
 
-    const isBlocked = this.features.PREVIEW_SHADE_REPORT.isBlocked()
+    const isBlocked = this.features.REPORT.isBlocked()
 
     const templateBackground: HexModel = '#88ebf9'
     const templateLightForeground: HexModel = '#ffffff'
@@ -439,235 +432,220 @@ export default class ContrastReport extends React.PureComponent<
     )
 
     return (
-      document.getElementById('modal') &&
-      createPortal(
-        <Feature isActive={this.features.PREVIEW_SHADE_REPORT.isActive()}>
-          <Dialog
-            title={this.props.t('contrast.title')}
-            pin="RIGHT"
-            onClose={this.props.onClose}
+      <Feature isActive={this.features.REPORT.isActive()}>
+        <Feature isActive={isBlocked}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'end',
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `linear-gradient(0deg, ${background} 20%, rgba(255, 255, 255, 0))`,
+              zIndex: 2,
+            }}
           >
-            <Feature isActive={isBlocked}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'end',
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundImage: `linear-gradient(0deg, ${background} 20%, rgba(255, 255, 255, 0))`,
-                  zIndex: 2,
-                }}
-              >
-                <SemanticMessage
-                  type="NEUTRAL"
-                  message={this.props.t('contrast.callout.message')}
-                  orientation="VERTICAL"
-                  actionsSlot={
-                    <Button
-                      type="secondary"
-                      label={this.props.t('plan.getPro')}
-                      action={() =>
-                        sendPluginMessage(
-                          {
-                            pluginMessage: {
-                              type: 'GET_PRO',
-                            },
-                          },
-                          '*'
-                        )
-                      }
-                    />
+            <SemanticMessage
+              type="NEUTRAL"
+              message={this.props.t('contrast.callout.message')}
+              orientation="VERTICAL"
+              actionsSlot={
+                <Button
+                  type="secondary"
+                  label={this.props.t('plan.getPro')}
+                  action={() =>
+                    sendPluginMessage(
+                      {
+                        pluginMessage: {
+                          type: 'GET_PRO',
+                        },
+                      },
+                      '*'
+                    )
                   }
+                />
+              }
+            />
+          </div>
+        </Feature>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            maxWidth: '100%',
+            padding: padding,
+            boxSizing: 'border-box',
+            overflow: isBlocked ? 'hidden' : 'auto',
+          }}
+        >
+          <Bar
+            leftPartSlot={
+              <SectionTitle
+                label={`${this.props.sourceColor.name} ${this.props.scaleName}`}
+              />
+            }
+            rightPartSlot={
+              <div className={layouts['snackbar--medium']}>
+                <Button
+                  type="icon"
+                  icon="upward"
+                  helper={{
+                    label: this.props.t('contrast.actions.previous'),
+                  }}
+                  isDisabled={!this.props.onPrevious}
+                  action={this.handlePrevious}
+                />
+                <Button
+                  type="icon"
+                  icon="downward"
+                  helper={{
+                    label: this.props.t('contrast.actions.next'),
+                  }}
+                  isDisabled={!this.props.onNext}
+                  action={this.handleNext}
                 />
               </div>
-            </Feature>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                flex: 1,
-                maxWidth: '100%',
-                padding: padding,
-                boxSizing: 'border-box',
-                overflow: isBlocked ? 'hidden' : 'auto',
-              }}
-            >
-              <Bar
-                leftPartSlot={
-                  <SectionTitle
-                    label={`${this.props.sourceColor.name} ${this.props.scaleName}`}
-                  />
-                }
-                rightPartSlot={
-                  <div className={layouts['snackbar--medium']}>
-                    <Button
-                      type="icon"
-                      icon="upward"
-                      helper={{
-                        label: this.props.t('contrast.actions.previous'),
-                      }}
-                      isDisabled={!this.props.onPrevious}
-                      action={this.handlePrevious}
-                    />
-                    <Button
-                      type="icon"
-                      icon="downward"
-                      helper={{
-                        label: this.props.t('contrast.actions.next'),
-                      }}
-                      isDisabled={!this.props.onNext}
-                      action={this.handleNext}
-                    />
-                  </div>
-                }
-                clip={['LEFT']}
-                border={['BOTTOM']}
-              />
-              <Feature isActive={!isBlocked}>
-                <Section
-                  id="contrast-playground"
-                  title={
-                    <SimpleItem
-                      leftPartSlot={
-                        <SectionTitle
-                          label={this.props.t('contrast.playground.title')}
-                        />
-                      }
-                      isListItem={false}
-                      alignment="CENTER"
+            }
+            clip={['LEFT']}
+            border={['BOTTOM']}
+          />
+          <Feature isActive={!isBlocked}>
+            <Section
+              id="contrast-playground"
+              title={
+                <SimpleItem
+                  leftPartSlot={
+                    <SectionTitle
+                      label={this.props.t('contrast.playground.title')}
                     />
                   }
-                  body={[
-                    {
-                      node: (
-                        <FormItem
-                          id="contrast-preview-text"
-                          label={this.props.t(
-                            'contrast.playground.previewText.label'
-                          )}
-                        >
-                          <Input
-                            id="contrast-preview-text"
-                            type="LONG_TEXT"
-                            value={this.state.previewText}
-                            placeholder={this.props.t(
-                              'contrast.playground.previewText.placeholder'
-                            )}
-                            isGrowing
-                            onChange={(e) => {
-                              this.setState({
-                                previewText: (e.target as HTMLInputElement)
-                                  .value,
-                              })
-                            }}
-                          />
-                        </FormItem>
-                      ),
-                    },
-                    {
-                      node: (
-                        <FormItem
-                          id="contrast-preview-text"
-                          label={this.props.t(
-                            'contrast.playground.fontWeight.label'
-                          )}
-                        >
-                          <SimpleSlider
-                            id="update-font-weight"
-                            label={this.props.t(
-                              'contrast.playground.fontWeight.slider'
-                            )}
-                            value={this.state.fontWeight}
-                            min={100}
-                            max={900}
-                            step={100}
-                            hasProgressBar
-                            onChange={(_: string, __: string, value: number) =>
-                              this.setState({ fontWeight: value })
-                            }
-                          />
-                        </FormItem>
-                      ),
-                    },
-                  ]}
-                  border={['BOTTOM']}
+                  isListItem={false}
+                  alignment="CENTER"
                 />
-              </Feature>
-              <Section
-                id="contrast-report"
-                title={
-                  <SimpleItem
-                    leftPartSlot={
-                      <SectionTitle
-                        label={this.props.t('contrast.details.title')}
+              }
+              body={[
+                {
+                  node: (
+                    <FormItem
+                      id="contrast-preview-text"
+                      label={this.props.t(
+                        'contrast.playground.previewText.label'
+                      )}
+                    >
+                      <Input
+                        id="contrast-preview-text"
+                        type="LONG_TEXT"
+                        value={this.state.previewText}
+                        placeholder={this.props.t(
+                          'contrast.playground.previewText.placeholder'
+                        )}
+                        isGrowing
+                        onChange={(e) => {
+                          this.setState({
+                            previewText: (e.target as HTMLInputElement).value,
+                          })
+                        }}
                       />
-                    }
-                    isListItem={false}
-                    alignment="CENTER"
+                    </FormItem>
+                  ),
+                },
+                {
+                  node: (
+                    <FormItem
+                      id="contrast-preview-text"
+                      label={this.props.t(
+                        'contrast.playground.fontWeight.label'
+                      )}
+                    >
+                      <SimpleSlider
+                        id="update-font-weight"
+                        label={this.props.t(
+                          'contrast.playground.fontWeight.slider'
+                        )}
+                        value={this.state.fontWeight}
+                        min={100}
+                        max={900}
+                        step={100}
+                        hasProgressBar
+                        onChange={(_: string, __: string, value: number) =>
+                          this.setState({ fontWeight: value })
+                        }
+                      />
+                    </FormItem>
+                  ),
+                },
+              ]}
+              border={['BOTTOM']}
+            />
+          </Feature>
+          <Section
+            id="contrast-report"
+            title={
+              <SimpleItem
+                leftPartSlot={
+                  <SectionTitle
+                    label={this.props.t('contrast.details.title')}
                   />
                 }
-                body={[
-                  {
-                    node: (
-                      <Tabs
-                        tabs={[
-                          {
-                            label: this.props.t(
-                              'contrast.foregroundColors.light'
-                            ),
-                            id: 'LIGHT_TEXT',
-                            isUpdated: false,
-                            isNew: false,
-                          },
-                          {
-                            label: this.props.t(
-                              'contrast.foregroundColors.dark'
-                            ),
-                            id: 'DARK_TEXT',
-                            isUpdated: false,
-                            isNew: false,
-                          },
-                        ]}
-                        active={this.state.textThemeColor}
-                        isFlex
-                        action={this.navHandler}
-                      />
-                    ),
-                  },
-                  {
-                    node: (
-                      <>
-                        {this.state.textThemeColor === 'LIGHT_TEXT' &&
-                          this.ContrastGrid(
-                            lightForeground,
-                            lightForegroundContrast,
-                            lightWCAGScore,
-                            lightAPCAScore,
-                            lightWCAGFriendlyScore,
-                            lightRecommendedUsage,
-                            actualBackground
-                          )}
-                        {this.state.textThemeColor === 'DARK_TEXT' &&
-                          this.ContrastGrid(
-                            darkForeground,
-                            darkForegroundContrast,
-                            darkWCAGScore,
-                            darkAPCAScore,
-                            darkWCAGFriendlyScore,
-                            darkRecommendedUsage,
-                            actualBackground
-                          )}
-                      </>
-                    ),
-                  },
-                ]}
+                isListItem={false}
+                alignment="CENTER"
               />
-            </div>
-          </Dialog>
-        </Feature>,
-        document.getElementById('modal') ?? document.createElement('app')
-      )
+            }
+            body={[
+              {
+                node: (
+                  <Tabs
+                    tabs={[
+                      {
+                        label: this.props.t('contrast.foregroundColors.light'),
+                        id: 'LIGHT_TEXT',
+                        isUpdated: false,
+                        isNew: false,
+                      },
+                      {
+                        label: this.props.t('contrast.foregroundColors.dark'),
+                        id: 'DARK_TEXT',
+                        isUpdated: false,
+                        isNew: false,
+                      },
+                    ]}
+                    active={this.state.textThemeColor}
+                    isFlex
+                    action={this.navHandler}
+                  />
+                ),
+              },
+              {
+                node: (
+                  <>
+                    {this.state.textThemeColor === 'LIGHT_TEXT' &&
+                      this.ContrastGrid(
+                        lightForeground,
+                        lightForegroundContrast,
+                        lightWCAGScore,
+                        lightAPCAScore,
+                        lightWCAGFriendlyScore,
+                        lightRecommendedUsage,
+                        actualBackground
+                      )}
+                    {this.state.textThemeColor === 'DARK_TEXT' &&
+                      this.ContrastGrid(
+                        darkForeground,
+                        darkForegroundContrast,
+                        darkWCAGScore,
+                        darkAPCAScore,
+                        darkWCAGFriendlyScore,
+                        darkRecommendedUsage,
+                        actualBackground
+                      )}
+                  </>
+                ),
+              },
+            ]}
+          />
+        </div>
+      </Feature>
     )
   }
 }

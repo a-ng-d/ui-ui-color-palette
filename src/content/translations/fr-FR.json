@@ -208,6 +208,7 @@
   },
   "contrast": {
     "actions": {
+      "close": "Fermer",
       "next": "Couleur suivante",
       "previous": "Couleur précédente"
     },

@@ -12,6 +12,7 @@ import {
   layouts,
   Menu,
   SegmentedControl,
+  texts,
 } from '@unoff/ui'
 import {
   CreatorConfiguration,
@@ -19,25 +20,18 @@ import {
   DocumentConfiguration,
   PublicationConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { OpenPaletteState } from '../services/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import {
-  BaseProps,
-  Editor,
-  Mode,
-  PlanStatus,
-  Service,
-  Subservice,
-} from '../../types/app'
+import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ActionsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  subservice: Subservice
   mode: Mode
   id: string
   name: string
@@ -48,26 +42,26 @@ interface ActionsProps
   publicationStatus?: PublicationConfiguration
   isPrimaryLoading?: boolean
   isSecondaryLoading?: boolean
-  onChangeMode: React.Dispatch<Partial<ManagePaletteState>>
-  onSyncLocalStyles: (
+  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
+  onSyncLocalStyles?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
-  onSyncLocalVariables: (
+  onSyncLocalVariables?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
-  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
-  onGenerateDocument: (
+  onPublishPalette?: React.Dispatch<Partial<ManagePaletteState>>
+  onGenerateDocument?: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
-  onChangeView: (
+  onChangeView?: (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
-  onExportPalette: React.MouseEventHandler<HTMLButtonElement> &
+  onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
-  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
-  onUnloadPalette: () => void
+  onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
+  onUnloadPalette?: () => void
 }
 
 interface ActionsState {
@@ -89,6 +83,27 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     service: Service,
     editor: Editor
   ) => ({
+    EDIT: new FeatureStatus({
+      features: config.features,
+      featureName: 'EDIT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    INSPECT: new FeatureStatus({
+      features: config.features,
+      featureName: 'INSPECT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SOURCE: new FeatureStatus({
       features: config.features,
       featureName: 'SOURCE',
@@ -432,6 +447,68 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   }
 
   // Templates
+  Modes = () => {
+    return (
+      <SegmentedControl
+        items={[
+          ...(this.features.EDIT.isActive()
+            ? [
+                {
+                  id: 'EDIT',
+                  icon: {
+                    type: 'PICTO' as const,
+                    name: 'adjust' as IconList,
+                  },
+                  helper: {
+                    label: this.props.t('views.edit'),
+                    pin: 'BOTTOM' as const,
+                  },
+                },
+              ]
+            : []),
+          ...(this.features.INSPECT.isActive()
+            ? [
+                {
+                  id: 'INSPECT',
+                  icon: {
+                    type: 'PICTO' as const,
+                    name: 'visible' as IconList,
+                  },
+                  helper: {
+                    label: this.props.t('views.see'),
+                    pin: 'BOTTOM' as const,
+                  },
+                },
+              ]
+            : []),
+          ...(this.features.EXPORT.isActive()
+            ? [
+                {
+                  id: 'EXPORT',
+                  icon: {
+                    type: 'PICTO' as const,
+                    name: 'code' as IconList,
+                  },
+                  helper: {
+                    label: this.props.t('views.code'),
+                    pin: 'BOTTOM' as const,
+                  },
+                },
+              ]
+            : []),
+        ]}
+        active={this.props.mode}
+        action={(
+          e: React.MouseEvent<HTMLButtonElement> &
+            React.KeyboardEvent<HTMLButtonElement>
+        ) => {
+          const feature = e.currentTarget.dataset.feature as Mode
+          this.props.onChangeMode({ mode: feature ?? 'EDIT' })
+        }}
+      />
+    )
+  }
+
   Deploy = () => {
     return (
       <Bar
@@ -444,51 +521,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 label: this.props.t('contexts.back'),
               }}
               action={this.props.onUnloadPalette}
-            />
-            <SegmentedControl
-              items={[
-                {
-                  id: 'EDIT',
-                  icon: {
-                    type: 'PICTO',
-                    name: 'adjust',
-                  },
-                  helper: {
-                    label: this.props.t('views.edit'),
-                    pin: 'BOTTOM',
-                  },
-                },
-                {
-                  id: 'SEE',
-                  icon: {
-                    type: 'PICTO',
-                    name: 'visible',
-                  },
-                  helper: {
-                    label: this.props.t('views.see'),
-                    pin: 'BOTTOM',
-                  },
-                },
-                {
-                  id: 'CODE',
-                  icon: {
-                    type: 'PICTO',
-                    name: 'code',
-                  },
-                  helper: {
-                    label: this.props.t('views.code'),
-                    pin: 'BOTTOM',
-                  },
-                },
-              ]}
-              active={this.props.mode}
-              action={(
-                e: React.MouseEvent<HTMLButtonElement> &
-                  React.KeyboardEvent<HTMLButtonElement>
-              ) => {
-                const feature = e.currentTarget.dataset.feature as Mode
-                this.props.onChangeMode({ mode: feature ?? 'EDIT' })
-              }}
             />
             <div
               style={{
@@ -659,11 +691,72 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               alignment="TOP_RIGHT"
               state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
             />
+            <this.Modes />
           </div>
         }
         shouldReflow
         border={['BOTTOM']}
       />
+    )
+  }
+
+  Inspect = () => {
+    return (
+      <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
+        <Bar
+          leftPartSlot={
+            <div className={layouts['snackbar--medium']}>
+              <Button
+                type="icon"
+                icon="back"
+                helper={{
+                  label: this.props.t('contexts.back'),
+                }}
+                action={this.props.onUnloadPalette}
+              />
+              <div
+                style={{
+                  flex: '0 1 200px',
+                  overflow: 'hidden',
+                }}
+              >
+                <span
+                  className={doClassnames([
+                    texts.type,
+                    texts['type--truncated'],
+                  ])}
+                >
+                  {this.props.name !== ''
+                    ? this.props.name
+                    : this.props.t('name')}
+                </span>
+              </div>
+              <Feature
+                isActive={
+                  this.features.PUBLICATION.isActive() &&
+                  this.props.publicationStatus?.isPublished
+                }
+              >
+                <Chip isSolo>
+                  {this.props.t('publication.statusPublished')}
+                </Chip>
+              </Feature>
+            </div>
+          }
+          rightPartSlot={
+            <div
+              className={doClassnames([
+                layouts['snackbar--medium'],
+                layouts['snackbar--right'],
+                layouts['snackbar--wrap'],
+              ])}
+            >
+              <this.Modes />
+            </div>
+          }
+          border={['BOTTOM']}
+        />
+      </Feature>
     )
   }
 
@@ -681,72 +774,22 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 }}
                 action={this.props.onUnloadPalette}
               />
-              <SegmentedControl
-                items={[
-                  {
-                    id: 'EDIT',
-                    icon: {
-                      type: 'PICTO',
-                      name: 'adjust',
-                    },
-                    helper: {
-                      label: this.props.t('views.edit'),
-                      pin: 'BOTTOM',
-                    },
-                  },
-                  {
-                    id: 'SEE',
-                    icon: {
-                      type: 'PICTO',
-                      name: 'visible',
-                    },
-                    helper: {
-                      label: this.props.t('views.see'),
-                      pin: 'BOTTOM',
-                    },
-                  },
-                  {
-                    id: 'CODE',
-                    icon: {
-                      type: 'PICTO',
-                      name: 'code',
-                    },
-                    helper: {
-                      label: this.props.t('views.code'),
-                      pin: 'BOTTOM',
-                    },
-                  },
-                ]}
-                active={this.props.mode}
-                action={(
-                  e: React.MouseEvent<HTMLButtonElement> &
-                    React.KeyboardEvent<HTMLButtonElement>
-                ) => {
-                  const feature = e.currentTarget.dataset.feature as Mode
-                  this.props.onChangeMode({ mode: feature ?? 'EDIT' })
-                }}
-              />
               <div
                 style={{
                   flex: '0 1 200px',
+                  overflow: 'hidden',
                 }}
               >
-                <Input
-                  id="update-palette-name"
-                  type="TEXT"
-                  placeholder={this.props.t('name')}
-                  value={this.props.name !== '' ? this.props.name : ''}
-                  charactersLimit={64}
-                  helper={{
-                    label: this.props.t('settings.actions.paletteName'),
-                    pin: 'TOP',
-                  }}
-                  isBlocked={this.features.SETTINGS_NAME.isBlocked()}
-                  isNew={this.features.SETTINGS_NAME.isNew()}
-                  feature="RENAME_PALETTE"
-                  onBlur={this.nameHandler}
-                  onValid={this.nameHandler}
-                />
+                <span
+                  className={doClassnames([
+                    texts.type,
+                    texts['type--truncated'],
+                  ])}
+                >
+                  {this.props.name !== ''
+                    ? this.props.name
+                    : this.props.t('name')}
+                </span>
               </div>
               <Feature
                 isActive={
@@ -761,16 +804,25 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             </div>
           }
           rightPartSlot={
-            <Button
-              type="primary"
-              label={this.props.t('actions.export', {
-                format: this.props.format || 'JSON',
-              })}
-              feature="EXPORT_PALETTE"
-              action={this.props.onExportPalette}
+            <div
+              className={doClassnames([
+                layouts['snackbar--medium'],
+                layouts['snackbar--right'],
+                layouts['snackbar--wrap'],
+              ])}
             >
-              <a></a>
-            </Button>
+              <Button
+                type="primary"
+                label={this.props.t('actions.export', {
+                  format: this.props.format || 'JSON',
+                })}
+                feature="EXPORT_PALETTE"
+                action={this.props.onExportPalette}
+              >
+                <a></a>
+              </Button>
+              <this.Modes />
+            </div>
           }
           border={['BOTTOM']}
         />
@@ -782,8 +834,9 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   render() {
     return (
       <>
-        {this.props.subservice === 'EDIT' && <this.Deploy />}
-        {this.props.subservice === 'SEE' && <this.Export />}
+        {this.props.mode === 'EDIT' && <this.Deploy />}
+        {this.props.mode === 'INSPECT' && <this.Inspect />}
+        {this.props.mode === 'EXPORT' && <this.Export />}
       </>
     )
   }

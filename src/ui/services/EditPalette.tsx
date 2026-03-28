@@ -1,9 +1,7 @@
 import type { DropdownOption } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import FileSaver from 'file-saver'
-import * as fflate from 'fflate'
-import { Case, FeatureStatus } from '@unoff/utils'
+import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import {
@@ -15,22 +13,19 @@ import {
   ColorSpaceConfiguration,
   DatesConfiguration,
   DocumentConfiguration,
-  ExportConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   ThemeConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
-  BaseConfiguration,
-  Data,
-  Code,
+  PublicationConfiguration,
+  CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Themes from '../contexts/Themes'
 import Settings from '../contexts/Settings'
 import Scale from '../contexts/Scale'
-import Export from '../contexts/Export'
 import Colors from '../contexts/Colors'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -61,6 +56,7 @@ import {
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
+import { OpenPaletteState } from './OpenPalette'
 import { ManagePaletteState } from './ManagePalette'
 
 interface EditPaletteProps
@@ -82,7 +78,9 @@ interface EditPaletteProps
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   document: DocumentConfiguration
   dates: DatesConfiguration
-  onChangeMode: React.Dispatch<Partial<ManagePaletteState>>
+  publicationStatus: PublicationConfiguration
+  creatorIdentity: CreatorConfiguration
+  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
   onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
   onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
@@ -98,10 +96,8 @@ interface EditPaletteProps
 
 interface EditPaletteState {
   context: Context | ''
-  export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
-  isCodeCopied: boolean
 }
 
 export default class EditPalette extends PureComponent<
@@ -122,13 +118,6 @@ export default class EditPalette extends PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    THEMES: new FeatureStatus({
-      features: config.features,
-      featureName: 'THEMES',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     ACTIONS: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIONS',
@@ -139,6 +128,34 @@ export default class EditPalette extends PureComponent<
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SCALE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    THEMES: new FeatureStatus({
+      features: config.features,
+      featureName: 'THEMES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -168,7 +185,7 @@ export default class EditPalette extends PureComponent<
       data: [],
     }
     this.contexts = setContexts(
-      ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
+      ['SCALE', 'COLORS', 'THEMES', 'SETTINGS'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -177,29 +194,8 @@ export default class EditPalette extends PureComponent<
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
-      export: {
-        format: 'JSON',
-        context: 'TOKENS_NATIVE',
-        mimeType: 'application/json',
-        data: new Code(
-          new Data({
-            base: {
-              name: this.props.name,
-              description: this.props.description,
-              preset: this.props.preset,
-              shift: this.props.shift,
-              areSourceColorsLocked: this.props.areSourceColorsLocked,
-              colors: this.props.colors,
-              colorSpace: this.props.colorSpace,
-              algorithmVersion: this.props.algorithmVersion,
-            } as BaseConfiguration,
-            themes: this.props.themes,
-          }).makePaletteData()
-        ).makeNativeTokens(),
-      },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
-      isCodeCopied: false,
     }
     this.themesRef = React.createRef()
     this.previewRef = React.createRef()
@@ -217,7 +213,7 @@ export default class EditPalette extends PureComponent<
   componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
     if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
-        ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
+        ['SCALE', 'COLORS', 'THEMES', 'SETTINGS'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
@@ -252,15 +248,6 @@ export default class EditPalette extends PureComponent<
     }
 
     return actions[path.type ?? 'DEFAULT']?.()
-  }
-
-  navHandler = (e: Event) => {
-    const newContext = (e.currentTarget as HTMLElement).dataset
-      .feature as Context
-
-    this.setState({
-      context: newContext,
-    })
   }
 
   switchThemeHandler = (e: Event) => {
@@ -663,135 +650,6 @@ export default class EditPalette extends PureComponent<
       })
   }
 
-  onExport = () => {
-    const blob = new Blob([this.state.export.data], {
-      type: this.state.export.mimeType,
-    })
-    if (this.state.export.mimeType === 'text/csv') {
-      const zipEntries: Record<string, Uint8Array> = {}
-      const encoder = new TextEncoder()
-
-      this.state.export.data.forEach(
-        (theme: {
-          name: string
-          type: string
-          colors: Array<{ name: string; csv: string }>
-        }) => {
-          if (theme.type !== 'default theme')
-            theme.colors.forEach((color) => {
-              const fileName = `${theme.name}/${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
-            })
-          else
-            theme.colors.forEach((color) => {
-              const fileName = `${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
-            })
-        }
-      )
-
-      const zipData = fflate.zipSync(zipEntries)
-      const zipBlob = new Blob([new Uint8Array(zipData)], {
-        type: 'application/zip',
-      })
-
-      FileSaver.saveAs(
-        zipBlob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.zip`
-      )
-    } else if (this.state.export.context === 'TAILWIND_V3')
-      FileSaver.saveAs(blob, 'tailwind.config.js')
-    else if (this.state.export.context === 'TAILWIND_V4')
-      FileSaver.saveAs(blob, 'tailwind.theme.css')
-    else if (this.state.export.format === 'SWIFT')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.swift`
-      )
-    else if (this.state.export.mimeType === 'text/x-kotlin')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.kt`
-      )
-    else if (this.state.export.mimeType === 'text/x-scss')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.scss`
-      )
-    else if (this.state.export.mimeType === 'text/x-less')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.less`
-      )
-    else
-      FileSaver.saveAs(
-        blob,
-        this.props.name === ''
-          ? new Case(this.props.t('name')).doSnakeCase()
-          : new Case(this.props.name).doSnakeCase()
-      )
-  }
-
-  onCopyCode = () => {
-    if (!this.state.export.data) return
-
-    try {
-      const textarea = document.createElement('textarea')
-      textarea.value = this.state.export.data
-
-      textarea.style.position = 'absolute'
-      textarea.style.left = '-9999px'
-      textarea.style.top = '0'
-      textarea.setAttribute('readonly', '')
-
-      document.body.appendChild(textarea)
-
-      textarea.select()
-
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
-
-      this.setState({ isCodeCopied: true })
-      setTimeout(() => {
-        this.setState({ isCodeCopied: false })
-      }, 2000)
-    } catch (error) {
-      console.error(error)
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              style: 'WARNING',
-              message: this.props.t('warning.uncopiedCode'),
-            },
-          },
-        },
-        '*'
-      )
-    }
-  }
-
   setThemes = (): Array<DropdownOption> => {
     const themes = this.workingThemes().map((theme) => {
       return {
@@ -853,93 +711,109 @@ export default class EditPalette extends PureComponent<
 
   // Render
   render() {
-    let fragmentSubservice
-    let fragmentMode
+    let fragment
 
     switch (this.state.context) {
       case 'SCALE': {
-        fragmentSubservice = (
-          <Scale
-            {...this.props}
-            subservice="EDIT"
-            onChangeScale={this.slideHandler}
-            onChangeShift={this.shiftHandler}
-          />
+        fragment = (
+          <Feature isActive={this.features.SCALE.isActive()}>
+            <Scale
+              {...this.props}
+              onChangeScale={this.slideHandler}
+              onChangeShift={this.shiftHandler}
+            />
+          </Feature>
         )
         break
       }
       case 'COLORS': {
-        fragmentSubservice = <Colors {...this.props} />
+        fragment = (
+          <Feature isActive={this.features.COLORS.isActive()}>
+            <Colors {...this.props} />
+          </Feature>
+        )
         break
       }
       case 'THEMES': {
-        fragmentSubservice = (
-          <Themes
-            {...this.props}
-            ref={this.themesRef}
-          />
+        fragment = (
+          <Feature isActive={this.features.THEMES.isActive()}>
+            <Themes
+              {...this.props}
+              ref={this.themesRef}
+            />
+          </Feature>
         )
         break
       }
       case 'SETTINGS': {
-        fragmentSubservice = (
-          <Settings
-            {...this.props}
-            subservice="EDIT"
-          />
+        fragment = (
+          <Feature isActive={this.features.SETTINGS.isActive()}>
+            <Settings {...this.props} />
+          </Feature>
         )
         break
       }
     }
 
-    switch (this.props.mode) {
-      case 'EDIT': {
-        fragmentMode = (
-          <Layout
-            id="edit-palette"
-            column={[
-              {
-                node: (
-                  <Feature isActive={this.features.PREVIEW.isActive()}>
-                    <Preview
-                      {...this.props}
-                      onInteractWithSourceColor={() =>
-                        this.onJumpToSourceColor()
-                      }
-                      ref={this.previewRef}
-                    />
-                  </Feature>
-                ),
-                typeModifier: 'BLANK',
-              },
-              {
-                node: (
-                  <section className="context">{fragmentSubservice}</section>
-                ),
-                typeModifier: 'DRAWER' as const,
-                drawerOptions: {
-                  minSize: {
-                    value: 200,
-                    unit: 'PIXEL' as const,
+    return (
+      <>
+        <Feature isActive={this.features.ACTIONS.isActive()}>
+          <Actions
+            {...this.props}
+            {...this.state}
+            mode="EDIT"
+            onSyncLocalStyles={this.onSyncStyles}
+            onSyncLocalVariables={this.onSyncVariables}
+            onGenerateDocument={this.documentHandler}
+            onChangeView={this.onChangeView}
+          />
+        </Feature>
+        <Layout
+          id="edit-palette"
+          column={[
+            {
+              node: (
+                <Feature isActive={this.features.PREVIEW.isActive()}>
+                  <Preview
+                    {...this.props}
+                    onInteractWithSourceColor={() => this.onJumpToSourceColor()}
+                    ref={this.previewRef}
+                  />
+                </Feature>
+              ),
+              typeModifier: 'BLANK',
+            },
+            ...(this.state.context !== ''
+              ? [
+                  {
+                    node: <section className="context">{fragment}</section>,
+                    typeModifier: 'DRAWER' as const,
+                    drawerOptions: {
+                      minSize: {
+                        value: 200,
+                        unit: 'PIXEL' as const,
+                      },
+                      defaultSize: {
+                        value: 296,
+                        unit: 'PIXEL' as const,
+                      },
+                      maxSize: {
+                        value: 400,
+                        unit: 'PIXEL' as const,
+                      },
+                      pin: 'RIGHT' as const,
+                      direction: 'HORIZONTAL' as const,
+                    },
                   },
-                  defaultSize: {
-                    value: 296,
-                    unit: 'PIXEL' as const,
-                  },
-                  maxSize: {
-                    value: 400,
-                    unit: 'PIXEL' as const,
-                  },
-                  pin: 'RIGHT' as const,
-                  direction: 'HORIZONTAL' as const,
-                },
-              },
-              {
-                node: (
-                  <Bar
-                    id="contexts-nav"
-                    leftPartSlot={
-                      <div className={layouts['stackbar--medium']}>
+                ]
+              : []),
+            {
+              node: (
+                <Bar
+                  id="contexts-nav"
+                  leftPartSlot={
+                    <div className={layouts['stackbar--medium']}>
+                      <Feature isActive={this.features.SCALE.isActive()}>
                         <Button
                           type="icon"
                           icon="adjust"
@@ -954,6 +828,8 @@ export default class EditPalette extends PureComponent<
                             })
                           }
                         />
+                      </Feature>
+                      <Feature isActive={this.features.COLORS.isActive()}>
                         <Button
                           type="icon"
                           icon="eyedropper"
@@ -968,6 +844,8 @@ export default class EditPalette extends PureComponent<
                             })
                           }
                         />
+                      </Feature>
+                      <Feature isActive={this.features.THEMES.isActive()}>
                         <Button
                           type="icon"
                           icon="theme"
@@ -982,6 +860,8 @@ export default class EditPalette extends PureComponent<
                             })
                           }
                         />
+                      </Feature>
+                      <Feature isActive={this.features.SETTINGS.isActive()}>
                         <Button
                           type="icon"
                           icon="settings"
@@ -996,142 +876,31 @@ export default class EditPalette extends PureComponent<
                             })
                           }
                         />
-                      </div>
-                    }
-                    isVertical
-                  />
-                ),
-                typeModifier: 'FIXED' as const,
-                fixedWidth: 'var(--bar-min-height)',
-              },
-            ]}
-            isFullHeight
-            isFullWidth
-          />
-        )
-        break
-      }
-      case 'SEE': {
-        fragmentMode = (
-          <Layout
-            id="edit-palette"
-            column={[
-              {
-                node: (
-                  <Feature isActive={this.features.PREVIEW.isActive()}>
-                    <Preview
-                      {...this.props}
-                      onInteractWithSourceColor={() =>
-                        this.onJumpToSourceColor()
-                      }
-                      ref={this.previewRef}
-                    />
-                  </Feature>
-                ),
-                typeModifier: 'BLANK',
-              },
-            ]}
-            isFullHeight
-            isFullWidth
-          />
-        )
-        break
-      }
-      case 'CODE': {
-        fragmentMode = (
-          <Layout
-            id="edit-palette"
-            column={[
-              {
-                node: (
-                  <Export
-                    {...this.props}
-                    context={this.state.export.context}
-                    code={this.state.export.data}
-                    isCodeCopied={this.state.isCodeCopied}
-                    onChangeExport={(exp) => {
-                      this.setState({
-                        export: exp.export,
-                      })
-                    }}
-                    onCopyCode={this.onCopyCode}
-                  />
-                ),
-                typeModifier: 'BLANK',
-              },
-            ]}
-            isFullHeight
-            isFullWidth
-          />
-        )
-        break
-      }
-    }
-
-    return (
-      <>
-        <Feature isActive={this.features.ACTIONS.isActive()}>
-          <Actions
-            {...this.props}
-            {...this.state}
-            subservice={this.state.context === 'EXPORT' ? 'SEE' : 'EDIT'}
-            mode={this.props.mode}
-            format={this.state.export.format}
-            onSyncLocalStyles={this.onSyncStyles}
-            onSyncLocalVariables={this.onSyncVariables}
-            onGenerateDocument={this.documentHandler}
-            onChangeView={this.onChangeView}
-            onExportPalette={this.onExport}
-          />
-        </Feature>
-        {fragmentMode}
-        {/* <Bar
-                  leftPartSlot={
-                    <div
-                      className={doClassnames([
-                        layouts['snackbar--tight'],
-                        isFlex && 'patch-2',
-                      ])}
-                    >
+                      </Feature>
                       <Button
                         type="icon"
-                        icon="back"
-                        helper={{
-                          label: this.props.t('contexts.back'),
-                        }}
-                        action={this.props.onUnloadPalette}
-                      />
-                      <Tabs
-                        tabs={this.contexts}
-                        active={this.state.context ?? ''}
-                        isFlex={isFlex}
-                        maxVisibleTabs={3}
-                        action={this.navHandler}
+                        icon="visible"
+                        state={
+                          this.state.context === '' ? 'selected' : undefined
+                        }
+                        action={() =>
+                          this.setState({
+                            context: '',
+                          })
+                        }
                       />
                     </div>
                   }
-                  rightPartSlot={
-                    <Feature isActive={this.features.THEMES.isActive()}>
-                      <FormItem
-                        id="switch-theme"
-                        label={this.props.t('themes.switchTheme.label')}
-                        shouldFill={false}
-                      >
-                        <Dropdown
-                          id="switch-theme"
-                          options={this.setThemes()}
-                          selected={
-                            this.props.themes.find((theme) => theme.isEnabled)
-                              ?.id
-                          }
-                          alignment="RIGHT"
-                          pin="TOP"
-                        />
-                      </FormItem>
-                    </Feature>
-                  }
-                  border={['BOTTOM']}
-                /> */}
+                  isVertical
+                />
+              ),
+              typeModifier: 'FIXED' as const,
+              fixedWidth: 'var(--bar-min-height)',
+            },
+          ]}
+          isFullHeight
+          isFullWidth
+        />
       </>
     )
   }

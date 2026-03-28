@@ -13,7 +13,6 @@ import {
   TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import ContrastReport from '../modules/preview/ContrastReport'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
@@ -55,10 +54,13 @@ interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
     scaledColors: HexModel[]
   }>
   isDialogOpen?: boolean
-  onOpenDialog?: () => void
-  onCloseDialog?: () => void
-  onNavigatePrevious?: () => void
-  onNavigateNext?: () => void
+  isSelected?: boolean
+  onOpenReport?: (data: {
+    sourceColor: SourceColorConfiguration | ColorConfiguration
+    actualBackground: HexModel
+    lightForeground: HexModel
+    darkForeground: HexModel
+  }) => void
 }
 
 interface ShadeState {
@@ -82,9 +84,9 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       currentService: service,
       currentEditor: editor,
     }),
-    PREVIEW_SHADE_REPORT: new FeatureStatus({
+    REPORT: new FeatureStatus({
       features: config.features,
-      featureName: 'PREVIEW_SHADE_REPORT',
+      featureName: 'REPORT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -569,7 +571,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         {distance < 4 && !this.props.areSourceColorsLocked && (
           <this.closestColorTag />
         )}
-        {this.state.isMouseEnter && (
+        {(this.state.isMouseEnter || this.props.isSelected) && (
           <div
             className={doClassnames([
               'preview__cell__actions',
@@ -588,34 +590,27 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                 action={this.onCopyHex}
               />
             </Feature>
-            <Feature isActive={this.features.PREVIEW_SHADE_REPORT.isActive()}>
+            <Feature isActive={this.features.REPORT.isActive()}>
               <Button
                 type="icon"
-                icon="info"
+                icon={this.props.isSelected ? 'visible' : 'info'}
                 size="small"
                 helper={{
                   label: this.props.t('preview.actions.showDetails'),
                   pin: 'TOP',
                 }}
-                action={() => this.props.onOpenDialog?.()}
+                action={() =>
+                  this.props.onOpenReport?.({
+                    sourceColor: this.props.sourceColor,
+                    actualBackground: background,
+                    lightForeground,
+                    darkForeground,
+                  })
+                }
               />
             </Feature>
           </div>
         )}
-        <ContrastReport
-          {...this.props}
-          isOpen={this.props.isDialogOpen ?? false}
-          color={this.props.color}
-          sourceColor={this.props.sourceColor}
-          index={this.props.index}
-          scaleName={this.props.scaleName}
-          actualBackground={background}
-          lightForeground={lightForeground}
-          darkForeground={darkForeground}
-          onClose={() => this.props.onCloseDialog?.()}
-          onPrevious={this.props.onNavigatePrevious}
-          onNext={this.props.onNavigateNext}
-        />
       </div>
     )
   }

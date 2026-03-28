@@ -1,12 +1,29 @@
 import { ConsentConfiguration } from '@unoff/ui'
-import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  ColorConfiguration,
+  HexModel,
+  SourceColorConfiguration,
+  UserConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { UserSession } from './user'
+
+export interface ContrastReportShadeData {
+  color: HexModel
+  sourceColor: SourceColorConfiguration | ColorConfiguration
+  index: number
+  scaleName: string
+  actualBackground: HexModel
+  lightForeground: HexModel
+  darkForeground: HexModel
+  onPrevious?: () => void
+  onNext?: () => void
+}
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
 export type Service = 'MANAGE' | 'GEN' | 'EXTRACT' | 'WHEEL' | 'EXPLORE'
-export type Subservice = 'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'
-export type Mode = 'EDIT' | 'SEE' | 'CODE'
+export type Subservice = 'BROWSE' | 'OPEN'
+export type Mode = 'EDIT' | 'INSPECT' | 'EXPORT'
 
 export interface ContextItem {
   label: string
@@ -51,6 +68,8 @@ export type Context =
   | 'THEMES'
   | 'EXPORT'
   | 'SETTINGS'
+  | 'REPORT'
+  | 'PROPERTIES'
 
 export type FilterOptions =
   | 'ANY'

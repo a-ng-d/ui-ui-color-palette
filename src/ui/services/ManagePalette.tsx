@@ -35,7 +35,6 @@ import {
   Service,
   Editor,
   Subservice,
-  Mode,
 } from '../../types/app'
 import {
   getDefaultPreset,
@@ -44,8 +43,7 @@ import {
 } from '../../stores/presets'
 import { $palette, initializePaletteStore } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
-import SeePalette from './SeePalette'
-import EditPalette from './EditPalette'
+import OpenPalette from './OpenPalette'
 import BrowsePalettes from './BrowsePalettes'
 
 interface ManagePaletteProps
@@ -55,7 +53,6 @@ interface ManagePaletteProps
 
 export interface ManagePaletteState {
   subservice: Subservice
-  mode: Mode
   sourceColors: Array<SourceColorConfiguration>
   id: string
   name: string
@@ -100,16 +97,9 @@ export default class ManagePalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    EDIT: new FeatureStatus({
+    OPEN: new FeatureStatus({
       features: config.features,
-      featureName: 'EDIT',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SEE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SEE',
+      featureName: 'OPEN',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -137,7 +127,6 @@ export default class ManagePalette extends PureComponent<
     this.palette = $palette
     this.state = {
       subservice: 'BROWSE',
-      mode: 'EDIT',
       sourceColors: [
         {
           name: props.t('colors.defaultName'),
@@ -281,11 +270,7 @@ export default class ManagePalette extends PureComponent<
         EMPTY_SELECTION: () => updateWhileEmptySelection(),
         COLOR_SELECTED: () => updateWhileColorSelected(),
         DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
-        LOAD_PALETTE: () =>
-          this.onLoadPalette(
-            path.data,
-            !this.props.editor.includes('dev') ? 'EDIT' : 'SEE'
-          ),
+        LOAD_PALETTE: () => this.onLoadPalette(path.data),
         RESET_PALETTE: () => this.onResetPalette(),
         UPDATE_PALETTE_DATE: () => updatePaletteDate(path?.data),
         DEFAULT: () => null,
@@ -366,14 +351,11 @@ export default class ManagePalette extends PureComponent<
     })
   }
 
-  onLoadPalette = (
-    palette: {
-      base: BaseConfiguration
-      themes: Array<ThemeConfiguration>
-      meta: MetaConfiguration
-    },
-    service: 'BROWSE' | 'EDIT' | 'SEE'
-  ) => {
+  onLoadPalette = (palette: {
+    base: BaseConfiguration
+    themes: Array<ThemeConfiguration>
+    meta: MetaConfiguration
+  }) => {
     const theme: ThemeConfiguration | undefined = palette.themes.find(
       (theme: ThemeConfiguration) => theme.isEnabled
     )
@@ -404,7 +386,7 @@ export default class ManagePalette extends PureComponent<
     )
 
     this.setState({
-      subservice: service,
+      subservice: 'OPEN',
       id: palette.meta.id,
       name: palette.base.name,
       description: palette.base.description,
@@ -453,16 +435,16 @@ export default class ManagePalette extends PureComponent<
               {...this.state}
               sourceColors={this.state.sourceColors}
               onCreatePalette={(e) => this.setState({ ...e })}
-              onSeePalette={(palette) => this.onLoadPalette(palette, 'SEE')}
+              onSeePalette={(palette) => this.onLoadPalette(palette)}
             />
           </Feature>
         )
         break
       }
-      case 'EDIT': {
+      case 'OPEN': {
         fragment = (
-          <Feature isActive={this.features.EDIT.isActive()}>
-            <EditPalette
+          <Feature isActive={this.features.OPEN.isActive()}>
+            <OpenPalette
               {...this.props}
               {...this.state}
               onChangeMode={(e) => this.setState({ ...e })}
@@ -477,19 +459,7 @@ export default class ManagePalette extends PureComponent<
               onChangeDocument={(e) => this.setState({ ...e })}
               onDeletePalette={this.onResetPalette}
               onPublishPalette={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-        )
-        break
-      }
-      case 'SEE': {
-        fragment = (
-          <Feature isActive={this.features.SEE.isActive()}>
-            <SeePalette
-              {...this.props}
-              {...this.state}
-              onChangeThemes={(e) => this.setState({ ...e })}
-              onUnloadPalette={this.onResetPalette}
+              onResetPalette={this.onResetPalette}
             />
           </Feature>
         )

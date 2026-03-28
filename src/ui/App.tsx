@@ -104,30 +104,37 @@ class App extends Component<AppProps, AppState> {
       currentService: service,
       currentEditor: editor,
     }),
-    BROWSE: new FeatureStatus({
+    MANAGE: new FeatureStatus({
       features: config.features,
-      featureName: 'BROWSE',
+      featureName: 'MANAGE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    CREATE: new FeatureStatus({
+    GEN: new FeatureStatus({
       features: config.features,
-      featureName: 'CREATE',
+      featureName: 'GEN',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    EDIT: new FeatureStatus({
+    EXTRACT: new FeatureStatus({
       features: config.features,
-      featureName: 'EDIT',
+      featureName: 'EXTRACT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SEE: new FeatureStatus({
+    WHEEL: new FeatureStatus({
       features: config.features,
-      featureName: 'SEE',
+      featureName: 'WHEEL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPLORE: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPLORE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -795,11 +802,7 @@ class App extends Component<AppProps, AppState> {
     switch (this.state.service) {
       case 'MANAGE': {
         fragment = (
-          <Feature
-            isActive={
-              true //this.features.MANAGE.isActive()
-            }
-          >
+          <Feature isActive={this.features.MANAGE.isActive()}>
             <ManagePalette
               {...this.state}
               {...this.props}
@@ -811,41 +814,49 @@ class App extends Component<AppProps, AppState> {
       }
       case 'GEN': {
         fragment = (
-          <GenAI
-            {...this.state}
-            {...this.props}
-            onChangeService={(e) => this.setState({ ...e })}
-          />
+          <Feature isActive={this.features.GEN.isActive()}>
+            <GenAI
+              {...this.state}
+              {...this.props}
+              onChangeService={(e) => this.setState({ ...e })}
+            />
+          </Feature>
         )
         break
       }
       case 'EXTRACT': {
         fragment = (
-          <ImagePalette
-            {...this.props}
-            {...this.state}
-            onChangeService={(e) => this.setState({ ...e })}
-          />
+          <Feature isActive={this.features.EXTRACT.isActive()}>
+            <ImagePalette
+              {...this.props}
+              {...this.state}
+              onChangeService={(e) => this.setState({ ...e })}
+            />
+          </Feature>
         )
         break
       }
       case 'WHEEL': {
         fragment = (
-          <ColorWheel
-            {...this.props}
-            {...this.state}
-            onChangeService={(e) => this.setState({ ...e })}
-          />
+          <Feature isActive={this.features.WHEEL.isActive()}>
+            <ColorWheel
+              {...this.props}
+              {...this.state}
+              onChangeService={(e) => this.setState({ ...e })}
+            />
+          </Feature>
         )
         break
       }
       case 'EXPLORE': {
         fragment = (
-          <Explore
-            {...this.props}
-            {...this.state}
-            onChangeService={(e) => this.setState({ ...e })}
-          />
+          <Feature isActive={this.features.EXPLORE.isActive()}>
+            <Explore
+              {...this.props}
+              {...this.state}
+              onChangeService={(e) => this.setState({ ...e })}
+            />
+          </Feature>
         )
         break
       }
@@ -868,76 +879,86 @@ class App extends Component<AppProps, AppState> {
                     id="services-nav"
                     leftPartSlot={
                       <div className={layouts['stackbar--medium']}>
-                        <Button
-                          type="icon"
-                          icon="theme"
-                          state={
-                            this.state.service === 'MANAGE'
-                              ? 'selected'
-                              : undefined
-                          }
-                          action={() =>
-                            this.setState({
-                              service: 'MANAGE',
-                            })
-                          }
-                        />
-                        <Button
-                          type="icon"
-                          icon="timer"
-                          state={
-                            this.state.service === 'GEN'
-                              ? 'selected'
-                              : undefined
-                          }
-                          action={() =>
-                            this.setState({
-                              service: 'GEN',
-                            })
-                          }
-                        />
-                        <Button
-                          type="icon"
-                          icon="image"
-                          state={
-                            this.state.service === 'EXTRACT'
-                              ? 'selected'
-                              : undefined
-                          }
-                          action={() =>
-                            this.setState({
-                              service: 'EXTRACT',
-                            })
-                          }
-                        />
-                        <Button
-                          type="icon"
-                          icon="styles"
-                          state={
-                            this.state.service === 'WHEEL'
-                              ? 'selected'
-                              : undefined
-                          }
-                          action={() =>
-                            this.setState({
-                              service: 'WHEEL',
-                            })
-                          }
-                        />
-                        <Button
-                          type="icon"
-                          icon="share"
-                          state={
-                            this.state.service === 'EXPLORE'
-                              ? 'selected'
-                              : undefined
-                          }
-                          action={() =>
-                            this.setState({
-                              service: 'EXPLORE',
-                            })
-                          }
-                        />
+                        <Feature isActive={this.features.MANAGE.isActive()}>
+                          <Button
+                            type="icon"
+                            icon="theme"
+                            state={
+                              this.state.service === 'MANAGE'
+                                ? 'selected'
+                                : undefined
+                            }
+                            action={() =>
+                              this.setState({
+                                service: 'MANAGE',
+                              })
+                            }
+                          />
+                        </Feature>
+                        <Feature isActive={this.features.GEN.isActive()}>
+                          <Button
+                            type="icon"
+                            icon="timer"
+                            state={
+                              this.state.service === 'GEN'
+                                ? 'selected'
+                                : undefined
+                            }
+                            action={() =>
+                              this.setState({
+                                service: 'GEN',
+                              })
+                            }
+                          />
+                        </Feature>
+                        <Feature isActive={this.features.EXTRACT.isActive()}>
+                          <Button
+                            type="icon"
+                            icon="image"
+                            state={
+                              this.state.service === 'EXTRACT'
+                                ? 'selected'
+                                : undefined
+                            }
+                            action={() =>
+                              this.setState({
+                                service: 'EXTRACT',
+                              })
+                            }
+                          />
+                        </Feature>
+                        <Feature isActive={this.features.WHEEL.isActive()}>
+                          <Button
+                            type="icon"
+                            icon="styles"
+                            state={
+                              this.state.service === 'WHEEL'
+                                ? 'selected'
+                                : undefined
+                            }
+                            action={() =>
+                              this.setState({
+                                service: 'WHEEL',
+                              })
+                            }
+                          />
+                        </Feature>
+                        <Feature isActive={this.features.EXPLORE.isActive()}>
+                          <Button
+                            type="icon"
+                            icon="share"
+                            state={
+                              this.state.service === 'EXPLORE'
+                                ? 'selected'
+                                : undefined
+                            }
+                            action={() =>
+                              this.setState({
+                                service: 'EXPLORE',
+                              })
+                            }
+                          />
+                        </Feature>
                       </div>
                     }
                     isVertical

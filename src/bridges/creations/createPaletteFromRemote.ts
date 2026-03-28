@@ -22,7 +22,7 @@ const createFromRemote = async (msg: Msg) => {
     `palette_${msg.data.meta.id}`
   )
 
-  if (localPalette) throw new Error(tolgee.t('error.unfoundPalette'))
+  if (localPalette) throw new Error(tolgee.t('error.addToLocal'))
 
   const palette = new Data({
     base: {
