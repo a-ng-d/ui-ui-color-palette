@@ -2,7 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
-import { Bar, Chip, ColorChip, Layout } from '@unoff/ui'
+import { Bar, Chip, ColorChip, DropdownOption, Layout } from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
@@ -57,16 +57,17 @@ interface PreviewProps
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration
-  themes?: Array<ThemeConfiguration>
+  themes: Array<ThemeConfiguration>
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  selectedShade?: { colorIndex: number; shadeIndex: number } | null
+  themeOptions: Array<DropdownOption>
   onLockSourceColors?: React.Dispatch<Partial<ManagePaletteState>>
   onResetSourceColors?: () => void
   onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
   onInteractWithSourceColor?: (colorId: string) => void
-  selectedShade?: { colorIndex: number; shadeIndex: number } | null
   onShadeReportOpen?: (data: {
     sourceColor: SourceColorConfiguration | ColorConfiguration
     scaleName: string
@@ -1048,25 +1049,10 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                     />
                   }
                   rightPartSlot={
-                    <Feature isActive={this.props.mode === 'EDIT'}>
-                      <SettingsControls
-                        {...this.props}
-                        areSourceColorsLocked={this.props.areSourceColorsLocked}
-                        colorSpace={this.props.colorSpace}
-                        visionSimulationMode={this.props.visionSimulationMode}
-                        canResetColors={this.props.colors.some(
-                          (color) =>
-                            (color as SourceColorConfiguration).source ===
-                              'COOLORS' ||
-                            (color as SourceColorConfiguration).source ===
-                              'REALTIME_COLORS' ||
-                            (color as SourceColorConfiguration).source ===
-                              'COLOUR_LOVERS'
-                        )}
-                        onColorSettingsHandler={this.colorSettingsHandler}
-                        onResetSourceColors={this.props.onResetSourceColors}
-                      />
-                    </Feature>
+                    <SettingsControls
+                      {...this.props}
+                      onColorSettingsHandler={this.colorSettingsHandler}
+                    />
                   }
                   isInverted
                   shouldReflow

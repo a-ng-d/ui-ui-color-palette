@@ -312,6 +312,7 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
             alignment="TOP_LEFT"
             helper={{
               label: this.props.t('preview.actions.displayScores'),
+              pin: 'TOP',
             }}
             isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
             isNew={this.features.PREVIEW_SCORES.isNew()}
@@ -493,6 +494,7 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
             alignment="TOP_LEFT"
             helper={{
               label: this.props.t('preview.actions.filterScores'),
+              pin: 'TOP',
             }}
             isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
             isNew={this.isFiltersEnabled()}

@@ -378,6 +378,7 @@ export default class EditPalette extends PureComponent<
                         ? this.state.shadeReport
                         : null
                     }
+                    themeOptions={this.setThemes()}
                     onShadeReportOpen={this.onShadeReportOpen}
                     ref={this.previewRef}
                   />

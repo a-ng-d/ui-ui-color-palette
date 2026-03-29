@@ -535,7 +535,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 charactersLimit={64}
                 helper={{
                   label: this.props.t('settings.actions.paletteName'),
-                  pin: 'TOP',
                 }}
                 isBlocked={this.features.SETTINGS_NAME.isBlocked()}
                 isNew={this.features.SETTINGS_NAME.isNew()}
@@ -605,7 +604,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 pin="BOTTOM"
                 helper={{
                   label: this.props.t('settings.global.views.helper'),
-                  pin: 'TOP',
                 }}
                 isBlocked={this.features.VIEWS.isBlocked()}
                 isNew={this.features.VIEWS.isNew()}
@@ -627,7 +625,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 icon={this.publicationIcon()}
                 helper={{
                   label: this.publicationLabel(),
-                  pin: 'TOP',
                 }}
                 action={() =>
                   this.props.onPublishPalette?.({
@@ -644,7 +641,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 options={this.documentOptionsHandler()}
                 helper={{
                   label: this.props.t('actions.generateDocument.label'),
-                  pin: 'TOP',
                   isSingleLine: true,
                 }}
                 alignment="TOP_RIGHT"

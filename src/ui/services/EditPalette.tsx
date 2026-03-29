@@ -776,6 +776,7 @@ export default class EditPalette extends PureComponent<
                 <Feature isActive={this.features.PREVIEW.isActive()}>
                   <Preview
                     {...this.props}
+                    themeOptions={this.setThemes()}
                     onInteractWithSourceColor={() => this.onJumpToSourceColor()}
                     ref={this.previewRef}
                   />
