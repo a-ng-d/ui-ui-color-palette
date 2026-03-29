@@ -4,6 +4,7 @@ import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
 import {
+  Bar,
   Button,
   FormItem,
   Input,
@@ -13,7 +14,6 @@ import {
   SectionTitle,
   Select,
   SemanticMessage,
-  SimpleItem,
   SortableList,
 } from '@unoff/ui'
 import {
@@ -642,8 +642,8 @@ export default class Colors extends PureComponent<ColorsProps> {
           {
             node: (
               <>
-                <SimpleItem
-                  id="add-color"
+                <Bar
+                  id="colors-header"
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.t('colors.title')}
@@ -664,8 +664,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       action={(e: Event) => this.colorsHandler(e)}
                     />
                   }
-                  alignment="CENTER"
-                  isListItem={false}
+                  border={['BOTTOM']}
                 />
                 {this.features.COLORS.isReached(this.props.colors.length) && (
                   <div
@@ -774,68 +773,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                               />
                             </div>
                           </Feature>
-                          <Feature
-                            isActive={
-                              this.features.COLORS_ALPHA.isActive() &&
-                              this.props.documentWidth > 460
-                            }
-                          >
-                            <div className="draggable-item__param">
-                              <Select
-                                id={`switch-alpha-mode-${color.id}`}
-                                type="SWITCH_BUTTON"
-                                label={this.props.t('colors.alpha.label')}
-                                feature="SWITCH_ALPHA_MODE"
-                                data-color-id={color.id}
-                                preview={{
-                                  image: am,
-                                  text: this.props.t('colors.alpha.helper'),
-                                }}
-                                isChecked={color.alpha.isEnabled}
-                                isBlocked={
-                                  this.features.COLORS_ALPHA.isBlocked() &&
-                                  !color.alpha.isEnabled
-                                }
-                                isNew={this.features.COLORS_ALPHA.isNew()}
-                                action={this.colorsHandler}
-                                onUnblock={() => {
-                                  sendPluginMessage(
-                                    {
-                                      pluginMessage: { type: 'GET_PRO' },
-                                    },
-                                    '*'
-                                  )
-                                }}
-                              />
-                            </div>
-                          </Feature>
-                          <Feature
-                            isActive={
-                              this.features.COLORS_BACKGROUND_COLOR.isActive() &&
-                              color.alpha.isEnabled &&
-                              this.props.documentWidth > 460
-                            }
-                          >
-                            <div className="draggable-item__param">
-                              <Input
-                                id="update-color-background"
-                                type="COLOR"
-                                value={color.alpha.backgroundColor}
-                                feature="UPDATE_BACKGROUND_COLOR"
-                                helper={{
-                                  label: this.props.t(
-                                    'colors.actions.alphaBackground'
-                                  ),
-                                }}
-                                data-color-id={color.id}
-                                isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
-                                onPick={this.colorsHandler}
-                                onBlur={this.colorsHandler}
-                                onValid={this.colorsHandler}
-                              />
-                            </div>
-                          </Feature>
                         </>
                       )
                     })}
@@ -852,79 +789,73 @@ export default class Colors extends PureComponent<ColorsProps> {
                         }),
                         node: (() => (
                           <>
-                            {this.props.documentWidth <= 460 && (
-                              <>
-                                <Feature
-                                  isActive={this.features.COLORS_ALPHA.isActive()}
-                                >
-                                  <FormItem
-                                    id={`switch-alpha-mode-secondary-${color.id}`}
-                                    label={this.props.t('colors.alpha.label')}
-                                    isBlocked={
-                                      this.features.COLORS_ALPHA.isBlocked() &&
-                                      !color.alpha.isEnabled
-                                    }
-                                  >
-                                    <Select
-                                      id={`switch-alpha-mode-secondary-${color.id}`}
-                                      type="SWITCH_BUTTON"
-                                      feature="SWITCH_ALPHA_MODE"
-                                      data-color-id={color.id}
-                                      preview={{
-                                        image: am,
-                                        text: this.props.t(
-                                          'colors.alpha.helper'
-                                        ),
-                                      }}
-                                      isChecked={color.alpha.isEnabled}
-                                      isBlocked={
-                                        this.features.COLORS_ALPHA.isBlocked() &&
-                                        !color.alpha.isEnabled
-                                      }
-                                      isNew={this.features.COLORS_ALPHA.isNew()}
-                                      action={this.colorsHandler}
-                                      onUnblock={() => {
-                                        sendPluginMessage(
-                                          {
-                                            pluginMessage: {
-                                              type: 'GET_PRO',
-                                            },
-                                          },
-                                          '*'
-                                        )
-                                      }}
-                                    />
-                                  </FormItem>
-                                </Feature>
-                                <Feature
-                                  isActive={
-                                    this.features.COLORS_BACKGROUND_COLOR.isActive() &&
-                                    color.alpha.isEnabled
+                            <Feature
+                              isActive={this.features.COLORS_ALPHA.isActive()}
+                            >
+                              <FormItem
+                                id={`switch-alpha-mode-secondary-${color.id}`}
+                                label={this.props.t('colors.alpha.label')}
+                                isBlocked={
+                                  this.features.COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
+                                }
+                              >
+                                <Select
+                                  id={`switch-alpha-mode-secondary-${color.id}`}
+                                  type="SWITCH_BUTTON"
+                                  feature="SWITCH_ALPHA_MODE"
+                                  data-color-id={color.id}
+                                  preview={{
+                                    image: am,
+                                    text: this.props.t('colors.alpha.helper'),
+                                  }}
+                                  isChecked={color.alpha.isEnabled}
+                                  isBlocked={
+                                    this.features.COLORS_ALPHA.isBlocked() &&
+                                    !color.alpha.isEnabled
                                   }
-                                >
-                                  <FormItem
-                                    id={`update-color-background-secondary-${color.id}`}
-                                    label={this.props.t(
-                                      'colors.actions.alphaBackground'
-                                    )}
-                                    isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                  >
-                                    <Input
-                                      id={`update-color-background-secondary-${color.id}`}
-                                      type="COLOR"
-                                      value={color.alpha.backgroundColor}
-                                      feature="UPDATE_BACKGROUND_COLOR"
-                                      data-color-id={color.id}
-                                      isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                      isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
-                                      onPick={this.colorsHandler}
-                                      onBlur={this.colorsHandler}
-                                      onValid={this.colorsHandler}
-                                    />
-                                  </FormItem>
-                                </Feature>
-                              </>
-                            )}
+                                  isNew={this.features.COLORS_ALPHA.isNew()}
+                                  action={this.colorsHandler}
+                                  onUnblock={() => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type: 'GET_PRO',
+                                        },
+                                      },
+                                      '*'
+                                    )
+                                  }}
+                                />
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={
+                                this.features.COLORS_BACKGROUND_COLOR.isActive() &&
+                                color.alpha.isEnabled
+                              }
+                            >
+                              <FormItem
+                                id={`update-color-background-secondary-${color.id}`}
+                                label={this.props.t(
+                                  'colors.actions.alphaBackground'
+                                )}
+                                isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
+                              >
+                                <Input
+                                  id={`update-color-background-secondary-${color.id}`}
+                                  type="COLOR"
+                                  value={color.alpha.backgroundColor}
+                                  feature="UPDATE_BACKGROUND_COLOR"
+                                  data-color-id={color.id}
+                                  isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
+                                  isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
+                                  onPick={this.colorsHandler}
+                                  onBlur={this.colorsHandler}
+                                  onValid={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
                             <Feature
                               isActive={this.features.COLORS_CHROMA_SHIFTING.isActive()}
                             >
@@ -1086,14 +1017,13 @@ export default class Colors extends PureComponent<ColorsProps> {
                     }}
                     canBeEmpty={false}
                     isScrollable
-                    isTopBorderEnabled
                     onChangeSortableList={this.onChangeOrder}
                     onRemoveItem={this.colorsHandler}
                   />
                 )}
               </>
             ),
-            typeModifier: 'LIST',
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight

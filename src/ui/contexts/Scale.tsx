@@ -8,7 +8,9 @@ import {
   FormItem,
   Layout,
   layouts,
-  texts,
+  Menu,
+  SectionTitle,
+  Select,
 } from '@unoff/ui'
 import {
   PresetConfiguration,
@@ -76,6 +78,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
     service: Service,
     editor: Editor
   ) => ({
+    SCALE_CONTRAST_RATIO: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_CONTRAST_RATIO',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SCALE_HELPER: new FeatureStatus({
       features: config.features,
       featureName: 'SCALE_HELPER',
@@ -343,10 +352,15 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
       <FormItem
         id="update-distribution-easing"
         label={this.props.t('scale.easing.label')}
-        shouldFill={false}
+        shouldFill={true}
         isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
       >
-        <div className={layouts['snackbar--tight']}>
+        <div
+          className={doClassnames([
+            layouts['snackbar--tight'],
+            layouts['snackbar--wrap'],
+          ])}
+        >
           <Dropdown
             id="update-distribution-easing-curve"
             options={[
@@ -496,6 +510,75 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
           {
             node: (
               <>
+                <Bar
+                  id="scale-header"
+                  leftPartSlot={
+                    <SectionTitle
+                      label={
+                        this.state.isContrastMode
+                          ? this.props.t('scale.contrast.title')
+                          : this.props.t('scale.title')
+                      }
+                      indicator={Object.entries(
+                        this.props.scale ?? {}
+                      ).length.toString()}
+                    />
+                  }
+                  rightPartSlot={
+                    <div className={doClassnames([layouts['snackbar--tight']])}>
+                      <Feature
+                        isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
+                      >
+                        <Select
+                          id="switch-contrast-mode"
+                          type="SWITCH_BUTTON"
+                          label={this.props.t('scale.contrast.label')}
+                          shouldReflow
+                          isChecked={this.state.isContrastMode}
+                          isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
+                          action={this.onSwitchContrasteMode}
+                        />
+                      </Feature>
+                      <Feature
+                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
+                      >
+                        <Menu
+                          icon="help"
+                          options={[
+                            {
+                              type: 'OPTION',
+                              label: this.props.t('scale.howTo'),
+                              action: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'OPEN_IN_BROWSER',
+                                      data: {
+                                        url: this.props.config.urls.howToUseUrl,
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+                              },
+                            },
+                            {
+                              type: 'OPTION',
+                              label: this.props.t('scale.keyboardShortcuts'),
+                              action: () => {
+                                this.setState({
+                                  isTipsOpen: true,
+                                })
+                              },
+                            },
+                          ]}
+                          alignment="BOTTOM_RIGHT"
+                        />
+                      </Feature>
+                    </div>
+                  }
+                  border={['BOTTOM']}
+                />
                 {!this.state.isContrastMode ? (
                   <ScaleLCH
                     {...this.props}
@@ -518,55 +601,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                         <this.DistributionEasing />
                       </Feature>
                     }
-                    rightPartSlot={
-                      <Feature
-                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
-                      >
-                        <div
-                          className={doClassnames([
-                            layouts['snackbar--tight'],
-                            layouts['snackbar--right'],
-                            layouts['snackbar--wrap'],
-                          ])}
-                        >
-                          <Button
-                            type="tertiary"
-                            label={this.props.t('scale.howTo')}
-                            action={() =>
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'OPEN_IN_BROWSER',
-                                    data: {
-                                      url: this.props.config.urls.howToUseUrl,
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                            }
-                          />
-                          <span
-                            className={doClassnames([
-                              texts.type,
-                              texts['type--secondary'],
-                            ])}
-                          >
-                            {this.props.t('separator')}
-                          </span>
-                          <Button
-                            type="tertiary"
-                            label={this.props.t('scale.keyboardShortcuts')}
-                            action={() =>
-                              this.setState({
-                                isTipsOpen: true,
-                              })
-                            }
-                          />
-                        </div>
-                      </Feature>
-                    }
-                    isInverted
                     shouldReflow
                   />
                   <KeyboardShortcuts
@@ -577,7 +611,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 </Feature>
               </>
             ),
-            typeModifier: 'DISTRIBUTED',
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight

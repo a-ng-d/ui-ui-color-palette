@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import {
+  Bar,
   Button,
   FormItem,
   Input,
@@ -10,7 +11,6 @@ import {
   layouts,
   SectionTitle,
   SemanticMessage,
-  SimpleItem,
   SortableList,
 } from '@unoff/ui'
 import {
@@ -417,8 +417,8 @@ export default class Themes extends PureComponent<ThemesProps> {
           {
             node: (
               <>
-                <SimpleItem
-                  id="add-theme"
+                <Bar
+                  id="modes-header"
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.t('themes.title')}
@@ -437,8 +437,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                       action={this.themesHandler}
                     />
                   }
-                  alignment="CENTER"
-                  isListItem={false}
+                  border={['BOTTOM']}
                 />
                 {customThemes.length === 0 ? (
                   <div className={layouts.centered}>
@@ -539,13 +538,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                     )}
                     <SortableList<ThemeConfiguration>
                       data={customThemes}
-                      primarySlot={customThemes.map((theme, index) => {
+                      primarySlot={customThemes.map((theme) => {
                         return (
                           <>
                             <Feature
                               isActive={this.features.THEMES_NAME.isActive()}
                             >
-                              <div className="draggable-item__param--compact">
+                              <div className="draggable-item__param">
                                 <Input
                                   type="TEXT"
                                   value={theme.name}
@@ -564,23 +563,28 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 />
                               </div>
                             </Feature>
-                            <Feature
-                              isActive={
-                                this.features.THEMES_PARAMS.isActive() &&
-                                this.props.documentWidth > 460
-                              }
-                            >
-                              <div className="draggable-item__param">
+                          </>
+                        )
+                      })}
+                      secondarySlot={customThemes.map((theme) => {
+                        return {
+                          title: this.props.t('themes.moreParameters', {
+                            themeName: theme.name,
+                          }),
+                          node: (() => (
+                            <>
+                              <Feature
+                                isActive={this.features.THEMES_PARAMS.isActive()}
+                              >
                                 <FormItem
-                                  id={`update-palette-background-color-${index}`}
+                                  id={`update-palette-background-color-secondary-${theme.id}`}
                                   label={this.props.t(
                                     'themes.paletteBackgroundColor.label'
                                   )}
-                                  shouldFill={false}
                                   isBlocked={this.features.THEMES_PARAMS.isBlocked()}
                                 >
                                   <Input
-                                    id={`update-palette-background-color-${index}`}
+                                    id={`update-palette-background-color-secondary-${theme.id}`}
                                     type="COLOR"
                                     value={theme.paletteBackground}
                                     helper={{
@@ -596,48 +600,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     onValid={this.themesHandler}
                                   />
                                 </FormItem>
-                              </div>
-                            </Feature>
-                          </>
-                        )
-                      })}
-                      secondarySlot={customThemes.map((theme) => {
-                        return {
-                          title: this.props.t('themes.moreParameters', {
-                            themeName: theme.name,
-                          }),
-                          node: (() => (
-                            <>
-                              {this.props.documentWidth <= 460 && (
-                                <Feature
-                                  isActive={this.features.THEMES_PARAMS.isActive()}
-                                >
-                                  <FormItem
-                                    id={`update-palette-background-color-secondary-${theme.id}`}
-                                    label={this.props.t(
-                                      'themes.paletteBackgroundColor.label'
-                                    )}
-                                    isBlocked={this.features.THEMES_PARAMS.isBlocked()}
-                                  >
-                                    <Input
-                                      id={`update-palette-background-color-secondary-${theme.id}`}
-                                      type="COLOR"
-                                      value={theme.paletteBackground}
-                                      helper={{
-                                        label: this.props.t(
-                                          'themes.actions.documentBackground'
-                                        ),
-                                      }}
-                                      feature="UPDATE_PALETTE_BACKGROUND"
-                                      isBlocked={this.features.THEMES_PARAMS.isBlocked()}
-                                      isNew={this.features.THEMES_PARAMS.isNew()}
-                                      onPick={this.themesHandler}
-                                      onBlur={this.themesHandler}
-                                      onValid={this.themesHandler}
-                                    />
-                                  </FormItem>
-                                </Feature>
-                              )}
+                              </Feature>
                               <Feature
                                 isActive={this.features.THEMES_DESCRIPTION.isActive()}
                               >
@@ -676,7 +639,6 @@ export default class Themes extends PureComponent<ThemesProps> {
                         more: this.props.t('themes.actions.moreParameters'),
                       }}
                       isScrollable
-                      isTopBorderEnabled
                       onChangeSortableList={this.onChangeOrder}
                       onRemoveItem={this.themesHandler}
                       isBlocked={this.features.THEMES.isBlocked()}
@@ -685,7 +647,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                 )}
               </>
             ),
-            typeModifier: 'LIST',
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight

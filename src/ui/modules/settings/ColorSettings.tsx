@@ -316,6 +316,8 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
               },
             ]}
             selected={this.props.colorSpace}
+            alignment="RIGHT"
+            isFill
             isBlocked={this.features.SETTINGS_COLOR_SPACE.isBlocked()}
             isNew={this.features.SETTINGS_COLOR_SPACE.isNew()}
           />
@@ -487,6 +489,8 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
               },
             ]}
             selected={this.props.visionSimulationMode}
+            alignment="RIGHT"
+            isFill
             isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
             isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
           />
@@ -538,6 +542,8 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
               },
             ]}
             selected={this.props.algorithmVersion}
+            alignment="RIGHT"
+            isFill
             isBlocked={this.features.SETTINGS_ALGORITHM.isBlocked()}
             isNew={this.features.SETTINGS_ALGORITHM.isNew()}
           />

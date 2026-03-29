@@ -714,23 +714,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 }}
                 action={this.props.onUnloadPalette}
               />
-              <div
-                style={{
-                  flex: '0 1 200px',
-                  overflow: 'hidden',
-                }}
+              <span
+                className={doClassnames([texts.type, texts['type--truncated']])}
               >
-                <span
-                  className={doClassnames([
-                    texts.type,
-                    texts['type--truncated'],
-                  ])}
-                >
-                  {this.props.name !== ''
-                    ? this.props.name
-                    : this.props.t('name')}
-                </span>
-              </div>
+                {this.props.name !== ''
+                  ? this.props.name
+                  : this.props.t('name')}
+              </span>
               <Feature
                 isActive={
                   this.features.PUBLICATION.isActive() &&
@@ -774,23 +764,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 }}
                 action={this.props.onUnloadPalette}
               />
-              <div
-                style={{
-                  flex: '0 1 200px',
-                  overflow: 'hidden',
-                }}
+              <span
+                className={doClassnames([texts.type, texts['type--truncated']])}
               >
-                <span
-                  className={doClassnames([
-                    texts.type,
-                    texts['type--truncated'],
-                  ])}
-                >
-                  {this.props.name !== ''
-                    ? this.props.name
-                    : this.props.t('name')}
-                </span>
-              </div>
+                {this.props.name !== ''
+                  ? this.props.name
+                  : this.props.t('name')}
+              </span>
               <Feature
                 isActive={
                   this.features.PUBLICATION.isActive() &&

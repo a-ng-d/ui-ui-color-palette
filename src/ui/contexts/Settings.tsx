@@ -1,7 +1,7 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
-import { Layout } from '@unoff/ui'
+import { Bar, Layout, List, SectionTitle } from '@unoff/ui'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
@@ -419,7 +419,10 @@ export default class Settings extends PureComponent<SettingsProps> {
   // Templates
   Palette = () => {
     return (
-      <>
+      <List
+        isFullHeight
+        isFullWidth
+      >
         <Feature isActive={this.features.SETTINGS_GLOBAL.isActive()}>
           <GlobalSettings
             {...this.props}
@@ -447,7 +450,7 @@ export default class Settings extends PureComponent<SettingsProps> {
             onDeletePalette={this.props.onDeletePalette as () => void}
           />
         </Feature>
-      </>
+      </List>
     )
   }
 
@@ -459,7 +462,20 @@ export default class Settings extends PureComponent<SettingsProps> {
           id="settings"
           column={[
             {
-              node: <this.Palette />,
+              node: (
+                <>
+                  <Bar
+                    id="modes-header"
+                    leftPartSlot={
+                      <SectionTitle
+                        label={this.props.t('properties.settings')}
+                      />
+                    }
+                    border={['BOTTOM']}
+                  />
+                  <this.Palette />
+                </>
+              ),
               typeModifier: 'BLANK',
             },
           ]}

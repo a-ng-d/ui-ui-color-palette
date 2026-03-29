@@ -7,7 +7,6 @@ import {
   DropdownOption,
   layouts,
   Menu,
-  SectionTitle,
   Select,
   SemanticMessage,
   SimpleItem,
@@ -20,7 +19,7 @@ import {
   EasingConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../../services/OpenPalette'
+import { ManagePaletteState } from '../../services/ManagePalette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -714,14 +713,24 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         ])}
       >
         <SimpleItem
-          id={'watch-preset'}
+          id="update-preset"
           leftPartSlot={
-            <SectionTitle
-              label={this.props.t('scale.title')}
-              indicator={Object.entries(
-                this.props.scale ?? {}
-              ).length.toString()}
-            />
+            <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
+              <Dropdown
+                id="presets"
+                options={this.presetsOptions()}
+                selected={this.props.preset.id}
+                alignment="LEFT"
+                pin="TOP"
+                helper={{
+                  label: this.props.t('scale.presets.helper'),
+                }}
+                shouldReflow={{
+                  isEnabled: true,
+                  icon: 'adjust',
+                }}
+              />
+            </Feature>
           }
           rightPartSlot={
             this.props.documentWidth > 460 ? (
@@ -732,37 +741,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                   layouts['snackbar--right'],
                 ])}
               >
-                <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
-                  <Dropdown
-                    id="presets"
-                    options={this.presetsOptions()}
-                    selected={this.props.preset.id}
-                    alignment="RIGHT"
-                    pin="TOP"
-                    helper={{
-                      label: this.props.t('scale.presets.helper'),
-                    }}
-                    shouldReflow={{
-                      isEnabled: true,
-                      icon: 'adjust',
-                    }}
-                  />
-                </Feature>
                 <this.ToolsButtons />
-                <span className={texts.type}>{this.props.t('separator')}</span>
-                <Feature
-                  isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
-                >
-                  <Select
-                    id="switch-contrast-mode"
-                    type="SWITCH_BUTTON"
-                    label={this.props.t('scale.contrast.label')}
-                    shouldReflow
-                    isChecked={false}
-                    isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
-                    action={this.props.onSwitchMode}
-                  />
-                </Feature>
               </div>
             ) : (
               <div

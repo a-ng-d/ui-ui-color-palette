@@ -790,7 +790,7 @@ export default class EditPalette extends PureComponent<
                     typeModifier: 'DRAWER' as const,
                     drawerOptions: {
                       minSize: {
-                        value: 200,
+                        value: 296,
                         unit: 'PIXEL' as const,
                       },
                       defaultSize: {
