@@ -425,6 +425,9 @@ export default class EditPalette extends PureComponent<
                               ? 'selected'
                               : undefined
                           }
+                          helper={{
+                            label: this.props.t('contexts.properties'),
+                          }}
                           action={() =>
                             this.setState({
                               context: 'PROPERTIES',
@@ -441,6 +444,9 @@ export default class EditPalette extends PureComponent<
                               ? 'selected'
                               : undefined
                           }
+                          helper={{
+                            label: this.props.t('contexts.report'),
+                          }}
                           action={() => {
                             this.setState({ context: 'REPORT' })
                             if (!this.state.shadeReport)

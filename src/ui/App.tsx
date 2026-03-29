@@ -888,6 +888,9 @@ class App extends Component<AppProps, AppState> {
                                 ? 'selected'
                                 : undefined
                             }
+                            helper={{
+                              label: this.props.t('services.manage'),
+                            }}
                             action={() =>
                               this.setState({
                                 service: 'MANAGE',
@@ -904,6 +907,9 @@ class App extends Component<AppProps, AppState> {
                                 ? 'selected'
                                 : undefined
                             }
+                            helper={{
+                              label: this.props.t('context.generate'),
+                            }}
                             action={() =>
                               this.setState({
                                 service: 'GEN',
@@ -920,6 +926,9 @@ class App extends Component<AppProps, AppState> {
                                 ? 'selected'
                                 : undefined
                             }
+                            helper={{
+                              label: this.props.t('context.extract'),
+                            }}
                             action={() =>
                               this.setState({
                                 service: 'EXTRACT',
@@ -936,6 +945,9 @@ class App extends Component<AppProps, AppState> {
                                 ? 'selected'
                                 : undefined
                             }
+                            helper={{
+                              label: this.props.t('context.wheel'),
+                            }}
                             action={() =>
                               this.setState({
                                 service: 'WHEEL',
@@ -952,6 +964,9 @@ class App extends Component<AppProps, AppState> {
                                 ? 'selected'
                                 : undefined
                             }
+                            helper={{
+                              label: this.props.t('context.explore'),
+                            }}
                             action={() =>
                               this.setState({
                                 service: 'EXPLORE',

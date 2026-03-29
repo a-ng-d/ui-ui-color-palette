@@ -823,6 +823,9 @@ export default class EditPalette extends PureComponent<
                               ? 'selected'
                               : undefined
                           }
+                          helper={{
+                            label: this.props.t('contexts.scale'),
+                          }}
                           action={() =>
                             this.setState({
                               context: 'SCALE',
@@ -839,6 +842,9 @@ export default class EditPalette extends PureComponent<
                               ? 'selected'
                               : undefined
                           }
+                          helper={{
+                            label: this.props.t('contexts.colors'),
+                          }}
                           action={() =>
                             this.setState({
                               context: 'COLORS',
@@ -855,6 +861,9 @@ export default class EditPalette extends PureComponent<
                               ? 'selected'
                               : undefined
                           }
+                          helper={{
+                            label: this.props.t('contexts.themes'),
+                          }}
                           action={() =>
                             this.setState({
                               context: 'THEMES',
@@ -871,6 +880,9 @@ export default class EditPalette extends PureComponent<
                               ? 'selected'
                               : undefined
                           }
+                          helper={{
+                            label: this.props.t('contexts.settings'),
+                          }}
                           action={() =>
                             this.setState({
                               context: 'SETTINGS',
@@ -884,6 +896,9 @@ export default class EditPalette extends PureComponent<
                         state={
                           this.state.context === '' ? 'selected' : undefined
                         }
+                        helper={{
+                          label: this.props.t('contexts.hide'),
+                        }}
                         action={() =>
                           this.setState({
                             context: '',
