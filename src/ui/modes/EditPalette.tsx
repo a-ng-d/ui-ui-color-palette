@@ -28,6 +28,7 @@ import Actions from '../modules/Actions'
 import Themes from '../contexts/Themes'
 import Settings from '../contexts/Settings'
 import Scale from '../contexts/Scale'
+import Imports from '../contexts/Imports'
 import Colors from '../contexts/Colors'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -153,6 +154,13 @@ export default class EditPalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    IMPORTS: new FeatureStatus({
+      features: config.features,
+      featureName: 'IMPORTS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SETTINGS: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS',
@@ -185,7 +193,7 @@ export default class EditPalette extends PureComponent<
       data: [],
     }
     this.contexts = setContexts(
-      ['SCALE', 'COLORS', 'THEMES', 'SETTINGS'],
+      ['SCALE', 'COLORS', 'THEMES', 'IMPORTS', 'SETTINGS'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -745,6 +753,14 @@ export default class EditPalette extends PureComponent<
         )
         break
       }
+      case 'IMPORTS': {
+        fragment = (
+          <Feature isActive={this.features.IMPORTS.isActive()}>
+            <Imports {...this.props} />
+          </Feature>
+        )
+        break
+      }
       case 'SETTINGS': {
         fragment = (
           <Feature isActive={this.features.SETTINGS.isActive()}>
@@ -867,6 +883,25 @@ export default class EditPalette extends PureComponent<
                           action={() =>
                             this.setState({
                               context: 'THEMES',
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.IMPORTS.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="import"
+                          state={
+                            this.state.context === 'IMPORTS'
+                              ? 'selected'
+                              : undefined
+                          }
+                          helper={{
+                            label: this.props.t('contexts.imports'),
+                          }}
+                          action={() =>
+                            this.setState({
+                              context: 'IMPORTS',
                             })
                           }
                         />

@@ -66,6 +66,7 @@ export type Context =
   | 'SCALE'
   | 'COLORS'
   | 'THEMES'
+  | 'IMPORTS'
   | 'EXPORT'
   | 'SETTINGS'
   | 'REPORT'
