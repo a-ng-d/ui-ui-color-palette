@@ -453,7 +453,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     name: 'adjust' as IconList,
                   },
                   helper: {
-                    label: this.props.t('views.edit'),
+                    label: this.props.t('modes.edit'),
                     pin: 'BOTTOM' as const,
                   },
                 },
@@ -468,7 +468,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     name: 'visible' as IconList,
                   },
                   helper: {
-                    label: this.props.t('views.see'),
+                    label: this.props.t('modes.see'),
                     pin: 'BOTTOM' as const,
                   },
                 },
@@ -483,7 +483,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     name: 'code' as IconList,
                   },
                   helper: {
-                    label: this.props.t('views.code'),
+                    label: this.props.t('modes.code'),
                     pin: 'BOTTOM' as const,
                   },
                 },

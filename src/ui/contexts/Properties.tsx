@@ -502,6 +502,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
                         label={this.props.t('contexts.properties')}
                       />
                     }
+                    clip={['LEFT']}
                     border={['BOTTOM']}
                   />
                   <this.Settings />

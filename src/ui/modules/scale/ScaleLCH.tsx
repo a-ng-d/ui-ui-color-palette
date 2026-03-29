@@ -7,10 +7,8 @@ import {
   DropdownOption,
   layouts,
   Menu,
-  Select,
   SemanticMessage,
   SimpleItem,
-  texts,
 } from '@unoff/ui'
 import {
   ExchangeConfiguration,
@@ -715,7 +713,12 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         <SimpleItem
           id="update-preset"
           leftPartSlot={
-            <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
+            <Feature
+              isActive={
+                this.features.SCALE_PRESETS.isActive() &&
+                this.props.documentWidth > 460
+              }
+            >
               <Dropdown
                 id="presets"
                 options={this.presetsOptions()}
@@ -768,20 +771,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                   />
                 </Feature>
                 <this.MoreTools />
-                <span className={texts.type}>{this.props.t('separator')}</span>
-                <Feature
-                  isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
-                >
-                  <Select
-                    id="switch-contrast-mode"
-                    type="SWITCH_BUTTON"
-                    label={this.props.t('scale.contrast.label')}
-                    shouldReflow
-                    isChecked={false}
-                    isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
-                    action={this.props.onSwitchMode}
-                  />
-                </Feature>
               </div>
             )
           }

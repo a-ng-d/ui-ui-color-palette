@@ -471,6 +471,7 @@ export default class Settings extends PureComponent<SettingsProps> {
                         label={this.props.t('properties.settings')}
                       />
                     }
+                    clip={['LEFT']}
                     border={['BOTTOM']}
                   />
                   <this.Palette />

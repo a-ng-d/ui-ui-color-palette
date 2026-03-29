@@ -664,6 +664,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       action={(e: Event) => this.colorsHandler(e)}
                     />
                   }
+                  clip={['LEFT']}
                   border={['BOTTOM']}
                 />
                 {this.features.COLORS.isReached(this.props.colors.length) && (

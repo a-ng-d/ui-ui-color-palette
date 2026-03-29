@@ -412,7 +412,7 @@ export default class Themes extends PureComponent<ThemesProps> {
 
     return (
       <Layout
-        id="colors"
+        id="themes"
         column={[
           {
             node: (
@@ -437,6 +437,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                       action={this.themesHandler}
                     />
                   }
+                  clip={['LEFT']}
                   border={['BOTTOM']}
                 />
                 {customThemes.length === 0 ? (

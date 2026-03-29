@@ -908,7 +908,7 @@ class App extends Component<AppProps, AppState> {
                                 : undefined
                             }
                             helper={{
-                              label: this.props.t('context.generate'),
+                              label: this.props.t('services.generate'),
                             }}
                             action={() =>
                               this.setState({
@@ -927,7 +927,7 @@ class App extends Component<AppProps, AppState> {
                                 : undefined
                             }
                             helper={{
-                              label: this.props.t('context.extract'),
+                              label: this.props.t('services.extract'),
                             }}
                             action={() =>
                               this.setState({
@@ -946,7 +946,7 @@ class App extends Component<AppProps, AppState> {
                                 : undefined
                             }
                             helper={{
-                              label: this.props.t('context.wheel'),
+                              label: this.props.t('services.wheel'),
                             }}
                             action={() =>
                               this.setState({
@@ -965,7 +965,7 @@ class App extends Component<AppProps, AppState> {
                                 : undefined
                             }
                             helper={{
-                              label: this.props.t('context.explore'),
+                              label: this.props.t('services.explore'),
                             }}
                             action={() =>
                               this.setState({

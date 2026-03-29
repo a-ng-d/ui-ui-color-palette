@@ -575,10 +575,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                             },
                           ]}
                           alignment="BOTTOM_RIGHT"
+                          helper={{
+                            label: this.props.t('scale.actions.help'),
+                          }}
                         />
                       </Feature>
                     </div>
                   }
+                  clip={['LEFT']}
                   border={['BOTTOM']}
                 />
                 {!this.state.isContrastMode ? (

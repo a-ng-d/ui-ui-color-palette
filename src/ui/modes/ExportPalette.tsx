@@ -327,7 +327,7 @@ export default class ExportPalette extends PureComponent<
           />
         </Feature>
         <Layout
-          id="edit-palette"
+          id="export-palette"
           column={[
             {
               node: (

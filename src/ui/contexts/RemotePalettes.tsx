@@ -506,6 +506,7 @@ export default class RemotePalettes extends PureComponent<
         ]}
         isFullHeight
         isFullWidth
+        shouldReflow
       />
     )
   }

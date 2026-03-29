@@ -366,7 +366,7 @@ export default class EditPalette extends PureComponent<
           />
         </Feature>
         <Layout
-          id="edit-palette"
+          id="inspect-palette"
           column={[
             {
               node: (
