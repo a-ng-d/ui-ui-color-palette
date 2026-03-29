@@ -9,16 +9,16 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
-import { WithTranslationProps } from '../components/WithTranslation'
-import { WithConfigProps } from '../components/WithConfig'
-import Feature from '../components/Feature'
-import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { WithTranslationProps } from '../../components/WithTranslation'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import {
   $canStylesDeepSync,
   $canVariablesDeepSync,
-} from '../../stores/preferences'
-import { ConfigContextType } from '../../config/ConfigContext'
+} from '../../../stores/preferences'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface SyncPreferencesProps
   extends BaseProps, WithConfigProps, WithTranslationProps {

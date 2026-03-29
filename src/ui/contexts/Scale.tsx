@@ -525,7 +525,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                     />
                   }
                   rightPartSlot={
-                    <div className={doClassnames([layouts['snackbar--tight']])}>
+                    <div
+                      className={doClassnames([layouts['snackbar--medium']])}
+                    >
                       <Feature
                         isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
                       >

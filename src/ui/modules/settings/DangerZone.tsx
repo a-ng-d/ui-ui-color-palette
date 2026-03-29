@@ -9,12 +9,12 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
-import { WithTranslationProps } from '../components/WithTranslation'
-import { WithConfigProps } from '../components/WithConfig'
-import Feature from '../components/Feature'
-import { sendPluginMessage } from '../../utils/pluginMessage'
-import { PluginMessageData } from '../../types/messages'
-import { BaseProps } from '../../types/app'
+import { WithTranslationProps } from '../../components/WithTranslation'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { PluginMessageData } from '../../../types/messages'
+import { BaseProps } from '../../../types/app'
 
 interface DangerZoneProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
