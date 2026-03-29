@@ -833,11 +833,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                         }
                         return true
                       })
-                      .sort((a, b) => {
-                        if (a.name.localeCompare(b.name) > 0) return 1
-                        else if (a.name.localeCompare(b.name) < 0) return -1
-                        else return 0
-                      })
                       .map((color, index) => {
                         const scaledColors: Array<HexModel> = Object.values(
                           this.props.scale
