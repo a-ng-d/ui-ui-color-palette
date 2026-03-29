@@ -56,58 +56,58 @@ export default class ColorWheel extends PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    SOURCE_HARMONY_BASE: new FeatureStatus({
+    WHEEL_BASE: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_BASE',
+      featureName: 'WHEEL_BASE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY_WHEEL: new FeatureStatus({
+    WHEEL_WHEEL: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_WHEEL',
+      featureName: 'WHEEL_WHEEL',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY_WHEEL_ANALOGOUS: new FeatureStatus({
+    WHEEL_WHEEL_ANALOGOUS: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_WHEEL_ANALOGOUS',
+      featureName: 'WHEEL_WHEEL_ANALOGOUS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY_WHEEL_COMPLEMENTARY: new FeatureStatus({
+    WHEEL_WHEEL_COMPLEMENTARY: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_WHEEL_COMPLEMENTARY',
+      featureName: 'WHEEL_WHEEL_COMPLEMENTARY',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY_WHEEL_COMPOUND: new FeatureStatus({
+    WHEEL_WHEEL_COMPOUND: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_WHEEL_COMPOUND',
+      featureName: 'WHEEL_WHEEL_COMPOUND',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY_WHEEL_TRIADIC: new FeatureStatus({
+    WHEEL_WHEEL_TRIADIC: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_WHEEL_TRIADIC',
+      featureName: 'WHEEL_WHEEL_TRIADIC',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY_WHEEL_TETRADIC: new FeatureStatus({
+    WHEEL_WHEEL_TETRADIC: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_WHEEL_TETRADIC',
+      featureName: 'WHEEL_WHEEL_TETRADIC',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY_ADD: new FeatureStatus({
+    WHEEL_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY_ADD',
+      featureName: 'WHEEL_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -259,7 +259,7 @@ export default class ColorWheel extends PureComponent<
           position: 'relative',
         }}
       >
-        {this.features.SOURCE_HARMONY_BASE.isReached(
+        {this.features.WHEEL_BASE.isReached(
           (this.props.creditsCount - this.props.config.fees.harmonyCreate) *
             -1 -
             1
@@ -310,9 +310,7 @@ export default class ColorWheel extends PureComponent<
               <>
                 <Bar
                   leftPartSlot={
-                    <Feature
-                      isActive={this.features.SOURCE_HARMONY_BASE.isActive()}
-                    >
+                    <Feature isActive={this.features.WHEEL_BASE.isActive()}>
                       <FormItem
                         id="color-harmony-base-color"
                         label={this.props.t('source.wheel.base')}
@@ -326,13 +324,13 @@ export default class ColorWheel extends PureComponent<
                             0.921 * 255,
                             0.976 * 255,
                           ]).hex()}
-                          isBlocked={this.features.SOURCE_HARMONY_BASE.isReached(
+                          isBlocked={this.features.WHEEL_BASE.isReached(
                             (this.props.creditsCount -
                               this.props.config.fees.harmonyCreate) *
                               -1 -
                               1
                           )}
-                          isNew={this.features.SOURCE_HARMONY_BASE.isNew()}
+                          isNew={this.features.WHEEL_BASE.isNew()}
                           onPick={(e) => {
                             const value = (e.target as HTMLInputElement).value
                             const rgb = chroma(value).rgb()
@@ -351,13 +349,11 @@ export default class ColorWheel extends PureComponent<
                         layouts['snackbar--wrap'],
                       ])}
                     >
-                      <Feature
-                        isActive={this.features.SOURCE_HARMONY_WHEEL.isActive()}
-                      >
+                      <Feature isActive={this.features.WHEEL_WHEEL.isActive()}>
                         <FormItem
                           id="color-harmony-algorithm"
                           label={this.props.t('source.wheel.algorithm.label')}
-                          isBlocked={this.features.SOURCE_HARMONY_WHEEL.isBlocked()}
+                          isBlocked={this.features.WHEEL_WHEEL.isBlocked()}
                           shouldFill={false}
                         >
                           <Dropdown
@@ -370,11 +366,11 @@ export default class ColorWheel extends PureComponent<
                                 ),
                                 value: 'ANALOGOUS',
                                 isActive:
-                                  this.features.SOURCE_HARMONY_WHEEL_ANALOGOUS.isActive(),
+                                  this.features.WHEEL_WHEEL_ANALOGOUS.isActive(),
                                 isBlocked:
-                                  this.features.SOURCE_HARMONY_WHEEL_ANALOGOUS.isBlocked(),
+                                  this.features.WHEEL_WHEEL_ANALOGOUS.isBlocked(),
                                 isNew:
-                                  this.features.SOURCE_HARMONY_WHEEL_ANALOGOUS.isNew(),
+                                  this.features.WHEEL_WHEEL_ANALOGOUS.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'ANALOGOUS',
@@ -388,11 +384,11 @@ export default class ColorWheel extends PureComponent<
                                 ),
                                 value: 'COMPLEMENTARY',
                                 isActive:
-                                  this.features.SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isActive(),
+                                  this.features.WHEEL_WHEEL_COMPLEMENTARY.isActive(),
                                 isBlocked:
-                                  this.features.SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isBlocked(),
+                                  this.features.WHEEL_WHEEL_COMPLEMENTARY.isBlocked(),
                                 isNew:
-                                  this.features.SOURCE_HARMONY_WHEEL_COMPLEMENTARY.isNew(),
+                                  this.features.WHEEL_WHEEL_COMPLEMENTARY.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPLEMENTARY',
@@ -406,11 +402,11 @@ export default class ColorWheel extends PureComponent<
                                 ),
                                 value: 'COMPOUND',
                                 isActive:
-                                  this.features.SOURCE_HARMONY_WHEEL_COMPOUND.isActive(),
+                                  this.features.WHEEL_WHEEL_COMPOUND.isActive(),
                                 isBlocked:
-                                  this.features.SOURCE_HARMONY_WHEEL_COMPOUND.isBlocked(),
+                                  this.features.WHEEL_WHEEL_COMPOUND.isBlocked(),
                                 isNew:
-                                  this.features.SOURCE_HARMONY_WHEEL_COMPOUND.isNew(),
+                                  this.features.WHEEL_WHEEL_COMPOUND.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPOUND',
@@ -424,11 +420,11 @@ export default class ColorWheel extends PureComponent<
                                 ),
                                 value: 'TRIADIC',
                                 isActive:
-                                  this.features.SOURCE_HARMONY_WHEEL_TRIADIC.isActive(),
+                                  this.features.WHEEL_WHEEL_TRIADIC.isActive(),
                                 isBlocked:
-                                  this.features.SOURCE_HARMONY_WHEEL_TRIADIC.isBlocked(),
+                                  this.features.WHEEL_WHEEL_TRIADIC.isBlocked(),
                                 isNew:
-                                  this.features.SOURCE_HARMONY_WHEEL_TRIADIC.isNew(),
+                                  this.features.WHEEL_WHEEL_TRIADIC.isNew(),
                                 action: () => {
                                   this.setState({ wheelRule: 'TRIADIC' })
                                 },
@@ -440,11 +436,11 @@ export default class ColorWheel extends PureComponent<
                                 ),
                                 value: 'TETRADIC',
                                 isActive:
-                                  this.features.SOURCE_HARMONY_WHEEL_TETRADIC.isActive(),
+                                  this.features.WHEEL_WHEEL_TETRADIC.isActive(),
                                 isBlocked:
-                                  this.features.SOURCE_HARMONY_WHEEL_TETRADIC.isBlocked(),
+                                  this.features.WHEEL_WHEEL_TETRADIC.isBlocked(),
                                 isNew:
-                                  this.features.SOURCE_HARMONY_WHEEL_TETRADIC.isNew(),
+                                  this.features.WHEEL_WHEEL_TETRADIC.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'TETRADIC',
@@ -466,9 +462,7 @@ export default class ColorWheel extends PureComponent<
                       >
                         {this.props.t('separator')}
                       </span>
-                      <Feature
-                        isActive={this.features.SOURCE_HARMONY_ADD.isActive()}
-                      >
+                      <Feature isActive={this.features.WHEEL_ADD.isActive()}>
                         <Button
                           type="icon"
                           icon="plus"
@@ -477,13 +471,13 @@ export default class ColorWheel extends PureComponent<
                             type: 'MULTI_LINE',
                           }}
                           isLoading={this.state.isActionLoading}
-                          isBlocked={this.features.SOURCE_HARMONY_ADD.isReached(
+                          isBlocked={this.features.WHEEL_ADD.isReached(
                             (this.props.creditsCount -
                               this.props.config.fees.harmonyCreate) *
                               -1 -
                               1
                           )}
-                          isNew={this.features.SOURCE_HARMONY_ADD.isNew()}
+                          isNew={this.features.WHEEL_ADD.isNew()}
                           action={this.onUsePalette}
                         />
                       </Feature>

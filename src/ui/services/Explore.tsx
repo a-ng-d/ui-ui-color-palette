@@ -66,9 +66,9 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     service: Service,
     editor: Editor
   ) => ({
-    SOURCE_EXPLORE_ADD: new FeatureStatus({
+    EXPLORE_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_EXPLORE_ADD',
+      featureName: 'EXPLORE_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -332,9 +332,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                       )
                     }
                   />
-                  <Feature
-                    isActive={this.features.SOURCE_EXPLORE_ADD.isActive()}
-                  >
+                  <Feature isActive={this.features.EXPLORE_ADD.isActive()}>
                     <Button
                       type="icon"
                       icon="plus"
@@ -343,13 +341,13 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                         type: 'MULTI_LINE',
                       }}
                       isLoading={this.state.isActionLoading}
-                      isBlocked={this.features.SOURCE_EXPLORE_ADD.isReached(
+                      isBlocked={this.features.EXPLORE_ADD.isReached(
                         (this.props.creditsCount -
                           this.props.config.fees.colourLoversImport) *
                           -1 -
                           1
                       )}
-                      isNew={this.features.SOURCE_EXPLORE_ADD.isNew()}
+                      isNew={this.features.EXPLORE_ADD.isNew()}
                       action={() => {
                         this.onUsePalette(palette)
                       }}

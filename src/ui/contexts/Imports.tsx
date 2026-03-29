@@ -75,44 +75,37 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE: new FeatureStatus({
+    IMPORTS_CANVAS: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE',
+      featureName: 'IMPORTS_CANVAS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_CANVAS: new FeatureStatus({
+    IMPORTS_COOLORS: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_CANVAS',
+      featureName: 'IMPORTS_COOLORS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_COOLORS: new FeatureStatus({
+    IMPORTS_COOLORS_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_COOLORS',
+      featureName: 'IMPORTS_COOLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_COOLORS_ADD: new FeatureStatus({
+    IMPORTS_REALTIME_COLORS: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_COOLORS_ADD',
+      featureName: 'IMPORTS_REALTIME_COLORS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_REALTIME_COLORS: new FeatureStatus({
+    IMPORTS_REALTIME_COLORS_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_REALTIME_COLORS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SOURCE_REALTIME_COLORS_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'SOURCE_REALTIME_COLORS_ADD',
+      featureName: 'IMPORTS_REALTIME_COLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -464,7 +457,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
   // Templates
   SelectedColors = () => {
     return (
-      <Feature isActive={this.features.SOURCE_CANVAS.isActive()}>
+      <Feature isActive={this.features.IMPORTS_CANVAS.isActive()}>
         <Accordion
           label={this.props.t('source.canvas.title')}
           indicator={this.state.sourceColors
@@ -476,8 +469,8 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
             empty: this.props.t('source.canvas.empty'),
           }}
           isExpanded={this.state.isSelectedColorsOpen}
-          isBlocked={this.features.SOURCE_CANVAS.isBlocked()}
-          isNew={this.features.SOURCE_CANVAS.isNew()}
+          isBlocked={this.features.IMPORTS_CANVAS.isBlocked()}
+          isNew={this.features.IMPORTS_CANVAS.isNew()}
           onAdd={() => {
             this.setState({ isSelectedColorsOpen: true })
           }}
@@ -544,7 +537,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
 
   CoolorsColors = () => {
     return (
-      <Feature isActive={this.features.SOURCE_COOLORS.isActive()}>
+      <Feature isActive={this.features.IMPORTS_COOLORS.isActive()}>
         <Accordion
           label={this.props.t('source.coolors.title')}
           indicator={this.state.sourceColors
@@ -556,8 +549,8 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
             empty: this.props.t('source.coolors.empty'),
           }}
           isExpanded={this.state.isCoolorsImportOpen}
-          isBlocked={this.features.SOURCE_COOLORS.isBlocked()}
-          isNew={this.features.SOURCE_COOLORS.isNew()}
+          isBlocked={this.features.IMPORTS_COOLORS.isBlocked()}
+          isNew={this.features.IMPORTS_COOLORS.isNew()}
           onAdd={() => {
             this.setState({ isCoolorsImportOpen: true })
           }}
@@ -594,7 +587,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                     label: this.props.t('source.coolors.addColors'),
                   }}
                   isAutoFocus
-                  isBlocked={this.features.SOURCE_COOLORS_ADD.isReached(
+                  isBlocked={this.features.IMPORTS_COOLORS_ADD.isReached(
                     (this.props.creditsCount -
                       this.props.config.fees.coolorsImport) *
                       -1 -
@@ -646,7 +639,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
 
   RealtimeColorsColors = () => {
     return (
-      <Feature isActive={this.features.SOURCE_REALTIME_COLORS.isActive()}>
+      <Feature isActive={this.features.IMPORTS_REALTIME_COLORS.isActive()}>
         <Accordion
           label={this.props.t('source.realtimeColors.title')}
           indicator={this.state.sourceColors
@@ -658,8 +651,8 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
             empty: this.props.t('source.realtimeColors.empty'),
           }}
           isExpanded={this.state.isRealtimeColorsImportOpen}
-          isBlocked={this.features.SOURCE_REALTIME_COLORS.isBlocked()}
-          isNew={this.features.SOURCE_REALTIME_COLORS.isNew()}
+          isBlocked={this.features.IMPORTS_REALTIME_COLORS.isBlocked()}
+          isNew={this.features.IMPORTS_REALTIME_COLORS.isNew()}
           onAdd={() => {
             this.setState({ isRealtimeColorsImportOpen: true })
           }}
@@ -698,7 +691,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                     label: this.props.t('source.realtimeColors.addColors'),
                   }}
                   isAutoFocus
-                  isBlocked={this.features.SOURCE_REALTIME_COLORS_ADD.isReached(
+                  isBlocked={this.features.IMPORTS_REALTIME_COLORS_ADD.isReached(
                     (this.props.creditsCount -
                       this.props.config.fees.realtimeColorsImport) *
                       -1 -

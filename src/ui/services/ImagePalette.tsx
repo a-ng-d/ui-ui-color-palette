@@ -61,16 +61,16 @@ export default class ImagePalette extends PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    SOURCE_IMAGE_UPLOAD: new FeatureStatus({
+    EXTRACT_UPLOAD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_IMAGE_UPLOAD',
+      featureName: 'EXTRACT_UPLOAD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_IMAGE_ADD: new FeatureStatus({
+    EXTRACT_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_IMAGE_ADD',
+      featureName: 'EXTRACT_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -123,7 +123,7 @@ export default class ImagePalette extends PureComponent<
 
     if (imageItem && imageItem.type === 'image/png')
       if (
-        !this.features.SOURCE_IMAGE_UPLOAD.isReached(
+        !this.features.EXTRACT_UPLOAD.isReached(
           (this.props.creditsCount -
             this.props.config.fees.imageColorsExtract) *
             -1 -
@@ -163,7 +163,7 @@ export default class ImagePalette extends PureComponent<
     } = {
       GET_IMAGE_HASH: async () => {
         if (
-          !this.features.SOURCE_IMAGE_UPLOAD.isReached(
+          !this.features.EXTRACT_UPLOAD.isReached(
             (this.props.creditsCount -
               this.props.config.fees.imageColorsExtract) *
               -1 -
@@ -281,7 +281,7 @@ export default class ImagePalette extends PureComponent<
   ImageZone = () => {
     if (this.state.imageUrl)
       return (
-        <Feature isActive={this.features.SOURCE_IMAGE_UPLOAD.isActive()}>
+        <Feature isActive={this.features.EXTRACT_UPLOAD.isActive()}>
           <div
             style={{
               padding: 'var(--size-pos-small)',
@@ -318,7 +318,7 @@ export default class ImagePalette extends PureComponent<
         </Feature>
       )
     return (
-      <Feature isActive={this.features.SOURCE_IMAGE_UPLOAD.isActive()}>
+      <Feature isActive={this.features.EXTRACT_UPLOAD.isActive()}>
         <div
           style={{
             padding: 'var(--size-pos-small)',
@@ -333,13 +333,13 @@ export default class ImagePalette extends PureComponent<
             cta={this.props.t('source.imagePalette.dropzone.cta')}
             acceptedMimeTypes={['image/png']}
             isMultiple={false}
-            isBlocked={this.features.SOURCE_IMAGE_UPLOAD.isReached(
+            isBlocked={this.features.EXTRACT_UPLOAD.isReached(
               (this.props.creditsCount -
                 this.props.config.fees.imageColorsExtract) *
                 -1 -
                 1
             )}
-            isNew={this.features.SOURCE_IMAGE_UPLOAD.isNew()}
+            isNew={this.features.EXTRACT_UPLOAD.isNew()}
             onImportFiles={async (files) => {
               const arrayBuffer = files[0].content
               const blob = new Blob([arrayBuffer as ArrayBuffer], {
@@ -383,7 +383,7 @@ export default class ImagePalette extends PureComponent<
             />
           }
           rightPartSlot={
-            <Feature isActive={this.features.SOURCE_IMAGE_ADD.isActive()}>
+            <Feature isActive={this.features.EXTRACT_ADD.isActive()}>
               <Button
                 type="icon"
                 icon="plus"
@@ -393,8 +393,8 @@ export default class ImagePalette extends PureComponent<
                 }}
                 isLoading={this.state.isActionLoading}
                 isDisabled={this.state.dominantColors.length === 0}
-                isBlocked={this.features.SOURCE_IMAGE_ADD.isBlocked()}
-                isNew={this.features.SOURCE_IMAGE_ADD.isNew()}
+                isBlocked={this.features.EXTRACT_ADD.isBlocked()}
+                isNew={this.features.EXTRACT_ADD.isNew()}
                 action={this.onUsePalette}
               />
             </Feature>
