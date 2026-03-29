@@ -23,6 +23,8 @@ import {
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import ContrastReport from '../modules/preview/ContrastReport'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
@@ -46,8 +48,6 @@ import {
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { OpenPaletteState } from './OpenPalette'
-import { ManagePaletteState } from './ManagePalette'
 
 interface EditPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {

@@ -18,16 +18,16 @@ import {
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
+import InspectPalette from '../modes/InspectPalette'
+import ExportPalette from '../modes/ExportPalette'
+import EditPalette from '../modes/EditPalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { BaseProps, PlanStatus, Service, Editor, Mode } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { ManagePaletteState } from './ManagePalette'
-import InspectPalette from './InspectPalette'
-import ExportPalette from './ExportPalette'
-import EditPalette from './EditPalette'
 
 interface OpenPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {

@@ -10,6 +10,7 @@ import {
   SourceColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import RemotePalettes from '../contexts/RemotePalettes'
 import LocalPalettes from '../contexts/LocalPalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -29,7 +30,6 @@ import {
 import { $palette } from '../../stores/palette'
 import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { ManagePaletteState } from './ManagePalette'
 
 interface BrowsePalettesProps
   extends BaseProps, WithConfigProps, WithTranslationProps {

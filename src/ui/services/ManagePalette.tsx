@@ -23,6 +23,8 @@ import {
   ExtractOfBaseConfiguration,
   EasingConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import OpenPalette from '../subservices/OpenPalette'
+import BrowsePalettes from '../subservices/BrowsePalettes'
 import Publication from '../modules/modals/Publication'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -43,8 +45,6 @@ import {
 } from '../../stores/presets'
 import { $palette, initializePaletteStore } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
-import OpenPalette from './OpenPalette'
-import BrowsePalettes from './BrowsePalettes'
 
 interface ManagePaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {

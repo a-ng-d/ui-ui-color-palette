@@ -25,6 +25,8 @@ import {
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import Actions from '../modules/Actions'
 import Export from '../contexts/Export'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -34,8 +36,6 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import { BaseProps, PlanStatus, Service, Editor, Mode } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { OpenPaletteState } from './OpenPalette'
-import { ManagePaletteState } from './ManagePalette'
 
 interface ExportPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {

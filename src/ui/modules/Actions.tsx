@@ -20,7 +20,7 @@ import {
   DocumentConfiguration,
   PublicationConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { OpenPaletteState } from '../services/OpenPalette'
+import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'

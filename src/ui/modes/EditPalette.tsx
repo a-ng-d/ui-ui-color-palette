@@ -21,6 +21,8 @@ import {
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Themes from '../contexts/Themes'
@@ -56,8 +58,6 @@ import {
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import { OpenPaletteState } from './OpenPalette'
-import { ManagePaletteState } from './ManagePalette'
 
 interface EditPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
