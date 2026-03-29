@@ -355,7 +355,6 @@ const globalConfig: Config = {
 
 const limitsMapping: { [key: string]: keyof typeof globalConfig.limits } = {
   LOCAL_PALETTES: 'localPalettes',
-  SOURCE: 'sourceColors',
   COLORS: 'sourceColors',
   PRESETS_CUSTOM_ADD: 'customStops',
 }

@@ -48,13 +48,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SOURCE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
+
   })
 
   private get features() {
