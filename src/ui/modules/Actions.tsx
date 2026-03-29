@@ -104,13 +104,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SOURCE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
