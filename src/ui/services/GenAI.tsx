@@ -99,67 +99,67 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       vibes: [
         {
           key: 'cyberpunk',
-          label: this.props.t('source.genAi.form.presets.labels.cyberpunk'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.cyberpunk'),
+          label: this.props.t('genAi.form.presets.labels.cyberpunk'),
+          prompt: this.props.t('genAi.form.presets.vibes.cyberpunk'),
         },
         {
           key: 'minimalist',
-          label: this.props.t('source.genAi.form.presets.labels.minimalist'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.minimalist'),
+          label: this.props.t('genAi.form.presets.labels.minimalist'),
+          prompt: this.props.t('genAi.form.presets.vibes.minimalist'),
         },
         {
           key: 'pastel',
-          label: this.props.t('source.genAi.form.presets.labels.pastel'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.pastel'),
+          label: this.props.t('genAi.form.presets.labels.pastel'),
+          prompt: this.props.t('genAi.form.presets.vibes.pastel'),
         },
         {
           key: 'corporate',
-          label: this.props.t('source.genAi.form.presets.labels.corporate'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.corporate'),
+          label: this.props.t('genAi.form.presets.labels.corporate'),
+          prompt: this.props.t('genAi.form.presets.vibes.corporate'),
         },
         {
           key: 'nature',
-          label: this.props.t('source.genAi.form.presets.labels.nature'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.nature'),
+          label: this.props.t('genAi.form.presets.labels.nature'),
+          prompt: this.props.t('genAi.form.presets.vibes.nature'),
         },
         {
           key: 'vintage',
-          label: this.props.t('source.genAi.form.presets.labels.vintage'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.vintage'),
+          label: this.props.t('genAi.form.presets.labels.vintage'),
+          prompt: this.props.t('genAi.form.presets.vibes.vintage'),
         },
       ],
       usecases: [
         {
           key: 'landing',
-          label: this.props.t('source.genAi.form.presets.labels.landing'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.landing'),
+          label: this.props.t('genAi.form.presets.labels.landing'),
+          prompt: this.props.t('genAi.form.presets.usecases.landing'),
         },
         {
           key: 'blog',
-          label: this.props.t('source.genAi.form.presets.labels.blog'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.blog'),
+          label: this.props.t('genAi.form.presets.labels.blog'),
+          prompt: this.props.t('genAi.form.presets.usecases.blog'),
         },
         {
           key: 'resume',
-          label: this.props.t('source.genAi.form.presets.labels.resume'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.resume'),
+          label: this.props.t('genAi.form.presets.labels.resume'),
+          prompt: this.props.t('genAi.form.presets.usecases.resume'),
         },
         {
           key: 'portfolio',
-          label: this.props.t('source.genAi.form.presets.labels.portfolio'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.portfolio'),
+          label: this.props.t('genAi.form.presets.labels.portfolio'),
+          prompt: this.props.t('genAi.form.presets.usecases.portfolio'),
         },
         {
           key: 'documentation',
-          label: this.props.t('source.genAi.form.presets.labels.documentation'),
+          label: this.props.t('genAi.form.presets.labels.documentation'),
           prompt: this.props.t(
-            'source.genAi.form.presets.usecases.documentation'
+            'genAi.form.presets.usecases.documentation'
           ),
         },
         {
           key: 'ecommerce',
-          label: this.props.t('source.genAi.form.presets.labels.ecommerce'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.ecommerce'),
+          label: this.props.t('genAi.form.presets.labels.ecommerce'),
+          prompt: this.props.t('genAi.form.presets.usecases.ecommerce'),
         },
       ],
     }
@@ -224,27 +224,27 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       {
         key: 'primary',
         name: palette.primary.name,
-        displayKey: this.props.t('source.genAi.colorTypes.primary'),
+        displayKey: this.props.t('genAi.colorTypes.primary'),
       },
       {
         key: 'text',
         name: palette.text.name,
-        displayKey: this.props.t('source.genAi.colorTypes.text'),
+        displayKey: this.props.t('genAi.colorTypes.text'),
       },
       {
         key: 'success',
         name: palette.success.name,
-        displayKey: this.props.t('source.genAi.colorTypes.success'),
+        displayKey: this.props.t('genAi.colorTypes.success'),
       },
       {
         key: 'warning',
         name: palette.warning.name,
-        displayKey: this.props.t('source.genAi.colorTypes.warning'),
+        displayKey: this.props.t('genAi.colorTypes.warning'),
       },
       {
         key: 'alert',
         name: palette.alert.name,
-        displayKey: this.props.t('source.genAi.colorTypes.alert'),
+        displayKey: this.props.t('genAi.colorTypes.alert'),
       },
     ]
 
@@ -369,7 +369,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
             leftPartSlot={
               <SectionTitle
                 indicator="0"
-                label={this.props.t('source.genAi.title')}
+                label={this.props.t('genAi.title')}
               />
             }
             rightPartSlot={
@@ -378,7 +378,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                   type="icon"
                   icon="plus"
                   helper={{
-                    label: this.props.t('source.genAi.actions.addColors'),
+                    label: this.props.t('genAi.actions.addColors'),
                     type: 'MULTI_LINE',
                   }}
                   isLoading={this.state.isActionLoading}
@@ -394,7 +394,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           />
           <Message
             icon="info"
-            messages={[this.props.t('source.genAi.emptyMessage')]}
+            messages={[this.props.t('genAi.emptyMessage')]}
           />
         </>
       )
@@ -402,23 +402,23 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     const colors = [
       {
         ...this.state.generatedPalette.primary,
-        type: this.props.t('source.genAi.colorTypes.primary'),
+        type: this.props.t('genAi.colorTypes.primary'),
       },
       {
         ...this.state.generatedPalette.text,
-        type: this.props.t('source.genAi.colorTypes.text'),
+        type: this.props.t('genAi.colorTypes.text'),
       },
       {
         ...this.state.generatedPalette.success,
-        type: this.props.t('source.genAi.colorTypes.success'),
+        type: this.props.t('genAi.colorTypes.success'),
       },
       {
         ...this.state.generatedPalette.warning,
-        type: this.props.t('source.genAi.colorTypes.warning'),
+        type: this.props.t('genAi.colorTypes.warning'),
       },
       {
         ...this.state.generatedPalette.alert,
-        type: this.props.t('source.genAi.colorTypes.alert'),
+        type: this.props.t('genAi.colorTypes.alert'),
       },
     ]
 
@@ -428,7 +428,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           leftPartSlot={
             <SectionTitle
               indicator="5"
-              label={this.props.t('source.genAi.title')}
+              label={this.props.t('genAi.title')}
             />
           }
           rightPartSlot={
@@ -437,7 +437,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                 type="icon"
                 icon="plus"
                 helper={{
-                  label: this.props.t('source.genAi.actions.addColors'),
+                  label: this.props.t('genAi.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
@@ -516,7 +516,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                             placeholder={
                               this.state.previewPrompt ||
                               this.props.t(
-                                'source.genAi.form.prompt.placeholder'
+                                'genAi.form.prompt.placeholder'
                               )
                             }
                             value={this.state.prompt}
@@ -551,7 +551,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                           <Button
                             type="primary"
                             label={this.props.t(
-                              'source.genAi.actions.generate'
+                              'genAi.actions.generate'
                             )}
                             isLoading={this.state.isRequestProcessing}
                             isDisabled={

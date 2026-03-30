@@ -313,7 +313,7 @@ export default class ColorWheel extends PureComponent<
                     <Feature isActive={this.features.WHEEL_BASE.isActive()}>
                       <FormItem
                         id="color-harmony-base-color"
-                        label={this.props.t('source.wheel.base')}
+                        label={this.props.t('wheel.base')}
                         shouldFill={false}
                       >
                         <Input
@@ -352,7 +352,7 @@ export default class ColorWheel extends PureComponent<
                       <Feature isActive={this.features.WHEEL_WHEEL.isActive()}>
                         <FormItem
                           id="color-harmony-algorithm"
-                          label={this.props.t('source.wheel.algorithm.label')}
+                          label={this.props.t('wheel.algorithm.label')}
                           isBlocked={this.features.WHEEL_WHEEL.isBlocked()}
                           shouldFill={false}
                         >
@@ -362,7 +362,7 @@ export default class ColorWheel extends PureComponent<
                               {
                                 type: 'OPTION',
                                 label: this.props.t(
-                                  'source.wheel.algorithm.analogous'
+                                  'wheel.algorithm.analogous'
                                 ),
                                 value: 'ANALOGOUS',
                                 isActive:
@@ -380,7 +380,7 @@ export default class ColorWheel extends PureComponent<
                               {
                                 type: 'OPTION',
                                 label: this.props.t(
-                                  'source.wheel.algorithm.complementary'
+                                  'wheel.algorithm.complementary'
                                 ),
                                 value: 'COMPLEMENTARY',
                                 isActive:
@@ -397,9 +397,7 @@ export default class ColorWheel extends PureComponent<
                               },
                               {
                                 type: 'OPTION',
-                                label: this.props.t(
-                                  'source.wheel.algorithm.compound'
-                                ),
+                                label: this.props.t('wheel.algorithm.compound'),
                                 value: 'COMPOUND',
                                 isActive:
                                   this.features.WHEEL_WHEEL_COMPOUND.isActive(),
@@ -415,9 +413,7 @@ export default class ColorWheel extends PureComponent<
                               },
                               {
                                 type: 'OPTION',
-                                label: this.props.t(
-                                  'source.wheel.algorithm.triadic'
-                                ),
+                                label: this.props.t('wheel.algorithm.triadic'),
                                 value: 'TRIADIC',
                                 isActive:
                                   this.features.WHEEL_WHEEL_TRIADIC.isActive(),
@@ -431,9 +427,7 @@ export default class ColorWheel extends PureComponent<
                               },
                               {
                                 type: 'OPTION',
-                                label: this.props.t(
-                                  'source.wheel.algorithm.tetradic'
-                                ),
+                                label: this.props.t('wheel.algorithm.tetradic'),
                                 value: 'TETRADIC',
                                 isActive:
                                   this.features.WHEEL_WHEEL_TETRADIC.isActive(),
@@ -467,7 +461,7 @@ export default class ColorWheel extends PureComponent<
                           type="icon"
                           icon="plus"
                           helper={{
-                            label: this.props.t('source.wheel.addColors'),
+                            label: this.props.t('wheel.actions.addColors'),
                             type: 'MULTI_LINE',
                           }}
                           isLoading={this.state.isActionLoading}

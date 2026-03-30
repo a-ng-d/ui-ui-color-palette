@@ -296,7 +296,7 @@ export default class ImagePalette extends PureComponent<
               actions={
                 <Button
                   type="destructive"
-                  label={this.props.t('source.imagePalette.removeImage')}
+                  label={this.props.t('imagePalette.removeImage')}
                   action={() => {
                     this.setState({
                       imageUrl: '',
@@ -325,12 +325,10 @@ export default class ImagePalette extends PureComponent<
           }}
         >
           <Dropzone
-            message={this.props.t('source.imagePalette.dropzone.message')}
-            warningMessage={this.props.t(
-              'source.imagePalette.dropzone.warning'
-            )}
-            errorMessage={this.props.t('source.imagePalette.dropzone.error')}
-            cta={this.props.t('source.imagePalette.dropzone.cta')}
+            message={this.props.t('imagePalette.dropzone.message')}
+            warningMessage={this.props.t('imagePalette.dropzone.warning')}
+            errorMessage={this.props.t('imagePalette.dropzone.error')}
+            cta={this.props.t('imagePalette.dropzone.cta')}
             acceptedMimeTypes={['image/png']}
             isMultiple={false}
             isBlocked={this.features.EXTRACT_UPLOAD.isReached(
@@ -378,7 +376,7 @@ export default class ImagePalette extends PureComponent<
           id="image-palette-list"
           leftPartSlot={
             <SectionTitle
-              label={this.props.t('source.imagePalette.title')}
+              label={this.props.t('imagePalette.title')}
               indicator={this.state.dominantColors.length.toString()}
             />
           }
@@ -388,7 +386,7 @@ export default class ImagePalette extends PureComponent<
                 type="icon"
                 icon="plus"
                 helper={{
-                  label: this.props.t('source.imagePalette.addColors'),
+                  label: this.props.t('imagePalette.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isLoading={this.state.isActionLoading}
@@ -405,7 +403,7 @@ export default class ImagePalette extends PureComponent<
         {this.state.dominantColors.length === 0 ? (
           <Message
             icon="info"
-            messages={[this.props.t('source.imagePalette.message')]}
+            messages={[this.props.t('imagePalette.message')]}
           />
         ) : (
           <List isTopBorderEnabled>

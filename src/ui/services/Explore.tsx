@@ -169,9 +169,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   setFilters = () => {
     return this.filters.map((filter) => {
       return {
-        label: this.props.t(
-          `source.colourLovers.filters.${filter.toLowerCase()}`
-        ),
+        label: this.props.t(`explore.filters.${filter.toLowerCase()}`),
         value: filter,
         feature: 'EDIT_FILTER',
         type: 'OPTION',
@@ -301,7 +299,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
               src={palette.imageUrl?.replace('http', 'https')}
               name={palette.title}
               description={`#${palette.rank}`}
-              subdescription={this.props.t('source.colourLovers.meta', {
+              subdescription={this.props.t('explore.meta', {
                 votes: palette.numVotes?.toString() ?? '0',
                 views: palette.numViews?.toString() ?? '0',
                 comments: palette.numComments?.toString() ?? '0',
@@ -316,7 +314,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                     type="icon"
                     icon="link-connected"
                     helper={{
-                      label: this.props.t('source.actions.openPalette'),
+                      label: this.props.t('explore.actions.openPalette'),
                     }}
                     action={() =>
                       sendPluginMessage(
@@ -337,7 +335,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                       type="icon"
                       icon="plus"
                       helper={{
-                        label: this.props.t('source.colourLovers.addColors'),
+                        label: this.props.t('explore.actions.addColors'),
                         type: 'MULTI_LINE',
                       }}
                       isLoading={this.state.isActionLoading}
@@ -414,7 +412,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                   soloPartSlot={
                     <FormItem
                       id="explore-filters"
-                      label={this.props.t('source.colourLovers.filters.label')}
+                      label={this.props.t('explore.filters.label')}
                       shouldFill={false}
                     >
                       <Dropdown

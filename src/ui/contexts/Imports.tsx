@@ -279,7 +279,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
         )
           ? {
               type: 'INFO',
-              message: this.props.t('source.coolors.url.infoMessage'),
+              message: this.props.t('imports.coolors.url.infoMessage'),
             }
           : state.coolorsUrl.helper,
       },
@@ -304,7 +304,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
         )
           ? {
               type: 'INFO',
-              message: this.props.t('source.realtimeColors.url.infoMessage'),
+              message: this.props.t('imports.realtimeColors.url.infoMessage'),
             }
           : state.realtimeColorsUrl.helper,
       },
@@ -372,7 +372,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           canBeSubmitted: this.state.coolorsUrl.canBeSubmitted,
           helper: {
             type: 'ERROR',
-            message: this.props.t('source.coolors.url.errorMessage'),
+            message: this.props.t('imports.coolors.url.errorMessage'),
           },
         },
       })
@@ -440,7 +440,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           canBeSubmitted: this.state.realtimeColorsUrl.canBeSubmitted,
           helper: {
             type: 'ERROR',
-            message: this.props.t('source.realtimeColors.url.errorMessage'),
+            message: this.props.t('imports.realtimeColors.url.errorMessage'),
           },
         },
       })
@@ -459,13 +459,13 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
     return (
       <Feature isActive={this.features.IMPORTS_CANVAS.isActive()}>
         <Accordion
-          label={this.props.t('source.canvas.title')}
+          label={this.props.t('imports.canvas.title')}
           indicator={this.state.sourceColors
             .filter((sourceColor) => sourceColor.source === 'CANVAS')
             .length.toString()}
           helpers={{
-            add: this.props.t('source.canvas.add'),
-            empty: this.props.t('source.canvas.empty'),
+            add: this.props.t('imports.canvas.add'),
+            empty: this.props.t('imports.canvas.empty'),
           }}
           isExpanded={this.state.isSelectedColorsOpen}
           isBlocked={this.features.IMPORTS_CANVAS.isBlocked()}
@@ -488,9 +488,9 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
             <Message
               icon="info"
               messages={[
-                this.props.t('source.canvas.tip', {
+                this.props.t('imports.canvas.tip', {
                   element: this.props.t(
-                    `source.nodes.${this.props.config.env.platform}`
+                    `imports.nodes.${this.props.config.env.platform}`
                   ),
                   canvas: this.props.t(
                     `platform.${this.props.config.env.platform}`
@@ -538,14 +538,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
     return (
       <Feature isActive={this.features.IMPORTS_COOLORS.isActive()}>
         <Accordion
-          label={this.props.t('source.coolors.title')}
+          label={this.props.t('imports.coolors.title')}
           indicator={this.state.sourceColors
             .filter((sourceColor) => sourceColor.source === 'COOLORS')
             .length.toString()}
-          helper={this.props.t('source.coolors.helper')}
+          helper={this.props.t('imports.coolors.helper')}
           helpers={{
-            add: this.props.t('source.coolors.add'),
-            empty: this.props.t('source.coolors.empty'),
+            add: this.props.t('imports.coolors.add'),
+            empty: this.props.t('imports.coolors.empty'),
           }}
           isExpanded={this.state.isCoolorsImportOpen}
           isBlocked={this.features.IMPORTS_COOLORS.isBlocked()}
@@ -580,10 +580,10 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                   id="update-coolors-url"
                   type="TEXT"
                   state={this.state.coolorsUrl.state}
-                  placeholder={this.props.t('source.coolors.url.placeholder')}
+                  placeholder={this.props.t('imports.coolors.url.placeholder')}
                   value={this.state.coolorsUrl.value}
                   helper={{
-                    label: this.props.t('source.coolors.addColors'),
+                    label: this.props.t('imports.coolors.addColors'),
                   }}
                   isAutoFocus
                   isBlocked={this.features.IMPORTS_COOLORS_ADD.isReached(
@@ -640,14 +640,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
     return (
       <Feature isActive={this.features.IMPORTS_REALTIME_COLORS.isActive()}>
         <Accordion
-          label={this.props.t('source.realtimeColors.title')}
+          label={this.props.t('imports.realtimeColors.title')}
           indicator={this.state.sourceColors
             .filter((sourceColor) => sourceColor.source === 'REALTIME_COLORS')
             .length.toString()}
-          helper={this.props.t('source.realtimeColors.helper')}
+          helper={this.props.t('imports.realtimeColors.helper')}
           helpers={{
-            add: this.props.t('source.realtimeColors.add'),
-            empty: this.props.t('source.realtimeColors.empty'),
+            add: this.props.t('imports.realtimeColors.add'),
+            empty: this.props.t('imports.realtimeColors.empty'),
           }}
           isExpanded={this.state.isRealtimeColorsImportOpen}
           isBlocked={this.features.IMPORTS_REALTIME_COLORS.isBlocked()}
@@ -683,11 +683,11 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                   type="TEXT"
                   state={this.state.realtimeColorsUrl.state}
                   placeholder={this.props.t(
-                    'source.realtimeColors.url.placeholder'
+                    'imports.realtimeColors.url.placeholder'
                   )}
                   value={this.state.realtimeColorsUrl.value}
                   helper={{
-                    label: this.props.t('source.realtimeColors.addColors'),
+                    label: this.props.t('imports.realtimeColors.addColors'),
                   }}
                   isAutoFocus
                   isBlocked={this.features.IMPORTS_REALTIME_COLORS_ADD.isReached(
