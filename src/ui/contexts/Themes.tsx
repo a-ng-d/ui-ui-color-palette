@@ -99,9 +99,9 @@ export default class Themes extends PureComponent<ThemesProps> {
   // Handlers
   themesHandler = (e: Event) => {
     let id: string | null
-    const element: HTMLElement | null = (e.target as HTMLElement).closest(
-        '.draggable-item'
-      ),
+    const element: HTMLElement | null =
+        (e.target as HTMLElement).closest('.draggable-item') ??
+        (e.target as HTMLElement).closest('[data-id]'),
       currentElement = e.currentTarget as HTMLInputElement
 
     element !== null ? (id = element.getAttribute('data-id')) : (id = null)
@@ -573,7 +573,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                             themeName: theme.name,
                           }),
                           node: (() => (
-                            <>
+                            <div data-id={theme.id}>
                               <Feature
                                 isActive={this.features.THEMES_PARAMS.isActive()}
                               >
@@ -631,7 +631,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   </FormItem>
                                 </div>
                               </Feature>
-                            </>
+                            </div>
                           ))(),
                         }
                       })}

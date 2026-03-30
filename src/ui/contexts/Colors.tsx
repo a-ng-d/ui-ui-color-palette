@@ -127,9 +127,9 @@ export default class Colors extends PureComponent<ColorsProps> {
   // Handlers
   colorsHandler = (e: Event) => {
     let id: string | null
-    const element: HTMLElement | null = (e.target as HTMLElement).closest(
-        '.draggable-item'
-      ),
+    const element: HTMLElement | null =
+        (e.target as HTMLElement).closest('.draggable-item') ??
+        (e.target as HTMLElement).closest('[data-id]'),
       currentElement = e.currentTarget as HTMLInputElement
 
     id = currentElement.getAttribute('data-color-id')
@@ -517,6 +517,8 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
+      console.log(this.colorsMessage.data)
+
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
       })
@@ -789,7 +791,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                           colorName: color.name,
                         }),
                         node: (() => (
-                          <>
+                          <div data-id={color.id}>
                             <Feature
                               isActive={this.features.COLORS_ALPHA.isActive()}
                             >
@@ -1008,7 +1010,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 />
                               </FormItem>
                             </Feature>
-                          </>
+                          </div>
                         ))(),
                       }
                     })}
