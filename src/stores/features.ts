@@ -2834,6 +2834,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'framer',
       'buzz',
     ],
+    limit: 0,
   },
   {
     name: 'SYNC_LOCAL_STYLES',
@@ -3320,7 +3321,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     limit: 0,
   },
   {
-    name: 'WHEEL_WHEEL',
+    name: 'WHEEL_ALGORITHM',
     description: 'Color wheel for the color harmony',
     isActive: true,
     isPro: false,
@@ -3338,7 +3339,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     ],
   },
   {
-    name: 'WHEEL_WHEEL_ANALOGOUS',
+    name: 'WHEEL_ALGORITHM_ANALOGOUS',
     description: 'Analogous color harmony rule',
     isActive: true,
     isPro: false,
@@ -3356,7 +3357,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     ],
   },
   {
-    name: 'WHEEL_WHEEL_COMPLEMENTARY',
+    name: 'WHEEL_ALGORITHM_COMPLEMENTARY',
     description: 'Complementary color harmony rule',
     isActive: true,
     isPro: false,
@@ -3374,7 +3375,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     ],
   },
   {
-    name: 'WHEEL_WHEEL_COMPOUND',
+    name: 'WHEEL_ALGORITHM_COMPOUND',
     description: 'Compound color harmony rule',
     isActive: true,
     isPro: false,
@@ -3392,7 +3393,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     ],
   },
   {
-    name: 'WHEEL_WHEEL_TRIADIC',
+    name: 'WHEEL_ALGORITHM_TRIADIC',
     description: 'Triadic color harmony rule',
     isActive: true,
     isPro: false,
@@ -3410,7 +3411,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     ],
   },
   {
-    name: 'WHEEL_WHEEL_TETRADIC',
+    name: 'WHEEL_ALGORITHM_TETRADIC',
     description: 'Tetradic color harmony rule',
     isActive: true,
     isPro: false,

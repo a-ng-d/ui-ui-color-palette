@@ -63,44 +63,44 @@ export default class ColorWheel extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    WHEEL_WHEEL: new FeatureStatus({
+    WHEEL_ALGORITHM: new FeatureStatus({
       features: config.features,
-      featureName: 'WHEEL_WHEEL',
+      featureName: 'WHEEL_ALGORITHM',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    WHEEL_WHEEL_ANALOGOUS: new FeatureStatus({
+    WHEEL_ALGORITHM_ANALOGOUS: new FeatureStatus({
       features: config.features,
-      featureName: 'WHEEL_WHEEL_ANALOGOUS',
+      featureName: 'WHEEL_ALGORITHM_ANALOGOUS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    WHEEL_WHEEL_COMPLEMENTARY: new FeatureStatus({
+    WHEEL_ALGORITHM_COMPLEMENTARY: new FeatureStatus({
       features: config.features,
-      featureName: 'WHEEL_WHEEL_COMPLEMENTARY',
+      featureName: 'WHEEL_ALGORITHM_COMPLEMENTARY',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    WHEEL_WHEEL_COMPOUND: new FeatureStatus({
+    WHEEL_ALGORITHM_COMPOUND: new FeatureStatus({
       features: config.features,
-      featureName: 'WHEEL_WHEEL_COMPOUND',
+      featureName: 'WHEEL_ALGORITHM_COMPOUND',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    WHEEL_WHEEL_TRIADIC: new FeatureStatus({
+    WHEEL_ALGORITHM_TRIADIC: new FeatureStatus({
       features: config.features,
-      featureName: 'WHEEL_WHEEL_TRIADIC',
+      featureName: 'WHEEL_ALGORITHM_TRIADIC',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    WHEEL_WHEEL_TETRADIC: new FeatureStatus({
+    WHEEL_ALGORITHM_TETRADIC: new FeatureStatus({
       features: config.features,
-      featureName: 'WHEEL_WHEEL_TETRADIC',
+      featureName: 'WHEEL_ALGORITHM_TETRADIC',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -349,11 +349,11 @@ export default class ColorWheel extends PureComponent<
                         layouts['snackbar--wrap'],
                       ])}
                     >
-                      <Feature isActive={this.features.WHEEL_WHEEL.isActive()}>
+                      <Feature isActive={this.features.WHEEL_ALGORITHM.isActive()}>
                         <FormItem
                           id="color-harmony-algorithm"
                           label={this.props.t('wheel.algorithm.label')}
-                          isBlocked={this.features.WHEEL_WHEEL.isBlocked()}
+                          isBlocked={this.features.WHEEL_ALGORITHM.isBlocked()}
                           shouldFill={false}
                         >
                           <Dropdown
@@ -366,11 +366,11 @@ export default class ColorWheel extends PureComponent<
                                 ),
                                 value: 'ANALOGOUS',
                                 isActive:
-                                  this.features.WHEEL_WHEEL_ANALOGOUS.isActive(),
+                                  this.features.WHEEL_ALGORITHM_ANALOGOUS.isActive(),
                                 isBlocked:
-                                  this.features.WHEEL_WHEEL_ANALOGOUS.isBlocked(),
+                                  this.features.WHEEL_ALGORITHM_ANALOGOUS.isBlocked(),
                                 isNew:
-                                  this.features.WHEEL_WHEEL_ANALOGOUS.isNew(),
+                                  this.features.WHEEL_ALGORITHM_ANALOGOUS.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'ANALOGOUS',
@@ -384,11 +384,11 @@ export default class ColorWheel extends PureComponent<
                                 ),
                                 value: 'COMPLEMENTARY',
                                 isActive:
-                                  this.features.WHEEL_WHEEL_COMPLEMENTARY.isActive(),
+                                  this.features.WHEEL_ALGORITHM_COMPLEMENTARY.isActive(),
                                 isBlocked:
-                                  this.features.WHEEL_WHEEL_COMPLEMENTARY.isBlocked(),
+                                  this.features.WHEEL_ALGORITHM_COMPLEMENTARY.isBlocked(),
                                 isNew:
-                                  this.features.WHEEL_WHEEL_COMPLEMENTARY.isNew(),
+                                  this.features.WHEEL_ALGORITHM_COMPLEMENTARY.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPLEMENTARY',
@@ -400,11 +400,11 @@ export default class ColorWheel extends PureComponent<
                                 label: this.props.t('wheel.algorithm.compound'),
                                 value: 'COMPOUND',
                                 isActive:
-                                  this.features.WHEEL_WHEEL_COMPOUND.isActive(),
+                                  this.features.WHEEL_ALGORITHM_COMPOUND.isActive(),
                                 isBlocked:
-                                  this.features.WHEEL_WHEEL_COMPOUND.isBlocked(),
+                                  this.features.WHEEL_ALGORITHM_COMPOUND.isBlocked(),
                                 isNew:
-                                  this.features.WHEEL_WHEEL_COMPOUND.isNew(),
+                                  this.features.WHEEL_ALGORITHM_COMPOUND.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPOUND',
@@ -416,11 +416,11 @@ export default class ColorWheel extends PureComponent<
                                 label: this.props.t('wheel.algorithm.triadic'),
                                 value: 'TRIADIC',
                                 isActive:
-                                  this.features.WHEEL_WHEEL_TRIADIC.isActive(),
+                                  this.features.WHEEL_ALGORITHM_TRIADIC.isActive(),
                                 isBlocked:
-                                  this.features.WHEEL_WHEEL_TRIADIC.isBlocked(),
+                                  this.features.WHEEL_ALGORITHM_TRIADIC.isBlocked(),
                                 isNew:
-                                  this.features.WHEEL_WHEEL_TRIADIC.isNew(),
+                                  this.features.WHEEL_ALGORITHM_TRIADIC.isNew(),
                                 action: () => {
                                   this.setState({ wheelRule: 'TRIADIC' })
                                 },
@@ -430,11 +430,11 @@ export default class ColorWheel extends PureComponent<
                                 label: this.props.t('wheel.algorithm.tetradic'),
                                 value: 'TETRADIC',
                                 isActive:
-                                  this.features.WHEEL_WHEEL_TETRADIC.isActive(),
+                                  this.features.WHEEL_ALGORITHM_TETRADIC.isActive(),
                                 isBlocked:
-                                  this.features.WHEEL_WHEEL_TETRADIC.isBlocked(),
+                                  this.features.WHEEL_ALGORITHM_TETRADIC.isBlocked(),
                                 isNew:
-                                  this.features.WHEEL_WHEEL_TETRADIC.isNew(),
+                                  this.features.WHEEL_ALGORITHM_TETRADIC.isNew(),
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'TETRADIC',
