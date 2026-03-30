@@ -844,7 +844,8 @@ export default class EditPalette extends PureComponent<
                           }}
                           action={() =>
                             this.setState({
-                              context: 'SCALE',
+                              context:
+                                this.state.context === 'SCALE' ? '' : 'SCALE',
                             })
                           }
                         />
@@ -863,7 +864,8 @@ export default class EditPalette extends PureComponent<
                           }}
                           action={() =>
                             this.setState({
-                              context: 'COLORS',
+                              context:
+                                this.state.context === 'COLORS' ? '' : 'COLORS',
                             })
                           }
                         />
@@ -882,7 +884,8 @@ export default class EditPalette extends PureComponent<
                           }}
                           action={() =>
                             this.setState({
-                              context: 'THEMES',
+                              context:
+                                this.state.context === 'THEMES' ? '' : 'THEMES',
                             })
                           }
                         />
@@ -901,7 +904,10 @@ export default class EditPalette extends PureComponent<
                           }}
                           action={() =>
                             this.setState({
-                              context: 'IMPORTS',
+                              context:
+                                this.state.context === 'IMPORTS'
+                                  ? ''
+                                  : 'IMPORTS',
                             })
                           }
                         />
@@ -920,7 +926,10 @@ export default class EditPalette extends PureComponent<
                           }}
                           action={() =>
                             this.setState({
-                              context: 'SETTINGS',
+                              context:
+                                this.state.context === 'SETTINGS'
+                                  ? ''
+                                  : 'SETTINGS',
                             })
                           }
                         />

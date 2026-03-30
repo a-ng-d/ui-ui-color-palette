@@ -430,7 +430,10 @@ export default class EditPalette extends PureComponent<
                           }}
                           action={() =>
                             this.setState({
-                              context: 'PROPERTIES',
+                              context:
+                                this.state.context === 'PROPERTIES'
+                                  ? ''
+                                  : 'PROPERTIES',
                             })
                           }
                         />
@@ -448,7 +451,10 @@ export default class EditPalette extends PureComponent<
                             label: this.props.t('contexts.report'),
                           }}
                           action={() => {
-                            this.setState({ context: 'REPORT' })
+                            this.setState({
+                              context:
+                                this.state.context === 'REPORT' ? '' : 'REPORT',
+                            })
                             if (!this.state.shadeReport)
                               this.previewRef.current?.openShadeAt(0, 0)
                           }}
