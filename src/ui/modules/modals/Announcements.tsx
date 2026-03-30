@@ -14,6 +14,7 @@ import {
   Editor,
 } from '../../../types/app'
 import { trackAnnouncementsEvent } from '../../../external/tracking/eventsTracker'
+import getAnnouncements from '../../../external/cms/getAnnouncements'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface AnnouncementsProps
@@ -70,64 +71,13 @@ export default class Announcements extends PureComponent<
 
   // Lifecycle
   componentDidMount = () => {
-    fetch(
-      `${this.props.config.urls.announcementsWorkerUrl}/?action=get_announcements&database_id=${this.props.config.env.announcementsDbId}`
+    getAnnouncements(
+      this.props.config.urls.announcementsWorkerUrl,
+      this.props.config.env.announcementsDbId,
+      this.props.config.env.platform
     )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message !== 'The database could not be queried') {
-          interface AnnouncementProperties {
-            Plateformes: {
-              multi_select: Array<{
-                name: string
-              }>
-            }
-          }
-
-          interface Announcement {
-            properties: AnnouncementProperties
-          }
-
-          switch (this.props.config.env.platform) {
-            case 'figma':
-              data.announcements = data.announcements.filter(
-                (announcement: Announcement) =>
-                  announcement.properties['Plateformes'].multi_select.some(
-                    (role: { name: string }) => role.name === 'Figma'
-                  )
-              )
-              break
-            case 'penpot':
-              data.announcements = data.announcements.filter(
-                (announcement: Announcement) =>
-                  announcement.properties['Plateformes'].multi_select.some(
-                    (role: { name: string }) => role.name === 'Penpot'
-                  )
-              )
-              break
-            case 'sketch':
-              data.announcements = data.announcements.filter(
-                (announcement: Announcement) =>
-                  announcement.properties['Plateformes'].multi_select.some(
-                    (role: { name: string }) => role.name === 'Sketch'
-                  )
-              )
-              break
-            case 'framer':
-              data.announcements = data.announcements.filter(
-                (announcement: Announcement) =>
-                  announcement.properties['Plateformes'].multi_select.some(
-                    (role: { name: string }) => role.name === 'Framer'
-                  )
-              )
-              break
-          }
-
-          this.setState({
-            announcements: data.announcements,
-            status: 'LOADED',
-          })
-        } else this.setState({ status: 'ERROR' })
+      .then((announcements) => {
+        this.setState({ announcements, status: 'LOADED' })
       })
       .catch((error) => {
         console.error(error)
@@ -244,7 +194,7 @@ export default class Announcements extends PureComponent<
         <Feature isActive={this.features.HELP_ANNOUNCEMENTS.isActive()}>
           <Dialog
             title={
-              this.state.announcements[this.state.position].properties.Titre
+              this.state.announcements[this.state.position].properties.Title
                 .title[0].plain_text
             }
             tag={

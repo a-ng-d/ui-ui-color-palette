@@ -275,6 +275,7 @@ const globalConfig: Config = {
     isMixpanelEnabled: import.meta.env.VITE_MIXPANEL_ENABLED === 'true',
     isSentryEnabled: import.meta.env.VITE_SENTRY_ENABLED === 'true',
     isMistralAiEnabled: import.meta.env.VITE_MISTRAL_AI_ENABLED === 'true',
+    isNotionEnabled: import.meta.env.VITE_NOTION_ENABLED === 'true',
     announcementsDbId: import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID as string,
     onboardingDbId: import.meta.env.VITE_NOTION_ONBOARDING_ID as string,
     pluginId: '123456789',

@@ -32,6 +32,7 @@ export interface Config {
     isMixpanelEnabled: boolean
     isSentryEnabled: boolean
     isMistralAiEnabled: boolean
+    isNotionEnabled: boolean
     announcementsDbId: string
     onboardingDbId: string
     readonly pluginId: string
