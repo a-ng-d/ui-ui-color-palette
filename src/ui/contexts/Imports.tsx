@@ -463,7 +463,6 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           indicator={this.state.sourceColors
             .filter((sourceColor) => sourceColor.source === 'CANVAS')
             .length.toString()}
-          helper={this.props.t('source.canvas.helper')}
           helpers={{
             add: this.props.t('source.canvas.add'),
             empty: this.props.t('source.canvas.empty'),
@@ -755,16 +754,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                 <Bar
                   id="imports-header"
                   leftPartSlot={
-                    <SectionTitle label={this.props.t('contexts.imports')} />
+                    <SectionTitle label={this.props.t('imports.title')} />
                   }
                   rightPartSlot={
                     <Button
-                      type="icon"
-                      icon="plus"
+                      type="secondary"
+                      label={this.props.t('imports.actions.import')}
                       feature="ADD_COLOR"
-                      helper={{
-                        label: this.props.t('colors.actions.new'),
-                      }}
+                      isDisabled={this.state.sourceColors.length === 0}
                       isBlocked={this.features.COLORS.isReached(
                         this.props.colors.length +
                           this.state.sourceColors.length -

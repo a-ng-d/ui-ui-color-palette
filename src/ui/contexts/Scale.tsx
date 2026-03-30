@@ -5,7 +5,6 @@ import {
   Bar,
   Button,
   Dropdown,
-  FormItem,
   Layout,
   layouts,
   Menu,
@@ -425,156 +424,150 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
   // Templates
   DistributionEasing = () => {
     return (
-      <FormItem
-        id="update-distribution-easing"
-        label={this.props.t('scale.easing.label')}
-        shouldFill={true}
-        isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
+      <div
+        className={doClassnames([
+          layouts['snackbar--tight'],
+          layouts['snackbar--wrap'],
+        ])}
       >
-        <div
-          className={doClassnames([
-            layouts['snackbar--tight'],
-            layouts['snackbar--wrap'],
-          ])}
-        >
+        <Dropdown
+          id="update-distribution-easing-curve"
+          options={[
+            {
+              label: this.props.t('scale.easing.linear'),
+              value: 'LINEAR',
+              type: 'OPTION',
+              isActive:
+                this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
+              isBlocked:
+                this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
+              isNew: this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
+              action: this.onChangeDistributionEasingCurve,
+            },
+            {
+              type: 'SEPARATOR',
+            },
+            {
+              label: this.props.t('scale.easing.easeIn'),
+              value: 'EASEIN',
+              type: 'OPTION',
+              isActive:
+                this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
+              isBlocked:
+                this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
+              isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
+              action: this.onChangeDistributionEasingCurve,
+            },
+            {
+              label: this.props.t('scale.easing.easeOut'),
+              value: 'EASEOUT',
+              type: 'OPTION',
+              isActive:
+                this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
+              isBlocked:
+                this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
+              isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
+              action: this.onChangeDistributionEasingCurve,
+            },
+            {
+              label: this.props.t('scale.easing.easeInOut'),
+              value: 'EASEINOUT',
+              type: 'OPTION',
+              isActive:
+                this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
+              isBlocked:
+                this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
+              isNew:
+                this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
+              action: this.onChangeDistributionEasingCurve,
+            },
+          ]}
+          selected={this.props.distributionEasing.split('_')[0]}
+          pin="BOTTOM"
+          helper={{
+            label: this.props.t('scale.easing.label'),
+          }}
+          isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
+          isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
+        />
+        {this.props.distributionEasing !== 'LINEAR' && (
           <Dropdown
-            id="update-distribution-easing-curve"
+            id="update-distribution-easing-velocity"
             options={[
               {
-                label: this.props.t('scale.easing.linear'),
-                value: 'LINEAR',
+                label: this.props.t('scale.easing.sine'),
+                value: 'SINE',
                 type: 'OPTION',
                 isActive:
-                  this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
+                  this.features.SCALE_HELPER_DISTRIBUTION_SINE.isActive(),
                 isBlocked:
-                  this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
-                isNew: this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
-                action: this.onChangeDistributionEasingCurve,
+                  this.features.SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
+                action: this.onChangeDistributionEasingVelocity,
               },
               {
-                type: 'SEPARATOR',
-              },
-              {
-                label: this.props.t('scale.easing.easeIn'),
-                value: 'EASEIN',
+                label: this.props.t('scale.easing.quad'),
+                value: 'QUAD',
                 type: 'OPTION',
                 isActive:
-                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isActive(),
+                  this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isActive(),
                 isBlocked:
-                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
-                isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
-                action: this.onChangeDistributionEasingCurve,
+                  this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
+                action: this.onChangeDistributionEasingVelocity,
               },
               {
-                label: this.props.t('scale.easing.easeOut'),
-                value: 'EASEOUT',
+                label: this.props.t('scale.easing.cubic'),
+                value: 'CUBIC',
                 type: 'OPTION',
                 isActive:
-                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isActive(),
+                  this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isActive(),
                 isBlocked:
-                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
-                isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
-                action: this.onChangeDistributionEasingCurve,
-              },
-              {
-                label: this.props.t('scale.easing.easeInOut'),
-                value: 'EASEINOUT',
-                type: 'OPTION',
-                isActive:
-                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isActive(),
-                isBlocked:
-                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
-                isNew:
-                  this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
-                action: this.onChangeDistributionEasingCurve,
+                  this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
+                isNew: this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
+                action: this.onChangeDistributionEasingVelocity,
               },
             ]}
-            selected={this.props.distributionEasing.split('_')[0]}
+            selected={this.props.distributionEasing.split('_')[1]}
             pin="BOTTOM"
             isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
             isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
           />
-          {this.props.distributionEasing !== 'LINEAR' && (
-            <Dropdown
-              id="update-distribution-easing-velocity"
-              options={[
-                {
-                  label: this.props.t('scale.easing.sine'),
-                  value: 'SINE',
-                  type: 'OPTION',
-                  isActive:
-                    this.features.SCALE_HELPER_DISTRIBUTION_SINE.isActive(),
-                  isBlocked:
-                    this.features.SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
-                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
-                  action: this.onChangeDistributionEasingVelocity,
-                },
-                {
-                  label: this.props.t('scale.easing.quad'),
-                  value: 'QUAD',
-                  type: 'OPTION',
-                  isActive:
-                    this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isActive(),
-                  isBlocked:
-                    this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
-                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
-                  action: this.onChangeDistributionEasingVelocity,
-                },
-                {
-                  label: this.props.t('scale.easing.cubic'),
-                  value: 'CUBIC',
-                  type: 'OPTION',
-                  isActive:
-                    this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isActive(),
-                  isBlocked:
-                    this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
-                  isNew: this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
-                  action: this.onChangeDistributionEasingVelocity,
-                },
-              ]}
-              selected={this.props.distributionEasing.split('_')[1]}
-              pin="BOTTOM"
-              isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
-              isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
-            />
-          )}
-          <Feature
-            isActive={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isActive()}
-          >
-            <Button
-              type="icon"
-              icon="refresh"
-              helper={{
-                label: this.props.t('scale.actions.applyEasing'),
-                pin: 'TOP',
-                type: 'MULTI_LINE',
-              }}
-              isBlocked={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isBlocked()}
-              isNew={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isNew()}
-              action={() => {
-                const newScale = this.onApplyDistributionEasing(
-                  this.props.scale,
-                  this.props.distributionEasing
-                )
+        )}
+        <Feature
+          isActive={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isActive()}
+        >
+          <Button
+            type="icon"
+            icon="refresh"
+            helper={{
+              label: this.props.t('scale.actions.applyEasing'),
+            }}
+            isBlocked={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isBlocked()}
+            isNew={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isNew()}
+            action={() => {
+              const newScale = this.onApplyDistributionEasing(
+                this.props.scale,
+                this.props.distributionEasing
+              )
 
-                $palette.setKey('scale', newScale)
-                this.props.onChangeScale()
+              $palette.setKey('scale', newScale)
+              this.props.onChangeScale()
 
-                sendPluginMessage(
-                  {
-                    pluginMessage: {
-                      type: 'UPDATE_SCALE',
-                      id: this.props.id,
-                      data: $palette.value,
-                    },
+              sendPluginMessage(
+                {
+                  pluginMessage: {
+                    type: 'UPDATE_SCALE',
+                    id: this.props.id,
+                    data: $palette.value,
                   },
-                  '*'
-                )
-              }}
-            />
-          </Feature>
-        </div>
-      </FormItem>
+                },
+                '*'
+              )
+            }}
+          />
+        </Feature>
+      </div>
     )
   }
 

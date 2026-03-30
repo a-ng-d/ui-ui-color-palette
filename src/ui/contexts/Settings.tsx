@@ -467,9 +467,7 @@ export default class Settings extends PureComponent<SettingsProps> {
                   <Bar
                     id="modes-header"
                     leftPartSlot={
-                      <SectionTitle
-                        label={this.props.t('properties.settings')}
-                      />
+                      <SectionTitle label={this.props.t('settings.title')} />
                     }
                     clip={['LEFT']}
                     border={['BOTTOM']}

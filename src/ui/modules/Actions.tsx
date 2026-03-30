@@ -468,7 +468,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     name: 'visible' as IconList,
                   },
                   helper: {
-                    label: this.props.t('modes.see'),
+                    label: this.props.t('modes.inspect'),
                     pin: 'BOTTOM' as const,
                   },
                 },
@@ -483,7 +483,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     name: 'code' as IconList,
                   },
                   helper: {
-                    label: this.props.t('modes.code'),
+                    label: this.props.t('modes.export'),
                     pin: 'BOTTOM' as const,
                   },
                 },
@@ -636,7 +636,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   label: this.props.t('actions.generateDocument.label'),
                   isSingleLine: true,
                 }}
-                alignment="TOP_RIGHT"
+                alignment="BOTTOM_RIGHT"
                 state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
                 isNew={this.state.canUpdateDocument}
               />

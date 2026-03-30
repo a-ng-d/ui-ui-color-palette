@@ -726,7 +726,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                 id="presets"
                 options={this.presetsOptions()}
                 selected={this.props.preset.id}
-                alignment="LEFT"
+                alignment="RIGHT"
                 pin="TOP"
                 helper={{
                   label: this.props.t('scale.presets.helper'),
