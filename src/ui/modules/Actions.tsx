@@ -677,7 +677,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   action: (e) => this.props.onSyncLocalVariables?.(e),
                 },
               ]}
-              alignment="TOP_RIGHT"
+              alignment="BOTTOM_RIGHT"
               state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
             />
             <this.Modes />
