@@ -460,6 +460,9 @@ export default class EditPalette extends PureComponent<
                         state={
                           this.state.context === '' ? 'selected' : undefined
                         }
+                        helper={{
+                          label: this.props.t('contexts.hide'),
+                        }}
                         action={() =>
                           this.setState({
                             context: '',
