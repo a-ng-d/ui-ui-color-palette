@@ -4,7 +4,7 @@ const checkConnectionStatus = async (
   accessToken: string | undefined,
   refreshToken: string | undefined
 ) => {
-  if (accessToken !== undefined && refreshToken !== undefined) {
+  if (accessToken && refreshToken) {
     const supabase = getSupabase()
 
     if (!supabase) throw new Error('Supabase client is not initialized')

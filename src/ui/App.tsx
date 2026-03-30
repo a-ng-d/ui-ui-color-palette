@@ -327,6 +327,16 @@ class App extends Component<AppProps, AppState> {
               this.props.config.urls.platformUrl
             )
           },
+          SIGNED_OUT: () => {
+            this.setState({
+              userSession: {
+                connectionStatus: 'UNCONNECTED',
+                userId: '',
+                userFullName: '',
+                userAvatar: '',
+              },
+            })
+          },
         }
         return actions[event]?.()
       })
@@ -390,7 +400,16 @@ class App extends Component<AppProps, AppState> {
           await checkConnectionStatus(
             path.data.accessToken,
             path.data.refreshToken
-          )
+          ).catch(() => {
+            this.setState({
+              isNotificationDisplayed: true,
+              notification: {
+                type: 'ERROR',
+                message: this.props.t('error.authentication'),
+                timer: 5000,
+              },
+            })
+          })
       }
 
       const checkUserConsent = () => {
