@@ -882,7 +882,7 @@ class App extends Component<AppProps, AppState> {
                         <Feature isActive={this.features.MANAGE.isActive()}>
                           <Button
                             type="icon"
-                            icon="theme"
+                            icon="colors"
                             state={
                               this.state.service === 'MANAGE'
                                 ? 'selected'
@@ -901,7 +901,7 @@ class App extends Component<AppProps, AppState> {
                         <Feature isActive={this.features.GEN.isActive()}>
                           <Button
                             type="icon"
-                            icon="timer"
+                            icon="ai"
                             state={
                               this.state.service === 'GEN'
                                 ? 'selected'
@@ -958,7 +958,7 @@ class App extends Component<AppProps, AppState> {
                         <Feature isActive={this.features.EXPLORE.isActive()}>
                           <Button
                             type="icon"
-                            icon="share"
+                            icon="explore"
                             state={
                               this.state.service === 'EXPLORE'
                                 ? 'selected'
@@ -979,7 +979,7 @@ class App extends Component<AppProps, AppState> {
                     isVertical
                   />
                 ),
-                typeModifier: 'FIXED',
+                typeModifier: ['FIXED', 'BLANK'],
                 fixedWidth: 'var(--bar-min-height)',
               },
               {

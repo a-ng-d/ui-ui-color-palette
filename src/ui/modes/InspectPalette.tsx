@@ -441,7 +441,7 @@ export default class EditPalette extends PureComponent<
                       <Feature isActive={this.features.REPORT.isActive()}>
                         <Button
                           type="icon"
-                          icon="info"
+                          icon="contrast"
                           state={
                             this.state.context === 'REPORT'
                               ? 'selected'
@@ -480,7 +480,7 @@ export default class EditPalette extends PureComponent<
                   isVertical
                 />
               ),
-              typeModifier: 'FIXED' as const,
+              typeModifier: ['FIXED', 'BLANK'],
               fixedWidth: 'var(--bar-min-height)',
             },
           ]}

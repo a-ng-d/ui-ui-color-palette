@@ -954,7 +954,7 @@ export default class EditPalette extends PureComponent<
                   isVertical
                 />
               ),
-              typeModifier: 'FIXED' as const,
+              typeModifier: ['FIXED', 'BLANK'],
               fixedWidth: 'var(--bar-min-height)',
             },
           ]}
