@@ -166,8 +166,7 @@ div.export-palette__preview {
   position: sticky;
   left: 0;
   z-index: 4;
-  min-width: 96px;
-  max-width: 148px;
+  width: 96px;
 }
 
 .preview__cell__stack {
