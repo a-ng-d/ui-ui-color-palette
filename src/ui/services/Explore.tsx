@@ -73,6 +73,13 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
       currentService: service,
       currentEditor: editor,
     }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -264,10 +271,14 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     })
     this.onCreatePalette(sourceColors)
 
-    if (this.props.config.plan.isProEnabled)
+    if (this.props.config.plan.isProEnabled) {
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.colourLoversImport
       )
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
+    }
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -339,9 +350,9 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                         type: 'MULTI_LINE',
                       }}
                       isLoading={this.state.isActionLoading}
-                      isBlocked={this.features.EXPLORE_ADD.isReached(
+                      isBlocked={this.features.CREATE_PALETTE.isReached(
                         (this.props.creditsCount -
-                          this.props.config.fees.colourLoversImport) *
+                          this.props.config.fees.paletteCreate) *
                           -1 -
                           1
                       )}

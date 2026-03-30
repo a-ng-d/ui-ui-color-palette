@@ -28,6 +28,7 @@ import {
   Editor,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
+import { $creditsCount } from '../../stores/credits'
 import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -219,6 +220,11 @@ export default class BrowsePalettes extends PureComponent<
       '*'
     )
 
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
+
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -341,8 +347,11 @@ export default class BrowsePalettes extends PureComponent<
               isLoading={this.state.isSecondaryActionLoading}
               isBlocked={
                 this.features.DOCUMENT_CREATE.isBlocked() ||
-                this.features.LOCAL_PALETTES.isReached(
-                  this.state.localPalettesList.length
+                this.features.DOCUMENT_CREATE.isReached(
+                  (this.props.creditsCount -
+                    this.props.config.fees.paletteCreate) *
+                    -1 -
+                    1
                 )
               }
               isNew={this.features.DOCUMENT_CREATE.isNew()}
@@ -358,12 +367,11 @@ export default class BrowsePalettes extends PureComponent<
           icon="plus"
           label={this.props.t('browse.actions.new')}
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
-          isBlocked={
-            this.features.CREATE_PALETTE.isBlocked() ||
-            this.features.LOCAL_PALETTES.isReached(
-              this.state.localPalettesList.length
-            )
-          }
+          isBlocked={this.features.CREATE_PALETTE.isReached(
+            (this.props.creditsCount - this.props.config.fees.paletteCreate) *
+              -1 -
+              1
+          )}
           isNew={this.features.CREATE_PALETTE.isNew()}
           action={this.onCreatePalette}
         />

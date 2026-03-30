@@ -102,6 +102,13 @@ export default class CommunityPalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -446,8 +453,11 @@ export default class CommunityPalettes extends PureComponent<
                           isEnabled: true,
                           icon: 'plus',
                         }}
-                        isBlocked={this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesList.length
+                        isBlocked={this.features.CREATE_PALETTE.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.paletteCreate) *
+                            -1 -
+                            1
                         )}
                         action={() => {
                           this.setState({

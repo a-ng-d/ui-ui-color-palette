@@ -661,6 +661,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'framer',
       'buzz',
     ],
+    limit: 0,
   },
   {
     name: 'SCALE',

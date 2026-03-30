@@ -112,6 +112,13 @@ export default class ColorWheel extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -187,6 +194,11 @@ export default class ColorWheel extends PureComponent<
       },
       '*'
     )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
 
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -349,7 +361,9 @@ export default class ColorWheel extends PureComponent<
                         layouts['snackbar--wrap'],
                       ])}
                     >
-                      <Feature isActive={this.features.WHEEL_ALGORITHM.isActive()}>
+                      <Feature
+                        isActive={this.features.WHEEL_ALGORITHM.isActive()}
+                      >
                         <FormItem
                           id="color-harmony-algorithm"
                           label={this.props.t('wheel.algorithm.label')}
@@ -465,9 +479,9 @@ export default class ColorWheel extends PureComponent<
                             type: 'MULTI_LINE',
                           }}
                           isLoading={this.state.isActionLoading}
-                          isBlocked={this.features.WHEEL_ADD.isReached(
+                          isBlocked={this.features.CREATE_PALETTE.isReached(
                             (this.props.creditsCount -
-                              this.props.config.fees.harmonyCreate) *
+                              this.props.config.fees.paletteCreate) *
                               -1 -
                               1
                           )}

@@ -672,8 +672,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                 {this.features.COLORS.isReached(this.props.colors.length) && (
                   <div
                     style={{
-                      padding:
-                        '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                      padding: 'var(--size-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage

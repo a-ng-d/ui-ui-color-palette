@@ -49,10 +49,7 @@ interface ImagePaletteState {
   imageTitle: string
 }
 
-export default class ImagePalette extends PureComponent<
-  ImagePaletteProps,
-  ImagePaletteState
-> {
+export default class ImagePalette extends PureComponent<ImagePaletteProps, ImagePaletteState> {
   private palette = $palette
 
   static features = (
@@ -71,6 +68,13 @@ export default class ImagePalette extends PureComponent<
     EXTRACT_ADD: new FeatureStatus({
       features: config.features,
       featureName: 'EXTRACT_ADD',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -219,6 +223,11 @@ export default class ImagePalette extends PureComponent<
       },
       '*'
     )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
 
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -391,7 +400,12 @@ export default class ImagePalette extends PureComponent<
                 }}
                 isLoading={this.state.isActionLoading}
                 isDisabled={this.state.dominantColors.length === 0}
-                isBlocked={this.features.EXTRACT_ADD.isBlocked()}
+                isBlocked={this.features.CREATE_PALETTE.isReached(
+                  (this.props.creditsCount -
+                    this.props.config.fees.paletteCreate) *
+                    -1 -
+                    1
+                )}
                 isNew={this.features.EXTRACT_ADD.isNew()}
                 action={this.onUsePalette}
               />

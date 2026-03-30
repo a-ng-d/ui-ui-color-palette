@@ -98,6 +98,7 @@ export interface Config {
     imageColorsExtract: number
     harmonyCreate: number
     aiColorsGenerate: number
+    paletteCreate: number
     paletteGenerate: number
     paletteWithPropsGenerate: number
     sheetGenerate: number

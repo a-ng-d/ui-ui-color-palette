@@ -58,10 +58,7 @@ interface SelfPalettesState {
   isContextActionLoading: Array<boolean>
 }
 
-export default class SelfPalettes extends PureComponent<
-  SelfPalettesProps,
-  SelfPalettesState
-> {
+export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfPalettesState> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -71,6 +68,13 @@ export default class SelfPalettes extends PureComponent<
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -559,8 +563,11 @@ export default class SelfPalettes extends PureComponent<
                         isEnabled: true,
                         icon: 'plus',
                       }}
-                      isBlocked={this.features.LOCAL_PALETTES.isReached(
-                        this.props.localPalettesList.length
+                      isBlocked={this.features.CREATE_PALETTE.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.paletteCreate) *
+                          -1 -
+                          1
                       )}
                       action={() => {
                         this.setState({

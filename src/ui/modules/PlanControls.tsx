@@ -20,10 +20,7 @@ interface PlanControlsProps
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<
-  PlanControlsProps,
-  PlanControlsState
-> {
+export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (
@@ -144,6 +141,13 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -218,6 +222,13 @@ export default class PlanControls extends PureComponent<
           <li>
             {this.props.t('plan.credits.fees.createColorHarmony', {
               fee: this.props.config.fees.harmonyCreate,
+            })}
+          </li>
+        )}
+        {this.features.CREATE_PALETTE.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.createPalette', {
+              fee: this.props.config.fees.paletteCreate,
             })}
           </li>
         )}

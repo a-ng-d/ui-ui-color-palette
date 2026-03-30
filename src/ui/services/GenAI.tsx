@@ -69,6 +69,13 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       currentService: service,
       currentEditor: editor,
     }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -152,9 +159,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         {
           key: 'documentation',
           label: this.props.t('genAi.form.presets.labels.documentation'),
-          prompt: this.props.t(
-            'genAi.form.presets.usecases.documentation'
-          ),
+          prompt: this.props.t('genAi.form.presets.usecases.documentation'),
         },
         {
           key: 'ecommerce',
@@ -294,6 +299,11 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       },
       '*'
     )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
 
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -441,9 +451,9 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
-                isBlocked={this.features.GEN_ADD.isReached(
+                isBlocked={this.features.CREATE_PALETTE.isReached(
                   (this.props.creditsCount -
-                    this.props.config.fees.aiColorsGenerate) *
+                    this.props.config.fees.paletteCreate) *
                     -1 -
                     1
                 )}
@@ -515,9 +525,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                             type="LONG_TEXT"
                             placeholder={
                               this.state.previewPrompt ||
-                              this.props.t(
-                                'genAi.form.prompt.placeholder'
-                              )
+                              this.props.t('genAi.form.prompt.placeholder')
                             }
                             value={this.state.prompt}
                             isGrowing
@@ -550,9 +558,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                         <FormItem>
                           <Button
                             type="primary"
-                            label={this.props.t(
-                              'genAi.actions.generate'
-                            )}
+                            label={this.props.t('genAi.actions.generate')}
                             isLoading={this.state.isRequestProcessing}
                             isDisabled={
                               !this.state.prompt.trim() || !mistralClient
