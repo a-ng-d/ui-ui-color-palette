@@ -53,6 +53,7 @@ interface ScaleLCHProps
   onRemoveStop: React.Dispatch<Partial<ManagePaletteState>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeThemes?: (scale: ScaleConfiguration) => void
+  onChangeStops?: (stops: number[]) => void
   onSwitchMode: () => void
 }
 
@@ -460,6 +461,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+        setTimeout(() => this.props.onChangeStops?.(stops), 1000)
       }
     }
 
@@ -472,6 +474,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+        setTimeout(() => this.props.onChangeStops?.(stops), 1000)
       }
     }
 
