@@ -92,7 +92,7 @@
     "pushUpdates": "Enviar atualizações para o documento",
     "savePalette": "Salvar UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 cor-fonte} other {# cores-fonte} =0 {Nenhuma cor-fonte}}",
-    "sync": "Sincronizar com biblioteca local",
+    "sync": "Sincronizar…",
     "syncLocalStyles": "Sincronizar com estilos locais",
     "syncLocalVariables": "Sincronizar com variáveis locais",
     "syncPalette": "Sincronizar paleta",
@@ -199,8 +199,11 @@
     "back": "Voltar para paletas",
     "colors": "Cores",
     "export": "Exportar",
+    "hide": "Maximizar paleta",
+    "imports": "Importações",
     "palettes": "Paletas",
     "properties": "Propriedades",
+    "report": "Contraste",
     "scale": "Escala",
     "settings": "Configurações",
     "source": "Fontes",
@@ -208,7 +211,6 @@
   },
   "contrast": {
     "actions": {
-      "close": "Fechar",
       "next": "Próxima cor",
       "previous": "Cor anterior"
     },
@@ -308,6 +310,24 @@
     "themesUpdated": "Modos atualizados",
     "variablesSynced": "Variáveis sincronizadas"
   },
+  "explore": {
+    "actions": {
+      "addColors": "Criar uma UI Color Palette com essas cores",
+      "openPalette": "Abrir paleta"
+    },
+    "filters": {
+      "any": "Qualquer",
+      "blue": "Azul",
+      "green": "Verde",
+      "label": "Cores",
+      "orange": "Laranja",
+      "red": "Vermelho",
+      "violet": "Violeta",
+      "yellow": "Amarelo"
+    },
+    "meta": "{votes} votos・{views} visualizações・{comments} comentários",
+    "title": "Colour Lovers"
+  },
   "export": {
     "actions": {
       "copyCode": "Copiar código para a área de transferência",
@@ -364,11 +384,125 @@
   },
   "fail": "✘",
   "fullName": "UI Color Palette {instance}・Gerenciador de paleta de cores WCAG para aplicativos e sites",
+  "genAi": {
+    "actions": {
+      "addColors": "Criar uma UI Color Palette com essas cores",
+      "generate": "Gerar cores (⌃⏎ ou ⌘⏎)"
+    },
+    "colorTypes": {
+      "alert": "Alerta",
+      "primary": "Primária",
+      "success": "Sucesso",
+      "text": "Texto",
+      "warning": "Aviso"
+    },
+    "emptyMessage": "Use as predefinições de prompt ou crie a sua própria para gerar um conjunto de 5 cores",
+    "form": {
+      "presets": {
+        "labels": {
+          "blog": "Blog",
+          "corporate": "Corporativo",
+          "cyberpunk": "Cyberpunk",
+          "documentation": "Documentação",
+          "ecommerce": "E-commerce",
+          "landing": "Página de destino",
+          "minimalist": "Minimalista",
+          "nature": "Natureza",
+          "pastel": "Pastel",
+          "portfolio": "Portfólio",
+          "resume": "Currículo",
+          "vintage": "Vintage"
+        },
+        "usecases": {
+          "blog": "Blog pessoal com tipografia calorosa e legível",
+          "documentation": "Documentação técnica com hierarquia clara",
+          "ecommerce": "Loja de e-commerce com cores focadas em conversão",
+          "landing": "Página de destino moderna para startup de tecnologia",
+          "portfolio": "Portfólio criativo mostrando trabalho artístico",
+          "resume": "Currículo profissional com cores limpas e confiantes"
+        },
+        "vibes": {
+          "corporate": "Design corporativo profissional com cores confiáveis",
+          "cyberpunk": "Interface futurista cyberpunk com acentos neon",
+          "minimalist": "Design minimalista limpo com contrastes sutis",
+          "nature": "Tons terra naturais inspirados por floresta e montanhas",
+          "pastel": "Cores pastel suaves para interface gentil e amigável",
+          "vintage": "Estética vintage retrô com cores quentes e suaves"
+        }
+      },
+      "prompt": {
+        "placeholder": "Descreva o humor ou tema que você quer (ex. 'Startup de tecnologia moderna com energia vibrante', 'App de meditação calmo com tons terra')"
+      }
+    },
+    "title": "Cores geradas por IA"
+  },
   "global": {
     "description": {
       "label": "Descrição",
       "placeholder": "Para que serve?"
     }
+  },
+  "harmony": {
+    "add": "Criar uma harmonia de cores",
+    "empty": "Remover a harmonia de cores"
+  },
+  "imagePalette": {
+    "actions": {
+      "addColors": "Criar uma UI Color Palette com essas cores"
+    },
+    "dropzone": {
+      "cta": "ou clique para navegar",
+      "error": "A imagem não pôde ser carregada. Certifique-se de que a imagem é um .png e solte-a aqui.",
+      "message": "Arraste e solte seu arquivo .png aqui",
+      "warning": "O arquivo não foi importado. Tente novamente arrastando e soltando um arquivo .png aqui."
+    },
+    "message": "Faça upload, cole ou selecione uma imagem no canvas para extrair suas 5 cores dominantes",
+    "removeImage": "Remover imagem",
+    "title": "Cores dominantes"
+  },
+  "imports": {
+    "actions": {
+      "import": "Adicionar cores à paleta"
+    },
+    "canvas": {
+      "add": "Adicionar cores do canvas",
+      "empty": "Remover as cores do canvas",
+      "tip": "Selecione quantos {element} (preenchidos com cor) precisar na tela {canvas}",
+      "title": "Canvas"
+    },
+    "coolors": {
+      "add": "Adicionar uma paleta Coolors",
+      "addColors": "Adicionar à fonte",
+      "empty": "Remover a paleta Coolors",
+      "helper": "Importar uma paleta do famoso Coolors",
+      "title": "Coolors",
+      "url": {
+        "errorMessage": "A URL deve incluir vários códigos hexadecimais (ex. 8ecae6-…-219ebc)",
+        "infoMessage": "A URL deve começar com \"https://coolors.co\"",
+        "label": "URL da paleta",
+        "placeholder": "Cole um link－https://coolors.co/…"
+      }
+    },
+    "nodes": {
+      "figma": "formas/quadros",
+      "framer": "formas/quadros",
+      "penpot": "formas/pranchetas",
+      "sketch": "formas/quadros"
+    },
+    "realtimeColors": {
+      "add": "Adicionar uma paleta Realtime Colors",
+      "addColors": "Adicionar à fonte",
+      "empty": "Remover a paleta Realtime Colors",
+      "helper": "Importar uma paleta de uma simulação feita com Realtime Colors",
+      "title": "Realtime Colors",
+      "url": {
+        "errorMessage": "A URL deve incluir vários códigos hexadecimais (ex. 8ecae6-…-219ebc)",
+        "infoMessage": "A URL deve começar com \"https://www.realtimecolors.com\"",
+        "label": "URL Realtime",
+        "placeholder": "Cole um link－https://www.realtimecolors.com/…"
+      }
+    },
+    "title": "Cores-fonte importadas"
   },
   "info": {
     "addToLocal": "A paleta já existe",
@@ -405,6 +539,11 @@
     "updatedLocalModes": "{count, plural, one {1 modo atualizado} other {# modos atualizados} =0 {Nenhum modo atualizado}}",
     "updatedLocalStyles": "{count, plural, one {1 estilo atualizado} other {# estilos atualizados} =0 {Nenhum estilo atualizado}}",
     "updatedLocalVariables": "{count, plural, one {1 variável atualizada} other {# variáveis atualizadas} =0 {Nenhuma variável atualizada}}"
+  },
+  "modes": {
+    "edit": "Editar",
+    "export": "Exportar",
+    "inspect": "Inspecionar"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -454,6 +593,7 @@
       "amount": "{count, plural, one {1 crédito restante} other {# créditos restantes} =0 {Nenhum crédito restante}}",
       "fees": {
         "createColorHarmony": "Criar uma harmonia de cores: {fee} cdts",
+        "createPalette": "Criar uma UI Color Palette: {fee} cdts",
         "extractImageColors": "Extrair cores dominantes de imagem: {fee} cdts",
         "generateAiColors": "Gerar cores com IA: {fee} cdts",
         "generateColorSheet": "Gerar uma folha de cores: {fee} cdts",
@@ -699,6 +839,7 @@
     "actions": {
       "addStop": "Adicionar parada",
       "applyEasing": "Aplicar diretamente o easing às paradas",
+      "help": "Ajuda",
       "moreTools": "Mais ferramentas",
       "removeStop": "Remover parada",
       "resetScale": "Resetar paradas e croma",
@@ -837,6 +978,13 @@
     }
   },
   "separator": "・",
+  "services": {
+    "explore": "Explorar",
+    "extract": "Paleta de imagem",
+    "generate": "Cores com IA",
+    "manage": "Gerenciador de paletas",
+    "wheel": "Harmonia de cores"
+  },
   "settings": {
     "actions": {
       "paletteName": "Nome da paleta"
@@ -911,7 +1059,8 @@
         "sheet": "Planilha de cores",
         "simple": "Paleta"
       }
-    }
+    },
+    "title": "Configurações da paleta"
   },
   "shortcuts": {
     "author": "Apoiar o autor",
@@ -932,36 +1081,16 @@
     }
   },
   "source": {
-    "actions": {
-      "openPalette": "Abrir paleta"
-    },
     "ai": {
       "add": "Gerar cores com IA",
       "empty": "Remover as cores com IA",
       "helper": "Gerar cores inteligentes baseadas em prompts criativos usando Mistral AI",
       "title": "Cores com IA"
     },
-    "canvas": {
-      "tip": "Selecione quantos {element} (preenchidos com cor) precisar na tela {canvas}",
-      "title": "Cores selecionadas"
-    },
     "colourLovers": {
       "add": "Explorar paletas Colour Lovers",
-      "addColors": "Adicionar à fonte. Essas cores substituirão as anteriores se adicionadas.",
       "empty": "Remover a paleta Colour Lovers",
-      "filters": {
-        "any": "Qualquer",
-        "blue": "Azul",
-        "green": "Verde",
-        "label": "Cores",
-        "orange": "Laranja",
-        "red": "Vermelho",
-        "violet": "Violeta",
-        "yellow": "Amarelo"
-      },
-      "helper": "Explorar e importar uma paleta da comunidade Colour Lovers",
-      "meta": "{votes} votos・{views} visualizações・{comments} comentários",
-      "title": "Colour Lovers"
+      "helper": "Explorar e importar uma paleta da comunidade Colour Lovers"
     },
     "contexts": {
       "ai": "IA",
@@ -970,78 +1099,11 @@
       "image": "Imagem",
       "overview": "Visão geral"
     },
-    "coolors": {
-      "add": "Adicionar uma paleta Coolors",
-      "addColors": "Adicionar à fonte",
-      "empty": "Remover a paleta Coolors",
-      "helper": "Importar uma paleta do famoso Coolors",
-      "title": "Coolors",
-      "url": {
-        "errorMessage": "A URL deve incluir vários códigos hexadecimais (ex. 8ecae6-…-219ebc)",
-        "infoMessage": "A URL deve começar com \"https://coolors.co\"",
-        "label": "URL da paleta",
-        "placeholder": "Cole um link－https://coolors.co/…"
-      }
-    },
     "default": {
       "helper": "Esta cor é usada quando nenhuma cor é selecionada ou importada",
       "title": "Cor padrão"
     },
-    "genAi": {
-      "actions": {
-        "addColors": "Adicionar à fonte. Essas cores substituirão as anteriores se adicionadas.",
-        "generate": "Gerar cores (⌃⏎ ou ⌘⏎)"
-      },
-      "colorTypes": {
-        "alert": "Alerta",
-        "primary": "Primária",
-        "success": "Sucesso",
-        "text": "Texto",
-        "warning": "Aviso"
-      },
-      "emptyMessage": "Use as predefinições de prompt ou crie a sua própria para gerar um conjunto de 5 cores",
-      "form": {
-        "presets": {
-          "labels": {
-            "blog": "Blog",
-            "corporate": "Corporativo",
-            "cyberpunk": "Cyberpunk",
-            "documentation": "Documentação",
-            "ecommerce": "E-commerce",
-            "landing": "Página de destino",
-            "minimalist": "Minimalista",
-            "nature": "Natureza",
-            "pastel": "Pastel",
-            "portfolio": "Portfólio",
-            "resume": "Currículo",
-            "vintage": "Vintage"
-          },
-          "usecases": {
-            "blog": "Blog pessoal com tipografia calorosa e legível",
-            "documentation": "Documentação técnica com hierarquia clara",
-            "ecommerce": "Loja de e-commerce com cores focadas em conversão",
-            "landing": "Página de destino moderna para startup de tecnologia",
-            "portfolio": "Portfólio criativo mostrando trabalho artístico",
-            "resume": "Currículo profissional com cores limpas e confiantes"
-          },
-          "vibes": {
-            "corporate": "Design corporativo profissional com cores confiáveis",
-            "cyberpunk": "Interface futurista cyberpunk com acentos neon",
-            "minimalist": "Design minimalista limpo com contrastes sutis",
-            "nature": "Tons terra naturais inspirados por floresta e montanhas",
-            "pastel": "Cores pastel suaves para interface gentil e amigável",
-            "vintage": "Estética vintage retrô com cores quentes e suaves"
-          }
-        },
-        "prompt": {
-          "placeholder": "Descreva o humor ou tema que você quer (ex. 'Startup de tecnologia moderna com energia vibrante', 'App de meditação calmo com tons terra')"
-        }
-      },
-      "title": "Cores geradas por IA"
-    },
     "harmony": {
-      "add": "Criar uma harmonia de cores",
-      "empty": "Remover a harmonia de cores",
       "helper": "Criar cores harmoniosas baseadas na roda de cores",
       "title": "Harmonia de cores"
     },
@@ -1051,50 +1113,7 @@
       "helper": "Extrair 5 cores dominantes de qualquer imagem",
       "title": "Paleta de imagem"
     },
-    "imagePalette": {
-      "addColors": "Adicionar à fonte. Essas cores substituirão as anteriores se adicionadas.",
-      "dropzone": {
-        "cta": "ou clique para navegar",
-        "error": "A imagem não pôde ser carregada. Certifique-se de que a imagem é um .png e solte-a aqui.",
-        "message": "Arraste e solte seu arquivo .png aqui",
-        "warning": "O arquivo não foi importado. Tente novamente arrastando e soltando um arquivo .png aqui."
-      },
-      "message": "Faça upload, cole ou selecione uma imagem no canvas para extrair suas 5 cores dominantes",
-      "removeImage": "Remover imagem",
-      "title": "Cores dominantes"
-    },
-    "nodes": {
-      "figma": "formas/quadros",
-      "framer": "formas/quadros",
-      "penpot": "formas/pranchetas",
-      "sketch": "formas/quadros"
-    },
-    "realtimeColors": {
-      "add": "Adicionar uma paleta Realtime Colors",
-      "addColors": "Adicionar à fonte",
-      "empty": "Remover a paleta Realtime Colors",
-      "helper": "Importar uma paleta de uma simulação feita com Realtime Colors",
-      "title": "Realtime Colors",
-      "url": {
-        "errorMessage": "A URL deve incluir vários códigos hexadecimais (ex. 8ecae6-…-219ebc)",
-        "infoMessage": "A URL deve começar com \"https://www.realtimecolors.com\"",
-        "label": "URL Realtime",
-        "placeholder": "Cole um link－https://www.realtimecolors.com/…"
-      }
-    },
-    "title": "Cores-fonte",
-    "wheel": {
-      "addColors": "Adicionar à fonte. Essas cores substituirão as anteriores se adicionadas.",
-      "algorithm": {
-        "analogous": "Análogo",
-        "complementary": "Complementar",
-        "compound": "Composto",
-        "label": "Roda de cores",
-        "tetradic": "Tetrádico",
-        "triadic": "Triádico"
-      },
-      "base": "Cor base"
-    }
+    "title": "Cores-fonte"
   },
   "store": {
     "isb": {
@@ -1249,5 +1268,19 @@
     "tooManyThemesToCreateModes": "Você não pode criar mais de 4 modos no plano atual",
     "uncopiedCode": "O código não foi copiado para a área de transferência",
     "unselectedColor": "Selecione uma camada que esteja preenchida com pelo menos uma cor sólida"
+  },
+  "wheel": {
+    "actions": {
+      "addColors": "Criar uma UI Color Palette com essas cores"
+    },
+    "algorithm": {
+      "analogous": "Análogo",
+      "complementary": "Complementar",
+      "compound": "Composto",
+      "label": "Roda de cores",
+      "tetradic": "Tetrádico",
+      "triadic": "Triádico"
+    },
+    "base": "Cor base"
   }
 }
