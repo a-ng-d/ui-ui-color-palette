@@ -1029,25 +1029,37 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                 </div>
                 <Bar
                   leftPartSlot={
-                    <ScoresControls
-                      {...this.props}
-                      isWCAGDisplayed={this.state.isWCAGDisplayed}
-                      isAPCADisplayed={this.state.isAPCADisplayed}
-                      isWCAGIntervalDisplayed={
-                        this.state.isWCAGIntervalDisplayed
-                      }
-                      isAPCAIntervalDisplayed={
-                        this.state.isAPCAIntervalDisplayed
-                      }
-                      scoreFilters={this.state.scoreFilters}
-                      onUpdateScoreFilters={this.updateScoreFilters}
-                    />
+                    <>
+                      <ScoresControls
+                        {...this.props}
+                        isWCAGDisplayed={this.state.isWCAGDisplayed}
+                        isAPCADisplayed={this.state.isAPCADisplayed}
+                        isWCAGIntervalDisplayed={
+                          this.state.isWCAGIntervalDisplayed
+                        }
+                        isAPCAIntervalDisplayed={
+                          this.state.isAPCAIntervalDisplayed
+                        }
+                        scoreFilters={this.state.scoreFilters}
+                        onUpdateScoreFilters={this.updateScoreFilters}
+                      />
+                      {this.props.documentWidth <= 460 && (
+                        <SettingsControls
+                          {...this.props}
+                          onColorSettingsHandler={this.colorSettingsHandler}
+                        />
+                      )}
+                    </>
                   }
                   rightPartSlot={
-                    <SettingsControls
-                      {...this.props}
-                      onColorSettingsHandler={this.colorSettingsHandler}
-                    />
+                    <>
+                      {this.props.documentWidth > 460 && (
+                        <SettingsControls
+                          {...this.props}
+                          onColorSettingsHandler={this.colorSettingsHandler}
+                        />
+                      )}
+                    </>
                   }
                   isInverted
                   shouldReflow
