@@ -245,6 +245,10 @@ export default class ManagePalette extends PureComponent<
 
       const updateWhileDocumentSelected = () => {
         this.setState({
+          sourceColors: this.state.sourceColors.filter(
+            (sourceColor: SourceColorConfiguration) =>
+              sourceColor.source !== 'CANVAS'
+          ),
           document: {
             view: path.data.view,
             id: path.data.id,
