@@ -183,30 +183,31 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
     const path = e.detail
 
     try {
-      const updateWhileEmptySelection = () => {
+      /*const updateWhileEmptySelection = () => {
         this.setState({
           sourceColors: this.state.sourceColors.filter(
             (sourceColor: SourceColorConfiguration) =>
               sourceColor.source !== 'CANVAS'
           ),
         })
-      }
-      
+      }*/
+
       const updateWhileColorSelected = () => {
-        this.setState({
-          sourceColors: this.state.sourceColors
-            .filter(
-              (sourceColor: SourceColorConfiguration) =>
-                sourceColor.source !== 'CANVAS'
-            )
-            .concat(path.data.selection),
-        })
+        if (this.state.isSelectedColorsOpen)
+          this.setState({
+            sourceColors: this.state.sourceColors
+              .filter(
+                (sourceColor: SourceColorConfiguration) =>
+                  sourceColor.source !== 'CANVAS'
+              )
+              .concat(path.data.selection),
+          })
       }
 
       const actions: {
         [action: string]: () => void
       } = {
-        EMPTY_SELECTION: () => updateWhileEmptySelection(),
+        // EMPTY_SELECTION: () => updateWhileEmptySelection(),
         COLOR_SELECTED: () => updateWhileColorSelected(),
         DEFAULT: () => null,
       }
