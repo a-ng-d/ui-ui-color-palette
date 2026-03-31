@@ -221,6 +221,12 @@ export default class ManagePalette extends PureComponent<
     const path = e.detail
 
     try {
+      const updateWhileEmptySelection = () => {
+        this.setState({
+          document: {},
+        })
+      }
+
       const updateWhileDocumentSelected = () => {
         this.setState({
           sourceColors: this.state.sourceColors.filter(
@@ -249,6 +255,7 @@ export default class ManagePalette extends PureComponent<
       const actions: {
         [action: string]: () => void
       } = {
+        EMPTY_SELECTION: () => updateWhileEmptySelection(),
         DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
         LOAD_PALETTE: () => this.onLoadPalette(path.data),
         RESET_PALETTE: () => this.onResetPalette(),
