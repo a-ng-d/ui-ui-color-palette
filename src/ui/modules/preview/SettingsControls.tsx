@@ -118,6 +118,10 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
             }}
             alignment="RIGHT"
             pin="BOTTOM"
+            shouldReflow={{
+              isEnabled: true,
+              icon: 'theme',
+            }}
           />
         </Feature>
       </div>

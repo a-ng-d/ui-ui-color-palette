@@ -372,6 +372,51 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     return options
   }
 
+  viewOptionsHandler = () => {
+    return [
+      {
+        label: this.props.t('settings.global.views.simple'),
+        value: 'PALETTE',
+        type: 'OPTION' as const,
+        isActive: this.features.VIEWS_PALETTE.isActive(),
+        isBlocked: this.features.VIEWS_PALETTE.isReached(
+          (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
+            -1 -
+            1
+        ),
+        isNew: this.features.VIEWS_PALETTE.isNew(),
+        action: this.props.onChangeView,
+      },
+      {
+        label: this.props.t('settings.global.views.detailed'),
+        value: 'PALETTE_WITH_PROPERTIES',
+        type: 'OPTION' as const,
+        isActive: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
+        isBlocked: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
+          (this.props.creditsCount -
+            this.props.config.fees.paletteWithPropsGenerate) *
+            -1 -
+            1
+        ),
+        isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
+        action: this.props.onChangeView,
+      },
+      {
+        label: this.props.t('settings.global.views.sheet'),
+        value: 'SHEET',
+        type: 'OPTION' as const,
+        isActive: this.features.VIEWS_SHEET.isActive(),
+        isBlocked: this.features.VIEWS_SHEET.isReached(
+          (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
+            -1 -
+            1
+        ),
+        isNew: this.features.VIEWS_SHEET.isNew(),
+        action: this.props.onChangeView,
+      },
+    ]
+  }
+
   // Templates
   Modes = () => {
     return (
@@ -477,64 +522,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             >
               <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
             </Feature>
-            {this.props.document?.id === this.props.id && (
-              <Dropdown
-                id="views"
-                options={[
-                  {
-                    label: this.props.t('settings.global.views.simple'),
-                    value: 'PALETTE',
-                    type: 'OPTION',
-                    isActive: this.features.VIEWS_PALETTE.isActive(),
-                    isBlocked: this.features.VIEWS_PALETTE.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.paletteGenerate) *
-                        -1 -
-                        1
-                    ),
-                    isNew: this.features.VIEWS_PALETTE.isNew(),
-                    action: this.props.onChangeView,
-                  },
-                  {
-                    label: this.props.t('settings.global.views.detailed'),
-                    value: 'PALETTE_WITH_PROPERTIES',
-                    type: 'OPTION',
-                    isActive:
-                      this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
-                    isBlocked:
-                      this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.paletteWithPropsGenerate) *
-                          -1 -
-                          1
-                      ),
-                    isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
-                    action: this.props.onChangeView,
-                  },
-                  {
-                    label: this.props.t('settings.global.views.sheet'),
-                    value: 'SHEET',
-                    type: 'OPTION',
-                    isActive: this.features.VIEWS_SHEET.isActive(),
-                    isBlocked: this.features.VIEWS_SHEET.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.sheetGenerate) *
-                        -1 -
-                        1
-                    ),
-                    isNew: this.features.VIEWS_SHEET.isNew(),
-                    action: this.props.onChangeView,
-                  },
-                ]}
-                selected={this.props.document.view}
-                pin="BOTTOM"
-                helper={{
-                  label: this.props.t('settings.global.views.helper'),
-                }}
-                isBlocked={this.features.VIEWS.isBlocked()}
-                isNew={this.features.VIEWS.isNew()}
-              />
-            )}
           </div>
         }
         rightPartSlot={
@@ -545,64 +532,135 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               layouts['snackbar--wrap'],
             ])}
           >
-            <Feature isActive={this.features.DOCUMENT.isActive()}>
+            {this.props.documentWidth > 460 ? (
+              <>
+                {this.props.document?.id === this.props.id && (
+                  <Dropdown
+                    id="views"
+                    options={this.viewOptionsHandler()}
+                    selected={this.props.document.view}
+                    pin="BOTTOM"
+                    helper={{
+                      label: this.props.t('settings.global.views.helper'),
+                    }}
+                    isBlocked={this.features.VIEWS.isBlocked()}
+                    isNew={this.features.VIEWS.isNew()}
+                  />
+                )}
+                <Feature isActive={this.features.DOCUMENT.isActive()}>
+                  <Menu
+                    id="generate-documentation"
+                    type="ICON"
+                    icon="draft"
+                    options={this.documentOptionsHandler()}
+                    helper={{
+                      label: this.props.t('actions.generateDocument.label'),
+                      isSingleLine: true,
+                    }}
+                    alignment="BOTTOM_RIGHT"
+                    state={
+                      this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'
+                    }
+                    isNew={this.state.canUpdateDocument}
+                  />
+                </Feature>
+                <Menu
+                  id="main-actions"
+                  type="PRIMARY"
+                  label={this.props.t('actions.sync')}
+                  options={[
+                    {
+                      label: this.props.t('actions.syncLocalStyles'),
+                      value: 'LOCAL_STYLES',
+                      feature: 'SYNC_LOCAL_STYLES',
+                      type: 'OPTION',
+                      isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
+                      isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.localStylesSync) *
+                          -1 -
+                          1
+                      ),
+                      isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
+                      action: (e) => this.props.onSyncLocalStyles?.(e),
+                    },
+                    {
+                      label: this.props.t('actions.syncLocalVariables'),
+                      value: 'LOCAL_VARIABLES',
+                      feature: 'SYNC_LOCAL_VARIABLES',
+                      type: 'OPTION',
+                      isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
+                      isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.localVariablesSync) *
+                          -1 -
+                          1
+                      ),
+                      isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
+                      action: (e) => this.props.onSyncLocalVariables?.(e),
+                    },
+                  ]}
+                  alignment="BOTTOM_RIGHT"
+                  state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                />
+              </>
+            ) : (
               <Menu
-                id="generate-documentation"
+                id="main-actions"
                 type="ICON"
-                icon="draft"
-                options={this.documentOptionsHandler()}
-                helper={{
-                  label: this.props.t('actions.generateDocument.label'),
-                  isSingleLine: true,
-                }}
+                icon="play"
+                label={this.props.t('actions.sync')}
+                options={[
+                  {
+                    label: this.props.t('actions.syncLocalStyles'),
+                    value: 'LOCAL_STYLES',
+                    feature: 'SYNC_LOCAL_STYLES',
+                    type: 'OPTION',
+                    isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
+                    isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
+                      (this.props.creditsCount -
+                        this.props.config.fees.localStylesSync) *
+                        -1 -
+                        1
+                    ),
+                    isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
+                    action: (e) => this.props.onSyncLocalStyles?.(e),
+                  },
+                  {
+                    label: this.props.t('actions.syncLocalVariables'),
+                    value: 'LOCAL_VARIABLES',
+                    feature: 'SYNC_LOCAL_VARIABLES',
+                    type: 'OPTION',
+                    isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
+                    isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
+                      (this.props.creditsCount -
+                        this.props.config.fees.localVariablesSync) *
+                        -1 -
+                        1
+                    ),
+                    isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
+                    action: (e) => this.props.onSyncLocalVariables?.(e),
+                  },
+                  {
+                    type: 'SEPARATOR',
+                  },
+                  ...this.documentOptionsHandler(),
+                  ...(this.props.document?.id === this.props.id
+                    ? [
+                        {
+                          type: 'SEPARATOR' as const,
+                        },
+                        ...this.viewOptionsHandler(),
+                      ]
+                    : []),
+                ]}
                 alignment="BOTTOM_RIGHT"
-                state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
-                isNew={this.state.canUpdateDocument}
+                state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
               />
-            </Feature>
-            <Menu
-              id="main-actions"
-              type="PRIMARY"
-              label={this.props.t('actions.sync')}
-              options={[
-                {
-                  label: this.props.t('actions.syncLocalStyles'),
-                  value: 'LOCAL_STYLES',
-                  feature: 'SYNC_LOCAL_STYLES',
-                  type: 'OPTION',
-                  isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
-                  isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.localStylesSync) *
-                      -1 -
-                      1
-                  ),
-                  isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
-                  action: (e) => this.props.onSyncLocalStyles?.(e),
-                },
-                {
-                  label: this.props.t('actions.syncLocalVariables'),
-                  value: 'LOCAL_VARIABLES',
-                  feature: 'SYNC_LOCAL_VARIABLES',
-                  type: 'OPTION',
-                  isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                  isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.localVariablesSync) *
-                      -1 -
-                      1
-                  ),
-                  isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
-                  action: (e) => this.props.onSyncLocalVariables?.(e),
-                },
-              ]}
-              alignment="BOTTOM_RIGHT"
-              state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
-            />
+            )}
             <this.Modes />
           </div>
         }
-        shouldReflow
         border={['BOTTOM']}
       />
     )
@@ -705,6 +763,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   format: this.props.format || 'JSON',
                 })}
                 feature="EXPORT_PALETTE"
+                shouldReflow={{
+                  isEnabled: true,
+                  icon: 'draft',
+                }}
                 action={this.props.onExportPalette}
               >
                 <a></a>

@@ -495,8 +495,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                     {this.features.THEMES.isBlocked() && (
                       <div
                         style={{
-                          padding:
-                            '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                          padding: 'var(--size-pos-xxsmall)',
                         }}
                       >
                         <SemanticMessage
