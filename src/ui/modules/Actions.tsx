@@ -49,7 +49,6 @@ interface ActionsProps
   onSyncLocalVariables?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
-  onPublishPalette?: React.Dispatch<Partial<ManagePaletteState>>
   onGenerateDocument?: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
@@ -373,72 +372,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     return options
   }
 
-  // Direct Actions
-  publicationAction = (): Partial<DropdownOption> => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return {
-        label: this.props.t('actions.publishOrSyncPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'PUBLISH_SYNC_PALETTE',
-      }
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return {
-        label: this.props.t('actions.publishPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'PUBLISH_PALETTE',
-      }
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return {
-        label: this.props.t('actions.syncPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'SYNC_PALETTE',
-      }
-    else
-      return {
-        label: this.props.t('actions.publishPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'PUBLISH_PALETTE',
-      }
-  }
-
-  publicationLabel = (): string => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return this.props.t('actions.publishOrSyncPalette')
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return this.props.t('actions.publishPalette')
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return this.props.t('actions.syncPalette')
-    else return this.props.t('actions.publishPalette')
-  }
-
-  publicationIcon = (): IconList => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return 'library'
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return 'library'
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return 'swap'
-    else return 'library'
-  }
-
   // Templates
   Modes = () => {
     return (
@@ -612,20 +545,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               layouts['snackbar--wrap'],
             ])}
           >
-            <Feature isActive={this.features.PUBLICATION.isActive()}>
-              <Button
-                type="icon"
-                icon={this.publicationIcon()}
-                helper={{
-                  label: this.publicationLabel(),
-                }}
-                action={() =>
-                  this.props.onPublishPalette?.({
-                    canBePublished: true,
-                  })
-                }
-              />
-            </Feature>
             <Feature isActive={this.features.DOCUMENT.isActive()}>
               <Menu
                 id="generate-documentation"

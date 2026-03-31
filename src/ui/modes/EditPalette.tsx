@@ -1,4 +1,4 @@
-import type { DropdownOption } from '@unoff/ui'
+import type { DropdownOption, IconList } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
@@ -164,6 +164,13 @@ export default class EditPalette extends PureComponent<
     SETTINGS: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PUBLICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -524,6 +531,71 @@ export default class EditPalette extends PureComponent<
     }
 
     return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
+  }
+
+  publicationAction = (): Partial<DropdownOption> => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return {
+        label: this.props.t('actions.publishOrSyncPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_SYNC_PALETTE',
+      }
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return {
+        label: this.props.t('actions.publishPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_PALETTE',
+      }
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return {
+        label: this.props.t('actions.syncPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'SYNC_PALETTE',
+      }
+    else
+      return {
+        label: this.props.t('actions.publishPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_PALETTE',
+      }
+  }
+
+  publicationLabel = (): string => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return this.props.t('actions.publishOrSyncPalette')
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return this.props.t('actions.publishPalette')
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return this.props.t('actions.syncPalette')
+    else return this.props.t('actions.publishPalette')
+  }
+
+  publicationIcon = (): IconList => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return 'library'
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return 'library'
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return 'swap'
+    else return 'library'
   }
 
   // Direct Actions
@@ -930,6 +1002,25 @@ export default class EditPalette extends PureComponent<
                                 this.state.context === 'SETTINGS'
                                   ? ''
                                   : 'SETTINGS',
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.PUBLICATION.isActive()}>
+                        <Button
+                          type="icon"
+                          icon={this.publicationIcon()}
+                          helper={{
+                            label: this.publicationLabel(),
+                          }}
+                          isNew={
+                            this.props.publicationStatus.isPublished &&
+                            this.props.dates.publishedAt !==
+                              this.props.dates.updatedAt
+                          }
+                          action={() =>
+                            this.props.onPublishPalette?.({
+                              canBePublished: true,
                             })
                           }
                         />
