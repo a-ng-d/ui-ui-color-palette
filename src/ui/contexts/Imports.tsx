@@ -758,8 +758,9 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                   }
                   rightPartSlot={
                     <Button
-                      type="secondary"
-                      label={this.props.t('imports.actions.import')}
+                      type="icon"
+                      icon="import"
+                      helper={{ label: this.props.t('imports.actions.import') }}
                       feature="ADD_COLOR"
                       isDisabled={this.state.sourceColors.length === 0}
                       isBlocked={this.features.COLORS.isReached(
