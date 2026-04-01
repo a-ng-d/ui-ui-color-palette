@@ -8,6 +8,7 @@ import {
   Dialog,
   List,
   Menu,
+  SectionTitle,
   SemanticMessage,
   SimpleItem,
   texts,
@@ -534,9 +535,7 @@ export default class PagePalettes extends PureComponent<
       <>
         <SimpleItem
           leftPartSlot={
-            <span className={doClassnames([texts.type, texts.label])}>
-              {this.props.t('browse.page.title')}
-            </span>
+            <SectionTitle label={this.props.t('browse.page.title')} />
           }
           isListItem={false}
         />

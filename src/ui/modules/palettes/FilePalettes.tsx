@@ -8,6 +8,7 @@ import {
   Dialog,
   List,
   Menu,
+  SectionTitle,
   SemanticMessage,
   SimpleItem,
   texts,
@@ -534,9 +535,7 @@ export default class FilePalettes extends PureComponent<
       <>
         <SimpleItem
           leftPartSlot={
-            <span className={doClassnames([texts.type, texts.label])}>
-              {this.props.t('browse.file.title')}
-            </span>
+            <SectionTitle label={this.props.t('browse.file.title')} />
           }
           isListItem={false}
         />
