@@ -198,6 +198,7 @@ export default class LangPreferences extends PureComponent<
                     selected={tolgee.getLanguage() as Language}
                     isBlocked={this.features.USER_LANGUAGE.isBlocked()}
                     isNew={this.features.USER_LANGUAGE.isNew()}
+                    isFill
                   />
                 </FormItem>
               ),
