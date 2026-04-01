@@ -671,7 +671,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
         <Bar
           leftPartSlot={
-            <div className={layouts['snackbar--medium']}>
+            <div className={layouts['snackbar--tight']}>
               <Button
                 type="icon"
                 icon="back"
@@ -721,7 +721,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
         <Bar
           leftPartSlot={
-            <div className={layouts['snackbar--medium']}>
+            <div className={layouts['snackbar--tight']}>
               <Button
                 type="icon"
                 icon="back"
