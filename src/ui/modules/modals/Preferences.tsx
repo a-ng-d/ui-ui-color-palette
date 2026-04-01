@@ -84,7 +84,7 @@ export default class Preferences extends PureComponent<PreferencesProps> {
             <List
               padding={padding}
               isFullWidth
-              isFullHeight={this.props.documentWidth <= 460}
+              isFullHeight
             >
               <SyncPreferences {...this.props} />
               <LangPreferences
