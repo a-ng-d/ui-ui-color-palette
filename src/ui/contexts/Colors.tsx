@@ -760,13 +760,19 @@ export default class Colors extends PureComponent<ColorsProps> {
                             </div>
                           </Feature>
                           <Feature
-                            isActive={this.features.COLORS_PARAMS.isActive()}
+                            isActive={
+                              this.features.COLORS_PARAMS.isActive() &&
+                              this.props.documentWidth > 460
+                            }
                           >
                             <div className="draggable-item__param">
                               <Input
                                 type="COLOR"
                                 value={hex}
                                 feature="UPDATE_HEX"
+                                helper={{
+                                  label: this.props.t('colors.actions.hexCode'),
+                                }}
                                 isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                                 isNew={this.features.COLORS_PARAMS.isNew()}
                                 onPick={this.colorsHandler}
@@ -784,6 +790,11 @@ export default class Colors extends PureComponent<ColorsProps> {
                         color.rgb.g * 255,
                         color.rgb.b * 255,
                       ]).lch()
+                      const hex = chroma([
+                        color.rgb.r * 255,
+                        color.rgb.g * 255,
+                        color.rgb.b * 255,
+                      ]).hex()
 
                       return {
                         title: this.props.t('colors.moreParameters', {
@@ -791,6 +802,33 @@ export default class Colors extends PureComponent<ColorsProps> {
                         }),
                         node: (() => (
                           <div data-id={color.id}>
+                            <Feature
+                              isActive={
+                                this.features.COLORS_PARAMS.isActive() &&
+                                this.props.documentWidth <= 460
+                              }
+                            >
+                              <FormItem
+                                id={`change-hex-secondary-${color.id}`}
+                                label={this.props.t('colors.actions.hexCode')}
+                                isBlocked={
+                                  this.features.COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
+                                }
+                              >
+                                <Input
+                                  id={`change-hex-secondary-${color.id}`}
+                                  type="COLOR"
+                                  value={hex}
+                                  feature="UPDATE_HEX"
+                                  isBlocked={this.features.COLORS_PARAMS.isBlocked()}
+                                  isNew={this.features.COLORS_PARAMS.isNew()}
+                                  onPick={this.colorsHandler}
+                                  onBlur={this.colorsHandler}
+                                  onValid={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
                             <Feature
                               isActive={this.features.COLORS_ALPHA.isActive()}
                             >

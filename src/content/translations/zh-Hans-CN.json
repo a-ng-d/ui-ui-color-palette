@@ -170,6 +170,7 @@
     "actions": {
       "alphaBackground": "透明度背后的背景色",
       "colorName": "颜色名称",
+      "hexCode": "十六进制代",
       "moreParameters": "更多参数",
       "new": "新建 UI 颜色",
       "removeColor": "移除颜色"

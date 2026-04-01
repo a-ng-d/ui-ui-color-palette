@@ -544,7 +544,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                             <Feature
                               isActive={this.features.THEMES_NAME.isActive()}
                             >
-                              <div className="draggable-item__param">
+                              <div className="draggable-item__param--compact">
                                 <Input
                                   type="TEXT"
                                   value={theme.name}

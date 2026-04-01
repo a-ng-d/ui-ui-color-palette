@@ -170,6 +170,7 @@
     "actions": {
       "alphaBackground": "Couleur d'arrière-plan derrière la transparence",
       "colorName": "Nom de la couleur",
+      "hexCode": "Code hexadécimal",
       "moreParameters": "Plus de paramètres",
       "new": "Nouvelle UI Color",
       "removeColor": "Supprimer la couleur"
