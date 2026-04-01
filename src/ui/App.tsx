@@ -881,6 +881,13 @@ class App extends Component<AppProps, AppState> {
       }
     }
 
+    const numberOfActiveServices =
+      (this.features.MANAGE.isActive() ? 1 : 0) +
+      (this.features.GEN.isActive() ? 1 : 0) +
+      (this.features.EXTRACT.isActive() ? 1 : 0) +
+      (this.features.WHEEL.isActive() ? 1 : 0) +
+      (this.features.EXPLORE.isActive() ? 1 : 0)
+
     if (this.state.isLoaded)
       return (
         <main
@@ -892,115 +899,127 @@ class App extends Component<AppProps, AppState> {
           <Layout
             id="services"
             column={[
-              {
-                node: (
-                  <Bar
-                    id="services-nav"
-                    leftPartSlot={
-                      <div className={layouts['stackbar--medium']}>
-                        <Feature isActive={this.features.MANAGE.isActive()}>
-                          <Button
-                            type="icon"
-                            icon="colors"
-                            state={
-                              this.state.service === 'MANAGE'
-                                ? 'selected'
-                                : undefined
-                            }
-                            helper={{
-                              label: this.props.t('services.manage'),
-                            }}
-                            action={() =>
-                              this.setState({
-                                service: 'MANAGE',
-                              })
-                            }
-                          />
-                        </Feature>
-                        <Feature isActive={this.features.GEN.isActive()}>
-                          <Button
-                            type="icon"
-                            icon="ai"
-                            state={
-                              this.state.service === 'GEN'
-                                ? 'selected'
-                                : undefined
-                            }
-                            helper={{
-                              label: this.props.t('services.generate'),
-                            }}
-                            action={() =>
-                              this.setState({
-                                service: 'GEN',
-                              })
-                            }
-                          />
-                        </Feature>
-                        <Feature isActive={this.features.EXTRACT.isActive()}>
-                          <Button
-                            type="icon"
-                            icon="image"
-                            state={
-                              this.state.service === 'EXTRACT'
-                                ? 'selected'
-                                : undefined
-                            }
-                            helper={{
-                              label: this.props.t('services.extract'),
-                            }}
-                            action={() =>
-                              this.setState({
-                                service: 'EXTRACT',
-                              })
-                            }
-                          />
-                        </Feature>
-                        <Feature isActive={this.features.WHEEL.isActive()}>
-                          <Button
-                            type="icon"
-                            icon="styles"
-                            state={
-                              this.state.service === 'WHEEL'
-                                ? 'selected'
-                                : undefined
-                            }
-                            helper={{
-                              label: this.props.t('services.wheel'),
-                            }}
-                            action={() =>
-                              this.setState({
-                                service: 'WHEEL',
-                              })
-                            }
-                          />
-                        </Feature>
-                        <Feature isActive={this.features.EXPLORE.isActive()}>
-                          <Button
-                            type="icon"
-                            icon="explore"
-                            state={
-                              this.state.service === 'EXPLORE'
-                                ? 'selected'
-                                : undefined
-                            }
-                            helper={{
-                              label: this.props.t('services.explore'),
-                            }}
-                            action={() =>
-                              this.setState({
-                                service: 'EXPLORE',
-                              })
-                            }
-                          />
-                        </Feature>
-                      </div>
-                    }
-                    isVertical
-                  />
-                ),
-                typeModifier: ['FIXED', 'BLANK'],
-                fixedWidth: 'var(--bar-min-height)',
-              },
+              ...(numberOfActiveServices > 1
+                ? [
+                    {
+                      node: (
+                        <Bar
+                          id="services-nav"
+                          leftPartSlot={
+                            <div className={layouts['stackbar--medium']}>
+                              <Feature
+                                isActive={this.features.MANAGE.isActive()}
+                              >
+                                <Button
+                                  type="icon"
+                                  icon="colors"
+                                  state={
+                                    this.state.service === 'MANAGE'
+                                      ? 'selected'
+                                      : undefined
+                                  }
+                                  helper={{
+                                    label: this.props.t('services.manage'),
+                                  }}
+                                  action={() =>
+                                    this.setState({
+                                      service: 'MANAGE',
+                                    })
+                                  }
+                                />
+                              </Feature>
+                              <Feature isActive={this.features.GEN.isActive()}>
+                                <Button
+                                  type="icon"
+                                  icon="ai"
+                                  state={
+                                    this.state.service === 'GEN'
+                                      ? 'selected'
+                                      : undefined
+                                  }
+                                  helper={{
+                                    label: this.props.t('services.generate'),
+                                  }}
+                                  action={() =>
+                                    this.setState({
+                                      service: 'GEN',
+                                    })
+                                  }
+                                />
+                              </Feature>
+                              <Feature
+                                isActive={this.features.EXTRACT.isActive()}
+                              >
+                                <Button
+                                  type="icon"
+                                  icon="image"
+                                  state={
+                                    this.state.service === 'EXTRACT'
+                                      ? 'selected'
+                                      : undefined
+                                  }
+                                  helper={{
+                                    label: this.props.t('services.extract'),
+                                  }}
+                                  action={() =>
+                                    this.setState({
+                                      service: 'EXTRACT',
+                                    })
+                                  }
+                                />
+                              </Feature>
+                              <Feature
+                                isActive={this.features.WHEEL.isActive()}
+                              >
+                                <Button
+                                  type="icon"
+                                  icon="styles"
+                                  state={
+                                    this.state.service === 'WHEEL'
+                                      ? 'selected'
+                                      : undefined
+                                  }
+                                  helper={{
+                                    label: this.props.t('services.wheel'),
+                                  }}
+                                  action={() =>
+                                    this.setState({
+                                      service: 'WHEEL',
+                                    })
+                                  }
+                                />
+                              </Feature>
+                              <Feature
+                                isActive={this.features.EXPLORE.isActive()}
+                              >
+                                <Button
+                                  type="icon"
+                                  icon="explore"
+                                  state={
+                                    this.state.service === 'EXPLORE'
+                                      ? 'selected'
+                                      : undefined
+                                  }
+                                  helper={{
+                                    label: this.props.t('services.explore'),
+                                  }}
+                                  action={() =>
+                                    this.setState({
+                                      service: 'EXPLORE',
+                                    })
+                                  }
+                                />
+                              </Feature>
+                            </div>
+                          }
+                          isVertical
+                        />
+                      ),
+                      typeModifier: ['FIXED', 'BLANK'] as ('FIXED' | 'BLANK')[],
+                      fixedWidth: 'var(--bar-min-height)',
+                    },
+                  ]
+                : []),
               {
                 node: fragment,
                 typeModifier: 'BLANK',

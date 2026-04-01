@@ -562,21 +562,23 @@ export default class ContrastReport extends React.PureComponent<
                         'contrast.playground.fontWeight.label'
                       )}
                     >
-                      <SimpleSlider
-                        id="update-font-weight"
-                        label={this.props.t(
-                          'contrast.playground.fontWeight.slider'
-                        )}
-                        value={this.state.fontWeight}
-                        min={100}
-                        max={900}
-                        step={100}
-                        hasProgressBar
-                        hasPadding={false}
-                        onChange={(_: string, __: string, value: number) =>
-                          this.setState({ fontWeight: value })
-                        }
-                      />
+                      <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+                        <SimpleSlider
+                          id="update-font-weight"
+                          label={this.props.t(
+                            'contrast.playground.fontWeight.slider'
+                          )}
+                          value={this.state.fontWeight}
+                          min={100}
+                          max={900}
+                          step={100}
+                          hasProgressBar
+                          hasPadding={false}
+                          onChange={(_: string, __: string, value: number) =>
+                            this.setState({ fontWeight: value })
+                          }
+                        />
+                      </div>
                     </FormItem>
                   ),
                 },
