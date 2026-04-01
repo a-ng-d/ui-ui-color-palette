@@ -61,6 +61,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
+  private timeouts: ReturnType<typeof setTimeout>[] = []
 
   static defaultProps: Partial<ScaleLCHProps> = {
     distributionEasing: 'LINEAR',
@@ -156,6 +157,8 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
   componentWillUnmount = () => {
     if (this.subscribePalette) this.subscribePalette()
+    this.timeouts.forEach(clearTimeout)
+    this.timeouts = []
   }
 
   private get features() {
@@ -248,7 +251,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       })
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-      setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
+      this.timeouts.push(setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000))
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -279,7 +282,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       })
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-      setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
+      this.timeouts.push(setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000))
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -461,7 +464,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeStops?.(stops), 1000)
+        this.timeouts.push(setTimeout(() => this.props.onChangeStops?.(stops), 1000))
       }
     }
 
@@ -474,7 +477,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        setTimeout(() => this.props.onChangeStops?.(stops), 1000)
+        this.timeouts.push(setTimeout(() => this.props.onChangeStops?.(stops), 1000))
       }
     }
 
