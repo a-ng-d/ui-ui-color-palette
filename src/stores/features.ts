@@ -3513,6 +3513,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     availabilityForEditors: [
       'figma',
+      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
