@@ -193,7 +193,7 @@ export default class ContrastReport extends React.PureComponent<
         >
           <div
             className={doClassnames([
-              texts['type'],
+              texts.type,
               texts['type--bold'],
               texts['type--large'],
             ])}
@@ -236,12 +236,12 @@ export default class ContrastReport extends React.PureComponent<
             gridColumn: '1 / span 1',
           }}
         >
-          <div className={doClassnames([texts['type'], texts['type--small']])}>
+          <div className={doClassnames([texts.type, texts['type--small']])}>
             {this.props.t('contrast.score.wcag.title')}
           </div>
           <div
             className={doClassnames([
-              texts['type'],
+              texts.type,
               texts['type--xlarge'],
               texts['type--bold'],
               this.getWCAGColorClass(wcagScore),
@@ -250,14 +250,16 @@ export default class ContrastReport extends React.PureComponent<
             {wcagScore.toFixed(2)}
           </div>
           <div
-            className={doClassnames([texts['type']])}
+            className={doClassnames([texts.type])}
             style={{
               display: 'flex',
               gap: 'var(--size-pos-xxxsmall)',
               alignItems: 'center',
             }}
           >
-            <span>{wcagFriendlyScore}</span>
+            <span className={doClassnames([texts['type--truncated']])}>
+              {wcagFriendlyScore}
+            </span>
             <Chip state={wcagScore >= 4.5 ? 'ACTIVE' : 'INACTIVE'}>
               {wcagScore >= 4.5
                 ? this.props.t('contrast.pass')
@@ -272,12 +274,12 @@ export default class ContrastReport extends React.PureComponent<
             gridColumn: '2 / span 1',
           }}
         >
-          <div className={doClassnames([texts['type'], texts['type--small']])}>
+          <div className={doClassnames([texts.type, texts['type--small']])}>
             {this.props.t('contrast.score.apca.title')}
           </div>
           <div
             className={doClassnames([
-              texts['type'],
+              texts.type,
               texts['type--xlarge'],
               texts['type--bold'],
               this.getAPCAColorClass(apcaScore),
@@ -286,14 +288,16 @@ export default class ContrastReport extends React.PureComponent<
             Lc {apcaScore.toFixed(1)}
           </div>
           <div
-            className={doClassnames([texts['type']])}
+            className={doClassnames([texts.type])}
             style={{
               display: 'flex',
               gap: 'var(--size-pos-xxxsmall)',
               alignItems: 'center',
             }}
           >
-            <span>{this.recommendationHandler(recommendedUsage)}</span>
+            <span className={doClassnames([texts['type--truncated']])}>
+              {this.recommendationHandler(recommendedUsage)}
+            </span>
             <Chip state={Math.abs(apcaScore) >= 45 ? 'ACTIVE' : 'INACTIVE'}>
               {Math.abs(apcaScore) >= 45
                 ? this.props.t('contrast.pass')
@@ -308,12 +312,12 @@ export default class ContrastReport extends React.PureComponent<
             gridColumn: '1 / span 2',
           }}
         >
-          <div className={doClassnames([texts['type'], texts['type--small']])}>
+          <div className={doClassnames([texts.type, texts['type--small']])}>
             {this.props.t('contrast.score.readability.title')}
           </div>
           <div
             className={doClassnames([
-              texts['type'],
+              texts.type,
               texts['type--xlarge'],
               texts['type--bold'],
               this.getAPCAColorClass(apcaScore),
@@ -329,10 +333,10 @@ export default class ContrastReport extends React.PureComponent<
             gridColumn: '1 / span 2',
           }}
         >
-          <div className={doClassnames([texts['type'], texts['type--small']])}>
+          <div className={doClassnames([texts.type, texts['type--small']])}>
             {this.props.t('contrast.minSizeFont.title')}
           </div>
-          <div className={doClassnames([texts['type'], texts['type--xlarge']])}>
+          <div className={doClassnames([texts.type, texts['type--xlarge']])}>
             {`${minSize}pt (${this.state.fontWeight})`}
           </div>
           <div
@@ -342,7 +346,7 @@ export default class ContrastReport extends React.PureComponent<
             }}
           >
             <span
-              className={doClassnames([texts['type']])}
+              className={doClassnames([texts.type])}
               style={{
                 fontSize: `${minSize}px`,
                 fontWeight: this.state.fontWeight,
@@ -568,6 +572,7 @@ export default class ContrastReport extends React.PureComponent<
                         max={900}
                         step={100}
                         hasProgressBar
+                        hasPadding={false}
                         onChange={(_: string, __: string, value: number) =>
                           this.setState({ fontWeight: value })
                         }
