@@ -3511,7 +3511,15 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'CONTEXT',
     availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: [
+      'figma',
+      'dev',
+      'dev_vscode',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+    ],
   },
   {
     name: 'USER_PREFERENCES_SYNC_DEEP_STYLES',
