@@ -272,7 +272,6 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   // Modules
@@ -2983,7 +2982,6 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
     ],
   },
   {

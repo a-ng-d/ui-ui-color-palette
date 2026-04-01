@@ -588,6 +588,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         ]}
         isFullHeight
         isFullWidth
+        shouldReflow
       />
     )
   }

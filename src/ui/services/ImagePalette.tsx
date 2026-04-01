@@ -459,7 +459,9 @@ export default class ImagePalette extends PureComponent<ImagePaletteProps, Image
             fixedWidth: '272px',
           },
         ]}
+        isFullWidth
         isFullHeight
+        shouldReflow
       />
     )
   }

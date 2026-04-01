@@ -483,7 +483,7 @@ export default class RemotePalettes extends PureComponent<
 
     return (
       <Layout
-        id="local-palettes"
+        id="remote-palettes"
         column={[
           {
             node: (

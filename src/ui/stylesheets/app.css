@@ -94,9 +94,18 @@ div.export-palette__preview {
   overflow: visible;
 }
 
+.preview__rows--free {
+  width: 100%;
+  overflow: hidden;
+}
+
 .preview__row {
   display: flex;
   flex: 1;
+}
+
+.preview__row--free {
+  overflow: hidden;
 }
 
 .preview__header {
@@ -167,6 +176,11 @@ div.export-palette__preview {
   left: 0;
   z-index: 4;
   width: 96px;
+}
+
+.preview__cell--free {
+  min-width: unset;
+  overflow: hidden;
 }
 
 .preview__cell__stack {

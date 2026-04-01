@@ -289,12 +289,12 @@ export default class ColorWheel extends PureComponent<
             }}
           />
         )}
-        <div className="preview__rows">
-          <div className="preview__row">
+        <div className="preview__rows preview__rows--free">
+          <div className="preview__row preview__row--free">
             {this.state.colorHarmony.hexColors.map((color, index) => (
               <div
                 key={index}
-                className="preview__cell"
+                className="preview__cell preview__cell--free"
                 style={{
                   backgroundColor: color,
                 }}
@@ -501,7 +501,9 @@ export default class ColorWheel extends PureComponent<
             typeModifier: 'BLANK',
           },
         ]}
+        isFullWidth
         isFullHeight
+        shouldReflow
       />
     )
   }
