@@ -609,53 +609,72 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 id="main-actions"
                 type="ICON"
                 icon="play"
-                label={this.props.t('actions.sync')}
                 options={[
                   {
-                    label: this.props.t('actions.syncLocalStyles'),
-                    value: 'LOCAL_STYLES',
-                    feature: 'SYNC_LOCAL_STYLES',
-                    type: 'OPTION',
-                    isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
-                    isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.localStylesSync) *
-                        -1 -
-                        1
-                    ),
+                    label: this.props.t('actions.sync'),
+                    type: 'GROUP',
                     isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
-                    action: (e) => this.props.onSyncLocalStyles?.(e),
+                    children: [
+                      {
+                        label: this.props.t('actions.syncLocalStyles'),
+                        value: 'LOCAL_STYLES',
+                        feature: 'SYNC_LOCAL_STYLES',
+                        type: 'OPTION',
+                        isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
+                        isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localStylesSync) *
+                            -1 -
+                            1
+                        ),
+                        isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
+                        action: (e) => this.props.onSyncLocalStyles?.(e),
+                      },
+                      {
+                        label: this.props.t('actions.syncLocalVariables'),
+                        value: 'LOCAL_VARIABLES',
+                        feature: 'SYNC_LOCAL_VARIABLES',
+                        type: 'OPTION',
+                        isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
+                        isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localVariablesSync) *
+                            -1 -
+                            1
+                        ),
+                        isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
+                        action: (e) => this.props.onSyncLocalVariables?.(e),
+                      },
+                      {
+                        type: 'SEPARATOR',
+                        isActive:
+                          this.features.SYNC_LOCAL_STYLES.isActive() &&
+                          this.features.SYNC_LOCAL_VARIABLES.isActive(),
+                      },
+                    ],
                   },
                   {
-                    label: this.props.t('actions.syncLocalVariables'),
-                    value: 'LOCAL_VARIABLES',
-                    feature: 'SYNC_LOCAL_VARIABLES',
-                    type: 'OPTION',
-                    isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                    isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.localVariablesSync) *
-                        -1 -
-                        1
-                    ),
-                    isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
-                    action: (e) => this.props.onSyncLocalVariables?.(e),
+                    label: this.props.t('actions.generateDocument.label'),
+                    type: 'GROUP',
+                    isNew: this.state.canUpdateDocument,
+                    children: this.documentOptionsHandler(),
                   },
-                  {
-                    type: 'SEPARATOR',
-                  },
-                  ...this.documentOptionsHandler(),
                   ...(this.props.document?.id === this.props.id
                     ? [
                         {
                           type: 'SEPARATOR' as const,
                         },
-                        ...this.viewOptionsHandler(),
+                        {
+                          label: this.props.t('actions.generateDocument.label'),
+                          type: 'GROUP' as const,
+                          children: this.viewOptionsHandler(),
+                        },
                       ]
                     : []),
                 ]}
                 alignment="BOTTOM_RIGHT"
                 state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                isNew={this.state.canUpdateDocument}
               />
             )}
             <this.Modes />
