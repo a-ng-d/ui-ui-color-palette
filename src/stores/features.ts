@@ -266,7 +266,6 @@ export const featuresScheme: Array<Feature<Service>> = [
     proForServices: ['MANAGE'],
     availabilityForEditors: [
       'figma',
-      'figjam',
       'dev',
       'dev_vscode',
       'penpot',
