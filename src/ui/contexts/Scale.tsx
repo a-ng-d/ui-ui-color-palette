@@ -677,7 +677,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                         <this.DistributionEasing />
                       </Feature>
                     }
-                    shouldReflow
                   />
                   <KeyboardShortcuts
                     {...this.props}
