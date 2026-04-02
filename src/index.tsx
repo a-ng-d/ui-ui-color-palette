@@ -50,6 +50,10 @@ if (globalConfig.env.isMixpanelEnabled) {
   })
   mixpanel.opt_in_tracking()
 
+  const now = new Date()
+  const cohort = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  mixpanel.register({ cohort })
+
   initMixpanel(mixpanel)
   setMixpanelEnv(import.meta.env.MODE as 'development' | 'production')
   setEditor(globalConfig.env.editor)
