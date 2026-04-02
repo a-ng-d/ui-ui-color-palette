@@ -612,8 +612,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 options={[
                   {
                     label: this.props.t('actions.sync'),
+                    value: 'SYNC',
                     type: 'GROUP',
-                    isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
                     children: [
                       {
                         label: this.props.t('actions.syncLocalStyles'),
@@ -645,16 +645,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                         action: (e) => this.props.onSyncLocalVariables?.(e),
                       },
-                      {
-                        type: 'SEPARATOR',
-                        isActive:
-                          this.features.SYNC_LOCAL_STYLES.isActive() &&
-                          this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                      },
                     ],
                   },
                   {
                     label: this.props.t('actions.generateDocument.label'),
+                    value: 'GENERATE_DOCUMENT',
                     type: 'GROUP',
                     isNew: this.state.canUpdateDocument,
                     children: this.documentOptionsHandler(),
@@ -662,10 +657,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   ...(this.props.document?.id === this.props.id
                     ? [
                         {
-                          type: 'SEPARATOR' as const,
-                        },
-                        {
                           label: this.props.t('settings.global.views.helper'),
+                          value: 'CHANGE_VIEW',
                           type: 'GROUP' as const,
                           children: this.viewOptionsHandler(),
                         },
@@ -680,6 +673,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             <this.Modes />
           </div>
         }
+        clip={['LEFT']}
         border={['BOTTOM']}
       />
     )
@@ -724,6 +718,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             <this.Modes />
           </div>
         }
+        clip={['LEFT']}
         border={['BOTTOM']}
       />
     )
@@ -784,6 +779,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             <this.Modes />
           </div>
         }
+        clip={['LEFT']}
         border={['BOTTOM']}
       />
     )

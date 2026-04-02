@@ -401,14 +401,7 @@ class App extends Component<AppProps, AppState> {
             path.data.accessToken,
             path.data.refreshToken
           ).catch(() => {
-            this.setState({
-              isNotificationDisplayed: true,
-              notification: {
-                type: 'ERROR',
-                message: this.props.t('error.authentication'),
-                timer: 5000,
-              },
-            })
+            console.error('Error checking authentication status')
           })
       }
 
