@@ -251,7 +251,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       })
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-      this.timeouts.push(setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000))
+      this.timeouts.push(
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
+      )
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -282,7 +284,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       })
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-      this.timeouts.push(setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000))
+      this.timeouts.push(
+        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
+      )
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -464,7 +468,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.timeouts.push(setTimeout(() => this.props.onChangeStops?.(stops), 1000))
+        this.timeouts.push(
+          setTimeout(() => this.props.onChangeStops?.(stops), 1000)
+        )
       }
     }
 
@@ -477,7 +483,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.timeouts.push(setTimeout(() => this.props.onChangeStops?.(stops), 1000))
+        this.timeouts.push(
+          setTimeout(() => this.props.onChangeStops?.(stops), 1000)
+        )
       }
     }
 

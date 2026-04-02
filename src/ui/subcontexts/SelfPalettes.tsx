@@ -58,7 +58,10 @@ interface SelfPalettesState {
   isContextActionLoading: Array<boolean>
 }
 
-export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfPalettesState> {
+export default class SelfPalettes extends PureComponent<
+  SelfPalettesProps,
+  SelfPalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

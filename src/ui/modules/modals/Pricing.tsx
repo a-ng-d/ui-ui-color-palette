@@ -48,7 +48,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
-
   })
 
   private get features() {

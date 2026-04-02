@@ -214,8 +214,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
 
   stopsHandler = (stops: number[]) => {
     const newThemes = this.props.themes.map((theme) => {
-      if (theme.isEnabled)
-        return { ...theme, scale: $palette.get().scale }
+      if (theme.isEnabled) return { ...theme, scale: $palette.get().scale }
 
       const themeScale = theme.scale
       const currentStops = Object.keys(themeScale)
