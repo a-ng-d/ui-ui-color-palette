@@ -744,9 +744,13 @@ export default class EditPalette extends PureComponent<
       } as DropdownOption
     })
     const actions: Array<DropdownOption> = [
-      {
-        type: 'SEPARATOR',
-      },
+      ...(this.features.THEMES.isActive()
+        ? [
+            {
+              type: 'SEPARATOR' as const,
+            },
+          ]
+        : []),
       {
         label: this.props.t('themes.callout.cta'),
         feature: 'ADD_THEME',

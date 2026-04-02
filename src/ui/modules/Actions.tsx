@@ -666,7 +666,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     : []),
                 ]}
                 alignment="BOTTOM_RIGHT"
-                state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                state={
+                  this.props.isPrimaryLoading || this.props.isSecondaryLoading
+                    ? 'LOADING'
+                    : 'DEFAULT'
+                }
                 isNew={this.state.canUpdateDocument}
               />
             )}

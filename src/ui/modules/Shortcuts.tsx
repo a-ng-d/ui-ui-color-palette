@@ -416,12 +416,6 @@ export default class Shortcuts extends PureComponent<
                               type: 'TITLE' as const,
                               action: () => null,
                             },
-                          ]
-                        : []),
-
-                      ...(this.props.userSession.connectionStatus ===
-                      'CONNECTED'
-                        ? [
                             {
                               label: this.props.t('user.signOut'),
                               type: 'OPTION' as const,
@@ -477,6 +471,9 @@ export default class Shortcuts extends PureComponent<
                                     )
                                   })
                               },
+                            },
+                            {
+                              type: 'SEPARATOR' as const,
                             },
                           ]
                         : [
@@ -557,9 +554,6 @@ export default class Shortcuts extends PureComponent<
                               },
                             },
                           ]),
-                      {
-                        type: 'SEPARATOR' as const,
-                      },
                       {
                         label: this.props.t('user.updateConsent'),
                         type: 'OPTION' as const,
