@@ -665,7 +665,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                           type: 'SEPARATOR' as const,
                         },
                         {
-                          label: this.props.t('actions.generateDocument.label'),
+                          label: this.props.t('settings.global.views.helper'),
                           type: 'GROUP' as const,
                           children: this.viewOptionsHandler(),
                         },
