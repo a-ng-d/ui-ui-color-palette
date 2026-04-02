@@ -334,6 +334,10 @@ export default class BrowsePalettes extends PureComponent<
               label={this.props.t('browse.document.open')}
               isBlocked={this.features.DOCUMENT_OPEN.isBlocked()}
               isNew={this.features.DOCUMENT_OPEN.isNew()}
+              shouldReflow={{
+                icon: 'forward',
+                isEnabled: true,
+              }}
               action={this.onEditPalette}
             />
           </Feature>
@@ -355,6 +359,10 @@ export default class BrowsePalettes extends PureComponent<
                 )
               }
               isNew={this.features.DOCUMENT_CREATE.isNew()}
+              shouldReflow={{
+                icon: 'link-connected',
+                isEnabled: true,
+              }}
               action={this.onCreateFromDocument}
             />
           </Feature>

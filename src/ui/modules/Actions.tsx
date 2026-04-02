@@ -668,95 +668,85 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
 
   Inspect = () => {
     return (
-      <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
-        <Bar
-          leftPartSlot={
-            <div className={layouts['snackbar--tight']}>
-              <Button
-                type="icon"
-                icon="back"
-                helper={{
-                  label: this.props.t('contexts.back'),
-                }}
-                action={this.props.onUnloadPalette}
-              />
-              <span
-                className={doClassnames([texts.type, texts['type--truncated']])}
-              >
-                {this.props.name !== ''
-                  ? this.props.name
-                  : this.props.t('name')}
-              </span>
-              <Feature
-                isActive={
-                  this.features.PUBLICATION.isActive() &&
-                  this.props.publicationStatus?.isPublished
-                }
-              >
-                <Chip isSolo>
-                  {this.props.t('publication.statusPublished')}
-                </Chip>
-              </Feature>
-            </div>
-          }
-          rightPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--medium'],
-                layouts['snackbar--right'],
-                layouts['snackbar--wrap'],
-              ])}
+      <Bar
+        leftPartSlot={
+          <div className={layouts['snackbar--tight']}>
+            <Button
+              type="icon"
+              icon="back"
+              helper={{
+                label: this.props.t('contexts.back'),
+              }}
+              action={this.props.onUnloadPalette}
+            />
+            <span
+              className={doClassnames([texts.type, texts['type--truncated']])}
             >
-              <this.Modes />
-            </div>
-          }
-          border={['BOTTOM']}
-        />
-      </Feature>
+              {this.props.name !== '' ? this.props.name : this.props.t('name')}
+            </span>
+            <Feature
+              isActive={
+                this.features.PUBLICATION.isActive() &&
+                this.props.publicationStatus?.isPublished
+              }
+            >
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
+            </Feature>
+          </div>
+        }
+        rightPartSlot={
+          <div
+            className={doClassnames([
+              layouts['snackbar--medium'],
+              layouts['snackbar--right'],
+              layouts['snackbar--wrap'],
+            ])}
+          >
+            <this.Modes />
+          </div>
+        }
+        border={['BOTTOM']}
+      />
     )
   }
 
   Export = () => {
     return (
-      <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
-        <Bar
-          leftPartSlot={
-            <div className={layouts['snackbar--tight']}>
-              <Button
-                type="icon"
-                icon="back"
-                helper={{
-                  label: this.props.t('contexts.back'),
-                }}
-                action={this.props.onUnloadPalette}
-              />
-              <span
-                className={doClassnames([texts.type, texts['type--truncated']])}
-              >
-                {this.props.name !== ''
-                  ? this.props.name
-                  : this.props.t('name')}
-              </span>
-              <Feature
-                isActive={
-                  this.features.PUBLICATION.isActive() &&
-                  this.props.publicationStatus?.isPublished
-                }
-              >
-                <Chip isSolo>
-                  {this.props.t('publication.statusPublished')}
-                </Chip>
-              </Feature>
-            </div>
-          }
-          rightPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--medium'],
-                layouts['snackbar--right'],
-                layouts['snackbar--wrap'],
-              ])}
+      <Bar
+        leftPartSlot={
+          <div className={layouts['snackbar--tight']}>
+            <Button
+              type="icon"
+              icon="back"
+              helper={{
+                label: this.props.t('contexts.back'),
+              }}
+              action={this.props.onUnloadPalette}
+            />
+            <span
+              className={doClassnames([texts.type, texts['type--truncated']])}
             >
+              {this.props.name !== '' ? this.props.name : this.props.t('name')}
+            </span>
+            <Feature
+              isActive={
+                this.features.PUBLICATION.isActive() &&
+                this.props.publicationStatus?.isPublished
+              }
+            >
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
+            </Feature>
+          </div>
+        }
+        rightPartSlot={
+          <div
+            className={doClassnames([
+              layouts['snackbar--medium'],
+              layouts['snackbar--right'],
+              layouts['snackbar--wrap'],
+            ])}
+          >
+            <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
               <Button
                 type="primary"
                 label={this.props.t('actions.export', {
@@ -771,12 +761,12 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               >
                 <a></a>
               </Button>
-              <this.Modes />
-            </div>
-          }
-          border={['BOTTOM']}
-        />
-      </Feature>
+            </Feature>
+            <this.Modes />
+          </div>
+        }
+        border={['BOTTOM']}
+      />
     )
   }
 

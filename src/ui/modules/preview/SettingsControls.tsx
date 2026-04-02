@@ -44,9 +44,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
       currentService: service,
       currentEditor: editor,
     }),
-    THEMES: new FeatureStatus({
+    THEMES_SWITCH: new FeatureStatus({
       features: config.features,
-      featureName: 'THEMES',
+      featureName: 'THEMES_SWITCH',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -107,7 +107,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
             }}
           />
         </Feature>
-        <Feature isActive={this.features.THEMES.isActive()}>
+        <Feature isActive={this.features.THEMES_SWITCH.isActive()}>
           <Dropdown
             id="switch-theme"
             options={this.props.themeOptions}
