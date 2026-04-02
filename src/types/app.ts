@@ -1,10 +1,46 @@
 import { ConsentConfiguration } from '@unoff/ui'
-import { UserConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  ColorConfiguration,
+  HexModel,
+  SourceColorConfiguration,
+  UserConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { UserSession } from './user'
+
+export interface ContrastReportShadeData {
+  color: HexModel
+  sourceColor: SourceColorConfiguration | ColorConfiguration
+  index: number
+  scaleName: string
+  actualBackground: HexModel
+  lightForeground: HexModel
+  darkForeground: HexModel
+  onPrevious?: () => void
+  onNext?: () => void
+}
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
-export type Service = 'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'
+export type Service = 'MANAGE' | 'GEN' | 'EXTRACT' | 'WHEEL' | 'EXPLORE'
+export type Subservice = 'BROWSE' | 'OPEN'
+export type Mode = 'EDIT' | 'INSPECT' | 'EXPORT'
+export type Context =
+  | 'LOCAL_PALETTES'
+  | 'LOCAL_PALETTES_PAGE'
+  | 'LOCAL_PALETTES_FILE'
+  | 'REMOTE_PALETTES'
+  | 'REMOTE_PALETTES_SELF'
+  | 'REMOTE_PALETTES_COMMUNITY'
+  | 'REMOTE_PALETTES_ORG'
+  | 'REMOTE_PALETTES_STARRED'
+  | 'SCALE'
+  | 'COLORS'
+  | 'THEMES'
+  | 'IMPORTS'
+  | 'EXPORT'
+  | 'SETTINGS'
+  | 'REPORT'
+  | 'PROPERTIES'
 
 export interface ContextItem {
   label: string
@@ -27,28 +63,6 @@ export interface BaseProps {
   editor: Editor
   documentWidth: number
 }
-
-export type Context =
-  | 'LOCAL_PALETTES'
-  | 'LOCAL_PALETTES_PAGE'
-  | 'LOCAL_PALETTES_FILE'
-  | 'REMOTE_PALETTES'
-  | 'REMOTE_PALETTES_SELF'
-  | 'REMOTE_PALETTES_COMMUNITY'
-  | 'REMOTE_PALETTES_ORG'
-  | 'REMOTE_PALETTES_STARRED'
-  | 'SOURCE'
-  | 'SOURCE_OVERVIEW'
-  | 'SOURCE_EXPLORE'
-  | 'SOURCE_IMAGE'
-  | 'SOURCE_HARMONY'
-  | 'SOURCE_AI'
-  | 'PROPERTIES'
-  | 'SCALE'
-  | 'COLORS'
-  | 'THEMES'
-  | 'EXPORT'
-  | 'SETTINGS'
 
 export type FilterOptions =
   | 'ANY'

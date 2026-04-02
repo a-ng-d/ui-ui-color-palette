@@ -1,11 +1,9 @@
-import type { DropdownOption } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
 import * as fflate from 'fflate'
-import { Case, doClassnames, FeatureStatus } from '@unoff/utils'
-import { doScale } from '@unoff/utils'
-import { Bar, Button, Dropdown, FormItem, layouts, Tabs } from '@unoff/ui'
+import { Case, FeatureStatus } from '@unoff/utils'
+import { Layout } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -14,10 +12,12 @@ import {
   ColorConfiguration,
   ColorSpaceConfiguration,
   DatesConfiguration,
+  DocumentConfiguration,
   ExportConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   ThemeConfiguration,
+  ViewConfiguration,
   VisionSimulationModeConfiguration,
   BaseConfiguration,
   Data,
@@ -25,33 +25,21 @@ import {
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import Preview from '../modules/Preview'
+import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import Actions from '../modules/Actions'
-import Properties from '../contexts/Properties'
 import Export from '../contexts/Export'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { PluginMessageData, ThemesMessage } from '../../types/messages'
-import {
-  BaseProps,
-  Context,
-  ContextItem,
-  PlanStatus,
-  Service,
-  Editor,
-} from '../../types/app'
-import { getDefaultPreset } from '../../stores/presets'
-import { $palette } from '../../stores/palette'
+import { PluginMessageData } from '../../types/messages'
+import { BaseProps, PlanStatus, Service, Editor, Mode } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
 
-interface SeePaletteProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+interface ExportPaletteProps
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  mode: Mode
   id: string
   name: string
   description: string
@@ -63,46 +51,44 @@ interface SeePaletteProps
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   themes: Array<ThemeConfiguration>
+  view: ViewConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  document: DocumentConfiguration
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
-  onChangeThemes: React.Dispatch<Partial<AppState>>
+  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
+  onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
+  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
+  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onLockSourceColors: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
+  onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
+  onDeletePalette: () => void
 }
 
-interface SeePaletteState {
-  context: Context | ''
+interface ExportPaletteState {
   export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
   isCodeCopied: boolean
 }
 
-export default class SeePalette extends PureComponent<
-  SeePaletteProps,
-  SeePaletteState
+export default class ExportPalette extends PureComponent<
+  ExportPaletteProps,
+  ExportPaletteState
 > {
-  private themesMessage: ThemesMessage
-  private contexts: Array<ContextItem>
-  private previewRef: React.RefObject<Preview>
-  private palette: typeof $palette
-  private theme: string | null
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
     service: Service,
     editor: Editor
   ) => ({
-    THEMES: new FeatureStatus({
-      features: config.features,
-      featureName: 'THEMES',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     ACTIONS: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIONS',
@@ -117,10 +103,17 @@ export default class SeePalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    EXPORT: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
-    return SeePalette.features(
+    return ExportPalette.features(
       this.props.planStatus,
       this.props.config,
       this.props.service,
@@ -128,24 +121,9 @@ export default class SeePalette extends PureComponent<
     )
   }
 
-  constructor(props: SeePaletteProps) {
+  constructor(props: ExportPaletteProps) {
     super(props)
-    this.palette = $palette
-    this.themesMessage = {
-      type: 'UPDATE_THEMES',
-      id: this.props.id,
-      data: [],
-    }
-    this.contexts = setContexts(
-      ['PROPERTIES', 'EXPORT'],
-      props.planStatus,
-      props.config.features,
-      props.editor,
-      props.service,
-      props.t
-    )
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       export: {
         format: 'JSON',
         context: 'TOKENS_NATIVE',
@@ -170,8 +148,6 @@ export default class SeePalette extends PureComponent<
       isSecondaryLoading: false,
       isCodeCopied: false,
     }
-    this.previewRef = React.createRef()
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -180,20 +156,6 @@ export default class SeePalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
-  }
-
-  componentDidUpdate(previousProps: Readonly<SeePaletteProps>): void {
-    if (previousProps.t !== this.props.t) {
-      this.contexts = setContexts(
-        ['PROPERTIES', 'EXPORT'],
-        this.props.planStatus,
-        this.props.config.features,
-        this.props.editor,
-        this.props.service,
-        this.props.t
-      )
-      this.forceUpdate()
-    }
   }
 
   componentWillUnmount = () => {
@@ -219,52 +181,6 @@ export default class SeePalette extends PureComponent<
     }
 
     return actions[path.type ?? 'DEFAULT']?.()
-  }
-
-  navHandler = (e: Event) => {
-    const newContext = (e.currentTarget as HTMLElement).dataset
-      .feature as Context
-
-    this.setState({
-      context: newContext,
-    })
-
-    if (newContext === 'EXPORT') this.forceCollapsePreview()
-  }
-
-  forceCollapsePreview = () => {
-    if (this.previewRef.current) this.previewRef.current.forceCollapseDrawer()
-  }
-
-  switchThemeHandler = (e: Event) => {
-    this.themesMessage.data = this.props.themes.map((theme) => {
-      if ((e.target as HTMLElement).dataset.value === theme.id)
-        theme.isEnabled = true
-      else theme.isEnabled = false
-
-      return theme
-    })
-
-    const activeTheme = this.themesMessage.data.find((theme) => theme.isEnabled)
-    const defaultPreset = getDefaultPreset(this.props.t)
-    const newScale =
-      activeTheme?.scale ??
-      doScale(defaultPreset.stops, defaultPreset.min, defaultPreset.max)
-    const newTextColorsTheme = activeTheme?.textColorsTheme ?? {
-      lightColor: '#000000',
-      darkColor: '#FFFFFF',
-    }
-    const newVisionSimulationMode = activeTheme?.visionSimulationMode ?? 'NONE'
-
-    this.palette.setKey('scale', newScale)
-
-    this.props.onChangeThemes({
-      scale: newScale,
-      themes: this.themesMessage.data,
-      visionSimulationMode: newVisionSimulationMode,
-      textColorsTheme: newTextColorsTheme,
-      onGoingStep: 'themes changed',
-    })
   }
 
   // Direct Actions
@@ -397,148 +313,92 @@ export default class SeePalette extends PureComponent<
     }
   }
 
-  setThemes = (): Array<DropdownOption> => {
-    const themes = this.workingThemes().map((theme) => {
-      return {
-        label:
-          theme.type === 'default theme'
-            ? this.props.t('themes.switchTheme.defaultTheme')
-            : theme.name,
-        value: theme.id,
-        feature: 'SWITCH_THEME',
-        type: 'OPTION',
-        action: (e: Event) => this.switchThemeHandler(e),
-      } as DropdownOption
-    })
-
-    return themes
-  }
-
-  workingThemes = () => {
-    if (this.props.themes.length > 1)
-      return this.props.themes.filter((theme) => theme.type === 'custom theme')
-    else
-      return this.props.themes.filter((theme) => theme.type === 'default theme')
-  }
-
-  onJumpToSourceColor = () => {
-    this.setState({
-      context: 'COLORS',
-    })
-  }
-
   // Render
   render() {
-    let fragment
-    let isFlex = true
-
-    switch (this.theme) {
-      case 'figma':
-        isFlex = false
-        break
-      case 'penpot':
-        isFlex = true
-        break
-      case 'sketch':
-        isFlex = false
-        break
-      case 'framer':
-        isFlex = true
-        break
-      default:
-        isFlex = false
-    }
-
-    switch (this.state.context) {
-      case 'PROPERTIES': {
-        fragment = <Properties {...this.props} />
-        break
-      }
-      case 'EXPORT': {
-        fragment = (
-          <Export
-            {...this.props}
-            context={this.state.export.context}
-            code={this.state.export.data}
-            isCodeCopied={this.state.isCodeCopied}
-            onChangeExport={(exp) => {
-              this.setState({
-                export: exp.export,
-              })
-            }}
-            onCopyCode={this.onCopyCode}
-          />
-        )
-        break
-      }
-    }
     return (
       <>
-        <Bar
-          leftPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--tight'],
-                isFlex && 'patch-2',
-              ])}
-            >
-              <Button
-                type="icon"
-                icon="back"
-                helper={{
-                  label: this.props.t('contexts.back'),
-                }}
-                action={this.props.onUnloadPalette}
-              />
-              <Tabs
-                tabs={this.contexts}
-                active={this.state.context ?? ''}
-                isFlex={isFlex}
-                action={this.navHandler}
-              />
-            </div>
-          }
-          rightPartSlot={
-            <Feature isActive={this.features.THEMES.isActive()}>
-              <FormItem
-                id="switch-theme"
-                label={this.props.t('themes.switchTheme.label')}
-                shouldFill={false}
-              >
-                <Dropdown
-                  id="switch-theme"
-                  options={this.setThemes()}
-                  selected={
-                    this.props.themes.find((theme) => theme.isEnabled)?.id
-                  }
-                  alignment="RIGHT"
-                  pin="TOP"
-                />
-              </FormItem>
-            </Feature>
-          }
-          border={['BOTTOM']}
-        />
-        <section className="context">{fragment}</section>
-        <Feature isActive={this.features.PREVIEW.isActive()}>
-          <Preview
-            {...this.props}
-            ref={this.previewRef}
-          />
-        </Feature>
-        <Feature
-          isActive={
-            this.features.ACTIONS.isActive() && this.state.context === 'EXPORT'
-          }
-        >
+        <Feature isActive={this.features.ACTIONS.isActive()}>
           <Actions
             {...this.props}
             {...this.state}
-            service="SEE"
+            mode="EXPORT"
             format={this.state.export.format}
             onExportPalette={this.onExport}
           />
         </Feature>
+        <Layout
+          id="export-palette"
+          column={[
+            {
+              node: (
+                <Feature isActive={this.features.EXPORT.isActive()}>
+                  <Export
+                    {...this.props}
+                    context={this.state.export.context}
+                    code={this.state.export.data}
+                    isCodeCopied={this.state.isCodeCopied}
+                    onChangeExport={(exp) => {
+                      this.setState({
+                        export: exp.export,
+                      })
+                    }}
+                    onCopyCode={this.onCopyCode}
+                  />
+                </Feature>
+              ),
+              typeModifier: 'BLANK',
+            },
+          ]}
+          isFullHeight
+          isFullWidth
+        />
+        {/* <Bar
+                  leftPartSlot={
+                    <div
+                      className={doClassnames([
+                        layouts['snackbar--tight'],
+                        isFlex && 'patch-2',
+                      ])}
+                    >
+                      <Button
+                        type="icon"
+                        icon="back"
+                        helper={{
+                          label: this.props.t('contexts.back'),
+                        }}
+                        action={this.props.onUnloadPalette}
+                      />
+                      <Tabs
+                        tabs={this.contexts}
+                        active={this.state.context ?? ''}
+                        isFlex={isFlex}
+                        maxVisibleTabs={3}
+                        action={this.navHandler}
+                      />
+                    </div>
+                  }
+                  rightPartSlot={
+                    <Feature isActive={this.features.THEMES.isActive()}>
+                      <FormItem
+                        id="switch-theme"
+                        label={this.props.t('themes.switchTheme.label')}
+                        shouldFill={false}
+                      >
+                        <Dropdown
+                          id="switch-theme"
+                          options={this.setThemes()}
+                          selected={
+                            this.props.themes.find((theme) => theme.isEnabled)
+                              ?.id
+                          }
+                          alignment="RIGHT"
+                          pin="TOP"
+                        />
+                      </FormItem>
+                    </Feature>
+                  }
+                  border={['BOTTOM']}
+                /> */}
       </>
     )
   }

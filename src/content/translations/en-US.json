@@ -92,7 +92,7 @@
     "pushUpdates": "Push updates to the document",
     "savePalette": "Save UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 source color} other {# source colors} =0 {No source color}}",
-    "sync": "Sync with local library",
+    "sync": "Synchronize…",
     "syncLocalStyles": "Sync with local styles",
     "syncLocalVariables": "Sync with local variables",
     "syncPalette": "Synchronize palette",
@@ -170,6 +170,7 @@
     "actions": {
       "alphaBackground": "Background color behind transparency",
       "colorName": "Color name",
+      "hexCode": "Hex code",
       "moreParameters": "More parameters",
       "new": "New UI Color",
       "removeColor": "Remove color"
@@ -199,8 +200,11 @@
     "back": "Back to palettes",
     "colors": "Colors",
     "export": "Export",
+    "hide": "Maximize palette",
+    "imports": "Imports",
     "palettes": "Palettes",
     "properties": "Properties",
+    "report": "Contrast",
     "scale": "Scale",
     "settings": "Settings",
     "source": "Sources",
@@ -307,6 +311,24 @@
     "themesUpdated": "Modes updated",
     "variablesSynced": "Variables synchronized"
   },
+  "explore": {
+    "actions": {
+      "addColors": "Create a UI Color Palette with these colors",
+      "openPalette": "Open palette"
+    },
+    "filters": {
+      "any": "Any",
+      "blue": "Blue",
+      "green": "Green",
+      "label": "Colors",
+      "orange": "Orange",
+      "red": "Red",
+      "violet": "Violet",
+      "yellow": "Yellow"
+    },
+    "meta": "{votes} votes・{views} views・{comments} comments",
+    "title": "Colour Lovers"
+  },
   "export": {
     "actions": {
       "copyCode": "Copy code to the clipboard",
@@ -363,11 +385,125 @@
   },
   "fail": "✘",
   "fullName": "UI Color Palette {instance}・WCAG Color Palette Manager for Apps & Websites",
+  "genAi": {
+    "actions": {
+      "addColors": "Create a UI Color Palette with these colors",
+      "generate": "Generate colors (⌃⏎ or ⌘⏎)"
+    },
+    "colorTypes": {
+      "alert": "Alert",
+      "primary": "Primary",
+      "success": "Success",
+      "text": "Text",
+      "warning": "Warning"
+    },
+    "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
+    "form": {
+      "presets": {
+        "labels": {
+          "blog": "Blog",
+          "corporate": "Corporate",
+          "cyberpunk": "Cyberpunk",
+          "documentation": "Documentation",
+          "ecommerce": "E-commerce",
+          "landing": "Landing page",
+          "minimalist": "Minimalist",
+          "nature": "Nature",
+          "pastel": "Pastel",
+          "portfolio": "Portfolio",
+          "resume": "Resume",
+          "vintage": "Vintage"
+        },
+        "usecases": {
+          "blog": "Personal blog with warm, readable typography",
+          "documentation": "Technical documentation with clear hierarchy",
+          "ecommerce": "E-commerce store with conversion-focused colors",
+          "landing": "Modern landing page for tech startup",
+          "portfolio": "Creative portfolio showcasing artistic work",
+          "resume": "Professional resume with clean, confident colors"
+        },
+        "vibes": {
+          "corporate": "Professional corporate design with trustworthy colors",
+          "cyberpunk": "Cyberpunk futuristic interface with neon accents",
+          "minimalist": "Clean minimalist design with subtle contrasts",
+          "nature": "Natural earth tones inspired by forest and mountains",
+          "pastel": "Soft pastel colors for gentle, friendly interface",
+          "vintage": "Retro vintage aesthetic with warm, muted colors"
+        }
+      },
+      "prompt": {
+        "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
+      }
+    },
+    "title": "AI-Generated colors"
+  },
   "global": {
     "description": {
       "label": "Description",
       "placeholder": "What's it for?"
     }
+  },
+  "harmony": {
+    "add": "Create a color harmony",
+    "empty": "Remove the color harmony"
+  },
+  "imagePalette": {
+    "actions": {
+      "addColors": "Create a UI Color Palette with these colors"
+    },
+    "dropzone": {
+      "cta": "or click to browse",
+      "error": "The image could not be loaded. Make sure the image is a .png and drop it here.",
+      "message": "Drag & drop your .png file here",
+      "warning": "The file was not imported. Retry dragging & dropping a .png file here."
+    },
+    "message": "Upload, paste or select an image on the canvas to extract its 5 dominant colors",
+    "removeImage": "Remove image",
+    "title": "Dominant colors"
+  },
+  "imports": {
+    "actions": {
+      "import": "Add colors to the palette"
+    },
+    "canvas": {
+      "add": "Add colors from the canvas",
+      "empty": "Remove the colors from the canvas",
+      "tip": "Select as many {element} (filled with color) as you need on the {canvas} canvas",
+      "title": "Canvas"
+    },
+    "coolors": {
+      "add": "Add a Coolors palette",
+      "addColors": "Add to source",
+      "empty": "Remove the Coolors palette",
+      "helper": "Import a or your palette from the famous Coolors",
+      "title": "Coolors",
+      "url": {
+        "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
+        "infoMessage": "The URL must start with \"https://coolors.co\"",
+        "label": "Palette URL",
+        "placeholder": "Paste a link－https://coolors.co/…"
+      }
+    },
+    "nodes": {
+      "figma": "shapes/frames",
+      "framer": "shapes/frames",
+      "penpot": "shapes/boards",
+      "sketch": "shapes/frames"
+    },
+    "realtimeColors": {
+      "add": "Add a Realtime Colors palette",
+      "addColors": "Add to source",
+      "empty": "Remove the Realtime Colors palette",
+      "helper": "Import a palette from a simulation made with Realtime Colors",
+      "title": "Realtime Colors",
+      "url": {
+        "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
+        "infoMessage": "The URL must start with \"https://www.realtimecolors.com\"",
+        "label": "Realtime URL",
+        "placeholder": "Paste a link－https://www.realtimecolors.com/…"
+      }
+    },
+    "title": "Imported source colors"
   },
   "info": {
     "addToLocal": "The palette already exists",
@@ -404,6 +540,11 @@
     "updatedLocalModes": "{count, plural, one {1 mode updated} other {# modes updated} =0 {No mode updated}}",
     "updatedLocalStyles": "{count, plural, one {1 style updated} other {# styles updated} =0 {No style updated}}",
     "updatedLocalVariables": "{count, plural, one {1 variable updated} other {# variables updated} =0 {No variable updated}}"
+  },
+  "modes": {
+    "edit": "Edit",
+    "export": "Export",
+    "inspect": "Inspect"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -453,6 +594,7 @@
       "amount": "{count, plural, one {1 credit left} other {# credits left} =0 {No credit left}}",
       "fees": {
         "createColorHarmony": "Create a color harmony: {fee} cdts",
+        "createPalette": "Create a UI Color Palette: {fee} cdts",
         "extractImageColors": "Extract dominant colors from image: {fee} cdts",
         "generateAiColors": "Generate colors from AI: {fee} cdts",
         "generateColorSheet": "Generate a color sheet: {fee} cdts",
@@ -539,7 +681,8 @@
     "bestDeal": "Best deal",
     "checkout": {
       "figma": "Figma",
-      "lemonsqueezy": "Lemon Squeezy"
+      "lemonsqueezy": "Lemon Squeezy",
+      "trial": "3-day trial"
     },
     "contexts": {
       "discount": "Discount (-20%)",
@@ -600,10 +743,10 @@
         "year": "$4 per user/month"
       },
       "texts": {
-        "lifetime": "◻ Lifetime access</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes",
-        "month": "◻ Flexible</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes",
-        "week": "◻ Pay-as-you-go</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes",
-        "year": "◻ Save money</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes"
+        "lifetime": "◻ Lifetime access</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "month": "◻ Flexible</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "week": "◻ Pay-as-you-go</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "year": "◻ Save money</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -698,6 +841,7 @@
     "actions": {
       "addStop": "Add stop",
       "applyEasing": "Apply directly the easing to the stops",
+      "help": "Help",
       "moreTools": "More tools",
       "removeStop": "Remove stop",
       "resetScale": "Reset stops, chroma, and hue",
@@ -836,6 +980,13 @@
     }
   },
   "separator": "・",
+  "services": {
+    "explore": "Explorer",
+    "extract": "Image palette",
+    "generate": "AI Colors",
+    "manage": "Palettes manager",
+    "wheel": "Color harmony"
+  },
   "settings": {
     "actions": {
       "paletteName": "Palette name"
@@ -910,7 +1061,8 @@
         "sheet": "Color sheet",
         "simple": "Palette"
       }
-    }
+    },
+    "title": "Palette settings"
   },
   "shortcuts": {
     "author": "Support the author",
@@ -931,36 +1083,16 @@
     }
   },
   "source": {
-    "actions": {
-      "openPalette": "Open palette"
-    },
     "ai": {
       "add": "Generate AI colors",
       "empty": "Remove the AI colors",
       "helper": "Generate intelligent colors based on creative prompts using Mistral AI",
       "title": "AI Colors"
     },
-    "canvas": {
-      "tip": "Select as many {element} (filled with color) as you need on the {canvas} canvas",
-      "title": "Selected colors"
-    },
     "colourLovers": {
       "add": "Explore Colour Lovers palettes",
-      "addColors": "Add to source. These colors will override the previous ones if added.",
       "empty": "Remove the Colour Lovers palette",
-      "filters": {
-        "any": "Any",
-        "blue": "Blue",
-        "green": "Green",
-        "label": "Colors",
-        "orange": "Orange",
-        "red": "Red",
-        "violet": "Violet",
-        "yellow": "Yellow"
-      },
-      "helper": "Explore and import a palette from the Colour Lovers community",
-      "meta": "{votes} votes・{views} views・{comments} comments",
-      "title": "Colour Lovers"
+      "helper": "Explore and import a palette from the Colour Lovers community"
     },
     "contexts": {
       "ai": "AI",
@@ -969,78 +1101,11 @@
       "image": "Image",
       "overview": "Overview"
     },
-    "coolors": {
-      "add": "Add a Coolors palette",
-      "addColors": "Add to source",
-      "empty": "Remove the Coolors palette",
-      "helper": "Import a or your palette from the famous Coolors",
-      "title": "Coolors",
-      "url": {
-        "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
-        "infoMessage": "The URL must start with \"https://coolors.co\"",
-        "label": "Palette URL",
-        "placeholder": "Paste a link－https://coolors.co/…"
-      }
-    },
     "default": {
       "helper": "This color is used when no color is selected or imported",
       "title": "Default color"
     },
-    "genAi": {
-      "actions": {
-        "addColors": "Add to source. These colors will override the previous ones if added.",
-        "generate": "Generate colors (⌃⏎ or ⌘⏎)"
-      },
-      "colorTypes": {
-        "alert": "Alert",
-        "primary": "Primary",
-        "success": "Success",
-        "text": "Text",
-        "warning": "Warning"
-      },
-      "emptyMessage": "Use the prompt presets or make your own to generate a set of 5 colors",
-      "form": {
-        "presets": {
-          "labels": {
-            "blog": "Blog",
-            "corporate": "Corporate",
-            "cyberpunk": "Cyberpunk",
-            "documentation": "Documentation",
-            "ecommerce": "E-commerce",
-            "landing": "Landing page",
-            "minimalist": "Minimalist",
-            "nature": "Nature",
-            "pastel": "Pastel",
-            "portfolio": "Portfolio",
-            "resume": "Resume",
-            "vintage": "Vintage"
-          },
-          "usecases": {
-            "blog": "Personal blog with warm, readable typography",
-            "documentation": "Technical documentation with clear hierarchy",
-            "ecommerce": "E-commerce store with conversion-focused colors",
-            "landing": "Modern landing page for tech startup",
-            "portfolio": "Creative portfolio showcasing artistic work",
-            "resume": "Professional resume with clean, confident colors"
-          },
-          "vibes": {
-            "corporate": "Professional corporate design with trustworthy colors",
-            "cyberpunk": "Cyberpunk futuristic interface with neon accents",
-            "minimalist": "Clean minimalist design with subtle contrasts",
-            "nature": "Natural earth tones inspired by forest and mountains",
-            "pastel": "Soft pastel colors for gentle, friendly interface",
-            "vintage": "Retro vintage aesthetic with warm, muted colors"
-          }
-        },
-        "prompt": {
-          "placeholder": "Describe the mood or theme you want (e.g. 'Modern tech startup with vibrant energy', 'Calm meditation app with earth tones')"
-        }
-      },
-      "title": "AI-Generated colors"
-    },
     "harmony": {
-      "add": "Create a color harmony",
-      "empty": "Remove the color harmony",
       "helper": "Create harmonious colors based on color wheel",
       "title": "Color harmony"
     },
@@ -1050,50 +1115,7 @@
       "helper": "Extract 5 dominant colors from any image",
       "title": "Image palette"
     },
-    "imagePalette": {
-      "addColors": "Add to source. These colors will override the previous ones if added.",
-      "dropzone": {
-        "cta": "or click to browse",
-        "error": "The image could not be loaded. Make sure the image is a .png and drop it here.",
-        "message": "Drag & drop your .png file here",
-        "warning": "The file was not imported. Retry dragging & dropping a .png file here."
-      },
-      "message": "Upload, paste or select an image on the canvas to extract its 5 dominant colors",
-      "removeImage": "Remove image",
-      "title": "Dominant colors"
-    },
-    "nodes": {
-      "figma": "shapes/frames",
-      "framer": "shapes/frames",
-      "penpot": "shapes/boards",
-      "sketch": "shapes/frames"
-    },
-    "realtimeColors": {
-      "add": "Add a Realtime Colors palette",
-      "addColors": "Add to source",
-      "empty": "Remove the Realtime Colors palette",
-      "helper": "Import a palette from a simulation made with Realtime Colors",
-      "title": "Realtime Colors",
-      "url": {
-        "errorMessage": "The URL must include several hexadecimal codes (e.g. 8ecae6-…-219ebc)",
-        "infoMessage": "The URL must start with \"https://www.realtimecolors.com\"",
-        "label": "Realtime URL",
-        "placeholder": "Paste a link－https://www.realtimecolors.com/…"
-      }
-    },
-    "title": "Source colors",
-    "wheel": {
-      "addColors": "Add to source. These colors will override the previous ones if added.",
-      "algorithm": {
-        "analogous": "Analogous",
-        "complementary": "Complementary",
-        "compound": "Compound",
-        "label": "Color wheel",
-        "tetradic": "Tetradic",
-        "triadic": "Triadic"
-      },
-      "base": "Base color"
-    }
+    "title": "Source colors"
   },
   "store": {
     "isb": {
@@ -1248,5 +1270,19 @@
     "tooManyThemesToCreateModes": "You cannot create more than 4 modes in the current plan",
     "uncopiedCode": "The code has not been copied to the clipboard",
     "unselectedColor": "Select a layer that is filled with at least one solid color"
+  },
+  "wheel": {
+    "actions": {
+      "addColors": "Create a UI Color Palette with these colors"
+    },
+    "algorithm": {
+      "analogous": "Analogous",
+      "complementary": "Complementary",
+      "compound": "Compound",
+      "label": "Color wheel",
+      "tetradic": "Tetradic",
+      "triadic": "Triadic"
+    },
+    "base": "Base color"
   }
 }

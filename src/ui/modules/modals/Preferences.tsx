@@ -2,8 +2,8 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Dialog, List } from '@unoff/ui'
-import SyncPreferences from '../SyncPreferences'
-import LangPreferences from '../LangPreferences'
+import SyncPreferences from '../preferences/SyncPreferences'
+import LangPreferences from '../preferences/LangPreferences'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -11,9 +11,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PreferencesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -76,16 +74,25 @@ export default class Preferences extends PureComponent<PreferencesProps> {
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <List
-            padding={padding}
-            isFullHeight={this.props.documentWidth <= 460}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+            }}
           >
-            <SyncPreferences {...this.props} />
-            <LangPreferences
-              {...this.props}
-              isLast={true}
-            />
-          </List>
+            <List
+              padding={padding}
+              isFullWidth
+              isFullHeight
+            >
+              <SyncPreferences {...this.props} />
+              <LangPreferences
+                {...this.props}
+                isLast={true}
+              />
+            </List>
+          </div>
         </Dialog>
       </Feature>
     )

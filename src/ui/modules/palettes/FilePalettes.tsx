@@ -8,6 +8,7 @@ import {
   Dialog,
   List,
   Menu,
+  SectionTitle,
   SemanticMessage,
   SimpleItem,
   texts,
@@ -20,12 +21,11 @@ import setPaletteMeta from '../../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { $creditsCount } from '../../../stores/credits'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface FilePalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
   onCreatePalette: () => void
@@ -40,7 +40,10 @@ interface FilePalettesState {
   isDestructiveActionLoading: boolean
 }
 
-export default class FilePalettes extends PureComponent<FilePalettesProps, FilePalettesState> {
+export default class FilePalettes extends PureComponent<
+  FilePalettesProps,
+  FilePalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -202,6 +205,11 @@ export default class FilePalettes extends PureComponent<FilePalettesProps, FileP
       },
       '*'
     )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
   }
 
   onDeletePalette = () => {
@@ -332,8 +340,11 @@ export default class FilePalettes extends PureComponent<FilePalettesProps, FileP
                                 this.features.DUPLICATE_PALETTE.isActive(),
                               isBlocked:
                                 this.features.DUPLICATE_PALETTE.isBlocked() ||
-                                this.features.LOCAL_PALETTES.isReached(
-                                  this.props.localPalettesList.length
+                                this.features.CREATE_PALETTE.isReached(
+                                  (this.props.creditsCount -
+                                    this.props.config.fees.paletteCreate) *
+                                    -1 -
+                                    1
                                 ),
                               isNew: this.features.DUPLICATE_PALETTE.isNew(),
                               action: () => {
@@ -492,6 +503,12 @@ export default class FilePalettes extends PureComponent<FilePalettesProps, FileP
                   <Button
                     type="primary"
                     label={this.props.t('actions.createPalette')}
+                    isBlocked={this.features.CREATE_PALETTE.isReached(
+                      (this.props.creditsCount -
+                        this.props.config.fees.paletteCreate) *
+                        -1 -
+                        1
+                    )}
                     isNew={this.features.CREATE_PALETTE.isNew()}
                     action={this.props.onCreatePalette}
                   />
@@ -518,9 +535,7 @@ export default class FilePalettes extends PureComponent<FilePalettesProps, FileP
       <>
         <SimpleItem
           leftPartSlot={
-            <span className={doClassnames([texts.type, texts.label])}>
-              {this.props.t('browse.file.title')}
-            </span>
+            <SectionTitle label={this.props.t('browse.file.title')} />
           }
           isListItem={false}
         />

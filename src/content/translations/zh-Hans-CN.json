@@ -92,7 +92,7 @@
     "pushUpdates": "推送更新到文档",
     "savePalette": "保存 UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 个源颜色} other {# 个源颜色} =0 {无源颜色}}",
-    "sync": "与本地库同步",
+    "sync": "同步…",
     "syncLocalStyles": "与本地样式同步",
     "syncLocalVariables": "与本地变量同步",
     "syncPalette": "同步调色板",
@@ -170,6 +170,7 @@
     "actions": {
       "alphaBackground": "透明度背后的背景色",
       "colorName": "颜色名称",
+      "hexCode": "十六进制代",
       "moreParameters": "更多参数",
       "new": "新建 UI 颜色",
       "removeColor": "移除颜色"
@@ -199,8 +200,11 @@
     "back": "返回调色板",
     "colors": "颜色",
     "export": "导出",
+    "hide": "最大化调色板",
+    "imports": "导入",
     "palettes": "调色板",
     "properties": "性能",
+    "report": "对比度",
     "scale": "比例",
     "settings": "设置",
     "source": "源",
@@ -307,6 +311,24 @@
     "themesUpdated": "模式已更新",
     "variablesSynced": "变量已同步"
   },
+  "explore": {
+    "actions": {
+      "addColors": "用这些颜色创建一个 UI Color Palette",
+      "openPalette": "打开调色板"
+    },
+    "filters": {
+      "any": "任意",
+      "blue": "蓝色",
+      "green": "绿色",
+      "label": "颜色",
+      "orange": "橙色",
+      "red": "红色",
+      "violet": "紫色",
+      "yellow": "黄色"
+    },
+    "meta": "{votes} 票・{views} 次查看・{comments} 条评论",
+    "title": "Colour Lovers"
+  },
   "export": {
     "actions": {
       "copyCode": "复制代码到剪贴板",
@@ -363,11 +385,125 @@
   },
   "fail": "✘",
   "fullName": "UI Color Palette {instance}・应用和网站的 WCAG 调色板管理器",
+  "genAi": {
+    "actions": {
+      "addColors": "用这些颜色创建一个 UI Color Palette",
+      "generate": "生成配色（Ctrl+Enter / ⌘+Enter）"
+    },
+    "colorTypes": {
+      "alert": "警告",
+      "primary": "主要",
+      "success": "成功",
+      "text": "文本",
+      "warning": "警告"
+    },
+    "emptyMessage": "使用提示预设或自定义提示生成 5 种颜色",
+    "form": {
+      "presets": {
+        "labels": {
+          "blog": "博客",
+          "corporate": "企业",
+          "cyberpunk": "赛博朋克",
+          "documentation": "文档",
+          "ecommerce": "电商",
+          "landing": "着陆页",
+          "minimalist": "极简主义",
+          "nature": "自然",
+          "pastel": "粉彩",
+          "portfolio": "作品集",
+          "resume": "简历",
+          "vintage": "复古"
+        },
+        "usecases": {
+          "blog": "温暖易读排版的个人博客",
+          "documentation": "具有清晰层级结构的技术文档",
+          "ecommerce": "采用以转化为导向配色的电商店铺设计",
+          "landing": "科技新创团队风格的现代化首页设计",
+          "portfolio": "展示艺术作品的创意作品集",
+          "resume": "使用干净且自信配色的专业履历"
+        },
+        "vibes": {
+          "corporate": "专业稳重的企业级设计，搭配可信赖的色彩体系",
+          "cyberpunk": "霓虹光效的赛博朋克式未来界面",
+          "minimalist": "干净极简并带有细腻对比的设计",
+          "nature": "灵感源自森林与群山启发的自然大地色调",
+          "pastel": "打造亲切友善的界面风格的柔和粉彩",
+          "vintage": "复古怀旧风，暖调低饱和配色"
+        }
+      },
+      "prompt": {
+        "placeholder": "描述您想要的情绪或主题（例如'充满活力的现代科技创业公司'、'大地色调的宁静冥想应用'）"
+      }
+    },
+    "title": "AI 生成颜色"
+  },
   "global": {
     "description": {
       "label": "描述",
       "placeholder": "用于什么？"
     }
+  },
+  "harmony": {
+    "add": "创建颜色和谐",
+    "empty": "移除颜色和谐"
+  },
+  "imagePalette": {
+    "actions": {
+      "addColors": "用这些颜色创建一个 UI Color Palette"
+    },
+    "dropzone": {
+      "cta": "或点击浏览",
+      "error": "无法加载图像。确保图像是 .png 格式并拖放到这里。",
+      "message": "拖放您的 .png 文件到这里",
+      "warning": "文件未导入。请重试拖放 .png 文件到这里。"
+    },
+    "message": "上传、粘贴或选择画布上的图像以提取其 5 种主色",
+    "removeImage": "移除图像",
+    "title": "主色"
+  },
+  "imports": {
+    "actions": {
+      "import": "将颜色添加到调色板"
+    },
+    "canvas": {
+      "add": "从画布中添加颜色",
+      "empty": "从画布中移除颜色",
+      "tip": "在 {canvas} 画布上选择尽可能多的 {element}（填充颜色）",
+      "title": "画布"
+    },
+    "coolors": {
+      "add": "添加 Coolors 调色板",
+      "addColors": "添加到源",
+      "empty": "移除 Coolors 调色板",
+      "helper": "从著名的 Coolors 导入调色板",
+      "title": "Coolors",
+      "url": {
+        "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
+        "infoMessage": "URL 必须以 \"https://coolors.co\" 开头",
+        "label": "调色板 URL",
+        "placeholder": "粘贴链接－https://coolors.co/…"
+      }
+    },
+    "nodes": {
+      "figma": "形状/框架",
+      "framer": "形状/框架",
+      "penpot": "形状/画板",
+      "sketch": "形状/框架"
+    },
+    "realtimeColors": {
+      "add": "添加 Realtime Colors 调色板",
+      "addColors": "添加到源",
+      "empty": "移除 Realtime Colors 调色板",
+      "helper": "从 Realtime Colors 制作的模拟中导入调色板",
+      "title": "Realtime Colors",
+      "url": {
+        "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
+        "infoMessage": "URL 必须以 \"https://www.realtimecolors.com\" 开头",
+        "label": "Realtime URL",
+        "placeholder": "粘贴链接－https://www.realtimecolors.com/…"
+      }
+    },
+    "title": "已导入的源颜色"
   },
   "info": {
     "addToLocal": "调色板已存在",
@@ -404,6 +540,11 @@
     "updatedLocalModes": "{count, plural, other {已更新 # 个模式} =0 {未更新模式}}",
     "updatedLocalStyles": "{count, plural, other {已更新 # 个样式} =0 {未更新样式}}",
     "updatedLocalVariables": "{count, plural, other {已更新 # 个变量} =0 {未更新变量}}"
+  },
+  "modes": {
+    "edit": "编辑",
+    "export": "导出",
+    "inspect": "检查"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -453,6 +594,7 @@
       "amount": "{count, plural, other {剩余 # 积分} =0 {没有剩余积分}}",
       "fees": {
         "createColorHarmony": "创建色彩和谐：{fee} 积分",
+        "createPalette": "创建一个 UI Color Palette：{fee} cdts",
         "extractImageColors": "从图像提取主色调：{fee} 积分",
         "generateAiColors": "使用 AI 生成颜色：{fee} 积分",
         "generateColorSheet": "生成色卡：{fee} 积分",
@@ -600,10 +742,10 @@
         "year": "每个用户/月 $4"
       },
       "texts": {
-        "lifetime": "◻ 终身访问</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式",
-        "month": "◻ 灵活</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式",
-        "week": "◻ 按需付费</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式",
-        "year": "◻ 节省资金</br>◻ 无限调色板</br>◻ 无限色彩/色阶/积分</br>◻ 无限模式"
+        "lifetime": "◻ 终身访问</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式",
+        "month": "◻ 灵活</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式",
+        "week": "◻ 按需付费</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式",
+        "year": "◻ 节省资金</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -698,6 +840,7 @@
     "actions": {
       "addStop": "添加色阶",
       "applyEasing": "直接将缓动应用到色阶",
+      "help": "帮助",
       "moreTools": "更多工具",
       "removeStop": "移除色阶",
       "resetScale": "重置色阶和色度",
@@ -836,6 +979,13 @@
     }
   },
   "separator": "・",
+  "services": {
+    "explore": "探索",
+    "extract": "图像调色板",
+    "generate": "AI 颜色",
+    "manage": "调色板管理器",
+    "wheel": "颜色和谐"
+  },
   "settings": {
     "actions": {
       "paletteName": "调色板名称"
@@ -910,7 +1060,8 @@
         "sheet": "色彩表",
         "simple": "调色板"
       }
-    }
+    },
+    "title": "调色板设置"
   },
   "shortcuts": {
     "author": "支持作者",
@@ -931,36 +1082,16 @@
     }
   },
   "source": {
-    "actions": {
-      "openPalette": "打开调色板"
-    },
     "ai": {
       "add": "生成 AI 颜色",
       "empty": "移除 AI 颜色",
       "helper": "使用 Mistral AI 基于创意提示生成智能颜色",
       "title": "AI 颜色"
     },
-    "canvas": {
-      "tip": "在 {canvas} 画布上选择尽可能多的 {element}（填充颜色）",
-      "title": "选定的颜色"
-    },
     "colourLovers": {
       "add": "探索 Colour Lovers 调色板",
-      "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
       "empty": "移除 Colour Lovers 调色板",
-      "filters": {
-        "any": "任意",
-        "blue": "蓝色",
-        "green": "绿色",
-        "label": "颜色",
-        "orange": "橙色",
-        "red": "红色",
-        "violet": "紫色",
-        "yellow": "黄色"
-      },
-      "helper": "从 Colour Lovers 社区探索和导入调色板",
-      "meta": "{votes} 票・{views} 次查看・{comments} 条评论",
-      "title": "Colour Lovers"
+      "helper": "从 Colour Lovers 社区探索和导入调色板"
     },
     "contexts": {
       "ai": "AI",
@@ -969,78 +1100,11 @@
       "image": "图像",
       "overview": "概览"
     },
-    "coolors": {
-      "add": "添加 Coolors 调色板",
-      "addColors": "添加到源",
-      "empty": "移除 Coolors 调色板",
-      "helper": "从著名的 Coolors 导入调色板",
-      "title": "Coolors",
-      "url": {
-        "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
-        "infoMessage": "URL 必须以 \"https://coolors.co\" 开头",
-        "label": "调色板 URL",
-        "placeholder": "粘贴链接－https://coolors.co/…"
-      }
-    },
     "default": {
       "helper": "当没有选择或导入颜色时使用此颜色",
       "title": "默认颜色"
     },
-    "genAi": {
-      "actions": {
-        "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
-        "generate": "生成配色（Ctrl+Enter / ⌘+Enter）"
-      },
-      "colorTypes": {
-        "alert": "警告",
-        "primary": "主要",
-        "success": "成功",
-        "text": "文本",
-        "warning": "警告"
-      },
-      "emptyMessage": "使用提示预设或自定义提示生成 5 种颜色",
-      "form": {
-        "presets": {
-          "labels": {
-            "blog": "博客",
-            "corporate": "企业",
-            "cyberpunk": "赛博朋克",
-            "documentation": "文档",
-            "ecommerce": "电商",
-            "landing": "着陆页",
-            "minimalist": "极简主义",
-            "nature": "自然",
-            "pastel": "粉彩",
-            "portfolio": "作品集",
-            "resume": "简历",
-            "vintage": "复古"
-          },
-          "usecases": {
-            "blog": "温暖易读排版的个人博客",
-            "documentation": "具有清晰层级结构的技术文档",
-            "ecommerce": "采用以转化为导向配色的电商店铺设计",
-            "landing": "科技新创团队风格的现代化首页设计",
-            "portfolio": "展示艺术作品的创意作品集",
-            "resume": "使用干净且自信配色的专业履历"
-          },
-          "vibes": {
-            "corporate": "专业稳重的企业级设计，搭配可信赖的色彩体系",
-            "cyberpunk": "霓虹光效的赛博朋克式未来界面",
-            "minimalist": "干净极简并带有细腻对比的设计",
-            "nature": "灵感源自森林与群山启发的自然大地色调",
-            "pastel": "打造亲切友善的界面风格的柔和粉彩",
-            "vintage": "复古怀旧风，暖调低饱和配色"
-          }
-        },
-        "prompt": {
-          "placeholder": "描述您想要的情绪或主题（例如'充满活力的现代科技创业公司'、'大地色调的宁静冥想应用'）"
-        }
-      },
-      "title": "AI 生成颜色"
-    },
     "harmony": {
-      "add": "创建颜色和谐",
-      "empty": "移除颜色和谐",
       "helper": "基于色轮创建和谐的颜色",
       "title": "颜色和谐"
     },
@@ -1050,50 +1114,7 @@
       "helper": "从任何图像提取 5 种主色",
       "title": "图像调色板"
     },
-    "imagePalette": {
-      "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
-      "dropzone": {
-        "cta": "或点击浏览",
-        "error": "无法加载图像。确保图像是 .png 格式并拖放到这里。",
-        "message": "拖放您的 .png 文件到这里",
-        "warning": "文件未导入。请重试拖放 .png 文件到这里。"
-      },
-      "message": "上传、粘贴或选择画布上的图像以提取其 5 种主色",
-      "removeImage": "移除图像",
-      "title": "主色"
-    },
-    "nodes": {
-      "figma": "形状/框架",
-      "framer": "形状/框架",
-      "penpot": "形状/画板",
-      "sketch": "形状/框架"
-    },
-    "realtimeColors": {
-      "add": "添加 Realtime Colors 调色板",
-      "addColors": "添加到源",
-      "empty": "移除 Realtime Colors 调色板",
-      "helper": "从 Realtime Colors 制作的模拟中导入调色板",
-      "title": "Realtime Colors",
-      "url": {
-        "errorMessage": "URL 必须包含多个十六进制代码（例如 8ecae6-…-219ebc）",
-        "infoMessage": "URL 必须以 \"https://www.realtimecolors.com\" 开头",
-        "label": "Realtime URL",
-        "placeholder": "粘贴链接－https://www.realtimecolors.com/…"
-      }
-    },
-    "title": "源颜色",
-    "wheel": {
-      "addColors": "添加到源。如果添加，这些颜色将覆盖之前的颜色。",
-      "algorithm": {
-        "analogous": "类似",
-        "complementary": "互补",
-        "compound": "复合",
-        "label": "色轮",
-        "tetradic": "四色",
-        "triadic": "三色"
-      },
-      "base": "基础颜色"
-    }
+    "title": "源颜色"
   },
   "store": {
     "isb": {
@@ -1248,5 +1269,19 @@
     "tooManyThemesToCreateModes": "在当前计划中您不能创建超过 4 种模式",
     "uncopiedCode": "代码未复制到剪贴板",
     "unselectedColor": "选择至少填充一种纯色的图层"
+  },
+  "wheel": {
+    "actions": {
+      "addColors": "用这些颜色创建一个 UI Color Palette"
+    },
+    "algorithm": {
+      "analogous": "类似",
+      "complementary": "互补",
+      "compound": "复合",
+      "label": "色轮",
+      "tetradic": "四色",
+      "triadic": "三色"
+    },
+    "base": "基础颜色"
   }
 }

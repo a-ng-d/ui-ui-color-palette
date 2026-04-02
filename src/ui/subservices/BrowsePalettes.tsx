@@ -7,14 +7,15 @@ import {
   DocumentConfiguration,
   FullConfiguration,
   MetaConfiguration,
+  SourceColorConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import RemotePalettes from '../contexts/RemotePalettes'
 import LocalPalettes from '../contexts/LocalPalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { AppState } from '../App'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
@@ -26,14 +27,16 @@ import {
   Service,
   Editor,
 } from '../../types/app'
+import { $palette } from '../../stores/palette'
+import { $creditsCount } from '../../stores/credits'
+import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface BrowsePalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   document: DocumentConfiguration
-  onCreatePalette: React.Dispatch<Partial<AppState>>
+  sourceColors: Array<SourceColorConfiguration>
+  onCreatePalette: React.Dispatch<Partial<ManagePaletteState>>
   onSeePalette: (palette: {
     base: BaseConfiguration
     themes: Array<ThemeConfiguration>
@@ -56,6 +59,7 @@ export default class BrowsePalettes extends PureComponent<
   private contexts: Array<ContextItem>
   private theme: string | null
   private remotePalettesRef = React.createRef<RemotePalettes>()
+  private palette = $palette
 
   static features = (
     planStatus: PlanStatus,
@@ -119,6 +123,7 @@ export default class BrowsePalettes extends PureComponent<
       props.service,
       props.t
     )
+    this.palette = $palette
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
       localPalettesListStatus: 'LOADING',
@@ -193,10 +198,46 @@ export default class BrowsePalettes extends PureComponent<
 
   // Direct Actions
   onCreatePalette = () => {
-    this.props.onCreatePalette({
-      service: 'CREATE',
-      onGoingStep: 'palette creation opened',
-    })
+    const sourceColors =
+      this.props.sourceColors.length > 1
+        ? this.props.sourceColors.filter(
+            (sourceColor) => sourceColor.source !== 'CANVAS'
+          )
+        : this.props.sourceColors
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'CREATE_PALETTE',
+          data: {
+            sourceColors: sourceColors,
+            exchange: {
+              ...this.palette.value,
+            },
+          },
+        },
+      },
+      '*'
+    )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+        colors: 1,
+        stops: this.palette.value?.preset.stops.length,
+      }
+    )
   }
 
   onEditPalette = () => {
@@ -293,6 +334,10 @@ export default class BrowsePalettes extends PureComponent<
               label={this.props.t('browse.document.open')}
               isBlocked={this.features.DOCUMENT_OPEN.isBlocked()}
               isNew={this.features.DOCUMENT_OPEN.isNew()}
+              shouldReflow={{
+                icon: 'forward',
+                isEnabled: true,
+              }}
               action={this.onEditPalette}
             />
           </Feature>
@@ -306,11 +351,18 @@ export default class BrowsePalettes extends PureComponent<
               isLoading={this.state.isSecondaryActionLoading}
               isBlocked={
                 this.features.DOCUMENT_CREATE.isBlocked() ||
-                this.features.LOCAL_PALETTES.isReached(
-                  this.state.localPalettesList.length
+                this.features.DOCUMENT_CREATE.isReached(
+                  (this.props.creditsCount -
+                    this.props.config.fees.paletteCreate) *
+                    -1 -
+                    1
                 )
               }
               isNew={this.features.DOCUMENT_CREATE.isNew()}
+              shouldReflow={{
+                icon: 'link-connected',
+                isEnabled: true,
+              }}
               action={this.onCreateFromDocument}
             />
           </Feature>
@@ -323,12 +375,11 @@ export default class BrowsePalettes extends PureComponent<
           icon="plus"
           label={this.props.t('browse.actions.new')}
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
-          isBlocked={
-            this.features.CREATE_PALETTE.isBlocked() ||
-            this.features.LOCAL_PALETTES.isReached(
-              this.state.localPalettesList.length
-            )
-          }
+          isBlocked={this.features.CREATE_PALETTE.isReached(
+            (this.props.creditsCount - this.props.config.fees.paletteCreate) *
+              -1 -
+              1
+          )}
           isNew={this.features.CREATE_PALETTE.isNew()}
           action={this.onCreatePalette}
         />

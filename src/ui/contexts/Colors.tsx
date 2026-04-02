@@ -4,6 +4,7 @@ import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
 import {
+  Bar,
   Button,
   FormItem,
   Input,
@@ -13,7 +14,6 @@ import {
   SectionTitle,
   Select,
   SemanticMessage,
-  SimpleItem,
   SortableList,
 } from '@unoff/ui'
 import {
@@ -21,6 +21,7 @@ import {
   HexModel,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -30,13 +31,12 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackSourceColorsManagementEvent } from '../../external/tracking/eventsTracker'
 import am from '../../content/images/alpha_mode.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
 
 interface ColorsProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   colors: Array<ColorConfiguration>
   shift: ShiftConfiguration
-  onChangeColors: React.Dispatch<Partial<AppState>>
+  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 export default class Colors extends PureComponent<ColorsProps> {
@@ -127,9 +127,9 @@ export default class Colors extends PureComponent<ColorsProps> {
   // Handlers
   colorsHandler = (e: Event) => {
     let id: string | null
-    const element: HTMLElement | null = (e.target as HTMLElement).closest(
-        '.draggable-item'
-      ),
+    const element: HTMLElement | null =
+        (e.target as HTMLElement).closest('.draggable-item') ??
+        (e.target as HTMLElement).closest('[data-id]'),
       currentElement = e.currentTarget as HTMLInputElement
 
     id = currentElement.getAttribute('data-color-id')
@@ -168,7 +168,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -202,7 +201,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -244,7 +242,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
         this.props.onChangeColors({
           colors: this.colorsMessage.data,
-          onGoingStep: 'colors changed',
         })
       }
 
@@ -279,7 +276,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -313,7 +309,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -347,7 +342,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -383,7 +377,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -419,7 +412,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -448,7 +440,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -476,7 +467,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -501,7 +491,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -528,9 +517,10 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
+      console.log(this.colorsMessage.data)
+
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -556,7 +546,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -581,7 +570,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
       this.props.onChangeColors({
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -628,7 +616,6 @@ export default class Colors extends PureComponent<ColorsProps> {
 
     this.props.onChangeColors({
       colors: this.colorsMessage.data,
-      onGoingStep: 'colors changed',
     })
 
     sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -657,8 +644,8 @@ export default class Colors extends PureComponent<ColorsProps> {
           {
             node: (
               <>
-                <SimpleItem
-                  id="add-color"
+                <Bar
+                  id="colors-header"
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.t('colors.title')}
@@ -679,14 +666,13 @@ export default class Colors extends PureComponent<ColorsProps> {
                       action={(e: Event) => this.colorsHandler(e)}
                     />
                   }
-                  alignment="CENTER"
-                  isListItem={false}
+                  clip={['LEFT']}
+                  border={['BOTTOM']}
                 />
                 {this.features.COLORS.isReached(this.props.colors.length) && (
                   <div
                     style={{
-                      padding:
-                        '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                      padding: 'var(--size-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage
@@ -774,77 +760,21 @@ export default class Colors extends PureComponent<ColorsProps> {
                             </div>
                           </Feature>
                           <Feature
-                            isActive={this.features.COLORS_PARAMS.isActive()}
+                            isActive={
+                              this.features.COLORS_PARAMS.isActive() &&
+                              this.props.documentWidth > 460
+                            }
                           >
                             <div className="draggable-item__param">
                               <Input
                                 type="COLOR"
                                 value={hex}
                                 feature="UPDATE_HEX"
+                                helper={{
+                                  label: this.props.t('colors.actions.hexCode'),
+                                }}
                                 isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                                 isNew={this.features.COLORS_PARAMS.isNew()}
-                                onPick={this.colorsHandler}
-                                onBlur={this.colorsHandler}
-                                onValid={this.colorsHandler}
-                              />
-                            </div>
-                          </Feature>
-                          <Feature
-                            isActive={
-                              this.features.COLORS_ALPHA.isActive() &&
-                              this.props.documentWidth > 460
-                            }
-                          >
-                            <div className="draggable-item__param">
-                              <Select
-                                id={`switch-alpha-mode-${color.id}`}
-                                type="SWITCH_BUTTON"
-                                label={this.props.t('colors.alpha.label')}
-                                feature="SWITCH_ALPHA_MODE"
-                                data-color-id={color.id}
-                                preview={{
-                                  image: am,
-                                  text: this.props.t('colors.alpha.helper'),
-                                }}
-                                isChecked={color.alpha.isEnabled}
-                                isBlocked={
-                                  this.features.COLORS_ALPHA.isBlocked() &&
-                                  !color.alpha.isEnabled
-                                }
-                                isNew={this.features.COLORS_ALPHA.isNew()}
-                                action={this.colorsHandler}
-                                onUnblock={() => {
-                                  sendPluginMessage(
-                                    {
-                                      pluginMessage: { type: 'GET_PRO' },
-                                    },
-                                    '*'
-                                  )
-                                }}
-                              />
-                            </div>
-                          </Feature>
-                          <Feature
-                            isActive={
-                              this.features.COLORS_BACKGROUND_COLOR.isActive() &&
-                              color.alpha.isEnabled &&
-                              this.props.documentWidth > 460
-                            }
-                          >
-                            <div className="draggable-item__param">
-                              <Input
-                                id="update-color-background"
-                                type="COLOR"
-                                value={color.alpha.backgroundColor}
-                                feature="UPDATE_BACKGROUND_COLOR"
-                                helper={{
-                                  label: this.props.t(
-                                    'colors.actions.alphaBackground'
-                                  ),
-                                }}
-                                data-color-id={color.id}
-                                isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
                                 onPick={this.colorsHandler}
                                 onBlur={this.colorsHandler}
                                 onValid={this.colorsHandler}
@@ -860,86 +790,112 @@ export default class Colors extends PureComponent<ColorsProps> {
                         color.rgb.g * 255,
                         color.rgb.b * 255,
                       ]).lch()
+                      const hex = chroma([
+                        color.rgb.r * 255,
+                        color.rgb.g * 255,
+                        color.rgb.b * 255,
+                      ]).hex()
 
                       return {
                         title: this.props.t('colors.moreParameters', {
                           colorName: color.name,
                         }),
                         node: (() => (
-                          <>
-                            {this.props.documentWidth <= 460 && (
-                              <>
-                                <Feature
-                                  isActive={this.features.COLORS_ALPHA.isActive()}
-                                >
-                                  <FormItem
-                                    id={`switch-alpha-mode-secondary-${color.id}`}
-                                    label={this.props.t('colors.alpha.label')}
-                                    isBlocked={
-                                      this.features.COLORS_ALPHA.isBlocked() &&
-                                      !color.alpha.isEnabled
-                                    }
-                                  >
-                                    <Select
-                                      id={`switch-alpha-mode-secondary-${color.id}`}
-                                      type="SWITCH_BUTTON"
-                                      feature="SWITCH_ALPHA_MODE"
-                                      data-color-id={color.id}
-                                      preview={{
-                                        image: am,
-                                        text: this.props.t(
-                                          'colors.alpha.helper'
-                                        ),
-                                      }}
-                                      isChecked={color.alpha.isEnabled}
-                                      isBlocked={
-                                        this.features.COLORS_ALPHA.isBlocked() &&
-                                        !color.alpha.isEnabled
-                                      }
-                                      isNew={this.features.COLORS_ALPHA.isNew()}
-                                      action={this.colorsHandler}
-                                      onUnblock={() => {
-                                        sendPluginMessage(
-                                          {
-                                            pluginMessage: {
-                                              type: 'GET_PRO',
-                                            },
-                                          },
-                                          '*'
-                                        )
-                                      }}
-                                    />
-                                  </FormItem>
-                                </Feature>
-                                <Feature
-                                  isActive={
-                                    this.features.COLORS_BACKGROUND_COLOR.isActive() &&
-                                    color.alpha.isEnabled
+                          <div data-id={color.id}>
+                            <Feature
+                              isActive={
+                                this.features.COLORS_PARAMS.isActive() &&
+                                this.props.documentWidth <= 460
+                              }
+                            >
+                              <FormItem
+                                id={`change-hex-secondary-${color.id}`}
+                                label={this.props.t('colors.actions.hexCode')}
+                                isBlocked={
+                                  this.features.COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
+                                }
+                              >
+                                <Input
+                                  id={`change-hex-secondary-${color.id}`}
+                                  type="COLOR"
+                                  value={hex}
+                                  feature="UPDATE_HEX"
+                                  isBlocked={this.features.COLORS_PARAMS.isBlocked()}
+                                  isNew={this.features.COLORS_PARAMS.isNew()}
+                                  onPick={this.colorsHandler}
+                                  onBlur={this.colorsHandler}
+                                  onValid={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={this.features.COLORS_ALPHA.isActive()}
+                            >
+                              <FormItem
+                                id={`switch-alpha-mode-secondary-${color.id}`}
+                                label={this.props.t('colors.alpha.label')}
+                                isBlocked={
+                                  this.features.COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
+                                }
+                              >
+                                <Select
+                                  id={`switch-alpha-mode-secondary-${color.id}`}
+                                  type="SWITCH_BUTTON"
+                                  feature="SWITCH_ALPHA_MODE"
+                                  data-color-id={color.id}
+                                  preview={{
+                                    image: am,
+                                    text: this.props.t('colors.alpha.helper'),
+                                  }}
+                                  isChecked={color.alpha.isEnabled}
+                                  isBlocked={
+                                    this.features.COLORS_ALPHA.isBlocked() &&
+                                    !color.alpha.isEnabled
                                   }
-                                >
-                                  <FormItem
-                                    id={`update-color-background-secondary-${color.id}`}
-                                    label={this.props.t(
-                                      'colors.actions.alphaBackground'
-                                    )}
-                                    isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                  >
-                                    <Input
-                                      id={`update-color-background-secondary-${color.id}`}
-                                      type="COLOR"
-                                      value={color.alpha.backgroundColor}
-                                      feature="UPDATE_BACKGROUND_COLOR"
-                                      data-color-id={color.id}
-                                      isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                      isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
-                                      onPick={this.colorsHandler}
-                                      onBlur={this.colorsHandler}
-                                      onValid={this.colorsHandler}
-                                    />
-                                  </FormItem>
-                                </Feature>
-                              </>
-                            )}
+                                  isNew={this.features.COLORS_ALPHA.isNew()}
+                                  action={this.colorsHandler}
+                                  onUnblock={() => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type: 'GET_PRO',
+                                        },
+                                      },
+                                      '*'
+                                    )
+                                  }}
+                                />
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={
+                                this.features.COLORS_BACKGROUND_COLOR.isActive() &&
+                                color.alpha.isEnabled
+                              }
+                            >
+                              <FormItem
+                                id={`update-color-background-secondary-${color.id}`}
+                                label={this.props.t(
+                                  'colors.actions.alphaBackground'
+                                )}
+                                isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
+                              >
+                                <Input
+                                  id={`update-color-background-secondary-${color.id}`}
+                                  type="COLOR"
+                                  value={color.alpha.backgroundColor}
+                                  feature="UPDATE_BACKGROUND_COLOR"
+                                  data-color-id={color.id}
+                                  isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
+                                  isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
+                                  onPick={this.colorsHandler}
+                                  onBlur={this.colorsHandler}
+                                  onValid={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
                             <Feature
                               isActive={this.features.COLORS_CHROMA_SHIFTING.isActive()}
                             >
@@ -1091,7 +1047,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 />
                               </FormItem>
                             </Feature>
-                          </>
+                          </div>
                         ))(),
                       }
                     })}
@@ -1101,14 +1057,13 @@ export default class Colors extends PureComponent<ColorsProps> {
                     }}
                     canBeEmpty={false}
                     isScrollable
-                    isTopBorderEnabled
                     onChangeSortableList={this.onChangeOrder}
                     onRemoveItem={this.colorsHandler}
                   />
                 )}
               </>
             ),
-            typeModifier: 'LIST',
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight

@@ -1,6 +1,5 @@
 import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
   Dialog,
@@ -10,18 +9,15 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
-import { WithTranslationProps } from '../components/WithTranslation'
-import { WithConfigProps } from '../components/WithConfig'
-import Feature from '../components/Feature'
-import { sendPluginMessage } from '../../utils/pluginMessage'
-import { PluginMessageData } from '../../types/messages'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { WithTranslationProps } from '../../components/WithTranslation'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { PluginMessageData } from '../../../types/messages'
+import { BaseProps } from '../../../types/app'
 
 interface DangerZoneProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
   isLast?: boolean
@@ -37,30 +33,6 @@ export default class DangerZone extends PureComponent<
   DangerZoneProps,
   DangerZoneState
 > {
-  static features = (
-    planStatus: PlanStatus,
-    config: ConfigContextType,
-    service: Service,
-    editor: Editor
-  ) => ({
-    DELETE_PALETTE: new FeatureStatus({
-      features: config.features,
-      featureName: 'DELETE_PALETTE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-  })
-
-  private get features() {
-    return DangerZone.features(
-      this.props.planStatus,
-      this.props.config,
-      this.props.service,
-      this.props.editor
-    )
-  }
-
   static defaultProps = {
     isLast: false,
   }
@@ -177,7 +149,7 @@ export default class DangerZone extends PureComponent<
   // Render
   render() {
     return (
-      <Feature isActive={this.features.DELETE_PALETTE.isActive()}>
+      <>
         <Section
           title={
             <SimpleItem
@@ -207,7 +179,7 @@ export default class DangerZone extends PureComponent<
           border={!this.props.isLast ? ['BOTTOM'] : undefined}
         />
         <this.Modals />
-      </Feature>
+      </>
     )
   }
 }

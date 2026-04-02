@@ -3,6 +3,7 @@ import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { doClassnames } from '@unoff/utils'
 import {
+  Bar,
   ColorItem,
   FormItem,
   Layout,
@@ -28,9 +29,7 @@ import { BaseProps } from '../../types/app'
 import { getTolgee } from '../../external/translation'
 
 interface PropertiesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
   description: string
@@ -496,6 +495,16 @@ export default class Properties extends PureComponent<PropertiesProps> {
             {
               node: (
                 <>
+                  <Bar
+                    id="properties-header"
+                    leftPartSlot={
+                      <SectionTitle
+                        label={this.props.t('contexts.properties')}
+                      />
+                    }
+                    clip={['LEFT']}
+                    border={['BOTTOM']}
+                  />
                   <this.Settings />
                   <this.Colors />
                   <this.Themes />

@@ -2,18 +2,20 @@ import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { ManagePaletteState } from '../../ui/services/ManagePalette'
 import type { AppState } from '../../ui/App'
 
 const unpublishPalette = async ({
-  rawData,
+  paletteData,
   palettesDbTableName,
   isRemote = false,
 }: {
-  rawData: Partial<AppState>
+  paletteData: Partial<ManagePaletteState>
+  appData: Partial<AppState>
   palettesDbTableName: string
   isRemote?: boolean
-}): Promise<Partial<AppState>> => {
-  const id = rawData.id ?? uid()
+}): Promise<Partial<ManagePaletteState>> => {
+  const id = paletteData.id ?? uid()
   const now = new Date().toISOString()
 
   const supabase = getSupabase()
@@ -29,10 +31,10 @@ const unpublishPalette = async ({
     const meta: MetaConfiguration = {
       id: id,
       dates: {
-        createdAt: rawData.dates?.createdAt ?? now,
-        updatedAt: rawData.dates?.updatedAt ?? now,
+        createdAt: paletteData.dates?.createdAt ?? now,
+        updatedAt: paletteData.dates?.updatedAt ?? now,
         publishedAt: '',
-        openedAt: rawData.dates?.openedAt ?? now,
+        openedAt: paletteData.dates?.openedAt ?? now,
       },
       publicationStatus: {
         isPublished: false,

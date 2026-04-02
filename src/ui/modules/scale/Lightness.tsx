@@ -20,9 +20,7 @@ import { $palette } from '../../../stores/palette'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface LightnessProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
@@ -117,8 +115,7 @@ export default class Lightness extends PureComponent<
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -156,8 +153,7 @@ export default class Lightness extends PureComponent<
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -192,8 +188,7 @@ export default class Lightness extends PureComponent<
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -242,37 +237,6 @@ export default class Lightness extends PureComponent<
 
   // Render
   render() {
-    if (this.props.service === 'CREATE')
-      return (
-        <Feature isActive={this.features.SCALE_CONFIGURATION.isActive()}>
-          <MultipleSlider
-            {...this.props}
-            type="EDIT"
-            distributionEasing={this.props.distributionEasing}
-            stops={{
-              list: this.props.preset.stops,
-              min: Infinity,
-              max: Infinity,
-            }}
-            range={{
-              min: 0,
-              max: 100,
-              step: 0.1,
-            }}
-            colors={{
-              min: 'black',
-              max: 'white',
-            }}
-            tips={{
-              minMax: this.props.t('scale.tips.distributeAsTooltip'),
-            }}
-            isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
-            isNew={this.features.SCALE_CONFIGURATION.isNew()}
-            onChange={this.lightnessHandler}
-          />
-        </Feature>
-      )
-
     return (
       <Feature isActive={this.features.SCALE_CONFIGURATION.isActive()}>
         {this.props.preset.id.includes('CUSTOM') ? (

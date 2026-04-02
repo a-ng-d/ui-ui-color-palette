@@ -15,14 +15,15 @@ interface PlanControlsState {
 }
 
 interface PlanControlsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   trialRemainingTime: number
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
+export default class PlanControls extends PureComponent<
+  PlanControlsProps,
+  PlanControlsState
+> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (
@@ -38,44 +39,44 @@ export default class PlanControls extends PureComponent<PlanControlsProps, PlanC
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_COOLORS: new FeatureStatus({
+    IMPORTS_COOLORS: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_COOLORS',
+      featureName: 'IMPORTS_COOLORS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_REALTIME_COLORS: new FeatureStatus({
+    IMPORTS_REALTIME_COLORS: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_REALTIME_COLORS',
+      featureName: 'IMPORTS_REALTIME_COLORS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_COLOUR_LOVERS: new FeatureStatus({
+    EXPLORE: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_COLOUR_LOVERS',
+      featureName: 'EXPLORE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_IMAGE: new FeatureStatus({
+    EXTRACT: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_IMAGE',
+      featureName: 'EXTRACT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_HARMONY: new FeatureStatus({
+    WHEEL: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_HARMONY',
+      featureName: 'WHEEL',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_AI: new FeatureStatus({
+    GEN: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_AI',
+      featureName: 'GEN',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -143,6 +144,13 @@ export default class PlanControls extends PureComponent<PlanControlsProps, PlanC
       currentService: service,
       currentEditor: editor,
     }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -178,45 +186,52 @@ export default class PlanControls extends PureComponent<PlanControlsProps, PlanC
   Fees = (): React.ReactNode => {
     return (
       <ul className="list-item">
-        {this.features.SOURCE_COOLORS.isActive() && (
+        {this.features.IMPORTS_COOLORS.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.importCoolors', {
               fee: this.props.config.fees.coolorsImport,
             })}
           </li>
         )}
-        {this.features.SOURCE_REALTIME_COLORS.isActive() && (
+        {this.features.IMPORTS_REALTIME_COLORS.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.importRealtimeColors', {
               fee: this.props.config.fees.realtimeColorsImport,
             })}
           </li>
         )}
-        {this.features.SOURCE_COLOUR_LOVERS.isActive() && (
+        {this.features.EXPLORE.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.importColourLovers', {
               fee: this.props.config.fees.colourLoversImport,
             })}
           </li>
         )}
-        {this.features.SOURCE_AI.isActive() && (
+        {this.features.GEN.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.generateAiColors', {
               fee: this.props.config.fees.aiColorsGenerate,
             })}
           </li>
         )}
-        {this.features.SOURCE_IMAGE.isActive() && (
+        {this.features.EXTRACT.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.extractImageColors', {
               fee: this.props.config.fees.imageColorsExtract,
             })}
           </li>
         )}
-        {this.features.SOURCE_HARMONY.isActive() && (
+        {this.features.WHEEL.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.createColorHarmony', {
               fee: this.props.config.fees.harmonyCreate,
+            })}
+          </li>
+        )}
+        {this.features.CREATE_PALETTE.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.createPalette', {
+              fee: this.props.config.fees.paletteCreate,
             })}
           </li>
         )}

@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import {
+  Bar,
   Button,
   FormItem,
   Input,
@@ -10,7 +11,6 @@ import {
   layouts,
   SectionTitle,
   SemanticMessage,
-  SimpleItem,
   SortableList,
 } from '@unoff/ui'
 import {
@@ -20,6 +20,7 @@ import {
   TextColorsThemeConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -28,7 +29,6 @@ import { ThemesMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackColorThemesManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
 
 interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
@@ -36,7 +36,7 @@ interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   scale: ScaleConfiguration
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onChangeThemes: React.Dispatch<Partial<AppState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 export default class Themes extends PureComponent<ThemesProps> {
@@ -99,9 +99,9 @@ export default class Themes extends PureComponent<ThemesProps> {
   // Handlers
   themesHandler = (e: Event) => {
     let id: string | null
-    const element: HTMLElement | null = (e.target as HTMLElement).closest(
-        '.draggable-item'
-      ),
+    const element: HTMLElement | null =
+        (e.target as HTMLElement).closest('.draggable-item') ??
+        (e.target as HTMLElement).closest('[data-id]'),
       currentElement = e.currentTarget as HTMLInputElement
 
     element !== null ? (id = element.getAttribute('data-id')) : (id = null)
@@ -146,7 +146,6 @@ export default class Themes extends PureComponent<ThemesProps> {
           lightColor: '#FFFFFF',
           darkColor: '#000000',
         },
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -182,7 +181,6 @@ export default class Themes extends PureComponent<ThemesProps> {
         scale:
           this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
         themes: this.themesMessage.data,
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -217,7 +215,6 @@ export default class Themes extends PureComponent<ThemesProps> {
             this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ??
             {},
           themes: this.themesMessage.data,
-          onGoingStep: 'themes changed',
         })
       }
 
@@ -246,7 +243,6 @@ export default class Themes extends PureComponent<ThemesProps> {
         scale:
           this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
         themes: this.themesMessage.data,
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -291,7 +287,6 @@ export default class Themes extends PureComponent<ThemesProps> {
           lightColor: '#FFFFFF',
           darkColor: '#000000',
         },
-        onGoingStep: 'themes changed',
       })
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -364,7 +359,6 @@ export default class Themes extends PureComponent<ThemesProps> {
         lightColor: '#FFFFFF',
         darkColor: '#000000',
       },
-      onGoingStep: 'themes changed',
     })
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -393,7 +387,6 @@ export default class Themes extends PureComponent<ThemesProps> {
       scale:
         this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
       themes: this.themesMessage.data,
-      onGoingStep: 'themes changed',
     })
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -419,13 +412,13 @@ export default class Themes extends PureComponent<ThemesProps> {
 
     return (
       <Layout
-        id="colors"
+        id="themes"
         column={[
           {
             node: (
               <>
-                <SimpleItem
-                  id="add-theme"
+                <Bar
+                  id="modes-header"
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.t('themes.title')}
@@ -444,8 +437,8 @@ export default class Themes extends PureComponent<ThemesProps> {
                       action={this.themesHandler}
                     />
                   }
-                  alignment="CENTER"
-                  isListItem={false}
+                  clip={['LEFT']}
+                  border={['BOTTOM']}
                 />
                 {customThemes.length === 0 ? (
                   <div className={layouts.centered}>
@@ -502,8 +495,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                     {this.features.THEMES.isBlocked() && (
                       <div
                         style={{
-                          padding:
-                            '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                          padding: 'var(--size-pos-xxsmall)',
                         }}
                       >
                         <SemanticMessage
@@ -546,7 +538,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                     )}
                     <SortableList<ThemeConfiguration>
                       data={customThemes}
-                      primarySlot={customThemes.map((theme, index) => {
+                      primarySlot={customThemes.map((theme) => {
                         return (
                           <>
                             <Feature
@@ -571,23 +563,28 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 />
                               </div>
                             </Feature>
-                            <Feature
-                              isActive={
-                                this.features.THEMES_PARAMS.isActive() &&
-                                this.props.documentWidth > 460
-                              }
-                            >
-                              <div className="draggable-item__param">
+                          </>
+                        )
+                      })}
+                      secondarySlot={customThemes.map((theme) => {
+                        return {
+                          title: this.props.t('themes.moreParameters', {
+                            themeName: theme.name,
+                          }),
+                          node: (() => (
+                            <div data-id={theme.id}>
+                              <Feature
+                                isActive={this.features.THEMES_PARAMS.isActive()}
+                              >
                                 <FormItem
-                                  id={`update-palette-background-color-${index}`}
+                                  id={`update-palette-background-color-secondary-${theme.id}`}
                                   label={this.props.t(
                                     'themes.paletteBackgroundColor.label'
                                   )}
-                                  shouldFill={false}
                                   isBlocked={this.features.THEMES_PARAMS.isBlocked()}
                                 >
                                   <Input
-                                    id={`update-palette-background-color-${index}`}
+                                    id={`update-palette-background-color-secondary-${theme.id}`}
                                     type="COLOR"
                                     value={theme.paletteBackground}
                                     helper={{
@@ -603,48 +600,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     onValid={this.themesHandler}
                                   />
                                 </FormItem>
-                              </div>
-                            </Feature>
-                          </>
-                        )
-                      })}
-                      secondarySlot={customThemes.map((theme) => {
-                        return {
-                          title: this.props.t('themes.moreParameters', {
-                            themeName: theme.name,
-                          }),
-                          node: (() => (
-                            <>
-                              {this.props.documentWidth <= 460 && (
-                                <Feature
-                                  isActive={this.features.THEMES_PARAMS.isActive()}
-                                >
-                                  <FormItem
-                                    id={`update-palette-background-color-secondary-${theme.id}`}
-                                    label={this.props.t(
-                                      'themes.paletteBackgroundColor.label'
-                                    )}
-                                    isBlocked={this.features.THEMES_PARAMS.isBlocked()}
-                                  >
-                                    <Input
-                                      id={`update-palette-background-color-secondary-${theme.id}`}
-                                      type="COLOR"
-                                      value={theme.paletteBackground}
-                                      helper={{
-                                        label: this.props.t(
-                                          'themes.actions.documentBackground'
-                                        ),
-                                      }}
-                                      feature="UPDATE_PALETTE_BACKGROUND"
-                                      isBlocked={this.features.THEMES_PARAMS.isBlocked()}
-                                      isNew={this.features.THEMES_PARAMS.isNew()}
-                                      onPick={this.themesHandler}
-                                      onBlur={this.themesHandler}
-                                      onValid={this.themesHandler}
-                                    />
-                                  </FormItem>
-                                </Feature>
-                              )}
+                              </Feature>
                               <Feature
                                 isActive={this.features.THEMES_DESCRIPTION.isActive()}
                               >
@@ -674,7 +630,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   </FormItem>
                                 </div>
                               </Feature>
-                            </>
+                            </div>
                           ))(),
                         }
                       })}
@@ -683,7 +639,6 @@ export default class Themes extends PureComponent<ThemesProps> {
                         more: this.props.t('themes.actions.moreParameters'),
                       }}
                       isScrollable
-                      isTopBorderEnabled
                       onChangeSortableList={this.onChangeOrder}
                       onRemoveItem={this.themesHandler}
                       isBlocked={this.features.THEMES.isBlocked()}
@@ -692,7 +647,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                 )}
               </>
             ),
-            typeModifier: 'LIST',
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight

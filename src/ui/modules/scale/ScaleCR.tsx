@@ -5,11 +5,8 @@ import {
   Button,
   layouts,
   MultipleSlider,
-  SectionTitle,
-  Select,
   SemanticMessage,
   SimpleItem,
-  texts,
 } from '@unoff/ui'
 import {
   Contrast,
@@ -31,9 +28,7 @@ import { trackScaleManagementEvent } from '../../../external/tracking/eventsTrac
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ScaleCRProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   preset: PresetConfiguration
   scale: ScaleConfiguration
@@ -146,8 +141,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -184,8 +178,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -217,8 +210,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -276,8 +268,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -314,8 +305,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -351,8 +341,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
       this.props.onChangeScale()
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
@@ -481,8 +470,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
 
     this.props.onChangeScale()
 
-    if (this.props.service === 'EDIT')
-      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -515,15 +503,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
           ])}
         >
           <SimpleItem
-            id="update-preset"
-            leftPartSlot={
-              <SectionTitle
-                label={this.props.t('scale.contrast.title')}
-                indicator={Object.entries(
-                  this.props.scale ?? {}
-                ).length.toString()}
-              />
-            }
+            id="reset-preset"
             rightPartSlot={
               <div className={layouts['snackbar--medium']}>
                 <Feature isActive={features.SCALE_RESET.isActive()}>
@@ -537,18 +517,6 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
                     isBlocked={features.SCALE_RESET.isBlocked()}
                     isNew={features.SCALE_RESET.isNew()}
                     action={this.onResetStops}
-                  />
-                </Feature>
-                <span className={texts.type}>{this.props.t('separator')}</span>
-                <Feature isActive={features.SCALE_CONTRAST_RATIO.isActive()}>
-                  <Select
-                    id="switch-contrast-mode"
-                    type="SWITCH_BUTTON"
-                    label={this.props.t('scale.contrast.label')}
-                    shouldReflow
-                    isChecked={true}
-                    isNew={features.SCALE_CONTRAST_RATIO.isNew()}
-                    action={this.props.onSwitchMode}
                   />
                 </Feature>
               </div>

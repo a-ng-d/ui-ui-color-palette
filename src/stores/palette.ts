@@ -35,5 +35,5 @@ export const $palette = deepMap<ExchangeConfiguration>({
 export const initializePaletteStore = () => {
   const t = getTolgee().t
   $palette.setKey('name', t('settings.global.name.default'))
-  $palette.setKey('preset', getPresets(t)[0])
+  $palette.setKey('preset', getPresets(t)[1])
 }

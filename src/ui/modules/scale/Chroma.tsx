@@ -79,8 +79,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
 
       this.props.onChangeShift(feature, state, value)
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
@@ -91,8 +90,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
 
       this.props.onChangeShift(feature, state, value)
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
@@ -102,8 +100,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
 
       this.props.onChangeShift(feature, state, value)
 
-      if (this.props.service === 'EDIT')
-        sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {

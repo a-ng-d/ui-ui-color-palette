@@ -13,6 +13,7 @@ import {
 } from './external/tracking/client'
 import { initSentry } from './external/monitoring'
 import { initMistral } from './external/mistral'
+import { initNotion } from './external/cms'
 import { initSupabase } from './external/auth'
 import zh_Hans_CN from './content/translations/zh-Hans-CN.json'
 import pt_BR from './content/translations/pt-BR.json'
@@ -29,6 +30,7 @@ const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLIC_ANON_KEY
 const mistralApiKey = import.meta.env.VITE_MISTRAL_AI_API_KEY
+const notionApiKey = import.meta.env.VITE_NOTION_API_KEY
 const tolgeeUrl = import.meta.env.VITE_TOLGEE_URL
 const tolgeeApiKey = import.meta.env.VITE_TOLGEE_API_KEY
 
@@ -107,6 +109,10 @@ if (globalConfig.env.isSupabaseEnabled)
 
 // Mistral AI
 if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
+
+// Notion
+if (globalConfig.env.isNotionEnabled && notionApiKey !== undefined)
+  initNotion(notionApiKey)
 
 // Tolgee
 const tolgee = initTolgee(tolgeeUrl, tolgeeApiKey, globalConfig.lang, {

@@ -89,9 +89,14 @@ div.export-palette__preview {
   display: inline-flex;
   flex: 1;
   flex-direction: column;
-  overflow: visible;
-  min-width: 100%;
   width: fit-content;
+  min-width: 100%;
+  overflow: visible;
+}
+
+.preview__rows--free {
+  width: 100%;
+  overflow: hidden;
 }
 
 .preview__row {
@@ -99,20 +104,24 @@ div.export-palette__preview {
   flex: 1;
 }
 
+.preview__row--free {
+  overflow: hidden;
+}
+
 .preview__header {
   display: inline-flex;
   position: sticky;
   top: 0;
   z-index: 5;
-  min-width: 100%;
   width: fit-content;
+  min-width: 100%;
 }
 
 .preview__footer {
   display: inline-flex;
   padding: 0 0 var(--size-pos-xxsmall) 0;
-  min-width: 100%;
   width: fit-content;
+  min-width: 100%;
 }
 
 :root[data-theme='figma'] .preview__header .preview__cell,
@@ -166,8 +175,12 @@ div.export-palette__preview {
   position: sticky;
   left: 0;
   z-index: 4;
-  min-width: 96px;
-  max-width: 148px;
+  width: 96px;
+}
+
+.preview__cell--free {
+  min-width: unset;
+  overflow: hidden;
 }
 
 .preview__cell__stack {
@@ -188,7 +201,6 @@ div.export-palette__preview {
   display: grid;
   grid-template-rows: repeat(4, minmax(0, auto));
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
   gap: var(--size-pos-xxsmall) var(--size-pos-xxsmall);
   padding: var(--size-pos-xxsmall) 0;
 }

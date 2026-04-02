@@ -23,9 +23,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
 
 interface ShortcutsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
@@ -46,7 +44,10 @@ interface ShortcutsState {
   isUserMenuLoading: boolean
 }
 
-export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsState> {
+export default class Shortcuts extends PureComponent<
+  ShortcutsProps,
+  ShortcutsState
+> {
   private theme: string | null
 
   static features = (
@@ -415,12 +416,6 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                               type: 'TITLE' as const,
                               action: () => null,
                             },
-                          ]
-                        : []),
-
-                      ...(this.props.userSession.connectionStatus ===
-                      'CONNECTED'
-                        ? [
                             {
                               label: this.props.t('user.signOut'),
                               type: 'OPTION' as const,
@@ -476,6 +471,9 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                                     )
                                   })
                               },
+                            },
+                            {
+                              type: 'SEPARATOR' as const,
                             },
                           ]
                         : [
@@ -556,9 +554,6 @@ export default class Shortcuts extends PureComponent<ShortcutsProps, ShortcutsSt
                               },
                             },
                           ]),
-                      {
-                        type: 'SEPARATOR' as const,
-                      },
                       {
                         label: this.props.t('user.updateConsent'),
                         type: 'OPTION' as const,

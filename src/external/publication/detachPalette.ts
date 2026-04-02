@@ -1,25 +1,27 @@
 import { uid } from 'uid'
 import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { ManagePaletteState } from '../../ui/services/ManagePalette'
 import type { AppState } from '../../ui/App'
 
 const detachPalette = async ({
-  rawData,
+  paletteData,
   locales,
 }: {
-  rawData: Partial<AppState>
+  paletteData: Partial<ManagePaletteState>
+  appData: Partial<AppState>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locales: (key: string, params?: Record<string, any> | undefined) => string
-}): Promise<Partial<AppState>> => {
+}): Promise<Partial<ManagePaletteState & AppState>> => {
   const now = new Date().toISOString()
 
   const meta: MetaConfiguration = {
-    id: rawData.id ?? uid(),
+    id: paletteData.id ?? uid(),
     dates: {
-      createdAt: rawData.dates?.createdAt ?? now,
-      updatedAt: rawData.dates?.updatedAt ?? now,
+      createdAt: paletteData.dates?.createdAt ?? now,
+      updatedAt: paletteData.dates?.updatedAt ?? now,
       publishedAt: '',
-      openedAt: rawData.dates?.openedAt ?? now,
+      openedAt: paletteData.dates?.openedAt ?? now,
     },
     publicationStatus: {
       isPublished: false,
@@ -48,7 +50,7 @@ const detachPalette = async ({
     {
       pluginMessage: {
         type: 'DUPLICATE_PALETTE',
-        id: rawData.id,
+        id: paletteData.id,
       },
     },
     '*'
@@ -57,7 +59,7 @@ const detachPalette = async ({
     {
       pluginMessage: {
         type: 'DELETE_PALETTE',
-        id: rawData.id,
+        id: paletteData.id,
       },
     },
     '*'

@@ -1,5 +1,6 @@
 import { Feature } from '@unoff/utils'
 import { Config } from './types/config'
+import { Service } from './types/app'
 import { doSpecificMode } from './stores/features'
 
 declare const __PLATFORM__: 'figma' | 'penpot' | 'sketch' | 'framer'
@@ -27,14 +28,15 @@ interface SpecConfig {
             | 'framer-light'
             | 'framer-dark'
         }
-        features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
+        features: Array<Feature<Service>>
       }
     }
   }
 }
 
 const proFeatures = [
-  'LOCAL_PALETTES',
+  'CREATE_PALETTE',
+  'DOCUMENT_CREATE',
   'SYNC_LOCAL_STYLES',
   'SYNC_LOCAL_VARIABLES',
   'USER_PREFERENCES_SYNC_DEEP_STYLES',
@@ -44,7 +46,6 @@ const proFeatures = [
   'PREVIEW_SCORES_APCA_INTERVAL',
   'PREVIEW_FILTER_WCAG',
   'PREVIEW_FILTER_APCA',
-  'PREVIEW_SHADE_REPORT',
   'DOCUMENT_PALETTE',
   'DOCUMENT_PALETTE_PROPERTIES',
   'DOCUMENT_SHEET',
@@ -52,15 +53,14 @@ const proFeatures = [
   'VIEWS_PALETTE',
   'VIEWS_PALETTE_WITH_PROPERTIES',
   'VIEWS_SHEET',
-  'SOURCE',
-  'SOURCE_COOLORS_ADD',
-  'SOURCE_REALTIME_COLORS_ADD',
-  'SOURCE_EXPLORE_ADD',
-  'SOURCE_AI_REQUEST',
-  'SOURCE_IMAGE_UPLOAD',
-  'SOURCE_HARMONY_BASE',
-  'SOURCE_HARMONY_ADD',
-  'SOURCE_EXPLORE_ADD',
+  'IMPORTS_COOLORS_ADD',
+  'IMPORTS_REALTIME_COLORS_ADD',
+  'EXPLORE_ADD',
+  'GEN_REQUEST',
+  'EXTRACT_UPLOAD',
+  'WHEEL_BASE',
+  'WHEEL_ADD',
+  'EXPLORE_ADD',
   'PRESETS_MATERIAL',
   'PRESETS_MATERIAL_3',
   'PRESETS_TAILWIND',
@@ -87,15 +87,6 @@ const proFeatures = [
   'COLORS_CHROMA_SHIFTING',
   'COLORS_ALPHA',
   'COLORS_BACKGROUND_COLOR',
-  'EXPORT_STYLESHEET_SCSS',
-  'EXPORT_STYLESHEET_LESS',
-  'EXPORT_TAILWIND_V3',
-  'EXPORT_TAILWIND_V4',
-  'EXPORT_APPLE_SWIFTUI',
-  'EXPORT_APPLE_UIKIT',
-  'EXPORT_ANDROID_COMPOSE',
-  'EXPORT_ANDROID_XML',
-  'EXPORT_CSV',
   'SETTINGS_COLOR_SPACE_OKLCH',
   'SETTINGS_COLOR_SPACE_LAB',
   'SETTINGS_COLOR_SPACE_OKLAB',
@@ -112,6 +103,16 @@ const proFeatures = [
   'SETTINGS_ALGORITHM_V1',
   'SETTINGS_ALGORITHM_V2',
   'SETTINGS_TEXT_COLORS_THEME',
+  'EXPORT_STYLESHEET_SCSS',
+  'EXPORT_STYLESHEET_LESS',
+  'EXPORT_TAILWIND_V3',
+  'EXPORT_TAILWIND_V4',
+  'EXPORT_APPLE_SWIFTUI',
+  'EXPORT_APPLE_UIKIT',
+  'EXPORT_ANDROID_COMPOSE',
+  'EXPORT_ANDROID_XML',
+  'EXPORT_CSV',
+  'REPORT',
   'HELP_EMAIL',
 ]
 
@@ -274,6 +275,7 @@ const globalConfig: Config = {
     isMixpanelEnabled: import.meta.env.VITE_MIXPANEL_ENABLED === 'true',
     isSentryEnabled: import.meta.env.VITE_SENTRY_ENABLED === 'true',
     isMistralAiEnabled: import.meta.env.VITE_MISTRAL_AI_ENABLED === 'true',
+    isNotionEnabled: import.meta.env.VITE_NOTION_ENABLED === 'true',
     announcementsDbId: import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID as string,
     onboardingDbId: import.meta.env.VITE_NOTION_ONBOARDING_ID as string,
     pluginId: '123456789',
@@ -344,6 +346,7 @@ const globalConfig: Config = {
     imageColorsExtract: 50,
     harmonyCreate: 50,
     aiColorsGenerate: 50,
+    paletteCreate: 100,
     paletteGenerate: 150,
     paletteWithPropsGenerate: 200,
     sheetGenerate: 250,
@@ -354,8 +357,6 @@ const globalConfig: Config = {
 }
 
 const limitsMapping: { [key: string]: keyof typeof globalConfig.limits } = {
-  LOCAL_PALETTES: 'localPalettes',
-  SOURCE: 'sourceColors',
   COLORS: 'sourceColors',
   PRESETS_CUSTOM_ADD: 'customStops',
 }

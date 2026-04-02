@@ -1,11 +1,9 @@
-import type { DropdownOption } from '@unoff/ui'
+import type { DropdownOption, IconList } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import FileSaver from 'file-saver'
-import * as fflate from 'fflate'
-import { Case, doClassnames, FeatureStatus } from '@unoff/utils'
+import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
-import { Bar, Button, Dropdown, FormItem, layouts, Tabs } from '@unoff/ui'
+import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -15,22 +13,22 @@ import {
   ColorSpaceConfiguration,
   DatesConfiguration,
   DocumentConfiguration,
-  ExportConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   ThemeConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
-  BaseConfiguration,
-  Data,
-  Code,
+  PublicationConfiguration,
+  CreatorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
 import Themes from '../contexts/Themes'
 import Settings from '../contexts/Settings'
 import Scale from '../contexts/Scale'
-import Export from '../contexts/Export'
+import Imports from '../contexts/Imports'
 import Colors from '../contexts/Colors'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -50,6 +48,7 @@ import {
   PlanStatus,
   Service,
   Editor,
+  Mode,
 } from '../../types/app'
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette } from '../../stores/palette'
@@ -60,12 +59,10 @@ import {
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
-import type { AppState } from '../App'
 
 interface EditPaletteProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  mode: Mode
   id: string
   name: string
   description: string
@@ -82,25 +79,26 @@ interface EditPaletteProps
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   document: DocumentConfiguration
   dates: DatesConfiguration
-  onChangeScale: React.Dispatch<Partial<AppState>>
-  onChangePreset: React.Dispatch<Partial<AppState>>
-  onChangeDistributionEasing: React.Dispatch<Partial<AppState>>
-  onChangeColors: React.Dispatch<Partial<AppState>>
-  onChangeThemes: React.Dispatch<Partial<AppState>>
-  onChangeSettings: React.Dispatch<Partial<AppState>>
-  onPublishPalette: React.Dispatch<Partial<AppState>>
-  onLockSourceColors: React.Dispatch<Partial<AppState>>
+  publicationStatus: PublicationConfiguration
+  creatorIdentity: CreatorConfiguration
+  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
+  onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
+  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
+  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onLockSourceColors: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
-  onChangeDocument: React.Dispatch<Partial<AppState>>
+  onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
 }
 
 interface EditPaletteState {
   context: Context | ''
-  export: ExportConfiguration
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
-  isCodeCopied: boolean
 }
 
 export default class EditPalette extends PureComponent<
@@ -121,13 +119,6 @@ export default class EditPalette extends PureComponent<
     service: Service,
     editor: Editor
   ) => ({
-    THEMES: new FeatureStatus({
-      features: config.features,
-      featureName: 'THEMES',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     ACTIONS: new FeatureStatus({
       features: config.features,
       featureName: 'ACTIONS',
@@ -138,6 +129,48 @@ export default class EditPalette extends PureComponent<
     PREVIEW: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SCALE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    THEMES: new FeatureStatus({
+      features: config.features,
+      featureName: 'THEMES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    IMPORTS: new FeatureStatus({
+      features: config.features,
+      featureName: 'IMPORTS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PUBLICATION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -167,7 +200,7 @@ export default class EditPalette extends PureComponent<
       data: [],
     }
     this.contexts = setContexts(
-      ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
+      ['SCALE', 'COLORS', 'THEMES', 'IMPORTS', 'SETTINGS'],
       props.planStatus,
       props.config.features,
       props.editor,
@@ -176,29 +209,8 @@ export default class EditPalette extends PureComponent<
     )
     this.state = {
       context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
-      export: {
-        format: 'JSON',
-        context: 'TOKENS_NATIVE',
-        mimeType: 'application/json',
-        data: new Code(
-          new Data({
-            base: {
-              name: this.props.name,
-              description: this.props.description,
-              preset: this.props.preset,
-              shift: this.props.shift,
-              areSourceColorsLocked: this.props.areSourceColorsLocked,
-              colors: this.props.colors,
-              colorSpace: this.props.colorSpace,
-              algorithmVersion: this.props.algorithmVersion,
-            } as BaseConfiguration,
-            themes: this.props.themes,
-          }).makePaletteData()
-        ).makeNativeTokens(),
-      },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
-      isCodeCopied: false,
     }
     this.themesRef = React.createRef()
     this.previewRef = React.createRef()
@@ -216,7 +228,7 @@ export default class EditPalette extends PureComponent<
   componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
     if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
-        ['SCALE', 'COLORS', 'THEMES', 'EXPORT', 'SETTINGS'],
+        ['SCALE', 'COLORS', 'THEMES', 'SETTINGS'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
@@ -253,21 +265,6 @@ export default class EditPalette extends PureComponent<
     return actions[path.type ?? 'DEFAULT']?.()
   }
 
-  navHandler = (e: Event) => {
-    const newContext = (e.currentTarget as HTMLElement).dataset
-      .feature as Context
-
-    this.setState({
-      context: newContext,
-    })
-
-    if (newContext === 'EXPORT') this.forceCollapsePreview()
-  }
-
-  forceCollapsePreview = () => {
-    if (this.previewRef.current) this.previewRef.current.forceCollapseDrawer()
-  }
-
   switchThemeHandler = (e: Event) => {
     this.themesMessage.data = this.props.themes.map((theme) => {
       if ((e.target as HTMLElement).dataset.value === theme.id)
@@ -297,7 +294,6 @@ export default class EditPalette extends PureComponent<
       themes: this.themesMessage.data,
       visionSimulationMode: newVisionSimulationMode,
       textColorsTheme: newTextColorsTheme,
-      onGoingStep: 'themes changed',
     })
   }
 
@@ -309,7 +305,6 @@ export default class EditPalette extends PureComponent<
         if (theme.isEnabled) theme.scale = this.palette.get().scale
         return theme
       }),
-      onGoingStep: 'scale changed',
     })
   }
 
@@ -364,7 +359,6 @@ export default class EditPalette extends PureComponent<
       this.props.onChangeColors({
         shift: shift,
         colors: this.colorsMessage.data,
-        onGoingStep: 'colors changed',
       })
     }
 
@@ -539,6 +533,71 @@ export default class EditPalette extends PureComponent<
     return actions[currentElement.dataset.feature ?? 'DEFAULT']?.()
   }
 
+  publicationAction = (): Partial<DropdownOption> => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return {
+        label: this.props.t('actions.publishOrSyncPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_SYNC_PALETTE',
+      }
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return {
+        label: this.props.t('actions.publishPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_PALETTE',
+      }
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return {
+        label: this.props.t('actions.syncPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'SYNC_PALETTE',
+      }
+    else
+      return {
+        label: this.props.t('actions.publishPalette'),
+        value: 'PALETTE_PUBLICATION',
+        feature: 'PUBLISH_PALETTE',
+      }
+  }
+
+  publicationLabel = (): string => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return this.props.t('actions.publishOrSyncPalette')
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return this.props.t('actions.publishPalette')
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return this.props.t('actions.syncPalette')
+    else return this.props.t('actions.publishPalette')
+  }
+
+  publicationIcon = (): IconList => {
+    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
+      return 'library'
+    else if (
+      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
+    )
+      return 'library'
+    else if (
+      this.props.userSession?.userId !==
+        this.props.creatorIdentity?.creatorId &&
+      this.props.creatorIdentity?.creatorId !== ''
+    )
+      return 'swap'
+    else return 'library'
+  }
+
   // Direct Actions
   onSyncStyles = () => {
     this.setState({
@@ -594,10 +653,6 @@ export default class EditPalette extends PureComponent<
         feature: 'SYNC_VARIABLES',
       }
     )
-  }
-
-  onPublishPalette = () => {
-    this.props.onPublishPalette({ modalContext: 'PUBLICATION' })
   }
 
   onChangeView = (
@@ -675,135 +730,6 @@ export default class EditPalette extends PureComponent<
       })
   }
 
-  onExport = () => {
-    const blob = new Blob([this.state.export.data], {
-      type: this.state.export.mimeType,
-    })
-    if (this.state.export.mimeType === 'text/csv') {
-      const zipEntries: Record<string, Uint8Array> = {}
-      const encoder = new TextEncoder()
-
-      this.state.export.data.forEach(
-        (theme: {
-          name: string
-          type: string
-          colors: Array<{ name: string; csv: string }>
-        }) => {
-          if (theme.type !== 'default theme')
-            theme.colors.forEach((color) => {
-              const fileName = `${theme.name}/${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
-            })
-          else
-            theme.colors.forEach((color) => {
-              const fileName = `${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
-            })
-        }
-      )
-
-      const zipData = fflate.zipSync(zipEntries)
-      const zipBlob = new Blob([new Uint8Array(zipData)], {
-        type: 'application/zip',
-      })
-
-      FileSaver.saveAs(
-        zipBlob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.zip`
-      )
-    } else if (this.state.export.context === 'TAILWIND_V3')
-      FileSaver.saveAs(blob, 'tailwind.config.js')
-    else if (this.state.export.context === 'TAILWIND_V4')
-      FileSaver.saveAs(blob, 'tailwind.theme.css')
-    else if (this.state.export.format === 'SWIFT')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.swift`
-      )
-    else if (this.state.export.mimeType === 'text/x-kotlin')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.kt`
-      )
-    else if (this.state.export.mimeType === 'text/x-scss')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.scss`
-      )
-    else if (this.state.export.mimeType === 'text/x-less')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.less`
-      )
-    else
-      FileSaver.saveAs(
-        blob,
-        this.props.name === ''
-          ? new Case(this.props.t('name')).doSnakeCase()
-          : new Case(this.props.name).doSnakeCase()
-      )
-  }
-
-  onCopyCode = () => {
-    if (!this.state.export.data) return
-
-    try {
-      const textarea = document.createElement('textarea')
-      textarea.value = this.state.export.data
-
-      textarea.style.position = 'absolute'
-      textarea.style.left = '-9999px'
-      textarea.style.top = '0'
-      textarea.setAttribute('readonly', '')
-
-      document.body.appendChild(textarea)
-
-      textarea.select()
-
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
-
-      this.setState({ isCodeCopied: true })
-      setTimeout(() => {
-        this.setState({ isCodeCopied: false })
-      }, 2000)
-    } catch (error) {
-      console.error(error)
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'POST_MESSAGE',
-            data: {
-              style: 'WARNING',
-              message: this.props.t('warning.uncopiedCode'),
-            },
-          },
-        },
-        '*'
-      )
-    }
-  }
-
   setThemes = (): Array<DropdownOption> => {
     const themes = this.workingThemes().map((theme) => {
       return {
@@ -818,9 +744,13 @@ export default class EditPalette extends PureComponent<
       } as DropdownOption
     })
     const actions: Array<DropdownOption> = [
-      {
-        type: 'SEPARATOR',
-      },
+      ...(this.features.THEMES.isActive()
+        ? [
+            {
+              type: 'SEPARATOR' as const,
+            },
+          ]
+        : []),
       {
         label: this.props.t('themes.callout.cta'),
         feature: 'ADD_THEME',
@@ -866,148 +796,266 @@ export default class EditPalette extends PureComponent<
   // Render
   render() {
     let fragment
-    let isFlex = true
-
-    switch (this.theme) {
-      case 'figma':
-        isFlex = false
-        break
-      case 'penpot':
-        isFlex = true
-        break
-      case 'sketch':
-        isFlex = false
-        break
-      case 'framer':
-        isFlex = true
-        break
-      default:
-        isFlex = false
-    }
 
     switch (this.state.context) {
       case 'SCALE': {
         fragment = (
-          <Scale
-            {...this.props}
-            service="EDIT"
-            onChangeScale={this.slideHandler}
-            onChangeShift={this.shiftHandler}
-          />
+          <Feature isActive={this.features.SCALE.isActive()}>
+            <Scale
+              {...this.props}
+              onChangeScale={this.slideHandler}
+              onChangeShift={this.shiftHandler}
+            />
+          </Feature>
         )
         break
       }
       case 'COLORS': {
-        fragment = <Colors {...this.props} />
+        fragment = (
+          <Feature isActive={this.features.COLORS.isActive()}>
+            <Colors {...this.props} />
+          </Feature>
+        )
         break
       }
       case 'THEMES': {
         fragment = (
-          <Themes
-            {...this.props}
-            ref={this.themesRef}
-          />
+          <Feature isActive={this.features.THEMES.isActive()}>
+            <Themes
+              {...this.props}
+              ref={this.themesRef}
+            />
+          </Feature>
         )
         break
       }
-      case 'EXPORT': {
+      case 'IMPORTS': {
         fragment = (
-          <Export
-            {...this.props}
-            context={this.state.export.context}
-            code={this.state.export.data}
-            isCodeCopied={this.state.isCodeCopied}
-            onChangeExport={(exp) => {
-              this.setState({
-                export: exp.export,
-              })
-            }}
-            onCopyCode={this.onCopyCode}
-          />
+          <Feature isActive={this.features.IMPORTS.isActive()}>
+            <Imports {...this.props} />
+          </Feature>
         )
         break
       }
       case 'SETTINGS': {
         fragment = (
-          <Settings
-            {...this.props}
-            service="EDIT"
-          />
+          <Feature isActive={this.features.SETTINGS.isActive()}>
+            <Settings {...this.props} />
+          </Feature>
         )
         break
       }
     }
+
     return (
       <>
-        <Bar
-          leftPartSlot={
-            <div
-              className={doClassnames([
-                layouts['snackbar--tight'],
-                isFlex && 'patch-2',
-              ])}
-            >
-              <Button
-                type="icon"
-                icon="back"
-                helper={{
-                  label: this.props.t('contexts.back'),
-                }}
-                action={this.props.onUnloadPalette}
-              />
-              <Tabs
-                tabs={this.contexts}
-                active={this.state.context ?? ''}
-                isFlex={isFlex}
-                maxVisibleTabs={3}
-                action={this.navHandler}
-              />
-            </div>
-          }
-          rightPartSlot={
-            <Feature isActive={this.features.THEMES.isActive()}>
-              <FormItem
-                id="switch-theme"
-                label={this.props.t('themes.switchTheme.label')}
-                shouldFill={false}
-              >
-                <Dropdown
-                  id="switch-theme"
-                  options={this.setThemes()}
-                  selected={
-                    this.props.themes.find((theme) => theme.isEnabled)?.id
-                  }
-                  alignment="RIGHT"
-                  pin="TOP"
-                />
-              </FormItem>
-            </Feature>
-          }
-          border={['BOTTOM']}
-        />
-        <section className="context">{fragment}</section>
-        <Feature isActive={this.features.PREVIEW.isActive()}>
-          <Preview
-            {...this.props}
-            service="EDIT"
-            onInteractWithSourceColor={() => this.onJumpToSourceColor()}
-            ref={this.previewRef}
-          />
-        </Feature>
         <Feature isActive={this.features.ACTIONS.isActive()}>
           <Actions
             {...this.props}
             {...this.state}
-            service={this.state.context === 'EXPORT' ? 'SEE' : 'EDIT'}
-            format={this.state.export.format}
+            mode="EDIT"
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
-            onPublishPalette={this.onPublishPalette}
             onGenerateDocument={this.documentHandler}
             onChangeView={this.onChangeView}
-            onExportPalette={this.onExport}
           />
         </Feature>
+        <Layout
+          id="edit-palette"
+          column={[
+            {
+              node: (
+                <Feature isActive={this.features.PREVIEW.isActive()}>
+                  <Preview
+                    {...this.props}
+                    themeOptions={this.setThemes()}
+                    onInteractWithSourceColor={() => this.onJumpToSourceColor()}
+                    ref={this.previewRef}
+                  />
+                </Feature>
+              ),
+              typeModifier: 'BLANK',
+            },
+            ...(this.state.context !== ''
+              ? [
+                  {
+                    node: <section className="context">{fragment}</section>,
+                    typeModifier: 'DRAWER' as const,
+                    drawerOptions: {
+                      minSize: {
+                        value: 200,
+                        unit: 'PIXEL' as const,
+                      },
+                      defaultSize: {
+                        value: 360,
+                        unit: 'PIXEL' as const,
+                      },
+                      maxSize: {
+                        value: 400,
+                        unit: 'PIXEL' as const,
+                      },
+                      pin: 'RIGHT' as const,
+                      direction: 'HORIZONTAL' as const,
+                    },
+                  },
+                ]
+              : []),
+            {
+              node: (
+                <Bar
+                  id="contexts-nav"
+                  leftPartSlot={
+                    <div className={layouts['stackbar--medium']}>
+                      <Feature isActive={this.features.SCALE.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="adjust"
+                          state={
+                            this.state.context === 'SCALE'
+                              ? 'selected'
+                              : undefined
+                          }
+                          helper={{
+                            label: this.props.t('contexts.scale'),
+                          }}
+                          action={() =>
+                            this.setState({
+                              context:
+                                this.state.context === 'SCALE' ? '' : 'SCALE',
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.COLORS.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="eyedropper"
+                          state={
+                            this.state.context === 'COLORS'
+                              ? 'selected'
+                              : undefined
+                          }
+                          helper={{
+                            label: this.props.t('contexts.colors'),
+                          }}
+                          action={() =>
+                            this.setState({
+                              context:
+                                this.state.context === 'COLORS' ? '' : 'COLORS',
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.THEMES.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="theme"
+                          state={
+                            this.state.context === 'THEMES'
+                              ? 'selected'
+                              : undefined
+                          }
+                          helper={{
+                            label: this.props.t('contexts.themes'),
+                          }}
+                          action={() =>
+                            this.setState({
+                              context:
+                                this.state.context === 'THEMES' ? '' : 'THEMES',
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.IMPORTS.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="import"
+                          state={
+                            this.state.context === 'IMPORTS'
+                              ? 'selected'
+                              : undefined
+                          }
+                          helper={{
+                            label: this.props.t('contexts.imports'),
+                          }}
+                          action={() =>
+                            this.setState({
+                              context:
+                                this.state.context === 'IMPORTS'
+                                  ? ''
+                                  : 'IMPORTS',
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.SETTINGS.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="settings"
+                          state={
+                            this.state.context === 'SETTINGS'
+                              ? 'selected'
+                              : undefined
+                          }
+                          helper={{
+                            label: this.props.t('contexts.settings'),
+                          }}
+                          action={() =>
+                            this.setState({
+                              context:
+                                this.state.context === 'SETTINGS'
+                                  ? ''
+                                  : 'SETTINGS',
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Feature isActive={this.features.PUBLICATION.isActive()}>
+                        <Button
+                          type="icon"
+                          icon={this.publicationIcon()}
+                          helper={{
+                            label: this.publicationLabel(),
+                          }}
+                          isNew={
+                            this.props.publicationStatus.isPublished &&
+                            this.props.dates.publishedAt !==
+                              this.props.dates.updatedAt
+                          }
+                          action={() =>
+                            this.props.onPublishPalette?.({
+                              canBePublished: true,
+                            })
+                          }
+                        />
+                      </Feature>
+                      <Button
+                        type="icon"
+                        icon="visible"
+                        state={
+                          this.state.context === '' ? 'selected' : undefined
+                        }
+                        helper={{
+                          label: this.props.t('contexts.hide'),
+                        }}
+                        action={() =>
+                          this.setState({
+                            context: '',
+                          })
+                        }
+                      />
+                    </div>
+                  }
+                  isVertical
+                />
+              ),
+              typeModifier: ['FIXED', 'BLANK'],
+              fixedWidth: 'var(--bar-min-height)',
+            },
+          ]}
+          isFullHeight
+          isFullWidth
+        />
       </>
     )
   }

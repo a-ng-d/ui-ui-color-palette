@@ -34,9 +34,7 @@ import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface OrgPalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -59,7 +57,10 @@ interface OrgPalettesState {
   seenPaletteId: string
 }
 
-export default class OrgPalettes extends PureComponent<OrgPalettesProps, OrgPalettesState> {
+export default class OrgPalettes extends PureComponent<
+  OrgPalettesProps,
+  OrgPalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -90,6 +91,13 @@ export default class OrgPalettes extends PureComponent<OrgPalettesProps, OrgPale
     GLANCE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'GLANCE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -436,8 +444,11 @@ export default class OrgPalettes extends PureComponent<OrgPalettesProps, OrgPale
                           isEnabled: true,
                           icon: 'plus',
                         }}
-                        isBlocked={this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesList.length
+                        isBlocked={this.features.CREATE_PALETTE.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.paletteCreate) *
+                            -1 -
+                            1
                         )}
                         action={() => {
                           this.setState({

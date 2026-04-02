@@ -36,9 +36,7 @@ import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface StarredPalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -94,6 +92,13 @@ export default class StarredPalettes extends PureComponent<
     STAR_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'STAR_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -573,8 +578,11 @@ export default class StarredPalettes extends PureComponent<
                           isEnabled: true,
                           icon: 'plus',
                         }}
-                        isBlocked={this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesList.length
+                        isBlocked={this.features.CREATE_PALETTE.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.paletteCreate) *
+                            -1 -
+                            1
                         )}
                         action={() => {
                           this.setState({

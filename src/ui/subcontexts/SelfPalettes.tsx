@@ -37,9 +37,7 @@ import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface SelfPalettesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   context: Context
   localPalettesList: Array<FullConfiguration>
   currentPage: number
@@ -60,7 +58,10 @@ interface SelfPalettesState {
   isContextActionLoading: Array<boolean>
 }
 
-export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfPalettesState> {
+export default class SelfPalettes extends PureComponent<
+  SelfPalettesProps,
+  SelfPalettesState
+> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -70,6 +71,13 @@ export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfP
     LOCAL_PALETTES: new FeatureStatus({
       features: config.features,
       featureName: 'LOCAL_PALETTES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -235,8 +243,6 @@ export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfP
     } else this.props.onChangeStatus('ERROR')
   }
 
-  onSelectPalette = this.props.onSelectPalette
-
   // Templates
   ExternalPalettesList = () => {
     let fragment
@@ -366,8 +372,10 @@ export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfP
                                 ),
                             })
                             unpublishPalette({
-                              rawData: {
+                              paletteData: {
                                 id: palette.palette_id,
+                              },
+                              appData: {
                                 userSession: this.props.userSession,
                               },
                               palettesDbTableName:
@@ -558,8 +566,11 @@ export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfP
                         isEnabled: true,
                         icon: 'plus',
                       }}
-                      isBlocked={this.features.LOCAL_PALETTES.isReached(
-                        this.props.localPalettesList.length
+                      isBlocked={this.features.CREATE_PALETTE.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.paletteCreate) *
+                          -1 -
+                          1
                       )}
                       action={() => {
                         this.setState({
@@ -567,7 +578,8 @@ export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfP
                             'isAddToLocalActionLoading'
                           ].map((loading, i) => (i === index ? true : loading)),
                         })
-                        this.onSelectPalette(palette.palette_id)
+                        this.props
+                          .onSelectPalette(palette.palette_id)
                           .finally(() => {
                             this.setState({
                               isAddToLocalActionLoading: Array(

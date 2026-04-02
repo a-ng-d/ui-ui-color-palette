@@ -1,7 +1,7 @@
 import { Feature } from '@unoff/utils'
 import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Language } from './translations'
-import { Editor } from './app'
+import { Editor, Service } from './app'
 
 export interface Config {
   limits: {
@@ -32,6 +32,7 @@ export interface Config {
     isMixpanelEnabled: boolean
     isSentryEnabled: boolean
     isMistralAiEnabled: boolean
+    isNotionEnabled: boolean
     announcementsDbId: string
     onboardingDbId: string
     readonly pluginId: string
@@ -89,7 +90,7 @@ export interface Config {
     readonly pluginVersion: string
     readonly creditsVersion: string
   }
-  features: Array<Feature<'BROWSE' | 'CREATE' | 'EDIT' | 'SEE'>>
+  features: Array<Feature<Service>>
   lang: Language
   fees: {
     colourLoversImport: number
@@ -98,6 +99,7 @@ export interface Config {
     imageColorsExtract: number
     harmonyCreate: number
     aiColorsGenerate: number
+    paletteCreate: number
     paletteGenerate: number
     paletteWithPropsGenerate: number
     sheetGenerate: number

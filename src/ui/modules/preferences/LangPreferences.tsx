@@ -9,21 +9,19 @@ import {
   SimpleItem,
 } from '@unoff/ui'
 import { TolgeeInstance, useTolgee } from '@tolgee/react'
-import { WithTranslationProps } from '../components/WithTranslation'
-import { WithConfigProps } from '../components/WithConfig'
-import Feature from '../components/Feature'
-import { sendPluginMessage } from '../../utils/pluginMessage'
-import { Language } from '../../types/translations'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
-import { updatePresets } from '../../stores/presets'
-import { updateUserConsent } from '../../stores/consent'
-import { trackLanguageEvent } from '../../external/tracking/eventsTracker'
-import { ConfigContextType } from '../../config/ConfigContext'
+import { WithTranslationProps } from '../../components/WithTranslation'
+import { WithConfigProps } from '../../components/WithConfig'
+import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { Language } from '../../../types/translations'
+import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { updatePresets } from '../../../stores/presets'
+import { updateUserConsent } from '../../../stores/consent'
+import { trackLanguageEvent } from '../../../external/tracking/eventsTracker'
+import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface LangPreferencesProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   isLast?: boolean
 }
 
@@ -200,6 +198,7 @@ export default class LangPreferences extends PureComponent<
                     selected={tolgee.getLanguage() as Language}
                     isBlocked={this.features.USER_LANGUAGE.isBlocked()}
                     isNew={this.features.USER_LANGUAGE.isNew()}
+                    isFill
                   />
                 </FormItem>
               ),

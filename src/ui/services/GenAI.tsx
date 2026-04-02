@@ -20,53 +20,58 @@ import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import {
-  BaseProps,
-  Context,
-  Editor,
-  PlanStatus,
-  Service,
-} from '../../types/app'
+import { AppState } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
-import { trackImportEvent } from '../../external/tracking/eventsTracker'
+import {
+  trackActionEvent,
+  trackImportEvent,
+} from '../../external/tracking/eventsTracker'
 import { getMistral, MistralColorPalette } from '../../external/mistral'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface GenAiProps extends BaseProps, WithConfigProps, WithTranslationProps {
-  sourceColors: Array<SourceColorConfiguration>
   creditsCount: number
-  onChangeColorsFromImport: (
-    colors: Array<SourceColorConfiguration>,
-    source: SourceColorConfiguration['source']
-  ) => void
-  onChangeContexts: (context: Context) => void
+  onChangeService: React.Dispatch<Partial<AppState>>
 }
 
 interface GenAiState {
   prompt: string
-  isLoading: boolean
+  isRequestProcessing: boolean
+  isActionLoading?: boolean
   error: string | null
   generatedPalette: MistralColorPalette | null
   previewPrompt: string | null
 }
 
 export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
+  private palette = $palette
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
     service: Service,
     editor: Editor
   ) => ({
-    SOURCE_AI_ADD: new FeatureStatus({
+    GEN_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_AI_ADD',
+      featureName: 'GEN_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    SOURCE_AI_REQUEST: new FeatureStatus({
+    GEN_REQUEST: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE_AI_REQUEST',
+      featureName: 'GEN_REQUEST',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    CREATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'CREATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -84,9 +89,11 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
 
   constructor(props: GenAiProps) {
     super(props)
+    this.palette = $palette
     this.state = {
       prompt: '',
-      isLoading: false,
+      isRequestProcessing: false,
+      isActionLoading: false,
       error: null,
       generatedPalette: null,
       previewPrompt: null,
@@ -99,67 +106,65 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       vibes: [
         {
           key: 'cyberpunk',
-          label: this.props.t('source.genAi.form.presets.labels.cyberpunk'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.cyberpunk'),
+          label: this.props.t('genAi.form.presets.labels.cyberpunk'),
+          prompt: this.props.t('genAi.form.presets.vibes.cyberpunk'),
         },
         {
           key: 'minimalist',
-          label: this.props.t('source.genAi.form.presets.labels.minimalist'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.minimalist'),
+          label: this.props.t('genAi.form.presets.labels.minimalist'),
+          prompt: this.props.t('genAi.form.presets.vibes.minimalist'),
         },
         {
           key: 'pastel',
-          label: this.props.t('source.genAi.form.presets.labels.pastel'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.pastel'),
+          label: this.props.t('genAi.form.presets.labels.pastel'),
+          prompt: this.props.t('genAi.form.presets.vibes.pastel'),
         },
         {
           key: 'corporate',
-          label: this.props.t('source.genAi.form.presets.labels.corporate'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.corporate'),
+          label: this.props.t('genAi.form.presets.labels.corporate'),
+          prompt: this.props.t('genAi.form.presets.vibes.corporate'),
         },
         {
           key: 'nature',
-          label: this.props.t('source.genAi.form.presets.labels.nature'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.nature'),
+          label: this.props.t('genAi.form.presets.labels.nature'),
+          prompt: this.props.t('genAi.form.presets.vibes.nature'),
         },
         {
           key: 'vintage',
-          label: this.props.t('source.genAi.form.presets.labels.vintage'),
-          prompt: this.props.t('source.genAi.form.presets.vibes.vintage'),
+          label: this.props.t('genAi.form.presets.labels.vintage'),
+          prompt: this.props.t('genAi.form.presets.vibes.vintage'),
         },
       ],
       usecases: [
         {
           key: 'landing',
-          label: this.props.t('source.genAi.form.presets.labels.landing'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.landing'),
+          label: this.props.t('genAi.form.presets.labels.landing'),
+          prompt: this.props.t('genAi.form.presets.usecases.landing'),
         },
         {
           key: 'blog',
-          label: this.props.t('source.genAi.form.presets.labels.blog'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.blog'),
+          label: this.props.t('genAi.form.presets.labels.blog'),
+          prompt: this.props.t('genAi.form.presets.usecases.blog'),
         },
         {
           key: 'resume',
-          label: this.props.t('source.genAi.form.presets.labels.resume'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.resume'),
+          label: this.props.t('genAi.form.presets.labels.resume'),
+          prompt: this.props.t('genAi.form.presets.usecases.resume'),
         },
         {
           key: 'portfolio',
-          label: this.props.t('source.genAi.form.presets.labels.portfolio'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.portfolio'),
+          label: this.props.t('genAi.form.presets.labels.portfolio'),
+          prompt: this.props.t('genAi.form.presets.usecases.portfolio'),
         },
         {
           key: 'documentation',
-          label: this.props.t('source.genAi.form.presets.labels.documentation'),
-          prompt: this.props.t(
-            'source.genAi.form.presets.usecases.documentation'
-          ),
+          label: this.props.t('genAi.form.presets.labels.documentation'),
+          prompt: this.props.t('genAi.form.presets.usecases.documentation'),
         },
         {
           key: 'ecommerce',
-          label: this.props.t('source.genAi.form.presets.labels.ecommerce'),
-          prompt: this.props.t('source.genAi.form.presets.usecases.ecommerce'),
+          label: this.props.t('genAi.form.presets.labels.ecommerce'),
+          prompt: this.props.t('genAi.form.presets.usecases.ecommerce'),
         },
       ],
     }
@@ -193,14 +198,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       return
     }
 
-    this.setState({ isLoading: true, error: null })
+    this.setState({ isRequestProcessing: true, error: null })
 
     try {
       const palette = await mistralClient.generateColorPalette(
         this.state.prompt
       )
 
-      this.setState({ generatedPalette: palette, isLoading: false })
+      this.setState({ generatedPalette: palette, isRequestProcessing: false })
 
       if (this.props.config.plan.isProEnabled)
         $creditsCount.set(
@@ -210,7 +215,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       console.error(error)
       this.setState({
         error: this.props.t('error.unavailableAi'),
-        isLoading: false,
+        isRequestProcessing: false,
       })
     }
   }
@@ -224,27 +229,27 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       {
         key: 'primary',
         name: palette.primary.name,
-        displayKey: this.props.t('source.genAi.colorTypes.primary'),
+        displayKey: this.props.t('genAi.colorTypes.primary'),
       },
       {
         key: 'text',
         name: palette.text.name,
-        displayKey: this.props.t('source.genAi.colorTypes.text'),
+        displayKey: this.props.t('genAi.colorTypes.text'),
       },
       {
         key: 'success',
         name: palette.success.name,
-        displayKey: this.props.t('source.genAi.colorTypes.success'),
+        displayKey: this.props.t('genAi.colorTypes.success'),
       },
       {
         key: 'warning',
         name: palette.warning.name,
-        displayKey: this.props.t('source.genAi.colorTypes.warning'),
+        displayKey: this.props.t('genAi.colorTypes.warning'),
       },
       {
         key: 'alert',
         name: palette.alert.name,
-        displayKey: this.props.t('source.genAi.colorTypes.alert'),
+        displayKey: this.props.t('genAi.colorTypes.alert'),
       },
     ]
 
@@ -274,14 +279,58 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     return colors
   }
 
+  // Direct Actions
+  onCreatePalette = (sourceColors: Array<SourceColorConfiguration>) => {
+    this.setState({
+      isActionLoading: true,
+    })
+
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'CREATE_PALETTE',
+          data: {
+            sourceColors: sourceColors,
+            exchange: {
+              ...this.palette.value,
+            },
+          },
+        },
+      },
+      '*'
+    )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.paletteCreate
+      )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'CREATE_PALETTE',
+        colors: 5,
+        stops: this.palette.value?.preset.stops.length,
+      }
+    )
+  }
+
   onUsePalette = () => {
     if (!this.state.generatedPalette) return
 
     const sourceColors = this.convertMistralToSourceColors(
       this.state.generatedPalette
     )
-    this.props.onChangeColorsFromImport(sourceColors, 'AI')
-    this.props.onChangeContexts('SOURCE_OVERVIEW')
+
+    this.props.onChangeService({
+      service: 'MANAGE',
+    })
+    this.onCreatePalette(sourceColors)
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -330,21 +379,22 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
             leftPartSlot={
               <SectionTitle
                 indicator="0"
-                label={this.props.t('source.genAi.title')}
+                label={this.props.t('genAi.title')}
               />
             }
             rightPartSlot={
-              <Feature isActive={this.features.SOURCE_AI_ADD.isActive()}>
+              <Feature isActive={this.features.GEN_ADD.isActive()}>
                 <Button
                   type="icon"
                   icon="plus"
                   helper={{
-                    label: this.props.t('source.genAi.actions.addColors'),
+                    label: this.props.t('genAi.actions.addColors'),
                     type: 'MULTI_LINE',
                   }}
+                  isLoading={this.state.isActionLoading}
                   isDisabled={true}
-                  isBlocked={this.features.SOURCE_AI_ADD.isBlocked()}
-                  isNew={this.features.SOURCE_AI_ADD.isNew()}
+                  isBlocked={this.features.GEN_ADD.isBlocked()}
+                  isNew={this.features.GEN_ADD.isNew()}
                   action={this.onUsePalette}
                 />
               </Feature>
@@ -354,7 +404,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           />
           <Message
             icon="info"
-            messages={[this.props.t('source.genAi.emptyMessage')]}
+            messages={[this.props.t('genAi.emptyMessage')]}
           />
         </>
       )
@@ -362,23 +412,23 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     const colors = [
       {
         ...this.state.generatedPalette.primary,
-        type: this.props.t('source.genAi.colorTypes.primary'),
+        type: this.props.t('genAi.colorTypes.primary'),
       },
       {
         ...this.state.generatedPalette.text,
-        type: this.props.t('source.genAi.colorTypes.text'),
+        type: this.props.t('genAi.colorTypes.text'),
       },
       {
         ...this.state.generatedPalette.success,
-        type: this.props.t('source.genAi.colorTypes.success'),
+        type: this.props.t('genAi.colorTypes.success'),
       },
       {
         ...this.state.generatedPalette.warning,
-        type: this.props.t('source.genAi.colorTypes.warning'),
+        type: this.props.t('genAi.colorTypes.warning'),
       },
       {
         ...this.state.generatedPalette.alert,
-        type: this.props.t('source.genAi.colorTypes.alert'),
+        type: this.props.t('genAi.colorTypes.alert'),
       },
     ]
 
@@ -388,26 +438,26 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           leftPartSlot={
             <SectionTitle
               indicator="5"
-              label={this.props.t('source.genAi.title')}
+              label={this.props.t('genAi.title')}
             />
           }
           rightPartSlot={
-            <Feature isActive={this.features.SOURCE_AI_ADD.isActive()}>
+            <Feature isActive={this.features.GEN_ADD.isActive()}>
               <Button
                 type="icon"
                 icon="plus"
                 helper={{
-                  label: this.props.t('source.genAi.actions.addColors'),
+                  label: this.props.t('genAi.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
-                isBlocked={this.features.SOURCE_AI_ADD.isReached(
+                isBlocked={this.features.CREATE_PALETTE.isReached(
                   (this.props.creditsCount -
-                    this.props.config.fees.aiColorsGenerate) *
+                    this.props.config.fees.paletteCreate) *
                     -1 -
                     1
                 )}
-                isNew={this.features.SOURCE_AI_ADD.isNew()}
+                isNew={this.features.GEN_ADD.isNew()}
                 action={this.onUsePalette}
               />
             </Feature>
@@ -443,7 +493,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         column={[
           {
             node: (
-              <Feature isActive={this.features.SOURCE_AI_REQUEST.isActive()}>
+              <Feature isActive={this.features.GEN_REQUEST.isActive()}>
                 <Section
                   body={[
                     ...(this.state.error
@@ -475,9 +525,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                             type="LONG_TEXT"
                             placeholder={
                               this.state.previewPrompt ||
-                              this.props.t(
-                                'source.genAi.form.prompt.placeholder'
-                              )
+                              this.props.t('genAi.form.prompt.placeholder')
                             }
                             value={this.state.prompt}
                             isGrowing
@@ -510,14 +558,12 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                         <FormItem>
                           <Button
                             type="primary"
-                            label={this.props.t(
-                              'source.genAi.actions.generate'
-                            )}
-                            isLoading={this.state.isLoading}
+                            label={this.props.t('genAi.actions.generate')}
+                            isLoading={this.state.isRequestProcessing}
                             isDisabled={
                               !this.state.prompt.trim() || !mistralClient
                             }
-                            isBlocked={this.features.SOURCE_AI_REQUEST.isReached(
+                            isBlocked={this.features.GEN_REQUEST.isReached(
                               (this.props.creditsCount -
                                 this.props.config.fees.aiColorsGenerate) *
                                 -1 -
@@ -542,6 +588,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         ]}
         isFullHeight
         isFullWidth
+        shouldReflow
       />
     )
   }

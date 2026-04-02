@@ -7,56 +7,47 @@ import {
   Chip,
   Dropdown,
   DropdownOption,
-  Icon,
   IconList,
   Input,
   layouts,
   Menu,
+  SegmentedControl,
   texts,
-  Tooltip,
 } from '@unoff/ui'
 import {
   CreatorConfiguration,
   DatesConfiguration,
   DocumentConfiguration,
   PublicationConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
+import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { AppState } from '../App'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ActionsProps
-  extends BaseProps,
-    WithConfigProps,
-    WithTranslationProps {
-  sourceColors: Array<SourceColorConfiguration> | []
+  extends BaseProps, WithConfigProps, WithTranslationProps {
+  mode: Mode
   id: string
-  scale: ScaleConfiguration
-  name?: string
-  dates?: DatesConfiguration
+  name: string
+  dates: DatesConfiguration
   creatorIdentity?: CreatorConfiguration
   format?: string
   document?: DocumentConfiguration
   publicationStatus?: PublicationConfiguration
   isPrimaryLoading?: boolean
   isSecondaryLoading?: boolean
-  onCreatePalette?: React.MouseEventHandler<HTMLButtonElement> &
-    React.KeyboardEventHandler<HTMLButtonElement>
+  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
   onSyncLocalStyles?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
   onSyncLocalVariables?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
-  ) => void
-  onPublishPalette?: (
-    e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
   onGenerateDocument?: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
@@ -68,7 +59,8 @@ interface ActionsProps
   ) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
-  onChangeSettings?: React.Dispatch<Partial<AppState>>
+  onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
+  onUnloadPalette?: () => void
 }
 
 interface ActionsState {
@@ -80,7 +72,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   private palette: typeof $palette
 
   static defaultProps = {
-    sourceColors: [],
     scale: {},
     document: {},
   }
@@ -91,9 +82,23 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     service: Service,
     editor: Editor
   ) => ({
-    SOURCE: new FeatureStatus({
+    EDIT: new FeatureStatus({
       features: config.features,
-      featureName: 'SOURCE',
+      featureName: 'EDIT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    INSPECT: new FeatureStatus({
+      features: config.features,
+      featureName: 'INSPECT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -161,13 +166,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
-    PRESETS_CUSTOM_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'PRESETS_CUSTOM_ADD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     VIEWS: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS',
@@ -210,153 +208,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
-    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_LAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V1: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V1',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V2: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V2',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SETTINGS_ALGORITHM_V3: new FeatureStatus({
-      features: config.features,
-      featureName: 'SETTINGS_ALGORITHM_V3',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SCALE_CHROMA: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_CHROMA',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    SCALE_HUE: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_HUE',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     DOWNLOAD_EXPORT: new FeatureStatus({
       features: config.features,
       featureName: 'DOWNLOAD_EXPORT',
@@ -388,7 +239,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     return Actions.features(
       this.props.planStatus,
       this.props.config,
-      'EDIT',
+      'MANAGE',
       this.props.editor
     )
   }
@@ -437,22 +288,21 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       this.props.onChangeSettings({
         name: e.currentTarget.value,
       })
-    if (this.props.service === 'EDIT')
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'UPDATE_PALETTE',
-            id: this.props.id,
-            items: [
-              {
-                key: 'base.name',
-                value: e.currentTarget.value,
-              },
-            ],
-          },
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_PALETTE',
+          id: this.props.id,
+          items: [
+            {
+              key: 'base.name',
+              value: e.currentTarget.value,
+            },
+          ],
         },
-        '*'
-      )
+      },
+      '*'
+    )
   }
 
   documentOptionsHandler = () => {
@@ -522,329 +372,110 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     return options
   }
 
-  // Direct Actions
-  publicationAction = (): Partial<DropdownOption> => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return {
-        label: this.props.t('actions.publishOrSyncPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'PUBLISH_SYNC_PALETTE',
-      }
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return {
-        label: this.props.t('actions.publishPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'PUBLISH_PALETTE',
-      }
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return {
-        label: this.props.t('actions.syncPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'SYNC_PALETTE',
-      }
-    else
-      return {
-        label: this.props.t('actions.publishPalette'),
-        value: 'PALETTE_PUBLICATION',
-        feature: 'PUBLISH_PALETTE',
-      }
-  }
-
-  publicationLabel = (): string => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return this.props.t('actions.publishOrSyncPalette')
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return this.props.t('actions.publishPalette')
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return this.props.t('actions.syncPalette')
-    else return this.props.t('actions.publishPalette')
-  }
-
-  publicationIcon = (): IconList => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return 'library'
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return 'library'
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return 'swap'
-    else return 'library'
-  }
-
-  canSavePalette = (): boolean => {
-    if (
-      this.specificFeatures.SOURCE.isReached(
-        this.refinedNumberOfSourceColors() - 1
-      )
-    )
-      return false
-    if (
-      $palette.get().preset.id.includes('CUSTOM') &&
-      this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
-        Object.keys(this.props.scale).length - 1
-      )
-    )
-      return false
-    if (
-      $palette.get().areSourceColorsLocked &&
-      this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().shift.chroma !== 100 &&
-      this.specificFeatures.SCALE_CHROMA.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().shift.hue !== 0 &&
-      this.specificFeatures.SCALE_HUE.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().visionSimulationMode !== 'NONE' &&
-      this.specificFeatures[
-        `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
-          typeof Actions.features
-        >
-      ].isBlocked()
-    )
-      return false
-    if (
-      $palette.get().colorSpace !== 'LCH' &&
-      $palette.get().colorSpace !== 'HSL' &&
-      this.specificFeatures[
-        `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
-          typeof Actions.features
-        >
-      ]?.isBlocked()
-    )
-      return false
-    if (
-      $palette.get().algorithmVersion !== 'v3' &&
-      this.specificFeatures[
-        `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
-          typeof Actions.features
-        >
-      ]?.isBlocked()
-    )
-      return false
-    return true
-  }
-
-  proWarning = () => {
-    return (
-      <ul className="list-item">
-        {this.specificFeatures.SOURCE.isReached(
-          this.refinedNumberOfSourceColors() - 1
-        ) && (
-          <li>{this.props.t('info.multipleBlockingMessages.sourceColors')}</li>
-        )}
-        {$palette.get().preset.id.includes('CUSTOM') &&
-          this.specificFeatures.PRESETS_CUSTOM_ADD.isReached(
-            Object.keys(this.props.scale).length - 1
-          ) && <li>{this.props.t('info.multipleBlockingMessages.stops')}</li>}
-        {$palette.get().areSourceColorsLocked &&
-          this.specificFeatures.PREVIEW_LOCK_SOURCE_COLORS.isBlocked() && (
-            <li>
-              {this.props.t('info.multipleBlockingMessages.lockedSourceColors')}
-            </li>
-          )}
-        {$palette.get().shift.chroma !== 100 &&
-          this.specificFeatures.SCALE_CHROMA.isBlocked() && (
-            <li>{this.props.t('info.multipleBlockingMessages.chroma')}</li>
-          )}
-        {$palette.get().shift.hue !== 0 &&
-          this.specificFeatures.SCALE_HUE.isBlocked() && (
-            <li>{this.props.t('info.multipleBlockingMessages.hue')}</li>
-          )}
-        {$palette.get().visionSimulationMode !== 'NONE' &&
-          this.specificFeatures[
-            `SETTINGS_VISION_SIMULATION_MODE_${$palette.get().visionSimulationMode}` as keyof ReturnType<
-              typeof Actions.features
-            >
-          ].isBlocked() && (
-            <li>
-              {this.props.t(
-                'info.multipleBlockingMessages.visionSimulationMode'
-              )}
-            </li>
-          )}
-        {$palette.get().colorSpace !== 'LCH' &&
-          $palette.get().colorSpace !== 'HSL' &&
-          this.specificFeatures[
-            `SETTINGS_COLOR_SPACE_${$palette.get().colorSpace}` as keyof ReturnType<
-              typeof Actions.features
-            >
-          ].isBlocked() && (
-            <li>{this.props.t('info.multipleBlockingMessages.colorSpace')}</li>
-          )}
-        {$palette.get().algorithmVersion !== 'v3' &&
-          this.specificFeatures[
-            `SETTINGS_ALGORITHM_${$palette.get().algorithmVersion.toUpperCase()}` as keyof ReturnType<
-              typeof Actions.features
-            >
-          ].isBlocked() && (
-            <li>
-              {this.props.t('info.multipleBlockingMessages.algorithmVersion')}
-            </li>
-          )}
-      </ul>
-    )
-  }
-
-  refinedNumberOfSourceColors = (): number => {
-    if (this.props.sourceColors.length > 1)
-      return this.props.sourceColors.filter(
-        (color) => color.source !== 'DEFAULT'
-      ).length
-    return this.props.sourceColors.length
+  viewOptionsHandler = () => {
+    return [
+      {
+        label: this.props.t('settings.global.views.simple'),
+        value: 'PALETTE',
+        type: 'OPTION' as const,
+        isActive: this.features.VIEWS_PALETTE.isActive(),
+        isBlocked: this.features.VIEWS_PALETTE.isReached(
+          (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
+            -1 -
+            1
+        ),
+        isNew: this.features.VIEWS_PALETTE.isNew(),
+        action: this.props.onChangeView,
+      },
+      {
+        label: this.props.t('settings.global.views.detailed'),
+        value: 'PALETTE_WITH_PROPERTIES',
+        type: 'OPTION' as const,
+        isActive: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
+        isBlocked: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
+          (this.props.creditsCount -
+            this.props.config.fees.paletteWithPropsGenerate) *
+            -1 -
+            1
+        ),
+        isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
+        action: this.props.onChangeView,
+      },
+      {
+        label: this.props.t('settings.global.views.sheet'),
+        value: 'SHEET',
+        type: 'OPTION' as const,
+        isActive: this.features.VIEWS_SHEET.isActive(),
+        isBlocked: this.features.VIEWS_SHEET.isReached(
+          (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
+            -1 -
+            1
+        ),
+        isNew: this.features.VIEWS_SHEET.isNew(),
+        action: this.props.onChangeView,
+      },
+    ]
   }
 
   // Templates
-  Create = () => {
-    const limit = this.features.SOURCE.limit ?? 0
-
+  Modes = () => {
     return (
-      <Bar
-        leftPartSlot={
-          <div className={layouts['snackbar--medium']}>
-            <div
-              style={{
-                flex: '0 1 200px',
-              }}
-            >
-              <Input
-                id="update-palette-name"
-                type="TEXT"
-                placeholder={this.props.t('name')}
-                value={this.props.name !== '' ? this.props.name : ''}
-                charactersLimit={64}
-                helper={{
-                  label: this.props.t('settings.actions.paletteName'),
-                  pin: 'TOP',
-                }}
-                isBlocked={this.features.SETTINGS_NAME.isBlocked()}
-                isNew={this.features.SETTINGS_NAME.isNew()}
-                feature="RENAME_PALETTE"
-                onBlur={this.nameHandler}
-                onValid={this.nameHandler}
-              />
-            </div>
-            <span
-              className={doClassnames([
-                texts['type'],
-                texts['type--secondary'],
-              ])}
-            >
-              {this.props.t('separator')}
-            </span>
-            <div className={texts.type}>
-              {this.props.t('actions.sourceColorsNumber', {
-                count: this.refinedNumberOfSourceColors().toString(),
-              })}
-            </div>
-            {this.features.SOURCE.isReached(
-              this.refinedNumberOfSourceColors() - 1
-            ) && (
-              <div
-                style={{
-                  position: 'relative',
-                }}
-                onMouseEnter={() =>
-                  this.setState({
-                    isTooltipVisible: true,
-                  })
-                }
-                onMouseLeave={() =>
-                  this.setState({
-                    isTooltipVisible: false,
-                  })
-                }
-              >
-                <Icon
-                  type="PICTO"
-                  iconName="warning"
-                />
-                {this.state.isTooltipVisible && (
-                  <Tooltip pin="TOP">
-                    {this.props.t('info.maxNumberOfSourceColors', {
-                      count: limit.toString(),
-                    })}
-                  </Tooltip>
-                )}
-              </div>
-            )}
-          </div>
-        }
-        rightPartSlot={
-          <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
-            <Button
-              type="primary"
-              label={
-                !this.canSavePalette()
-                  ? this.props.t('actions.unlockSavePalette')
-                  : this.props.t('actions.savePalette')
-              }
-              feature="CREATE_PALETTE"
-              warning={
-                !this.canSavePalette()
-                  ? {
-                      label: this.props.t(
-                        'info.multipleBlockingMessages.head',
-                        {
-                          messages: this.proWarning(),
-                        }
-                      ),
-                      pin: 'TOP',
-                      type: 'MULTI_LINE',
-                    }
-                  : undefined
-              }
-              isDisabled={this.props.sourceColors.length === 0}
-              isLoading={this.props.isPrimaryLoading}
-              action={(
-                e:
-                  | React.MouseEvent<HTMLButtonElement>
-                  | React.KeyboardEvent<HTMLButtonElement>
-              ) => {
-                if (this.canSavePalette())
-                  if ('key' in e)
-                    this.props.onCreatePalette?.(
-                      e as React.KeyboardEvent<HTMLButtonElement>
-                    )
-                  else
-                    this.props.onCreatePalette?.(
-                      e as React.MouseEvent<HTMLButtonElement>
-                    )
-                else
-                  sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-              }}
-              onUnblock={() => {
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-              }}
-            />
-          </Feature>
-        }
-        padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
-        shouldReflow
-        border={['TOP']}
+      <SegmentedControl
+        items={[
+          ...(this.features.EDIT.isActive()
+            ? [
+                {
+                  id: 'EDIT',
+                  icon: {
+                    type: 'PICTO' as const,
+                    name: 'adjust' as IconList,
+                  },
+                  helper: {
+                    label: this.props.t('modes.edit'),
+                    pin: 'BOTTOM' as const,
+                  },
+                },
+              ]
+            : []),
+          ...(this.features.INSPECT.isActive()
+            ? [
+                {
+                  id: 'INSPECT',
+                  icon: {
+                    type: 'PICTO' as const,
+                    name: 'visible' as IconList,
+                  },
+                  helper: {
+                    label: this.props.t('modes.inspect'),
+                    pin: 'BOTTOM' as const,
+                  },
+                },
+              ]
+            : []),
+          ...(this.features.EXPORT.isActive()
+            ? [
+                {
+                  id: 'EXPORT',
+                  icon: {
+                    type: 'PICTO' as const,
+                    name: 'code' as IconList,
+                  },
+                  helper: {
+                    label: this.props.t('modes.export'),
+                    pin: 'BOTTOM' as const,
+                  },
+                },
+              ]
+            : []),
+        ]}
+        active={this.props.mode}
+        action={(
+          e: React.MouseEvent<HTMLButtonElement> &
+            React.KeyboardEvent<HTMLButtonElement>
+        ) => {
+          const feature = e.currentTarget.dataset.feature as Mode
+          this.props.onChangeMode({ mode: feature ?? 'EDIT' })
+        }}
       />
     )
   }
@@ -854,14 +485,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       <Bar
         leftPartSlot={
           <div className={layouts['snackbar--medium']}>
-            <Feature
-              isActive={
-                this.features.PUBLICATION.isActive() &&
-                this.props.publicationStatus?.isPublished
-              }
-            >
-              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
-            </Feature>
+            <Button
+              type="icon"
+              icon="back"
+              helper={{
+                label: this.props.t('contexts.back'),
+              }}
+              action={this.props.onUnloadPalette}
+            />
             <div
               style={{
                 flex: '0 1 200px',
@@ -875,7 +506,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 charactersLimit={64}
                 helper={{
                   label: this.props.t('settings.actions.paletteName'),
-                  pin: 'TOP',
                 }}
                 isBlocked={this.features.SETTINGS_NAME.isBlocked()}
                 isNew={this.features.SETTINGS_NAME.isNew()}
@@ -884,66 +514,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 onValid={this.nameHandler}
               />
             </div>
-
-            {this.props.document?.id === this.props.id && (
-              <Dropdown
-                id="views"
-                options={[
-                  {
-                    label: this.props.t('settings.global.views.simple'),
-                    value: 'PALETTE',
-                    type: 'OPTION',
-                    isActive: this.features.VIEWS_PALETTE.isActive(),
-                    isBlocked: this.features.VIEWS_PALETTE.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.paletteGenerate) *
-                        -1 -
-                        1
-                    ),
-                    isNew: this.features.VIEWS_PALETTE.isNew(),
-                    action: this.props.onChangeView,
-                  },
-                  {
-                    label: this.props.t('settings.global.views.detailed'),
-                    value: 'PALETTE_WITH_PROPERTIES',
-                    type: 'OPTION',
-                    isActive:
-                      this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
-                    isBlocked:
-                      this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.paletteWithPropsGenerate) *
-                          -1 -
-                          1
-                      ),
-                    isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
-                    action: this.props.onChangeView,
-                  },
-                  {
-                    label: this.props.t('settings.global.views.sheet'),
-                    value: 'SHEET',
-                    type: 'OPTION',
-                    isActive: this.features.VIEWS_SHEET.isActive(),
-                    isBlocked: this.features.VIEWS_SHEET.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.sheetGenerate) *
-                        -1 -
-                        1
-                    ),
-                    isNew: this.features.VIEWS_SHEET.isNew(),
-                    action: this.props.onChangeView,
-                  },
-                ]}
-                selected={this.props.document.view}
-                pin="BOTTOM"
-                helper={{
-                  label: this.props.t('settings.global.views.helper'),
-                  pin: 'TOP',
-                }}
-                isBlocked={this.features.VIEWS.isBlocked()}
-                isNew={this.features.VIEWS.isNew()}
-              />
-            )}
+            <Feature
+              isActive={
+                this.features.PUBLICATION.isActive() &&
+                this.props.publicationStatus?.isPublished
+              }
+            >
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
+            </Feature>
           </div>
         }
         rightPartSlot={
@@ -954,103 +532,260 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               layouts['snackbar--wrap'],
             ])}
           >
-            <Feature isActive={this.features.PUBLICATION.isActive()}>
-              <Button
-                type="icon"
-                icon={this.publicationIcon()}
-                helper={{
-                  label: this.publicationLabel(),
-                  pin: 'TOP',
-                }}
-                action={(
-                  e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
-                ) => this.props.onPublishPalette?.(e)}
-              />
-            </Feature>
-            <Feature isActive={this.features.DOCUMENT.isActive()}>
+            {this.props.documentWidth > 460 ? (
+              <>
+                {this.props.document?.id === this.props.id && (
+                  <Dropdown
+                    id="views"
+                    options={this.viewOptionsHandler()}
+                    selected={this.props.document.view}
+                    pin="BOTTOM"
+                    helper={{
+                      label: this.props.t('settings.global.views.helper'),
+                    }}
+                    isBlocked={this.features.VIEWS.isBlocked()}
+                    isNew={this.features.VIEWS.isNew()}
+                  />
+                )}
+                <Feature isActive={this.features.DOCUMENT.isActive()}>
+                  <Menu
+                    id="generate-documentation"
+                    type="ICON"
+                    icon="draft"
+                    options={this.documentOptionsHandler()}
+                    helper={{
+                      label: this.props.t('actions.generateDocument.label'),
+                      isSingleLine: true,
+                    }}
+                    alignment="BOTTOM_RIGHT"
+                    state={
+                      this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'
+                    }
+                    isNew={this.state.canUpdateDocument}
+                  />
+                </Feature>
+                <Menu
+                  id="main-actions"
+                  type="PRIMARY"
+                  label={this.props.t('actions.sync')}
+                  options={[
+                    {
+                      label: this.props.t('actions.syncLocalStyles'),
+                      value: 'LOCAL_STYLES',
+                      feature: 'SYNC_LOCAL_STYLES',
+                      type: 'OPTION',
+                      isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
+                      isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.localStylesSync) *
+                          -1 -
+                          1
+                      ),
+                      isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
+                      action: (e) => this.props.onSyncLocalStyles?.(e),
+                    },
+                    {
+                      label: this.props.t('actions.syncLocalVariables'),
+                      value: 'LOCAL_VARIABLES',
+                      feature: 'SYNC_LOCAL_VARIABLES',
+                      type: 'OPTION',
+                      isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
+                      isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.localVariablesSync) *
+                          -1 -
+                          1
+                      ),
+                      isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
+                      action: (e) => this.props.onSyncLocalVariables?.(e),
+                    },
+                  ]}
+                  alignment="BOTTOM_RIGHT"
+                  state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                />
+              </>
+            ) : (
               <Menu
-                id="generate-documentation"
+                id="main-actions"
                 type="ICON"
-                icon="draft"
-                options={this.documentOptionsHandler()}
-                helper={{
-                  label: this.props.t('actions.generateDocument.label'),
-                  pin: 'TOP',
-                  isSingleLine: true,
-                }}
-                alignment="TOP_RIGHT"
-                state={this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'}
+                icon="play"
+                options={[
+                  {
+                    label: this.props.t('actions.sync'),
+                    value: 'SYNC',
+                    type: 'GROUP',
+                    children: [
+                      {
+                        label: this.props.t('actions.syncLocalStyles'),
+                        value: 'LOCAL_STYLES',
+                        feature: 'SYNC_LOCAL_STYLES',
+                        type: 'OPTION',
+                        isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
+                        isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localStylesSync) *
+                            -1 -
+                            1
+                        ),
+                        isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
+                        action: (e) => this.props.onSyncLocalStyles?.(e),
+                      },
+                      {
+                        label: this.props.t('actions.syncLocalVariables'),
+                        value: 'LOCAL_VARIABLES',
+                        feature: 'SYNC_LOCAL_VARIABLES',
+                        type: 'OPTION',
+                        isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
+                        isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localVariablesSync) *
+                            -1 -
+                            1
+                        ),
+                        isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
+                        action: (e) => this.props.onSyncLocalVariables?.(e),
+                      },
+                    ],
+                  },
+                  {
+                    label: this.props.t('actions.generateDocument.label'),
+                    value: 'GENERATE_DOCUMENT',
+                    type: 'GROUP',
+                    isNew: this.state.canUpdateDocument,
+                    children: this.documentOptionsHandler(),
+                  },
+                  ...(this.props.document?.id === this.props.id
+                    ? [
+                        {
+                          label: this.props.t('settings.global.views.helper'),
+                          value: 'CHANGE_VIEW',
+                          type: 'GROUP' as const,
+                          children: this.viewOptionsHandler(),
+                        },
+                      ]
+                    : []),
+                ]}
+                alignment="BOTTOM_RIGHT"
+                state={
+                  this.props.isPrimaryLoading || this.props.isSecondaryLoading
+                    ? 'LOADING'
+                    : 'DEFAULT'
+                }
                 isNew={this.state.canUpdateDocument}
               />
-            </Feature>
-            <Menu
-              id="main-actions"
-              type="PRIMARY"
-              label={this.props.t('actions.sync')}
-              options={[
-                {
-                  label: this.props.t('actions.syncLocalStyles'),
-                  value: 'LOCAL_STYLES',
-                  feature: 'SYNC_LOCAL_STYLES',
-                  type: 'OPTION',
-                  isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
-                  isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.localStylesSync) *
-                      -1 -
-                      1
-                  ),
-                  isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
-                  action: (e) => this.props.onSyncLocalStyles?.(e),
-                },
-                {
-                  label: this.props.t('actions.syncLocalVariables'),
-                  value: 'LOCAL_VARIABLES',
-                  feature: 'SYNC_LOCAL_VARIABLES',
-                  type: 'OPTION',
-                  isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                  isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.localVariablesSync) *
-                      -1 -
-                      1
-                  ),
-                  isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
-                  action: (e) => this.props.onSyncLocalVariables?.(e),
-                },
-              ]}
-              alignment="TOP_RIGHT"
-              state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
-            />
+            )}
+            <this.Modes />
           </div>
         }
-        padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
-        shouldReflow
-        border={['TOP']}
+        clip={['LEFT']}
+        border={['BOTTOM']}
+      />
+    )
+  }
+
+  Inspect = () => {
+    return (
+      <Bar
+        leftPartSlot={
+          <div className={layouts['snackbar--tight']}>
+            <Button
+              type="icon"
+              icon="back"
+              helper={{
+                label: this.props.t('contexts.back'),
+              }}
+              action={this.props.onUnloadPalette}
+            />
+            <span
+              className={doClassnames([texts.type, texts['type--truncated']])}
+            >
+              {this.props.name !== '' ? this.props.name : this.props.t('name')}
+            </span>
+            <Feature
+              isActive={
+                this.features.PUBLICATION.isActive() &&
+                this.props.publicationStatus?.isPublished
+              }
+            >
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
+            </Feature>
+          </div>
+        }
+        rightPartSlot={
+          <div
+            className={doClassnames([
+              layouts['snackbar--medium'],
+              layouts['snackbar--right'],
+              layouts['snackbar--wrap'],
+            ])}
+          >
+            <this.Modes />
+          </div>
+        }
+        clip={['LEFT']}
+        border={['BOTTOM']}
       />
     )
   }
 
   Export = () => {
     return (
-      <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
-        <Bar
-          rightPartSlot={
+      <Bar
+        leftPartSlot={
+          <div className={layouts['snackbar--tight']}>
             <Button
-              type="primary"
-              label={this.props.t('actions.export', {
-                format: this.props.format || 'JSON',
-              })}
-              feature="EXPORT_PALETTE"
-              action={this.props.onExportPalette}
+              type="icon"
+              icon="back"
+              helper={{
+                label: this.props.t('contexts.back'),
+              }}
+              action={this.props.onUnloadPalette}
+            />
+            <span
+              className={doClassnames([texts.type, texts['type--truncated']])}
             >
-              <a></a>
-            </Button>
-          }
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
-          border={['TOP']}
-        />
-      </Feature>
+              {this.props.name !== '' ? this.props.name : this.props.t('name')}
+            </span>
+            <Feature
+              isActive={
+                this.features.PUBLICATION.isActive() &&
+                this.props.publicationStatus?.isPublished
+              }
+            >
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
+            </Feature>
+          </div>
+        }
+        rightPartSlot={
+          <div
+            className={doClassnames([
+              layouts['snackbar--medium'],
+              layouts['snackbar--right'],
+              layouts['snackbar--wrap'],
+            ])}
+          >
+            <Feature isActive={this.features.DOWNLOAD_EXPORT.isActive()}>
+              <Button
+                type="primary"
+                label={this.props.t('actions.export', {
+                  format: this.props.format || 'JSON',
+                })}
+                feature="EXPORT_PALETTE"
+                shouldReflow={{
+                  isEnabled: true,
+                  icon: 'draft',
+                }}
+                action={this.props.onExportPalette}
+              >
+                <a></a>
+              </Button>
+            </Feature>
+            <this.Modes />
+          </div>
+        }
+        clip={['LEFT']}
+        border={['BOTTOM']}
+      />
     )
   }
 
@@ -1058,9 +793,9 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   render() {
     return (
       <>
-        {this.props.service === 'CREATE' && <this.Create />}
-        {this.props.service === 'EDIT' && <this.Deploy />}
-        {this.props.service === 'SEE' && <this.Export />}
+        {this.props.mode === 'EDIT' && <this.Deploy />}
+        {this.props.mode === 'INSPECT' && <this.Inspect />}
+        {this.props.mode === 'EXPORT' && <this.Export />}
       </>
     )
   }

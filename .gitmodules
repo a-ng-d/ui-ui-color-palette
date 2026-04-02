@@ -13,3 +13,6 @@
 [submodule "packages/cors-yelbolt-worker"]
 	path = packages/cors-yelbolt-worker
 	url = https://github.com/a-ng-d/cors-yelbolt-worker.git
+[submodule "skills"]
+	path = skills
+	url = https://github.com/yelbolt/unoff-skills
