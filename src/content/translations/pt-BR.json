@@ -742,10 +742,10 @@
         "year": "$4 por usuário/mês"
       },
       "texts": {
-        "lifetime": "◻ Acesso vitalício</br>◻ Paletas ilimitadas</br>◻ Cores/paradas/créditos ilimitados</br>◻ Modos ilimitados",
-        "month": "◻ Flexível</br>◻ Paletas ilimitadas</br>◻ Cores/paradas/créditos ilimitados</br>◻ Modos ilimitados",
-        "week": "◻ Pague conforme use</br>◻ Paletas ilimitadas</br>◻ Cores/paradas/créditos ilimitados</br>◻ Modos ilimitados",
-        "year": "◻ Economize dinheiro</br>◻ Paletas ilimitadas</br>◻ Cores/paradas/créditos ilimitados</br>◻ Modos ilimitados"
+        "lifetime": "◻ Acesso vitalício</br>◻ Créditos ilimitadas</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados",
+        "month": "◻ Flexível</br>◻ Créditos ilimitadas</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados",
+        "week": "◻ Pague conforme use</br>◻ Créditos ilimitadas</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados",
+        "year": "◻ Economize dinheiro</br>◻ Créditos ilimitadas</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

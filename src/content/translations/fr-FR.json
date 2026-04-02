@@ -743,10 +743,10 @@
         "year": "48 $ par util./an"
       },
       "texts": {
-        "lifetime": "◻ Accès à vie</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
-        "month": "◻ Flexible</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
-        "week": "◻ À la carte</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
-        "year": "◻ Économisez</br>◻ Palettes illimitées</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités"
+        "lifetime": "◻ Accès à vie</br>◻ Crédits illimités</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
+        "month": "◻ Flexible</br>◻ Crédits illimités</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
+        "week": "◻ À la carte</br>◻ Crédits illimités</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
+        "year": "◻ Économisez</br>◻ Crédits illimitées</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

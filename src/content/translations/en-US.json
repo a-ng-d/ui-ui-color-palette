@@ -743,10 +743,10 @@
         "year": "$4 per user/month"
       },
       "texts": {
-        "lifetime": "◻ Lifetime access</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes",
-        "month": "◻ Flexible</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes",
-        "week": "◻ Pay-as-you-go</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes",
-        "year": "◻ Save money</br>◻ Unlimited palettes</br>◻ Unlimited colors/stops/credits</br>◻ Unlimited modes"
+        "lifetime": "◻ Lifetime access</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "month": "◻ Flexible</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "week": "◻ Pay-as-you-go</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "year": "◻ Save money</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
