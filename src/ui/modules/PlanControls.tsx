@@ -20,10 +20,7 @@ interface PlanControlsProps
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<
-  PlanControlsProps,
-  PlanControlsState
-> {
+export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (
@@ -91,6 +88,13 @@ export default class PlanControls extends PureComponent<
     SYNC_LOCAL_VARIABLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_VARIABLES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SYNC_LOCAL_TOKENS: new FeatureStatus({
+      features: config.features,
+      featureName: 'SYNC_LOCAL_TOKENS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -277,6 +281,13 @@ export default class PlanControls extends PureComponent<
           <li>
             {this.props.t('plan.credits.fees.syncLocalVariables', {
               fee: this.props.config.fees.localVariablesSync,
+            })}
+          </li>
+        )}
+        {this.features.SYNC_LOCAL_TOKENS.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.syncLocalTokens', {
+              fee: this.props.config.fees.localTokensSync,
             })}
           </li>
         )}

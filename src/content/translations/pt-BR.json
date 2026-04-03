@@ -94,6 +94,7 @@
     "sourceColorsNumber": "{count, plural, one {1 cor-fonte} other {# cores-fonte} =0 {Nenhuma cor-fonte}}",
     "sync": "Sincronizar…",
     "syncLocalStyles": "Sincronizar com estilos locais",
+    "syncLocalTokens": "Sincronizar com tokens locais",
     "syncLocalVariables": "Sincronizar com variáveis locais",
     "syncPalette": "Sincronizar paleta",
     "unlockSavePalette": "Desbloquear e salvar UI Color Palette"
@@ -309,6 +310,7 @@
     "settingsUpdated": "Configurações atualizadas",
     "stylesSynced": "Estilos sincronizados",
     "themesUpdated": "Modos atualizados",
+    "tokensSynced": "Tokens sincronizados",
     "variablesSynced": "Variáveis sincronizadas"
   },
   "explore": {
@@ -513,6 +515,7 @@
     "copiedCode": "O código foi copiado para a área de transferência",
     "createdLocalModes": "{count, plural, one {1 modo criado} other {# modos criados} =0 {Nenhum modo criado}}",
     "createdLocalStyles": "{count, plural, one {1 estilo criado} other {# estilos criados} =0 {Nenhum estilo criado}}",
+    "createdLocalTokens": "{count, plural, one {1 token criado} other {# tokens criados} =0 {Nenhum token criado}}",
     "createdLocalVariables": "{count, plural, one {1 variável criada} other {# variáveis criadas} =0 {Nenhuma variável criada}}",
     "maxNumberOfLocalPalettes": "{count, plural, one {Atualize para /pro para adicionar mais de uma paleta local} other {Atualize para /pro para adicionar mais de # paletas locais}}",
     "maxNumberOfSourceColors": "{count, plural, one {Atualize para /pro para adicionar mais de uma cor-fonte} other {Atualize para /pro para adicionar mais de # cores-fonte}}",
@@ -534,11 +537,13 @@
     "paletteCreated": "Paleta {name} criada",
     "removedLocalModes": "{count, plural, one {1 modo removido} other {# modos removidos} =0 {Nenhum modo removido}}",
     "removedLocalStyles": "{count, plural, one {1 estilo removido} other {# estilos removidos} =0 {Nenhum estilo removido}}",
+    "removedLocalTokens": "{count, plural, one {1 token removido} other {# tokens removidos} =0 {Nenhum token removido}}",
     "removedLocalVariables": "{count, plural, one {1 variável removida} other {# variáveis removidas} =0 {Nenhuma variável removida}}",
     "signOut": "Até logo",
     "themesOnFree": "Atualize para /pro para adicionar ou editar modos",
     "updatedLocalModes": "{count, plural, one {1 modo atualizado} other {# modos atualizados} =0 {Nenhum modo atualizado}}",
     "updatedLocalStyles": "{count, plural, one {1 estilo atualizado} other {# estilos atualizados} =0 {Nenhum estilo atualizado}}",
+    "updatedLocalTokens": "{count, plural, one {1 token atualizado} other {# tokens atualizados} =0 {Nenhum token atualizado}}",
     "updatedLocalVariables": "{count, plural, one {1 variável atualizada} other {# variáveis atualizadas} =0 {Nenhuma variável atualizada}}"
   },
   "modes": {
@@ -604,6 +609,7 @@
         "importCoolors": "Importar uma paleta do Coolors: {fee} cdts",
         "importRealtimeColors": "Importar uma paleta do Realtime Colors: {fee} cdts",
         "syncLocalStyles": "Sincronizar com estilos locais: {fee} cdts",
+        "syncLocalTokens": "Sincronizar com tokens locais: {fee} cdts",
         "syncLocalVariables": "Sincronizar com variáveis locais: {fee} cdts",
         "updatePalette": "Atualizar uma paleta: {fee} cdts"
       },
@@ -1232,6 +1238,10 @@
           "message": "Se um estilo não estiver na paleta, ele será removido."
         },
         "title": "Sincronização",
+        "tokens": {
+          "label": "Sincronizar profundamente com tokens locais",
+          "message": "Se um token não estiver na paleta, ele será removido."
+        },
         "variables": {
           "label": "Sincronizar profundamente com variáveis locais",
           "message": "Se uma variável não estiver na paleta, ela será removida."

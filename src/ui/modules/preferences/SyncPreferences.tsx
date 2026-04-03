@@ -16,6 +16,7 @@ import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import {
   $canStylesDeepSync,
+  $canTokensDeepSync,
   $canVariablesDeepSync,
 } from '../../../stores/preferences'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -28,6 +29,7 @@ interface SyncPreferencesProps
 interface SyncPreferencesState {
   canStylesDeepSync: boolean
   canVariablesDeepSync: boolean
+  canTokensDeepSync: boolean
 }
 
 export default class SyncPreferences extends PureComponent<
@@ -36,7 +38,7 @@ export default class SyncPreferences extends PureComponent<
 > {
   private subscribeStyles: (() => void) | undefined
   private subscribeVariables: (() => void) | undefined
-
+  private subscribeTokens: (() => void) | undefined
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -53,6 +55,13 @@ export default class SyncPreferences extends PureComponent<
     USER_PREFERENCES_SYNC_DEEP_VARIABLES: new FeatureStatus({
       features: config.features,
       featureName: 'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_PREFERENCES_SYNC_DEEP_TOKENS: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_PREFERENCES_SYNC_DEEP_TOKENS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -77,6 +86,7 @@ export default class SyncPreferences extends PureComponent<
     this.state = {
       canStylesDeepSync: $canStylesDeepSync.get() || false,
       canVariablesDeepSync: $canVariablesDeepSync.get() || false,
+      canTokensDeepSync: $canTokensDeepSync.get() || false,
     }
   }
 
@@ -88,11 +98,15 @@ export default class SyncPreferences extends PureComponent<
     this.subscribeVariables = $canVariablesDeepSync.subscribe((value) => {
       this.setState({ canVariablesDeepSync: value })
     })
+    this.subscribeTokens = $canTokensDeepSync.subscribe((value) => {
+      this.setState({ canTokensDeepSync: value })
+    })
   }
 
   componentWillUnmount = () => {
     if (this.subscribeStyles) this.subscribeStyles()
     if (this.subscribeVariables) this.subscribeVariables()
+    if (this.subscribeTokens) this.subscribeTokens()
   }
 
   // Templates
@@ -184,13 +198,58 @@ export default class SyncPreferences extends PureComponent<
     )
   }
 
+  TokensDeepSync = () => {
+    return (
+      <Feature
+        isActive={this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isActive()}
+      >
+        <Select
+          id="update-tokens-deep-sync"
+          type="SWITCH_BUTTON"
+          name="update-tokens-deep-sync"
+          label={this.props.t('user.preferences.sync.tokens.label')}
+          isChecked={this.state.canTokensDeepSync}
+          isBlocked={
+            !this.state.canTokensDeepSync &&
+            this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isReached(
+              (this.props.creditsCount -
+                this.props.config.fees.localTokensSync) *
+                -1 -
+                1
+            )
+          }
+          isNew={this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isNew()}
+          feature="UPDATE_TOKENS_DEEP_SYNC"
+          action={() => {
+            $canTokensDeepSync.set(!this.state.canTokensDeepSync)
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type: 'SET_ITEMS',
+                  items: [
+                    {
+                      key: 'can_deep_sync_tokens',
+                      value: !this.state.canTokensDeepSync,
+                    },
+                  ],
+                },
+              },
+              '*'
+            )
+          }}
+        />
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     return (
       <Feature
         isActive={
           this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive() ||
-          this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()
+          this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isActive() ||
+          this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isActive()
         }
       >
         <Section
@@ -225,6 +284,13 @@ export default class SyncPreferences extends PureComponent<
               node: (
                 <FormItem shouldFill>
                   <this.VariablesDeepSync />
+                </FormItem>
+              ),
+            },
+            {
+              node: (
+                <FormItem shouldFill>
+                  <this.TokensDeepSync />
                 </FormItem>
               ),
             },

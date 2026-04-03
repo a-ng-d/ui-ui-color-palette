@@ -106,5 +106,6 @@ export interface Config {
     paletteUpdates: number
     localStylesSync: number
     localVariablesSync: number
+    localTokensSync: number
   }
 }

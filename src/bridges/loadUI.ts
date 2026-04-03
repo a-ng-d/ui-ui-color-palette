@@ -182,7 +182,18 @@ else {
             message: 'The local variables have been synced',
           },
         })
-        console.log('Sync local styles', path)
+        console.log('Sync local variables', path)
+      },
+      SYNC_LOCAL_TOKENS: () => {
+        iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+        iframe?.contentWindow?.postMessage({
+          type: 'POST_MESSAGE',
+          data: {
+            type: 'INFO',
+            message: 'The local tokens have been synced',
+          },
+        })
+        console.log('Sync local tokens', path)
       },
       CREATE_DOCUMENT: () => {
         iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })

@@ -655,6 +655,34 @@ export default class EditPalette extends PureComponent<
     )
   }
 
+  onSyncTokens = () => {
+    this.setState({
+      isPrimaryLoading: true,
+    })
+
+    sendPluginMessage(
+      { pluginMessage: { type: 'SYNC_LOCAL_TOKENS', id: this.props.id } },
+      '*'
+    )
+
+    if (this.props.config.plan.isProEnabled)
+      $creditsCount.set(
+        $creditsCount.get() - this.props.config.fees.localTokensSync
+      )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'SYNC_TOKENS',
+      }
+    )
+  }
+
   onChangeView = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -856,6 +884,7 @@ export default class EditPalette extends PureComponent<
             mode="EDIT"
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
+            onSyncLocalTokens={this.onSyncTokens}
             onGenerateDocument={this.documentHandler}
             onChangeView={this.onChangeView}
           />

@@ -49,6 +49,9 @@ interface ActionsProps
   onSyncLocalVariables?: (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
   ) => void
+  onSyncLocalTokens?: (
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+  ) => void
   onGenerateDocument?: (
     e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
   ) => void
@@ -120,6 +123,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     SYNC_LOCAL_VARIABLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_VARIABLES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SYNC_LOCAL_TOKENS: new FeatureStatus({
+      features: config.features,
+      featureName: 'SYNC_LOCAL_TOKENS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -599,6 +609,21 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                       action: (e) => this.props.onSyncLocalVariables?.(e),
                     },
+                    {
+                      label: this.props.t('actions.syncLocalTokens'),
+                      value: 'LOCAL_TOKENS',
+                      feature: 'SYNC_LOCAL_TOKENS',
+                      type: 'OPTION',
+                      isActive: this.features.SYNC_LOCAL_TOKENS.isActive(),
+                      isBlocked: this.features.SYNC_LOCAL_TOKENS.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.localTokensSync) *
+                          -1 -
+                          1
+                      ),
+                      isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
+                      action: (e) => this.props.onSyncLocalTokens?.(e),
+                    },
                   ]}
                   alignment="BOTTOM_RIGHT"
                   state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
@@ -644,6 +669,21 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         ),
                         isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                         action: (e) => this.props.onSyncLocalVariables?.(e),
+                      },
+                      {
+                        label: this.props.t('actions.syncLocalTokens'),
+                        value: 'LOCAL_TOKENS',
+                        feature: 'SYNC_LOCAL_TOKENS',
+                        type: 'OPTION',
+                        isActive: this.features.SYNC_LOCAL_TOKENS.isActive(),
+                        isBlocked: this.features.SYNC_LOCAL_TOKENS.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localTokensSync) *
+                            -1 -
+                            1
+                        ),
+                        isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
+                        action: (e) => this.props.onSyncLocalTokens?.(e),
                       },
                     ],
                   },

@@ -144,6 +144,7 @@ export interface ActionEvent {
     | 'CREATE_PALETTE'
     | 'SYNC_STYLES'
     | 'SYNC_VARIABLES'
+    | 'SYNC_TOKENS'
     | 'GENERATE_PALETTE'
     | 'GENERATE_PALETTE_WITH_PROPERTIES'
     | 'GENERATE_SHEET'
