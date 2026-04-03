@@ -28,6 +28,7 @@ import {
 import { updatePresets } from '../stores/presets'
 import {
   $canStylesDeepSync,
+  $canTokensDeepSync,
   $canVariablesDeepSync,
   $isAPCADisplayed,
   $isAPCAIntervalDisplayed,
@@ -420,6 +421,7 @@ class App extends Component<AppProps, AppState> {
         $isAPCAIntervalDisplayed.set(path.data.isAPCAIntervalDisplayed)
         $canStylesDeepSync.set(path.data.canDeepSyncStyles)
         $canVariablesDeepSync.set(path.data.canDeepSyncVariables)
+        $canTokensDeepSync.set(path.data.canDeepSyncTokens)
         $isSuggestedLanguageDisplayed.set(
           path.data.isSuggestedLanguageDisplayed
         )

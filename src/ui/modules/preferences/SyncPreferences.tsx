@@ -273,27 +273,39 @@ export default class SyncPreferences extends PureComponent<
                 />
               ),
             },
-            {
-              node: (
-                <FormItem shouldFill>
-                  <this.StylesDeepSync />
-                </FormItem>
-              ),
-            },
-            {
-              node: (
-                <FormItem shouldFill>
-                  <this.VariablesDeepSync />
-                </FormItem>
-              ),
-            },
-            {
-              node: (
-                <FormItem shouldFill>
-                  <this.TokensDeepSync />
-                </FormItem>
-              ),
-            },
+            ...(this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isActive()
+              ? [
+                  {
+                    node: (
+                      <FormItem shouldFill>
+                        <this.StylesDeepSync />
+                      </FormItem>
+                    ),
+                  },
+                ]
+              : []),
+            ...(this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isActive()
+              ? [
+                  {
+                    node: (
+                      <FormItem shouldFill>
+                        <this.VariablesDeepSync />
+                      </FormItem>
+                    ),
+                  },
+                ]
+              : []),
+            ...(this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isActive()
+              ? [
+                  {
+                    node: (
+                      <FormItem shouldFill>
+                        <this.TokensDeepSync />
+                      </FormItem>
+                    ),
+                  },
+                ]
+              : []),
           ]}
           border={!this.props.isLast ? ['BOTTOM'] : undefined}
         />
