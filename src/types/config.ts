@@ -10,9 +10,9 @@ export interface Config {
     height: number
     minWidth: number
     minHeight: number
-    localPalettes: number
-    sourceColors: number
-    customStops: number
+    localPalettes?: number
+    sourceColors?: number
+    customStops?: number
   }
   env: {
     isDev: boolean
