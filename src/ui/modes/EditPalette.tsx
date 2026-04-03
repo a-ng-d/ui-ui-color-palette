@@ -932,7 +932,7 @@ export default class EditPalette extends PureComponent<
                         unit: 'PIXEL' as const,
                       },
                       maxSize: {
-                        value: 400,
+                        value: 496,
                         unit: 'PIXEL' as const,
                       },
                       pin: 'RIGHT' as const,
