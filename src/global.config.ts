@@ -266,7 +266,6 @@ const globalConfig: Config = {
     height: 640,
     minWidth: 240,
     minHeight: 420,
-    localPalettes: 1,
     sourceColors: 5,
     customStops: 8,
   },
