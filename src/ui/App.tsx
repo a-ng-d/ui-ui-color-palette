@@ -1023,6 +1023,33 @@ class App extends Component<AppProps, AppState> {
             isFullHeight
             isFullWidth
           />
+          <Feature
+            isActive={
+              this.features.USER_LANGUAGE_SUGGESTION.isActive() &&
+              this.state.isSuggestedLanguageDisplayed &&
+              this.state.suggestedLanguage !== null
+            }
+          >
+            <SemanticMessage
+              type="INFO"
+              message={this.getSuggestedLanguageMessage()}
+              actionsSlot={
+                <>
+                  <Button
+                    type="secondary"
+                    label={this.getSuggestedLanguageCta()}
+                    action={this.acceptSuggestedLanguageHandler}
+                  />
+                  <Button
+                    type="icon"
+                    icon="close"
+                    action={this.onDismissLanguageBannerHandler}
+                  />
+                </>
+              }
+              isAnchored
+            />
+          </Feature>
           <Feature isActive={this.features.SHORTCUTS.isActive()}>
             <Shortcuts
               {...this.props}
@@ -1147,93 +1174,6 @@ class App extends Component<AppProps, AppState> {
                   document.createElement('app')
               )}
           </Feature>
-          <Feature
-            isActive={
-              this.features.USER_LANGUAGE_SUGGESTION.isActive() &&
-              this.state.isSuggestedLanguageDisplayed &&
-              this.state.suggestedLanguage !== null
-            }
-          >
-            <SemanticMessage
-              type="INFO"
-              message={this.getSuggestedLanguageMessage()}
-              actionsSlot={
-                <>
-                  <Button
-                    type="secondary"
-                    label={this.getSuggestedLanguageCta()}
-                    action={this.acceptSuggestedLanguageHandler}
-                  />
-                  <Button
-                    type="icon"
-                    icon="close"
-                    action={this.onDismissLanguageBannerHandler}
-                  />
-                </>
-              }
-              isAnchored
-            />
-          </Feature>
-          {/*
-          <Feature
-            isActive={
-              this.features.CREATE.isActive() && this.state.service === 'CREATE'
-            }
-          >
-            <CreatePalette
-              {...this.props}
-              {...this.state}
-              onChangeDefaultColor={(e) => this.setState({ ...e })}
-              onChangeColorsFromImport={(e) => this.setState({ ...e })}
-              onResetSourceColors={(e) => this.setState({ ...e })}
-              onLockSourceColors={(e) => this.setState({ ...e })}
-              onChangeScale={(e) => this.setState({ ...e })}
-              onChangeShift={(e) => this.setState({ ...e })}
-              onChangePreset={(e) => this.setState({ ...e })}
-              onCustomPreset={(e) => this.setState({ ...e })}
-              onChangeDistributionEasing={(e) => this.setState({ ...e })}
-              onChangeSettings={(e) => this.setState({ ...e })}
-              onConfigureExternalSourceColors={(e) => this.setState({ ...e })}
-              onCancelPalette={this.onResetPalette}
-              onSavedPalette={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              this.features.EDIT.isActive() && this.state.service === 'EDIT'
-            }
-          >
-            <EditPalette
-              {...this.props}
-              {...this.state}
-              onChangeScale={(e) => this.setState({ ...e })}
-              onChangePreset={(e) => this.setState({ ...e })}
-              onChangeDistributionEasing={(e) => this.setState({ ...e })}
-              onChangeColors={(e) => this.setState({ ...e })}
-              onChangeThemes={(e) => this.setState({ ...e })}
-              onChangeSettings={(e) => this.setState({ ...e })}
-              onPublishPalette={() =>
-                this.setState({ modalContext: 'PUBLICATION' })
-              }
-              onLockSourceColors={(e) => this.setState({ ...e })}
-              onUnloadPalette={this.onResetPalette}
-              onChangeDocument={(e) => this.setState({ ...e })}
-              onDeletePalette={this.onResetPalette}
-            />
-          </Feature>
-          <Feature
-            isActive={
-              this.features.SEE.isActive() && this.state.service === 'SEE'
-            }
-          >
-            <SeePalette
-              {...this.props}
-              {...this.state}
-              onChangeThemes={(e) => this.setState({ ...e })}
-              onUnloadPalette={this.onResetPalette}
-            />
-          </Feature>
-           */}
         </main>
       )
     else
