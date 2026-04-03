@@ -327,6 +327,12 @@ export default class ColorWheel extends PureComponent<
                         id="color-harmony-base-color"
                         label={this.props.t('wheel.base')}
                         shouldFill={false}
+                        isBlocked={this.features.WHEEL_BASE.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.harmonyCreate) *
+                            -1 -
+                            1
+                        )}
                       >
                         <Input
                           id="color-harmony-base-color"
@@ -367,8 +373,8 @@ export default class ColorWheel extends PureComponent<
                         <FormItem
                           id="color-harmony-algorithm"
                           label={this.props.t('wheel.algorithm.label')}
-                          isBlocked={this.features.WHEEL_ALGORITHM.isBlocked()}
                           shouldFill={false}
+                          isBlocked={this.features.WHEEL_ALGORITHM.isBlocked()}
                         >
                           <Dropdown
                             id="color-harmony-algorithm"

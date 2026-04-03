@@ -146,6 +146,7 @@ export default class LangPreferences extends PureComponent<
                   id="user-language"
                   label={this.props.t('user.language.label')}
                   shouldFill
+                  isBlocked={this.features.USER_LANGUAGE.isBlocked()}
                 >
                   <Dropdown
                     id="user-language"

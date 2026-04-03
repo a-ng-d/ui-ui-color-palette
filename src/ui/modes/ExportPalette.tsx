@@ -352,53 +352,6 @@ export default class ExportPalette extends PureComponent<
           isFullHeight
           isFullWidth
         />
-        {/* <Bar
-                  leftPartSlot={
-                    <div
-                      className={doClassnames([
-                        layouts['snackbar--tight'],
-                        isFlex && 'patch-2',
-                      ])}
-                    >
-                      <Button
-                        type="icon"
-                        icon="back"
-                        helper={{
-                          label: this.props.t('contexts.back'),
-                        }}
-                        action={this.props.onUnloadPalette}
-                      />
-                      <Tabs
-                        tabs={this.contexts}
-                        active={this.state.context ?? ''}
-                        isFlex={isFlex}
-                        maxVisibleTabs={3}
-                        action={this.navHandler}
-                      />
-                    </div>
-                  }
-                  rightPartSlot={
-                    <Feature isActive={this.features.THEMES.isActive()}>
-                      <FormItem
-                        id="switch-theme"
-                        label={this.props.t('themes.switchTheme.label')}
-                        shouldFill={false}
-                      >
-                        <Dropdown
-                          id="switch-theme"
-                          options={this.setThemes()}
-                          selected={
-                            this.props.themes.find((theme) => theme.isEnabled)
-                              ?.id
-                          }
-                          alignment="RIGHT"
-                          pin="TOP"
-                        />
-                      </FormItem>
-                    </Feature>
-                  }
-                  border={['BOTTOM']}
-                /> */}
       </>
     )
   }
