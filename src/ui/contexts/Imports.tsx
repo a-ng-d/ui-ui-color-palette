@@ -769,7 +769,10 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                 <Bar
                   id="imports-header"
                   leftPartSlot={
-                    <SectionTitle label={this.props.t('imports.title')} />
+                    <SectionTitle
+                      label={this.props.t('imports.title')}
+                      indicator={this.state.sourceColors.length}
+                    />
                   }
                   rightPartSlot={
                     <Button
