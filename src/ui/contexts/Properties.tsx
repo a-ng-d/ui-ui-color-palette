@@ -7,6 +7,7 @@ import {
   ColorItem,
   FormItem,
   Layout,
+  List,
   Section,
   SectionTitle,
   SimpleItem,
@@ -505,10 +506,12 @@ export default class Properties extends PureComponent<PropertiesProps> {
                     clip={['LEFT']}
                     border={['BOTTOM']}
                   />
-                  <this.Settings />
-                  <this.Colors />
-                  <this.Themes />
-                  <this.Information />
+                  <List>
+                    <this.Settings />
+                    <this.Colors />
+                    <this.Themes />
+                    <this.Information />
+                  </List>
                 </>
               ),
               typeModifier: 'BLANK',

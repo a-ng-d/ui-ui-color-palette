@@ -389,11 +389,22 @@ export default class EditPalette extends PureComponent<
             ...(this.state.context !== ''
               ? [
                   {
-                    node: <section className="context">{fragment}</section>,
+                    node: (
+                      <section className="context">
+                        <div
+                          style={{
+                            minWidth: '260px',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          {fragment}
+                        </div>
+                      </section>
+                    ),
                     typeModifier: 'DRAWER' as const,
                     drawerOptions: {
                       minSize: {
-                        value: 200,
+                        value: 48,
                         unit: 'PIXEL' as const,
                       },
                       defaultSize: {
@@ -406,6 +417,7 @@ export default class EditPalette extends PureComponent<
                       },
                       pin: 'RIGHT' as const,
                       direction: 'HORIZONTAL' as const,
+                      onCollapse: () => this.setState({ context: '' }),
                     },
                   },
                 ]

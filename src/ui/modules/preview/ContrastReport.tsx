@@ -446,7 +446,7 @@ export default class ContrastReport extends React.PureComponent<
               position: 'absolute',
               inset: 0,
               backgroundImage: `linear-gradient(0deg, ${background} 20%, rgba(255, 255, 255, 0))`,
-              zIndex: 2,
+              zIndex: 1,
             }}
           >
             <SemanticMessage
