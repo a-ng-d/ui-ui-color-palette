@@ -914,6 +914,7 @@ export default class EditPalette extends PureComponent<
                           style={{
                             minWidth: '260px',
                             overflow: 'hidden',
+                            position: 'relative',
                           }}
                         >
                           {fragment}
