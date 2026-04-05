@@ -533,7 +533,7 @@
       "visionSimulationMode": "Reset vision simulation"
     },
     "noChange": "No change",
-    "noResult": "No palette matches your search",
+    "noResult": "No palettes match your search",
     "onboarding": "There is no onboarding for now",
     "paletteCreated": "{name} palette created",
     "removedLocalModes": "{count, plural, one {1 mode removed} other {# modes removed} =0 {No mode removed}}",
@@ -1270,13 +1270,13 @@
     }
   },
   "warning": {
-    "emptySourceColors": "There is no source color. Add them manually in the Colors section.",
+    "emptySourceColors": "There are no source colors. Add them manually in the Colors section.",
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
-    "noOrgPalettes": "There is no organization palette here. Claim your them from the application author.",
+    "noOrgPalettes": "There are no organization palettes here. Claim them from the application author.",
     "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
-    "noPaletteOnCurrrentFile": "There is no UI Color Palette on this file",
-    "noPaletteOnCurrrentPage": "There is no UI Color Palette on this page",
+    "noPaletteOnCurrrentFile": "There are no UI Color Palettes on this file",
+    "noPaletteOnCurrrentPage": "There are no UI Color Palettes on this page",
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "noStarredPalettes": "You have no starred palettes yet. Browse the community to find inspiring palettes and star them for quick access later.",
     "paletteNameRecommendation": "64 characters max is recommended",
