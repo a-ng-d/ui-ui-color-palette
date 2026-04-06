@@ -52,7 +52,10 @@ if (globalConfig.env.isMixpanelEnabled) {
 
   const now = new Date()
   const cohort = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-  mixpanel.register({ cohort })
+  mixpanel.register({
+    Cohort: cohort,
+    Version: globalConfig.versions.pluginVersion,
+  })
 
   initMixpanel(mixpanel)
   setMixpanelEnv(import.meta.env.MODE as 'development' | 'production')
