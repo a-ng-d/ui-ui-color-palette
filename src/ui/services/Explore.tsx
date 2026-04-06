@@ -404,6 +404,8 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
       <List
         isLoading={this.state.colourLoversPalettesListStatus === 'LOADING'}
         isMessage={this.state.colourLoversPalettesListStatus === 'ERROR'}
+        isFullHeight
+        isFullWidth
       >
         {fragment}
       </List>

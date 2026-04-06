@@ -7,6 +7,7 @@ import {
   Dropdown,
   Layout,
   layouts,
+  List,
   Menu,
   SectionTitle,
   Select,
@@ -597,19 +598,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                       className={doClassnames([layouts['snackbar--medium']])}
                     >
                       <Feature
-                        isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
-                      >
-                        <Select
-                          id="switch-contrast-mode"
-                          type="SWITCH_BUTTON"
-                          label={this.props.t('scale.contrast.label')}
-                          shouldReflow
-                          isChecked={this.state.isContrastMode}
-                          isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
-                          action={this.onSwitchContrasteMode}
-                        />
-                      </Feature>
-                      <Feature
                         isActive={this.features.SCALE_HELPER_TIPS.isActive()}
                       >
                         <Menu
@@ -648,41 +636,59 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                           }}
                         />
                       </Feature>
+                      <Feature
+                        isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
+                      >
+                        <Select
+                          id="switch-contrast-mode"
+                          type="SWITCH_BUTTON"
+                          label={this.props.t('scale.contrast.label')}
+                          shouldReflow
+                          isChecked={this.state.isContrastMode}
+                          isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
+                          action={this.onSwitchContrasteMode}
+                        />
+                      </Feature>
                     </div>
                   }
                   clip={['LEFT']}
                   border={['BOTTOM']}
                 />
-                {!this.state.isContrastMode ? (
-                  <ScaleLCH
-                    {...this.props}
-                    onChangeThemes={this.themesHandler}
-                    onChangeStops={this.stopsHandler}
-                    onSwitchMode={this.onSwitchContrasteMode}
-                  />
-                ) : (
-                  <ScaleCR
-                    {...this.props}
-                    onSwitchMode={this.onSwitchContrasteMode}
-                  />
-                )}
-                <Feature isActive={this.features.SCALE_HELPER.isActive()}>
-                  <Bar
-                    id="update-easing"
-                    leftPartSlot={
-                      <Feature
-                        isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
-                      >
-                        <this.DistributionEasing />
-                      </Feature>
-                    }
-                  />
-                  <KeyboardShortcuts
-                    {...this.props}
-                    isOpen={this.state.isTipsOpen}
-                    onClose={() => this.setState({ isTipsOpen: false })}
-                  />
-                </Feature>
+                <List
+                  isFullHeight
+                  isFullWidth
+                >
+                  {!this.state.isContrastMode ? (
+                    <ScaleLCH
+                      {...this.props}
+                      onChangeThemes={this.themesHandler}
+                      onChangeStops={this.stopsHandler}
+                      onSwitchMode={this.onSwitchContrasteMode}
+                    />
+                  ) : (
+                    <ScaleCR
+                      {...this.props}
+                      onSwitchMode={this.onSwitchContrasteMode}
+                    />
+                  )}
+                  <Feature isActive={this.features.SCALE_HELPER.isActive()}>
+                    <Bar
+                      id="update-easing"
+                      leftPartSlot={
+                        <Feature
+                          isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
+                        >
+                          <this.DistributionEasing />
+                        </Feature>
+                      }
+                    />
+                    <KeyboardShortcuts
+                      {...this.props}
+                      isOpen={this.state.isTipsOpen}
+                      onClose={() => this.setState({ isTipsOpen: false })}
+                    />
+                  </Feature>
+                </List>
               </>
             ),
             typeModifier: 'BLANK',

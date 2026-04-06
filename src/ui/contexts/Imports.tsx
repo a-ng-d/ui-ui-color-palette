@@ -833,7 +833,10 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                     />
                   </div>
                 )}
-                <List>
+                <List
+                  isFullHeight
+                  isFullWidth
+                >
                   <this.SelectedColors />
                   <this.CoolorsColors />
                   <this.RealtimeColorsColors />

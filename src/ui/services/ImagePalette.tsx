@@ -423,7 +423,11 @@ export default class ImagePalette extends PureComponent<
             messages={[this.props.t('imagePalette.message')]}
           />
         ) : (
-          <List isTopBorderEnabled>
+          <List
+            isTopBorderEnabled
+            isFullHeight
+            isFullWidth
+          >
             {this.state.dominantColors
               .sort((a, b) => {
                 if (a.hex.localeCompare(b.hex) > 0) return 1

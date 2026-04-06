@@ -314,6 +314,7 @@ export default class OrgPalettes extends PureComponent<
           this.props.status === 'NO_RESULT'
         }
         isFullHeight
+        isFullWidth
       >
         {this.props.status === 'ERROR' && (
           <SemanticMessage

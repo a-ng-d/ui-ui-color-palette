@@ -506,7 +506,10 @@ export default class Properties extends PureComponent<PropertiesProps> {
                     clip={['LEFT']}
                     border={['BOTTOM']}
                   />
-                  <List>
+                  <List
+                    isFullHeight
+                    isFullWidth
+                  >
                     <this.Settings />
                     <this.Colors />
                     <this.Themes />

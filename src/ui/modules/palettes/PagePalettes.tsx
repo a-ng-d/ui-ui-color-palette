@@ -290,6 +290,7 @@ export default class PagePalettes extends PureComponent<
         isLoading={this.props.localPalettesListStatus === 'LOADING'}
         isMessage={this.props.localPalettesListStatus === 'EMPTY'}
         isFullHeight
+        isFullWidth
         isTopBorderEnabled
       >
         {this.props.localPalettesListStatus === 'LOADED' && (

@@ -77,6 +77,7 @@ export default class Store extends PureComponent<StoreProps> {
           <List
             padding={padding}
             isFullWidth
+            isFullHeight
           >
             <Card
               src={isb}

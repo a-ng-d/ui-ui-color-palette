@@ -8,6 +8,7 @@ import {
   FormItem,
   Input,
   layouts,
+  List,
   Section,
   SectionTitle,
   SemanticMessage,
@@ -514,14 +515,89 @@ export default class ContrastReport extends React.PureComponent<
             clip={['LEFT']}
             border={['BOTTOM']}
           />
-          <Feature isActive={!isBlocked}>
+          <List
+            isFullHeight
+            isFullWidth
+          >
+            <Feature isActive={!isBlocked}>
+              <Section
+                id="contrast-playground"
+                title={
+                  <SimpleItem
+                    leftPartSlot={
+                      <SectionTitle
+                        label={this.props.t('contrast.playground.title')}
+                      />
+                    }
+                    isListItem={false}
+                    alignment="CENTER"
+                  />
+                }
+                body={[
+                  {
+                    node: (
+                      <FormItem
+                        id="contrast-preview-text"
+                        label={this.props.t(
+                          'contrast.playground.previewText.label'
+                        )}
+                      >
+                        <Input
+                          id="contrast-preview-text"
+                          type="LONG_TEXT"
+                          value={this.state.previewText}
+                          placeholder={this.props.t(
+                            'contrast.playground.previewText.placeholder'
+                          )}
+                          isGrowing
+                          onChange={(e) => {
+                            this.setState({
+                              previewText: (e.target as HTMLInputElement).value,
+                            })
+                          }}
+                        />
+                      </FormItem>
+                    ),
+                  },
+                  {
+                    node: (
+                      <FormItem
+                        id="contrast-preview-text"
+                        label={this.props.t(
+                          'contrast.playground.fontWeight.label'
+                        )}
+                      >
+                        <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+                          <SimpleSlider
+                            id="update-font-weight"
+                            label={this.props.t(
+                              'contrast.playground.fontWeight.slider'
+                            )}
+                            value={this.state.fontWeight}
+                            min={100}
+                            max={900}
+                            step={100}
+                            hasProgressBar
+                            hasPadding={false}
+                            onChange={(_: string, __: string, value: number) =>
+                              this.setState({ fontWeight: value })
+                            }
+                          />
+                        </div>
+                      </FormItem>
+                    ),
+                  },
+                ]}
+                border={['BOTTOM']}
+              />
+            </Feature>
             <Section
-              id="contrast-playground"
+              id="contrast-report"
               title={
                 <SimpleItem
                   leftPartSlot={
                     <SectionTitle
-                      label={this.props.t('contrast.playground.title')}
+                      label={this.props.t('contrast.details.title')}
                     />
                   }
                   isListItem={false}
@@ -531,126 +607,58 @@ export default class ContrastReport extends React.PureComponent<
               body={[
                 {
                   node: (
-                    <FormItem
-                      id="contrast-preview-text"
-                      label={this.props.t(
-                        'contrast.playground.previewText.label'
-                      )}
-                    >
-                      <Input
-                        id="contrast-preview-text"
-                        type="LONG_TEXT"
-                        value={this.state.previewText}
-                        placeholder={this.props.t(
-                          'contrast.playground.previewText.placeholder'
-                        )}
-                        isGrowing
-                        onChange={(e) => {
-                          this.setState({
-                            previewText: (e.target as HTMLInputElement).value,
-                          })
-                        }}
-                      />
-                    </FormItem>
+                    <Tabs
+                      tabs={[
+                        {
+                          label: this.props.t(
+                            'contrast.foregroundColors.light'
+                          ),
+                          id: 'LIGHT_TEXT',
+                          isUpdated: false,
+                          isNew: false,
+                        },
+                        {
+                          label: this.props.t('contrast.foregroundColors.dark'),
+                          id: 'DARK_TEXT',
+                          isUpdated: false,
+                          isNew: false,
+                        },
+                      ]}
+                      active={this.state.textThemeColor}
+                      isFlex
+                      action={this.navHandler}
+                    />
                   ),
                 },
                 {
                   node: (
-                    <FormItem
-                      id="contrast-preview-text"
-                      label={this.props.t(
-                        'contrast.playground.fontWeight.label'
-                      )}
-                    >
-                      <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
-                        <SimpleSlider
-                          id="update-font-weight"
-                          label={this.props.t(
-                            'contrast.playground.fontWeight.slider'
-                          )}
-                          value={this.state.fontWeight}
-                          min={100}
-                          max={900}
-                          step={100}
-                          hasProgressBar
-                          hasPadding={false}
-                          onChange={(_: string, __: string, value: number) =>
-                            this.setState({ fontWeight: value })
-                          }
-                        />
-                      </div>
-                    </FormItem>
+                    <>
+                      {this.state.textThemeColor === 'LIGHT_TEXT' &&
+                        this.ContrastGrid(
+                          lightForeground,
+                          lightForegroundContrast,
+                          lightWCAGScore,
+                          lightAPCAScore,
+                          lightWCAGFriendlyScore,
+                          lightRecommendedUsage,
+                          actualBackground
+                        )}
+                      {this.state.textThemeColor === 'DARK_TEXT' &&
+                        this.ContrastGrid(
+                          darkForeground,
+                          darkForegroundContrast,
+                          darkWCAGScore,
+                          darkAPCAScore,
+                          darkWCAGFriendlyScore,
+                          darkRecommendedUsage,
+                          actualBackground
+                        )}
+                    </>
                   ),
                 },
               ]}
-              border={['BOTTOM']}
             />
-          </Feature>
-          <Section
-            id="contrast-report"
-            title={
-              <SimpleItem
-                leftPartSlot={
-                  <SectionTitle
-                    label={this.props.t('contrast.details.title')}
-                  />
-                }
-                isListItem={false}
-                alignment="CENTER"
-              />
-            }
-            body={[
-              {
-                node: (
-                  <Tabs
-                    tabs={[
-                      {
-                        label: this.props.t('contrast.foregroundColors.light'),
-                        id: 'LIGHT_TEXT',
-                        isUpdated: false,
-                        isNew: false,
-                      },
-                      {
-                        label: this.props.t('contrast.foregroundColors.dark'),
-                        id: 'DARK_TEXT',
-                        isUpdated: false,
-                        isNew: false,
-                      },
-                    ]}
-                    active={this.state.textThemeColor}
-                    isFlex
-                    action={this.navHandler}
-                  />
-                ),
-              },
-              {
-                node: (
-                  <>
-                    {this.state.textThemeColor === 'LIGHT_TEXT' &&
-                      this.ContrastGrid(
-                        lightForeground,
-                        lightForegroundContrast,
-                        lightWCAGScore,
-                        lightAPCAScore,
-                        lightWCAGFriendlyScore,
-                        lightRecommendedUsage,
-                        actualBackground
-                      )}
-                    {this.state.textThemeColor === 'DARK_TEXT' &&
-                      this.ContrastGrid(
-                        darkForeground,
-                        darkForegroundContrast,
-                        darkWCAGScore,
-                        darkAPCAScore,
-                        darkWCAGFriendlyScore,
-                        darkRecommendedUsage,
-                        actualBackground
-                      )}
-                  </>
-                ),
-              },
-            ]}
-          />
+          </List>
         </div>
       </Feature>
     )

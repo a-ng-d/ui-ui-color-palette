@@ -465,7 +465,11 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           isListItem={false}
           alignment="CENTER"
         />
-        <List isTopBorderEnabled>
+        <List
+          isTopBorderEnabled
+          isFullHeight
+          isFullWidth
+        >
           {colors.map((color, index) => {
             return (
               <ColorItem
