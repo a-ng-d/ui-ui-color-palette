@@ -154,6 +154,20 @@ class App extends Component<AppProps, AppState> {
       currentService: service,
       currentEditor: editor,
     }),
+    HELP_ONBOARDING: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_ONBOARDING',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    HELP_ANNOUNCEMENTS: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_ANNOUNCEMENTS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     USER_LANGUAGE_SUGGESTION: new FeatureStatus({
       features: config.features,
       featureName: 'USER_LANGUAGE_SUGGESTION',
@@ -531,7 +545,8 @@ class App extends Component<AppProps, AppState> {
       const handleAnnouncements = () => {
         this.setState({
           modalContext:
-            path.data.status !== 'DISPLAY_ANNOUNCEMENTS_DIALOG'
+            path.data.status !== 'DISPLAY_ANNOUNCEMENTS_DIALOG' ||
+            !this.features.HELP_ANNOUNCEMENTS.isActive()
               ? 'EMPTY'
               : 'ANNOUNCEMENTS',
           announcements: {
@@ -544,7 +559,8 @@ class App extends Component<AppProps, AppState> {
       const handleOnboarding = () => {
         this.setState({
           modalContext:
-            path.data.status !== 'DISPLAY_ONBOARDING_DIALOG'
+            path.data.status !== 'DISPLAY_ONBOARDING_DIALOG' ||
+            !this.features.HELP_ONBOARDING.isActive()
               ? 'EMPTY'
               : 'ONBOARDING',
         })
