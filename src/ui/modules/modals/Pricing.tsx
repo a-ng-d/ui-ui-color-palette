@@ -2,6 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Button, Card, Dialog, layouts, Tabs, texts } from '@unoff/ui'
+import { PolarEmbedCheckout } from '@polar-sh/checkout/embed'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -15,6 +16,8 @@ import {
   Service,
 } from '../../../types/app'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
+import { signIn } from '../../../external/auth/authentication'
+import { getSupabase } from '../../../external/auth'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
 import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
@@ -30,10 +33,12 @@ interface PricingProps
 
 interface PricingState {
   selectedPlan: 'WEEK' | 'MONTH' | 'YEAR' | 'LIFETIME'
+  isSigningIn: boolean
 }
 
 export default class Pricing extends PureComponent<PricingProps, PricingState> {
   private theme: string | null
+  private checkout: InstanceType<typeof PolarEmbedCheckout> | null = null
 
   static features = (
     planStatus: PlanStatus,
@@ -64,11 +69,19 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       selectedPlan: 'WEEK',
+      isSigningIn: false,
     }
   }
 
   // Lifecycle
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.escHandler)
+    this.checkout?.close()
+    this.checkout = null
+  }
+
   componentDidMount() {
+    window.addEventListener('keydown', this.escHandler)
     trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -81,6 +94,88 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   }
 
   // Handlers
+  escHandler = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && this.checkout) {
+      this.checkout.close()
+      this.checkout = null
+    }
+  }
+
+  openCheckout = async (url: string) => {
+    if (this.checkout) return
+
+    if (this.props.userSession.connectionStatus === 'UNCONNECTED') {
+      this.setState({ isSigningIn: true })
+      try {
+        await signIn({
+          authWorkerUrl: this.props.config.urls.authWorkerUrl,
+          authUrl: this.props.config.urls.authUrl,
+          platformUrl: this.props.config.urls.platformUrl,
+          pluginId: this.props.config.env.pluginId,
+        })
+      } catch {
+        this.setState({ isSigningIn: false })
+        return
+      }
+      this.setState({ isSigningIn: false })
+    }
+
+    const supabase = getSupabase()
+    let checkoutUrl = url
+    if (supabase) {
+      const { data } = await supabase.auth.getUser()
+      if (data.user) {
+        const u = new URL(
+          `${this.props.config.urls.databaseUrl}/functions/v1/create-checkout`
+        )
+        u.searchParams.set('products', url)
+        u.searchParams.set('customerExternalId', data.user.id)
+        if (data.user.email)
+          u.searchParams.set('customerEmail', data.user.email)
+        checkoutUrl = u.toString()
+      }
+    }
+    const checkout = await PolarEmbedCheckout.create(checkoutUrl)
+    this.checkout = checkout
+
+    const closeBtn = document.createElement('button')
+    closeBtn.textContent = '✕'
+    Object.assign(closeBtn.style, {
+      position: 'fixed',
+      top: '12px',
+      right: '12px',
+      zIndex: '2147483648',
+      background: 'rgba(0,0,0,0.5)',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '50%',
+      width: '32px',
+      height: '32px',
+      cursor: 'pointer',
+      fontSize: '16px',
+    })
+
+    const closeAll = () => {
+      checkout.close()
+      document.body.contains(closeBtn) && document.body.removeChild(closeBtn)
+      this.checkout = null
+    }
+
+    closeBtn.onclick = closeAll
+    document.body.appendChild(closeBtn)
+
+    checkout.addEventListener('success', () => {
+      document.body.contains(closeBtn) && document.body.removeChild(closeBtn)
+      sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
+      this.checkout = null
+    })
+
+    checkout.addEventListener('close', () => {
+      document.body.contains(closeBtn) && document.body.removeChild(closeBtn)
+      this.checkout = null
+    })
+  }
+
   planHandler = (e: Event) => {
     const newPlan = (e.currentTarget as HTMLElement).dataset
       .feature as PricingState['selectedPlan']
@@ -110,17 +205,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.pro.ctas.week')}
+            isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              sendPluginMessage(
-                {
-                  pluginMessage: {
-                    type: 'GO_TO_PRO_WEEK',
-                  },
-                },
-                '*'
-              )
-
+              this.openCheckout(this.props.config.urls.storeProWeekUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -136,15 +224,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
-          sendPluginMessage(
-            {
-              pluginMessage: {
-                type: 'GO_TO_PRO_WEEK',
-              },
-            },
-            '*'
-          )
-
+          this.openCheckout(this.props.config.urls.storeProWeekUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,
@@ -182,17 +262,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.pro.ctas.month')}
+            isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              sendPluginMessage(
-                {
-                  pluginMessage: {
-                    type: 'GO_TO_PRO_MONTH',
-                  },
-                },
-                '*'
-              )
-
+              this.openCheckout(this.props.config.urls.storeProMonthUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -208,15 +281,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
-          sendPluginMessage(
-            {
-              pluginMessage: {
-                type: 'GO_TO_PRO_MONTH',
-              },
-            },
-            '*'
-          )
-
+          this.openCheckout(this.props.config.urls.storeProMonthUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,
@@ -254,17 +319,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.pro.ctas.year')}
+            isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              sendPluginMessage(
-                {
-                  pluginMessage: {
-                    type: 'GO_TO_PRO_YEAR',
-                  },
-                },
-                '*'
-              )
-
+              this.openCheckout(this.props.config.urls.storeProYearUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -280,15 +338,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
-          sendPluginMessage(
-            {
-              pluginMessage: {
-                type: 'GO_TO_PRO_YEAR',
-              },
-            },
-            '*'
-          )
-
+          this.openCheckout(this.props.config.urls.storeProYearUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,
@@ -322,17 +372,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.pro.ctas.lifetime')}
+            isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
-              sendPluginMessage(
-                {
-                  pluginMessage: {
-                    type: 'GO_TO_PRO_LIFETIME',
-                  },
-                },
-                '*'
-              )
-
+              this.openCheckout(this.props.config.urls.storeProLifetimeUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -348,15 +391,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
-          sendPluginMessage(
-            {
-              pluginMessage: {
-                type: 'GO_TO_PRO_LIFETIME',
-              },
-            },
-            '*'
-          )
-
+          this.openCheckout(this.props.config.urls.storeProLifetimeUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,

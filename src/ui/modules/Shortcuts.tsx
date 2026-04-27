@@ -19,11 +19,13 @@ import {
   trackSignOutEvent,
 } from '../../external/tracking/eventsTracker'
 import { signIn, signOut } from '../../external/auth/authentication'
+import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
 
 interface ShortcutsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
+  isPolarPaid: boolean
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
@@ -417,8 +419,42 @@ export default class Shortcuts extends PureComponent<
                               action: () => null,
                             },
                             {
+                              label: this.props.t('user.manageSubscription'),
+                              type: 'OPTION' as const,
+                              isActive:
+                                this.props.config.plan.isProEnabled &&
+                                this.props.config.env.isSupabaseEnabled &&
+                                this.props.isPolarPaid,
+                              action: async () => {
+                                const supabase = getSupabase()
+                                if (!supabase) return
+                                const {
+                                  data: { session },
+                                } = await supabase.auth.getSession()
+                                if (!session) return
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: {
+                                      type: 'OPEN_IN_BROWSER',
+                                      data: {
+                                        url: `${this.props.config.urls.databaseUrl}/functions/v1/reach-customer-portal?token=${session.access_token}`,
+                                      },
+                                    },
+                                  },
+                                  '*'
+                                )
+                              },
+                            },
+                            {
                               label: this.props.t('user.signOut'),
                               type: 'OPTION' as const,
+                              isActive:
+                                this.features.BACKSTAGE_AUTHENTICATION.isActive() &&
+                                this.props.config.env.isSupabaseEnabled,
+                              isBlocked:
+                                this.features.BACKSTAGE_AUTHENTICATION.isBlocked(),
+                              isNew:
+                                this.features.BACKSTAGE_AUTHENTICATION.isNew(),
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
                                 signOut({
@@ -843,7 +879,12 @@ export default class Shortcuts extends PureComponent<
             </>
           }
           leftPartSlot={
-            <Feature isActive={this.features.PRO_PLAN.isActive()}>
+            <Feature
+              isActive={
+                this.features.PRO_PLAN.isActive() &&
+                this.props.config.env.isSupabaseEnabled
+              }
+            >
               <PlanControls {...this.props} />
             </Feature>
           }

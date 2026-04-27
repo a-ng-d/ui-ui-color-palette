@@ -7,6 +7,7 @@
     "vite-env.d.ts"
   ],
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "target": "ES2015",
     "lib": [
       "ES2019",
@@ -15,7 +16,7 @@
       "DOM.Iterable",
       "ScriptHost"
     ],
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "module": "ESNext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
