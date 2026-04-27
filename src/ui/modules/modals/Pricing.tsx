@@ -2,7 +2,6 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Button, Card, Dialog, layouts, Tabs, texts } from '@unoff/ui'
-import { PolarEmbedCheckout } from '@polar-sh/checkout/embed'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -15,14 +14,15 @@ import {
   PlanStatus,
   Service,
 } from '../../../types/app'
+import openPolarCheckout from '../../../external/transactional/openCheckout'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import { signIn } from '../../../external/auth/authentication'
-import { getSupabase } from '../../../external/auth'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
 import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
 import uicpj from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
+import type { PolarEmbedCheckout } from '@polar-sh/checkout/embed'
 
 interface PricingProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -120,60 +120,18 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.setState({ isSigningIn: false })
     }
 
-    const supabase = getSupabase()
-    let checkoutUrl = url
-    if (supabase) {
-      const { data } = await supabase.auth.getUser()
-      if (data.user) {
-        const u = new URL(
-          `${this.props.config.urls.databaseUrl}/functions/v1/create-checkout`
-        )
-        u.searchParams.set('products', url)
-        u.searchParams.set('customerExternalId', data.user.id)
-        if (data.user.email)
-          u.searchParams.set('customerEmail', data.user.email)
-        checkoutUrl = u.toString()
+    const checkout = await openPolarCheckout(
+      url,
+      () => {
+        sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
+        this.checkout = null
+      },
+      () => {
+        this.checkout = null
       }
-    }
-    const checkout = await PolarEmbedCheckout.create(checkoutUrl)
-    this.checkout = checkout
+    )
 
-    const closeBtn = document.createElement('button')
-    closeBtn.textContent = '✕'
-    Object.assign(closeBtn.style, {
-      position: 'fixed',
-      top: '12px',
-      right: '12px',
-      zIndex: '2147483648',
-      background: 'rgba(0,0,0,0.5)',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '50%',
-      width: '32px',
-      height: '32px',
-      cursor: 'pointer',
-      fontSize: '16px',
-    })
-
-    const closeAll = () => {
-      checkout.close()
-      document.body.contains(closeBtn) && document.body.removeChild(closeBtn)
-      this.checkout = null
-    }
-
-    closeBtn.onclick = closeAll
-    document.body.appendChild(closeBtn)
-
-    checkout.addEventListener('success', () => {
-      document.body.contains(closeBtn) && document.body.removeChild(closeBtn)
-      sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
-      this.checkout = null
-    })
-
-    checkout.addEventListener('close', () => {
-      document.body.contains(closeBtn) && document.body.removeChild(closeBtn)
-      this.checkout = null
-    })
+    if (checkout) this.checkout = checkout
   }
 
   planHandler = (e: Event) => {

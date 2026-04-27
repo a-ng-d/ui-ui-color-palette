@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/react'
 import App from './ui/App'
 import globalConfig from './global.config'
 import { initTolgee } from './external/translation'
+import { initPolar } from './external/transactional'
 import {
   initMixpanel,
   setEditor,
@@ -113,6 +114,13 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
 // Supabase
 if (globalConfig.env.isSupabaseEnabled)
   initSupabase(globalConfig.urls.databaseUrl, supabaseAnonKey)
+
+// Polar
+if (globalConfig.env.isSupabaseEnabled)
+  initPolar(
+    `${globalConfig.urls.databaseUrl}/functions/v1`,
+    globalConfig.env.isDev ? 'sandbox' : 'production'
+  )
 
 // Mistral AI
 if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
