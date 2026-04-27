@@ -14,7 +14,7 @@ import {
   PlanStatus,
   Service,
 } from '../../../types/app'
-import openPolarCheckout from '../../../external/transactional/openCheckout'
+import buildCheckoutUrl from '../../../external/transactional/openCheckout'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import { signIn } from '../../../external/auth/authentication'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
@@ -22,7 +22,6 @@ import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
 import uicpj from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
-import type { PolarEmbedCheckout } from '@polar-sh/checkout/embed'
 
 interface PricingProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -34,11 +33,12 @@ interface PricingProps
 interface PricingState {
   selectedPlan: 'WEEK' | 'MONTH' | 'YEAR' | 'LIFETIME'
   isSigningIn: boolean
+  checkoutUrl: string | null
+  isCheckoutLoading: boolean
 }
 
 export default class Pricing extends PureComponent<PricingProps, PricingState> {
   private theme: string | null
-  private checkout: InstanceType<typeof PolarEmbedCheckout> | null = null
 
   static features = (
     planStatus: PlanStatus,
@@ -70,18 +70,14 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     this.state = {
       selectedPlan: 'WEEK',
       isSigningIn: false,
+      checkoutUrl: null,
+      isCheckoutLoading: false,
     }
   }
 
   // Lifecycle
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.escHandler)
-    this.checkout?.close()
-    this.checkout = null
-  }
-
   componentDidMount() {
-    window.addEventListener('keydown', this.escHandler)
+    window.addEventListener('message', this.polarMessageHandler)
     trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -93,16 +89,26 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     )
   }
 
-  // Handlers
-  escHandler = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && this.checkout) {
-      this.checkout.close()
-      this.checkout = null
-    }
+  componentWillUnmount() {
+    window.removeEventListener('message', this.polarMessageHandler)
   }
 
-  openCheckout = async (url: string) => {
-    if (this.checkout) return
+  // Handlers
+  polarMessageHandler = (event: MessageEvent) => {
+    const POLAR_ORIGINS = ['https://polar.sh', 'https://sandbox.polar.sh']
+    if (!POLAR_ORIGINS.includes(event.origin)) return
+    if (event.data?.type !== 'POLAR_CHECKOUT') return
+
+    if (event.data.event === 'success') {
+      this.setState({ checkoutUrl: null })
+      sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
+    }
+    if (event.data.event === 'close')
+      this.setState({ checkoutUrl: null })
+  }
+
+  openCheckout = async (productId: string) => {
+    if (this.state.checkoutUrl) return
 
     if (this.props.userSession.connectionStatus === 'UNCONNECTED') {
       this.setState({ isSigningIn: true })
@@ -120,18 +126,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.setState({ isSigningIn: false })
     }
 
-    const checkout = await openPolarCheckout(
-      url,
-      () => {
-        sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
-        this.checkout = null
-      },
-      () => {
-        this.checkout = null
-      }
-    )
-
-    if (checkout) this.checkout = checkout
+    this.setState({ isCheckoutLoading: true })
+    const url = await buildCheckoutUrl(productId)
+    this.setState({ checkoutUrl: url ?? null, isCheckoutLoading: false })
   }
 
   planHandler = (e: Event) => {
@@ -545,76 +542,94 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Feature isActive={this.features.PRO_PLAN.isActive()}>
         <Dialog
           title={this.props.t('pricing.title')}
-          onClose={this.props.onClose}
+          isLoading={this.state.isCheckoutLoading && !this.state.checkoutUrl}
+          onClose={() => {
+            if (this.state.checkoutUrl) this.setState({ checkoutUrl: null })
+            else this.props.onClose()
+          }}
         >
-          <div
-            className={doClassnames([
-              layouts['stackbar'],
-              layouts['stackbar--tight'],
-            ])}
-            style={{
-              padding: padding,
-              alignItems: 'stretch',
-              width: '100%',
-              boxSizing: 'border-box',
-            }}
-          >
-            <div
+          {this.state.checkoutUrl && (
+            <iframe
+              src={`${this.state.checkoutUrl}&embed=true&embed_origin=${encodeURIComponent(window.location.origin)}`}
               style={{
-                display: isFlex ? 'block' : 'flex',
-                justifyContent: isFlex ? 'unset' : 'center',
+                width: '100%',
+                minHeight: '500px',
+                border: 'none',
+                display: 'block',
+              }}
+              allow="payment 'self' https://sandbox.polar.sh https://polar.sh"
+            />
+          )}
+          {!this.state.checkoutUrl && (
+            <div
+              className={doClassnames([
+                layouts['stackbar'],
+                layouts['stackbar--tight'],
+              ])}
+              style={{
+                padding: padding,
+                alignItems: 'stretch',
+                width: '100%',
+                boxSizing: 'border-box',
               }}
             >
-              <Tabs
-                tabs={[
-                  {
-                    label: this.props.t('pricing.subscriptions.week'),
-                    id: 'WEEK',
-                    isUpdated: false,
-                    isNew: true,
-                  },
-                  {
-                    label: this.props.t('pricing.subscriptions.month'),
-                    id: 'MONTH',
-                    isUpdated: false,
-                  },
-                  {
-                    label: this.props.t('pricing.subscriptions.year'),
-                    id: 'YEAR',
-                    isUpdated: false,
-                  },
-                  {
-                    label: this.props.t('pricing.subscriptions.lifetime'),
-                    id: 'LIFETIME',
-                    isUpdated: false,
-                  },
-                ]}
-                active={this.state.selectedPlan}
-                isFlex={isFlex}
-                action={this.planHandler}
-              />
+              <div
+                style={{
+                  display: isFlex ? 'block' : 'flex',
+                  justifyContent: isFlex ? 'unset' : 'center',
+                }}
+              >
+                <Tabs
+                  tabs={[
+                    {
+                      label: this.props.t('pricing.subscriptions.week'),
+                      id: 'WEEK',
+                      isUpdated: false,
+                      isNew: true,
+                    },
+                    {
+                      label: this.props.t('pricing.subscriptions.month'),
+                      id: 'MONTH',
+                      isUpdated: false,
+                    },
+                    {
+                      label: this.props.t('pricing.subscriptions.year'),
+                      id: 'YEAR',
+                      isUpdated: false,
+                    },
+                    {
+                      label: this.props.t('pricing.subscriptions.lifetime'),
+                      id: 'LIFETIME',
+                      isUpdated: false,
+                    },
+                  ]}
+                  active={this.state.selectedPlan}
+                  isFlex={isFlex}
+                  action={this.planHandler}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection:
+                    this.props.documentWidth <= 460 ? 'column' : 'row',
+                  gap: 'var(--size-pos-xxxsmall)',
+                  flex: 1,
+                }}
+              >
+                {this.state.selectedPlan === 'WEEK' && <this.Week />}
+                {this.state.selectedPlan === 'MONTH' && <this.Month />}
+                {this.state.selectedPlan === 'YEAR' && <this.Year />}
+                {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
+                <this.Ultimate />
+                {this.props.licenseTrigger === 'ACTIVATE' ? (
+                  <this.Activate />
+                ) : (
+                  <this.Jump />
+                )}
+              </div>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection:
-                  this.props.documentWidth <= 460 ? 'column' : 'row',
-                gap: 'var(--size-pos-xxxsmall)',
-                flex: 1,
-              }}
-            >
-              {this.state.selectedPlan === 'WEEK' && <this.Week />}
-              {this.state.selectedPlan === 'MONTH' && <this.Month />}
-              {this.state.selectedPlan === 'YEAR' && <this.Year />}
-              {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
-              <this.Ultimate />
-              {this.props.licenseTrigger === 'ACTIVATE' ? (
-                <this.Activate />
-              ) : (
-                <this.Jump />
-              )}
-            </div>
-          </div>
+          )}
         </Dialog>
       </Feature>
     )
