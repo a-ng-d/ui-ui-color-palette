@@ -647,6 +647,7 @@ class App extends Component<AppProps, AppState> {
         this.setState({
           userSession: data,
           isPolarPaid: false,
+          ...(this.state.isPolarPaid && { planStatus: 'UNPAID' }),
         })
 
       const reportError = () => console.error(path.data)
