@@ -437,7 +437,7 @@ export default class Shortcuts extends PureComponent<
                                     pluginMessage: {
                                       type: 'OPEN_IN_BROWSER',
                                       data: {
-                                        url: `${this.props.config.urls.databaseUrl}/functions/v1/reach-customer-portal?token=${session.access_token}`,
+                                        url: `${this.props.config.urls.databaseUrl}/functions/v1/reach-customer-portal?token=${session.access_token}&env=${this.props.config.env.isDev ? 'sandbox' : 'production'}`,
                                       },
                                     },
                                   },

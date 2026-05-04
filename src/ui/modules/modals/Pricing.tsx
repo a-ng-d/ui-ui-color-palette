@@ -152,7 +152,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }
 
     this.setState({ isCheckoutLoading: true })
-    const url = await buildCheckoutUrl(productId, this.getPricingLocale())
+    const url = await buildCheckoutUrl(
+      productId,
+      this.getPricingLocale(),
+      this.props.config.env.isDev
+    )
     this.setState({ checkoutUrl: url ?? null, isCheckoutLoading: false })
   }
 
