@@ -74,7 +74,7 @@ import Feature from './components/Feature'
 type AppProps = WithConfigProps & WithTranslationProps
 
 export interface AppState extends BaseProps {
-  isPolarPaid: boolean
+  isAccountSubscribed: boolean
   modalContext: ModalContext
   mustUserConsent: boolean
   announcements: AnnouncementsDigest
@@ -203,7 +203,7 @@ class App extends Component<AppProps, AppState> {
         avatar: '',
       },
       userConsent: getUserConsent(props.t),
-      isPolarPaid: false,
+      isAccountSubscribed: false,
       planStatus: 'UNPAID',
       trialStatus: 'UNUSED',
       trialRemainingTime: props.config.plan.trialTime,
@@ -422,7 +422,7 @@ class App extends Component<AppProps, AppState> {
               if (result?.planStatus)
                 this.setState({
                   planStatus: result.planStatus,
-                  isPolarPaid: result.planStatus === 'PAID',
+                  isAccountSubscribed: result.planStatus === 'PAID',
                 })
             })
             .catch(() => {
@@ -646,8 +646,8 @@ class App extends Component<AppProps, AppState> {
       const signOut = (data: UserSession) =>
         this.setState({
           userSession: data,
-          isPolarPaid: false,
-          ...(this.state.isPolarPaid && { planStatus: 'UNPAID' }),
+          isAccountSubscribed: false,
+          ...(this.state.isAccountSubscribed && { planStatus: 'UNPAID' }),
         })
 
       const reportError = () => console.error(path.data)
