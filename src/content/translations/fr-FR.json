@@ -1231,6 +1231,7 @@
       }
     },
     "manageLicense": "Gérer la licence",
+    "manageSubscription": "Gérer l'abonnement",
     "preferences": {
       "sync": {
         "message": "Lorsqu'activé, la palette sera synchronisée avec la bibliothèque locale, donc les éléments locaux seront mis à jour, mais pourraient être supprimés.",

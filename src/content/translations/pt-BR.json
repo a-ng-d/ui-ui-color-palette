@@ -1230,6 +1230,7 @@
       }
     },
     "manageLicense": "Gerenciar licença",
+    "manageSubscription": "Gerenciar assinatura",
     "preferences": {
       "sync": {
         "message": "Quando habilitado, a paleta será sincronizada com a biblioteca local, então os itens locais serão atualizados, mas podem ser removidos.",

@@ -1230,6 +1230,7 @@
       }
     },
     "manageLicense": "管理许可证",
+    "manageSubscription": "管理订阅",
     "preferences": {
       "sync": {
         "message": "启用后，调色板将与本地库同步，本地项目将被更新，但可能会被移除。",
