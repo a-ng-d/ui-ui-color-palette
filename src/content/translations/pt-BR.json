@@ -696,7 +696,8 @@
         "title": "Conclua sua compra no navegador e depois volte aqui"
       },
       "figma": "Figma",
-      "lemonsqueezy": "Lemon Squeezy"
+      "lemonsqueezy": "Lemon Squeezy",
+      "trial": "Teste de 3 dias"
     },
     "contexts": {
       "discount": "Desconto (-20%)",
@@ -1194,16 +1195,31 @@
       "chineseCN": "中文 (简体)",
       "englishUS": "English (US)",
       "frenchFR": "Français (FR)",
+      "japaneseJP": "日本語 (JP)",
+      "koreanKR": "한국어 (KR)",
       "label": "Alterar idioma",
       "portugueseBR": "Português (BR)",
+      "spanishES": "Español (ES)",
       "suggestion": {
         "en": {
           "cta": "Switch to English",
           "message": "It looks like your browser language is English. Would you like to switch?"
         },
+        "es": {
+          "cta": "Cambiar a Español",
+          "message": "Parece que el idioma de tu navegador es español. ¿Te gustaría cambiarlo?"
+        },
         "fr": {
           "cta": "Passer en Français",
           "message": "Il semble que la langue de votre navigateur soit le français. Souhaitez-vous changer ?"
+        },
+        "ja": {
+          "cta": "日本語に切り替える",
+          "message": "ブラウザの言語が日本語のようです。切り替えますか？"
+        },
+        "ko": {
+          "cta": "한국어로 변경",
+          "message": "브라우저 언어가 한국어인 것 같습니다. 변경하시겠습니까？"
         },
         "zh": {
           "cta": "切换到中文",

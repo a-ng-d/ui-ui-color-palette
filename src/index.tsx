@@ -18,7 +18,10 @@ import { initNotion } from './external/cms'
 import { initSupabase } from './external/auth'
 import zh_Hans_CN from './content/translations/zh-Hans-CN.json'
 import pt_BR from './content/translations/pt-BR.json'
+import ko_KR from './content/translations/ko-KR.json'
+import ja_JP from './content/translations/ja-JP.json'
 import fr_FR from './content/translations/fr-FR.json'
+import es_ES from './content/translations/es-ES.json'
 import en_US from './content/translations/en-US.json'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
@@ -129,6 +132,9 @@ const tolgee = initTolgee(tolgeeUrl, tolgeeApiKey, globalConfig.lang, {
   'fr-FR': fr_FR,
   'pt-BR': pt_BR,
   'zh-Hans-CN': zh_Hans_CN,
+  'es-ES': es_ES,
+  'ja-JP': ja_JP,
+  'ko-KR': ko_KR,
 })
 
 // Polar

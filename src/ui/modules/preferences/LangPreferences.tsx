@@ -74,6 +74,27 @@ export default class LangPreferences extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    USER_LANGUAGE_ES_ES: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_ES_ES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE_JA_JP: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_JA_JP',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    USER_LANGUAGE_KO_KR: new FeatureStatus({
+      features: config.features,
+      featureName: 'USER_LANGUAGE_KO_KR',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -194,6 +215,39 @@ export default class LangPreferences extends PureComponent<
                         isNew: this.features.USER_LANGUAGE_PT_BR.isNew(),
                         action: () =>
                           this.changeUserLanguageHandler('pt-BR', tolgee),
+                      },
+                      {
+                        label: this.props.t('user.language.spanishES'),
+                        value: 'es-ES',
+                        type: 'OPTION' as const,
+                        isActive: this.features.USER_LANGUAGE_ES_ES.isActive(),
+                        isBlocked:
+                          this.features.USER_LANGUAGE_ES_ES.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_ES_ES.isNew(),
+                        action: () =>
+                          this.changeUserLanguageHandler('es-ES', tolgee),
+                      },
+                      {
+                        label: this.props.t('user.language.japaneseJP'),
+                        value: 'ja-JP',
+                        type: 'OPTION' as const,
+                        isActive: this.features.USER_LANGUAGE_JA_JP.isActive(),
+                        isBlocked:
+                          this.features.USER_LANGUAGE_JA_JP.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_JA_JP.isNew(),
+                        action: () =>
+                          this.changeUserLanguageHandler('ja-JP', tolgee),
+                      },
+                      {
+                        label: this.props.t('user.language.koreanKR'),
+                        value: 'ko-KR',
+                        type: 'OPTION' as const,
+                        isActive: this.features.USER_LANGUAGE_KO_KR.isActive(),
+                        isBlocked:
+                          this.features.USER_LANGUAGE_KO_KR.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_KO_KR.isNew(),
+                        action: () =>
+                          this.changeUserLanguageHandler('ko-KR', tolgee),
                       },
                     ]}
                     selected={tolgee.getLanguage() as Language}

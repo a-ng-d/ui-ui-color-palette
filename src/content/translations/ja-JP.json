@@ -1,0 +1,1323 @@
+{
+  "about": {
+    "attributions": {
+      "apca": {
+        "apca": "apca-w3",
+        "author": "Andrew Somers",
+        "sentence": "• APCAアルゴリズムは{author}の{apca}モジュールにより提供されています"
+      },
+      "chroma": {
+        "author": "Gregor Aisch",
+        "chroma": "chroma.js",
+        "sentence": "• カラー管理は{author}の{chroma}ライブラリにより行われています"
+      },
+      "colorName": {
+        "author": "David Aerne",
+        "colorName": "color-names",
+        "sentence": "• カラー名は{author}の{colorName}ライブラリにより生成されています"
+      },
+      "figmug": {
+        "author": "Aurélien Grimaud",
+        "figmug": "Figmug",
+        "sentence": "• コンポーネント統合は{author}の{figmug}により実現されています"
+      },
+      "preact": {
+        "preact": "Preact",
+        "sentence": "• UIは{preact}を使用して構築されています"
+      },
+      "presets": {
+        "adobe": "Adobe Spectrum",
+        "antDesign": "Ant Design",
+        "atlassian": "Atlassian Design",
+        "bootstrap": "Bootstrap",
+        "ibm": "IBM Carbon",
+        "material": "Material Design",
+        "microsoft": "Microsoft Fluent",
+        "openColor": "Open Color",
+        "radix": "Radix",
+        "sentence": "• カラースケールプリセットは{antDesign}、{bootstrap}、{tailwind}、{material}、{untitledUI}、{openColor}、{radix}、{atlassian}、{shopify}、{uber}、{microsoft}、{ibm}、{adobe}からインスピレーションを得ています。",
+        "shopify": "Shopify Polaris",
+        "tailwind": "Tailwind",
+        "uber": "Uber Base",
+        "untitledUI": "Untitled UI"
+      },
+      "supabase": {
+        "sentence": "• リモートパレットは{supabase}を使用して保存されています",
+        "supabase": "Supabase"
+      },
+      "title": "クレジット",
+      "uid": {
+        "author": "Luke Edwards",
+        "sentence": "• 固有識別子は{author}の{uid}ライブラリにより生成されています",
+        "uid": "uid"
+      },
+      "vite": {
+        "sentence": "• ビルドツールは{vite}により実現されています",
+        "vite": "Vite"
+      }
+    },
+    "information": {
+      "contribution": {
+        "repository": "GitHub",
+        "sentence": "• コントリビューションは{repository}で歓迎しています"
+      },
+      "creator": {
+        "author": "Aurélien Grimaud",
+        "sentence": "• {author}により作成・維持管理されています"
+      },
+      "sourceCode": {
+        "license": "MIT",
+        "sentence": "• ソースコードは{license}ライセンスの下で公開されています"
+      },
+      "version": "バージョン {version}"
+    },
+    "title": "UI Color Paletteについて"
+  },
+  "actions": {
+    "addToLocal": "ローカルに追加",
+    "addToSource": "ソースに追加",
+    "createPalette": "新しいUI Color Palette",
+    "duplicate": "複製",
+    "explorePalettes": "コミュニティのパレットを探す",
+    "export": "{format}としてパレットをエクスポート",
+    "generateDocument": {
+      "label": "ドキュメントを生成",
+      "palette": "シンプルなカラーパレット",
+      "paletteWithProperties": "詳細なカラーパレット",
+      "sheet": "完全なカラーシート"
+    },
+    "moreActions": "その他のアクション",
+    "publishOrSyncPalette": "パレットを公開または同期",
+    "publishPalette": "パレットを公開",
+    "pushUpdates": "ドキュメントに更新を送信",
+    "savePalette": "UI Color Paletteを保存",
+    "sourceColorsNumber": "{count, plural, one {ソースカラー1色} other {ソースカラー#色} =0 {ソースカラーなし}}",
+    "sync": "同期…",
+    "syncLocalStyles": "ローカルスタイルと同期",
+    "syncLocalTokens": "ローカルトークンと同期",
+    "syncLocalVariables": "ローカル変数と同期",
+    "syncPalette": "パレットを同期",
+    "unlockSavePalette": "ロック解除してUI Color Paletteを保存"
+  },
+  "announcements": {
+    "cta": {
+      "gotIt": "了解",
+      "learnMore": "詳細を見る",
+      "next": "次へ"
+    }
+  },
+  "browse": {
+    "actions": {
+      "deletePalette": "パレットを削除",
+      "duplicatePalette": "パレットを複製",
+      "editPalette": "パレットを編集",
+      "glancePalette": "パレットをざっと見る",
+      "managePalette": "パレットを管理",
+      "moreParameters": "詳細パラメーター",
+      "new": "新しいUI Color Palette",
+      "openPalette": "パレットを開く",
+      "selectPalette": "パレットを選択",
+      "signInToStar": "お気に入り登録にはサインインが必要",
+      "starPalette": "お気に入りに追加",
+      "unstarPalette": "お気に入りから削除"
+    },
+    "contexts": {
+      "community": "コミュニティ",
+      "file": "このファイル",
+      "local": "ローカル",
+      "org": "組織",
+      "page": "このページ",
+      "remote": "ライブラリ",
+      "self": "マイパレット",
+      "starred": "お気に入り"
+    },
+    "copy": "{name}のコピー",
+    "deletePaletteDialog": {
+      "cancel": "キャンセル",
+      "delete": "パレットを削除",
+      "message": "「{name}」パレットを削除しようとしています。この操作は元に戻せません。",
+      "title": "パレットを削除"
+    },
+    "document": {
+      "open": "ドキュメントを開く",
+      "restore": "パレットを復元"
+    },
+    "file": {
+      "title": "このファイルのUI Color Palettes"
+    },
+    "glancePalette": {
+      "title": "パレットの概要"
+    },
+    "lazyLoad": {
+      "completeList": "パレット一覧が完全に表示されました",
+      "loadMore": "さらにパレットを読み込む",
+      "search": "パレットを検索…"
+    },
+    "meta": {
+      "colors": "{count, plural, one {ソースカラー1色} other {ソースカラー#色} =0 {ソースカラーなし}}",
+      "shades": "{count, plural, one {シェード1色} other {シェード#色} =0 {シェードなし}}",
+      "themes": "{count, plural, one {カラーモード1つ} other {カラーモード#つ} =0 {カラーモードなし}}"
+    },
+    "page": {
+      "title": "このページのUI Color Palettes"
+    },
+    "search": "パレットを検索",
+    "signInFirst": {
+      "message": "サインインすると自分のパレットやお気に入りのパレットを見つけて使用できます",
+      "signIn": "パレットを読み込むにはサインインしてください"
+    }
+  },
+  "colors": {
+    "actions": {
+      "alphaBackground": "透明度の背景色",
+      "colorName": "カラー名",
+      "hexCode": "16進数コード",
+      "moreParameters": "詳細パラメーター",
+      "new": "新しいUI Color",
+      "removeColor": "カラーを削除"
+    },
+    "alpha": {
+      "helper": "スケールは明度ではなくカラーのアルファチャンネルに適用されます",
+      "label": "アルファモード"
+    },
+    "callout": {
+      "cta": "ソースカラーを作成",
+      "message": "ソースカラーを作成して、カラースケールに基づいて複数のシェードに分割しましょう"
+    },
+    "chromaShifting": {
+      "label": "クロマを調整"
+    },
+    "defaultName": "無題のUI Color",
+    "hueShifting": {
+      "label": "色相を調整"
+    },
+    "lch": {
+      "label": "LCH"
+    },
+    "moreParameters": "{colorName}のパラメーター",
+    "title": "ソースカラー"
+  },
+  "contexts": {
+    "back": "パレット一覧に戻る",
+    "colors": "カラー",
+    "export": "エクスポート",
+    "hide": "パレットを最大化",
+    "imports": "インポート",
+    "palettes": "パレット",
+    "properties": "プロパティ",
+    "report": "コントラスト",
+    "scale": "スケール",
+    "settings": "設定",
+    "source": "ソース",
+    "themes": "モード"
+  },
+  "contrast": {
+    "actions": {
+      "next": "次のカラー",
+      "previous": "前のカラー"
+    },
+    "callout": {
+      "message": "カラーの組み合わせのコントラスト比を確認して、アクセシビリティ基準への準拠を確保しましょう"
+    },
+    "details": {
+      "title": "コントラストの詳細"
+    },
+    "fail": "不合格",
+    "foregroundColors": {
+      "dark": "ダーク前景色",
+      "light": "ライト前景色"
+    },
+    "minSizeFont": {
+      "title": "最小フォントサイズ"
+    },
+    "pass": "合格",
+    "playground": {
+      "fontWeight": {
+        "label": "フォントウェイト",
+        "slider": "Abc"
+      },
+      "previewText": {
+        "label": "プレビューテキスト",
+        "placeholder": "素早い茶色の狐が怠け者の犬を飛び越える。"
+      },
+      "title": "コントラストのプレイグラウンド"
+    },
+    "score": {
+      "apca": {
+        "title": "APCAスコア"
+      },
+      "readability": {
+        "title": "可読性スコア"
+      },
+      "wcag": {
+        "title": "WCAG 2.1スコア"
+      }
+    },
+    "title": "コントラストレポート"
+  },
+  "create": {
+    "leavePaletteDialog": {
+      "cancel": "キャンセル",
+      "leave": "終了してパレット一覧に戻る",
+      "message": "変更中の内容があります。本当に終了しますか？",
+      "title": "変更中の内容"
+    }
+  },
+  "dev": {
+    "readyForDev": "開発準備完了"
+  },
+  "empty": "-",
+  "error": {
+    "activatedLicense": "このライセンスキーは無効で、有効化できません。確認して再試行してください。問題が続く場合はサポートにお問い合わせください。",
+    "addToLocal": "パレットを追加できません",
+    "announcements": "お知らせを読み込めません",
+    "authentication": "認証に失敗しました",
+    "badResponse": "レスポンスが無効です",
+    "corruption": "UI Color Paletteが壊れているようです。内部のレイヤーを編集しないでください。",
+    "document": "ドキュメントを生成できません",
+    "export": "パレットが見つからないためコードを生成できません",
+    "fetchPalette": "パレットを読み込めません",
+    "generic": "エラーが発生しました",
+    "noInternetConnection": "リモートパレットとの接続がリンクされていません",
+    "nonPublication": "パレットを非公開にできません",
+    "onboarding": "オンボーディングを読み込めません",
+    "openPalette": "パレットを開けません",
+    "palette": "パレットを作成できません",
+    "paletteSizeExceeded": "パレットのサイズが上限を超えています。カラーモード、ソースカラー、またはストップの数を減らしてください。",
+    "palettesPicking": "現在パレットを選択できません",
+    "publication": "パレットを公開できません",
+    "share": "パレットをコミュニティで共有できませんでした",
+    "starPalette": "パレットをお気に入りに追加できません",
+    "styles": "スタイルを同期できません",
+    "synchronization": "パレットが同期されませんでした",
+    "timeout": "認証の有効期限が切れました",
+    "unavailableAi": "AIサービスは現在利用できません。後ほど再試行してください。",
+    "unfoundPalette": "パレットが見つかりませんでした",
+    "unlinkedLicense": "ライセンスキー「{licenseKey}」は無効になったか、リモートでリンク解除できません。新しいキーに置き換えるためにローカルでリンクを解除してください。問題が続く場合はサポートにお問い合わせください。",
+    "unshare": "パレットをコミュニティから削除できませんでした"
+  },
+  "events": {
+    "colorsUpdated": "ソースカラーを更新しました",
+    "documentCreated": "ドキュメントを作成しました",
+    "documentUpdated": "ドキュメントを更新しました",
+    "paletteCreated": "パレットを作成しました",
+    "paletteCreatedFromDocument": "ドキュメントからパレットを作成しました",
+    "paletteDuplicated": "パレットを複製しました",
+    "palettePulled": "パレットをダウンロードしました",
+    "paletteRemoved": "パレットを削除しました",
+    "paletteUpdated": "パレットを更新しました",
+    "scaleUpdated": "スケールを更新しました",
+    "settingsUpdated": "設定を更新しました",
+    "stylesSynced": "スタイルを同期しました",
+    "themesUpdated": "モードを更新しました",
+    "tokensSynced": "トークンを同期しました",
+    "variablesSynced": "変数を同期しました"
+  },
+  "explore": {
+    "actions": {
+      "addColors": "これらのカラーでUI Color Paletteを作成",
+      "openPalette": "パレットを開く"
+    },
+    "filters": {
+      "any": "すべて",
+      "blue": "ブルー",
+      "green": "グリーン",
+      "label": "カラー",
+      "orange": "オレンジ",
+      "red": "レッド",
+      "violet": "バイオレット",
+      "yellow": "イエロー"
+    },
+    "meta": "{votes}票・{views}回表示・{comments}コメント",
+    "title": "Colour Lovers"
+  },
+  "export": {
+    "actions": {
+      "copyCode": "コードをクリップボードにコピー",
+      "selectColorSpace": "カラースペースを選択"
+    },
+    "android": {
+      "compose": "Compose (KT)",
+      "label": "Android",
+      "resources": "Resources (XML)"
+    },
+    "apple": {
+      "label": "Apple",
+      "swiftui": "SwiftUI (SWIFT)",
+      "uikit": "UIKit (SWIFT)"
+    },
+    "colorSpace": {
+      "hex": "HEX",
+      "hsl": "HSL",
+      "label": "カラースペース",
+      "lch": "LCH",
+      "oklch": "OKLCH",
+      "p3": "P3",
+      "rgb": "RGB"
+    },
+    "csv": {
+      "spreadsheet": "スプレッドシート (CSV)"
+    },
+    "format": "コード",
+    "preview": "プレビュー",
+    "stylesheet": {
+      "customProperties": "Custom Properties (CSS)",
+      "label": "スタイルシート",
+      "less": "Less Variables (LESS)",
+      "scss": "SCSS Variables (SCSS)"
+    },
+    "tailwind": {
+      "label": "Tailwind",
+      "v3": "Tailwind v3 (JS)",
+      "v4": "Tailwind v4 (CSS)"
+    },
+    "tokens": {
+      "dtcg": {
+        "label": "DTCG tokens (JSON)",
+        "message": "DTCGトークンフォーマットはW3Cグループが進めている作業であり、将来変更される可能性があります"
+      },
+      "global": "Universal (JSON)",
+      "label": "トークン",
+      "nativeTokens": {
+        "label": "Native tokens (JSON)",
+        "message": "ネイティブトークンはTokens StudioまたはPenpotにインポートできます"
+      },
+      "styleDictionary": "Style Dictionary v3 (JSON)"
+    }
+  },
+  "fail": "✘",
+  "fullName": "UI Color Palette {instance}・WCAG Color Palette Manager for Apps & Websites",
+  "genAi": {
+    "actions": {
+      "addColors": "これらのカラーでUI Color Paletteを作成",
+      "generate": "カラーを生成 (⌃⏎ または ⌘⏎)"
+    },
+    "colorTypes": {
+      "alert": "アラート",
+      "primary": "プライマリ",
+      "success": "成功",
+      "text": "テキスト",
+      "warning": "警告"
+    },
+    "emptyMessage": "プロンプトプリセットを使うか、独自のプロンプトで5色のセットを生成してください",
+    "form": {
+      "presets": {
+        "labels": {
+          "blog": "ブログ",
+          "corporate": "コーポレート",
+          "cyberpunk": "サイバーパンク",
+          "documentation": "ドキュメント",
+          "ecommerce": "Eコマース",
+          "landing": "ランディングページ",
+          "minimalist": "ミニマリスト",
+          "nature": "ナチュラル",
+          "pastel": "パステル",
+          "portfolio": "ポートフォリオ",
+          "resume": "履歴書",
+          "vintage": "ヴィンテージ"
+        },
+        "usecases": {
+          "blog": "温かみのある読みやすい書体を使ったパーソナルブログ",
+          "documentation": "明確な階層構造を持つ技術ドキュメント",
+          "ecommerce": "コンバージョン重視のEコマースショップ",
+          "landing": "テックスタートアップ向けモダンなランディングページ",
+          "portfolio": "芸術作品を紹介するクリエイティブポートフォリオ",
+          "resume": "清潔感のある自信に満ちたカラーのプロフェッショナルな履歴書"
+        },
+        "vibes": {
+          "corporate": "信頼感のあるカラーのプロフェッショナルなコーポレートデザイン",
+          "cyberpunk": "ネオンアクセントを使ったサイバーパンク風未来的インターフェース",
+          "minimalist": "微妙なコントラストのクリーンなミニマリストデザイン",
+          "nature": "森と山にインスパイアされた自然の大地色",
+          "pastel": "優しくフレンドリーなインターフェースのためのソフトなパステルカラー",
+          "vintage": "温かみのある落ち着いたカラーのレトロなヴィンテージ感"
+        }
+      },
+      "prompt": {
+        "placeholder": "求める雰囲気やテーマを説明してください（例：「活気あるエネルギーのモダンなテックスタートアップ」、「アースカラーの穏やかな瞑想アプリ」）"
+      }
+    },
+    "title": "AI生成カラー"
+  },
+  "global": {
+    "description": {
+      "label": "説明",
+      "placeholder": "何のためのもの？"
+    }
+  },
+  "harmony": {
+    "add": "カラーハーモニーを作成",
+    "empty": "カラーハーモニーを削除"
+  },
+  "imagePalette": {
+    "actions": {
+      "addColors": "これらのカラーでUI Color Paletteを作成"
+    },
+    "dropzone": {
+      "cta": "またはクリックして参照",
+      "error": "画像を読み込めませんでした。.png形式であることを確認してここにドロップしてください。",
+      "message": ".pngファイルをここにドラッグ＆ドロップ",
+      "warning": "ファイルがインポートされませんでした。.pngファイルをドラッグ＆ドロップし直してください。"
+    },
+    "message": "画像をアップロード、貼り付け、またはキャンバスで選択して5つのドミナントカラーを抽出",
+    "removeImage": "画像を削除",
+    "title": "ドミナントカラー"
+  },
+  "imports": {
+    "actions": {
+      "import": "パレットにカラーを追加"
+    },
+    "canvas": {
+      "add": "キャンバスからカラーを追加",
+      "empty": "キャンバスのカラーを削除",
+      "tip": "{canvas}キャンバスで必要な数の{element}（カラーで塗りつぶされたもの）を選択してください",
+      "title": "キャンバス"
+    },
+    "coolors": {
+      "add": "Coolorsのパレットを追加",
+      "addColors": "ソースに追加",
+      "empty": "Coolorsのパレットを削除",
+      "helper": "Coolorsからパレットをインポート",
+      "title": "Coolors",
+      "url": {
+        "errorMessage": "URLには複数の16進数コードが必要です（例：8ecae6-…-219ebc）",
+        "infoMessage": "URLは\"https://coolors.co\"で始まる必要があります",
+        "label": "パレットURL",
+        "placeholder": "リンクを貼り付け－https://coolors.co/…"
+      }
+    },
+    "nodes": {
+      "figma": "shapes/frames",
+      "framer": "shapes/frames",
+      "penpot": "shapes/boards",
+      "sketch": "shapes/frames"
+    },
+    "realtimeColors": {
+      "add": "Realtime Colorsのパレットを追加",
+      "addColors": "ソースに追加",
+      "empty": "Realtime Colorsのパレットを削除",
+      "helper": "Realtime Colorsでシミュレートしたパレットをインポート",
+      "title": "Realtime Colors",
+      "url": {
+        "errorMessage": "URLには複数の16進数コードが必要です（例：8ecae6-…-219ebc）",
+        "infoMessage": "URLは\"https://www.realtimecolors.com\"で始まる必要があります",
+        "label": "Realtime URL",
+        "placeholder": "リンクを貼り付け－https://www.realtimecolors.com/…"
+      }
+    },
+    "title": "インポートしたソースカラー"
+  },
+  "info": {
+    "addToLocal": "パレットはすでに存在します",
+    "announcements": "現在お知らせはありません",
+    "askDesigner": "またはデザイナーにパレットの作成を依頼",
+    "contrastRatioOnFree": "/proにアップグレードして、シェード・ティントと前景色のコントラスト比を使ってスケールを調整",
+    "copiedCode": "コードをクリップボードにコピーしました",
+    "createdLocalModes": "{count, plural, one {1つのモードを作成しました} other {#つのモードを作成しました} =0 {モードは作成されませんでした}}",
+    "createdLocalStyles": "{count, plural, one {1つのスタイルを作成しました} other {#つのスタイルを作成しました} =0 {スタイルは作成されませんでした}}",
+    "createdLocalThemes": "{count, plural, one {1つのテーマを作成しました} other {#つのテーマを作成しました} =0 {テーマは作成されませんでした}}",
+    "createdLocalTokens": "{count, plural, one {1つのトークンを作成しました} other {#つのトークンを作成しました} =0 {トークンは作成されませんでした}}",
+    "createdLocalVariables": "{count, plural, one {1つの変数を作成しました} other {#つの変数を作成しました} =0 {変数は作成されませんでした}}",
+    "maxNumberOfLocalPalettes": "{count, plural, one {/proにアップグレードして1つ以上のローカルパレットを追加} other {/proにアップグレードして#つ以上のローカルパレットを追加}}",
+    "maxNumberOfSourceColors": "{count, plural, one {/proにアップグレードして1色以上のソースカラーを追加} other {/proにアップグレードして#色以上のソースカラーを追加}}",
+    "maxNumberOfStops": "{count, plural, one {/proにアップグレードして1つ以上のストップを追加} other {/proにアップグレードして#つ以上のストップを追加}}",
+    "multipleBlockingMessages": {
+      "algorithmVersion": "クロマ速度を「正弦曲線と双曲線」に設定",
+      "chroma": "クロマをリセット",
+      "colorSpace": "カラースペースを「LCH」または「HSL」に設定",
+      "head": "次の操作で作成のロックを解除できます：{messages}",
+      "hue": "色相をリセット",
+      "lockedSourceColors": "ソースカラーのロックを解除",
+      "sourceColors": "ソースカラーを減らす",
+      "stops": "ストップを減らす",
+      "visionSimulationMode": "ビジョンシミュレーションをリセット"
+    },
+    "noChange": "変更なし",
+    "noResult": "検索に一致するパレットがありません",
+    "onboarding": "現在オンボーディングはありません",
+    "paletteCreated": "{name}パレットを作成しました",
+    "removedLocalModes": "{count, plural, one {1つのモードを削除しました} other {#つのモードを削除しました} =0 {モードは削除されませんでした}}",
+    "removedLocalStyles": "{count, plural, one {1つのスタイルを削除しました} other {#つのスタイルを削除しました} =0 {スタイルは削除されませんでした}}",
+    "removedLocalThemes": "{count, plural, one {1つのテーマを削除しました} other {#つのテーマを削除しました} =0 {テーマは削除されませんでした}}",
+    "removedLocalTokens": "{count, plural, one {1つのトークンを削除しました} other {#つのトークンを削除しました} =0 {トークンは削除されませんでした}}",
+    "removedLocalVariables": "{count, plural, one {1つの変数を削除しました} other {#つの変数を削除しました} =0 {変数は削除されませんでした}}",
+    "signOut": "またね",
+    "themesOnFree": "/proにアップグレードしてモードを追加・編集",
+    "updatedLocalModes": "{count, plural, one {1つのモードを更新しました} other {#つのモードを更新しました} =0 {モードは更新されませんでした}}",
+    "updatedLocalStyles": "{count, plural, one {1つのスタイルを更新しました} other {#つのスタイルを更新しました} =0 {スタイルは更新されませんでした}}",
+    "updatedLocalThemes": "{count, plural, one {1つのテーマを更新しました} other {#つのテーマを更新しました} =0 {テーマは更新されませんでした}}",
+    "updatedLocalTokens": "{count, plural, one {1つのトークンを更新しました} other {#つのトークンを更新しました} =0 {トークンは更新されませんでした}}",
+    "updatedLocalVariables": "{count, plural, one {1つの変数を更新しました} other {#つの変数を更新しました} =0 {変数は更新されませんでした}}"
+  },
+  "modes": {
+    "edit": "編集",
+    "export": "エクスポート",
+    "inspect": "インスペクト"
+  },
+  "name": "UI Color Palette",
+  "onboarding": {
+    "cta": {
+      "gotIt": "了解",
+      "learnMore": "詳細を見る",
+      "next": "次へ"
+    }
+  },
+  "paletteProperties": {
+    "apca": "APCAスコア",
+    "avoid": "避ける",
+    "base": "ベース",
+    "bodyText": "本文テキスト",
+    "closest": "ソースに最も近い",
+    "colorSpace": "カラースペース：{name}",
+    "contentText": "コンテンツテキスト",
+    "fail": "不合格",
+    "fluentText": "流暢なテキスト",
+    "fontSize": "最小フォントサイズ",
+    "headlines": "見出し",
+    "locked": "ロックされたソースカラー",
+    "nonText": "非テキスト",
+    "pass": "合格",
+    "preset": "プリセット：{name}",
+    "provider": "プロバイダー：{name}",
+    "sourceColors": "ソースカラー",
+    "spotText": "スポットテキスト",
+    "theme": "モード：{name}",
+    "themeDescription": "モードの説明：{description}",
+    "transparent": "透明",
+    "unknown": "不明",
+    "updatedAt": "更新日時：{date}",
+    "visionSimulation": "ビジョンシミュレーション：{mode}",
+    "wcag": "WCAG 2.1スコア"
+  },
+  "pass": "✔",
+  "pending": {
+    "announcements": "お知らせを読み込み中…",
+    "fetch": "パレットを読み込み中…",
+    "onboarding": "オンボーディングを読み込み中…",
+    "primaryAction": "………",
+    "secondaryAction": "………"
+  },
+  "plan": {
+    "credits": {
+      "amount": "{count, plural, one {残り1クレジット} other {残り#クレジット} =0 {クレジットなし}}",
+      "fees": {
+        "createColorHarmony": "カラーハーモニーを作成：{fee} cdts",
+        "createPalette": "UI Color Paletteを作成：{fee} cdts",
+        "extractImageColors": "画像からドミナントカラーを抽出：{fee} cdts",
+        "generateAiColors": "AIでカラーを生成：{fee} cdts",
+        "generateColorSheet": "カラーシートを生成：{fee} cdts",
+        "generateDetailedPalette": "詳細なパレットを生成：{fee} cdts",
+        "generateSimplePalette": "シンプルなパレットを生成：{fee} cdts",
+        "importColourLovers": "Colour Loversからパレットをインポート：{fee} cdts",
+        "importCoolors": "Coolorsからパレットをインポート：{fee} cdts",
+        "importRealtimeColors": "Realtime Colorsからパレットをインポート：{fee} cdts",
+        "syncLocalStyles": "ローカルスタイルと同期：{fee} cdts",
+        "syncLocalTokens": "ローカルトークンと同期：{fee} cdts",
+        "syncLocalVariables": "ローカル変数と同期：{fee} cdts",
+        "updatePalette": "パレットを更新：{fee} cdts"
+      },
+      "renew": "クレジットは{date}に更新されます。無制限のクレジットには/proにアップグレードしてください。"
+    },
+    "dev": "/devプラン",
+    "free": "/basicプラン",
+    "getPro": "/proへ",
+    "pro": "/proプラン",
+    "trial": "トライアル",
+    "trialEnded": "トライアルが終了しました",
+    "trialFeedback": "使ってみていかがでしたか？",
+    "trialTimeDays": "{count, plural, one {トライアル残り1日} other {トライアル残り#日}}",
+    "trialTimeHours": "{count, plural, one {トライアル残り1時間} other {トライアル残り#時間}}",
+    "tryPro": "/proを試す"
+  },
+  "platform": {
+    "figma": "Figma",
+    "framer": "Framer",
+    "penpot": "Penpot",
+    "sketch": "Sketch"
+  },
+  "preview": {
+    "actions": {
+      "collapsePreview": "プレビューを折りたたむ",
+      "colorSpace": "カラースペース",
+      "copyHex": "16進数コードをクリップボードにコピー",
+      "displayScores": "スコアを表示",
+      "expandPreview": "プレビューを展開",
+      "filterScores": "スコアをフィルター",
+      "jumpToColor": "ソースカラーに移動",
+      "resetImportedColors": "インポートしたカラーをリセット",
+      "showDetails": "コントラストレポートを見る",
+      "visionSimulationMode": "ビジョンシミュレーション"
+    },
+    "closest": {
+      "tag": "最も近い"
+    },
+    "filter": {
+      "all": "すべて",
+      "apca": "WCAG",
+      "darkForeground": "ダーク前景",
+      "fail": "不合格",
+      "lightForeground": "ライト前景",
+      "pass": "合格",
+      "reset": "フィルターをリセット",
+      "wcag": "APCA"
+    },
+    "lock": {
+      "label": "ソースカラーをロック",
+      "preview": "ソースカラーをロックしてパレットに含める",
+      "tag": "ロック済み",
+      "warning": "/proにアップグレードしてロックされたソースカラーでパレットを作成"
+    },
+    "score": {
+      "apca": "APCAスコアを表示",
+      "apcaInterval": "APCAインターバルを表示",
+      "tags": {
+        "apcaInterval": "APCA Δ",
+        "wcagInterval": "WCAG 2.1 Δ"
+      },
+      "wcag": "WCAG 2.1スコアを表示",
+      "wcagInterval": "WCAG 2.1インターバルを表示"
+    },
+    "source": {
+      "tag": "ソース"
+    }
+  },
+  "pricing": {
+    "activate": {
+      "cta": "ライセンスを使用",
+      "text": "購入したライセンスキーを入力して機能をアンロックしてください",
+      "title": "/proを有効化"
+    },
+    "bestDeal": "最もお得",
+    "checkout": {
+      "browser": {
+        "abort": "Abort checkout",
+        "done": "サブスクリプションを完了しました",
+        "failed": "Not verified yet",
+        "title": "ブラウザで購入を完了した後、ここに戻ってください"
+      },
+      "figma": "Figma",
+      "lemonsqueezy": "Lemon Squeezy",
+      "trial": "3日間トライアル"
+    },
+    "contexts": {
+      "discount": "割引 (-20%)",
+      "regular": "通常"
+    },
+    "discount": {
+      "amount": "20%オフ",
+      "code": "SAVE20"
+    },
+    "figma": {
+      "cta": "Figma専用/proへ",
+      "subtitle": {
+        "discount": "Figmaで$48 /year",
+        "regular": "Figmaで$5 /month"
+      },
+      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード</br>◻ 無制限のクレジット",
+      "title": "UI Color Palette /pro /figma"
+    },
+    "jump": {
+      "cta": "/oneへ移動",
+      "text": "ライセンスキーを使用するには/oneタグのFigmaプラグインへ移動してください",
+      "title": "/proを有効化"
+    },
+    "limit": {
+      "cta": "リセットして続ける",
+      "message": "制限を超えたためパレットを作成できません。/proにアップグレードするかパレットをリセットして作成してください。"
+    },
+    "one": {
+      "cta": "ライセンスを取得",
+      "subtitle": {
+        "discount": "Figma、Penpot、Sketch、Framerで$47 /lifetime",
+        "regular": "Figma、Penpot、Sketch、Framerで$59 /lifetime"
+      },
+      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード</br>◻ 無制限のクレジット",
+      "title": "UI Color Palette /pro /one"
+    },
+    "oneFigma": {
+      "cta": "ライセンスを取得",
+      "subtitle": {
+        "discount": "Figma、Penpot、Sketch、Framerで$47 /lifetime",
+        "regular": "Figma、Penpot、Sketch、Framerで$59 /lifetime"
+      },
+      "text": "◻ /figmaのすべての機能</br>◻ 小〜大規模チーム向け</br>◻ マルチプラットフォーム</br>◻ 複数の支払いオプション</br>◻ ライフタイムプラン",
+      "title": "UI Color Palette /pro /one"
+    },
+    "operation": "新しいプラン",
+    "pro": {
+      "ctas": {
+        "lifetime": "/lifetimeを取得",
+        "month": "/monthに登録",
+        "week": "/weekに登録",
+        "year": "/yearに登録"
+      },
+      "subtitles": {
+        "lifetime": "{price} ユーザーあたり1回払い",
+        "month": "{price} ユーザー/月",
+        "week": "{price} ユーザー/週",
+        "year": "{price} ユーザー/年"
+      },
+      "texts": {
+        "lifetime": "◻ 永久アクセス</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
+        "month": "◻ 柔軟</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
+        "week": "◻ 従量課金</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
+        "year": "◻ お得</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード"
+      },
+      "titles": {
+        "lifetime": "/pro /lifetime",
+        "month": "/pro /month",
+        "week": "/pro /week",
+        "year": "/pro /year"
+      }
+    },
+    "subscriptions": {
+      "lifetime": "ライフタイム",
+      "month": "月次",
+      "week": "週次",
+      "year": "年次 (-20%)"
+    },
+    "title": "ニーズに合ったプランにご登録ください",
+    "ultimate": {
+      "cta": "アクセスをリクエスト",
+      "subtitle": "企業・チーム向け",
+      "text": "◻ /proのすべて</br>◻ SSO</br>◻ 専任サポート</br>◻ カスタムオンボーディング",
+      "title": "/ultimate"
+    }
+  },
+  "proPlan": {
+    "trial": {
+      "cta": "{hours}時間トライアルを開始",
+      "message": "/proプランで{hours}時間、プリミティブカラーを強化しましょう。より多くのパレットを作成し、カラーモードを管理し、パレットをより多くの形式でエクスポートできます。",
+      "option": "直接/proへ",
+      "title": "次の{hours}時間、/proプランにアップグレードしませんか？"
+    },
+    "welcome": {
+      "cta": "構築を始めましょう",
+      "message": "このアップグレードにより、カラーパレットをデプロイ・転送するための一連のツールがアンロックされます。特典をお楽しみください。",
+      "title": "UI Color Palette /proへようこそ！",
+      "trial": "このアップグレードにより、カラーパレットをデプロイ・転送するための一連のツールがアンロックされます。次の{hours}時間、特典をお楽しみください。"
+    }
+  },
+  "publication": {
+    "detach": "切り離す",
+    "message": "パレットを単一の真実のソースとして公開し、他のドキュメントやプラットフォームで再利用できます。コミュニティと共有してパレットを配布することもできます。",
+    "publish": "公開…",
+    "revert": "元に戻す",
+    "share": "コミュニティと共有",
+    "signIn": "公開するにはサインイン",
+    "star": "お気に入りに追加",
+    "statusLocalChanges": "ローカルの変更",
+    "statusNotFound": "見つかりません",
+    "statusPublished": "公開済み",
+    "statusRemoteChanges": "リモートの変更",
+    "statusShared": "共有済み",
+    "statusUnpublished": "非公開",
+    "statusUptoDate": "変更なし",
+    "statusWaiting": "保留中…",
+    "synchronize": "同期…",
+    "titlePublish": "パレットを公開",
+    "titleSignIn": "パレットを公開または同期",
+    "titleSynchronize": "パレットを同期",
+    "unpublish": "非公開にする",
+    "unshare": "コミュニティから削除",
+    "unstar": "お気に入りから削除"
+  },
+  "relaunch": {
+    "create": {
+      "description": "選択したカラーをスケール",
+      "label": "UI Color Paletteを作成"
+    },
+    "edit": {
+      "description": "シェード/ティントを管理、エクスポート、公開",
+      "label": "UI Color Paletteを編集"
+    },
+    "open": {
+      "description": "WCAG Color Palette Manager for Apps & Websites",
+      "label": "UI Color Paletteを開く"
+    }
+  },
+  "report": {
+    "cta": "問題を送信",
+    "email": {
+      "label": "メールアドレス",
+      "placeholder": "任意"
+    },
+    "fullName": {
+      "label": "氏名",
+      "placeholder": "任意"
+    },
+    "message": {
+      "label": "メッセージ（必須）",
+      "placeholder": "再現手順を含めて問題を説明してください。"
+    },
+    "title": "バグを報告"
+  },
+  "scale": {
+    "actions": {
+      "addStop": "ストップを追加",
+      "applyEasing": "イージングをストップに直接適用",
+      "help": "ヘルプ",
+      "moreTools": "その他のツール",
+      "removeStop": "ストップを削除",
+      "resetScale": "ストップ、クロマ、色相をリセット",
+      "resetStops": "ストップをリセット",
+      "reverseStops": "ストップを逆順にする"
+    },
+    "contrast": {
+      "label": "コントラストモード",
+      "title": "コントラスト比"
+    },
+    "easing": {
+      "cubic": "キュービック",
+      "easeIn": "イーズイン",
+      "easeInOut": "イーズインアウト",
+      "easeOut": "イーズアウト",
+      "label": "ディストリビューションイージング",
+      "linear": "リニア",
+      "preview": "カラーストップを配分してカラーパレットをさまざまな方法でバランスさせる",
+      "quad": "クアッド",
+      "sine": "サイン"
+    },
+    "howTo": "使い方",
+    "keyboardShortcuts": "キーボードショートカットを確認",
+    "namingConvention": {
+      "hundreds": "100 - 1000",
+      "ones": "1 - 10",
+      "tens": "10 - 100"
+    },
+    "presets": {
+      "adobe": "Adobe",
+      "ads": "ADS Foundations, 100-1000",
+      "adsNeutral": "ADS Foundations, Neutral 0-1100",
+      "ant": "Ant Design, 1-10",
+      "atlassian": "Atlassian",
+      "base": "Base, 50-700 (Uber)",
+      "bootstrap": "Bootstrap, 100-900",
+      "carbon": "Carbon, 10-100 (IBM)",
+      "custom": "カスタム",
+      "customHundreds": "カスタム, 100-1000",
+      "customOnes": "カスタム, 1-10",
+      "customTens": "カスタム, 10-100",
+      "fluent": "Fluent 2, 10-160 (Microsoft)",
+      "framework": "フレームワーク",
+      "google": "Google",
+      "helper": "明度プリセット",
+      "label": "プリセット",
+      "legacy": "カスタム (レガシー)",
+      "material": "Material Design, 50-900",
+      "material3": "Material 3, 0-100",
+      "more": "さらにプリセット",
+      "openColor": "Open Color, 0-9",
+      "polaris": "Polaris, 1-16 (Shopify)",
+      "radix": "Radix, 1-12",
+      "spectrum": "Spectrum, 100-1300",
+      "spectrumNeutral": "Spectrum, Neutral 25-900",
+      "tailwind": "Tailwind, 50-950",
+      "untitledUI": "Untitled UI, 25-950"
+    },
+    "shift": {
+      "chroma": {
+        "label": "クロマ",
+        "warning": "/proにアップグレードして変更されたクロマシフトでパレットを作成。100%にリセットするかアップグレードしてください。"
+      },
+      "hue": {
+        "label": "色相"
+      }
+    },
+    "tips": {
+      "add": "ストップを追加",
+      "cta": "了解",
+      "custom": "カスタムプリセットで調整",
+      "distribute": "現在のイージングに基づいてストップを配分",
+      "distributeAsTooltip": "⇧を押して現在のイージングに基づいてストップを配分",
+      "inputs": {
+        "backspace": "⌫ バックスペース",
+        "click": "クリック",
+        "dbClick": "ダブルクリック",
+        "drag": "ドラッグ",
+        "enter": "↩︎ Enter",
+        "escape": "⎋ Esc",
+        "left": "←",
+        "or": "または",
+        "right": "→",
+        "shift": "⇧",
+        "tab": "⇥ Tab"
+      },
+      "move": "すべてのストップを移動",
+      "navNext": "次のストップを選択",
+      "navPrevious": "前のストップを選択",
+      "remove": "ストップを削除",
+      "select": "ストップを選択",
+      "shiftLeft": "ストップを左にシフト",
+      "shiftRight": "ストップを右にシフト",
+      "title": "キーボードショートカット",
+      "type": "ストップの値を入力",
+      "unselect": "ストップの選択を解除"
+    },
+    "title": "カラースケール"
+  },
+  "see": {
+    "properties": {
+      "colors": {
+        "alpha": "アルファモード",
+        "chromaShifting": "クロマを調整",
+        "description": "説明",
+        "hueShifting": "色相を調整",
+        "title": "ソースカラー"
+      },
+      "default": "デフォルト",
+      "information": {
+        "createdAt": "作成日時",
+        "createdBy": "作成者",
+        "published": "公開済み",
+        "publishedAt": "公開日時",
+        "shared": "コミュニティと共有済み",
+        "title": "情報",
+        "updatedAt": "更新日時"
+      },
+      "lightnessScale": "カラースケール",
+      "settings": {
+        "algorithmVersion": "クロマ速度",
+        "colorSpace": "カラースペース",
+        "description": "説明",
+        "lockedSourceColors": "ソースカラーをロック",
+        "name": "パレット名",
+        "preset": "プリセット",
+        "title": "設定"
+      },
+      "themes": {
+        "description": "説明",
+        "textDarkColor": "ダーク前景色",
+        "textLightColor": "ライト前景色",
+        "title": "カラーモード",
+        "visionSimulation": "ビジョンシミュレーション"
+      }
+    }
+  },
+  "separator": "・",
+  "services": {
+    "explore": "エクスプローラー",
+    "extract": "画像パレット",
+    "generate": "AIカラー",
+    "manage": "パレットマネージャー",
+    "wheel": "カラーハーモニー"
+  },
+  "settings": {
+    "actions": {
+      "paletteName": "パレット名"
+    },
+    "color": {
+      "algorithmVersion": {
+        "label": "クロマ速度",
+        "v1": "リニア",
+        "v2": "正弦曲線",
+        "v3": "正弦曲線と双曲線"
+      },
+      "colorSpace": {
+        "cmyk": "CMYK",
+        "hex": "HEX",
+        "hsl": "HSL",
+        "hsluv": "HSLuv",
+        "hsv": "HSV",
+        "lab": "CIELAB",
+        "label": "カラースペース",
+        "lch": "LCH",
+        "oklab": "OKLAB",
+        "oklch": "OKLCH",
+        "p3": "P3",
+        "rgb": "RGB"
+      },
+      "title": "カラー管理",
+      "visionSimulationMode": {
+        "achromatomaly": "アクロマトマリー（色弱）",
+        "achromatopsia": "アクロマトプシア（完全色盲）",
+        "colorBlind": "色覚障害",
+        "deuteranomaly": "第二色覚異常（緑色弱）",
+        "deuteranopia": "第二色覚欠如（緑色盲）",
+        "label": "ビジョンシミュレーション",
+        "none": "なし",
+        "noneAlternative": "ビジョンシミュレーションなし",
+        "protanomaly": "第一色覚異常（赤色弱）",
+        "protanopia": "第一色覚欠如（赤色盲）",
+        "tritanomaly": "第三色覚異常（青色弱）",
+        "tritanopia": "第三色覚欠如（青色盲）",
+        "warning": "/proにアップグレードしてこのビジョンシミュレーションでパレットを作成"
+      }
+    },
+    "contexts": {
+      "palette": "パレット",
+      "preferences": "設定"
+    },
+    "contrast": {
+      "textColors": {
+        "textDarkColor": "ダーク前景色",
+        "textLightColor": "ライト前景色",
+        "textThemeColorsDescription": "ライトとダークの前景色はコントラストをシミュレートしてWCAG 2.1とAPCAスコアを取得するための参照として使用されます"
+      },
+      "title": "コントラスト管理"
+    },
+    "dangerZone": {
+      "deletePalette": "パレットを削除",
+      "title": "危険ゾーン"
+    },
+    "global": {
+      "description": {
+        "label": "説明"
+      },
+      "name": {
+        "default": "無題",
+        "label": "パレット名",
+        "self": "{username}のUI Color Palette"
+      },
+      "title": "グローバル",
+      "views": {
+        "detailed": "プロパティ付きパレット",
+        "helper": "ドキュメントレイアウト",
+        "sheet": "カラーシート",
+        "simple": "パレット"
+      }
+    },
+    "title": "パレット設定"
+  },
+  "shortcuts": {
+    "author": "作者をサポート",
+    "chat": "チャットする",
+    "community": "コミュニティに参加",
+    "email": "サポートに連絡",
+    "feedback": "フィードバックを送る",
+    "follow": "サポートする",
+    "news": "新着情報",
+    "onboarding": "クイックスタート",
+    "repository": "コントリビュート",
+    "request": "アイデアを共有",
+    "store": "さらに多くの製品を発見",
+    "tooltips": {
+      "documentation": "ドキュメントを読む",
+      "helpMenu": "ヘルプ/サポートメニュー",
+      "userMenu": "ユーザーメニュー"
+    }
+  },
+  "source": {
+    "ai": {
+      "add": "AIカラーを生成",
+      "empty": "AIカラーを削除",
+      "helper": "Mistral AIを使ってクリエイティブなプロンプトに基づいたインテリジェントなカラーを生成",
+      "title": "AIカラー"
+    },
+    "colourLovers": {
+      "add": "Colour Loversのパレットを探す",
+      "empty": "Colour Loversのパレットを削除",
+      "helper": "Colour Loversコミュニティのパレットを探してインポート"
+    },
+    "contexts": {
+      "ai": "AI",
+      "explore": "エクスプローラー",
+      "harmony": "ホイール",
+      "image": "画像",
+      "overview": "概要"
+    },
+    "default": {
+      "helper": "このカラーはカラーが選択またはインポートされていない場合に使用されます",
+      "title": "デフォルトカラー"
+    },
+    "harmony": {
+      "helper": "カラーホイールに基づいたハーモニーカラーを作成",
+      "title": "カラーハーモニー"
+    },
+    "image": {
+      "add": "画像からカラーを抽出",
+      "empty": "画像パレットを削除",
+      "helper": "任意の画像から5つのドミナントカラーを抽出",
+      "title": "画像パレット"
+    },
+    "title": "ソースカラー"
+  },
+  "store": {
+    "isb": {
+      "cta": "今すぐ試す",
+      "subtitle": "プライベートなブレインストーミング＆レトロスペクティブセッション",
+      "text": "チームのプライベートセッションを通じてブレインストーミングとレトロスペクティブで参加者を巻き込み、能力を引き出す",
+      "title": "Ideas Spark Booth"
+    },
+    "title": "Yelboltのその他の製品"
+  },
+  "success": {
+    "activatedLicense": "ライセンスキー「{licenseKey}」が有効化されました",
+    "addToLocal": "パレットがこのページに追加されました",
+    "detachment": "パレットが切り離されました",
+    "nonPublication": "パレットが非公開になりました",
+    "publication": "パレットが公開されました",
+    "report": "ご報告ありがとうございます",
+    "share": "パレットがコミュニティと共有されました",
+    "synchronization": "パレットが同期されました",
+    "unlinkedLicense": "ライセンスキー「{licenseKey}」のリンクが解除されました",
+    "unshare": "パレットはコミュニティとの共有が解除されました"
+  },
+  "tagline": "WCAG Color Palette Manager for Apps & Websites",
+  "themes": {
+    "actions": {
+      "documentBackground": "このカラーは生成されたドキュメントに使用されます",
+      "moreParameters": "詳細パラメーター",
+      "new": "新しいUIカラーモード",
+      "removeColor": "モードを削除",
+      "themeName": "モード名"
+    },
+    "callout": {
+      "cta": "カラーモードを作成",
+      "message": "カラーモードを作成して1つの中で複数のカラーパレットを管理しましょう（例：ライトモードとダークモード）"
+    },
+    "defaultName": "無題のUIカラーモード",
+    "moreParameters": "{themeName}のパラメーター",
+    "noneTheme": "なし",
+    "paletteBackgroundColor": {
+      "label": "ドキュメントの背景"
+    },
+    "switchTheme": {
+      "defaultTheme": "なし",
+      "label": "モード"
+    },
+    "title": "カラーモード"
+  },
+  "url": "www.ui-color-palette.com",
+  "user": {
+    "cookies": {
+      "back": "戻る",
+      "close": "閉じる",
+      "consent": "すべて承認",
+      "customize": "クッキーをカスタマイズ",
+      "deny": "すべて拒否",
+      "privacyPolicy": "プライバシーポリシーを読む",
+      "save": "設定を保存",
+      "vendors": "これを承認することで、上記の目的のためのクッキーおよびその他の技術の使用に同意します。",
+      "welcome": "UI Color Paletteはアプリの利用状況を理解し、使用体験を改善するためにクッキーを使用しています。"
+    },
+    "language": {
+      "chineseCN": "中文 (简体)",
+      "englishUS": "English (US)",
+      "frenchFR": "Français (FR)",
+      "japaneseJP": "日本語 (JP)",
+      "koreanKR": "한국어 (KR)",
+      "label": "言語を変更",
+      "portugueseBR": "Português (BR)",
+      "spanishES": "Español (ES)",
+      "suggestion": {
+        "en": {
+          "cta": "Switch to English",
+          "message": "It looks like your browser language is English. Would you like to switch?"
+        },
+        "es": {
+          "cta": "Cambiar a Español",
+          "message": "Parece que el idioma de tu navegador es español. ¿Te gustaría cambiarlo?"
+        },
+        "fr": {
+          "cta": "Passer en Français",
+          "message": "Il semble que la langue de votre navigateur soit le français. Souhaitez-vous changer ?"
+        },
+        "ko": {
+          "cta": "한국어로 변경",
+          "message": "브라우저 언어가 한국어인 것 같습니다. 변경하시겠습니까？"
+        },
+        "pt": {
+          "cta": "Mudar para Português",
+          "message": "Parece que o idioma do seu navegador é português. Gostaria de mudar?"
+        },
+        "zh": {
+          "cta": "切换到中文",
+          "message": "看起来您的浏览器语言是中文。是否要切换？"
+        }
+      },
+      "title": "言語"
+    },
+    "license": {
+      "cta": {
+        "activate": "ライセンスを有効化",
+        "manage": "ライセンスを管理",
+        "unlink": "ライセンスのリンクを解除",
+        "unlinkLocally": "ライセンスをローカルでリンク解除",
+        "validate": "確認"
+      },
+      "key": {
+        "label": "ライセンスキー",
+        "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
+      },
+      "messages": {
+        "activate": "ライセンスキーを入力して/pro機能をアンロックしてください",
+        "active": "有効",
+        "unactive": "無効"
+      },
+      "name": {
+        "helper": "この名前はライセンスの識別に使用されます",
+        "label": "ライセンス名",
+        "placeholder": "*あなたの名前*のライセンス"
+      }
+    },
+    "manageLicense": "ライセンスを管理",
+    "manageSubscription": "サブスクリプションを管理",
+    "preferences": {
+      "sync": {
+        "message": "有効にすると、パレットはローカルライブラリと同期され、ローカルアイテムが更新されますが削除される場合があります。",
+        "palette": {
+          "label": "変更をパレットとリアルタイムで同期"
+        },
+        "styles": {
+          "label": "ローカルスタイルと深く同期",
+          "message": "スタイルがパレットに存在しない場合、削除されます。"
+        },
+        "title": "同期",
+        "tokens": {
+          "label": "ローカルトークンと深く同期",
+          "message": "トークンがパレットに存在しない場合、削除されます。"
+        },
+        "variables": {
+          "label": "ローカル変数と深く同期",
+          "message": "変数がパレットに存在しない場合、削除されます。"
+        }
+      }
+    },
+    "signIn": "サインイン",
+    "signOut": "サインアウト",
+    "updateConsent": "クッキーを管理",
+    "updatePreferences": "設定を更新",
+    "useLicense": "ライセンスキーを使用",
+    "welcomeMessage": "こんにちは {username}"
+  },
+  "vendors": {
+    "functional": {
+      "description": "アプリケーションの動作に必要なクッキー",
+      "name": "機能"
+    },
+    "mixpanel": {
+      "description": "ユーザーのインタラクションを追跡・分析する主要なアナリティクスプラットフォーム",
+      "name": "Mixpanel"
+    }
+  },
+  "warning": {
+    "emptySourceColors": "ソースカラーがありません。カラーセクションで手動で追加してください。",
+    "hslColorSpace": "HSLカラースペースはパレットにソースカラーを含めることができますが、このアプローチは明度とコントラストの一貫性を保証しません。",
+    "noCommunityPaletteOnRemote": "まだ何もありません！最初にパレットを他のユーザーと共有しましょう。",
+    "noOrgPalettes": "組織パレットがありません。アプリケーションの作成者から入手してください。",
+    "noPaletteOnCurrentPageOnDevMode": "編集権限を持つメンバーに作成を依頼できます",
+    "noPaletteOnCurrrentFile": "このファイルにUI Color Paletteがありません",
+    "noPaletteOnCurrrentPage": "このページにUI Color Paletteがありません",
+    "noSelfPaletteOnRemote": "まだ何もありません！パレットを公開して複数のドキュメントで再利用しましょう",
+    "noStarredPalettes": "まだお気に入りのパレットがありません。コミュニティを探してインスピレーションを得るパレットを見つけ、後で素早くアクセスできるようにスターを付けましょう。",
+    "paletteNameRecommendation": "64文字以内を推奨します",
+    "tooManyThemesToCreateModes": "現在のプランでは4つ以上のモードを作成できません",
+    "uncopiedCode": "コードがクリップボードにコピーされませんでした",
+    "unselectedColor": "少なくとも1つのソリッドカラーで塗りつぶされたレイヤーを選択してください"
+  },
+  "wheel": {
+    "actions": {
+      "addColors": "これらのカラーでUI Color Paletteを作成"
+    },
+    "algorithm": {
+      "analogous": "アナロガス",
+      "complementary": "コンプリメンタリー",
+      "compound": "コンパウンド",
+      "label": "カラーホイール",
+      "tetradic": "テトラディック",
+      "triadic": "トライアディック"
+    },
+    "base": "ベースカラー"
+  }
+}

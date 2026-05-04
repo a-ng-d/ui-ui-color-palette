@@ -10,4 +10,11 @@ export type TranslationKeys = RecursiveKeyOf<typeof enUS>
 
 export type Translations = typeof enUS
 
-export type Language = 'en-US' | 'fr-FR' | 'pt-BR' | 'zh-Hans-CN'
+export type Language =
+  | 'en-US'
+  | 'fr-FR'
+  | 'pt-BR'
+  | 'zh-Hans-CN'
+  | 'es-ES'
+  | 'ja-JP'
+  | 'ko-KR'
