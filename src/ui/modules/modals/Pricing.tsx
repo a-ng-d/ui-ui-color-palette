@@ -15,6 +15,9 @@ import {
   Service,
 } from '../../../types/app'
 import buildCheckoutUrl from '../../../external/transactional/openCheckout'
+import getPrices, {
+  ProductPrice,
+} from '../../../external/transactional/getPrices'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import { signIn } from '../../../external/auth/authentication'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
@@ -35,6 +38,7 @@ interface PricingState {
   isSigningIn: boolean
   checkoutUrl: string | null
   isCheckoutLoading: boolean
+  productPrices: Record<string, ProductPrice>
 }
 
 export default class Pricing extends PureComponent<PricingProps, PricingState> {
@@ -72,12 +76,14 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       isSigningIn: false,
       checkoutUrl: null,
       isCheckoutLoading: false,
+      productPrices: {},
     }
   }
 
   // Lifecycle
   componentDidMount() {
     window.addEventListener('message', this.polarMessageHandler)
+    this.loadProductPrices()
     trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -94,6 +100,26 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
   }
 
   // Handlers
+  getPricingLocale = () =>
+    navigator.languages?.[0] ?? navigator.language ?? this.props.config.lang
+
+  loadProductPrices = async () => {
+    this.setState({
+      productPrices: await getPrices(
+        [
+          this.props.config.urls.storeProWeekUrl,
+          this.props.config.urls.storeProMonthUrl,
+          this.props.config.urls.storeProYearUrl,
+          this.props.config.urls.storeProLifetimeUrl,
+        ],
+        this.getPricingLocale()
+      ),
+    })
+  }
+
+  getLocalizedPrice = (productId: string, fallback: string) =>
+    this.state.productPrices[productId]?.formatted ?? fallback
+
   polarMessageHandler = (event: MessageEvent) => {
     const POLAR_ORIGINS = ['https://polar.sh', 'https://sandbox.polar.sh']
     if (!POLAR_ORIGINS.includes(event.origin)) return
@@ -103,8 +129,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.setState({ checkoutUrl: null })
       sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
     }
-    if (event.data.event === 'close')
-      this.setState({ checkoutUrl: null })
+    if (event.data.event === 'close') this.setState({ checkoutUrl: null })
   }
 
   openCheckout = async (productId: string) => {
@@ -127,7 +152,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     }
 
     this.setState({ isCheckoutLoading: true })
-    const url = await buildCheckoutUrl(productId)
+    const url = await buildCheckoutUrl(productId, this.getPricingLocale())
     this.setState({ checkoutUrl: url ?? null, isCheckoutLoading: false })
   }
 
@@ -146,7 +171,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Card
         src={uicpp}
         title={this.props.t('pricing.pro.titles.week')}
-        subtitle={this.props.t('pricing.pro.subtitles.week')}
+        subtitle={this.props.t('pricing.pro.subtitles.week', {
+          price: this.getLocalizedPrice(
+            this.props.config.urls.storeProWeekUrl,
+            '$3'
+          ),
+        })}
         richText={
           <span
             className={texts.type}
@@ -199,7 +229,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Card
         src={uicpp}
         title={this.props.t('pricing.pro.titles.month')}
-        subtitle={this.props.t('pricing.pro.subtitles.month')}
+        subtitle={this.props.t('pricing.pro.subtitles.month', {
+          price: this.getLocalizedPrice(
+            this.props.config.urls.storeProMonthUrl,
+            '$5'
+          ),
+        })}
         richText={
           <span
             className={texts.type}
@@ -256,7 +291,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Card
         src={uicpp}
         title={this.props.t('pricing.pro.titles.year')}
-        subtitle={this.props.t('pricing.pro.subtitles.year')}
+        subtitle={this.props.t('pricing.pro.subtitles.year', {
+          price: this.getLocalizedPrice(
+            this.props.config.urls.storeProYearUrl,
+            '$4'
+          ),
+        })}
         richText={
           <span
             className={texts.type}
@@ -313,7 +353,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Card
         src={uicpp}
         title={this.props.t('pricing.pro.titles.lifetime')}
-        subtitle={this.props.t('pricing.pro.subtitles.lifetime')}
+        subtitle={this.props.t('pricing.pro.subtitles.lifetime', {
+          price: this.getLocalizedPrice(
+            this.props.config.urls.storeProLifetimeUrl,
+            '$96'
+          ),
+        })}
         richText={
           <span
             className={texts.type}

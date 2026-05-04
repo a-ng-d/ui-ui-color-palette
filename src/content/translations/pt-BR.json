@@ -745,10 +745,10 @@
         "year": "Assinar /year"
       },
       "subtitles": {
-        "lifetime": "$96 uma única vez por usuário",
-        "month": "$5 por usuário/mês",
-        "week": "$3 por usuário/semana",
-        "year": "$4 por usuário/mês"
+        "lifetime": "{price} uma única vez por usuário",
+        "month": "{price} por usuário/mês",
+        "week": "{price} por usuário/semana",
+        "year": "{price} por usuário/ano"
       },
       "texts": {
         "lifetime": "◻ Acesso vitalício</br>◻ Créditos ilimitadas</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados",

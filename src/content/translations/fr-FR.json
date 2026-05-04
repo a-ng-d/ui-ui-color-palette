@@ -746,10 +746,10 @@
         "year": "S'abonner à /year"
       },
       "subtitles": {
-        "lifetime": "96 $ à vie par util.",
-        "month": "5 $ par util./mois",
-        "week": "3 $ par util./semaine",
-        "year": "48 $ par util./an"
+        "lifetime": "{price} à vie par util.",
+        "month": "{price} par util./mois",
+        "week": "{price} par util./semaine",
+        "year": "{price} par util./an"
       },
       "texts": {
         "lifetime": "◻ Accès à vie</br>◻ Crédits illimités</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",

@@ -1,7 +1,10 @@
 import { getSupabase } from '../auth'
 import { getPolar } from '.'
 
-const buildCheckoutUrl = async (productId: string): Promise<string | null> => {
+const buildCheckoutUrl = async (
+  productId: string,
+  locale?: string
+): Promise<string | null> => {
   const polar = getPolar()
   const supabase = getSupabase()
   if (!polar || !supabase) return null
@@ -13,6 +16,7 @@ const buildCheckoutUrl = async (productId: string): Promise<string | null> => {
   u.searchParams.set('products', productId)
   u.searchParams.set('customerExternalId', data.user.id)
   if (data.user.email) u.searchParams.set('customerEmail', data.user.email)
+  if (locale) u.searchParams.set('locale', locale)
 
   return u.toString()
 }

@@ -745,10 +745,10 @@
         "year": "订阅 /year"
       },
       "subtitles": {
-        "lifetime": "每个用户 $96 一次性",
-        "month": "每个用户/月 $5",
-        "week": "每个用户/周 $3",
-        "year": "每个用户/月 $4"
+        "lifetime": "每个用户 {price} 一次性",
+        "month": "每个用户/月 {price}",
+        "week": "每个用户/周 {price}",
+        "year": "每个用户/年 {price}"
       },
       "texts": {
         "lifetime": "◻ 终身访问</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式",

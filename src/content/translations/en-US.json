@@ -746,10 +746,10 @@
         "year": "Subscribe to /year"
       },
       "subtitles": {
-        "lifetime": "$96 one-time per user",
-        "month": "$5 per user/month",
-        "week": "$3 per user/week",
-        "year": "$4 per user/month"
+        "lifetime": "{price} one-time per user",
+        "month": "{price} per user/month",
+        "week": "{price} per user/week",
+        "year": "{price} per user/year"
       },
       "texts": {
         "lifetime": "◻ Lifetime access</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",

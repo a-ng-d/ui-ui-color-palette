@@ -1,15 +1,19 @@
+import { Polar } from '@polar-sh/sdk'
+
 interface PolarConfig {
+  polar: Polar
   functionsUrl: string
-  server: 'sandbox' | 'production'
 }
 
 let polarInstance: PolarConfig | null = null
 
 export const initPolar = (
+  accessToken: string,
   functionsUrl: string,
   server: 'sandbox' | 'production'
 ) => {
-  if (!polarInstance) polarInstance = { functionsUrl, server }
+  if (!polarInstance)
+    polarInstance = { polar: new Polar({ accessToken, server }), functionsUrl }
   return polarInstance
 }
 
