@@ -127,7 +127,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
     if (event.data.event === 'success') {
       this.setState({ checkoutUrl: null })
-      this.props.onSubscribe({ isPolarPaid: true })
+      this.props.onSubscribe({ isAccountSubscribed: true })
       sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
     }
     if (event.data.event === 'close') this.setState({ checkoutUrl: null })

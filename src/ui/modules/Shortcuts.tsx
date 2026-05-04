@@ -25,7 +25,7 @@ import PlanControls from './PlanControls'
 
 interface ShortcutsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  isPolarPaid: boolean
+  isAccountSubscribed: boolean
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
@@ -424,7 +424,7 @@ export default class Shortcuts extends PureComponent<
                               isActive:
                                 this.props.config.plan.isProEnabled &&
                                 this.props.config.env.isSupabaseEnabled &&
-                                this.props.isPolarPaid,
+                                this.props.isAccountSubscribed,
                               action: async () => {
                                 const supabase = getSupabase()
                                 if (!supabase) return
