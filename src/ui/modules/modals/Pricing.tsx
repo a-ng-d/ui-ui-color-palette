@@ -1,7 +1,7 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, Card, Dialog, layouts, Tabs, texts } from '@unoff/ui'
+import { Button, Card, Dialog, Icon, layouts, Tabs, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -158,7 +158,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.getPricingLocale(),
       this.props.config.env.isDev
     )
-    this.setState({ checkoutUrl: url ?? null, isCheckoutLoading: false })
+    this.setState({ checkoutUrl: url ?? null })
   }
 
   planHandler = (e: Event) => {
@@ -592,23 +592,52 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       <Feature isActive={this.features.PRO_PLAN.isActive()}>
         <Dialog
           title={this.props.t('pricing.title')}
-          isLoading={this.state.isCheckoutLoading && !this.state.checkoutUrl}
           onClose={() => {
             if (this.state.checkoutUrl) this.setState({ checkoutUrl: null })
             else this.props.onClose()
           }}
         >
           {this.state.checkoutUrl && (
-            <iframe
-              src={`${this.state.checkoutUrl}&embed=true&embed_origin=${encodeURIComponent(window.location.origin)}`}
+            <div
               style={{
                 width: '100%',
                 minHeight: '500px',
                 border: 'none',
-                display: 'block',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
               }}
-              allow="payment 'self' https://sandbox.polar.sh https://polar.sh"
-            />
+            >
+              <iframe
+                src={`${this.state.checkoutUrl}&embed=true&embed_origin=${encodeURIComponent(window.location.origin)}`}
+                style={{
+                  width: '100%',
+                  minHeight: '500px',
+                  border: 'none',
+                  display: 'block',
+                  opacity: this.state.isCheckoutLoading ? 0 : 1,
+                }}
+                loading="lazy"
+                onLoad={() => {
+                  this.setState({ isCheckoutLoading: false })
+                }}
+                allow="payment 'self' https://sandbox.polar.sh https://polar.sh"
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  display: this.state.isCheckoutLoading ? 'flex' : 'none',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Icon
+                  type="PICTO"
+                  iconName="spinner"
+                />
+              </div>
+            </div>
           )}
           {!this.state.checkoutUrl && (
             <div
@@ -672,9 +701,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 {this.state.selectedPlan === 'YEAR' && <this.Year />}
                 {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
                 <this.Ultimate />
-                {this.props.licenseTrigger === 'ACTIVATE' && (
-                  <this.Activate />
-                )}
+                {this.props.licenseTrigger === 'ACTIVATE' && <this.Activate />}
               </div>
             </div>
           )}
