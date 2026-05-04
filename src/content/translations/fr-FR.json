@@ -689,6 +689,12 @@
     },
     "bestDeal": "Meilleur offre",
     "checkout": {
+      "browser": {
+        "abort": "Annuler le paiement",
+        "done": "J'ai souscrit",
+        "failed": "Pas encore vérifié",
+        "title": "Finalisez votre achat dans le navigateur, puis revenez ici"
+      },
       "figma": "Figma",
       "lemonsqueezy": "Lemon Squeezy",
       "trial": "3 jours d'essai"

@@ -689,6 +689,12 @@
     },
     "bestDeal": "Melhor oferta",
     "checkout": {
+      "browser": {
+        "abort": "Cancelar checkout",
+        "done": "Eu assinei",
+        "failed": "Ainda não verificado",
+        "title": "Conclua sua compra no navegador e depois volte aqui"
+      },
       "figma": "Figma",
       "lemonsqueezy": "Lemon Squeezy"
     },

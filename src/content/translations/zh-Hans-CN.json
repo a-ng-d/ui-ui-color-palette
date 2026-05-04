@@ -689,6 +689,12 @@
     },
     "bestDeal": "最佳优惠",
     "checkout": {
+      "browser": {
+        "abort": "取消结账",
+        "done": "我已订阅",
+        "failed": "尚未验证",
+        "title": "在浏览器中完成购买后，请返回此处"
+      },
       "figma": "Figma",
       "lemonsqueezy": "Lemon Squeezy"
     },

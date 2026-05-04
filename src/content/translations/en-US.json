@@ -684,11 +684,17 @@
   "pricing": {
     "activate": {
       "cta": "Use license",
-      "text": "Enter a license key after purchasing to unlock features",
+      "text": "Enter a license key you have purchased to unlock features",
       "title": "Activate /pro"
     },
     "bestDeal": "Best deal",
     "checkout": {
+      "browser": {
+        "abort": "Abort checkout",
+        "done": "I've subscribed",
+        "failed": "Not verified yet",
+        "title": "Complete your purchase in the browser, then come back here"
+      },
       "figma": "Figma",
       "lemonsqueezy": "Lemon Squeezy",
       "trial": "3-day trial"

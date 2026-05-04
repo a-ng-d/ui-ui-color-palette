@@ -1,7 +1,16 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, Card, Dialog, Icon, layouts, Tabs, texts } from '@unoff/ui'
+import {
+  Button,
+  Card,
+  Dialog,
+  Icon,
+  layouts,
+  SemanticMessage,
+  Tabs,
+  texts,
+} from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -18,6 +27,7 @@ import buildCheckoutUrl from '../../../external/transactional/openCheckout'
 import getPrices, {
   ProductPrice,
 } from '../../../external/transactional/getPrices'
+import checkSubscription from '../../../external/transactional/checkSubscription'
 import { trackPricingEvent } from '../../../external/tracking/eventsTracker'
 import { signIn } from '../../../external/auth/authentication'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
@@ -39,6 +49,8 @@ interface PricingState {
   checkoutUrl: string | null
   checkoutOpenedInBrowser: string | null
   isCheckoutLoading: boolean
+  isCheckingSubscription: boolean
+  subscriptionCheckFailed: boolean
   productPrices: Record<string, ProductPrice>
 }
 
@@ -78,6 +90,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       checkoutUrl: null,
       checkoutOpenedInBrowser: null,
       isCheckoutLoading: false,
+      isCheckingSubscription: false,
+      subscriptionCheckFailed: false,
       productPrices: {},
     }
   }
@@ -269,6 +283,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.props.t('pricing.bestDeal')}
         actions={
           <Button
             type="primary"
@@ -610,6 +625,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           title={this.props.t('pricing.title')}
           onClose={() => {
             if (this.state.checkoutUrl) this.setState({ checkoutUrl: null })
+            else if (this.state.checkoutOpenedInBrowser)
+              this.setState({ checkoutOpenedInBrowser: null })
             else this.props.onClose()
           }}
         >
@@ -617,8 +634,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             <div
               style={{
                 width: '100%',
-                minHeight: '500px',
-                border: 'none',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -629,7 +644,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 src={`${this.state.checkoutUrl}&embed=true&embed_origin=${encodeURIComponent(window.location.origin)}`}
                 style={{
                   width: '100%',
-                  minHeight: '500px',
+                  minHeight: '496px',
                   border: 'none',
                   display: 'block',
                   opacity: this.state.isCheckoutLoading ? 0 : 1,
@@ -703,6 +718,60 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   action={this.planHandler}
                 />
               </div>
+              {this.state.checkoutOpenedInBrowser && (
+                <SemanticMessage
+                  type="INFO"
+                  message={this.props.t('pricing.checkout.browser.title')}
+                  actionsSlot={
+                    <>
+                      <Button
+                        type="secondary"
+                        label={this.props.t('pricing.checkout.browser.abort')}
+                        action={() => {
+                          this.setState({ checkoutOpenedInBrowser: null })
+                        }}
+                      />
+                      <Button
+                        type="primary"
+                        label={
+                          this.state.subscriptionCheckFailed
+                            ? this.props.t('pricing.checkout.browser.failed')
+                            : this.props.t('pricing.checkout.browser.done')
+                        }
+                        icon={
+                          this.state.subscriptionCheckFailed
+                            ? 'close'
+                            : undefined
+                        }
+                        isLoading={this.state.isCheckingSubscription}
+                        action={() => {
+                          this.setState({ isCheckingSubscription: true })
+                          checkSubscription().then((isSubscribed) => {
+                            this.setState({ isCheckingSubscription: false })
+                            if (isSubscribed) {
+                              this.setState({ checkoutOpenedInBrowser: null })
+                              this.props.onSubscribe({
+                                isAccountSubscribed: true,
+                              })
+                              sendPluginMessage(
+                                { pluginMessage: { type: 'WELCOME_TO_PRO' } },
+                                '*'
+                              )
+                            } else {
+                              this.setState({ subscriptionCheckFailed: true })
+                              setTimeout(() => {
+                                this.setState({
+                                  subscriptionCheckFailed: false,
+                                })
+                              }, 5000)
+                            }
+                          })
+                        }}
+                      />
+                    </>
+                  }
+                />
+              )}
               <div
                 style={{
                   display: 'flex',
