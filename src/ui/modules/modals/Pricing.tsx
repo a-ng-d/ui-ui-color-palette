@@ -250,11 +250,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
-        tag={
-          this.props.licenseTrigger === 'ACTIVATE'
-            ? this.props.t('pricing.checkout.lemonsqueezy')
-            : this.props.t('pricing.checkout.figma')
-        }
         actions={
           <Button
             type="primary"
@@ -313,11 +308,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               __html: this.props.t('pricing.pro.texts.year'),
             }}
           />
-        }
-        tag={
-          this.props.licenseTrigger === 'ACTIVATE'
-            ? this.props.t('pricing.checkout.lemonsqueezy')
-            : this.props.t('pricing.checkout.figma')
         }
         actions={
           <Button
@@ -378,7 +368,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
-        tag={this.props.t('pricing.checkout.lemonsqueezy')}
         actions={
           <Button
             type="primary"
