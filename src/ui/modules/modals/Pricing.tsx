@@ -746,26 +746,31 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                         isLoading={this.state.isCheckingSubscription}
                         action={() => {
                           this.setState({ isCheckingSubscription: true })
-                          checkSubscription().then((isSubscribed) => {
-                            this.setState({ isCheckingSubscription: false })
-                            if (isSubscribed) {
-                              this.setState({ checkoutOpenedInBrowser: null })
-                              this.props.onSubscribe({
-                                isAccountSubscribed: true,
-                              })
-                              sendPluginMessage(
-                                { pluginMessage: { type: 'WELCOME_TO_PRO' } },
-                                '*'
-                              )
-                            } else {
-                              this.setState({ subscriptionCheckFailed: true })
-                              setTimeout(() => {
-                                this.setState({
-                                  subscriptionCheckFailed: false,
+                          checkSubscription()
+                            .then((isSubscribed) => {
+                              if (isSubscribed) {
+                                this.setState({ checkoutOpenedInBrowser: null })
+                                this.props.onSubscribe({
+                                  isAccountSubscribed: true,
                                 })
-                              }, 5000)
-                            }
-                          })
+                                sendPluginMessage(
+                                  { pluginMessage: { type: 'WELCOME_TO_PRO' } },
+                                  '*'
+                                )
+                              } else {
+                                this.setState({ subscriptionCheckFailed: true })
+                                setTimeout(() => {
+                                  this.setState({
+                                    subscriptionCheckFailed: false,
+                                  })
+                                }, 5000)
+                              }
+                            })
+                            .finally(() => {
+                              this.setState({
+                                isCheckingSubscription: false,
+                              })
+                            })
                         }}
                       />
                     </>
