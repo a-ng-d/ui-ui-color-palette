@@ -29,7 +29,7 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 interface PricingProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   licenseTrigger: LicenseTrigger
-  onManageLicense: React.Dispatch<Partial<AppState>>
+  onSubscribe: React.Dispatch<Partial<AppState>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
@@ -127,6 +127,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
     if (event.data.event === 'success') {
       this.setState({ checkoutUrl: null })
+      this.props.onSubscribe({ isPolarPaid: true })
       sendPluginMessage({ pluginMessage: { type: 'WELCOME_TO_PRO' } }, '*')
     }
     if (event.data.event === 'close') this.setState({ checkoutUrl: null })
@@ -671,10 +672,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 {this.state.selectedPlan === 'YEAR' && <this.Year />}
                 {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
                 <this.Ultimate />
-                {this.props.licenseTrigger === 'ACTIVATE' ? (
+                {this.props.licenseTrigger === 'ACTIVATE' && (
                   <this.Activate />
-                ) : (
-                  <this.Jump />
                 )}
               </div>
             </div>

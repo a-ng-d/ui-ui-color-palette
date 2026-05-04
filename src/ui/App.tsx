@@ -1105,6 +1105,7 @@ class App extends Component<AppProps, AppState> {
                   onChangePublication={(e) => this.setState({ ...e })}
                   onManageLicense={(e) => this.setState({ ...e })}
                   onSkipAndResetPalette={(e) => this.setState({ ...e })}
+                  onSubscribe={(e) => this.setState({ ...e })}
                   onClose={() =>
                     this.setState({
                       modalContext: 'EMPTY',
@@ -1129,6 +1130,7 @@ class App extends Component<AppProps, AppState> {
                   onChangePublication={(e) => this.setState({ ...e })}
                   onManageLicense={(e) => this.setState({ ...e })}
                   onSkipAndResetPalette={(e) => this.setState({ ...e })}
+                  onSubscribe={(e) => this.setState({ ...e })}
                   onClose={() =>
                     this.setState({
                       isNotificationDisplayed: false,

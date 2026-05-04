@@ -37,6 +37,7 @@ interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
   onChangePublication: React.Dispatch<Partial<AppState>>
   onManageLicense: React.Dispatch<Partial<AppState>>
   onSkipAndResetPalette: React.Dispatch<Partial<AppState>>
+  onSubscribe: React.Dispatch<Partial<AppState>>
   onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
