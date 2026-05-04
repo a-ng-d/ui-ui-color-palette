@@ -421,7 +421,10 @@ class App extends Component<AppProps, AppState> {
             .then((result) => {
               if (result?.planStatus)
                 this.setState({
-                  planStatus: result.planStatus,
+                  planStatus:
+                    result.planStatus === 'PAID'
+                      ? 'PAID'
+                      : this.state.planStatus,
                   isAccountSubscribed: result.planStatus === 'PAID',
                 })
             })
@@ -468,7 +471,7 @@ class App extends Component<AppProps, AppState> {
           instanceId: path.data.instanceId,
         }).then((isValid: boolean) => {
           this.setState({
-            planStatus: isValid ? 'PAID' : 'UNPAID',
+            planStatus: isValid ? 'PAID' : this.state.planStatus,
             trialStatus: isValid ? 'SUSPENDED' : this.state.trialStatus,
           })
         })
@@ -492,15 +495,13 @@ class App extends Component<AppProps, AppState> {
         )
       }
 
-      const checkPlanStatus = () =>
-        this.setState({
-          planStatus: path.data.planStatus,
-        })
-
       const checkTrialStatus = () =>
         path.data.planStatus !== undefined
           ? this.setState({
-              planStatus: path.data.planStatus,
+              planStatus:
+                path.data.planStatus === 'PAID'
+                  ? 'PAID'
+                  : this.state.planStatus,
               trialStatus: path.data.trialStatus,
               trialRemainingTime: path.data.trialRemainingTime,
             })
@@ -663,7 +664,6 @@ class App extends Component<AppProps, AppState> {
         CHECK_USER_PREFERENCES: () => checkUserPreferences(),
         CHECK_USER_LICENSE: () => checkUserLicense(),
         CHECK_EDITOR: () => checkEditor(),
-        CHECK_PLAN_STATUS: () => checkPlanStatus(),
         CHECK_TRIAL_STATUS: () => checkTrialStatus(),
         CHECK_CREDITS: () => checkCredits(),
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
