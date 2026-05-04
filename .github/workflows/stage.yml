@@ -48,6 +48,8 @@ jobs:
           echo VITE_MIXPANEL_ENABLED="${{ vars.VITE_MIXPANEL_ENABLED }}" >> .env.local
           echo VITE_SENTRY_ENABLED="${{ vars.VITE_SENTRY_ENABLED }}" >> .env.local
           echo VITE_MISTRAL_AI_ENABLED="${{ vars.VITE_MISTRAL_AI_ENABLED }}" >> .env.local
+          echo VITE_NOTION_ENABLED="${{ vars.VITE_NOTION_ENABLED }}" >> .env.local
+          echo VITE_POLAR_ENABLED="${{ vars.VITE_POLAR_ENABLED }}" >> .env.local
           echo VITE_PRO_ENABLED="${{ vars.VITE_PRO_ENABLED }}" >> .env.local
           echo VITE_TRIAL_ENABLED="${{ vars.VITE_TRIAL_ENABLED }}" >> .env.local
           echo VITE_CREDITS_ENABLED="${{ vars.VITE_CREDITS_ENABLED }}" >> .env.local
@@ -65,6 +67,7 @@ jobs:
           echo VITE_LEMONSQUEEZY_URL="${{ vars.VITE_LEMONSQUEEZY_URL }}" >> .env.local
           echo VITE_MISTRAL_AI_API_KEY="${{ secrets.VITE_MISTRAL_AI_API_KEY }}" >> .env.local
           echo VITE_TOLGEE_API_KEY="${{ secrets.VITE_TOLGEE_API_KEY }}" >> .env.local
+          echo VITE_POLAR_ACCESS_TOKEN="${{ secrets.VITE_POLAR_ACCESS_TOKEN }}" >> .env.local
           echo VITE_DBS_PALETTES_VIEW="${{ vars.VITE_DBS_PALETTES_VIEW }}" >> .env.local
           echo VITE_DBS_PALETTES_TABLE="${{ vars.VITE_DBS_PALETTES_TABLE }}" >> .env.local
           echo VITE_DBS_STARRED_PALETTES_TABLE="${{ vars.VITE_DBS_STARRED_PALETTES_TABLE }}" >> .env.local

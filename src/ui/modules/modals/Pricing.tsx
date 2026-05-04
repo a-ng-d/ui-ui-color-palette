@@ -198,6 +198,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
+              if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProWeekUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
@@ -214,6 +215,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
+          if (!this.props.config.env.isPolarEnabled) return
           this.openCheckout(this.props.config.urls.storeProWeekUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
@@ -260,6 +262,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
+              if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProMonthUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
@@ -276,6 +279,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
+          if (!this.props.config.env.isPolarEnabled) return
           this.openCheckout(this.props.config.urls.storeProMonthUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
@@ -322,6 +326,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
+              if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProYearUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
@@ -338,6 +343,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
+          if (!this.props.config.env.isPolarEnabled) return
           this.openCheckout(this.props.config.urls.storeProYearUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
@@ -380,6 +386,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             isLoading={this.state.isSigningIn}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
+              if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProLifetimeUrl)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
@@ -396,6 +403,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         }
         shouldFill
         action={() => {
+          if (!this.props.config.env.isPolarEnabled) return
           this.openCheckout(this.props.config.urls.storeProLifetimeUrl)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,

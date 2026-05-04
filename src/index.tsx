@@ -116,14 +116,6 @@ if (globalConfig.env.isSentryEnabled && !globalConfig.env.isDev) {
 if (globalConfig.env.isSupabaseEnabled)
   initSupabase(globalConfig.urls.databaseUrl, supabaseAnonKey)
 
-// Polar
-if (globalConfig.env.isSupabaseEnabled)
-  initPolar(
-    polarAccessToken as string,
-    `${globalConfig.urls.databaseUrl}/functions/v1`,
-    globalConfig.env.isDev ? 'sandbox' : 'production'
-  )
-
 // Mistral AI
 if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
 
@@ -138,6 +130,14 @@ const tolgee = initTolgee(tolgeeUrl, tolgeeApiKey, globalConfig.lang, {
   'pt-BR': pt_BR,
   'zh-Hans-CN': zh_Hans_CN,
 })
+
+// Polar
+if (globalConfig.env.isPolarEnabled && globalConfig.env.isSupabaseEnabled)
+  initPolar(
+    polarAccessToken as string,
+    `${globalConfig.urls.databaseUrl}/functions/v1`,
+    globalConfig.env.isDev ? 'sandbox' : 'production'
+  )
 
 // Bridge Canvas <> UI
 window.addEventListener(

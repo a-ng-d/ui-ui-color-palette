@@ -33,6 +33,7 @@ export interface Config {
     isSentryEnabled: boolean
     isMistralAiEnabled: boolean
     isNotionEnabled: boolean
+    isPolarEnabled: boolean
     announcementsDbId: string
     onboardingDbId: string
     readonly pluginId: string
