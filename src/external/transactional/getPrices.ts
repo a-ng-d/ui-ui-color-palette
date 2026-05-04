@@ -27,10 +27,14 @@ const inferCurrency = (locale: string): string => {
     ])
     if (eurRegions.has(region)) return 'eur'
     if (region === 'GB') return 'gbp'
+    if (region === 'CH') return 'chf'
     if (region === 'BR') return 'brl'
     if (region === 'IN') return 'inr'
     if (region === 'SG') return 'sgd'
     if (region === 'CN') return 'cny'
+    if (region === 'TW') return 'twd'
+    if (region === 'KR') return 'krw'
+    if (region === 'TR') return 'try'
     return 'usd'
   } catch {
     return 'usd'
