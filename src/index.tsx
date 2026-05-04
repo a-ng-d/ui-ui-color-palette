@@ -34,6 +34,7 @@ const mistralApiKey = import.meta.env.VITE_MISTRAL_AI_API_KEY
 const notionApiKey = import.meta.env.VITE_NOTION_API_KEY
 const tolgeeUrl = import.meta.env.VITE_TOLGEE_URL
 const tolgeeApiKey = import.meta.env.VITE_TOLGEE_API_KEY
+const polarAccessToken = import.meta.env.VITE_POLAR_ACCESS_TOKEN
 
 // Mixpanel
 if (globalConfig.env.isMixpanelEnabled) {
@@ -118,6 +119,7 @@ if (globalConfig.env.isSupabaseEnabled)
 // Polar
 if (globalConfig.env.isSupabaseEnabled)
   initPolar(
+    polarAccessToken as string,
     `${globalConfig.urls.databaseUrl}/functions/v1`,
     globalConfig.env.isDev ? 'sandbox' : 'production'
   )
