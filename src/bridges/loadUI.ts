@@ -288,14 +288,6 @@ else {
         iframe?.contentWindow?.postMessage({
           type: 'GET_LICENSE',
         }),
-      GO_TO_PRO_WEEK: async () =>
-        window.open(globalConfig.urls.storeProWeekUrl, '_blank'),
-      GO_TO_PRO_MONTH: async () =>
-        window.open(globalConfig.urls.storeProMonthUrl, '_blank'),
-      GO_TO_PRO_YEAR: async () =>
-        window.open(globalConfig.urls.storeProYearUrl, '_blank'),
-      GO_TO_PRO_LIFETIME: async () =>
-        window.open(globalConfig.urls.storeProLifetimeUrl, '_blank'),
       GO_TO_ULTIMATE_REQUEST: async () =>
         window.open(globalConfig.urls.storeUltimateRequestUrl, '_blank'),
       ENABLE_PRO_PLAN: async () =>
