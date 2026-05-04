@@ -37,6 +37,7 @@ interface PricingState {
   selectedPlan: 'WEEK' | 'MONTH' | 'YEAR' | 'LIFETIME'
   isSigningIn: boolean
   checkoutUrl: string | null
+  checkoutOpenedInBrowser: string | null
   isCheckoutLoading: boolean
   productPrices: Record<string, ProductPrice>
 }
@@ -75,6 +76,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       selectedPlan: 'WEEK',
       isSigningIn: false,
       checkoutUrl: null,
+      checkoutOpenedInBrowser: null,
       isCheckoutLoading: false,
       productPrices: {},
     }
@@ -158,6 +160,23 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.getPricingLocale(),
       this.props.config.env.isDev
     )
+
+    const isFigmaEditor = [
+      'figma',
+      'figjam',
+      'dev',
+      'dev_vscode',
+      'buzz',
+    ].includes(this.props.editor)
+
+    if (isFigmaEditor && url) {
+      this.setState({ isCheckoutLoading: false, checkoutOpenedInBrowser: url })
+      sendPluginMessage(
+        { pluginMessage: { type: 'OPEN_IN_BROWSER', data: { url } } },
+        '*'
+      )
+      return
+    }
     this.setState({ checkoutUrl: url ?? null })
   }
 
