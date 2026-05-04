@@ -748,6 +748,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                           this.setState({ isCheckingSubscription: true })
                           checkSubscription()
                             .then((isSubscribed) => {
+                              console.log(isSubscribed)
                               if (isSubscribed) {
                                 this.setState({ checkoutOpenedInBrowser: null })
                                 this.props.onSubscribe({
@@ -757,19 +758,20 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                                   { pluginMessage: { type: 'WELCOME_TO_PRO' } },
                                   '*'
                                 )
-                              } else {
-                                this.setState({ subscriptionCheckFailed: true })
-                                setTimeout(() => {
-                                  this.setState({
-                                    subscriptionCheckFailed: false,
-                                  })
-                                }, 5000)
                               }
                             })
                             .finally(() => {
                               this.setState({
                                 isCheckingSubscription: false,
                               })
+                            })
+                            .catch(() => {
+                              this.setState({ subscriptionCheckFailed: true })
+                              setTimeout(() => {
+                                this.setState({
+                                  subscriptionCheckFailed: false,
+                                })
+                              }, 5000)
                             })
                         }}
                       />
