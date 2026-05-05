@@ -1051,7 +1051,7 @@ export default class EditPalette extends PureComponent<EditPaletteProps, EditPal
                       <Feature isActive={this.features.COLORS.isActive()}>
                         <Button
                           type="icon"
-                          icon="eyedropper"
+                          icon="colors"
                           state={
                             this.state.context === 'COLORS'
                               ? 'selected'

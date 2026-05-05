@@ -996,7 +996,7 @@ class App extends Component<AppProps, AppState> {
                               >
                                 <Button
                                   type="icon"
-                                  icon="styles"
+                                  icon="list-tile"
                                   state={
                                     this.state.service === 'WHEEL'
                                       ? 'selected'

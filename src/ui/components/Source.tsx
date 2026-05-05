@@ -91,7 +91,7 @@ export default class Source extends PureComponent<SourceProps, SourceState> {
             >
               <Button
                 type="icon"
-                icon="target"
+                icon="adjust"
                 size="small"
                 helper={{
                   label: this.props.t('preview.actions.jumpToColor'),
