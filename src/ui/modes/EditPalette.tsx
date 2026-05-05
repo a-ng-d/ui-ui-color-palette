@@ -104,7 +104,10 @@ interface EditPaletteState {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteState> {
+export default class EditPalette extends PureComponent<
+  EditPaletteProps,
+  EditPaletteState
+> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
   private scaleMessage: ScaleMessage

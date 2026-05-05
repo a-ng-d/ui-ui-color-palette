@@ -49,7 +49,10 @@ interface ImagePaletteState {
   imageTitle: string
 }
 
-export default class ImagePalette extends PureComponent<ImagePaletteProps, ImagePaletteState> {
+export default class ImagePalette extends PureComponent<
+  ImagePaletteProps,
+  ImagePaletteState
+> {
   private palette = $palette
 
   static features = (
