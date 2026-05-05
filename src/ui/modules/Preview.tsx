@@ -592,19 +592,13 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   }
 
   private filteredSortedColors = () =>
-    this.props.colors
-      .filter((color) => {
-        if (this.props.colors.length > 1) {
-          if ('source' in color) return color.source !== 'DEFAULT'
-          return true
-        }
+    this.props.colors.filter((color) => {
+      if (this.props.colors.length > 1) {
+        if ('source' in color) return color.source !== 'DEFAULT'
         return true
-      })
-      .sort((a, b) => {
-        if (a.name.localeCompare(b.name) > 0) return 1
-        else if (a.name.localeCompare(b.name) < 0) return -1
-        else return 0
-      })
+      }
+      return true
+    })
 
   navigateShadeReport = (
     direction: 'previous' | 'next',
