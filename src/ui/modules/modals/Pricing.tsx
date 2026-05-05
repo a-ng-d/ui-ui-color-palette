@@ -765,7 +765,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                                 isCheckingSubscription: false,
                               })
                             })
-                            .catch(() => {
+                            .catch((error) => {
+                              console.error(error)
                               this.setState({ subscriptionCheckFailed: true })
                               setTimeout(() => {
                                 this.setState({
