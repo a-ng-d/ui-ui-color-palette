@@ -316,6 +316,7 @@
   "explore": {
     "actions": {
       "addColors": "Create a UI Color Palette with these colors",
+      "newPalette": "New UI Color Palette",
       "openPalette": "Open palette"
     },
     "filters": {
@@ -390,7 +391,8 @@
   "genAi": {
     "actions": {
       "addColors": "Create a UI Color Palette with these colors",
-      "generate": "Generate colors (⌃⏎ or ⌘⏎)"
+      "generate": "Generate colors (⌃⏎ or ⌘⏎)",
+      "newPalette": "New"
     },
     "colorTypes": {
       "alert": "Alert",
@@ -451,7 +453,8 @@
   },
   "imagePalette": {
     "actions": {
-      "addColors": "Create a UI Color Palette with these colors"
+      "addColors": "Create a UI Color Palette with these colors",
+      "newPalette": "New"
     },
     "dropzone": {
       "cta": "or click to browse",
@@ -1313,7 +1316,8 @@
   },
   "wheel": {
     "actions": {
-      "addColors": "Create a UI Color Palette with these colors"
+      "addColors": "Create a UI Color Palette with these colors",
+      "newPalette": "New UI Color Palette"
     },
     "algorithm": {
       "analogous": "Analogous",

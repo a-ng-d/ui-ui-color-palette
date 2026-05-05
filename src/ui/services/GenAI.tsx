@@ -55,13 +55,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     service: Service,
     editor: Editor
   ) => ({
-    GEN_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'GEN_ADD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     GEN_REQUEST: new FeatureStatus({
       features: config.features,
       featureName: 'GEN_REQUEST',
@@ -383,18 +376,23 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
               />
             }
             rightPartSlot={
-              <Feature isActive={this.features.GEN_ADD.isActive()}>
+              <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
                 <Button
-                  type="icon"
-                  icon="plus"
+                  type="secondary"
+                  label={this.props.t('genAi.actions.newPalette')}
                   helper={{
                     label: this.props.t('genAi.actions.addColors'),
                     type: 'MULTI_LINE',
                   }}
                   isLoading={this.state.isActionLoading}
                   isDisabled={true}
-                  isBlocked={this.features.GEN_ADD.isBlocked()}
-                  isNew={this.features.GEN_ADD.isNew()}
+                  isBlocked={this.features.CREATE_PALETTE.isReached(
+                    (this.props.creditsCount -
+                      this.props.config.fees.paletteCreate) *
+                      -1 -
+                      1
+                  )}
+                  isNew={this.features.CREATE_PALETTE.isNew()}
                   action={this.onUsePalette}
                 />
               </Feature>
@@ -442,10 +440,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
             />
           }
           rightPartSlot={
-            <Feature isActive={this.features.GEN_ADD.isActive()}>
+            <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
               <Button
-                type="icon"
-                icon="plus"
+                type="secondary"
+                label={this.props.t('genAi.actions.newPalette')}
                 helper={{
                   label: this.props.t('genAi.actions.addColors'),
                   type: 'MULTI_LINE',
@@ -457,7 +455,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                     -1 -
                     1
                 )}
-                isNew={this.features.GEN_ADD.isNew()}
+                isNew={this.features.CREATE_PALETTE.isNew()}
                 action={this.onUsePalette}
               />
             </Feature>

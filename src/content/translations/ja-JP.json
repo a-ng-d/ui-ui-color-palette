@@ -316,6 +316,7 @@
   "explore": {
     "actions": {
       "addColors": "これらのカラーでUI Color Paletteを作成",
+      "newPalette": "新しいUI Color Palette",
       "openPalette": "パレットを開く"
     },
     "filters": {
@@ -390,7 +391,8 @@
   "genAi": {
     "actions": {
       "addColors": "これらのカラーでUI Color Paletteを作成",
-      "generate": "カラーを生成 (⌃⏎ または ⌘⏎)"
+      "generate": "カラーを生成 (⌃⏎ または ⌘⏎)",
+      "newPalette": "新規"
     },
     "colorTypes": {
       "alert": "アラート",
@@ -451,7 +453,8 @@
   },
   "imagePalette": {
     "actions": {
-      "addColors": "これらのカラーでUI Color Paletteを作成"
+      "addColors": "これらのカラーでUI Color Paletteを作成",
+      "newPalette": "新規"
     },
     "dropzone": {
       "cta": "またはクリックして参照",
@@ -643,11 +646,11 @@
       "displayScores": "スコアを表示",
       "expandPreview": "プレビューを展開",
       "filterScores": "スコアをフィルター",
+      "insert": "挿入",
       "jumpToColor": "ソースカラーに移動",
       "resetImportedColors": "インポートしたカラーをリセット",
       "showDetails": "コントラストレポートを見る",
-      "visionSimulationMode": "ビジョンシミュレーション",
-      "insert": "挿入"
+      "visionSimulationMode": "ビジョンシミュレーション"
     },
     "closest": {
       "tag": "最も近い"
@@ -1313,7 +1316,8 @@
   },
   "wheel": {
     "actions": {
-      "addColors": "これらのカラーでUI Color Paletteを作成"
+      "addColors": "これらのカラーでUI Color Paletteを作成",
+      "newPalette": "新しいUI Color Palette"
     },
     "algorithm": {
       "analogous": "アナロガス",

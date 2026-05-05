@@ -66,13 +66,6 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     service: Service,
     editor: Editor
   ) => ({
-    EXPLORE_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'EXPLORE_ADD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
@@ -341,10 +334,10 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                       )
                     }
                   />
-                  <Feature isActive={this.features.EXPLORE_ADD.isActive()}>
+                  <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
                     <Button
-                      type="icon"
-                      icon="plus"
+                      type="secondary"
+                      label={this.props.t('explore.actions.newPalette')}
                       helper={{
                         label: this.props.t('explore.actions.addColors'),
                         type: 'MULTI_LINE',
@@ -356,7 +349,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                           -1 -
                           1
                       )}
-                      isNew={this.features.EXPLORE_ADD.isNew()}
+                      isNew={this.features.CREATE_PALETTE.isNew()}
                       action={() => {
                         this.onUsePalette(palette)
                       }}

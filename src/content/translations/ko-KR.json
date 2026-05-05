@@ -316,6 +316,7 @@
   "explore": {
     "actions": {
       "addColors": "이 색상들로 UI Color Palette 만들기",
+      "newPalette": "새 UI Color Palette",
       "openPalette": "팔레트 열기"
     },
     "filters": {
@@ -390,7 +391,8 @@
   "genAi": {
     "actions": {
       "addColors": "이 색상들로 UI Color Palette 만들기",
-      "generate": "색상 생성 (⌃⏎ 또는 ⌘⏎)"
+      "generate": "색상 생성 (⌃⏎ 또는 ⌘⏎)",
+      "newPalette": "새로 만들기"
     },
     "colorTypes": {
       "alert": "알림",
@@ -451,7 +453,8 @@
   },
   "imagePalette": {
     "actions": {
-      "addColors": "이 색상들로 UI Color Palette 만들기"
+      "addColors": "이 색상들로 UI Color Palette 만들기",
+      "newPalette": "새로 만들기"
     },
     "dropzone": {
       "cta": "또는 클릭하여 찾아보기",
@@ -1313,7 +1316,8 @@
   },
   "wheel": {
     "actions": {
-      "addColors": "이 색상들로 UI Color Palette 만들기"
+      "addColors": "이 색상들로 UI Color Palette 만들기",
+      "newPalette": "새 UI Color Palette"
     },
     "algorithm": {
       "analogous": "유사색",

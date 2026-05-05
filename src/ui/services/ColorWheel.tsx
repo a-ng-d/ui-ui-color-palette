@@ -105,13 +105,6 @@ export default class ColorWheel extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    WHEEL_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'WHEEL_ADD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
@@ -476,10 +469,13 @@ export default class ColorWheel extends PureComponent<
                       >
                         {this.props.t('separator')}
                       </span>
-                      <Feature isActive={this.features.WHEEL_ADD.isActive()}>
+                      <Feature
+                        isActive={this.features.CREATE_PALETTE.isActive()}
+                      >
                         <Button
-                          type="icon"
+                          type="primary"
                           icon="plus"
+                          label={this.props.t('wheel.actions.newPalette')}
                           helper={{
                             label: this.props.t('wheel.actions.addColors'),
                             type: 'MULTI_LINE',
@@ -491,7 +487,7 @@ export default class ColorWheel extends PureComponent<
                               -1 -
                               1
                           )}
-                          isNew={this.features.WHEEL_ADD.isNew()}
+                          isNew={this.features.CREATE_PALETTE.isNew()}
                           action={this.onUsePalette}
                         />
                       </Feature>

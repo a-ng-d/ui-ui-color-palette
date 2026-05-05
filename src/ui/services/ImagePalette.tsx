@@ -49,10 +49,7 @@ interface ImagePaletteState {
   imageTitle: string
 }
 
-export default class ImagePalette extends PureComponent<
-  ImagePaletteProps,
-  ImagePaletteState
-> {
+export default class ImagePalette extends PureComponent<ImagePaletteProps, ImagePaletteState> {
   private palette = $palette
 
   static features = (
@@ -64,13 +61,6 @@ export default class ImagePalette extends PureComponent<
     EXTRACT_UPLOAD: new FeatureStatus({
       features: config.features,
       featureName: 'EXTRACT_UPLOAD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    EXTRACT_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'EXTRACT_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -393,10 +383,10 @@ export default class ImagePalette extends PureComponent<
             />
           }
           rightPartSlot={
-            <Feature isActive={this.features.EXTRACT_ADD.isActive()}>
+            <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
               <Button
-                type="icon"
-                icon="plus"
+                type="secondary"
+                label={this.props.t('imagePalette.actions.newPalette')}
                 helper={{
                   label: this.props.t('imagePalette.actions.addColors'),
                   type: 'MULTI_LINE',
@@ -409,7 +399,7 @@ export default class ImagePalette extends PureComponent<
                     -1 -
                     1
                 )}
-                isNew={this.features.EXTRACT_ADD.isNew()}
+                isNew={this.features.CREATE_PALETTE.isNew()}
                 action={this.onUsePalette}
               />
             </Feature>

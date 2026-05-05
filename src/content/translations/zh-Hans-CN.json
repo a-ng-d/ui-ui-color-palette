@@ -316,6 +316,7 @@
   "explore": {
     "actions": {
       "addColors": "用这些颜色创建一个 UI Color Palette",
+      "newPalette": "新建 UI Color Palette",
       "openPalette": "打开调色板"
     },
     "filters": {
@@ -390,7 +391,8 @@
   "genAi": {
     "actions": {
       "addColors": "用这些颜色创建一个 UI Color Palette",
-      "generate": "生成配色（Ctrl+Enter / ⌘+Enter）"
+      "generate": "生成配色（Ctrl+Enter / ⌘+Enter）",
+      "newPalette": "新建"
     },
     "colorTypes": {
       "alert": "警告",
@@ -451,7 +453,8 @@
   },
   "imagePalette": {
     "actions": {
-      "addColors": "用这些颜色创建一个 UI Color Palette"
+      "addColors": "用这些颜色创建一个 UI Color Palette",
+      "newPalette": "新建"
     },
     "dropzone": {
       "cta": "或点击浏览",
@@ -1313,7 +1316,8 @@
   },
   "wheel": {
     "actions": {
-      "addColors": "用这些颜色创建一个 UI Color Palette"
+      "addColors": "用这些颜色创建一个 UI Color Palette",
+      "newPalette": "新建 UI Color Palette"
     },
     "algorithm": {
       "analogous": "类似",
