@@ -428,8 +428,8 @@ class App extends Component<AppProps, AppState> {
                   isAccountSubscribed: result.planStatus === 'PAID',
                 })
             })
-            .catch(() => {
-              console.error('Error checking authentication status')
+            .catch((error) => {
+              console.error(error)
             })
       }
 
