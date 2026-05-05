@@ -643,6 +643,7 @@
       "displayScores": "Show scores",
       "expandPreview": "Expand preview",
       "filterScores": "Filter scores",
+      "insert": "Insert",
       "jumpToColor": "Jump to source color",
       "resetImportedColors": "Reset imported colors",
       "showDetails": "See contrast report",
@@ -660,6 +661,10 @@
       "pass": "Pass",
       "reset": "Reset filter",
       "wcag": "APCA"
+    },
+    "insert": {
+      "color": "Insert new color",
+      "stop": "Insert new stop"
     },
     "lock": {
       "label": "Lock source colors",

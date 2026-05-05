@@ -643,6 +643,7 @@
       "displayScores": "显示分数",
       "expandPreview": "展开预览",
       "filterScores": "筛选分数",
+      "insert": "插入",
       "jumpToColor": "跳转到源颜色",
       "resetImportedColors": "重置导入的颜色",
       "showDetails": "查看对比度报告",
@@ -660,6 +661,10 @@
       "pass": "通过",
       "reset": "重置筛选",
       "wcag": "APCA"
+    },
+    "insert": {
+      "color": "插入新颜色",
+      "stop": "插入新色阶"
     },
     "lock": {
       "label": "锁定源颜色",

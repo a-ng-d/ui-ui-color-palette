@@ -2,11 +2,20 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
-import { Bar, Button, Chip, ColorChip, DropdownOption, Layout } from '@unoff/ui'
+import {
+  Bar,
+  Chip,
+  ColorChip,
+  DropdownOption,
+  Layout,
+  layouts,
+  Menu,
+} from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
   HexModel,
+  PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
@@ -54,6 +63,7 @@ interface PreviewProps
   mode: Mode
   id: string
   colors: Array<SourceColorConfiguration> | Array<ColorConfiguration> | []
+  preset: PresetConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration
@@ -68,6 +78,7 @@ interface PreviewProps
   onResetSourceColors?: () => void
   onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
   onAddColor?: () => void
+  onAddStop?: () => void
   onInteractWithSourceColor?: (colorId: string) => void
   onShadeReportOpen?: (data: {
     sourceColor: SourceColorConfiguration | ColorConfiguration
@@ -119,6 +130,13 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     COLORS: new FeatureStatus({
       features: config.features,
       featureName: 'COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PRESETS_CUSTOM_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'PRESETS_CUSTOM_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -1036,36 +1054,54 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                     )}
                 </div>
                 <Bar
-                  soloPartSlot={
-                    <Button
-                      type="secondary"
-                      label={this.props.t('colors.actions.new')}
-                      icon="plus"
-                      isBlocked={this.features.COLORS.isReached(
-                        this.props.colors.length
-                      )}
-                      action={() => this.props.onAddColor?.()}
-                    />
-                  }
-                  isCentered
-                  padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
-                  border={['TOP']}
-                />
-                <Bar
                   leftPartSlot={
-                    <ScoresControls
-                      {...this.props}
-                      isWCAGDisplayed={this.state.isWCAGDisplayed}
-                      isAPCADisplayed={this.state.isAPCADisplayed}
-                      isWCAGIntervalDisplayed={
-                        this.state.isWCAGIntervalDisplayed
-                      }
-                      isAPCAIntervalDisplayed={
-                        this.state.isAPCAIntervalDisplayed
-                      }
-                      scoreFilters={this.state.scoreFilters}
-                      onUpdateScoreFilters={this.updateScoreFilters}
-                    />
+                    <div className={layouts['snackbar--medium']}>
+                      <Menu
+                        type="PRIMARY"
+                        label={this.props.t('preview.actions.insert')}
+                        options={[
+                          {
+                            label: this.props.t('preview.insert.color'),
+                            value: 'ADD_COLOR',
+                            type: 'OPTION',
+                            isActive: this.features.COLORS.isActive(),
+                            isBlocked: this.features.COLORS.isReached(
+                              this.props.colors.length
+                            ),
+                            isNew: this.features.COLORS.isNew(),
+                            action: () => this.props.onAddColor?.(),
+                          },
+                          {
+                            label: this.props.t('preview.insert.stop'),
+                            value: 'ADD_STOP',
+                            type: 'OPTION',
+                            isActive:
+                              this.props.preset.id.includes('CUSTOM') &&
+                              this.features.PRESETS_CUSTOM_ADD.isActive(),
+                            isBlocked:
+                              this.features.PRESETS_CUSTOM_ADD.isReached(
+                                this.props.preset.stops.length
+                              ),
+                            isNew: this.features.PRESETS_CUSTOM_ADD.isNew(),
+                            action: () => this.props.onAddStop?.(),
+                          },
+                        ]}
+                        alignment="TOP_LEFT"
+                      />
+                      <ScoresControls
+                        {...this.props}
+                        isWCAGDisplayed={this.state.isWCAGDisplayed}
+                        isAPCADisplayed={this.state.isAPCADisplayed}
+                        isWCAGIntervalDisplayed={
+                          this.state.isWCAGIntervalDisplayed
+                        }
+                        isAPCAIntervalDisplayed={
+                          this.state.isAPCAIntervalDisplayed
+                        }
+                        scoreFilters={this.state.scoreFilters}
+                        onUpdateScoreFilters={this.updateScoreFilters}
+                      />
+                    </div>
                   }
                   rightPartSlot={
                     <SettingsControls

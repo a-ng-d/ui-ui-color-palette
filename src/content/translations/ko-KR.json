@@ -643,6 +643,7 @@
       "displayScores": "점수 표시",
       "expandPreview": "미리보기 펼치기",
       "filterScores": "점수 필터링",
+      "insert": "삽입",
       "jumpToColor": "소스 색상으로 이동",
       "resetImportedColors": "가져온 색상 초기화",
       "showDetails": "대비 보고서 보기",
@@ -660,6 +661,10 @@
       "pass": "통과",
       "reset": "필터 초기화",
       "wcag": "APCA"
+    },
+    "insert": {
+      "color": "새 색상 추가",
+      "stop": "새 정지점 추가"
     },
     "lock": {
       "label": "소스 색상 잠금",

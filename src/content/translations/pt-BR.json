@@ -643,6 +643,7 @@
       "displayScores": "Mostrar pontuações",
       "expandPreview": "Expandir visualização",
       "filterScores": "Filtrar pontuações",
+      "insert": "Inserir",
       "jumpToColor": "Ir para cor-fonte",
       "resetImportedColors": "Resetar cores importadas",
       "showDetails": "Ver relatório de contraste",
@@ -660,6 +661,10 @@
       "pass": "Passou",
       "reset": "Redefinir filtro",
       "wcag": "APCA"
+    },
+    "insert": {
+      "color": "Inserir nova cor",
+      "stop": "Inserir nova parada"
     },
     "lock": {
       "label": "Bloquear cores-fonte",

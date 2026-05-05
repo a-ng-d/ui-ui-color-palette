@@ -14,6 +14,7 @@ import {
   ColorSpaceConfiguration,
   DatesConfiguration,
   DocumentConfiguration,
+  ExchangeConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   ThemeConfiguration,
@@ -39,6 +40,7 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   ColorsMessage,
   PluginMessageData,
+  ScaleMessage,
   ThemesMessage,
 } from '../../types/messages'
 import { SourceColorEvent } from '../../types/events'
@@ -102,12 +104,10 @@ interface EditPaletteState {
   isSecondaryLoading: boolean
 }
 
-export default class EditPalette extends PureComponent<
-  EditPaletteProps,
-  EditPaletteState
-> {
+export default class EditPalette extends PureComponent<EditPaletteProps, EditPaletteState> {
   private colorsMessage: ColorsMessage
   private themesMessage: ThemesMessage
+  private scaleMessage: ScaleMessage
   private contexts: Array<ContextItem>
   private themesRef: React.RefObject<Themes>
   private previewRef: React.RefObject<Preview>
@@ -199,6 +199,11 @@ export default class EditPalette extends PureComponent<
       type: 'UPDATE_COLORS',
       id: this.props.id,
       data: [],
+    }
+    this.scaleMessage = {
+      type: 'UPDATE_SCALE',
+      id: this.props.id,
+      data: this.palette.value as ExchangeConfiguration,
     }
     this.contexts = setContexts(
       ['SCALE', 'COLORS', 'THEMES', 'IMPORTS', 'SETTINGS'],
@@ -870,6 +875,30 @@ export default class EditPalette extends PureComponent<
     )
   }
 
+  onAddStop = () => {
+    const preset = this.props.preset
+    const stops = [...(preset.stops ?? [])]
+
+    if (stops.length >= 24) return
+
+    stops.push(stops.slice(-1)[0] + stops[0])
+    preset.stops = stops
+
+    this.palette.setKey('preset', preset)
+    this.palette.setKey(
+      'scale',
+      doScale(stops, preset.min ?? 0, preset.max ?? 100)
+    )
+
+    this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+
+    this.props.onChangePreset({
+      preset: preset,
+      scale: this.palette.get().scale,
+    })
+  }
+
   // Render
   render() {
     let fragment
@@ -948,6 +977,7 @@ export default class EditPalette extends PureComponent<
                     {...this.props}
                     themeOptions={this.setThemes()}
                     onAddColor={this.onAddColor}
+                    onAddStop={this.onAddStop}
                     onInteractWithSourceColor={() => this.onJumpToSourceColor()}
                     ref={this.previewRef}
                   />

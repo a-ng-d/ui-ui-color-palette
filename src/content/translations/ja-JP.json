@@ -646,7 +646,8 @@
       "jumpToColor": "ソースカラーに移動",
       "resetImportedColors": "インポートしたカラーをリセット",
       "showDetails": "コントラストレポートを見る",
-      "visionSimulationMode": "ビジョンシミュレーション"
+      "visionSimulationMode": "ビジョンシミュレーション",
+      "insert": "挿入"
     },
     "closest": {
       "tag": "最も近い"
@@ -660,6 +661,10 @@
       "pass": "合格",
       "reset": "フィルターをリセット",
       "wcag": "APCA"
+    },
+    "insert": {
+      "color": "新しい色を追加",
+      "stop": "新しいストップを追加"
     },
     "lock": {
       "label": "ソースカラーをロック",
