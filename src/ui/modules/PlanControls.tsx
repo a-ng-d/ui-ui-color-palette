@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, Chip, IconChip, layouts, texts } from '@unoff/ui'
+import { Button, IconChip, layouts, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -442,7 +442,6 @@ export default class PlanControls extends PureComponent<
           sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
         }
       />
-      <Chip>{this.props.t('pricing.operation')}</Chip>
       <this.RemainingCredits />
     </div>
   )
