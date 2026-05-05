@@ -1056,38 +1056,40 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                 <Bar
                   leftPartSlot={
                     <div className={layouts['snackbar--medium']}>
-                      <Menu
-                        type="PRIMARY"
-                        label={this.props.t('preview.actions.insert')}
-                        options={[
-                          {
-                            label: this.props.t('preview.insert.color'),
-                            value: 'ADD_COLOR',
-                            type: 'OPTION',
-                            isActive: this.features.COLORS.isActive(),
-                            isBlocked: this.features.COLORS.isReached(
-                              this.props.colors.length
-                            ),
-                            isNew: this.features.COLORS.isNew(),
-                            action: () => this.props.onAddColor?.(),
-                          },
-                          {
-                            label: this.props.t('preview.insert.stop'),
-                            value: 'ADD_STOP',
-                            type: 'OPTION',
-                            isActive:
-                              this.props.preset.id.includes('CUSTOM') &&
-                              this.features.PRESETS_CUSTOM_ADD.isActive(),
-                            isBlocked:
-                              this.features.PRESETS_CUSTOM_ADD.isReached(
-                                this.props.preset.stops.length
+                      <Feature isActive={this.props.mode === 'EDIT'}>
+                        <Menu
+                          type="PRIMARY"
+                          label={this.props.t('preview.actions.insert')}
+                          options={[
+                            {
+                              label: this.props.t('preview.insert.color'),
+                              value: 'ADD_COLOR',
+                              type: 'OPTION',
+                              isActive: this.features.COLORS.isActive(),
+                              isBlocked: this.features.COLORS.isReached(
+                                this.props.colors.length
                               ),
-                            isNew: this.features.PRESETS_CUSTOM_ADD.isNew(),
-                            action: () => this.props.onAddStop?.(),
-                          },
-                        ]}
-                        alignment="TOP_LEFT"
-                      />
+                              isNew: this.features.COLORS.isNew(),
+                              action: () => this.props.onAddColor?.(),
+                            },
+                            {
+                              label: this.props.t('preview.insert.stop'),
+                              value: 'ADD_STOP',
+                              type: 'OPTION',
+                              isActive:
+                                this.props.preset.id.includes('CUSTOM') &&
+                                this.features.PRESETS_CUSTOM_ADD.isActive(),
+                              isBlocked:
+                                this.features.PRESETS_CUSTOM_ADD.isReached(
+                                  this.props.preset.stops.length
+                                ),
+                              isNew: this.features.PRESETS_CUSTOM_ADD.isNew(),
+                              action: () => this.props.onAddStop?.(),
+                            },
+                          ]}
+                          alignment="TOP_LEFT"
+                        />
+                      </Feature>
                       <ScoresControls
                         {...this.props}
                         isWCAGDisplayed={this.state.isWCAGDisplayed}
