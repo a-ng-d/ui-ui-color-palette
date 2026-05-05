@@ -7,7 +7,6 @@
     "vite-env.d.ts"
   ],
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
     "target": "ES2015",
     "lib": [
       "ES2019",
@@ -28,7 +27,6 @@
     "types": [],
     "jsx": "react",
     "skipLibCheck": true,
-    "baseUrl": "./",
     "paths": {
       "react": ["./node_modules/preact/compat/"],
       "react/jsx-runtime": ["./node_modules/preact/jsx-runtime"],
