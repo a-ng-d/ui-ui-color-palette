@@ -2,7 +2,7 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
-import { Bar, Chip, ColorChip, DropdownOption, Layout } from '@unoff/ui'
+import { Bar, Button, Chip, ColorChip, DropdownOption, Layout } from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
@@ -67,6 +67,7 @@ interface PreviewProps
   onLockSourceColors?: React.Dispatch<Partial<ManagePaletteState>>
   onResetSourceColors?: () => void
   onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
+  onAddColor?: () => void
   onInteractWithSourceColor?: (colorId: string) => void
   onShadeReportOpen?: (data: {
     sourceColor: SourceColorConfiguration | ColorConfiguration
@@ -115,6 +116,13 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     service: Service,
     editor: Editor
   ) => ({
+    COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     PREVIEW_SCORES_WCAG_INTERVAL: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_SCORES_WCAG_INTERVAL',
@@ -1027,6 +1035,22 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                       </>
                     )}
                 </div>
+                <Bar
+                  soloPartSlot={
+                    <Button
+                      type="secondary"
+                      label={this.props.t('colors.actions.new')}
+                      icon="plus"
+                      isBlocked={this.features.COLORS.isReached(
+                        this.props.colors.length
+                      )}
+                      action={() => this.props.onAddColor?.()}
+                    />
+                  }
+                  isCentered
+                  padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+                  border={['TOP']}
+                />
                 <Bar
                   leftPartSlot={
                     <ScoresControls

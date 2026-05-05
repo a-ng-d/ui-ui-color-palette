@@ -1,4 +1,5 @@
 import type { DropdownOption, IconList } from '@unoff/ui'
+import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
@@ -821,6 +822,54 @@ export default class EditPalette extends PureComponent<
     )
   }
 
+  onAddColor = () => {
+    const hasAlreadyNewUIColor = this.props.colors.filter((color) =>
+      color.name.includes(this.props.t('colors.actions.new'))
+    )
+
+    this.colorsMessage.data = [...this.props.colors]
+    this.colorsMessage.data.push({
+      name: `${this.props.t('colors.actions.new')} ${hasAlreadyNewUIColor.length + 1}`,
+      description: '',
+      rgb: {
+        r: 0.53,
+        g: 0.92,
+        b: 0.97,
+      },
+      id: uid(),
+      hue: {
+        shift: 0,
+        isLocked: false,
+      },
+      chroma: {
+        shift: 100,
+        isLocked: false,
+      },
+      alpha: {
+        isEnabled: false,
+        backgroundColor: '#FFFFFF',
+      },
+    })
+
+    this.props.onChangeColors({
+      colors: this.colorsMessage.data,
+    })
+
+    sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
+
+    trackSourceColorsManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'ADD_COLOR',
+      }
+    )
+  }
+
   // Render
   render() {
     let fragment
@@ -898,6 +947,7 @@ export default class EditPalette extends PureComponent<
                   <Preview
                     {...this.props}
                     themeOptions={this.setThemes()}
+                    onAddColor={this.onAddColor}
                     onInteractWithSourceColor={() => this.onJumpToSourceColor()}
                     ref={this.previewRef}
                   />
