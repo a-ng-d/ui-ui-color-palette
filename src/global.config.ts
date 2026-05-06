@@ -145,11 +145,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        features: doSpecificMode(
-          ['LOCAL_PALETTES_FILE', 'PRICING'],
-          proFeatures,
-          []
-        ),
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
       },
       dev: {
         env: {
