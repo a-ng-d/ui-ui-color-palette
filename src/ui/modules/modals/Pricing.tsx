@@ -749,7 +749,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                           this.setState({ isCheckingSubscription: true })
                           checkSubscription()
                             .then((isSubscribed) => {
-                              console.log(isSubscribed)
                               if (isSubscribed) {
                                 this.setState({ checkoutOpenedInBrowser: null })
                                 this.props.onSubscribe({
