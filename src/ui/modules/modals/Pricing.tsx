@@ -175,15 +175,16 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.props.config.env.isDev
     )
 
-    const isFigmaEditor = [
+    const shouldOpenInBrowser = [
       'figma',
       'figjam',
       'dev',
       'dev_vscode',
       'buzz',
+      'sketch',
     ].includes(this.props.editor)
 
-    if (isFigmaEditor && url) {
+    if (shouldOpenInBrowser && url) {
       this.setState({ isCheckoutLoading: false, checkoutOpenedInBrowser: url })
       sendPluginMessage(
         { pluginMessage: { type: 'OPEN_IN_BROWSER', data: { url } } },
