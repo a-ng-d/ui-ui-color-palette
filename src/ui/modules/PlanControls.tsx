@@ -158,6 +158,13 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    PRICING: new FeatureStatus({
+      features: config.features,
+      featureName: 'PRICING',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -187,6 +194,24 @@ export default class PlanControls extends PureComponent<
 
   componentWillUnmount = () => {
     if (this.subscribeCredits) this.subscribeCredits()
+  }
+
+  private withSeparators = (
+    items: Array<{ node: React.ReactNode; isActive: boolean }>
+  ): React.ReactNode => {
+    const visibleItems = items.filter((item) => item.isActive)
+    return visibleItems.map((item, index) => (
+      <React.Fragment key={index}>
+        {index > 0 && (
+          <span
+            className={doClassnames([texts.type, texts['type--secondary']])}
+          >
+            {this.props.t('separator')}
+          </span>
+        )}
+        {item.node}
+      </React.Fragment>
+    ))
   }
 
   // Templates
@@ -307,7 +332,6 @@ export default class PlanControls extends PureComponent<
         layouts['snackbar--tight'],
       ])}
     >
-      <span>{this.props.t('separator')}</span>
       {Math.ceil(this.props.trialRemainingTime) > 72 && (
         <span>
           {this.props.t('plan.trialTimeDays', {
@@ -339,7 +363,6 @@ export default class PlanControls extends PureComponent<
             layouts['snackbar--tight'],
           ])}
         >
-          <span>{this.props.t('separator')}</span>
           <span>
             {this.props.t('plan.credits.amount', {
               count: Math.ceil(this.state.creditsCount).toString(),
@@ -385,7 +408,6 @@ export default class PlanControls extends PureComponent<
         layouts['snackbar--tight'],
       ])}
     >
-      <span>{this.props.t('separator')}</span>
       <div className={doClassnames([texts['type--truncated']])}>
         <span>{this.props.t('plan.trialEnded')}</span>
       </div>
@@ -401,7 +423,6 @@ export default class PlanControls extends PureComponent<
           layouts['snackbar--tight'],
         ])}
       >
-        <span>{this.props.t('separator')}</span>
         <Button
           type="tertiary"
           label={this.props.t('plan.trialFeedback')}
@@ -433,16 +454,26 @@ export default class PlanControls extends PureComponent<
         layouts['snackbar--wrap'],
       ])}
     >
-      <Button
-        type="alternative"
-        size="small"
-        icon="lock-off"
-        label={this.props.t('plan.getPro')}
-        action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-        }
-      />
-      <this.RemainingCredits />
+      {this.withSeparators([
+        {
+          node: (
+            <Button
+              type="alternative"
+              size="small"
+              icon="lock-off"
+              label={this.props.t('plan.getPro')}
+              action={() =>
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+              }
+            />
+          ),
+          isActive: this.features.PRICING.isActive(),
+        },
+        {
+          node: <this.RemainingCredits />,
+          isActive: this.props.config.plan.isCreditsEnabled,
+        },
+      ])}
     </div>
   )
 
@@ -454,18 +485,34 @@ export default class PlanControls extends PureComponent<
         layouts['snackbar--wrap'],
       ])}
     >
-      <Button
-        type="alternative"
-        size="small"
-        icon="lock-off"
-        label={this.props.t('plan.tryPro')}
-        action={() => {
-          this.props.config.plan.isTrialEnabled
-            ? sendPluginMessage({ pluginMessage: { type: 'GET_TRIAL' } }, '*')
-            : sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-        }}
-      />
-      <this.RemainingCredits />
+      {this.withSeparators([
+        {
+          node: (
+            <Button
+              type="alternative"
+              size="small"
+              icon="lock-off"
+              label={this.props.t('plan.tryPro')}
+              action={() => {
+                this.props.config.plan.isTrialEnabled
+                  ? sendPluginMessage(
+                      { pluginMessage: { type: 'GET_TRIAL' } },
+                      '*'
+                    )
+                  : sendPluginMessage(
+                      { pluginMessage: { type: 'GET_PRO' } },
+                      '*'
+                    )
+              }}
+            />
+          ),
+          isActive: true,
+        },
+        {
+          node: <this.RemainingCredits />,
+          isActive: this.props.config.plan.isCreditsEnabled,
+        },
+      ])}
     </div>
   )
 
@@ -477,16 +524,26 @@ export default class PlanControls extends PureComponent<
         layouts['snackbar--wrap'],
       ])}
     >
-      <Button
-        type="alternative"
-        size="small"
-        icon="lock-off"
-        label={this.props.t('plan.getPro')}
-        action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-        }
-      />
-      <this.RemainingTime />
+      {this.withSeparators([
+        {
+          node: (
+            <Button
+              type="alternative"
+              size="small"
+              icon="lock-off"
+              label={this.props.t('plan.getPro')}
+              action={() =>
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+              }
+            />
+          ),
+          isActive: this.features.PRICING.isActive(),
+        },
+        {
+          node: <this.RemainingTime />,
+          isActive: true,
+        },
+      ])}
     </div>
   )
 
@@ -498,18 +555,34 @@ export default class PlanControls extends PureComponent<
         layouts['snackbar--wrap'],
       ])}
     >
-      <Button
-        type="alternative"
-        size="small"
-        icon="lock-off"
-        label={this.props.t('plan.getPro')}
-        action={() =>
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
-        }
-      />
-      <this.RemainingCredits />
-      <this.EndedTrial />
-      <this.trialFeedback />
+      {this.withSeparators([
+        {
+          node: (
+            <Button
+              type="alternative"
+              size="small"
+              icon="lock-off"
+              label={this.props.t('plan.getPro')}
+              action={() =>
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+              }
+            />
+          ),
+          isActive: this.features.PRICING.isActive(),
+        },
+        {
+          node: <this.RemainingCredits />,
+          isActive: this.props.config.plan.isCreditsEnabled,
+        },
+        {
+          node: <this.EndedTrial />,
+          isActive: true,
+        },
+        {
+          node: <this.trialFeedback />,
+          isActive: this.features.INVOLVE_FEEDBACK.isActive(),
+        },
+      ])}
     </div>
   )
 
