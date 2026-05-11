@@ -74,6 +74,7 @@ export default class Source extends PureComponent<SourceProps, SourceState> {
         data-color-id={this.props.id}
         onMouseEnter={() => this.setState({ isMouseEnter: true })}
         onMouseLeave={() => this.setState({ isMouseEnter: false })}
+        onMouseDown={this.props.onJumpToColor}
       >
         <Chip state="ON_BACKGROUND">{this.props.name}</Chip>
         {this.props.isTransparent && (
