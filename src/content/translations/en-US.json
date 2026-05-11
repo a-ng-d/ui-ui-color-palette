@@ -114,7 +114,7 @@
       "glancePalette": "Glance palette",
       "managePalette": "Manage palette",
       "moreParameters": "More parameters",
-      "new": "New UI Color Palette",
+      "new": "Create with this palette",
       "openPalette": "Open palette",
       "selectPalette": "Select palette",
       "signInToStar": "Sign in to star",
@@ -165,6 +165,9 @@
     "signInFirst": {
       "message": "Find and use your own and starred palettes once authenticated",
       "signIn": "Sign in to fetch your palettes"
+    },
+    "local": {
+      "tip": "Press the spacebar to see another example, even use it."
     }
   },
   "colors": {
@@ -1305,8 +1308,8 @@
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
     "noOrgPalettes": "There are no organization palettes here. Claim them from the application author.",
     "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
-    "noPaletteOnCurrrentFile": "There are no UI Color Palettes on this file",
-    "noPaletteOnCurrrentPage": "There are no UI Color Palettes on this page",
+    "noPaletteOnCurrentFile": "This is quite empty around here! No palettes have been created on this file yet.",
+    "noPaletteOnCurrentPage": "This is quite empty around here! No palettes have been created on this page yet.",
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "noStarredPalettes": "You have no starred palettes yet. Browse the community to find inspiring palettes and star them for quick access later.",
     "paletteNameRecommendation": "64 characters max is recommended",

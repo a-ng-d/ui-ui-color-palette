@@ -2,7 +2,10 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Layout } from '@unoff/ui'
-import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  FullConfiguration,
+  SourceColorConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import PagePalettes from '../modules/palettes/PagePalettes'
 import FilePalettes from '../modules/palettes/FilePalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -22,6 +25,7 @@ interface LocalPalettesProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
+  sourceColors: Array<SourceColorConfiguration>
   onCreatePalette: () => void
   onExplorePalettes: () => void
 }

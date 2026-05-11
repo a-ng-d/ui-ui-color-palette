@@ -13,7 +13,11 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
-import { Data, FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  Data,
+  FullConfiguration,
+  SourceColorConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -21,6 +25,7 @@ import setPaletteMeta from '../../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { makePreviewData } from '../../../stores/previewPalette'
 import { $creditsCount } from '../../../stores/credits'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -28,6 +33,7 @@ interface FilePalettesProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   localPalettesListStatus: 'LOADING' | 'LOADED' | 'EMPTY'
   localPalettesList: Array<FullConfiguration>
+  sourceColors: Array<SourceColorConfiguration>
   onCreatePalette: () => void
   onExplorePalettes: () => void
 }
@@ -227,6 +233,57 @@ export default class FilePalettes extends PureComponent<
   }
 
   // Templates
+  SourceColorsPreview = () => {
+    const { base, themes } = makePreviewData(this.props.sourceColors)
+
+    return (
+      <div
+        style={{ borderRadius: 'var(--border-radius-medium)', overflow: 'hidden' }}
+        className="preview__rows"
+      >
+        {new Data({ base, themes })
+          .makePaletteData()
+          .themes[0].colors.map((color, index) => (
+            <div key={`color-${index}`} className="preview__row">
+              {color.shades.map((shade, shadeIndex) => (
+                <div
+                  key={`color-${index}-${shadeIndex}`}
+                  className="preview__cell preview__cell--compact"
+                >
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      position: 'absolute',
+                      zIndex: '1',
+                      top: 0,
+                      left: 0,
+                      backgroundColor: shade.hex,
+                    }}
+                  />
+                  {shade.backgroundColor !== undefined && (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        zIndex: '0',
+                        top: 0,
+                        left: 0,
+                        backgroundColor: Array.isArray(shade.backgroundColor)
+                          ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
+                          : undefined,
+                      }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+      </div>
+    )
+  }
+
   Modals = () => {
     return (
       <Feature
@@ -482,47 +539,50 @@ export default class FilePalettes extends PureComponent<
           </>
         )}
         {this.props.localPalettesListStatus === 'EMPTY' && (
-          <SemanticMessage
-            type="NEUTRAL"
-            message={this.props.t('warning.noPaletteOnCurrrentFile')}
-            actionsSlot={
-              <>
-                <Feature
-                  isActive={
-                    this.features.CREATE_PALETTE.isActive() &&
-                    this.features.REMOTE_PALETTES_COMMUNITY.isActive()
-                  }
-                >
-                  <Button
-                    type="secondary"
-                    label={this.props.t('actions.explorePalettes')}
-                    isNew={this.features.REMOTE_PALETTES_COMMUNITY.isNew()}
-                    action={this.props.onExplorePalettes}
-                  />
-                </Feature>
-                <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
-                  <Button
-                    type="primary"
-                    label={this.props.t('actions.createPalette')}
-                    isBlocked={this.features.CREATE_PALETTE.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.paletteCreate) *
-                        -1 -
-                        1
-                    )}
-                    isNew={this.features.CREATE_PALETTE.isNew()}
-                    action={this.props.onCreatePalette}
-                  />
-                </Feature>
-                <Feature isActive={!this.features.CREATE_PALETTE.isActive()}>
-                  <span className={doClassnames([texts.type, texts.label])}>
-                    {this.props.t('info.askDesigner')}
-                  </span>
-                </Feature>
-              </>
-            }
-            orientation="VERTICAL"
-          />
+          <>
+            <SemanticMessage
+              type="NEUTRAL"
+              message={this.props.t('warning.noPaletteOnCurrentFile')}
+              actionsSlot={
+                <>
+                  <Feature
+                    isActive={
+                      this.features.CREATE_PALETTE.isActive() &&
+                      this.features.REMOTE_PALETTES_COMMUNITY.isActive()
+                    }
+                  >
+                    <Button
+                      type="secondary"
+                      label={this.props.t('actions.explorePalettes')}
+                      isNew={this.features.REMOTE_PALETTES_COMMUNITY.isNew()}
+                      action={this.props.onExplorePalettes}
+                    />
+                  </Feature>
+                  <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
+                    <Button
+                      type="primary"
+                      label={this.props.t('actions.createPalette')}
+                      isBlocked={this.features.CREATE_PALETTE.isReached(
+                        (this.props.creditsCount -
+                          this.props.config.fees.paletteCreate) *
+                          -1 -
+                          1
+                      )}
+                      isNew={this.features.CREATE_PALETTE.isNew()}
+                      action={this.props.onCreatePalette}
+                    />
+                  </Feature>
+                  <Feature isActive={!this.features.CREATE_PALETTE.isActive()}>
+                    <span className={doClassnames([texts.type, texts.label])}>
+                      {this.props.t('info.askDesigner')}
+                    </span>
+                  </Feature>
+                </>
+              }
+              orientation="VERTICAL"
+            />
+            <this.SourceColorsPreview />
+          </>
         )}
       </List>
     )

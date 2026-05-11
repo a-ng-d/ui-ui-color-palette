@@ -114,7 +114,7 @@
       "glancePalette": "Visualizar paleta",
       "managePalette": "Gerenciar paleta",
       "moreParameters": "Mais parâmetros",
-      "new": "Nova UI Color Palette",
+      "new": "Criar com esta paleta",
       "openPalette": "Abrir paleta",
       "selectPalette": "Selecionar paleta",
       "signInToStar": "Entrar para favoritar",
@@ -165,6 +165,9 @@
     "signInFirst": {
       "message": "Encontre e use suas próprias paletas e favoritas após autenticação",
       "signIn": "Entrar para buscar suas paletas"
+    },
+    "local": {
+      "tip": "Pressione a barra de espaço para ver outro exemplo, ou use-o."
     }
   },
   "colors": {
@@ -1305,8 +1308,8 @@
     "noCommunityPaletteOnRemote": "Está bem vazio por aqui! Seja o primeiro a compartilhar sua paleta com outros usuários!",
     "noOrgPalettes": "Não há paleta de organização aqui. Reivindique-as do autor da aplicação.",
     "noPaletteOnCurrentPageOnDevMode": "Você pode pedir a um membro com permissões de edição para criar",
-    "noPaletteOnCurrrentFile": "Não há UI Color Palette neste arquivo",
-    "noPaletteOnCurrrentPage": "Não há UI Color Palette nesta página",
+    "noPaletteOnCurrentFile": "Que vazio por aqui! Nenhuma paleta foi criada neste arquivo ainda.",
+    "noPaletteOnCurrentPage": "Que vazio por aqui! Nenhuma paleta foi criada nesta página ainda.",
     "noSelfPaletteOnRemote": "Está bem vazio por aqui! Publique sua paleta para reutilizá-la em múltiplos documentos",
     "noStarredPalettes": "Você ainda não tem paletas favoritadas. Navegue pela comunidade para encontrar paletas inspiradoras e favorite-as para acesso rápido depois.",
     "paletteNameRecommendation": "Máximo de 64 caracteres é recomendado",

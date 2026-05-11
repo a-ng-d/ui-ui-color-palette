@@ -1,5 +1,7 @@
+import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import chroma from 'chroma-js'
 import { doScale, FeatureStatus } from '@unoff/utils'
 import {
   PresetConfiguration,
@@ -30,6 +32,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import { getClosestColorName } from '../../utils/colorNameHelper'
 import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
@@ -84,6 +87,19 @@ export default class ManagePalette extends PureComponent<
   private palette: typeof $palette
   private theme: string | null
 
+  private generateDefaultSourceColors = (): Array<SourceColorConfiguration> =>
+    Array.from({ length: 5 }, () => {
+      const hex = chroma.random().hex()
+      const gl = chroma(hex).gl()
+      return {
+        name: getClosestColorName(hex),
+        rgb: { r: gl[0], g: gl[1], b: gl[2] },
+        source: 'DEFAULT' as const,
+        id: uid(),
+        isRemovable: false,
+      }
+    })
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -127,15 +143,7 @@ export default class ManagePalette extends PureComponent<
     this.palette = $palette
     this.state = {
       subservice: 'BROWSE',
-      sourceColors: [
-        {
-          name: props.t('colors.defaultName'),
-          rgb: { r: 0.533, g: 0.921, b: 0.976 },
-          source: 'DEFAULT',
-          id: '00000000000',
-          isRemovable: false,
-        },
-      ],
+      sourceColors: this.generateDefaultSourceColors(),
       id: '',
       name: props.t('settings.global.name.default'),
       description: '',
@@ -207,6 +215,7 @@ export default class ManagePalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+    window.addEventListener('keydown', this.handleKeydown)
   }
 
   componentWillUnmount = () => {
@@ -214,9 +223,31 @@ export default class ManagePalette extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+    window.removeEventListener('keydown', this.handleKeydown)
   }
 
   // Handlers
+  handleKeydown = (e: KeyboardEvent) => {
+    if (
+      e.code !== 'Space' ||
+      this.state.subservice !== 'BROWSE' ||
+      e.target instanceof HTMLInputElement ||
+      e.target instanceof HTMLTextAreaElement
+    )
+      return
+
+    e.preventDefault()
+    this.setState({
+      sourceColors: [
+        ...this.state.sourceColors.filter(
+          (sourceColor: SourceColorConfiguration) =>
+            sourceColor.source === 'CANVAS'
+        ),
+        ...this.generateDefaultSourceColors(),
+      ],
+    })
+  }
+
   handleMessage = (e: CustomEvent<PluginMessageData>) => {
     const path = e.detail
 
@@ -280,10 +311,13 @@ export default class ManagePalette extends PureComponent<
     this.setState({
       subservice: 'BROWSE',
       id: '',
-      sourceColors: this.state.sourceColors.filter(
-        (sourceColor: SourceColorConfiguration) =>
-          sourceColor.source === 'CANVAS' || sourceColor.source === 'DEFAULT'
-      ),
+      sourceColors: [
+        ...this.state.sourceColors.filter(
+          (sourceColor: SourceColorConfiguration) =>
+            sourceColor.source === 'CANVAS'
+        ),
+        ...this.generateDefaultSourceColors(),
+      ],
       name: this.props.t('settings.global.name.default'),
       description: '',
       preset: preset,
