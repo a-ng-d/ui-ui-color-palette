@@ -18,6 +18,7 @@ import {
 import Glance from '../modules/Glance'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -489,58 +490,7 @@ export default class OrgPalettes extends PureComponent<
                   </>
                 }
                 complementSlot={
-                  <div
-                    style={{
-                      borderRadius: 'var(--border-radius-medium)',
-                      overflow: 'hidden',
-                    }}
-                    className="preview__rows"
-                  >
-                    {data.themes[enabledThemeIndex].colors.map(
-                      (color, index) => (
-                        <div
-                          key={`color-${index}`}
-                          className="preview__row"
-                        >
-                          {color.shades.map((shade, shadeIndex) => (
-                            <div
-                              key={`color-${index}-${shadeIndex}`}
-                              className="preview__cell preview__cell--compact"
-                            >
-                              <div
-                                style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  position: 'absolute',
-                                  zIndex: '1',
-                                  top: 0,
-                                  left: 0,
-                                  backgroundColor: shade.hex,
-                                }}
-                              />
-                              {shade.backgroundColor !== undefined && (
-                                <div
-                                  style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    position: 'absolute',
-                                    zIndex: '0',
-                                    top: 0,
-                                    left: 0,
-                                    backgroundColor: Array.isArray(
-                                      shade.backgroundColor
-                                    )
-                                      ? `rgba(${shade.backgroundColor[0]}, ${shade.backgroundColor[1]}, ${shade.backgroundColor[2]}, 1)`
-                                      : undefined,
-                                  }}
-                                />
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )
-                    )}
-                  </div>
+                  <PalettePreview colors={data.themes[enabledThemeIndex].colors} />
                 }
               />
             )
