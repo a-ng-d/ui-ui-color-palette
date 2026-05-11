@@ -78,7 +78,6 @@
     "addToSource": "添加到源颜色",
     "createPalette": "新建 UI Color Palette",
     "duplicate": "复制",
-    "explorePalettes": "从社区探索调色板",
     "export": "导出调色板为 {format}",
     "generateDocument": {
       "label": "生成文档",
@@ -108,13 +107,14 @@
   },
   "browse": {
     "actions": {
+      "createPalette": "从此调色板开始",
       "deletePalette": "删除调色板",
       "duplicatePalette": "复制调色板",
       "editPalette": "编辑调色板",
+      "explorePalettes": "从社区探索调色板",
       "glancePalette": "预览调色板",
       "managePalette": "管理调色板",
       "moreParameters": "更多参数",
-      "new": "使用此调色板创建",
       "openPalette": "打开调色板",
       "selectPalette": "选择调色板",
       "signInToStar": "登录以收藏",
@@ -153,6 +153,9 @@
       "loadMore": "加载更多调色板",
       "search": "搜索调色板..."
     },
+    "local": {
+      "tip": "按空格键查看另一个示例，或在画布中选择您的颜色。"
+    },
     "meta": {
       "colors": "{count, plural, other {#个源颜色} =0 {无源颜色}}",
       "shades": "{count, plural, other {#个色调/色彩} =0 {无色调/色彩}}",
@@ -165,9 +168,6 @@
     "signInFirst": {
       "message": "登录后查找和使用您收藏的调色板",
       "signIn": "登录以获取您的调色板"
-    },
-    "local": {
-      "tip": "按空格键查看另一个示例，甚至直接使用它"
     }
   },
   "colors": {
@@ -1307,9 +1307,9 @@
     "hslColorSpace": "HSL 颜色模版可能在调色板中包含源颜色，但这种方法不能确保亮度和对比度的一致性。",
     "noCommunityPaletteOnRemote": "这里很空！成为第一个与其他用户分享调色板的人！",
     "noOrgPalettes": "这里没有组织调色板。请向应用作者申请。",
-    "noPaletteOnCurrentPageOnDevMode": "您可以请求具有编辑权限的成员创建",
     "noPaletteOnCurrentFile": "这里空空如也！此文件还没有创建任何调色板。",
     "noPaletteOnCurrentPage": "这里空空如也！此页面还没有创建任何调色板。",
+    "noPaletteOnCurrentPageOnDevMode": "您可以请求具有编辑权限的成员创建",
     "noSelfPaletteOnRemote": "这里很空！发布您的调色板以在多个文档中重用",
     "noStarredPalettes": "您还没有收藏的调色板。浏览社区找到启发性的调色板并收藏它们以便快速访问。",
     "paletteNameRecommendation": "建议最多 64 个字符",

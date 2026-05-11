@@ -373,7 +373,7 @@ export default class BrowsePalettes extends PureComponent<
         <Button
           type="primary"
           icon="plus"
-          label={this.props.t('browse.actions.new')}
+          label={this.props.t('actions.createPalette')}
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
           isBlocked={this.features.CREATE_PALETTE.isReached(
             (this.props.creditsCount - this.props.config.fees.paletteCreate) *

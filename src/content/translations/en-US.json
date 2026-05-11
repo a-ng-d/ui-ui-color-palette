@@ -78,7 +78,6 @@
     "addToSource": "Add to source",
     "createPalette": "New UI Color Palette",
     "duplicate": "Duplicate",
-    "explorePalettes": "Explore palettes from community",
     "export": "Export palette as {format}",
     "generateDocument": {
       "label": "Generate documentation",
@@ -108,13 +107,14 @@
   },
   "browse": {
     "actions": {
+      "createPalette": "Start with this palette",
       "deletePalette": "Delete palette",
       "duplicatePalette": "Duplicate palette",
       "editPalette": "Edit palette",
+      "explorePalettes": "Explore palettes from community",
       "glancePalette": "Glance palette",
       "managePalette": "Manage palette",
       "moreParameters": "More parameters",
-      "new": "Create with this palette",
       "openPalette": "Open palette",
       "selectPalette": "Select palette",
       "signInToStar": "Sign in to star",
@@ -153,6 +153,9 @@
       "loadMore": "Load more palettes",
       "search": "Search palettes…"
     },
+    "local": {
+      "tip": "Press the spacebar to see another example, or select your colors in your canvas."
+    },
     "meta": {
       "colors": "{count, plural, one {1 source color} other {# source colors} =0 {No source color}}",
       "shades": "{count, plural, one {1 shade/tint} other {# shades/tints} =0 {No shade/tint}}",
@@ -165,9 +168,6 @@
     "signInFirst": {
       "message": "Find and use your own and starred palettes once authenticated",
       "signIn": "Sign in to fetch your palettes"
-    },
-    "local": {
-      "tip": "Press the spacebar to see another example, even use it."
     }
   },
   "colors": {
@@ -1307,9 +1307,9 @@
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",
     "noOrgPalettes": "There are no organization palettes here. Claim them from the application author.",
-    "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
     "noPaletteOnCurrentFile": "This is quite empty around here! No palettes have been created on this file yet.",
     "noPaletteOnCurrentPage": "This is quite empty around here! No palettes have been created on this page yet.",
+    "noPaletteOnCurrentPageOnDevMode": "You can ask a member with editing permissions to create",
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "noStarredPalettes": "You have no starred palettes yet. Browse the community to find inspiring palettes and star them for quick access later.",
     "paletteNameRecommendation": "64 characters max is recommended",

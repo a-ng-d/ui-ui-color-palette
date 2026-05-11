@@ -466,7 +466,7 @@ export default class FilePalettes extends PureComponent<
                   >
                     <Button
                       type="secondary"
-                      label={this.props.t('actions.explorePalettes')}
+                      label={this.props.t('browse.actions.explorePalettes')}
                       isNew={this.features.REMOTE_PALETTES_COMMUNITY.isNew()}
                       action={this.props.onExplorePalettes}
                     />
@@ -474,7 +474,7 @@ export default class FilePalettes extends PureComponent<
                   <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
                     <Button
                       type="primary"
-                      label={this.props.t('actions.createPalette')}
+                      label={this.props.t('browse.actions.createPalette')}
                       isBlocked={this.features.CREATE_PALETTE.isReached(
                         (this.props.creditsCount -
                           this.props.config.fees.paletteCreate) *

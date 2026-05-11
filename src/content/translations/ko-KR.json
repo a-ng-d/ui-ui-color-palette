@@ -78,7 +78,6 @@
     "addToSource": "소스에 추가",
     "createPalette": "새 UI Color Palette",
     "duplicate": "복제",
-    "explorePalettes": "커뮤니티 팔레트 탐색",
     "export": "{format}으로 팔레트 내보내기",
     "generateDocument": {
       "label": "문서 생성",
@@ -108,13 +107,14 @@
   },
   "browse": {
     "actions": {
+      "createPalette": "이 팔레트로 시작하기",
       "deletePalette": "팔레트 삭제",
       "duplicatePalette": "팔레트 복제",
       "editPalette": "팔레트 편집",
+      "explorePalettes": "커뮤니티 팔레트 탐색",
       "glancePalette": "팔레트 미리보기",
       "managePalette": "팔레트 관리",
       "moreParameters": "추가 매개변수",
-      "new": "이 팔레트로 만들기",
       "openPalette": "팔레트 열기",
       "selectPalette": "팔레트 선택",
       "signInToStar": "즐겨찾기 추가를 위해 로그인",
@@ -153,6 +153,9 @@
       "loadMore": "팔레트 더 불러오기",
       "search": "팔레트 검색…"
     },
+    "local": {
+      "tip": "스페이스바를 눌러 다른 예시를 보거나, 캔버스에서 색상을 선택하세요."
+    },
     "meta": {
       "colors": "{count, plural, one {소스 색상 1개} other {소스 색상 #개} =0 {소스 색상 없음}}",
       "shades": "{count, plural, one {명도 1개} other {명도 #개} =0 {명도 없음}}",
@@ -165,9 +168,6 @@
     "signInFirst": {
       "message": "로그인하면 내 팔레트와 즐겨찾기 팔레트를 찾아 사용할 수 있습니다",
       "signIn": "팔레트를 불러오려면 로그인하세요"
-    },
-    "local": {
-      "tip": "스페이스바를 눌러 다른 예시를 보거나 사용하세요"
     }
   },
   "colors": {
@@ -1307,9 +1307,9 @@
     "hslColorSpace": "HSL 색상 공간은 팔레트에 소스 색상을 포함할 수 있지만, 이 방식은 밝기와 대비의 일관성을 보장하지 않습니다.",
     "noCommunityPaletteOnRemote": "아직 비어있습니다! 먼저 팔레트를 다른 사용자들과 공유해 보세요.",
     "noOrgPalettes": "조직 팔레트가 없습니다. 애플리케이션 작성자에게 요청하세요.",
-    "noPaletteOnCurrentPageOnDevMode": "편집 권한이 있는 멤버에게 생성을 요청할 수 있습니다",
     "noPaletteOnCurrentFile": "여기가 꽤 비어 있네요! 이 파일에는 아직 팔레트가 없습니다.",
     "noPaletteOnCurrentPage": "여기가 꽤 비어 있네요! 이 페이지에는 아직 팔레트가 없습니다.",
+    "noPaletteOnCurrentPageOnDevMode": "편집 권한이 있는 멤버에게 생성을 요청할 수 있습니다",
     "noSelfPaletteOnRemote": "아직 비어있습니다! 여러 문서에서 재사용할 수 있도록 팔레트를 게시하세요",
     "noStarredPalettes": "아직 즐겨찾기한 팔레트가 없습니다. 커뮤니티를 탐색하여 영감을 주는 팔레트를 찾고 나중에 빠르게 접근할 수 있도록 즐겨찾기 하세요.",
     "paletteNameRecommendation": "최대 64자를 권장합니다",

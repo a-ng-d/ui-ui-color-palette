@@ -78,7 +78,6 @@
     "addToSource": "Adicionar à fonte",
     "createPalette": "Nova UI Color Palette",
     "duplicate": "Duplicar",
-    "explorePalettes": "Explorar paletas da comunidade",
     "export": "Exportar paleta como {format}",
     "generateDocument": {
       "label": "Gerar documentação",
@@ -108,13 +107,14 @@
   },
   "browse": {
     "actions": {
+      "createPalette": "Começar com esta paleta",
       "deletePalette": "Excluir paleta",
       "duplicatePalette": "Duplicar paleta",
       "editPalette": "Editar paleta",
+      "explorePalettes": "Explorar paletas da comunidade",
       "glancePalette": "Visualizar paleta",
       "managePalette": "Gerenciar paleta",
       "moreParameters": "Mais parâmetros",
-      "new": "Criar com esta paleta",
       "openPalette": "Abrir paleta",
       "selectPalette": "Selecionar paleta",
       "signInToStar": "Entrar para favoritar",
@@ -153,6 +153,9 @@
       "loadMore": "Carregar mais paletas",
       "search": "Buscar paletas…"
     },
+    "local": {
+      "tip": "Pressione a barra de espaço para ver outro exemplo, ou selecione suas cores no canvas."
+    },
     "meta": {
       "colors": "{count, plural, one {1 cor-fonte} other {# cores-fonte} =0 {Nenhuma cor-fonte}}",
       "shades": "{count, plural, one {1 ton/matize} other {# tons/matizes} =0 {Nenhuma ton/matize}}",
@@ -165,9 +168,6 @@
     "signInFirst": {
       "message": "Encontre e use suas próprias paletas e favoritas após autenticação",
       "signIn": "Entrar para buscar suas paletas"
-    },
-    "local": {
-      "tip": "Pressione a barra de espaço para ver outro exemplo, ou use-o."
     }
   },
   "colors": {
@@ -1307,9 +1307,9 @@
     "hslColorSpace": "O espaço de cor HSL pode incluir as cores-fonte na paleta, mas esta abordagem não garantirá consistência em luminosidade e contraste.",
     "noCommunityPaletteOnRemote": "Está bem vazio por aqui! Seja o primeiro a compartilhar sua paleta com outros usuários!",
     "noOrgPalettes": "Não há paleta de organização aqui. Reivindique-as do autor da aplicação.",
-    "noPaletteOnCurrentPageOnDevMode": "Você pode pedir a um membro com permissões de edição para criar",
     "noPaletteOnCurrentFile": "Que vazio por aqui! Nenhuma paleta foi criada neste arquivo ainda.",
     "noPaletteOnCurrentPage": "Que vazio por aqui! Nenhuma paleta foi criada nesta página ainda.",
+    "noPaletteOnCurrentPageOnDevMode": "Você pode pedir a um membro com permissões de edição para criar",
     "noSelfPaletteOnRemote": "Está bem vazio por aqui! Publique sua paleta para reutilizá-la em múltiplos documentos",
     "noStarredPalettes": "Você ainda não tem paletas favoritadas. Navegue pela comunidade para encontrar paletas inspiradoras e favorite-as para acesso rápido depois.",
     "paletteNameRecommendation": "Máximo de 64 caracteres é recomendado",

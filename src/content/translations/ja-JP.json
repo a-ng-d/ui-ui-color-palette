@@ -78,7 +78,6 @@
     "addToSource": "ソースに追加",
     "createPalette": "新しいUI Color Palette",
     "duplicate": "複製",
-    "explorePalettes": "コミュニティのパレットを探す",
     "export": "{format}としてパレットをエクスポート",
     "generateDocument": {
       "label": "ドキュメントを生成",
@@ -108,13 +107,14 @@
   },
   "browse": {
     "actions": {
+      "createPalette": "このパレットで始める",
       "deletePalette": "パレットを削除",
       "duplicatePalette": "パレットを複製",
       "editPalette": "パレットを編集",
+      "explorePalettes": "コミュニティのパレットを探す",
       "glancePalette": "パレットをざっと見る",
       "managePalette": "パレットを管理",
       "moreParameters": "詳細パラメーター",
-      "new": "このパレットで作成",
       "openPalette": "パレットを開く",
       "selectPalette": "パレットを選択",
       "signInToStar": "お気に入り登録にはサインインが必要",
@@ -153,6 +153,9 @@
       "loadMore": "さらにパレットを読み込む",
       "search": "パレットを検索…"
     },
+    "local": {
+      "tip": "スペースキーを押して別の例を見るか、キャンバスで色を選択してください。"
+    },
     "meta": {
       "colors": "{count, plural, one {ソースカラー1色} other {ソースカラー#色} =0 {ソースカラーなし}}",
       "shades": "{count, plural, one {シェード1色} other {シェード#色} =0 {シェードなし}}",
@@ -165,9 +168,6 @@
     "signInFirst": {
       "message": "サインインすると自分のパレットやお気に入りのパレットを見つけて使用できます",
       "signIn": "パレットを読み込むにはサインインしてください"
-    },
-    "local": {
-      "tip": "スペースキーを押して別の例を確認または使用できます"
     }
   },
   "colors": {
@@ -1307,9 +1307,9 @@
     "hslColorSpace": "HSLカラースペースはパレットにソースカラーを含めることができますが、このアプローチは明度とコントラストの一貫性を保証しません。",
     "noCommunityPaletteOnRemote": "まだ何もありません！最初にパレットを他のユーザーと共有しましょう。",
     "noOrgPalettes": "組織パレットがありません。アプリケーションの作成者から入手してください。",
-    "noPaletteOnCurrentPageOnDevMode": "編集権限を持つメンバーに作成を依頼できます",
     "noPaletteOnCurrentFile": "まだ何もありません！このファイルにはパレットが作成されていません。",
     "noPaletteOnCurrentPage": "まだ何もありません！このページにはパレットが作成されていません。",
+    "noPaletteOnCurrentPageOnDevMode": "編集権限を持つメンバーに作成を依頼できます",
     "noSelfPaletteOnRemote": "まだ何もありません！パレットを公開して複数のドキュメントで再利用しましょう",
     "noStarredPalettes": "まだお気に入りのパレットがありません。コミュニティを探してインスピレーションを得るパレットを見つけ、後で素早くアクセスできるようにスターを付けましょう。",
     "paletteNameRecommendation": "64文字以内を推奨します",
