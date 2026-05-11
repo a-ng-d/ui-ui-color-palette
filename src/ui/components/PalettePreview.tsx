@@ -1,4 +1,5 @@
 import React from 'react'
+import { doClassnames } from '@unoff/utils'
 import { PaletteDataColorItem } from '@a_ng_d/utils-ui-color-palette'
 
 interface PalettePreviewProps {
@@ -16,11 +17,18 @@ const PalettePreview = ({ colors, isFullHeight }: PalettePreviewProps) => (
     className="preview__rows"
   >
     {colors.map((color, colorIndex) => (
-      <div key={`color-${colorIndex}`} className="preview__row">
+      <div
+        key={`color-${colorIndex}`}
+        className="preview__row"
+      >
         {color.shades.map((shade, shadeIndex) => (
           <div
             key={`color-${colorIndex}-${shadeIndex}`}
-            className="preview__cell preview__cell--compact"
+            className={doClassnames([
+              'preview__cell',
+              'preview__cell--compact',
+              shadeIndex === 0 && 'preview__cell--header',
+            ])}
           >
             <div
               style={{

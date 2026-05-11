@@ -183,6 +183,10 @@ div.export-palette__preview {
   overflow: hidden;
 }
 
+.preview__cell--header {
+  border-right: var(--thumbnail-border-width) solid var(--thumbnail-border-color);
+}
+
 .preview__cell__stack {
   display: flex;
   justify-content: end;
