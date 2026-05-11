@@ -445,9 +445,9 @@ export default class PagePalettes extends PureComponent<
                     complementSlot={
                       <PalettePreview
                         colors={
-                          new Data(palette)
-                            .makePaletteData()
-                            .themes[enabledThemeIndex].colors
+                          new Data(palette).makePaletteData().themes[
+                            enabledThemeIndex
+                          ].colors
                         }
                       />
                     }
@@ -502,7 +502,7 @@ export default class PagePalettes extends PureComponent<
                 isActive={
                   this.props.sourceColors.filter(
                     (color) => color.source === 'CANVAS'
-                  ).length > 0
+                  ).length === 0
                 }
               >
                 <SemanticMessage

@@ -440,9 +440,9 @@ export default class FilePalettes extends PureComponent<
                     complementSlot={
                       <PalettePreview
                         colors={
-                          new Data(palette)
-                            .makePaletteData()
-                            .themes[enabledThemeIndex].colors
+                          new Data(palette).makePaletteData().themes[
+                            enabledThemeIndex
+                          ].colors
                         }
                       />
                     }
@@ -494,7 +494,22 @@ export default class FilePalettes extends PureComponent<
               }
               orientation="VERTICAL"
             />
-            <this.SourceColorsPreview />
+            <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
+              <this.SourceColorsPreview />
+              <Feature
+                isActive={
+                  this.props.sourceColors.filter(
+                    (color) => color.source === 'CANVAS'
+                  ).length === 0
+                }
+              >
+                <SemanticMessage
+                  type="NEUTRAL"
+                  message={this.props.t('browse.local.tip')}
+                  orientation="VERTICAL"
+                />
+              </Feature>
+            </Feature>
           </>
         )}
       </List>
