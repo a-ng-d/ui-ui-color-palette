@@ -1,7 +1,6 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { doClassnames } from '@unoff/utils'
 import {
   Bar,
   ColorItem,
@@ -294,15 +293,16 @@ export default class Properties extends PureComponent<PropertiesProps> {
           return [
             {
               node: (
-                <span
-                  className={doClassnames([texts.type, texts['type--bold']])}
-                >
-                  {theme.name === 'None'
-                    ? this.props.t('see.properties.default')
-                    : theme.name}
-                </span>
+                <ColorItem
+                  name={
+                    theme.id === '00000000000'
+                      ? this.props.t('see.properties.default')
+                      : theme.name
+                  }
+                  hex={theme.paletteBackground}
+                />
               ),
-              spacingModifier: 'LARGE',
+              spacingModifier: 'NONE',
             },
             {
               node: (
