@@ -76,7 +76,7 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
-    "@a_ng_d/utils-ui-color-palette": "^1.8.1",
+    "@a_ng_d/utils-ui-color-palette": "^1.8.2",
     "@mistralai/mistralai": "^1.10.0",
     "@nanostores/preact": "^0.5.2",
     "@polar-sh/checkout": "^0.2.0",
@@ -105,6 +105,10 @@
     "prismjs": "^1.30.0",
     "miniflare": {
       "undici": "^7.24.3"
+    },
+    "postcss": ">=8.5.10",
+    "next": {
+      "postcss": ">=8.5.10"
     }
   }
 }
