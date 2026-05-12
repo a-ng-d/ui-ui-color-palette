@@ -610,6 +610,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       helper={{
                         label: this.props.t('settings.global.views.helper'),
                       }}
+                      alignment="RIGHT"
                       isBlocked={this.features.VIEWS.isBlocked()}
                       isNew={this.features.VIEWS.isNew()}
                       onBlock={() => {
