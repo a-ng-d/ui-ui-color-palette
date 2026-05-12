@@ -68,7 +68,7 @@ export default class Onboarding extends PureComponent<
       this.props.config.urls.announcementsWorkerUrl,
       this.props.config.env.onboardingDbId,
       this.props.config.env.platform,
-      this.props.config.env.editor
+      this.props.editor
     )
       .then((announcements) => {
         this.setState({ announcements, status: 'LOADED' })
