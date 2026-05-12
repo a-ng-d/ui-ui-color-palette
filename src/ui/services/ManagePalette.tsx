@@ -127,6 +127,13 @@ export default class ManagePalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -237,15 +244,22 @@ export default class ManagePalette extends PureComponent<
       return
 
     e.preventDefault()
-    this.setState({
-      sourceColors: [
-        ...this.state.sourceColors.filter(
-          (sourceColor: SourceColorConfiguration) =>
-            sourceColor.source === 'CANVAS'
-        ),
-        ...this.generateDefaultSourceColors(),
-      ],
-    })
+    if (
+      this.state.sourceColors.filter(
+        (sourceColor: SourceColorConfiguration) =>
+          sourceColor.source === 'CANVAS'
+      ).length === 0
+    )
+      this.setState({
+        sourceColors: [
+          ...this.state.sourceColors.filter(
+            (sourceColor: SourceColorConfiguration) =>
+              sourceColor.source !== 'CANVAS' &&
+              sourceColor.source !== 'DEFAULT'
+          ),
+          ...this.generateDefaultSourceColors(),
+        ],
+      })
   }
 
   handleMessage = (e: CustomEvent<PluginMessageData>) => {
@@ -254,16 +268,38 @@ export default class ManagePalette extends PureComponent<
     try {
       const updateWhileEmptySelection = () => {
         this.setState({
+          sourceColors: [
+            ...this.state.sourceColors.filter(
+              (sourceColor: SourceColorConfiguration) =>
+                sourceColor.source !== 'CANVAS' &&
+                sourceColor.source !== 'DEFAULT'
+            ),
+            ...this.generateDefaultSourceColors(),
+          ],
           document: {},
+        })
+      }
+
+      const updateWhileColorSelected = () => {
+        const existingColors = this.state.sourceColors.filter(
+          (sourceColor: SourceColorConfiguration) =>
+            sourceColor.source !== 'CANVAS' && sourceColor.source !== 'DEFAULT'
+        )
+        const remaining =
+          (this.features.COLORS.limit ?? path.data.selection.length) -
+          existingColors.length
+
+        this.setState({
+          sourceColors: existingColors.concat(
+            this.features.COLORS.isReached(existingColors.length)
+              ? []
+              : path.data.selection.slice(0, remaining)
+          ),
         })
       }
 
       const updateWhileDocumentSelected = () => {
         this.setState({
-          sourceColors: this.state.sourceColors.filter(
-            (sourceColor: SourceColorConfiguration) =>
-              sourceColor.source !== 'CANVAS'
-          ),
           document: {
             view: path.data.view,
             id: path.data.id,
@@ -287,6 +323,7 @@ export default class ManagePalette extends PureComponent<
         [action: string]: () => void
       } = {
         EMPTY_SELECTION: () => updateWhileEmptySelection(),
+        COLOR_SELECTED: () => updateWhileColorSelected(),
         DOCUMENT_SELECTED: () => updateWhileDocumentSelected(),
         LOAD_PALETTE: () => this.onLoadPalette(path.data),
         RESET_PALETTE: () => this.onResetPalette(),
