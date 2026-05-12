@@ -192,6 +192,14 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
               },
             ]}
             alignment="TOP_RIGHT"
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
           />
         </Feature>
       </div>

@@ -559,6 +559,14 @@ export default class SelfPalettes extends PureComponent<
                       helper={{
                         label: this.props.t('browse.actions.managePalette'),
                       }}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                     />
                     <Button
                       type="secondary"

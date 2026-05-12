@@ -749,6 +749,14 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         helper={{
           label: this.props.t('scale.actions.moreTools'),
         }}
+        onBlock={() => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        }}
       />
     )
   }

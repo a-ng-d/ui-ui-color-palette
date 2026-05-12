@@ -636,6 +636,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'
                     }
                     isNew={this.state.canUpdateDocument}
+                    onBlock={() => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    }}
                   />
                 </Feature>
                 <Menu
@@ -715,6 +723,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   ]}
                   alignment="BOTTOM_RIGHT"
                   state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                  onBlock={() => {
+                    sendPluginMessage(
+                      {
+                        pluginMessage: { type: 'GET_PRO' },
+                      },
+                      '*'
+                    )
+                  }}
                 />
               </>
             ) : (
@@ -824,6 +840,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     : 'DEFAULT'
                 }
                 isNew={this.state.canUpdateDocument}
+                onBlock={() => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                }}
               />
             )}
             <this.Modes />

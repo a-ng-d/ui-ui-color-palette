@@ -348,6 +348,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
             }}
             isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
             isNew={this.features.PREVIEW_SCORES.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
           />
         </Feature>
         <Feature isActive={this.features.PREVIEW_SCORES.isActive()}>

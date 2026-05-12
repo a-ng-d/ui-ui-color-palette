@@ -420,6 +420,14 @@ export default class FilePalettes extends PureComponent<
                               'browse.actions.moreParameters'
                             ),
                           }}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: { type: 'GET_PRO' },
+                              },
+                              '*'
+                            )
+                          }}
                         />
                         <Feature
                           isActive={this.features.OPEN_PALETTE.isActive()}

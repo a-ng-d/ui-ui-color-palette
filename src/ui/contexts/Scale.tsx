@@ -714,6 +714,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                           helper={{
                             label: this.props.t('scale.actions.help'),
                           }}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: { type: 'GET_PRO' },
+                              },
+                              '*'
+                            )
+                          }}
                         />
                       </Feature>
                       <Feature
