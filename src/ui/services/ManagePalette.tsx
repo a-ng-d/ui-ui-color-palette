@@ -32,6 +32,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import { PluginMessageData } from '../../types/messages'
 import {
@@ -223,6 +224,12 @@ export default class ManagePalette extends PureComponent<
       this.handleMessage as EventListener
     )
     window.addEventListener('keydown', this.handleKeydown)
+    sendPluginMessage(
+      {
+        pluginMessage: { type: 'OPEN_DOCUMENT' },
+      },
+      '*'
+    )
   }
 
   componentWillUnmount = () => {
