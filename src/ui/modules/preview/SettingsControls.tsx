@@ -191,7 +191,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 action: () => this.props.onAddStop?.(),
               },
             ]}
-            alignment="TOP_LEFT"
+            alignment="TOP_RIGHT"
           />
         </Feature>
       </div>
