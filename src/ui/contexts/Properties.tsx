@@ -314,7 +314,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
                     {Object.entries(theme.scale || {}).map(
                       ([scaleIndex, value]) => (
                         <li key={`scale-${index}-${scaleIndex}`}>
-                          {`${scaleIndex}: ${value + '%'}`}
+                          {`${scaleIndex}: ${value.toFixed(1) + '%'}`}
                         </li>
                       )
                     )}
