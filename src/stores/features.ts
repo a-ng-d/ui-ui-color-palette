@@ -3156,8 +3156,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     ],
   },
   {
-    name: 'PREVIEW_FILTER_APCA',
-    description: 'Filter colors via their APCA scores in preview',
+    name: 'PREVIEW_FILTER_PASS',
+    description: 'Filter passing colors via their scores in preview',
     isActive: true,
     isPro: false,
     isNew: false,
@@ -3176,8 +3176,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     ],
   },
   {
-    name: 'PREVIEW_FILTER_WCAG',
-    description: 'Filter colors via their WCAG scores in preview',
+    name: 'PREVIEW_FILTER_FAIL',
+    description: 'Filter failing colors via their scores in preview',
     isActive: true,
     isPro: false,
     isNew: false,

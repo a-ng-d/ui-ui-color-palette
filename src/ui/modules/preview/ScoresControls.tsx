@@ -83,16 +83,16 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
       currentService: service,
       currentEditor: editor,
     }),
-    PREVIEW_FILTER_WCAG: new FeatureStatus({
+    PREVIEW_FILTER_PASS: new FeatureStatus({
       features: config.features,
-      featureName: 'PREVIEW_FILTER_WCAG',
+      featureName: 'PREVIEW_FILTER_PASS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
     }),
-    PREVIEW_FILTER_APCA: new FeatureStatus({
+    PREVIEW_FILTER_FAIL: new FeatureStatus({
       features: config.features,
-      featureName: 'PREVIEW_FILTER_APCA',
+      featureName: 'PREVIEW_FILTER_FAIL',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -364,9 +364,6 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.filter.lightForeground'),
                 value: 'LIGHT_WCAG_HEADER',
                 type: 'GROUP',
-                isActive: this.features.PREVIEW_FILTER_WCAG.isActive(),
-                isBlocked: this.features.PREVIEW_FILTER_WCAG.isBlocked(),
-                isNew: this.features.PREVIEW_FILTER_WCAG.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -380,6 +377,17 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.pass'),
                     value: 'LIGHT_WCAG_PASS',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_PASS.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ lightWCAG: 'PASS' })
                     },
@@ -388,27 +396,27 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.fail'),
                     value: 'LIGHT_WCAG_FAIL',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_FAIL.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ lightWCAG: 'FAIL' })
                     },
                   },
                 ],
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
               },
               {
                 label: this.props.t('preview.filter.darkForeground'),
                 value: 'DARK_WCAG_HEADER',
                 type: 'GROUP',
-                isActive: this.features.PREVIEW_FILTER_WCAG.isActive(),
-                isBlocked: this.features.PREVIEW_FILTER_WCAG.isBlocked(),
-                isNew: this.features.PREVIEW_FILTER_WCAG.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -422,6 +430,17 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.pass'),
                     value: 'DARK_WCAG_PASS',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_PASS.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ darkWCAG: 'PASS' })
                     },
@@ -430,19 +449,22 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.fail'),
                     value: 'DARK_WCAG_FAIL',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_FAIL.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ darkWCAG: 'FAIL' })
                     },
                   },
                 ],
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
               },
               {
                 type: 'SEPARATOR',
@@ -455,9 +477,6 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                 label: this.props.t('preview.filter.lightForeground'),
                 value: 'LIGHT_APCA_HEADER',
                 type: 'GROUP',
-                isActive: this.features.PREVIEW_FILTER_APCA.isActive(),
-                isBlocked: this.features.PREVIEW_FILTER_APCA.isBlocked(),
-                isNew: this.features.PREVIEW_FILTER_APCA.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -471,6 +490,17 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.pass'),
                     value: 'LIGHT_APCA_PASS',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_PASS.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ lightAPCA: 'PASS' })
                     },
@@ -479,27 +509,27 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.fail'),
                     value: 'LIGHT_APCA_FAIL',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_FAIL.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ lightAPCA: 'FAIL' })
                     },
                   },
                 ],
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
               },
               {
                 label: this.props.t('preview.filter.darkForeground'),
                 value: 'DARK_APCA_HEADER',
                 type: 'GROUP',
-                isActive: this.features.PREVIEW_FILTER_APCA.isActive(),
-                isBlocked: this.features.PREVIEW_FILTER_APCA.isBlocked(),
-                isNew: this.features.PREVIEW_FILTER_APCA.isNew(),
                 children: [
                   {
                     label: this.props.t('preview.filter.all'),
@@ -513,6 +543,17 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.pass'),
                     value: 'DARK_APCA_PASS',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_PASS.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ darkAPCA: 'PASS' })
                     },
@@ -521,19 +562,22 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     label: this.props.t('preview.filter.fail'),
                     value: 'DARK_APCA_FAIL',
                     type: 'OPTION',
+                    isActive: this.features.PREVIEW_FILTER_FAIL.isActive(),
+                    isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
+                    isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    },
                     action: () => {
                       this.props.onUpdateScoreFilters({ darkAPCA: 'FAIL' })
                     },
                   },
                 ],
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
               },
               {
                 type: 'SEPARATOR',
