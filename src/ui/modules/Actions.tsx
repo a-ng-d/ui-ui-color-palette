@@ -601,25 +601,27 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             {this.props.documentWidth > 460 ? (
               <>
                 {this.props.document?.id === this.props.id && (
-                  <Dropdown
-                    id="views"
-                    options={this.viewOptionsHandler()}
-                    selected={this.props.document.view}
-                    pin="BOTTOM"
-                    helper={{
-                      label: this.props.t('settings.global.views.helper'),
-                    }}
-                    isBlocked={this.features.VIEWS.isBlocked()}
-                    isNew={this.features.VIEWS.isNew()}
-                    onBlock={() => {
-                      sendPluginMessage(
-                        {
-                          pluginMessage: { type: 'GET_PRO' },
-                        },
-                        '*'
-                      )
-                    }}
-                  />
+                  <Feature isActive={this.features.VIEWS.isActive()}>
+                    <Dropdown
+                      id="views"
+                      options={this.viewOptionsHandler()}
+                      selected={this.props.document.view}
+                      pin="BOTTOM"
+                      helper={{
+                        label: this.props.t('settings.global.views.helper'),
+                      }}
+                      isBlocked={this.features.VIEWS.isBlocked()}
+                      isNew={this.features.VIEWS.isNew()}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
+                    />
+                  </Feature>
                 )}
                 <Feature isActive={this.features.DOCUMENT.isActive()}>
                   <Menu
