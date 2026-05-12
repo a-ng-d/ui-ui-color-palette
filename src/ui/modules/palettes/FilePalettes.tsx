@@ -6,6 +6,7 @@ import {
   ActionsItem,
   Button,
   Dialog,
+  layouts,
   List,
   Menu,
   SectionTitle,
@@ -492,7 +493,7 @@ export default class FilePalettes extends PureComponent<
           </>
         )}
         {this.props.localPalettesListStatus === 'EMPTY' && (
-          <>
+          <div className={doClassnames([layouts['stackbar--center']])}>
             <SemanticMessage
               type="NEUTRAL"
               message={this.props.t('warning.noPaletteOnCurrentFile')}
@@ -558,7 +559,7 @@ export default class FilePalettes extends PureComponent<
                 />
               </Feature>
             </Feature>
-          </>
+          </div>
         )}
       </List>
     )
