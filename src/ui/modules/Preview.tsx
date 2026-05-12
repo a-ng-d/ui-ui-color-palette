@@ -9,7 +9,6 @@ import {
   DropdownOption,
   Layout,
   layouts,
-  Menu,
 } from '@unoff/ui'
 import {
   Color,
@@ -127,20 +126,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     service: Service,
     editor: Editor
   ) => ({
-    COLORS: new FeatureStatus({
-      features: config.features,
-      featureName: 'COLORS',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    PRESETS_CUSTOM_ADD: new FeatureStatus({
-      features: config.features,
-      featureName: 'PRESETS_CUSTOM_ADD',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
     PREVIEW_SCORES_WCAG_INTERVAL: new FeatureStatus({
       features: config.features,
       featureName: 'PREVIEW_SCORES_WCAG_INTERVAL',
@@ -1050,56 +1035,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                 <Bar
                   leftPartSlot={
                     <div className={layouts['snackbar--medium']}>
-                      <Feature isActive={this.props.mode === 'EDIT'}>
-                        <Menu
-                          type="PRIMARY"
-                          label={this.props.t('preview.actions.insert')}
-                          options={[
-                            {
-                              label: this.props.t('preview.insert.color'),
-                              value: 'ADD_COLOR',
-                              type: 'OPTION',
-                              isActive: this.features.COLORS.isActive(),
-                              isBlocked: this.features.COLORS.isReached(
-                                this.props.colors.length
-                              ),
-                              isNew: this.features.COLORS.isNew(),
-                              onBlock: () => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: { type: 'GET_PRO' },
-                                  },
-                                  '*'
-                                )
-                              },
-                              action: () => this.props.onAddColor?.(),
-                            },
-                            {
-                              label: this.props.t('preview.insert.stop'),
-                              value: 'ADD_STOP',
-                              type: 'OPTION',
-                              isActive:
-                                this.props.preset.id.includes('CUSTOM') &&
-                                this.features.PRESETS_CUSTOM_ADD.isActive(),
-                              isBlocked:
-                                this.features.PRESETS_CUSTOM_ADD.isReached(
-                                  this.props.preset.stops.length
-                                ),
-                              isNew: this.features.PRESETS_CUSTOM_ADD.isNew(),
-                              onBlock: () => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: { type: 'GET_PRO' },
-                                  },
-                                  '*'
-                                )
-                              },
-                              action: () => this.props.onAddStop?.(),
-                            },
-                          ]}
-                          alignment="TOP_LEFT"
-                        />
-                      </Feature>
                       <ScoresControls
                         {...this.props}
                         isWCAGDisplayed={this.state.isWCAGDisplayed}
