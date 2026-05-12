@@ -198,12 +198,7 @@ export default class BrowsePalettes extends PureComponent<
 
   // Direct Actions
   onCreatePalette = () => {
-    const sourceColors =
-      this.props.sourceColors.length > 1
-        ? this.props.sourceColors.filter(
-            (sourceColor) => sourceColor.source !== 'CANVAS'
-          )
-        : this.props.sourceColors
+    const sourceColors = this.props.sourceColors
 
     sendPluginMessage(
       {
