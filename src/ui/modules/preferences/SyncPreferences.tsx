@@ -132,6 +132,14 @@ export default class SyncPreferences extends PureComponent<
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           action={() => {
             $canStylesDeepSync.set(!this.state.canStylesDeepSync)
             sendPluginMessage(
@@ -176,6 +184,14 @@ export default class SyncPreferences extends PureComponent<
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           action={() => {
             $canVariablesDeepSync.set(!this.state.canVariablesDeepSync)
             sendPluginMessage(
@@ -220,6 +236,14 @@ export default class SyncPreferences extends PureComponent<
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isNew()}
           feature="UPDATE_TOKENS_DEEP_SYNC"
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           action={() => {
             $canTokensDeepSync.set(!this.state.canTokensDeepSync)
             sendPluginMessage(

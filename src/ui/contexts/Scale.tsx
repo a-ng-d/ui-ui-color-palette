@@ -441,6 +441,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isActive(),
               isBlocked:
                 this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
+              onBlock: () => {
+                sendPluginMessage(
+                  {
+                    pluginMessage: { type: 'GET_PRO' },
+                  },
+                  '*'
+                )
+              },
               isNew: this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isNew(),
               action: this.onChangeDistributionEasingCurve,
             },
@@ -456,6 +464,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               isBlocked:
                 this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
               isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
+              onBlock: () => {
+                sendPluginMessage(
+                  {
+                    pluginMessage: { type: 'GET_PRO' },
+                  },
+                  '*'
+                )
+              },
               action: this.onChangeDistributionEasingCurve,
             },
             {
@@ -467,6 +483,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               isBlocked:
                 this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
               isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
+              onBlock: () => {
+                sendPluginMessage(
+                  {
+                    pluginMessage: { type: 'GET_PRO' },
+                  },
+                  '*'
+                )
+              },
               action: this.onChangeDistributionEasingCurve,
             },
             {
@@ -479,6 +503,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isBlocked(),
               isNew:
                 this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
+              onBlock: () => {
+                sendPluginMessage(
+                  {
+                    pluginMessage: { type: 'GET_PRO' },
+                  },
+                  '*'
+                )
+              },
               action: this.onChangeDistributionEasingCurve,
             },
           ]}
@@ -489,6 +521,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
           }}
           isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
           isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
         />
         {this.props.distributionEasing !== 'LINEAR' && (
           <Dropdown
@@ -503,6 +543,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 isBlocked:
                   this.features.SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
                 isNew: this.features.SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.onChangeDistributionEasingVelocity,
               },
               {
@@ -514,6 +562,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 isBlocked:
                   this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
                 isNew: this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.onChangeDistributionEasingVelocity,
               },
               {
@@ -525,6 +581,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 isBlocked:
                   this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
                 isNew: this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.onChangeDistributionEasingVelocity,
               },
             ]}
@@ -532,6 +596,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
             pin="BOTTOM"
             isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
             isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
           />
         )}
         <Feature
@@ -545,6 +617,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
             }}
             isBlocked={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isBlocked()}
             isNew={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
             action={() => {
               const newScale = this.onApplyDistributionEasing(
                 this.props.scale,

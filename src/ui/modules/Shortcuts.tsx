@@ -371,6 +371,14 @@ export default class Shortcuts extends PureComponent<
                     }}
                     isBlocked={this.features.HELP_DOCUMENTATION.isBlocked()}
                     isNew={this.features.HELP_DOCUMENTATION.isNew()}
+                    onBlock={() => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    }}
                     action={() =>
                       sendPluginMessage(
                         {
@@ -455,6 +463,14 @@ export default class Shortcuts extends PureComponent<
                                 this.features.BACKSTAGE_AUTHENTICATION.isBlocked(),
                               isNew:
                                 this.features.BACKSTAGE_AUTHENTICATION.isNew(),
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              },
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
                                 signOut({
@@ -523,6 +539,14 @@ export default class Shortcuts extends PureComponent<
                                 this.features.BACKSTAGE_AUTHENTICATION.isBlocked(),
                               isNew:
                                 this.features.BACKSTAGE_AUTHENTICATION.isNew(),
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              },
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
                                 signIn({
@@ -596,6 +620,14 @@ export default class Shortcuts extends PureComponent<
                         isActive: this.features.USER_CONSENT.isActive(),
                         isBlocked: this.features.USER_CONSENT.isBlocked(),
                         isNew: this.features.USER_CONSENT.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.props.onUpdateConsent({
                             mustUserConsent: true,
@@ -607,6 +639,14 @@ export default class Shortcuts extends PureComponent<
                         isActive: this.features.USER_PREFERENCES.isActive(),
                         isBlocked: this.features.USER_PREFERENCES.isBlocked(),
                         isNew: this.features.USER_PREFERENCES.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.props.onReOpenPreferences({
                             modalContext: 'PREFERENCES',
@@ -618,6 +658,14 @@ export default class Shortcuts extends PureComponent<
                         isActive: this.features.USER_LICENSE.isActive(),
                         isBlocked: this.features.USER_LICENSE.isBlocked(),
                         isNew: this.features.USER_LICENSE.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.props.onReOpenLicense({
                             modalContext: 'LICENSE',
@@ -631,6 +679,14 @@ export default class Shortcuts extends PureComponent<
                       pin: 'TOP',
                     }}
                     selected={this.props.config.lang}
+                    onBlock={() => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    }}
                   />
                 </Feature>
                 <Menu
@@ -647,6 +703,14 @@ export default class Shortcuts extends PureComponent<
                         'DISPLAY_ANNOUNCEMENTS_NOTIFICATION'
                           ? true
                           : false,
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         this.props.onReOpenAnnouncements({
                           modalContext: 'ANNOUNCEMENTS',
@@ -658,6 +722,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.HELP_ONBOARDING.isActive(),
                       isBlocked: this.features.HELP_ONBOARDING.isBlocked(),
                       isNew: this.features.HELP_ONBOARDING.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         this.props.onReOpenOnboarding({
                           modalContext: 'ONBOARDING',
@@ -669,6 +741,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: !this.features.HELP_EMAIL.isBlocked(),
                       isBlocked: this.features.HELP_EMAIL.isBlocked(),
                       isNew: this.features.HELP_EMAIL.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         sendPluginMessage(
                           {
@@ -688,6 +768,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.HELP_CHAT.isActive(),
                       isBlocked: this.features.HELP_CHAT.isBlocked(),
                       isNew: this.features.HELP_CHAT.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         this.props.onReOpenChat({
                           modalContext: 'CHAT',
@@ -702,6 +790,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.INVOLVE_COMMUNITY.isActive(),
                       isBlocked: this.features.INVOLVE_COMMUNITY.isBlocked(),
                       isNew: this.features.INVOLVE_COMMUNITY.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         sendPluginMessage(
                           {
@@ -721,6 +817,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.INVOLVE_REQUESTS.isActive(),
                       isBlocked: this.features.INVOLVE_REQUESTS.isBlocked(),
                       isNew: this.features.INVOLVE_REQUESTS.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         sendPluginMessage(
                           {
@@ -742,6 +846,14 @@ export default class Shortcuts extends PureComponent<
                         this.props.config.env.isSentryEnabled,
                       isBlocked: this.features.INVOLVE_ISSUES.isBlocked(),
                       isNew: this.features.INVOLVE_ISSUES.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         this.props.onReOpenReport({
                           modalContext: 'REPORT',
@@ -753,6 +865,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.INVOLVE_FEEDBACK.isActive(),
                       isBlocked: this.features.INVOLVE_FEEDBACK.isBlocked(),
                       isNew: this.features.INVOLVE_FEEDBACK.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         sendPluginMessage(
                           {
@@ -772,6 +892,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.INVOLVE_REPOSITORY.isActive(),
                       isBlocked: this.features.INVOLVE_REPOSITORY.isBlocked(),
                       isNew: this.features.INVOLVE_REPOSITORY.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         sendPluginMessage(
                           {
@@ -794,6 +922,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.MORE_STORE.isActive(),
                       isBlocked: this.features.MORE_STORE.isBlocked(),
                       isNew: this.features.MORE_STORE.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         this.props.onReOpenStore({
                           modalContext: 'STORE',
@@ -805,6 +941,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.MORE_ABOUT.isActive(),
                       isBlocked: this.features.MORE_ABOUT.isBlocked(),
                       isNew: this.features.MORE_ABOUT.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         this.props.onReOpenAbout({
                           modalContext: 'ABOUT',
@@ -816,6 +960,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.MORE_NETWORK.isActive(),
                       isBlocked: this.features.MORE_NETWORK.isBlocked(),
                       isNew: this.features.MORE_NETWORK.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         sendPluginMessage(
                           {
@@ -835,6 +987,14 @@ export default class Shortcuts extends PureComponent<
                       isActive: this.features.MORE_AUTHOR.isActive(),
                       isBlocked: this.features.MORE_AUTHOR.isBlocked(),
                       isNew: this.features.MORE_AUTHOR.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: () =>
                         sendPluginMessage(
                           {

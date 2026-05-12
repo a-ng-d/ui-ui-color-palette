@@ -485,6 +485,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           isExpanded={this.state.isSelectedColorsOpen}
           isBlocked={this.features.IMPORTS_CANVAS.isBlocked()}
           isNew={this.features.IMPORTS_CANVAS.isNew()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           onAdd={() => {
             this.setState({ isSelectedColorsOpen: true })
           }}
@@ -565,6 +573,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           isExpanded={this.state.isCoolorsImportOpen}
           isBlocked={this.features.IMPORTS_COOLORS.isBlocked()}
           isNew={this.features.IMPORTS_COOLORS.isNew()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           onAdd={() => {
             this.setState({ isCoolorsImportOpen: true })
           }}
@@ -667,6 +683,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           isExpanded={this.state.isRealtimeColorsImportOpen}
           isBlocked={this.features.IMPORTS_REALTIME_COLORS.isBlocked()}
           isNew={this.features.IMPORTS_REALTIME_COLORS.isNew()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           onAdd={() => {
             this.setState({ isRealtimeColorsImportOpen: true })
           }}
@@ -786,6 +810,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                           this.state.sourceColors.length -
                           1
                       )}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={(e: Event) => this.colorsHandler(e)}
                     />
                   }

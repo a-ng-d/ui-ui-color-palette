@@ -369,6 +369,14 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         }}
                         isLoading={this.state.isSecondaryActionLoading}
                         isBlocked={this.features.STAR_PALETTE.isBlocked()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={this.onStarPalette}
                       />
                     ) : (
@@ -380,6 +388,14 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         }}
                         isLoading={this.state.isSecondaryActionLoading}
                         isBlocked={this.features.STAR_PALETTE.isBlocked()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={this.onStarPalette}
                       />
                     )}
@@ -396,6 +412,14 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                       label={this.props.t('browse.actions.signInToStar')}
                       isLoading={this.state.isSecondaryActionLoading}
                       isBlocked={this.features.STAR_PALETTE.isBlocked()}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={this.onAuthenticate}
                     />
                   </Feature>
@@ -408,6 +432,14 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         this.props.localPalettesList.length
                       )}
                       isNew={this.features.ADD_PALETTE.isNew()}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={() => {
                         this.setState({ isPrimaryActionLoading: true })
                         this.props.onSelectPalette(this.props.id)

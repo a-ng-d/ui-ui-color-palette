@@ -365,6 +365,14 @@ export default class FilePalettes extends PureComponent<
                                     1
                                 ),
                               isNew: this.features.DUPLICATE_PALETTE.isNew(),
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              },
                               action: () => {
                                 this.setState({
                                   isContextActionLoading:
@@ -385,6 +393,14 @@ export default class FilePalettes extends PureComponent<
                               isBlocked:
                                 this.features.DELETE_PALETTE.isBlocked(),
                               isNew: this.features.DELETE_PALETTE.isNew(),
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              },
                               action: () =>
                                 this.setState({
                                   isDeleteDialogOpen: true,
@@ -417,6 +433,14 @@ export default class FilePalettes extends PureComponent<
                             }}
                             isBlocked={this.features.OPEN_PALETTE.isBlocked()}
                             isNew={this.features.OPEN_PALETTE.isNew()}
+                            onBlock={() => {
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: { type: 'GET_PRO' },
+                                },
+                                '*'
+                              )
+                            }}
                             action={() => this.onEditPalette(palette.meta.id)}
                           />
                         </Feature>
@@ -432,6 +456,14 @@ export default class FilePalettes extends PureComponent<
                             }}
                             isBlocked={this.features.SEE_PALETTE.isBlocked()}
                             isNew={this.features.SEE_PALETTE.isNew()}
+                            onBlock={() => {
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: { type: 'GET_PRO' },
+                                },
+                                '*'
+                              )
+                            }}
                             action={() => this.onSeePalette(palette.meta.id)}
                           />
                         </Feature>
@@ -482,6 +514,14 @@ export default class FilePalettes extends PureComponent<
                           1
                       )}
                       isNew={this.features.CREATE_PALETTE.isNew()}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={this.props.onCreatePalette}
                     />
                   </Feature>

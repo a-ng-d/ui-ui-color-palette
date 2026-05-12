@@ -33,6 +33,8 @@ import {
 } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
+import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ExportEvent } from '../../types/events'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackExportEvent } from '../../external/tracking/eventsTracker'
@@ -119,6 +121,13 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
     EXPORT_COLOR_SPACE_P3: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT_COLOR_SPACE_P3',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPORT: new FeatureStatus({
+      features: config.features,
+      featureName: 'EXPORT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -837,6 +846,14 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
           ].isBlocked(),
         isNew:
           features[feature as keyof ReturnType<typeof Export.features>].isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: this.exportHandler,
       }
     }
@@ -1005,265 +1022,423 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                     />
                   }
                   rightPartSlot={
-                    <div className={layouts['snackbar--medium']}>
-                      <Dropdown
-                        id="select-format"
-                        options={[
-                          {
-                            label: this.props.t('export.tokens.label'),
-                            value: 'TOKENS_GROUP',
-                            feature: 'SELECT_EXPORT_FILE',
-                            type: 'GROUP',
-                            isActive: this.features.EXPORT_TOKENS.isActive(),
-                            isBlocked: this.features.EXPORT_TOKENS.isBlocked(),
-                            isNew: this.features.EXPORT_TOKENS.isNew(),
-                            children: [
-                              {
-                                label: this.props.t(
-                                  'export.tokens.nativeTokens.label'
-                                ),
-                                value: 'TOKENS_NATIVE',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_TOKENS_NATIVE.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_TOKENS_NATIVE.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_TOKENS_NATIVE.isNew(),
-                                action: this.exportHandler,
+                    <Feature isActive={this.features.EXPORT.isActive()}>
+                      <div className={layouts['snackbar--medium']}>
+                        <Dropdown
+                          id="select-format"
+                          options={[
+                            {
+                              label: this.props.t('export.tokens.label'),
+                              value: 'TOKENS_GROUP',
+                              feature: 'SELECT_EXPORT_FILE',
+                              type: 'GROUP',
+                              isActive: this.features.EXPORT_TOKENS.isActive(),
+                              isBlocked:
+                                this.features.EXPORT_TOKENS.isBlocked(),
+                              isNew: this.features.EXPORT_TOKENS.isNew(),
+                              children: [
+                                {
+                                  label: this.props.t(
+                                    'export.tokens.nativeTokens.label'
+                                  ),
+                                  value: 'TOKENS_NATIVE',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_NATIVE.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_NATIVE.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_NATIVE.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t(
+                                    'export.tokens.dtcg.label'
+                                  ),
+                                  value: 'TOKENS_DTCG',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_DTCG.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_DTCG.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_DTCG.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t(
+                                    'export.tokens.styleDictionary'
+                                  ),
+                                  value: 'TOKENS_STYLE_DICTIONARY_V3',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t('export.tokens.global'),
+                                  value: 'TOKENS_UNIVERSAL',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_UNIVERSAL.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_UNIVERSAL.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_UNIVERSAL.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                              ],
+                            },
+                            {
+                              label: this.props.t('export.stylesheet.label'),
+                              value: 'STYLESHEET_GROUP',
+                              type: 'GROUP',
+                              isActive:
+                                this.features.EXPORT_STYLESHEET.isActive(),
+                              isBlocked:
+                                this.features.EXPORT_STYLESHEET.isBlocked(),
+                              isNew: this.features.EXPORT_STYLESHEET.isNew(),
+                              children: [
+                                {
+                                  label: this.props.t(
+                                    'export.stylesheet.customProperties'
+                                  ),
+                                  value: 'STYLESHEET_CSS',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_STYLESHEET_CSS.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_STYLESHEET_CSS.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_STYLESHEET_CSS.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t('export.stylesheet.scss'),
+                                  value: 'STYLESHEET_SCSS',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_STYLESHEET_SCSS.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_STYLESHEET_SCSS.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_STYLESHEET_SCSS.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t('export.stylesheet.less'),
+                                  value: 'STYLESHEET_LESS',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_STYLESHEET_LESS.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_STYLESHEET_LESS.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_STYLESHEET_LESS.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                              ],
+                            },
+                            {
+                              label: this.props.t('export.tailwind.label'),
+                              value: 'TAILWIND',
+                              type: 'GROUP',
+                              isActive:
+                                this.features.EXPORT_TAILWIND.isActive(),
+                              isBlocked:
+                                this.features.EXPORT_TAILWIND.isBlocked(),
+                              isNew: this.features.EXPORT_TAILWIND.isNew(),
+                              children: [
+                                {
+                                  label: this.props.t('export.tailwind.v3'),
+                                  value: 'TAILWIND_V3',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TAILWIND_V3.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TAILWIND_V3.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TAILWIND_V3.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t('export.tailwind.v4'),
+                                  value: 'TAILWIND_V4',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TAILWIND_V4.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TAILWIND_V4.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TAILWIND_V4.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                              ],
+                            },
+                            {
+                              label: this.props.t('export.apple.label'),
+                              value: 'APPLE_GROUP',
+                              type: 'GROUP',
+                              isActive: this.features.EXPORT_APPLE.isActive(),
+                              isBlocked: this.features.EXPORT_APPLE.isBlocked(),
+                              isNew: this.features.EXPORT_APPLE.isNew(),
+                              children: [
+                                {
+                                  label: this.props.t('export.apple.swiftui'),
+                                  value: 'APPLE_SWIFTUI',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_APPLE_SWIFTUI.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_APPLE_SWIFTUI.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_APPLE_SWIFTUI.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t('export.apple.uikit'),
+                                  value: 'APPLE_UIKIT',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_APPLE_UIKIT.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_APPLE_UIKIT.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_APPLE_UIKIT.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                              ],
+                              action: this.exportHandler,
+                            },
+                            {
+                              label: this.props.t('export.android.label'),
+                              value: 'ANDROID_GROUP',
+                              type: 'GROUP',
+                              isActive: this.features.EXPORT_ANDROID.isActive(),
+                              isBlocked:
+                                this.features.EXPORT_ANDROID.isBlocked(),
+                              isNew: this.features.EXPORT_ANDROID.isNew(),
+                              children: [
+                                {
+                                  label: this.props.t('export.android.compose'),
+                                  value: 'ANDROID_COMPOSE',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_ANDROID_COMPOSE.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_ANDROID_COMPOSE.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_ANDROID_COMPOSE.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t(
+                                    'export.android.resources'
+                                  ),
+                                  value: 'ANDROID_XML',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_ANDROID_XML.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_ANDROID_XML.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_ANDROID_XML.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                              ],
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
                               },
-                              {
-                                label: this.props.t('export.tokens.dtcg.label'),
-                                value: 'TOKENS_DTCG',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_TOKENS_DTCG.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_TOKENS_DTCG.isBlocked(),
-                                isNew: this.features.EXPORT_TOKENS_DTCG.isNew(),
-                                action: this.exportHandler,
+                              action: this.exportHandler,
+                            },
+                            {
+                              label: this.props.t('export.csv.spreadsheet'),
+                              value: 'CSV',
+                              type: 'OPTION',
+                              isActive: this.features.EXPORT_CSV.isActive(),
+                              isBlocked: this.features.EXPORT_CSV.isBlocked(),
+                              isNew: this.features.EXPORT_CSV.isNew(),
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
                               },
+                              action: this.exportHandler,
+                            },
+                          ]}
+                          selected={this.props.context ?? ''}
+                          alignment="RIGHT"
+                          pin="TOP"
+                          isBlocked={this.features.EXPORT.isBlocked()}
+                          isNew={this.features.EXPORT.isNew()}
+                          onBlock={() => {
+                            sendPluginMessage(
                               {
-                                label: this.props.t(
-                                  'export.tokens.styleDictionary'
-                                ),
-                                value: 'TOKENS_STYLE_DICTIONARY_V3',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isNew(),
-                                action: this.exportHandler,
+                                pluginMessage: { type: 'GET_PRO' },
                               },
-                              {
-                                label: this.props.t('export.tokens.global'),
-                                value: 'TOKENS_UNIVERSAL',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_TOKENS_UNIVERSAL.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_TOKENS_UNIVERSAL.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_TOKENS_UNIVERSAL.isNew(),
-                                action: this.exportHandler,
-                              },
-                            ],
-                          },
-                          {
-                            label: this.props.t('export.stylesheet.label'),
-                            value: 'STYLESHEET_GROUP',
-                            type: 'GROUP',
-                            isActive:
-                              this.features.EXPORT_STYLESHEET.isActive(),
-                            isBlocked:
-                              this.features.EXPORT_STYLESHEET.isBlocked(),
-                            isNew: this.features.EXPORT_STYLESHEET.isNew(),
-                            children: [
-                              {
-                                label: this.props.t(
-                                  'export.stylesheet.customProperties'
-                                ),
-                                value: 'STYLESHEET_CSS',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_STYLESHEET_CSS.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_STYLESHEET_CSS.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_STYLESHEET_CSS.isNew(),
-                                action: this.exportHandler,
-                              },
-                              {
-                                label: this.props.t('export.stylesheet.scss'),
-                                value: 'STYLESHEET_SCSS',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_STYLESHEET_SCSS.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_STYLESHEET_SCSS.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_STYLESHEET_SCSS.isNew(),
-                                action: this.exportHandler,
-                              },
-                              {
-                                label: this.props.t('export.stylesheet.less'),
-                                value: 'STYLESHEET_LESS',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_STYLESHEET_LESS.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_STYLESHEET_LESS.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_STYLESHEET_LESS.isNew(),
-                                action: this.exportHandler,
-                              },
-                            ],
-                          },
-                          {
-                            label: this.props.t('export.tailwind.label'),
-                            value: 'TAILWIND',
-                            type: 'GROUP',
-                            isActive: this.features.EXPORT_TAILWIND.isActive(),
-                            isBlocked:
-                              this.features.EXPORT_TAILWIND.isBlocked(),
-                            isNew: this.features.EXPORT_TAILWIND.isNew(),
-                            children: [
-                              {
-                                label: this.props.t('export.tailwind.v3'),
-                                value: 'TAILWIND_V3',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_TAILWIND_V3.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_TAILWIND_V3.isBlocked(),
-                                isNew: this.features.EXPORT_TAILWIND_V3.isNew(),
-                                action: this.exportHandler,
-                              },
-                              {
-                                label: this.props.t('export.tailwind.v4'),
-                                value: 'TAILWIND_V4',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_TAILWIND_V4.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_TAILWIND_V4.isBlocked(),
-                                isNew: this.features.EXPORT_TAILWIND_V4.isNew(),
-                                action: this.exportHandler,
-                              },
-                            ],
-                          },
-                          {
-                            label: this.props.t('export.apple.label'),
-                            value: 'APPLE_GROUP',
-                            type: 'GROUP',
-                            isActive: this.features.EXPORT_APPLE.isActive(),
-                            isBlocked: this.features.EXPORT_APPLE.isBlocked(),
-                            isNew: this.features.EXPORT_APPLE.isNew(),
-                            children: [
-                              {
-                                label: this.props.t('export.apple.swiftui'),
-                                value: 'APPLE_SWIFTUI',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_APPLE_SWIFTUI.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_APPLE_SWIFTUI.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_APPLE_SWIFTUI.isNew(),
-                                action: this.exportHandler,
-                              },
-                              {
-                                label: this.props.t('export.apple.uikit'),
-                                value: 'APPLE_UIKIT',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_APPLE_UIKIT.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_APPLE_UIKIT.isBlocked(),
-                                isNew: this.features.EXPORT_APPLE_UIKIT.isNew(),
-                                action: this.exportHandler,
-                              },
-                            ],
-                            action: this.exportHandler,
-                          },
-                          {
-                            label: this.props.t('export.android.label'),
-                            value: 'ANDROID_GROUP',
-                            type: 'GROUP',
-                            isActive: this.features.EXPORT_ANDROID.isActive(),
-                            isBlocked: this.features.EXPORT_ANDROID.isBlocked(),
-                            isNew: this.features.EXPORT_ANDROID.isNew(),
-                            children: [
-                              {
-                                label: this.props.t('export.android.compose'),
-                                value: 'ANDROID_COMPOSE',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_ANDROID_COMPOSE.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_ANDROID_COMPOSE.isBlocked(),
-                                isNew:
-                                  this.features.EXPORT_ANDROID_COMPOSE.isNew(),
-                                action: this.exportHandler,
-                              },
-                              {
-                                label: this.props.t('export.android.resources'),
-                                value: 'ANDROID_XML',
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.EXPORT_ANDROID_XML.isActive(),
-                                isBlocked:
-                                  this.features.EXPORT_ANDROID_XML.isBlocked(),
-                                isNew: this.features.EXPORT_ANDROID_XML.isNew(),
-                                action: this.exportHandler,
-                              },
-                            ],
-                            action: this.exportHandler,
-                          },
-                          {
-                            label: this.props.t('export.csv.spreadsheet'),
-                            value: 'CSV',
-                            type: 'OPTION',
-                            isActive: this.features.EXPORT_CSV.isActive(),
-                            isBlocked: this.features.EXPORT_CSV.isBlocked(),
-                            isNew: this.features.EXPORT_CSV.isNew(),
-                            action: this.exportHandler,
-                          },
-                        ]}
-                        selected={this.props.context ?? ''}
-                        alignment="RIGHT"
-                        pin="TOP"
-                      />
-                      {(this.props.context === 'STYLESHEET_CSS' ||
-                        this.props.context === 'STYLESHEET_SCSS' ||
-                        this.props.context === 'STYLESHEET_LESS' ||
-                        this.props.context === 'TOKENS_DTCG') && (
-                        <Menu
-                          icon="adjust"
-                          id="color-space"
-                          options={this.state.colorSpace.options}
-                          selected={`${this.props.context}_${this.state.colorSpace.selected}`}
-                          alignment="BOTTOM_RIGHT"
-                          helper={{
-                            label: this.props.t(
-                              'export.actions.selectColorSpace'
-                            ),
+                              '*'
+                            )
                           }}
                         />
-                      )}
-                      {this.props.context !== 'CSV' && (
-                        <Button
-                          type="icon"
-                          icon={this.props.isCodeCopied ? 'check' : 'copy'}
-                          helper={{
-                            label: this.props.t('export.actions.copyCode'),
-                          }}
-                          action={this.props.onCopyCode}
-                        />
-                      )}
-                    </div>
+                        <Feature
+                          isActive={this.features.EXPORT_COLOR_SPACE.isActive()}
+                        >
+                          {(this.props.context === 'STYLESHEET_CSS' ||
+                            this.props.context === 'STYLESHEET_SCSS' ||
+                            this.props.context === 'STYLESHEET_LESS' ||
+                            this.props.context === 'TOKENS_DTCG') && (
+                            <Menu
+                              icon="adjust"
+                              id="color-space"
+                              options={this.state.colorSpace.options}
+                              selected={`${this.props.context}_${this.state.colorSpace.selected}`}
+                              alignment="BOTTOM_RIGHT"
+                              helper={{
+                                label: this.props.t(
+                                  'export.actions.selectColorSpace'
+                                ),
+                              }}
+                              isBlocked={this.features.EXPORT_COLOR_SPACE.isBlocked()}
+                              isNew={this.features.EXPORT_COLOR_SPACE.isNew()}
+                              onBlock={() => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              }}
+                            />
+                          )}
+                        </Feature>
+                        {this.props.context !== 'CSV' && (
+                          <Button
+                            type="icon"
+                            icon={this.props.isCodeCopied ? 'check' : 'copy'}
+                            helper={{
+                              label: this.props.t('export.actions.copyCode'),
+                            }}
+                            action={this.props.onCopyCode}
+                          />
+                        )}
+                      </div>
+                    </Feature>
                   }
                   alignment="CENTER"
                   isListItem={false}

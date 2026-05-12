@@ -328,6 +328,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             1
         ),
         isNew: this.features.DOCUMENT_PALETTE.isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: this.props.onGenerateDocument,
       },
       {
@@ -342,6 +350,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             1
         ),
         isNew: this.features.DOCUMENT_PALETTE_PROPERTIES.isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: this.props.onGenerateDocument,
       },
       {
@@ -355,6 +371,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             1
         ),
         isNew: this.features.DOCUMENT_SHEET.isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: this.props.onGenerateDocument,
       },
     ] as Array<DropdownOption>
@@ -375,6 +399,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               1
           ),
           isNew: true,
+          onBlock: () => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          },
           action: this.props.onGenerateDocument,
         }
       )
@@ -395,6 +427,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             1
         ),
         isNew: this.features.VIEWS_PALETTE.isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: this.props.onChangeView,
       },
       {
@@ -409,6 +449,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             1
         ),
         isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: this.props.onChangeView,
       },
       {
@@ -422,6 +470,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             1
         ),
         isNew: this.features.VIEWS_SHEET.isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: this.props.onChangeView,
       },
     ]
@@ -555,6 +611,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     }}
                     isBlocked={this.features.VIEWS.isBlocked()}
                     isNew={this.features.VIEWS.isNew()}
+                    onBlock={() => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    }}
                   />
                 )}
                 <Feature isActive={this.features.DOCUMENT.isActive()}>
@@ -592,6 +656,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                           1
                       ),
                       isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: (e) => this.props.onSyncLocalStyles?.(e),
                     },
                     {
@@ -607,6 +679,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                           1
                       ),
                       isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: (e) => this.props.onSyncLocalVariables?.(e),
                     },
                     {
@@ -622,6 +702,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                           1
                       ),
                       isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
+                      onBlock: () => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      },
                       action: (e) => this.props.onSyncLocalTokens?.(e),
                     },
                   ]}
@@ -653,6 +741,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                             1
                         ),
                         isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: (e) => this.props.onSyncLocalStyles?.(e),
                       },
                       {
@@ -668,6 +764,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                             1
                         ),
                         isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: (e) => this.props.onSyncLocalVariables?.(e),
                       },
                       {
@@ -683,6 +787,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                             1
                         ),
                         isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: (e) => this.props.onSyncLocalTokens?.(e),
                       },
                     ],

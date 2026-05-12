@@ -516,6 +516,14 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
                     feature="RESET_SCALE"
                     isBlocked={features.SCALE_RESET.isBlocked()}
                     isNew={features.SCALE_RESET.isNew()}
+                    onBlock={() => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    }}
                     action={this.onResetStops}
                   />
                 </Feature>
@@ -586,6 +594,9 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
           }}
           isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={features.SCALE_CONTRAST_RATIO.isNew()}
+          onBlock={() => {
+            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+          }}
           onChange={this.contrastLightForegroundHandler}
         />
         <MultipleSlider
@@ -611,6 +622,9 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
           }}
           isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={features.SCALE_CONTRAST_RATIO.isNew()}
+          onBlock={() => {
+            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+          }}
           onChange={this.contrastDarkForegroundHandler}
         />
       </>

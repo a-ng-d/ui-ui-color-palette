@@ -384,6 +384,14 @@ export default class ColorWheel extends PureComponent<
                                   this.features.WHEEL_ALGORITHM_ANALOGOUS.isBlocked(),
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_ANALOGOUS.isNew(),
+                                onBlock: () => {
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_PRO' },
+                                    },
+                                    '*'
+                                  )
+                                },
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'ANALOGOUS',
@@ -402,6 +410,14 @@ export default class ColorWheel extends PureComponent<
                                   this.features.WHEEL_ALGORITHM_COMPLEMENTARY.isBlocked(),
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_COMPLEMENTARY.isNew(),
+                                onBlock: () => {
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_PRO' },
+                                    },
+                                    '*'
+                                  )
+                                },
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPLEMENTARY',
@@ -418,6 +434,14 @@ export default class ColorWheel extends PureComponent<
                                   this.features.WHEEL_ALGORITHM_COMPOUND.isBlocked(),
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_COMPOUND.isNew(),
+                                onBlock: () => {
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_PRO' },
+                                    },
+                                    '*'
+                                  )
+                                },
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'COMPOUND',
@@ -434,6 +458,14 @@ export default class ColorWheel extends PureComponent<
                                   this.features.WHEEL_ALGORITHM_TRIADIC.isBlocked(),
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_TRIADIC.isNew(),
+                                onBlock: () => {
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_PRO' },
+                                    },
+                                    '*'
+                                  )
+                                },
                                 action: () => {
                                   this.setState({ wheelRule: 'TRIADIC' })
                                 },
@@ -448,6 +480,14 @@ export default class ColorWheel extends PureComponent<
                                   this.features.WHEEL_ALGORITHM_TETRADIC.isBlocked(),
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_TETRADIC.isNew(),
+                                onBlock: () => {
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_PRO' },
+                                    },
+                                    '*'
+                                  )
+                                },
                                 action: () => {
                                   this.setState({
                                     wheelRule: 'TETRADIC',
@@ -488,6 +528,14 @@ export default class ColorWheel extends PureComponent<
                               1
                           )}
                           isNew={this.features.CREATE_PALETTE.isNew()}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: { type: 'GET_PRO' },
+                              },
+                              '*'
+                            )
+                          }}
                           action={this.onUsePalette}
                         />
                       </Feature>

@@ -184,7 +184,8 @@ div.export-palette__preview {
 }
 
 .preview__cell--header {
-  border-right: var(--thumbnail-border-width) solid var(--thumbnail-border-color);
+  border-right: var(--thumbnail-border-width) solid
+    var(--thumbnail-border-color);
 }
 
 .preview__cell__stack {

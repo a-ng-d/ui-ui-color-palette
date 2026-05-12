@@ -434,6 +434,14 @@ export default class Themes extends PureComponent<ThemesProps> {
                       }}
                       isBlocked={this.features.THEMES.isBlocked()}
                       feature="ADD_THEME"
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={this.themesHandler}
                     />
                   }
@@ -484,6 +492,14 @@ export default class Themes extends PureComponent<ThemesProps> {
                             feature="ADD_THEME"
                             label={this.props.t('themes.callout.cta')}
                             isBlocked={this.features.THEMES.isBlocked()}
+                            onBlock={() => {
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: { type: 'GET_PRO' },
+                                },
+                                '*'
+                              )
+                            }}
                             action={this.themesHandler}
                           />
                         </>

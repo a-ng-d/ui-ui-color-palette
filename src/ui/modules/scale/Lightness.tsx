@@ -267,6 +267,14 @@ export default class Lightness extends PureComponent<
             }}
             isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
             isNew={this.features.SCALE_CONFIGURATION.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
             onChange={this.lightnessHandler}
           />
         ) : (
@@ -293,6 +301,14 @@ export default class Lightness extends PureComponent<
             }}
             isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
             isNew={this.features.SCALE_CONFIGURATION.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
             onChange={this.lightnessHandler}
           />
         )}

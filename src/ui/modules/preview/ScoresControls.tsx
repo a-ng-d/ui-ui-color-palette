@@ -146,6 +146,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                   this.features.PREVIEW_SCORES_WCAG_SCORE.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_WCAG_SCORE'),
                 isNew: this.features.PREVIEW_SCORES_WCAG_SCORE.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: () => {
                   $isWCAGDisplayed.set(!this.props.isWCAGDisplayed)
                   sendPluginMessage(
@@ -186,6 +194,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                   this.features.PREVIEW_SCORES_APCA_SCORE.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_APCA_SCORE'),
                 isNew: this.features.PREVIEW_SCORES_APCA_SCORE.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: () => {
                   $isAPCADisplayed.set(!this.props.isAPCADisplayed)
                   sendPluginMessage(
@@ -232,6 +248,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                   this.features.PREVIEW_SCORES_WCAG_INTERVAL.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_WCAG_INTERVAL'),
                 isNew: this.features.PREVIEW_SCORES_WCAG_INTERVAL.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: () => {
                   $isWCAGIntervalDisplayed.set(
                     !this.props.isWCAGIntervalDisplayed
@@ -274,6 +298,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                   this.features.PREVIEW_SCORES_APCA_INTERVAL.isBlocked() &&
                   !this.displayHandler().includes('ENABLE_APCA_INTERVAL'),
                 isNew: this.features.PREVIEW_SCORES_APCA_INTERVAL.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: () => {
                   $isAPCAIntervalDisplayed.set(
                     !this.props.isAPCAIntervalDisplayed
@@ -361,6 +393,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     },
                   },
                 ],
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
               },
               {
                 label: this.props.t('preview.filter.darkForeground'),
@@ -395,6 +435,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     },
                   },
                 ],
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
               },
               {
                 type: 'SEPARATOR',
@@ -436,6 +484,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     },
                   },
                 ],
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
               },
               {
                 label: this.props.t('preview.filter.darkForeground'),
@@ -470,6 +526,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
                     },
                   },
                 ],
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
               },
               {
                 type: 'SEPARATOR',
@@ -498,6 +562,14 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
             }}
             isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
             isNew={this.isFiltersEnabled()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
           />
         </Feature>
       </div>

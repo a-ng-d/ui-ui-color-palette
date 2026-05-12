@@ -350,6 +350,14 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                           1
                       )}
                       isNew={this.features.CREATE_PALETTE.isNew()}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={() => {
                         this.onUsePalette(palette)
                       }}

@@ -338,6 +338,14 @@ export default class BrowsePalettes extends PureComponent<
                 icon: 'forward',
                 isEnabled: true,
               }}
+              onBlock={() => {
+                sendPluginMessage(
+                  {
+                    pluginMessage: { type: 'GET_PRO' },
+                  },
+                  '*'
+                )
+              }}
               action={this.onEditPalette}
             />
           </Feature>
@@ -363,6 +371,14 @@ export default class BrowsePalettes extends PureComponent<
                 icon: 'link-connected',
                 isEnabled: true,
               }}
+              onBlock={() => {
+                sendPluginMessage(
+                  {
+                    pluginMessage: { type: 'GET_PRO' },
+                  },
+                  '*'
+                )
+              }}
               action={this.onCreateFromDocument}
             />
           </Feature>
@@ -380,6 +396,14 @@ export default class BrowsePalettes extends PureComponent<
               -1 -
               1
           )}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           isNew={this.features.CREATE_PALETTE.isNew()}
           action={this.onCreatePalette}
         />

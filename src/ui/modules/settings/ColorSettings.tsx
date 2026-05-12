@@ -17,6 +17,7 @@ import {
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -236,6 +237,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_LCH.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_LCH.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_LCH.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -246,6 +255,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_OKLCH.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_OKLCH.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -256,6 +273,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_LAB.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_LAB.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_LAB.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -266,6 +291,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_OKLAB.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_OKLAB.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -279,6 +312,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_HSL.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSL.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSL.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -289,6 +330,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_HSV.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSV.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSV.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -299,6 +348,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_HSLUV.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -312,6 +369,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_COLOR_SPACE_CMYK.isActive(),
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_CMYK.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_CMYK.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
             ]}
@@ -320,6 +385,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             isFill
             isBlocked={this.features.SETTINGS_COLOR_SPACE.isBlocked()}
             isNew={this.features.SETTINGS_COLOR_SPACE.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
           />
         </FormItem>
         {this.props.colorSpace === 'HSL' && (
@@ -356,6 +429,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -380,6 +461,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -395,6 +484,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -410,6 +507,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -425,6 +530,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -440,6 +553,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -455,6 +576,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -470,6 +599,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -485,6 +622,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                   this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
                 isNew:
                   this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
             ]}
@@ -493,6 +638,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             isFill
             isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
             isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
           />
         </FormItem>
       </Feature>
@@ -518,6 +671,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_ALGORITHM_V1.isActive(),
                 isBlocked: this.features.SETTINGS_ALGORITHM_V1.isBlocked(),
                 isNew: this.features.SETTINGS_ALGORITHM_V1.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -528,6 +689,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_ALGORITHM_V2.isActive(),
                 isBlocked: this.features.SETTINGS_ALGORITHM_V2.isBlocked(),
                 isNew: this.features.SETTINGS_ALGORITHM_V2.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
               {
@@ -538,6 +707,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isActive: this.features.SETTINGS_ALGORITHM_V3.isActive(),
                 isBlocked: this.features.SETTINGS_ALGORITHM_V3.isBlocked(),
                 isNew: this.features.SETTINGS_ALGORITHM_V3.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
                 action: this.props.onChangeSettings,
               },
             ]}
@@ -546,6 +723,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             isFill
             isBlocked={this.features.SETTINGS_ALGORITHM.isBlocked()}
             isNew={this.features.SETTINGS_ALGORITHM.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
           />
         </FormItem>
       </Feature>

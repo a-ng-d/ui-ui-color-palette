@@ -428,6 +428,14 @@ export default class PlanControls extends PureComponent<
           label={this.props.t('plan.trialFeedback')}
           isBlocked={this.features.INVOLVE_FEEDBACK.isBlocked()}
           isNew={this.features.INVOLVE_FEEDBACK.isNew()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           action={() =>
             sendPluginMessage(
               {

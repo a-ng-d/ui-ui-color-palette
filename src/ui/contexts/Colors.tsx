@@ -663,6 +663,14 @@ export default class Colors extends PureComponent<ColorsProps> {
                       isBlocked={this.features.COLORS.isReached(
                         this.props.colors.length
                       )}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={(e: Event) => this.colorsHandler(e)}
                     />
                   }
@@ -855,8 +863,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     !color.alpha.isEnabled
                                   }
                                   isNew={this.features.COLORS_ALPHA.isNew()}
-                                  action={this.colorsHandler}
-                                  onUnblock={() => {
+                                  onBlock={() => {
                                     sendPluginMessage(
                                       {
                                         pluginMessage: {
@@ -866,6 +873,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                                       '*'
                                     )
                                   }}
+                                  action={this.colorsHandler}
                                 />
                               </FormItem>
                             </Feature>

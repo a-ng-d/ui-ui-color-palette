@@ -139,6 +139,14 @@ export default class Hue extends PureComponent<HueProps> {
           feature="SHIFT_HUE"
           isBlocked={this.features.SCALE_HUE.isBlocked()}
           isNew={this.features.SCALE_HUE.isNew()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           onChange={this.shiftHandler}
         />
       </Feature>

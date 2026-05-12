@@ -1155,6 +1155,14 @@ export default class Publication extends PureComponent<
             label={this.props.t('publication.unstar')}
             isLoading={this.state.isTertiaryActionLoading}
             isBlocked={this.features.STAR_PALETTE.isBlocked()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
             action={this.onStarPalette}
           />
         </Feature>
@@ -1168,6 +1176,14 @@ export default class Publication extends PureComponent<
           label={this.props.t('publication.star')}
           isLoading={this.state.isTertiaryActionLoading}
           isBlocked={this.features.STAR_PALETTE.isBlocked()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           action={this.onStarPalette}
         />
       </Feature>

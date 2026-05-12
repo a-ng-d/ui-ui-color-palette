@@ -574,6 +574,15 @@ export default class SelfPalettes extends PureComponent<
                           -1 -
                           1
                       )}
+                      isNew={this.features.CREATE_PALETTE.isNew()}
+                      onBlock={() => {
+                        sendPluginMessage(
+                          {
+                            pluginMessage: { type: 'GET_PRO' },
+                          },
+                          '*'
+                        )
+                      }}
                       action={() => {
                         this.setState({
                           isAddToLocalActionLoading: this.state[
@@ -610,7 +619,9 @@ export default class SelfPalettes extends PureComponent<
                   </>
                 }
                 complementSlot={
-                  <PalettePreview colors={data.themes[enabledThemeIndex].colors} />
+                  <PalettePreview
+                    colors={data.themes[enabledThemeIndex].colors}
+                  />
                 }
               />
             )

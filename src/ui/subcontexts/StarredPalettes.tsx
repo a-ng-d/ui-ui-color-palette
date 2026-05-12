@@ -513,6 +513,14 @@ export default class StarredPalettes extends PureComponent<
                         isLoading={this.state.isRemoveFromStarredLoading[index]}
                         isBlocked={this.features.STAR_PALETTE.isBlocked()}
                         isNew={this.features.STAR_PALETTE.isNew()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={() => {
                           this.setState({
                             isRemoveFromStarredLoading:
@@ -535,6 +543,14 @@ export default class StarredPalettes extends PureComponent<
                         }}
                         isBlocked={this.features.SEE_PALETTE.isBlocked()}
                         isNew={this.features.SEE_PALETTE.isNew()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={() => {
                           this.setState({
                             isAddToLocalActionLoading: this.state[
@@ -586,6 +602,15 @@ export default class StarredPalettes extends PureComponent<
                             -1 -
                             1
                         )}
+                        isNew={this.features.ADD_PALETTE.isNew()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={() => {
                           this.setState({
                             isAddToLocalActionLoading: this.state[
@@ -624,7 +649,9 @@ export default class StarredPalettes extends PureComponent<
                   </>
                 }
                 complementSlot={
-                  <PalettePreview colors={data.themes[enabledThemeIndex].colors} />
+                  <PalettePreview
+                    colors={data.themes[enabledThemeIndex].colors}
+                  />
                 }
               />
             )

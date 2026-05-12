@@ -795,6 +795,14 @@ export default class EditPalette extends PureComponent<
         isActive: this.features.THEMES.isActive(),
         isBlocked: this.features.THEMES.isBlocked(),
         isNew: this.features.THEMES.isNew(),
+        onBlock: () => {
+          sendPluginMessage(
+            {
+              pluginMessage: { type: 'GET_PRO' },
+            },
+            '*'
+          )
+        },
         action: () => {
           this.setState({ context: 'THEMES' })
           setTimeout(() => this.themesRef.current?.onAddTheme(), 1)

@@ -343,6 +343,14 @@ export default class ImagePalette extends PureComponent<
                 1
             )}
             isNew={this.features.EXTRACT_UPLOAD.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
             onImportFiles={async (files) => {
               const arrayBuffer = files[0].content
               const blob = new Blob([arrayBuffer as ArrayBuffer], {
@@ -402,6 +410,14 @@ export default class ImagePalette extends PureComponent<
                     -1 -
                     1
                 )}
+                onBlock={() => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                }}
                 isNew={this.features.CREATE_PALETTE.isNew()}
                 action={this.onUsePalette}
               />

@@ -180,6 +180,14 @@ export default class LangPreferences extends PureComponent<
                         isBlocked:
                           this.features.USER_LANGUAGE_EN_US.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_EN_US.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.changeUserLanguageHandler('en-US', tolgee),
                       },
@@ -191,6 +199,14 @@ export default class LangPreferences extends PureComponent<
                         isBlocked:
                           this.features.USER_LANGUAGE_ZH_CN.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_ZH_CN.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.changeUserLanguageHandler('zh-Hans-CN', tolgee),
                       },
@@ -202,6 +218,14 @@ export default class LangPreferences extends PureComponent<
                         isBlocked:
                           this.features.USER_LANGUAGE_FR_FR.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_FR_FR.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.changeUserLanguageHandler('fr-FR', tolgee),
                       },
@@ -213,6 +237,14 @@ export default class LangPreferences extends PureComponent<
                         isBlocked:
                           this.features.USER_LANGUAGE_PT_BR.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_PT_BR.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.changeUserLanguageHandler('pt-BR', tolgee),
                       },
@@ -224,6 +256,14 @@ export default class LangPreferences extends PureComponent<
                         isBlocked:
                           this.features.USER_LANGUAGE_ES_ES.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_ES_ES.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.changeUserLanguageHandler('es-ES', tolgee),
                       },
@@ -235,6 +275,14 @@ export default class LangPreferences extends PureComponent<
                         isBlocked:
                           this.features.USER_LANGUAGE_JA_JP.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_JA_JP.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.changeUserLanguageHandler('ja-JP', tolgee),
                       },
@@ -246,6 +294,14 @@ export default class LangPreferences extends PureComponent<
                         isBlocked:
                           this.features.USER_LANGUAGE_KO_KR.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_KO_KR.isNew(),
+                        onBlock: () => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        },
                         action: () =>
                           this.changeUserLanguageHandler('ko-KR', tolgee),
                       },
@@ -253,6 +309,14 @@ export default class LangPreferences extends PureComponent<
                     selected={tolgee.getLanguage() as Language}
                     isBlocked={this.features.USER_LANGUAGE.isBlocked()}
                     isNew={this.features.USER_LANGUAGE.isNew()}
+                    onBlock={() => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: { type: 'GET_PRO' },
+                        },
+                        '*'
+                      )
+                    }}
                     isFill
                   />
                 </FormItem>

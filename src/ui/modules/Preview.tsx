@@ -1064,6 +1064,14 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                                 this.props.colors.length
                               ),
                               isNew: this.features.COLORS.isNew(),
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              },
                               action: () => this.props.onAddColor?.(),
                             },
                             {
@@ -1078,6 +1086,14 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                                   this.props.preset.stops.length
                                 ),
                               isNew: this.features.PRESETS_CUSTOM_ADD.isNew(),
+                              onBlock: () => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              },
                               action: () => this.props.onAddStop?.(),
                             },
                           ]}

@@ -392,6 +392,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                       -1 -
                       1
                   )}
+                  onBlock={() => {
+                    sendPluginMessage(
+                      {
+                        pluginMessage: { type: 'GET_PRO' },
+                      },
+                      '*'
+                    )
+                  }}
                   isNew={this.features.CREATE_PALETTE.isNew()}
                   action={this.onUsePalette}
                 />
@@ -456,6 +464,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                     1
                 )}
                 isNew={this.features.CREATE_PALETTE.isNew()}
+                onBlock={() => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                }}
                 action={this.onUsePalette}
               />
             </Feature>
@@ -571,6 +587,14 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                                 -1 -
                                 1
                             )}
+                            onBlock={() => {
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: { type: 'GET_PRO' },
+                                },
+                                '*'
+                              )
+                            }}
                             action={this.generatePalette}
                           />
                         </FormItem>

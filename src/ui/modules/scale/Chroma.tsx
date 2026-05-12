@@ -139,6 +139,14 @@ export default class Chroma extends PureComponent<ChromaProps> {
           feature="SHIFT_CHROMA"
           isBlocked={this.features.SCALE_CHROMA.isBlocked()}
           isNew={this.features.SCALE_CHROMA.isNew()}
+          onBlock={() => {
+            sendPluginMessage(
+              {
+                pluginMessage: { type: 'GET_PRO' },
+              },
+              '*'
+            )
+          }}
           onChange={this.shiftHandler}
         />
       </Feature>

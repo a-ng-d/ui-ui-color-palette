@@ -96,8 +96,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
               !this.props.areSourceColorsLocked
             }
             isNew={this.features.PREVIEW_LOCK_SOURCE_COLORS.isNew()}
-            action={this.props.onColorSettingsHandler}
-            onUnblock={() => {
+            onBlock={() => {
               sendPluginMessage(
                 {
                   pluginMessage: { type: 'GET_PRO' },
@@ -105,6 +104,7 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 '*'
               )
             }}
+            action={this.props.onColorSettingsHandler}
           />
         </Feature>
         <Feature isActive={this.features.THEMES_SWITCH.isActive()}>

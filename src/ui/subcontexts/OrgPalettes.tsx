@@ -382,6 +382,14 @@ export default class OrgPalettes extends PureComponent<
                         }}
                         isBlocked={this.features.GLANCE_PALETTE.isBlocked()}
                         isNew={this.features.GLANCE_PALETTE.isNew()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={() => {
                           this.setState({
                             isPaletteGlancing: true,
@@ -401,6 +409,14 @@ export default class OrgPalettes extends PureComponent<
                         }}
                         isBlocked={this.features.SEE_PALETTE.isBlocked()}
                         isNew={this.features.SEE_PALETTE.isNew()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={() => {
                           this.setState({
                             isSecondaryActionLoading: this.state[
@@ -452,6 +468,15 @@ export default class OrgPalettes extends PureComponent<
                             -1 -
                             1
                         )}
+                        isNew={this.features.ADD_PALETTE.isNew()}
+                        onBlock={() => {
+                          sendPluginMessage(
+                            {
+                              pluginMessage: { type: 'GET_PRO' },
+                            },
+                            '*'
+                          )
+                        }}
                         action={() => {
                           this.setState({
                             isSecondaryActionLoading: this.state[
@@ -490,7 +515,9 @@ export default class OrgPalettes extends PureComponent<
                   </>
                 }
                 complementSlot={
-                  <PalettePreview colors={data.themes[enabledThemeIndex].colors} />
+                  <PalettePreview
+                    colors={data.themes[enabledThemeIndex].colors}
+                  />
                 }
               />
             )

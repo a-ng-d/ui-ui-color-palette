@@ -362,6 +362,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
               isBlocked:
                 this.features.PRESETS[`PRESETS_${preset.id}`].isBlocked(),
               isNew: this.features.PRESETS[`PRESETS_${preset.id}`].isNew(),
+              onBlock: () => {
+                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+              },
               action: this.presetsHandler,
             })),
           }
@@ -376,6 +379,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
             isBlocked:
               this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isBlocked(),
             isNew: this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isNew(),
+            onBlock: () => {
+              sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+            },
             action: this.presetsHandler,
           }
       }
@@ -388,6 +394,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
           value: 'CUSTOM',
           feature: 'PRESETS_CUSTOM',
           type: 'OPTION',
+          onBlock: () => {
+            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+          },
         },
         ...(options[options.length - 1].children ?? []),
       ]
@@ -610,6 +619,14 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                   isBlocked={this.features.PRESETS_CUSTOM_ADD.isReached(
                     this.props.preset.stops.length
                   )}
+                  onBlock={() => {
+                    sendPluginMessage(
+                      {
+                        pluginMessage: { type: 'GET_PRO' },
+                      },
+                      '*'
+                    )
+                  }}
                   action={
                     this.props.preset.stops.length >= 24
                       ? () => null
@@ -630,6 +647,14 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
             feature="REVERSE_SCALE"
             isBlocked={this.features.SCALE_REVERSE.isBlocked()}
             isNew={this.features.SCALE_REVERSE.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
             action={this.onReverseStops}
           />
         </Feature>
@@ -643,6 +668,14 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
             feature="RESET_SCALE"
             isBlocked={this.features.SCALE_RESET.isBlocked()}
             isNew={this.features.SCALE_RESET.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
             action={this.onResetScale}
           />
         </Feature>
@@ -687,6 +720,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         type: 'OPTION',
         isBlocked: this.features.SCALE_REVERSE.isBlocked(),
         isNew: this.features.SCALE_REVERSE.isNew(),
+        onBlock: () => {
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+        },
         action: this.onReverseStops,
       })
 
@@ -698,6 +734,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         type: 'OPTION',
         isBlocked: this.features.SCALE_RESET.isBlocked(),
         isNew: this.features.SCALE_RESET.isNew(),
+        onBlock: () => {
+          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+        },
         action: this.onResetScale,
       })
 
