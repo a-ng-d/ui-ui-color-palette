@@ -1,3 +1,5 @@
+![GitHub package.json version](https://img.shields.io/github/package-json/v/a-ng-d/ui-ui-color-palette?color=informational) ![GitHub last commit](https://img.shields.io/github/last-commit/a-ng-d/ui-ui-color-palette?color=informational) ![GitHub](https://img.shields.io/github/license/a-ng-d/ui-ui-color-palette?color=informational)
+
 # UI for UI Color Palette
 
 A unified UI component library for color palette functionality across multiple design platforms. This project serves as a common UI foundation that adapts to different platforms (Figma, Penpot, Sketch) while maintaining a consistent experience.
