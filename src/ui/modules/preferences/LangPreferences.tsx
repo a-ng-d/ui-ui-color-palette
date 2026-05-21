@@ -192,13 +192,13 @@ export default class LangPreferences extends PureComponent<
                           this.changeUserLanguageHandler('en-US', tolgee),
                       },
                       {
-                        label: this.props.t('user.language.chineseCN'),
-                        value: 'zh-Hans-CN',
+                        label: this.props.t('user.language.spanishES'),
+                        value: 'es-ES',
                         type: 'OPTION' as const,
-                        isActive: this.features.USER_LANGUAGE_ZH_CN.isActive(),
+                        isActive: this.features.USER_LANGUAGE_ES_ES.isActive(),
                         isBlocked:
-                          this.features.USER_LANGUAGE_ZH_CN.isBlocked(),
-                        isNew: this.features.USER_LANGUAGE_ZH_CN.isNew(),
+                          this.features.USER_LANGUAGE_ES_ES.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_ES_ES.isNew(),
                         onBlock: () => {
                           sendPluginMessage(
                             {
@@ -208,7 +208,7 @@ export default class LangPreferences extends PureComponent<
                           )
                         },
                         action: () =>
-                          this.changeUserLanguageHandler('zh-Hans-CN', tolgee),
+                          this.changeUserLanguageHandler('es-ES', tolgee),
                       },
                       {
                         label: this.props.t('user.language.frenchFR'),
@@ -249,13 +249,13 @@ export default class LangPreferences extends PureComponent<
                           this.changeUserLanguageHandler('pt-BR', tolgee),
                       },
                       {
-                        label: this.props.t('user.language.spanishES'),
-                        value: 'es-ES',
+                        label: this.props.t('user.language.chineseCN'),
+                        value: 'zh-Hans-CN',
                         type: 'OPTION' as const,
-                        isActive: this.features.USER_LANGUAGE_ES_ES.isActive(),
+                        isActive: this.features.USER_LANGUAGE_ZH_CN.isActive(),
                         isBlocked:
-                          this.features.USER_LANGUAGE_ES_ES.isBlocked(),
-                        isNew: this.features.USER_LANGUAGE_ES_ES.isNew(),
+                          this.features.USER_LANGUAGE_ZH_CN.isBlocked(),
+                        isNew: this.features.USER_LANGUAGE_ZH_CN.isNew(),
                         onBlock: () => {
                           sendPluginMessage(
                             {
@@ -265,7 +265,7 @@ export default class LangPreferences extends PureComponent<
                           )
                         },
                         action: () =>
-                          this.changeUserLanguageHandler('es-ES', tolgee),
+                          this.changeUserLanguageHandler('zh-Hans-CN', tolgee),
                       },
                       {
                         label: this.props.t('user.language.japaneseJP'),
