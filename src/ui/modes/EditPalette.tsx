@@ -34,6 +34,7 @@ import Imports from '../contexts/Imports'
 import Colors from '../contexts/Colors'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import UndoRedoButtons from '../components/UndoRedoButtons'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -1160,6 +1161,7 @@ export default class EditPalette extends PureComponent<
                           })
                         }
                       />
+                      <UndoRedoButtons />
                     </div>
                   }
                   isVertical

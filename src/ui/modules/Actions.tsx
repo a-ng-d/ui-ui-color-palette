@@ -23,7 +23,6 @@ import {
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
-import UndoRedoButtons from '../components/UndoRedoButtons'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
@@ -555,7 +554,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               }}
               action={this.props.onUnloadPalette}
             />
-            <UndoRedoButtons />
             <div
               style={{
                 flex: '0 1 200px',

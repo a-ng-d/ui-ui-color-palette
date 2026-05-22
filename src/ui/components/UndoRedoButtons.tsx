@@ -3,6 +3,7 @@ import { Component } from 'preact/compat'
 import { Button, layouts } from '@unoff/ui'
 import { useTranslate } from '@tolgee/react'
 import { $canRedo, $canUndo, redo, undo } from '../../stores/history'
+import Feature from './Feature'
 
 interface UndoRedoButtonsState {
   canUndo: boolean
@@ -45,21 +46,23 @@ class UndoRedoButtonsInner extends Component<
   render = () => {
     const { t } = this.props
     return (
-      <div className={layouts['snackbar--medium']}>
-        <Button
-          type="icon"
-          icon="undo"
-          helper={{ label: t('actions.undo', 'Undo') }}
-          isDisabled={!this.state.canUndo}
-          action={() => undo()}
-        />
-        <Button
-          type="icon"
-          icon="redo"
-          helper={{ label: t('actions.redo', 'Redo') }}
-          isDisabled={!this.state.canRedo}
-          action={() => redo()}
-        />
+      <div className={layouts['stackbar--medium']}>
+        <Feature isActive={this.state.canUndo || this.state.canRedo}>
+          <Button
+            type="icon"
+            icon="undo"
+            helper={{ label: t('actions.undo', 'Undo') }}
+            isDisabled={!this.state.canUndo}
+            action={() => undo()}
+          />
+          <Button
+            type="icon"
+            icon="redo"
+            helper={{ label: t('actions.redo', 'Redo') }}
+            isDisabled={!this.state.canRedo}
+            action={() => redo()}
+          />
+        </Feature>
       </div>
     )
   }
