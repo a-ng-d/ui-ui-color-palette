@@ -8,7 +8,6 @@ import { Input } from '@unoff/ui'
 import { layouts } from '@unoff/ui'
 import { Chip } from '@unoff/ui'
 import { Button } from '@unoff/ui'
-import { texts } from '@unoff/ui'
 import { ColorHarmony } from '@a_ng_d/utils-ui-color-palette'
 import {
   SourceColorConfiguration,
@@ -314,6 +313,51 @@ export default class ColorWheel extends PureComponent<
             node: (
               <>
                 <Bar
+                  rightPartSlot={
+                    <div
+                      className={doClassnames([
+                        layouts['snackbar--medium'],
+                        layouts['snackbar--right'],
+                      ])}
+                    >
+                      <Feature
+                        isActive={this.features.CREATE_PALETTE.isActive()}
+                      >
+                        <Button
+                          type="primary"
+                          icon="plus"
+                          label={this.props.t('wheel.actions.newPalette')}
+                          helper={{
+                            label: this.props.t('wheel.actions.addColors'),
+                            type: 'MULTI_LINE',
+                          }}
+                          isLoading={this.state.isActionLoading}
+                          isBlocked={this.features.CREATE_PALETTE.isReached(
+                            (this.props.creditsCount -
+                              this.props.config.fees.paletteCreate) *
+                              -1 -
+                              1
+                          )}
+                          isNew={this.features.CREATE_PALETTE.isNew()}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: { type: 'GET_PRO' },
+                              },
+                              '*'
+                            )
+                          }}
+                          action={this.onUsePalette}
+                        />
+                      </Feature>
+                    </div>
+                  }
+                  shouldReflow
+                  isInverted
+                  border={['BOTTOM']}
+                />
+                <this.HarmonyPreview />
+                <Bar
                   leftPartSlot={
                     <Feature isActive={this.features.WHEEL_BASE.isActive()}>
                       <FormItem
@@ -501,51 +545,12 @@ export default class ColorWheel extends PureComponent<
                           />
                         </FormItem>
                       </Feature>
-                      <span
-                        className={doClassnames([
-                          texts['type'],
-                          texts['type--secondary'],
-                        ])}
-                      >
-                        {this.props.t('separator')}
-                      </span>
-                      <Feature
-                        isActive={this.features.CREATE_PALETTE.isActive()}
-                      >
-                        <Button
-                          type="primary"
-                          icon="plus"
-                          label={this.props.t('wheel.actions.newPalette')}
-                          helper={{
-                            label: this.props.t('wheel.actions.addColors'),
-                            type: 'MULTI_LINE',
-                          }}
-                          isLoading={this.state.isActionLoading}
-                          isBlocked={this.features.CREATE_PALETTE.isReached(
-                            (this.props.creditsCount -
-                              this.props.config.fees.paletteCreate) *
-                              -1 -
-                              1
-                          )}
-                          isNew={this.features.CREATE_PALETTE.isNew()}
-                          onBlock={() => {
-                            sendPluginMessage(
-                              {
-                                pluginMessage: { type: 'GET_PRO' },
-                              },
-                              '*'
-                            )
-                          }}
-                          action={this.onUsePalette}
-                        />
-                      </Feature>
                     </div>
                   }
                   shouldReflow
                   isInverted
                   border={['BOTTOM']}
                 />
-                <this.HarmonyPreview />
               </>
             ),
             typeModifier: 'BLANK',
