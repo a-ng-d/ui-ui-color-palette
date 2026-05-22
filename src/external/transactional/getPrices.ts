@@ -37,6 +37,8 @@ const inferCurrency = (locale: string): string => {
     if (region === 'TW') return 'twd'
     if (region === 'KR') return 'krw'
     if (region === 'TR') return 'try'
+    if (region === 'ID') return 'idr'
+    if (region === 'AR') return 'ars'
     return 'usd'
   } catch {
     return 'usd'
