@@ -1,5 +1,5 @@
 import { driver } from 'driver.js'
-import { Context, Mode } from '../../types/app'
+import { Context, Editor, Mode } from '../../types/app'
 
 type TFunction = (key: string, params?: Record<string, unknown>) => string
 
@@ -10,6 +10,8 @@ export type TourCallbacks = {
 }
 
 const wait = (ms: number) => new Promise<void>((res) => setTimeout(res, ms))
+
+const isDevEditor = (editor: Editor) => editor.includes('dev')
 
 export const showNoPaletteNotice = (t: TFunction) => {
   const d = driver({
@@ -30,13 +32,12 @@ export const showNoPaletteNotice = (t: TFunction) => {
   d.drive()
 }
 
-const startTour = async (t: TFunction, callbacks: TourCallbacks) => {
-  callbacks.setMode('EDIT')
-  await wait(200)
-  callbacks.setEditContext('SCALE')
-  await wait(300)
-
-  const d = driver({
+const startTour = async (
+  t: TFunction,
+  editor: Editor,
+  callbacks: TourCallbacks
+) => {
+  const baseConfig = {
     showProgress: true,
     allowClose: true,
     progressText: t('tour.progress', {
@@ -46,8 +47,77 @@ const startTour = async (t: TFunction, callbacks: TourCallbacks) => {
     nextBtnText: t('tour.buttons.next'),
     prevBtnText: t('tour.buttons.prev'),
     doneBtnText: t('tour.buttons.done'),
-    onPopoverRender: (popover) =>
-      setTimeout(() => popover.nextButton.focus(), 0),
+  }
+
+  if (isDevEditor(editor)) {
+    callbacks.setMode('INSPECT')
+    await wait(200)
+    callbacks.setInspectContext('')
+    await wait(300)
+
+    const d = driver({
+      ...baseConfig,
+      steps: [
+        {
+          element: '[data-id="tour-report"]',
+          popover: {
+            title: t('tour.report.title'),
+            description: t('tour.report.description'),
+          },
+        },
+        {
+          element: '#tour-scores-controls',
+          popover: {
+            title: t('tour.scoresControls.title'),
+            description: t('tour.scoresControls.description'),
+          },
+        },
+        {
+          element: '#export-palette',
+          popover: {
+            title: t('tour.export.title'),
+            description: t('tour.export.description'),
+          },
+        },
+      ],
+      onPrevClick: async () => {
+        const current = d.getActiveIndex() ?? 0
+
+        switch (current) {
+          case 1:
+            callbacks.setInspectContext('')
+            break
+          case 2:
+            callbacks.setMode('INSPECT')
+            await wait(100)
+            callbacks.setInspectContext('')
+            break
+        }
+
+        await wait(300)
+        d.movePrevious()
+      },
+      onNextClick: async () => {
+        const current = d.getActiveIndex() ?? 0
+
+        if (current === 1) callbacks.setMode('EXPORT')
+
+        await wait(300)
+        d.moveNext()
+      },
+    })
+
+    d.drive()
+    return
+  }
+
+  callbacks.setMode('EDIT')
+  await wait(200)
+  callbacks.setEditContext('SCALE')
+  await wait(300)
+
+  const d = driver({
+    ...baseConfig,
     steps: [
       {
         element: 'section.context',

@@ -436,7 +436,7 @@ export default class ManagePalette extends PureComponent<
     const ref = this.openPaletteRef.current
     if (!ref) return
 
-    startTour(this.props.t, {
+    startTour(this.props.t, this.props.editor, {
       setMode: (mode) => ref.setMode(mode),
       setEditContext: (context) => ref.setEditContext(context),
       setInspectContext: (context) => ref.setInspectContext(context),
