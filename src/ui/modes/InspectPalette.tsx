@@ -248,13 +248,11 @@ export default class EditPalette extends PureComponent<
     const newVisionSimulationMode = activeTheme?.visionSimulationMode ?? 'NONE'
 
     this.palette.setKey('scale', newScale)
-
-    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
-
-    this.palette.setKey('scale', newScale)
     this.palette.setKey('visionSimulationMode', newVisionSimulationMode)
     this.palette.setKey('textColorsTheme', newTextColorsTheme)
     $themes.set(this.themesMessage.data)
+
+    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
   }
 
   setThemes = (): Array<DropdownOption> => {

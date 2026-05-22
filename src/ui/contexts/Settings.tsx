@@ -188,11 +188,6 @@ export default class Settings extends PureComponent<SettingsProps> {
     }
 
     const updateColorSpace = () => {
-      this.palette.setKey(
-        'colorSpace',
-        target.dataset.value as ColorSpaceConfiguration
-      )
-
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = target.dataset
@@ -222,11 +217,6 @@ export default class Settings extends PureComponent<SettingsProps> {
     }
 
     const updateVisionSimulationMode = () => {
-      this.palette.setKey(
-        'visionSimulationMode',
-        target.dataset.value as VisionSimulationModeConfiguration
-      )
-
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -306,7 +296,6 @@ export default class Settings extends PureComponent<SettingsProps> {
         this.settingsMessage.data.visionSimulationMode =
           this.props.visionSimulationMode
         this.settingsMessage.data.textColorsTheme.lightColor = code
-        this.palette.setKey('textColorsTheme.lightColor', code)
         this.settingsMessage.data.textColorsTheme.darkColor =
           this.props.textColorsTheme.darkColor
         this.settingsMessage.data.algorithmVersion =
@@ -357,7 +346,6 @@ export default class Settings extends PureComponent<SettingsProps> {
         this.settingsMessage.data.textColorsTheme.lightColor =
           this.props.textColorsTheme.lightColor
         this.settingsMessage.data.textColorsTheme.darkColor = code
-        this.palette.setKey('textColorsTheme.darkColor', code)
         this.settingsMessage.data.algorithmVersion =
           this.props.algorithmVersion ??
           this.props.config.versions.algorithmVersion

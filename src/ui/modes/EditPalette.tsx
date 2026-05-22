@@ -293,13 +293,11 @@ export default class EditPalette extends PureComponent<
     const newVisionSimulationMode = activeTheme?.visionSimulationMode ?? 'NONE'
 
     this.palette.setKey('scale', newScale)
-
-    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
-
-    this.palette.setKey('scale', newScale)
     this.palette.setKey('visionSimulationMode', newVisionSimulationMode)
     this.palette.setKey('textColorsTheme', newTextColorsTheme)
     $themes.set(this.themesMessage.data)
+
+    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
   }
 
   slideHandler = () => {
@@ -350,7 +348,6 @@ export default class EditPalette extends PureComponent<
         hue: feature === 'SHIFT_HUE' ? (value ?? 0) : this.props.shift.hue,
       }
 
-      this.palette.setKey('shift', shift)
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
           item.chroma.shift = value ?? this.props.shift.chroma

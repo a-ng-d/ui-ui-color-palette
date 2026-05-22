@@ -360,6 +360,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
 
     const updateColorSpace = () => {
       const target = e.target as HTMLLIElement
+
       this.palette.setKey(
         'colorSpace',
         target.dataset.value as ColorSpaceConfiguration
