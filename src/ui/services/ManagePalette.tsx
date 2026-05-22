@@ -1,5 +1,7 @@
 import { uid } from 'uid'
 import React from 'react'
+import 'driver.js/dist/driver.css'
+import '../stylesheets/tour.css'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { doScale, FeatureStatus } from '@unoff/utils'
@@ -56,6 +58,7 @@ import {
   initializePaletteStore,
 } from '../../stores/palette'
 import { clearHistory, flush, suppressHistory } from '../../stores/history'
+import startTour, { showNoPaletteNotice } from '../../external/onboarding/startTour'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ManagePaletteProps
@@ -96,6 +99,7 @@ export default class ManagePalette extends PureComponent<
   private palette: typeof $palette
   private theme: string | null
   private subscribePalette: Array<() => void> = []
+  private openPaletteRef = React.createRef<OpenPalette>()
 
   private generateDefaultSourceColors = (): Array<SourceColorConfiguration> =>
     Array.from({ length: 5 }, () => {
@@ -421,6 +425,22 @@ export default class ManagePalette extends PureComponent<
     this.setState({ subservice: 'BROWSE' })
   }
 
+  onStartTour = () => {
+    if (this.state.subservice !== 'OPEN') {
+      showNoPaletteNotice(this.props.t)
+      return
+    }
+
+    const ref = this.openPaletteRef.current
+    if (!ref) return
+
+    startTour(this.props.t, {
+      setMode: (mode) => ref.setMode(mode),
+      setEditContext: (context) => ref.setEditContext(context),
+      setInspectContext: (context) => ref.setInspectContext(context),
+    })
+  }
+
   onLoadPalette = (palette: {
     base: BaseConfiguration
     themes: Array<ThemeConfiguration>
@@ -507,6 +527,7 @@ export default class ManagePalette extends PureComponent<
         fragment = (
           <Feature isActive={this.features.OPEN.isActive()}>
             <OpenPalette
+              ref={this.openPaletteRef}
               {...this.props}
               {...this.state}
               onChangeMode={(e) => this.setState({ ...e })}

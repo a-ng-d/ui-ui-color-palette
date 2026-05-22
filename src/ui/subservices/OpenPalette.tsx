@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import {
@@ -26,7 +26,7 @@ import EditPalette from '../modes/EditPalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { BaseProps, PlanStatus, Service, Editor, Mode } from '../../types/app'
+import { BaseProps, Context, PlanStatus, Service, Editor, Mode } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -70,6 +70,16 @@ export default class OpenPalette extends PureComponent<
 > {
   private palette: typeof $palette
   private modes: Array<Mode>
+  private editPaletteRef = createRef<EditPalette>()
+  private inspectPaletteRef = createRef<InspectPalette>()
+
+  setMode = (mode: Mode) => this.setState({ mode })
+
+  setEditContext = (context: Context | '') =>
+    this.editPaletteRef.current?.setState({ context })
+
+  setInspectContext = (context: Context | '') =>
+    this.inspectPaletteRef.current?.setState({ context })
 
   static features = (
     planStatus: PlanStatus,
@@ -145,6 +155,7 @@ export default class OpenPalette extends PureComponent<
         fragment = (
           <Feature isActive={this.features.EDIT.isActive()}>
             <EditPalette
+              ref={this.editPaletteRef}
               {...this.props}
               {...this.state}
               onChangeMode={(e) => this.setState({ ...e })}
@@ -157,6 +168,7 @@ export default class OpenPalette extends PureComponent<
         fragment = (
           <Feature isActive={this.features.INSPECT.isActive()}>
             <InspectPalette
+              ref={this.inspectPaletteRef}
               {...this.props}
               {...this.state}
               onChangeMode={(e) => this.setState({ ...e })}

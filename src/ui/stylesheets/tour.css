@@ -1,0 +1,149 @@
+.driver-popover {
+  box-shadow: var(--elevation-300-tooltip, 0 4px 16px rgb(0 0 0 / 0.16));
+  border-radius: var(--card-radius);
+  background-color: var(--card-background-color-default);
+  padding: var(--size-pos-small);
+  color: var(--button-base-text-color);
+}
+
+.driver-popover * {
+  font-family: var(--button-base-text-font-family);
+}
+
+.driver-popover-title {
+  color: var(--button-base-text-color);
+  font-weight: 600;
+  font-size: var(--button-base-text-font-size);
+  line-height: var(--button-base-text-line-height);
+}
+
+.driver-popover-description {
+  margin-top: var(--size-pos-xxsmall);
+  margin-bottom: 0;
+  color: var(--button-base-text-color);
+  font-weight: var(--button-base-text-font-weight);
+  font-size: var(--button-base-text-font-size);
+  line-height: var(--button-base-text-line-height);
+}
+
+.driver-popover-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--size-pos-xsmall);
+}
+
+.driver-popover-progress-text {
+  opacity: 0.5;
+  color: var(--button-base-text-color);
+  font-weight: var(--button-base-text-font-weight);
+  font-size: var(--button-base-text-font-size);
+}
+
+.driver-popover-footer button {
+  all: unset;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.1s;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: var(--button-base-radius);
+  padding: 0 var(--button-base-padding-right);
+  height: var(--button-base-height);
+  font-weight: var(--button-base-text-font-weight);
+  font-size: var(--button-base-text-font-size);
+  font-family: var(--button-base-text-font-family);
+  letter-spacing: var(--button-base-text-letter-spacing);
+  text-transform: var(--button-base-text-transform);
+}
+
+/* Primary button (Next / Done) */
+.driver-popover-footer .driver-popover-next-btn {
+  border: var(--button-primary-border-width-default, 0px) solid
+    var(--button-primary-border-color-default);
+  background-color: var(--button-primary-background-color-default);
+  color: var(--button-primary-text-color-default);
+}
+
+.driver-popover-footer .driver-popover-next-btn:hover {
+  background-color: var(--button-primary-background-color-hover);
+  color: var(--button-primary-text-color-hover);
+}
+
+.driver-popover-footer .driver-popover-next-btn:focus-visible {
+  outline: var(--button-primary-border-width-focus) solid
+    var(--button-primary-border-color-focus);
+  outline-offset: var(--button-primary-border-offset-focus);
+}
+
+.driver-popover-footer .driver-popover-next-btn:active {
+  background-color: var(--button-primary-background-color-pressed);
+  color: var(--button-primary-text-color-pressed);
+}
+
+/* Secondary button (Previous) */
+.driver-popover-footer .driver-popover-prev-btn {
+  border: var(--button-secondary-border-width-default) solid
+    var(--button-secondary-border-color-default);
+  background-color: var(--button-secondary-background-color-default);
+  color: var(--button-secondary-text-color-default);
+}
+
+.driver-popover-footer .driver-popover-prev-btn:hover {
+  background-color: var(--button-secondary-background-color-hover);
+  color: var(--button-secondary-text-color-hover);
+}
+
+.driver-popover-footer .driver-popover-prev-btn:focus-visible {
+  outline: var(--button-secondary-border-width-focus) solid
+    var(--button-secondary-border-color-focus);
+  outline-offset: var(--button-secondary-border-offset-focus);
+}
+
+.driver-popover-footer .driver-popover-prev-btn:active {
+  background-color: var(--button-secondary-background-color-pressed);
+  color: var(--button-secondary-text-color-pressed);
+}
+
+/* Close button */
+.driver-popover-close-btn {
+  all: unset;
+  display: flex;
+  position: absolute;
+  top: var(--size-pos-xxsmall);
+  right: var(--size-pos-xxsmall);
+  justify-content: center;
+  align-items: center;
+  transition:
+    background-color 0.1s,
+    color 0.1s;
+  cursor: pointer;
+  border-radius: var(--button-base-radius);
+  width: var(--button-base-height);
+  height: var(--button-base-height);
+  color: var(--button-base-icon-color);
+  font-size: 16px;
+  text-align: center;
+}
+
+.driver-popover-close-btn:hover {
+  background-color: var(--icon-button-default-background-color-hover);
+  color: var(--button-base-text-color);
+}
+
+.driver-popover-close-btn:focus-visible {
+  outline: var(--button-secondary-border-width-focus) solid
+    var(--button-secondary-border-color-focus);
+  outline-offset: var(--button-secondary-border-offset-focus);
+}
+
+.driver-popover-close-btn:active {
+  background-color: var(--icon-button-default-background-color-hover);
+  color: var(--button-base-text-color);
+}
+
+/* Arrow — matches the popover background */
+.driver-popover-arrow {
+  border-color: var(--card-background-color-default);
+}

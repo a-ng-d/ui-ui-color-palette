@@ -443,6 +443,7 @@ export default class EditPalette extends PureComponent<
                       </Feature>
                       <Feature isActive={this.features.REPORT.isActive()}>
                         <Button
+                          id="tour-report"
                           type="icon"
                           icon="contrast"
                           state={

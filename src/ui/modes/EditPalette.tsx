@@ -1079,6 +1079,7 @@ export default class EditPalette extends PureComponent<
                       </Feature>
                       <Feature isActive={this.features.THEMES.isActive()}>
                         <Button
+                          id="tour-themes"
                           type="icon"
                           icon="theme"
                           state={
@@ -1143,6 +1144,7 @@ export default class EditPalette extends PureComponent<
                       </Feature>
                       <Feature isActive={this.features.PUBLICATION.isActive()}>
                         <Button
+                          id="tour-publication"
                           type="icon"
                           icon={this.publicationIcon()}
                           helper={{

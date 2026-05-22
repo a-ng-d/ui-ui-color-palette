@@ -130,7 +130,10 @@ export default class ScoresControls extends React.PureComponent<ScoresControlsPr
   // Render
   render() {
     return (
-      <div className={layouts['snackbar--medium']}>
+      <div
+        id="tour-scores-controls"
+        className={layouts['snackbar--medium']}
+      >
         <Feature isActive={this.features.PREVIEW_SCORES.isActive()}>
           <Menu
             id="score-display"

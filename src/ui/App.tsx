@@ -94,6 +94,7 @@ class App extends Component<AppProps, AppState> {
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
   private isFirstCreditCountSubscription = true
+  private managePaletteRef = React.createRef<ManagePalette>()
 
   static features = (
     planStatus: PlanStatus,
@@ -705,7 +706,7 @@ class App extends Component<AppProps, AppState> {
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
         POST_MESSAGE: () => postMessage(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
-        PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
+        // PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),
         GET_PRICING: () => getPricing(),
@@ -882,6 +883,7 @@ class App extends Component<AppProps, AppState> {
         fragment = (
           <Feature isActive={this.features.MANAGE.isActive()}>
             <ManagePalette
+              ref={this.managePaletteRef}
               {...this.state}
               {...this.props}
               appData={this.state}
@@ -1119,7 +1121,9 @@ class App extends Component<AppProps, AppState> {
               {...this.props}
               {...this.state}
               onReOpenAnnouncements={(e) => this.setState({ ...e })}
-              onReOpenOnboarding={(e) => this.setState({ ...e })}
+              onReOpenOnboarding={() => {
+                this.managePaletteRef.current?.onStartTour()
+              }}
               onReOpenReport={(e) => this.setState({ ...e })}
               onReOpenStore={(e) => this.setState({ ...e })}
               onReOpenAbout={(e) => this.setState({ ...e })}
