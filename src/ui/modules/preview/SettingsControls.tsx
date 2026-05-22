@@ -3,6 +3,7 @@ import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { layouts, Button, Dropdown, DropdownOption, Menu } from '@unoff/ui'
 import {
   ColorConfiguration,
+  ColorSpaceConfiguration,
   LockedSourceColorsConfiguration,
   PresetConfiguration,
   SourceColorConfiguration,
@@ -30,6 +31,7 @@ interface SettingsControlsProps
   areSourceColorsLocked: LockedSourceColorsConfiguration
   themes: Array<ThemeConfiguration>
   themeOptions: Array<DropdownOption>
+  colorSpace: ColorSpaceConfiguration
   onAddColor?: () => void
   onAddStop?: () => void
   onColorSettingsHandler: (
@@ -72,6 +74,69 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
       currentService: service,
       currentEditor: editor,
     }),
+    SETTINGS_COLOR_SPACE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_LCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLCH: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLCH',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_LAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_LAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_OKLAB: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_OKLAB',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSL: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSV: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSV',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_HSLUV: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_HSLUV',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_COLOR_SPACE_CMYK: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_COLOR_SPACE_CMYK',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -93,6 +158,185 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
           layouts['snackbar--wrap'],
         ])}
       >
+        <Feature
+          isActive={
+            this.features.SETTINGS_COLOR_SPACE.isActive() &&
+            this.props.mode === 'EDIT'
+          }
+        >
+          <Menu
+            id="update-color-space"
+            icon="blend-empty"
+            options={[
+              {
+                label: this.props.t('settings.color.colorSpace.lch'),
+                value: 'LCH',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_LCH.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_LCH.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_LCH.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+              {
+                label: this.props.t('settings.color.colorSpace.oklch'),
+                value: 'OKLCH',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_OKLCH.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_OKLCH.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+              {
+                label: this.props.t('settings.color.colorSpace.lab'),
+                value: 'LAB',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_LAB.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_LAB.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_LAB.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+              {
+                label: this.props.t('settings.color.colorSpace.oklab'),
+                value: 'OKLAB',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_OKLAB.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_OKLAB.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+              {
+                type: 'SEPARATOR',
+              },
+              {
+                label: this.props.t('settings.color.colorSpace.hsl'),
+                value: 'HSL',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_HSL.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_HSL.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_HSL.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+              {
+                label: this.props.t('settings.color.colorSpace.hsv'),
+                value: 'HSV',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_HSV.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_HSV.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_HSV.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+              {
+                label: this.props.t('settings.color.colorSpace.hsluv'),
+                value: 'HSLUV',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_HSLUV.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+              {
+                type: 'SEPARATOR',
+              },
+              {
+                label: this.props.t('settings.color.colorSpace.cmyk'),
+                value: 'CMYK',
+                feature: 'UPDATE_COLOR_SPACE',
+                type: 'OPTION',
+                isActive: this.features.SETTINGS_COLOR_SPACE_CMYK.isActive(),
+                isBlocked: this.features.SETTINGS_COLOR_SPACE_CMYK.isBlocked(),
+                isNew: this.features.SETTINGS_COLOR_SPACE_CMYK.isNew(),
+                onBlock: () => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: { type: 'GET_PRO' },
+                    },
+                    '*'
+                  )
+                },
+                action: this.props.onColorSettingsHandler,
+              },
+            ]}
+            helper={{
+              label: this.props.t('settings.color.colorSpace.label'),
+              pin: 'TOP',
+            }}
+            selected={this.props.colorSpace}
+            alignment="TOP_RIGHT"
+            isBlocked={this.features.SETTINGS_COLOR_SPACE.isBlocked()}
+            isNew={this.features.SETTINGS_COLOR_SPACE.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
+          />
+        </Feature>
         <Feature
           isActive={
             this.features.PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
