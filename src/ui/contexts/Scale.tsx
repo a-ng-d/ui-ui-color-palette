@@ -37,6 +37,7 @@ import {
   Subservice,
 } from '../../types/app'
 import { $palette, $themes } from '../../stores/palette'
+import { suppressHistory } from '../../stores/history'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -188,7 +189,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
       }
     })
 
-    $themes.set(newThemes)
+    suppressHistory(() => {
+      $themes.set(newThemes)
+    })
 
     sendPluginMessage(
       {
@@ -268,7 +271,9 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
       return { ...theme, scale: newScale }
     })
 
-    $themes.set(newThemes)
+    suppressHistory(() => {
+      $themes.set(newThemes)
+    })
 
     sendPluginMessage(
       {
