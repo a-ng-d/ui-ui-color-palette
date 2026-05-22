@@ -397,7 +397,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
   customHandler = (e: Event) => {
     const stops = [...($palette.get().preset?.['stops'] ?? [1, 2])]
-    const preset = { ...$palette.get().preset } ?? defaultPreset
+    const preset = $palette.get().preset ?? defaultPreset
 
     const addStop = () => {
       if (stops.length < 24) {
