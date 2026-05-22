@@ -17,6 +17,7 @@
   font-size: var(--text-xlarge-font-size);
   line-height: var(--text-xlarge-line-height);
   letter-spacing: var(--text-xlarge-letter-spacing);
+  user-select: none;
 }
 
 .driver-popover-description {
@@ -27,6 +28,7 @@
   font-size: var(--text-default-font-size);
   line-height: var(--text-default-line-height);
   letter-spacing: var(--text-default-letter-spacing);
+  user-select: none;
 }
 
 .driver-popover-footer {
@@ -42,6 +44,7 @@
   font-size: var(--text-default-font-size);
   line-height: var(--text-default-line-height);
   letter-spacing: var(--text-default-letter-spacing);
+  user-select: none;
 }
 
 .driver-popover-footer button {
@@ -50,7 +53,7 @@
   justify-content: center;
   align-items: center;
   transition: background-color 0.1s;
-  cursor: pointer;
+  cursor: default;
   box-sizing: border-box;
   border-radius: var(--button-base-radius);
   padding: 0 var(--button-base-padding-right);
@@ -136,6 +139,7 @@
   font-size: 16px;
   text-align: center;
   color: var(--icon-button-default-icon-color-default);
+  cursor: default;
 }
 
 .driver-popover-close-btn:hover {
@@ -157,7 +161,19 @@
   color: var(--icon-button-default-icon-color-pressed);
 }
 
-/* Arrow — matches the popover background */
-.driver-popover-arrow {
-  border-color: var(--card-background-color-default);
+/* Arrow — only override the one visible border per side, leaving the 3 transparent ones untouched */
+.driver-popover-arrow-side-left {
+  border-left-color: var(--card-background-color-default);
+}
+
+.driver-popover-arrow-side-right {
+  border-right-color: var(--card-background-color-default);
+}
+
+.driver-popover-arrow-side-top {
+  border-top-color: var(--card-background-color-default);
+}
+
+.driver-popover-arrow-side-bottom {
+  border-bottom-color: var(--card-background-color-default);
 }
