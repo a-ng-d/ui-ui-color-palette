@@ -16,6 +16,8 @@ export const showNoPaletteNotice = (t: TFunction) => {
     allowClose: true,
     showButtons: ['next', 'close'],
     doneBtnText: t('tour.buttons.done'),
+    onPopoverRender: (popover) =>
+      setTimeout(() => popover.nextButton.focus(), 0),
     steps: [
       {
         popover: {
@@ -44,6 +46,8 @@ const startTour = async (t: TFunction, callbacks: TourCallbacks) => {
     nextBtnText: t('tour.buttons.next'),
     prevBtnText: t('tour.buttons.prev'),
     doneBtnText: t('tour.buttons.done'),
+    onPopoverRender: (popover) =>
+      setTimeout(() => popover.nextButton.focus(), 0),
     steps: [
       {
         element: 'section.context',

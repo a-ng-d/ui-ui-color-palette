@@ -3,27 +3,30 @@
   border-radius: var(--card-radius);
   background-color: var(--card-background-color-default);
   padding: var(--size-pos-small);
-  color: var(--button-base-text-color);
+  color: var(--text-color-primary);
+  font-family: var(--text-font-family);
 }
 
 .driver-popover * {
-  font-family: var(--button-base-text-font-family);
+  font-family: var(--text-font-family);
 }
 
 .driver-popover-title {
-  color: var(--button-base-text-color);
-  font-weight: 600;
-  font-size: var(--button-base-text-font-size);
-  line-height: var(--button-base-text-line-height);
+  color: var(--text-color-primary);
+  font-weight: var(--text-xlarge-font-weight);
+  font-size: var(--text-xlarge-font-size);
+  line-height: var(--text-xlarge-line-height);
+  letter-spacing: var(--text-xlarge-letter-spacing);
 }
 
 .driver-popover-description {
   margin-top: var(--size-pos-xxsmall);
   margin-bottom: 0;
-  color: var(--button-base-text-color);
-  font-weight: var(--button-base-text-font-weight);
-  font-size: var(--button-base-text-font-size);
-  line-height: var(--button-base-text-line-height);
+  color: var(--text-color-primary);
+  font-weight: var(--text-default-font-weight);
+  font-size: var(--text-default-font-size);
+  line-height: var(--text-default-line-height);
+  letter-spacing: var(--text-default-letter-spacing);
 }
 
 .driver-popover-footer {
@@ -34,10 +37,11 @@
 }
 
 .driver-popover-progress-text {
-  opacity: 0.5;
-  color: var(--button-base-text-color);
-  font-weight: var(--button-base-text-font-weight);
-  font-size: var(--button-base-text-font-size);
+  color: var(--text-color-secondary);
+  font-weight: var(--text-default-font-weight);
+  font-size: var(--text-default-font-size);
+  line-height: var(--text-default-line-height);
+  letter-spacing: var(--text-default-letter-spacing);
 }
 
 .driver-popover-footer button {
@@ -128,29 +132,29 @@
   border-radius: var(--button-base-radius);
   width: var(--button-base-height);
   height: var(--button-base-height);
-  color: var(--button-base-icon-color);
+  color: var(--icon-button-default-icon-color-default);
   font-size: 16px;
   text-align: center;
-  color: var(--button-base-text-color);
+  color: var(--icon-button-default-icon-color-default);
 }
 
 .driver-popover-close-btn:hover {
   background-color: var(--icon-button-default-background-color-hover);
-  color: var(--button-base-text-color);
+  color: var(--icon-button-default-icon-color-hover);
 }
 
 .driver-popover-close-btn:focus-visible,
 .driver-popover-close-btn:focus {
   background-color: var(--icon-button-default-background-color-focus);
-  color: var(--button-base-text-color);
-  outline: var(--button-secondary-border-width-focus) solid
-    var(--button-secondary-border-color-focus);
-  outline-offset: var(--button-secondary-border-offset-focus);
+  color: var(--icon-button-default-icon-color-focus);
+  outline: var(--icon-button-default-border-width-focus) solid
+    var(--icon-button-default-border-color-focus);
+  outline-offset: var(--icon-button-default-border-offset-focus);
 }
 
 .driver-popover-close-btn:active {
-  background-color: var(--icon-button-default-background-color-hover);
-  color: var(--button-base-text-color);
+  background-color: var(--icon-button-default-background-color-pressed);
+  color: var(--icon-button-default-icon-color-pressed);
 }
 
 /* Arrow — matches the popover background */
