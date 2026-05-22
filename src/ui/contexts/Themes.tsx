@@ -40,6 +40,7 @@ interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
 
 export default class Themes extends PureComponent<ThemesProps> {
   private themesMessage: ThemesMessage
+  private palette: typeof $palette
 
   static features = (
     planStatus: PlanStatus,
@@ -88,6 +89,7 @@ export default class Themes extends PureComponent<ThemesProps> {
 
   constructor(props: ThemesProps) {
     super(props)
+    this.palette = $palette
     this.themesMessage = {
       type: 'UPDATE_THEMES',
       id: this.props.id,
@@ -99,12 +101,12 @@ export default class Themes extends PureComponent<ThemesProps> {
   private applyThemeChanges = (themes: Array<ThemeConfiguration>) => {
     const enabled = themes.find((t) => t.isEnabled)
     $themes.set(themes)
-    $palette.setKey('scale', enabled?.scale ?? {})
-    $palette.setKey(
+    this.palette.setKey('scale', enabled?.scale ?? {})
+    this.palette.setKey(
       'visionSimulationMode',
       enabled?.visionSimulationMode ?? 'NONE'
     )
-    $palette.setKey(
+    this.palette.setKey(
       'textColorsTheme',
       enabled?.textColorsTheme ?? {
         lightColor: '#FFFFFF',
