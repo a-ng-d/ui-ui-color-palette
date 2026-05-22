@@ -89,6 +89,7 @@
     "publishOrSyncPalette": "Publicar o sincronizar paleta",
     "publishPalette": "Publicar paleta",
     "pushUpdates": "Enviar actualizaciones al documento",
+    "redo": "Rehacer",
     "savePalette": "Guardar UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 color fuente} other {# colores fuente} =0 {Sin color fuente}}",
     "sync": "Sincronizar…",
@@ -96,6 +97,7 @@
     "syncLocalTokens": "Sincronizar con tokens locales",
     "syncLocalVariables": "Sincronizar con variables locales",
     "syncPalette": "Sincronizar paleta",
+    "undo": "Deshacer",
     "unlockSavePalette": "Desbloquear y guardar UI Color Palette"
   },
   "announcements": {
@@ -1188,6 +1190,54 @@
       "label": "Modo"
     },
     "title": "Modos de color"
+  },
+  "tour": {
+    "buttons": {
+      "done": "Listo",
+      "next": "Siguiente",
+      "prev": "Atrás"
+    },
+    "colors": {
+      "description": "Añade tus colores fuente. Cada uno genera una rampa completa en todos los stops.",
+      "title": "Elige los colores que impulsan tu paleta"
+    },
+    "export": {
+      "description": "Genera código listo para producción — copia, pega, entrega.",
+      "title": "Exporta a Tailwind, variables CSS y tokens W3C"
+    },
+    "imports": {
+      "description": "Pega una URL de Coolors o Realtime Colors, o captura colores directamente de tu selección en el lienzo.",
+      "title": "Importa colores desde Coolors, Realtime Colors o tu lienzo"
+    },
+    "noPalette": {
+      "description": "Abre una paleta de la lista o crea una nueva para explorar las funciones.",
+      "title": "Empieza abriendo una paleta"
+    },
+    "progress": "{current} de {total}",
+    "publication": {
+      "description": "Publica tu paleta públicamente o mantenla sincronizada con tu equipo.",
+      "title": "Comparte tu paleta con la comunidad"
+    },
+    "report": {
+      "description": "Obtén un informe detallado de contraste WCAG y APCA para cada par de tonos.",
+      "title": "Comprueba el contraste de cada par de tonos"
+    },
+    "scale": {
+      "description": "Establece tus stops de luminosidad y curva de easing — cada tono se calcula desde aquí.",
+      "title": "Esculpe la distribución de tus tonos"
+    },
+    "scoresControls": {
+      "description": "Muestra las puntuaciones WCAG y APCA en la paleta y filtra los tonos por aprobado o reprobado.",
+      "title": "Filtra tus tonos por puntuación de accesibilidad"
+    },
+    "settings": {
+      "description": "Elige tu espacio de color y la versión del algoritmo para controlar cómo se generan los tonos.",
+      "title": "Ajusta la configuración de generación de tu paleta"
+    },
+    "themes": {
+      "description": "Alterna entre modo oscuro, variantes de marca y más — todo desde la misma fuente.",
+      "title": "Crea múltiples temas desde una sola paleta"
+    }
   },
   "url": "www.ui-color-palette.com",
   "user": {

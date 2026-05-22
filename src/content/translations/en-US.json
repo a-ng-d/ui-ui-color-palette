@@ -89,6 +89,7 @@
     "publishOrSyncPalette": "Publish or Synchronize palette",
     "publishPalette": "Publish palette",
     "pushUpdates": "Push updates to the document",
+    "redo": "Redo",
     "savePalette": "Save UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 source color} other {# source colors} =0 {No source color}}",
     "sync": "Synchronize…",
@@ -96,6 +97,7 @@
     "syncLocalTokens": "Sync with local tokens",
     "syncLocalVariables": "Sync with local variables",
     "syncPalette": "Synchronize palette",
+    "undo": "Undo",
     "unlockSavePalette": "Unlock and save UI Color Palette"
   },
   "announcements": {
@@ -1188,6 +1190,54 @@
       "label": "Mode"
     },
     "title": "Color modes"
+  },
+  "tour": {
+    "buttons": {
+      "done": "Done",
+      "next": "Next",
+      "prev": "Back"
+    },
+    "colors": {
+      "description": "Add your source colors. Each one drives a full ramp across all stops.",
+      "title": "Pick the colors that drive your palette"
+    },
+    "export": {
+      "description": "Generate production-ready code — copy, paste, ship.",
+      "title": "Export to Tailwind, CSS variables & W3C tokens"
+    },
+    "imports": {
+      "description": "Paste a URL from Coolors or Realtime Colors, or pick up colors directly from your canvas selection.",
+      "title": "Import colors from Coolors, Realtime Colors, or your canvas"
+    },
+    "noPalette": {
+      "description": "Open a palette from the list or create a new one to explore the features.",
+      "title": "Start by opening a palette"
+    },
+    "progress": "{current} of {total}",
+    "publication": {
+      "description": "Publish your palette publicly or keep it synced with your team.",
+      "title": "Share your palette with the community"
+    },
+    "report": {
+      "description": "Get a detailed WCAG and APCA contrast report for every shade pair.",
+      "title": "Check contrast for every shade pair"
+    },
+    "scale": {
+      "description": "Set your lightness stops and easing curve — every shade is calculated from here.",
+      "title": "Sculpt the distribution of your shades"
+    },
+    "scoresControls": {
+      "description": "Display WCAG and APCA scores on the palette and filter shades by pass or fail.",
+      "title": "Filter your shades by accessibility score"
+    },
+    "settings": {
+      "description": "Choose your color space and algorithm version to control how shades are generated.",
+      "title": "Fine-tune your palette generation settings"
+    },
+    "themes": {
+      "description": "Switch between dark mode, brand variants, and more — all from the same source.",
+      "title": "Build multiple themes from one palette"
+    }
   },
   "url": "www.ui-color-palette.com",
   "user": {

@@ -89,6 +89,7 @@
     "publishOrSyncPalette": "팔레트 게시 또는 동기화",
     "publishPalette": "팔레트 게시",
     "pushUpdates": "문서에 업데이트 전송",
+    "redo": "다시 실행",
     "savePalette": "UI Color Palette 저장",
     "sourceColorsNumber": "{count, plural, one {소스 색상 1개} other {소스 색상 #개} =0 {소스 색상 없음}}",
     "sync": "동기화…",
@@ -96,6 +97,7 @@
     "syncLocalTokens": "로컬 토큰과 동기화",
     "syncLocalVariables": "로컬 변수와 동기화",
     "syncPalette": "팔레트 동기화",
+    "undo": "실행 취소",
     "unlockSavePalette": "잠금 해제 후 UI Color Palette 저장"
   },
   "announcements": {
@@ -1188,6 +1190,54 @@
       "label": "모드"
     },
     "title": "색상 모드"
+  },
+  "tour": {
+    "buttons": {
+      "done": "완료",
+      "next": "다음",
+      "prev": "이전"
+    },
+    "colors": {
+      "description": "소스 색상을 추가하세요. 각각이 모든 스톱에 걸쳐 완전한 램프를 생성합니다.",
+      "title": "팔레트를 이끄는 색상을 선택하세요"
+    },
+    "export": {
+      "description": "프로덕션 준비 코드를 생성하세요 — 복사, 붙여넣기, 배포.",
+      "title": "Tailwind, CSS 변수 및 W3C 토큰으로 내보내세요"
+    },
+    "imports": {
+      "description": "Coolors나 Realtime Colors의 URL을 붙여넣거나 캔버스 선택 영역에서 직접 색상을 가져오세요.",
+      "title": "Coolors, Realtime Colors 또는 캔버스에서 색상을 가져오세요"
+    },
+    "noPalette": {
+      "description": "목록에서 팔레트를 열거나 새로 만들어 기능을 탐색해보세요.",
+      "title": "먼저 팔레트를 열어보세요"
+    },
+    "progress": "{current} / {total}",
+    "publication": {
+      "description": "팔레트를 공개하거나 팀과 동기화 상태를 유지하세요.",
+      "title": "커뮤니티와 팔레트를 공유하세요"
+    },
+    "report": {
+      "description": "모든 쉐이드 쌍에 대한 상세한 WCAG 및 APCA 대비 보고서를 확인하세요.",
+      "title": "모든 쉐이드 쌍의 대비를 확인하세요"
+    },
+    "scale": {
+      "description": "명도 스톱과 이징 곡선을 설정하세요 — 모든 쉐이드는 여기서 계산됩니다.",
+      "title": "쉐이드 분포를 조각하세요"
+    },
+    "scoresControls": {
+      "description": "팔레트에 WCAG 및 APCA 점수를 표시하고 합격·불합격으로 쉐이드를 필터링하세요.",
+      "title": "접근성 점수로 쉐이드를 필터링하세요"
+    },
+    "settings": {
+      "description": "색 공간과 알고리즘 버전을 선택하여 쉐이드 생성 방식을 제어하세요.",
+      "title": "팔레트 생성 설정을 세밀하게 조정하세요"
+    },
+    "themes": {
+      "description": "다크 모드, 브랜드 변형 등을 전환하세요 — 모두 같은 소스에서.",
+      "title": "하나의 팔레트로 여러 테마를 만드세요"
+    }
   },
   "url": "www.ui-color-palette.com",
   "user": {

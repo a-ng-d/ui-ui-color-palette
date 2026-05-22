@@ -89,6 +89,7 @@
     "publishOrSyncPalette": "パレットを公開または同期",
     "publishPalette": "パレットを公開",
     "pushUpdates": "ドキュメントに更新を送信",
+    "redo": "やり直す",
     "savePalette": "UI Color Paletteを保存",
     "sourceColorsNumber": "{count, plural, one {ソースカラー1色} other {ソースカラー#色} =0 {ソースカラーなし}}",
     "sync": "同期…",
@@ -96,6 +97,7 @@
     "syncLocalTokens": "ローカルトークンと同期",
     "syncLocalVariables": "ローカル変数と同期",
     "syncPalette": "パレットを同期",
+    "undo": "元に戻す",
     "unlockSavePalette": "ロック解除してUI Color Paletteを保存"
   },
   "announcements": {
@@ -1188,6 +1190,54 @@
       "label": "モード"
     },
     "title": "カラーモード"
+  },
+  "tour": {
+    "buttons": {
+      "done": "完了",
+      "next": "次へ",
+      "prev": "戻る"
+    },
+    "colors": {
+      "description": "ソースカラーを追加しよう。それぞれがすべてのストップ全体のランプを生成する。",
+      "title": "パレットを動かす色を選ぼう"
+    },
+    "export": {
+      "description": "本番対応コードを生成しよう — コピー、ペースト、出荷。",
+      "title": "Tailwind、CSS変数、W3Cトークンにエクスポートしよう"
+    },
+    "imports": {
+      "description": "CoolorsやRealtime ColorsのURLを貼り付けるか、キャンバスの選択から直接色を取得しよう。",
+      "title": "Coolors、Realtime Colors、またはキャンバスから色をインポートしよう"
+    },
+    "noPalette": {
+      "description": "リストからパレットを開くか、新しく作成して機能を探索しよう。",
+      "title": "まずパレットを開こう"
+    },
+    "progress": "{current} / {total}",
+    "publication": {
+      "description": "パレットを公開するか、チームと同期しよう。",
+      "title": "パレットをコミュニティとシェアしよう"
+    },
+    "report": {
+      "description": "各シェードペアの詳細なWCAGおよびAPCAコントラストレポートを取得しよう。",
+      "title": "すべてのシェードペアのコントラストを確認しよう"
+    },
+    "scale": {
+      "description": "明るさのストップとイージングカーブを設定しよう — すべてのシェードはここから計算される。",
+      "title": "シェードの分布を整える"
+    },
+    "scoresControls": {
+      "description": "パレットにWCAGとAPCAスコアを表示し、合格・不合格でシェードをフィルタリングしよう。",
+      "title": "アクセシビリティスコアでシェードをフィルタリングしよう"
+    },
+    "settings": {
+      "description": "カラースペースとアルゴリズムバージョンを選んで、シェードの生成方法を制御しよう。",
+      "title": "パレット生成の設定を微調整しよう"
+    },
+    "themes": {
+      "description": "ダークモード、ブランドバリアントなどを切り替えよう — すべて同じソースから。",
+      "title": "1つのパレットから複数のテーマを作ろう"
+    }
   },
   "url": "www.ui-color-palette.com",
   "user": {

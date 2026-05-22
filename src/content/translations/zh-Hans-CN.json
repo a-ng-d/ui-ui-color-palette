@@ -89,6 +89,7 @@
     "publishOrSyncPalette": "发布或同步调色板",
     "publishPalette": "发布调色板",
     "pushUpdates": "推送更新到文档",
+    "redo": "重做",
     "savePalette": "保存 UI Color Palette",
     "sourceColorsNumber": "{count, plural, one {1 个源颜色} other {# 个源颜色} =0 {无源颜色}}",
     "sync": "同步…",
@@ -96,6 +97,7 @@
     "syncLocalTokens": "与本地token同步",
     "syncLocalVariables": "与本地变量同步",
     "syncPalette": "同步调色板",
+    "undo": "撤销",
     "unlockSavePalette": "解锁并保存 UI Color Palette"
   },
   "announcements": {
@@ -1188,6 +1190,54 @@
       "label": "模式"
     },
     "title": "颜色模式"
+  },
+  "tour": {
+    "buttons": {
+      "done": "完成",
+      "next": "下一步",
+      "prev": "上一步"
+    },
+    "colors": {
+      "description": "添加源颜色，每种颜色会在所有停止点生成完整渐变。",
+      "title": "选择驱动调色板的颜色"
+    },
+    "export": {
+      "description": "生成生产就绪代码——复制、粘贴、交付。",
+      "title": "导出至 Tailwind、CSS 变量和 W3C 令牌"
+    },
+    "imports": {
+      "description": "粘贴来自 Coolors 或 Realtime Colors 的链接，或直接从画布选区获取颜色。",
+      "title": "从 Coolors、Realtime Colors 或画布导入颜色"
+    },
+    "noPalette": {
+      "description": "从列表打开或新建调色板，探索所有功能。",
+      "title": "先打开一个调色板"
+    },
+    "progress": "{current} / {total}",
+    "publication": {
+      "description": "公开发布调色板，或与团队保持同步。",
+      "title": "与社区共享你的调色板"
+    },
+    "report": {
+      "description": "获取每对色调的 WCAG 和 APCA 对比度详细报告。",
+      "title": "检查每对色调的对比度"
+    },
+    "scale": {
+      "description": "设置亮度停止点和缓动曲线——每个色调均由此计算。",
+      "title": "雕塑色调的分布"
+    },
+    "scoresControls": {
+      "description": "在调色板上显示 WCAG 和 APCA 分数，并按通过或失败筛选色调。",
+      "title": "按无障碍分数筛选色调"
+    },
+    "settings": {
+      "description": "选择色彩空间和算法版本，控制色调的生成方式。",
+      "title": "微调调色板生成设置"
+    },
+    "themes": {
+      "description": "在深色模式、品牌变体等之间切换——均来自同一来源。",
+      "title": "从一个调色板构建多个主题"
+    }
   },
   "url": "www.ui-color-palette.com",
   "user": {
