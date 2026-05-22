@@ -22,15 +22,31 @@ export const computeScaleForStops = (
   const maxIdValue = parseFloat(currentScale[maxId].toString())
   const isInverted = minIdValue < maxIdValue
 
-  const allValues = Object.values(currentScale).map((v) => parseFloat(v.toString()))
+  const allValues = Object.values(currentScale).map((v) =>
+    parseFloat(v.toString())
+  )
   const scaleMin = Math.min(...allValues)
   const scaleMax = Math.max(...allValues)
 
   let tempEasing = distributionEasing
-  if (isInverted && tempEasing.includes('EASEIN_') && !tempEasing.includes('INOUT'))
-    tempEasing = tempEasing.replace('EASEIN_', 'EASEOUT_') as EasingConfiguration
-  else if (isInverted && tempEasing.includes('EASEOUT_') && !tempEasing.includes('INOUT'))
-    tempEasing = tempEasing.replace('EASEOUT_', 'EASEIN_') as EasingConfiguration
+  if (
+    isInverted &&
+    tempEasing.includes('EASEIN_') &&
+    !tempEasing.includes('INOUT')
+  )
+    tempEasing = tempEasing.replace(
+      'EASEIN_',
+      'EASEOUT_'
+    ) as EasingConfiguration
+  else if (
+    isInverted &&
+    tempEasing.includes('EASEOUT_') &&
+    !tempEasing.includes('INOUT')
+  )
+    tempEasing = tempEasing.replace(
+      'EASEOUT_',
+      'EASEIN_'
+    ) as EasingConfiguration
 
   const calculatedScale = doScale(stops, scaleMin, scaleMax, tempEasing)
 

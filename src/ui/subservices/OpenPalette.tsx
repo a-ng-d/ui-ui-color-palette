@@ -26,7 +26,14 @@ import EditPalette from '../modes/EditPalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { BaseProps, Context, PlanStatus, Service, Editor, Mode } from '../../types/app'
+import {
+  BaseProps,
+  Context,
+  PlanStatus,
+  Service,
+  Editor,
+  Mode,
+} from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 

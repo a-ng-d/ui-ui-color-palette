@@ -1,5 +1,8 @@
 import { atom } from 'nanostores'
-import { ExchangeConfiguration, ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import {
+  ExchangeConfiguration,
+  ThemeConfiguration,
+} from '@a_ng_d/utils-ui-color-palette'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { $palette, $themes } from './palette'
 
@@ -87,7 +90,10 @@ const apply = (snap: Snapshot) => {
           },
           { key: 'base.colors', value: snap.palette.colors },
           { key: 'base.colorSpace', value: snap.palette.colorSpace },
-          { key: 'base.algorithmVersion', value: snap.palette.algorithmVersion },
+          {
+            key: 'base.algorithmVersion',
+            value: snap.palette.algorithmVersion,
+          },
           { key: 'themes', value: snap.themes },
         ],
       },

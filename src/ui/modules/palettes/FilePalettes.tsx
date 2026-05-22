@@ -324,172 +324,175 @@ export default class FilePalettes extends PureComponent<
 
                   return (
                     <ActionsItem
-                    id={palette.meta.id}
-                    key={`palette-${index}`}
-                    name={
-                      palette.base.name === ''
-                        ? this.props.t('name')
-                        : palette.base.name
-                    }
-                    indicator={
-                      palette.meta.publicationStatus.isPublished
-                        ? {
-                            label: this.props.t('publication.statusPublished'),
-                            status: 'ACTIVE',
-                          }
-                        : undefined
-                    }
-                    description={palette.base.preset.name}
-                    subdescription={setPaletteMeta({
-                      colors: palette.base.colors,
-                      themes: palette.themes,
-                      locales: this.props.t,
-                    })}
-                    actionsSlot={
-                      <>
-                        <Menu
-                          id={`more-actions-${palette.meta.id}`}
-                          icon="ellipses"
-                          options={[
-                            {
+                      id={palette.meta.id}
+                      key={`palette-${index}`}
+                      name={
+                        palette.base.name === ''
+                          ? this.props.t('name')
+                          : palette.base.name
+                      }
+                      indicator={
+                        palette.meta.publicationStatus.isPublished
+                          ? {
                               label: this.props.t(
-                                'browse.actions.duplicatePalette'
+                                'publication.statusPublished'
                               ),
-                              type: 'OPTION',
-                              isActive:
-                                this.features.DUPLICATE_PALETTE.isActive(),
-                              isBlocked:
-                                this.features.DUPLICATE_PALETTE.isBlocked() ||
-                                this.features.CREATE_PALETTE.isReached(
-                                  (this.props.creditsCount -
-                                    this.props.config.fees.paletteCreate) *
-                                    -1 -
-                                    1
-                                ),
-                              isNew: this.features.DUPLICATE_PALETTE.isNew(),
-                              onBlock: () => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: { type: 'GET_PRO' },
-                                  },
-                                  '*'
-                                )
-                              },
-                              action: () => {
-                                this.setState({
-                                  isContextActionLoading:
-                                    this.state.isContextActionLoading.map(
-                                      (loading, i) =>
-                                        i === index ? true : loading
-                                    ),
-                                })
-                                this.onDuplicatePalette(palette.meta.id)
-                              },
-                            },
-                            {
-                              label: this.props.t(
-                                'browse.actions.deletePalette'
-                              ),
-                              type: 'OPTION',
-                              isActive: this.features.DELETE_PALETTE.isActive(),
-                              isBlocked:
-                                this.features.DELETE_PALETTE.isBlocked(),
-                              isNew: this.features.DELETE_PALETTE.isNew(),
-                              onBlock: () => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: { type: 'GET_PRO' },
-                                  },
-                                  '*'
-                                )
-                              },
-                              action: () =>
-                                this.setState({
-                                  isDeleteDialogOpen: true,
-                                  targetedPaletteId: palette.meta.id,
-                                  targetedPaletteName: palette.base.name,
-                                }),
-                            },
-                          ]}
-                          alignment="BOTTOM_RIGHT"
-                          state={
-                            this.state.isContextActionLoading[index]
-                              ? 'LOADING'
-                              : 'DEFAULT'
-                          }
-                          helper={{
-                            label: this.props.t(
-                              'browse.actions.moreParameters'
-                            ),
-                          }}
-                          onBlock={() => {
-                            sendPluginMessage(
+                              status: 'ACTIVE',
+                            }
+                          : undefined
+                      }
+                      description={palette.base.preset.name}
+                      subdescription={setPaletteMeta({
+                        colors: palette.base.colors,
+                        themes: palette.themes,
+                        locales: this.props.t,
+                      })}
+                      actionsSlot={
+                        <>
+                          <Menu
+                            id={`more-actions-${palette.meta.id}`}
+                            icon="ellipses"
+                            options={[
                               {
-                                pluginMessage: { type: 'GET_PRO' },
+                                label: this.props.t(
+                                  'browse.actions.duplicatePalette'
+                                ),
+                                type: 'OPTION',
+                                isActive:
+                                  this.features.DUPLICATE_PALETTE.isActive(),
+                                isBlocked:
+                                  this.features.DUPLICATE_PALETTE.isBlocked() ||
+                                  this.features.CREATE_PALETTE.isReached(
+                                    (this.props.creditsCount -
+                                      this.props.config.fees.paletteCreate) *
+                                      -1 -
+                                      1
+                                  ),
+                                isNew: this.features.DUPLICATE_PALETTE.isNew(),
+                                onBlock: () => {
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_PRO' },
+                                    },
+                                    '*'
+                                  )
+                                },
+                                action: () => {
+                                  this.setState({
+                                    isContextActionLoading:
+                                      this.state.isContextActionLoading.map(
+                                        (loading, i) =>
+                                          i === index ? true : loading
+                                      ),
+                                  })
+                                  this.onDuplicatePalette(palette.meta.id)
+                                },
                               },
-                              '*'
-                            )
-                          }}
+                              {
+                                label: this.props.t(
+                                  'browse.actions.deletePalette'
+                                ),
+                                type: 'OPTION',
+                                isActive:
+                                  this.features.DELETE_PALETTE.isActive(),
+                                isBlocked:
+                                  this.features.DELETE_PALETTE.isBlocked(),
+                                isNew: this.features.DELETE_PALETTE.isNew(),
+                                onBlock: () => {
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_PRO' },
+                                    },
+                                    '*'
+                                  )
+                                },
+                                action: () =>
+                                  this.setState({
+                                    isDeleteDialogOpen: true,
+                                    targetedPaletteId: palette.meta.id,
+                                    targetedPaletteName: palette.base.name,
+                                  }),
+                              },
+                            ]}
+                            alignment="BOTTOM_RIGHT"
+                            state={
+                              this.state.isContextActionLoading[index]
+                                ? 'LOADING'
+                                : 'DEFAULT'
+                            }
+                            helper={{
+                              label: this.props.t(
+                                'browse.actions.moreParameters'
+                              ),
+                            }}
+                            onBlock={() => {
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: { type: 'GET_PRO' },
+                                },
+                                '*'
+                              )
+                            }}
+                          />
+                          <Feature
+                            isActive={this.features.OPEN_PALETTE.isActive()}
+                          >
+                            <Button
+                              type="secondary"
+                              label={this.props.t('browse.actions.openPalette')}
+                              shouldReflow={{
+                                isEnabled: true,
+                                icon: 'forward',
+                              }}
+                              isBlocked={this.features.OPEN_PALETTE.isBlocked()}
+                              isNew={this.features.OPEN_PALETTE.isNew()}
+                              onBlock={() => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              }}
+                              action={() => this.onEditPalette(palette.meta.id)}
+                            />
+                          </Feature>
+                          <Feature
+                            isActive={this.features.SEE_PALETTE.isActive()}
+                          >
+                            <Button
+                              type="secondary"
+                              label={this.props.t('browse.actions.openPalette')}
+                              shouldReflow={{
+                                isEnabled: true,
+                                icon: 'forward',
+                              }}
+                              isBlocked={this.features.SEE_PALETTE.isBlocked()}
+                              isNew={this.features.SEE_PALETTE.isNew()}
+                              onBlock={() => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              }}
+                              action={() => this.onSeePalette(palette.meta.id)}
+                            />
+                          </Feature>
+                        </>
+                      }
+                      complementSlot={
+                        <PalettePreview
+                          colors={
+                            new Data(palette).makePaletteData().themes[
+                              enabledThemeIndex
+                            ].colors
+                          }
                         />
-                        <Feature
-                          isActive={this.features.OPEN_PALETTE.isActive()}
-                        >
-                          <Button
-                            type="secondary"
-                            label={this.props.t('browse.actions.openPalette')}
-                            shouldReflow={{
-                              isEnabled: true,
-                              icon: 'forward',
-                            }}
-                            isBlocked={this.features.OPEN_PALETTE.isBlocked()}
-                            isNew={this.features.OPEN_PALETTE.isNew()}
-                            onBlock={() => {
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: { type: 'GET_PRO' },
-                                },
-                                '*'
-                              )
-                            }}
-                            action={() => this.onEditPalette(palette.meta.id)}
-                          />
-                        </Feature>
-                        <Feature
-                          isActive={this.features.SEE_PALETTE.isActive()}
-                        >
-                          <Button
-                            type="secondary"
-                            label={this.props.t('browse.actions.openPalette')}
-                            shouldReflow={{
-                              isEnabled: true,
-                              icon: 'forward',
-                            }}
-                            isBlocked={this.features.SEE_PALETTE.isBlocked()}
-                            isNew={this.features.SEE_PALETTE.isNew()}
-                            onBlock={() => {
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: { type: 'GET_PRO' },
-                                },
-                                '*'
-                              )
-                            }}
-                            action={() => this.onSeePalette(palette.meta.id)}
-                          />
-                        </Feature>
-                      </>
-                    }
-                    complementSlot={
-                      <PalettePreview
-                        colors={
-                          new Data(palette).makePaletteData().themes[
-                            enabledThemeIndex
-                          ].colors
-                        }
-                      />
-                    }
-                  />
-                )
+                      }
+                    />
+                  )
                 } catch {
                   return null
                 }

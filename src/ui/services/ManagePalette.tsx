@@ -58,7 +58,9 @@ import {
   initializePaletteStore,
 } from '../../stores/palette'
 import { clearHistory, flush, suppressHistory } from '../../stores/history'
-import startTour, { showNoPaletteNotice } from '../../external/onboarding/startTour'
+import startTour, {
+  showNoPaletteNotice,
+} from '../../external/onboarding/startTour'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ManagePaletteProps
