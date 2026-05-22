@@ -55,6 +55,7 @@ import {
 import { setEditor } from '../external/tracking/client'
 import validateUserLicenseKey from '../external/license/validateUserLicenseKey '
 import checkAnnouncementsVersion from '../external/cms/checkAnnouncementsVersion'
+import fetchUserEntitlements from '../external/auth/fetchUserEntitlements'
 import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { getSupabase } from '../external/auth'
 import { ConfigContextType } from '../config/ConfigContext'
@@ -301,10 +302,11 @@ class App extends Component<AppProps, AppState> {
           [action: string]: () => void
         } = {
           SIGNED_IN: () => {
+            const userId = session?.user.id || ''
             this.setState({
               userSession: {
                 connectionStatus: 'CONNECTED',
-                userId: session?.user.id || '',
+                userId,
                 userFullName:
                   session?.user.user_metadata.full_name ||
                   'Anonymous Palette Wizard',
@@ -313,6 +315,21 @@ class App extends Component<AppProps, AppState> {
                   `https://www.gravatar.com/avatar/${session?.user.id}?d=identicon`,
               },
             })
+            if (userId)
+              fetchUserEntitlements(userId)
+                .then((result) => {
+                  if (result?.planStatus)
+                    this.setState({
+                      planStatus:
+                        result.planStatus === 'PAID'
+                          ? 'PAID'
+                          : this.state.planStatus,
+                      isAccountSubscribed: result.planStatus === 'PAID',
+                    })
+                })
+                .catch((error) => {
+                  console.error(error)
+                })
           },
           TOKEN_REFRESHED: () => {
             this.setState({
@@ -355,9 +372,15 @@ class App extends Component<AppProps, AppState> {
                 userFullName: '',
                 userAvatar: '',
               },
+              planStatus: this.state.isAccountSubscribed
+                ? 'UNPAID'
+                : this.state.planStatus,
             })
           },
         }
+
+        console.log(event)
+
         return actions[event]?.()
       })
 
@@ -441,20 +464,9 @@ class App extends Component<AppProps, AppState> {
           await checkConnectionStatus(
             path.data.accessToken,
             path.data.refreshToken
-          )
-            .then((result) => {
-              if (result?.planStatus)
-                this.setState({
-                  planStatus:
-                    result.planStatus === 'PAID'
-                      ? 'PAID'
-                      : this.state.planStatus,
-                  isAccountSubscribed: result.planStatus === 'PAID',
-                })
-            })
-            .catch((error) => {
-              console.error(error)
-            })
+          ).catch((error) => {
+            console.error(error)
+          })
       }
 
       const checkUserConsent = () => {
