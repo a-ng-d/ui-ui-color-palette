@@ -536,7 +536,55 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
   // Templates
   ToolsButtons = () => {
     return (
-      <>
+      <div
+        className={doClassnames([
+          layouts['snackbar--medium'],
+          layouts['snackbar--right'],
+          layouts['snackbar--wrap'],
+        ])}
+      >
+        <Feature isActive={this.features.SCALE_REVERSE.isActive()}>
+          <Button
+            type="icon"
+            icon="reverse"
+            helper={{
+              label: this.props.t('scale.actions.reverseStops'),
+            }}
+            feature="REVERSE_SCALE"
+            isBlocked={this.features.SCALE_REVERSE.isBlocked()}
+            isNew={this.features.SCALE_REVERSE.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
+            action={this.onReverseStops}
+          />
+        </Feature>
+        <Feature isActive={this.features.SCALE_RESET.isActive()}>
+          <Button
+            type="icon"
+            icon="reset"
+            helper={{
+              label: this.props.t('scale.actions.resetScale'),
+            }}
+            feature="RESET_SCALE"
+            isBlocked={this.features.SCALE_RESET.isBlocked()}
+            isNew={this.features.SCALE_RESET.isNew()}
+            onBlock={() => {
+              sendPluginMessage(
+                {
+                  pluginMessage: { type: 'GET_PRO' },
+                },
+                '*'
+              )
+            }}
+            action={this.onResetScale}
+          />
+        </Feature>
         <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
           {this.props.preset.id.includes('CUSTOM') && (
             <>
@@ -581,49 +629,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
             </>
           )}
         </Feature>
-        <Feature isActive={this.features.SCALE_REVERSE.isActive()}>
-          <Button
-            type="icon"
-            icon="reverse"
-            helper={{
-              label: this.props.t('scale.actions.reverseStops'),
-            }}
-            feature="REVERSE_SCALE"
-            isBlocked={this.features.SCALE_REVERSE.isBlocked()}
-            isNew={this.features.SCALE_REVERSE.isNew()}
-            onBlock={() => {
-              sendPluginMessage(
-                {
-                  pluginMessage: { type: 'GET_PRO' },
-                },
-                '*'
-              )
-            }}
-            action={this.onReverseStops}
-          />
-        </Feature>
-        <Feature isActive={this.features.SCALE_RESET.isActive()}>
-          <Button
-            type="icon"
-            icon="reset"
-            helper={{
-              label: this.props.t('scale.actions.resetScale'),
-            }}
-            feature="RESET_SCALE"
-            isBlocked={this.features.SCALE_RESET.isBlocked()}
-            isNew={this.features.SCALE_RESET.isNew()}
-            onBlock={() => {
-              sendPluginMessage(
-                {
-                  pluginMessage: { type: 'GET_PRO' },
-                },
-                '*'
-              )
-            }}
-            action={this.onResetScale}
-          />
-        </Feature>
-      </>
+      </div>
     )
   }
 
@@ -742,20 +748,11 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
           }
           rightPartSlot={
             this.props.documentWidth > 460 ? (
-              <div
-                className={doClassnames([
-                  layouts['snackbar--medium'],
-                  layouts['snackbar--wrap'],
-                  layouts['snackbar--right'],
-                ])}
-              >
-                <this.ToolsButtons />
-              </div>
+              <this.ToolsButtons />
             ) : (
               <div
                 className={doClassnames([
                   layouts['snackbar--medium'],
-                  layouts['snackbar--wrap'],
                   layouts['snackbar--right'],
                 ])}
               >
