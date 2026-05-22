@@ -321,12 +321,13 @@ export default class PagePalettes extends PureComponent<
                   new Date(a.meta.dates.openedAt).getTime()
               )
               .map((palette, index) => {
-                const enabledThemeIndex = palette.themes.findIndex(
-                  (theme) => theme.isEnabled
-                )
+                try {
+                  const enabledThemeIndex = palette.themes.findIndex(
+                    (theme) => theme.isEnabled
+                  )
 
-                return (
-                  <ActionsItem
+                  return (
+                    <ActionsItem
                     id={palette.meta.id}
                     key={`palette-${index}`}
                     name={
@@ -493,6 +494,9 @@ export default class PagePalettes extends PureComponent<
                     }
                   />
                 )
+                } catch {
+                  return null
+                }
               })}
           </>
         )}
