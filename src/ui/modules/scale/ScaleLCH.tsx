@@ -20,6 +20,7 @@ import {
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { computeScaleForStops } from '../../../utils/scaleStops'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import {
@@ -241,10 +242,10 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
       this.palette.setKey('scale', scale(preset))
 
+      this.scaleMessage.feature = 'CHANGE_PRESET'
+      this.props.onChangeThemes?.(scale(preset))
+
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-      this.timeouts.push(
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      )
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -269,10 +270,10 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
 
+      this.scaleMessage.feature = 'CHANGE_PRESET'
+      this.props.onChangeThemes?.(scale(preset))
+
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-      this.timeouts.push(
-        setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
-      )
 
       trackScaleManagementEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -395,77 +396,28 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
   }
 
   customHandler = (e: Event) => {
-    const stops = this.props.preset?.['stops'] ?? [1, 2]
-    const preset = this.props.preset ?? defaultPreset
-
-    const scale = (stps = stops) => {
-      const currentScale = this.props.scale ?? {}
-
-      const currentStops = Object.keys(currentScale)
-        .map((id) => parseFloat(id))
-        .sort((a, b) => a - b)
-
-      if (currentStops.length < 2)
-        return doScale(stps, 0, 100, this.props.distributionEasing)
-
-      const minId = currentStops[0]
-      const maxId = currentStops[currentStops.length - 1]
-
-      const minIdValue = parseFloat(currentScale[minId].toString())
-      const maxIdValue = parseFloat(currentScale[maxId].toString())
-
-      const isInverted = minIdValue < maxIdValue
-
-      const allValues = Object.values(currentScale).map((value) =>
-        parseFloat(value.toString())
-      )
-      const scaleMin = Math.min(...allValues)
-      const scaleMax = Math.max(...allValues)
-
-      let tempEasing = this.props.distributionEasing
-
-      if (
-        isInverted &&
-        tempEasing.includes('EASEIN_') &&
-        !tempEasing.includes('INOUT')
-      )
-        tempEasing = tempEasing.replace(
-          'EASEIN_',
-          'EASEOUT_'
-        ) as EasingConfiguration
-      else if (
-        isInverted &&
-        tempEasing.includes('EASEOUT_') &&
-        !tempEasing.includes('INOUT')
-      )
-        tempEasing = tempEasing.replace(
-          'EASEOUT_',
-          'EASEIN_'
-        ) as EasingConfiguration
-
-      const calculatedScale = doScale(stps, scaleMin, scaleMax, tempEasing)
-
-      return isInverted
-        ? Object.fromEntries(
-            Object.entries(calculatedScale).map(([id, value]) => {
-              return [id, scaleMax - (parseFloat(value.toString()) - scaleMin)]
-            })
-          )
-        : calculatedScale
-    }
+    const stops = [...($palette.get().preset?.['stops'] ?? [1, 2])]
+    const preset = { ...$palette.get().preset } ?? defaultPreset
 
     const addStop = () => {
       if (stops.length < 24) {
         stops.push(stops.slice(-1)[0] + stops[0])
         preset.stops = stops
         this.palette.setKey('preset', preset)
-        this.palette.setKey('scale', scale())
+        this.palette.setKey(
+          'scale',
+          computeScaleForStops(
+            stops,
+            $palette.get().scale ?? {},
+            this.props.distributionEasing
+          )
+        )
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+        this.scaleMessage.feature = 'ADD_STOP'
+        this.props.onChangeStops?.(stops)
+
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.timeouts.push(
-          setTimeout(() => this.props.onChangeStops?.(stops), 1000)
-        )
       }
     }
 
@@ -474,13 +426,20 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         stops.pop()
         preset.stops = stops
         this.palette.setKey('preset', preset)
-        this.palette.setKey('scale', scale())
+        this.palette.setKey(
+          'scale',
+          computeScaleForStops(
+            stops,
+            $palette.get().scale ?? {},
+            this.props.distributionEasing
+          )
+        )
 
         this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+        this.scaleMessage.feature = 'DELETE_STOP'
+        this.props.onChangeStops?.(stops)
+
         sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-        this.timeouts.push(
-          setTimeout(() => this.props.onChangeStops?.(stops), 1000)
-        )
       }
     }
 
@@ -887,6 +846,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
           documentWidth={this.props.documentWidth}
           onChangeScale={this.props.onChangeScale}
           onChangeThemes={this.props.onChangeThemes}
+          onChangeStops={this.props.onChangeStops}
         />
         <Chroma
           {...this.props}

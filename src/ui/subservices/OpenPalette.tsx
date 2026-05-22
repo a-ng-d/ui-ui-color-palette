@@ -7,6 +7,7 @@ import {
   TextColorsThemeConfiguration,
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
+  EasingConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
   VisionSimulationModeConfiguration,
@@ -35,6 +36,7 @@ interface OpenPaletteProps
   name: string
   description: string
   preset: PresetConfiguration
+  distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration

@@ -28,6 +28,7 @@ import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import { computeScaleForStops } from '../../utils/scaleStops'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
@@ -37,7 +38,6 @@ import {
   Subservice,
 } from '../../types/app'
 import { $palette, $themes } from '../../stores/palette'
-import { suppressHistory } from '../../stores/history'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -181,110 +181,53 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
 
   // Handlers
   themesHandler = (e: ScaleConfiguration) => {
-    const scale = e
-    const newThemes = this.props.themes.map((theme) => {
-      return {
-        ...theme,
-        scale: scale,
-      }
-    })
+    const newThemes = $themes.get().map((theme) => ({
+      ...theme,
+      scale: e,
+    }))
 
-    suppressHistory(() => {
-      $themes.set(newThemes)
-    })
+    $themes.set(newThemes)
 
-    sendPluginMessage(
-      {
-        pluginMessage: {
-          type: 'UPDATE_PALETTE',
-          id: this.props.id,
-          items: [
-            {
-              key: 'themes',
-              value: newThemes,
-            },
-          ],
+    const id = this.props.id
+    setTimeout(() => {
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_PALETTE',
+            id,
+            items: [{ key: 'themes', value: $themes.get() }],
+          },
         },
-      },
-      '*'
-    )
+        '*'
+      )
+    }, 1000)
   }
 
   stopsHandler = (stops: number[]) => {
-    const newThemes = this.props.themes.map((theme) => {
-      if (theme.isEnabled) return { ...theme, scale: $palette.get().scale }
+    const newThemes = $themes.get().map((theme) => ({
+      ...theme,
+      scale: computeScaleForStops(
+        stops,
+        theme.isEnabled ? $palette.get().scale : theme.scale,
+        this.props.distributionEasing
+      ),
+    }))
 
-      const themeScale = theme.scale
-      const currentStops = Object.keys(themeScale)
-        .map((id) => parseFloat(id))
-        .sort((a, b) => a - b)
+    $themes.set(newThemes)
 
-      if (currentStops.length < 2)
-        return {
-          ...theme,
-          scale: doScale(stops, 0, 100, this.props.distributionEasing),
-        }
-
-      const minId = currentStops[0]
-      const maxId = currentStops[currentStops.length - 1]
-      const minIdValue = parseFloat(themeScale[minId].toString())
-      const maxIdValue = parseFloat(themeScale[maxId].toString())
-      const isInverted = minIdValue < maxIdValue
-
-      const allValues = Object.values(themeScale).map((value) =>
-        parseFloat(value.toString())
-      )
-      const scaleMin = Math.min(...allValues)
-      const scaleMax = Math.max(...allValues)
-
-      let tempEasing = this.props.distributionEasing
-      if (
-        isInverted &&
-        tempEasing.includes('EASEIN_') &&
-        !tempEasing.includes('INOUT')
-      )
-        tempEasing = tempEasing.replace(
-          'EASEIN_',
-          'EASEOUT_'
-        ) as EasingConfiguration
-      else if (
-        isInverted &&
-        tempEasing.includes('EASEOUT_') &&
-        !tempEasing.includes('INOUT')
-      )
-        tempEasing = tempEasing.replace(
-          'EASEOUT_',
-          'EASEIN_'
-        ) as EasingConfiguration
-
-      const calculatedScale = doScale(stops, scaleMin, scaleMax, tempEasing)
-
-      const newScale = isInverted
-        ? Object.fromEntries(
-            Object.entries(calculatedScale).map(([id, value]) => [
-              id,
-              scaleMax - (parseFloat(value.toString()) - scaleMin),
-            ])
-          )
-        : calculatedScale
-
-      return { ...theme, scale: newScale }
-    })
-
-    suppressHistory(() => {
-      $themes.set(newThemes)
-    })
-
-    sendPluginMessage(
-      {
-        pluginMessage: {
-          type: 'UPDATE_PALETTE',
-          id: this.props.id,
-          items: [{ key: 'themes', value: newThemes }],
+    const id = this.props.id
+    setTimeout(() => {
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_PALETTE',
+            id,
+            items: [{ key: 'themes', value: $themes.get() }],
+          },
         },
-      },
-      '*'
-    )
+        '*'
+      )
+    }, 1000)
   }
 
   // Direct Actions

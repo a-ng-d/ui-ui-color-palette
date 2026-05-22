@@ -5,7 +5,6 @@ import { $palette, $themes } from './palette'
 
 const MAX_DEPTH = 50
 const DEBOUNCE_MS = 400
-const DEBUG = true
 
 interface Snapshot {
   palette: ExchangeConfiguration
@@ -28,21 +27,11 @@ const getSnapshot = (): Snapshot => ({
 })
 
 const refresh = () => {
-  const canUndoNext = cursor > 0
-  const canRedoNext = cursor < stack.length - 1
-  if (DEBUG)
-    console.log('[history] refresh', {
-      cursor,
-      stackLen: stack.length,
-      canUndo: canUndoNext,
-      canRedo: canRedoNext,
-    })
-  $canUndo.set(canUndoNext)
-  $canRedo.set(canRedoNext)
+  $canUndo.set(cursor > 0)
+  $canRedo.set(cursor < stack.length - 1)
 }
 
 const commit = (snap: Snapshot) => {
-  if (DEBUG) console.log('[history] commit', { cursor, stackLen: stack.length })
   stack = stack.slice(0, cursor + 1)
   stack.push(structuredClone(snap))
   if (stack.length > MAX_DEPTH) {
@@ -65,7 +54,6 @@ export const flush = () => {
 
 const scheduleCommit = () => {
   if (isApplying) return
-  if (DEBUG) console.log('[history] change detected')
   pending = getSnapshot()
   if (timer !== null) clearTimeout(timer)
   timer = window.setTimeout(() => {
@@ -93,7 +81,10 @@ const apply = (snap: Snapshot) => {
           { key: 'base.description', value: snap.palette.description },
           { key: 'base.preset', value: snap.palette.preset },
           { key: 'base.shift', value: snap.palette.shift },
-          { key: 'base.areSourceColorsLocked', value: snap.palette.areSourceColorsLocked },
+          {
+            key: 'base.areSourceColorsLocked',
+            value: snap.palette.areSourceColorsLocked,
+          },
           { key: 'base.colors', value: snap.palette.colors },
           { key: 'base.colorSpace', value: snap.palette.colorSpace },
           { key: 'base.algorithmVersion', value: snap.palette.algorithmVersion },
@@ -121,7 +112,6 @@ export const suppressHistory = (fn: () => void) => {
 }
 
 export const initHistory = () => {
-  if (DEBUG) console.log('[history] initHistory')
   unsubscribers.forEach((u) => u())
   unsubscribers = []
 
@@ -136,8 +126,6 @@ export const initHistory = () => {
 }
 
 export const undo = () => {
-  if (DEBUG)
-    console.log('[history] undo', { cursor, stackLen: stack.length })
   flush()
   if (cursor <= 0) return
   cursor -= 1
@@ -145,15 +133,12 @@ export const undo = () => {
 }
 
 export const redo = () => {
-  if (DEBUG)
-    console.log('[history] redo', { cursor, stackLen: stack.length })
   if (cursor >= stack.length - 1) return
   cursor += 1
   apply(stack[cursor])
 }
 
 export const clearHistory = () => {
-  if (DEBUG) console.log('[history] clearHistory')
   if (timer !== null) {
     clearTimeout(timer)
     timer = null

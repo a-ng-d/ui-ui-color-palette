@@ -431,7 +431,6 @@ export default class ManagePalette extends PureComponent<
     )
     const isNewPalette = palette.meta.id !== (this.palette.get().id as string)
 
-    // Commit tout edit en attente avant que le parent écrase le state
     flush()
 
     suppressHistory(() => {
@@ -454,7 +453,16 @@ export default class ManagePalette extends PureComponent<
         },
         view: (palette.base.view as ViewConfiguration) ?? 'PALETTE',
       })
-      $themes.set(palette.themes)
+      if (isNewPalette) $themes.set(palette.themes)
+      else {
+        const current = $themes.get()
+        $themes.set(
+          palette.themes.map((t) => {
+            if (t.isEnabled) return t
+            return current.find((c) => c.id === t.id) ?? t
+          })
+        )
+      }
       $dates.set({
         createdAt: palette.meta.dates.createdAt,
         updatedAt: palette.meta.dates.updatedAt,

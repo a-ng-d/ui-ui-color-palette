@@ -29,6 +29,7 @@ interface LightnessProps
   documentWidth: number
   onChangeScale: () => void
   onChangeThemes?: (scale: ScaleConfiguration) => void
+  onChangeStops?: (stops: number[]) => void
 }
 
 interface LightnessState {
@@ -120,8 +121,10 @@ export default class Lightness extends PureComponent<
 
     const onChangeStop = () => {
       this.palette.setKey('scale', results.scale)
-      if (feature === 'ADD_STOP' || feature === 'DELETE_STOP')
+      if (feature === 'ADD_STOP' || feature === 'DELETE_STOP') {
         this.palette.setKey('preset.stops', results.stops ?? [])
+        this.props.onChangeStops?.(results.stops ?? [])
+      }
 
       const lightForegroundRatio = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration

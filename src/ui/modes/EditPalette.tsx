@@ -14,6 +14,7 @@ import {
   ColorSpaceConfiguration,
   DatesConfiguration,
   DocumentConfiguration,
+  EasingConfiguration,
   ExchangeConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
@@ -37,6 +38,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import UndoRedoButtons from '../components/UndoRedoButtons'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
+import { computeScaleForStops } from '../../utils/scaleStops'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   ColorsMessage,
@@ -71,6 +73,7 @@ interface EditPaletteProps
   name: string
   description: string
   preset: PresetConfiguration
+  distributionEasing: EasingConfiguration
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   areSourceColorsLocked: LockedSourceColorsConfiguration
@@ -301,7 +304,7 @@ export default class EditPalette extends PureComponent<
 
   slideHandler = () => {
     $themes.set(
-      this.props.themes.map((theme: ThemeConfiguration) => {
+      $themes.get().map((theme: ThemeConfiguration) => {
         if (theme.isEnabled) theme.scale = this.palette.get().scale
         return theme
       })
@@ -874,24 +877,38 @@ export default class EditPalette extends PureComponent<
   }
 
   onAddStop = () => {
-    const preset = this.props.preset
+    const preset = { ...$palette.get().preset }
     const stops = [...(preset.stops ?? [])]
 
-    if (stops.length >= 24) return
+    if (stops.length < 24) {
+      stops.push(stops.slice(-1)[0] + stops[0])
+      preset.stops = stops
 
-    stops.push(stops.slice(-1)[0] + stops[0])
-    preset.stops = stops
+      const scale = computeScaleForStops(
+        stops,
+        $palette.get().scale ?? {},
+        this.props.distributionEasing
+      )
 
-    this.palette.setKey('preset', preset)
-    this.palette.setKey(
-      'scale',
-      doScale(stops, preset.min ?? 0, preset.max ?? 100)
-    )
+      this.palette.setKey('preset', preset)
+      this.palette.setKey('scale', scale)
 
-    this.scaleMessage.data = this.palette.value as ExchangeConfiguration
-    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+      this.scaleMessage.data = this.palette.value as ExchangeConfiguration
+      this.scaleMessage.feature = 'ADD_STOP'
 
-    this.palette.setKey('preset', preset)
+      $themes.set(
+        $themes.get().map((theme) => ({
+          ...theme,
+          scale: computeScaleForStops(
+            stops,
+            theme.isEnabled ? $palette.get().scale : theme.scale,
+            this.props.distributionEasing
+          ),
+        }))
+      )
+
+      sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+    }
   }
 
   // Render
