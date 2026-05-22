@@ -8,7 +8,6 @@ import {
   Layout,
   layouts,
   List,
-  Menu,
   SectionTitle,
   Select,
 } from '@unoff/ui'
@@ -620,53 +619,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                       className={doClassnames([layouts['snackbar--medium']])}
                     >
                       <Feature
-                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
-                      >
-                        <Menu
-                          icon="help"
-                          options={[
-                            {
-                              type: 'OPTION',
-                              label: this.props.t('scale.howTo'),
-                              action: () => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'OPEN_IN_BROWSER',
-                                      data: {
-                                        url: this.props.config.urls.howToUseUrl,
-                                      },
-                                    },
-                                  },
-                                  '*'
-                                )
-                              },
-                            },
-                            {
-                              type: 'OPTION',
-                              label: this.props.t('scale.keyboardShortcuts'),
-                              action: () => {
-                                this.setState({
-                                  isTipsOpen: true,
-                                })
-                              },
-                            },
-                          ]}
-                          alignment="BOTTOM_RIGHT"
-                          helper={{
-                            label: this.props.t('scale.actions.help'),
-                          }}
-                          onBlock={() => {
-                            sendPluginMessage(
-                              {
-                                pluginMessage: { type: 'GET_PRO' },
-                              },
-                              '*'
-                            )
-                          }}
-                        />
-                      </Feature>
-                      <Feature
                         isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
                       >
                         <Select
@@ -709,6 +661,34 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                           isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
                         >
                           <this.DistributionEasing />
+                        </Feature>
+                      }
+                      rightPartSlot={
+                        <Feature
+                          isActive={this.features.SCALE_HELPER_TIPS.isActive()}
+                        >
+                          <Button
+                            type="icon"
+                            icon="help"
+                            helper={{
+                              label: this.props.t('scale.keyboardShortcuts'),
+                            }}
+                            isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
+                            isNew={this.features.SCALE_HELPER_TIPS.isNew()}
+                            onBlock={() => {
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: { type: 'GET_PRO' },
+                                },
+                                '*'
+                              )
+                            }}
+                            action={() => {
+                              this.setState({
+                                isTipsOpen: true,
+                              })
+                            }}
+                          />
                         </Feature>
                       }
                     />
