@@ -122,8 +122,8 @@ export default class ExportPalette extends PureComponent<
         format: 'JSON',
         context: 'TOKENS_NATIVE',
         mimeType: 'application/json',
-        data: new Code(
-          new Data({
+        data: new Code({
+          paletteData: new Data({
             base: {
               name: this.props.name,
               description: this.props.description,
@@ -135,8 +135,8 @@ export default class ExportPalette extends PureComponent<
               algorithmVersion: this.props.algorithmVersion,
             } as BaseConfiguration,
             themes: this.props.themes,
-          }).makePaletteData()
-        ).makeNativeTokens(),
+          }).makePaletteData(),
+        }).makeNativeTokens()[0].content,
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
@@ -186,7 +186,7 @@ export default class ExportPalette extends PureComponent<
       const zipEntries: Record<string, Uint8Array> = {}
       const encoder = new TextEncoder()
 
-      this.state.export.data.forEach(
+      JSON.parse(this.state.export.data).forEach(
         (theme: {
           name: string
           type: string
