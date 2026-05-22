@@ -46,7 +46,7 @@ import {
   Mode,
 } from '../../types/app'
 import { getDefaultPreset } from '../../stores/presets'
-import { $palette } from '../../stores/palette'
+import { $palette, $themes } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface EditPaletteProps
@@ -71,14 +71,8 @@ interface EditPaletteProps
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
   onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
-  onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
-  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
   onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
-  onLockSourceColors: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
   onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
@@ -257,12 +251,10 @@ export default class EditPalette extends PureComponent<
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
-    this.props.onChangeThemes({
-      scale: newScale,
-      themes: this.themesMessage.data,
-      visionSimulationMode: newVisionSimulationMode,
-      textColorsTheme: newTextColorsTheme,
-    })
+    this.palette.setKey('scale', newScale)
+    this.palette.setKey('visionSimulationMode', newVisionSimulationMode)
+    this.palette.setKey('textColorsTheme', newTextColorsTheme)
+    $themes.set(this.themesMessage.data)
   }
 
   setThemes = (): Array<DropdownOption> => {

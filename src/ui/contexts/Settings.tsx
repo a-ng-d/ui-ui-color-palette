@@ -11,7 +11,6 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../services/ManagePalette'
 import GlobalSettings from '../modules/settings/GlobalSettings'
 import DangerZone from '../modules/settings/DangerZone'
 import ContrastSettings from '../modules/settings/ContrastSettings'
@@ -28,7 +27,7 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import { $palette } from '../../stores/palette'
+import { $palette, $themes } from '../../stores/palette'
 import { trackSettingsManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -43,7 +42,6 @@ interface SettingsProps
   visionSimulationMode: VisionSimulationModeConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   algorithmVersion?: AlgorithmVersionConfiguration
-  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
   onDeletePalette?: () => void
 }
 
@@ -134,8 +132,6 @@ export default class Settings extends PureComponent<SettingsProps> {
       feature = target.dataset.feature ?? 'DEFAULT'
 
     const renamePalette = () => {
-      this.palette.setKey('name', target.value)
-
       this.settingsMessage.data.name = target.value
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -146,9 +142,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         this.props.algorithmVersion ??
         this.props.config.versions.algorithmVersion
 
-      this.props.onChangeSettings({
-        name: this.settingsMessage.data.name,
-      })
+      this.palette.setKey('name', this.settingsMessage.data.name)
 
       sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
@@ -166,8 +160,6 @@ export default class Settings extends PureComponent<SettingsProps> {
     }
 
     const updateDescription = () => {
-      this.palette.setKey('description', target.value)
-
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = target.value
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -178,9 +170,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         this.props.algorithmVersion ??
         this.props.config.versions.algorithmVersion
 
-      this.props.onChangeSettings({
-        description: this.settingsMessage.data.description,
-      })
+      this.palette.setKey('description', this.settingsMessage.data.description)
 
       sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
@@ -214,9 +204,7 @@ export default class Settings extends PureComponent<SettingsProps> {
         this.props.algorithmVersion ??
         this.props.config.versions.algorithmVersion
 
-      this.props.onChangeSettings({
-        colorSpace: this.settingsMessage.data.colorSpace,
-      })
+      this.palette.setKey('colorSpace', this.settingsMessage.data.colorSpace)
 
       sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
@@ -249,15 +237,18 @@ export default class Settings extends PureComponent<SettingsProps> {
         this.props.algorithmVersion ??
         this.props.config.versions.algorithmVersion
 
-      this.props.onChangeSettings({
-        themes: this.props.themes?.map((theme) => {
+      this.palette.setKey(
+        'visionSimulationMode',
+        this.settingsMessage.data.visionSimulationMode
+      )
+      $themes.set(
+        (this.props.themes ?? []).map((theme) => {
           if (theme.isEnabled)
             theme.visionSimulationMode =
               this.settingsMessage.data.visionSimulationMode
           return theme
-        }),
-        visionSimulationMode: this.settingsMessage.data.visionSimulationMode,
-      })
+        })
+      )
 
       sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
@@ -275,11 +266,6 @@ export default class Settings extends PureComponent<SettingsProps> {
     }
 
     const updateAlgorithmVersion = () => {
-      this.palette.setKey(
-        'algorithmVersion',
-        target.dataset.value as AlgorithmVersionConfiguration
-      )
-
       this.settingsMessage.data.name = this.props.name
       this.settingsMessage.data.description = this.props.description
       this.settingsMessage.data.colorSpace = this.props.colorSpace
@@ -289,9 +275,10 @@ export default class Settings extends PureComponent<SettingsProps> {
       this.settingsMessage.data.algorithmVersion = target.dataset
         .value as AlgorithmVersionConfiguration
 
-      this.props.onChangeSettings({
-        algorithmVersion: this.settingsMessage.data.algorithmVersion,
-      })
+      this.palette.setKey(
+        'algorithmVersion',
+        this.settingsMessage.data.algorithmVersion
+      )
 
       sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
@@ -327,17 +314,20 @@ export default class Settings extends PureComponent<SettingsProps> {
           this.props.config.versions.algorithmVersion
       }
 
-      this.props.onChangeSettings({
-        themes: this.props.themes?.map((theme) => {
+      this.palette.setKey(
+        'textColorsTheme',
+        this.settingsMessage.data.textColorsTheme
+      )
+      $themes.set(
+        (this.props.themes ?? []).map((theme) => {
           if (theme.isEnabled)
             theme.textColorsTheme = {
               ...theme.textColorsTheme,
               lightColor: code,
             }
           return theme
-        }),
-        textColorsTheme: this.settingsMessage.data.textColorsTheme,
-      })
+        })
+      )
 
       sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 
@@ -373,17 +363,20 @@ export default class Settings extends PureComponent<SettingsProps> {
           this.props.config.versions.algorithmVersion
       }
 
-      this.props.onChangeSettings({
-        themes: this.props.themes?.map((theme) => {
+      this.palette.setKey(
+        'textColorsTheme',
+        this.settingsMessage.data.textColorsTheme
+      )
+      $themes.set(
+        (this.props.themes ?? []).map((theme) => {
           if (theme.isEnabled)
             theme.textColorsTheme = {
               ...theme.textColorsTheme,
               darkColor: code,
             }
           return theme
-        }),
-        textColorsTheme: this.settingsMessage.data.textColorsTheme,
-      })
+        })
+      )
 
       sendPluginMessage({ pluginMessage: this.settingsMessage }, '*')
 

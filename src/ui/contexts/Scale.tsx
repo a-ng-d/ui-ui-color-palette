@@ -36,7 +36,7 @@ import {
   Service,
   Subservice,
 } from '../../types/app'
-import { $palette } from '../../stores/palette'
+import { $palette, $themes } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -51,13 +51,9 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   actions?: string
-  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeScale: () => void
-  onAddStop: React.Dispatch<Partial<ManagePaletteState>>
-  onRemoveStop: React.Dispatch<Partial<ManagePaletteState>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ScaleState {
@@ -192,9 +188,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
       }
     })
 
-    this.props.onChangeThemes({
-      themes: newThemes,
-    })
+    $themes.set(newThemes)
 
     sendPluginMessage(
       {
@@ -274,7 +268,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
       return { ...theme, scale: newScale }
     })
 
-    this.props.onChangeThemes({ themes: newThemes })
+    $themes.set(newThemes)
 
     sendPluginMessage(
       {

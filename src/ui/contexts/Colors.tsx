@@ -21,13 +21,13 @@ import {
   HexModel,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ColorsMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { trackSourceColorsManagementEvent } from '../../external/tracking/eventsTracker'
 import am from '../../content/images/alpha_mode.gif'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -36,7 +36,6 @@ interface ColorsProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   colors: Array<ColorConfiguration>
   shift: ShiftConfiguration
-  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 export default class Colors extends PureComponent<ColorsProps> {
@@ -126,16 +125,14 @@ export default class Colors extends PureComponent<ColorsProps> {
 
   // Handlers
   colorsHandler = (e: Event) => {
-    let id: string | null
     const element: HTMLElement | null =
         (e.target as HTMLElement).closest('.draggable-item') ??
-        (e.target as HTMLElement).closest('[data-id]'),
+        (e.target as HTMLElement).closest('[data-color-id]'),
       currentElement = e.currentTarget as HTMLInputElement
 
-    id = currentElement.getAttribute('data-color-id')
-
-    if (id === null)
-      element !== null ? (id = element.getAttribute('data-id')) : (id = null)
+    const id: string | null =
+      element?.getAttribute('data-id') ||
+      (element?.getAttribute('data-color-id') ?? null)
 
     const addColor = () => {
       const hasAlreadyNewUIColor = this.props.colors.filter((color) =>
@@ -166,9 +163,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         },
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -199,9 +194,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -240,9 +233,7 @@ export default class Colors extends PureComponent<ColorsProps> {
           return item
         })
 
-        this.props.onChangeColors({
-          colors: this.colorsMessage.data,
-        })
+        $palette.setKey('colors', this.colorsMessage.data)
       }
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -274,9 +265,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -307,9 +296,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -340,9 +327,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -375,9 +360,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -410,9 +393,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -438,9 +419,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
@@ -465,9 +444,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
       trackSourceColorsManagementEvent(
@@ -489,9 +466,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      console.log(this.colorsMessage.data)
+
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -517,11 +494,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      console.log(this.colorsMessage.data)
-
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -544,9 +517,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -568,9 +539,7 @@ export default class Colors extends PureComponent<ColorsProps> {
         (item) => item.id !== id
       )
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      $palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -614,9 +583,7 @@ export default class Colors extends PureComponent<ColorsProps> {
   onChangeOrder = (colors: Array<ColorConfiguration>) => {
     this.colorsMessage.data = colors
 
-    this.props.onChangeColors({
-      colors: this.colorsMessage.data,
-    })
+    $palette.setKey('colors', this.colorsMessage.data)
 
     sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -809,7 +776,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                           colorName: color.name,
                         }),
                         node: (() => (
-                          <div data-id={color.id}>
+                          <div data-color-id={color.id}>
                             <Feature
                               isActive={
                                 this.features.COLORS_PARAMS.isActive() &&

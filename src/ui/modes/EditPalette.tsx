@@ -54,7 +54,7 @@ import {
   Mode,
 } from '../../types/app'
 import { getDefaultPreset } from '../../stores/presets'
-import { $palette } from '../../stores/palette'
+import { $palette, $themes } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
 import {
   trackActionEvent,
@@ -85,14 +85,8 @@ interface EditPaletteProps
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
   onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
-  onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
-  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
   onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
-  onLockSourceColors: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
   onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
@@ -298,23 +292,19 @@ export default class EditPalette extends PureComponent<
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
-    this.props.onChangeThemes({
-      scale: newScale,
-      themes: this.themesMessage.data,
-      visionSimulationMode: newVisionSimulationMode,
-      textColorsTheme: newTextColorsTheme,
-    })
+    this.palette.setKey('scale', newScale)
+    this.palette.setKey('visionSimulationMode', newVisionSimulationMode)
+    this.palette.setKey('textColorsTheme', newTextColorsTheme)
+    $themes.set(this.themesMessage.data)
   }
 
   slideHandler = () => {
-    this.props.onChangeScale({
-      scale: this.palette.get().scale,
-      preset: this.palette.get().preset,
-      themes: this.props.themes.map((theme: ThemeConfiguration) => {
+    $themes.set(
+      this.props.themes.map((theme: ThemeConfiguration) => {
         if (theme.isEnabled) theme.scale = this.palette.get().scale
         return theme
-      }),
-    })
+      })
+    )
   }
 
   shiftHandler = (feature?: string, state?: string, value?: number) => {
@@ -365,10 +355,8 @@ export default class EditPalette extends PureComponent<
         return item
       })
 
-      this.props.onChangeColors({
-        shift: shift,
-        colors: this.colorsMessage.data,
-      })
+      this.palette.setKey('shift', shift)
+      this.palette.setKey('colors', this.colorsMessage.data)
     }
 
     const actions: {
@@ -867,9 +855,7 @@ export default class EditPalette extends PureComponent<
       },
     })
 
-    this.props.onChangeColors({
-      colors: this.colorsMessage.data,
-    })
+    this.palette.setKey('colors', this.colorsMessage.data)
 
     sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
@@ -904,10 +890,7 @@ export default class EditPalette extends PureComponent<
     this.scaleMessage.data = this.palette.value as ExchangeConfiguration
     sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
 
-    this.props.onChangePreset({
-      preset: preset,
-      scale: this.palette.get().scale,
-    })
+    this.palette.setKey('preset', preset)
   }
 
   // Render

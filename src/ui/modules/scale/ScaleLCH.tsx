@@ -17,7 +17,6 @@ import {
   EasingConfiguration,
   ShiftConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../../services/ManagePalette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -47,10 +46,7 @@ interface ScaleLCHProps
   scale: ScaleConfiguration
   shift: ShiftConfiguration
   textColorsTheme: { lightColor: string; darkColor: string }
-  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeScale: () => void
-  onAddStop: React.Dispatch<Partial<ManagePaletteState>>
-  onRemoveStop: React.Dispatch<Partial<ManagePaletteState>>
   onChangeShift: (feature?: string, state?: string, value?: number) => void
   onChangeThemes?: (scale: ScaleConfiguration) => void
   onChangeStops?: (stops: number[]) => void
@@ -245,11 +241,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
       this.palette.setKey('scale', scale(preset))
 
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-      })
-
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
       this.timeouts.push(
         setTimeout(() => this.props.onChangeThemes?.(scale(preset)), 1000)
@@ -277,11 +268,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
 
       this.palette.setKey('preset', preset)
       this.palette.setKey('scale', scale(preset))
-
-      this.props.onChangePreset({
-        preset: preset,
-        scale: scale(preset),
-      })
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
       this.timeouts.push(
@@ -531,7 +517,6 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
     this.palette.setKey('shift.hue', 0)
 
     this.props.onChangeScale()
-    this.props.onChangePreset({ preset: preset })
     this.props.onChangeShift('SHIFT_CHROMA', 'SHIFTED', 100)
     this.props.onChangeShift('SHIFT_HUE', 'SHIFTED', 0)
 

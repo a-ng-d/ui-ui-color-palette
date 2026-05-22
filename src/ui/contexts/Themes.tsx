@@ -20,13 +20,13 @@ import {
   TextColorsThemeConfiguration,
   ThemeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ThemesMessage } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
+import { $palette, $themes } from '../../stores/palette'
 import { trackColorThemesManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -36,7 +36,6 @@ interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   scale: ScaleConfiguration
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
-  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 export default class Themes extends PureComponent<ThemesProps> {
@@ -96,19 +95,38 @@ export default class Themes extends PureComponent<ThemesProps> {
     }
   }
 
+  // Helpers
+  private applyThemeChanges = (themes: Array<ThemeConfiguration>) => {
+    const enabled = themes.find((t) => t.isEnabled)
+    $themes.set(themes)
+    $palette.setKey('scale', enabled?.scale ?? {})
+    $palette.setKey(
+      'visionSimulationMode',
+      enabled?.visionSimulationMode ?? 'NONE'
+    )
+    $palette.setKey(
+      'textColorsTheme',
+      enabled?.textColorsTheme ?? {
+        lightColor: '#FFFFFF',
+        darkColor: '#000000',
+      }
+    )
+  }
+
   // Handlers
   themesHandler = (e: Event) => {
-    let id: string | null
     const element: HTMLElement | null =
         (e.target as HTMLElement).closest('.draggable-item') ??
-        (e.target as HTMLElement).closest('[data-id]'),
+        (e.target as HTMLElement).closest('[data-theme-id]'),
       currentElement = e.currentTarget as HTMLInputElement
 
-    element !== null ? (id = element.getAttribute('data-id')) : (id = null)
+    const id: string | null =
+      element?.getAttribute('data-id') ||
+      (element?.getAttribute('data-theme-id') ?? null)
 
     const addTheme = () => {
-      const hasAlreadyNewUITheme = this.props.themes.filter((color) =>
-        color.name.includes(this.props.t('themes.actions.new'))
+      const hasAlreadyNewUITheme = this.props.themes.filter((theme) =>
+        theme.name.includes(this.props.t('themes.actions.new'))
       )
 
       this.themesMessage.data = this.props.themes.map((theme) => {
@@ -134,19 +152,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         type: 'custom theme',
       })
 
-      const enabledTheme = this.themesMessage.data.find(
-        (theme) => theme.isEnabled
-      )
-
-      this.props.onChangeThemes({
-        scale: enabledTheme?.scale ?? {},
-        themes: this.themesMessage.data,
-        visionSimulationMode: enabledTheme?.visionSimulationMode ?? 'NONE',
-        textColorsTheme: enabledTheme?.textColorsTheme ?? {
-          lightColor: '#FFFFFF',
-          darkColor: '#000000',
-        },
-      })
+      this.applyThemeChanges(this.themesMessage.data)
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
@@ -165,7 +171,7 @@ export default class Themes extends PureComponent<ThemesProps> {
 
     const renameTheme = () => {
       const hasSameName = this.props.themes.filter(
-        (color) => color.name === currentElement.value
+        (theme) => theme.name === currentElement.value
       )
 
       this.themesMessage.data = this.props.themes.map((item) => {
@@ -177,11 +183,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         return item
       })
 
-      this.props.onChangeThemes({
-        scale:
-          this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
-        themes: this.themesMessage.data,
-      })
+      this.applyThemeChanges(this.themesMessage.data)
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
@@ -210,12 +212,7 @@ export default class Themes extends PureComponent<ThemesProps> {
           return item
         })
 
-        this.props.onChangeThemes({
-          scale:
-            this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ??
-            {},
-          themes: this.themesMessage.data,
-        })
+        this.applyThemeChanges(this.themesMessage.data)
       }
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
@@ -239,11 +236,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         return item
       })
 
-      this.props.onChangeThemes({
-        scale:
-          this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
-        themes: this.themesMessage.data,
-      })
+      this.applyThemeChanges(this.themesMessage.data)
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
@@ -275,19 +268,7 @@ export default class Themes extends PureComponent<ThemesProps> {
         if (result !== undefined) result.isEnabled = true
       }
 
-      const enabledTheme = this.themesMessage.data.find(
-        (theme) => theme.isEnabled
-      )
-
-      this.props.onChangeThemes({
-        scale: enabledTheme?.scale ?? {},
-        themes: this.themesMessage.data,
-        visionSimulationMode: enabledTheme?.visionSimulationMode ?? 'NONE',
-        textColorsTheme: enabledTheme?.textColorsTheme ?? {
-          lightColor: '#FFFFFF',
-          darkColor: '#000000',
-        },
-      })
+      this.applyThemeChanges(this.themesMessage.data)
 
       sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
@@ -320,8 +301,8 @@ export default class Themes extends PureComponent<ThemesProps> {
 
   // Direct Actions
   onAddTheme = () => {
-    const hasAlreadyNewUITheme = this.props.themes.filter((color) =>
-      color.name.includes(this.props.t('themes.actions.new'))
+    const hasAlreadyNewUITheme = this.props.themes.filter((theme) =>
+      theme.name.includes(this.props.t('themes.actions.new'))
     )
 
     this.themesMessage.data = this.props.themes.map((theme) => {
@@ -347,19 +328,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       type: 'custom theme',
     })
 
-    const enabledTheme = this.themesMessage.data.find(
-      (theme) => theme.isEnabled
-    )
-
-    this.props.onChangeThemes({
-      scale: enabledTheme?.scale ?? {},
-      themes: this.themesMessage.data,
-      visionSimulationMode: enabledTheme?.visionSimulationMode ?? 'NONE',
-      textColorsTheme: enabledTheme?.textColorsTheme ?? {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      },
-    })
+    this.applyThemeChanges(this.themesMessage.data)
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
@@ -383,11 +352,7 @@ export default class Themes extends PureComponent<ThemesProps> {
 
     this.themesMessage.data = defaultTheme.concat(themes)
 
-    this.props.onChangeThemes({
-      scale:
-        this.themesMessage.data.find((theme) => theme.isEnabled)?.scale ?? {},
-      themes: this.themesMessage.data,
-    })
+    this.applyThemeChanges(this.themesMessage.data)
 
     sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
 
@@ -588,7 +553,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                             themeName: theme.name,
                           }),
                           node: (() => (
-                            <div data-id={theme.id}>
+                            <div data-theme-id={theme.id}>
                               <Feature
                                 isActive={this.features.THEMES_PARAMS.isActive()}
                               >

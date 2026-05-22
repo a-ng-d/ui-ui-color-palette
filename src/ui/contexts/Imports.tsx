@@ -21,7 +21,6 @@ import {
   SourceColorConfiguration,
   ThirdParty,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -35,6 +34,7 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
 import {
   trackImportEvent,
@@ -47,7 +47,6 @@ interface ImportsProps
   id: string
   colors: Array<ColorConfiguration>
   creditsCount: number
-  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ImportsState {
@@ -61,6 +60,7 @@ interface ImportsState {
 
 export default class Imports extends PureComponent<ImportsProps, ImportsState> {
   private colorsMessage: ColorsMessage
+  private palette: typeof $palette
 
   static features = (
     planStatus: PlanStatus,
@@ -123,6 +123,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
 
   constructor(props: ImportsProps) {
     super(props)
+    this.palette = $palette
     this.colorsMessage = {
       type: 'UPDATE_COLORS',
       id: this.props.id,
@@ -246,9 +247,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
         isRealtimeColorsImportOpen: false,
       })
 
-      this.props.onChangeColors({
-        colors: this.colorsMessage.data,
-      })
+      this.palette.setKey('colors', this.colorsMessage.data)
 
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 

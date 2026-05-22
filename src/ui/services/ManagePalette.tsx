@@ -47,7 +47,15 @@ import {
   getPresets,
   updatePresets,
 } from '../../stores/presets'
-import { $palette, initializePaletteStore } from '../../stores/palette'
+import {
+  $creatorIdentity,
+  $dates,
+  $palette,
+  $publicationStatus,
+  $themes,
+  initializePaletteStore,
+} from '../../stores/palette'
+import { clearHistory, flush, suppressHistory } from '../../stores/history'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface ManagePaletteProps
@@ -87,6 +95,7 @@ export default class ManagePalette extends PureComponent<
 > {
   private palette: typeof $palette
   private theme: string | null
+  private subscribePalette: Array<() => void> = []
 
   private generateDefaultSourceColors = (): Array<SourceColorConfiguration> =>
     Array.from({ length: 5 }, () => {
@@ -201,14 +210,6 @@ export default class ManagePalette extends PureComponent<
     initializePaletteStore()
     updatePresets(this.props.t)
 
-    this.setState({
-      scale: doScale(
-        this.state.preset.stops,
-        this.state.preset.min,
-        this.state.preset.max,
-        this.state.preset.easing
-      ),
-    })
     this.palette.setKey(
       'scale',
       doScale(
@@ -218,6 +219,35 @@ export default class ManagePalette extends PureComponent<
         this.state.preset.easing
       )
     )
+
+    this.subscribePalette = [
+      $palette.subscribe(() => {
+        const p = $palette.get()
+        this.setState({
+          id: p.id as string,
+          name: p.name,
+          description: p.description,
+          preset: p.preset,
+          scale: p.scale,
+          shift: p.shift,
+          areSourceColorsLocked: p.areSourceColorsLocked,
+          colors: [...(p.colors as ColorConfiguration[])],
+          colorSpace: p.colorSpace,
+          visionSimulationMode: p.visionSimulationMode,
+          algorithmVersion: p.algorithmVersion,
+          textColorsTheme: p.textColorsTheme,
+          view: p.view as ViewConfiguration,
+        })
+      }),
+      $themes.subscribe((themes) => this.setState({ themes: [...themes] })),
+      $dates.subscribe((dates) => this.setState({ dates })),
+      $publicationStatus.subscribe((publicationStatus) =>
+        this.setState({ publicationStatus })
+      ),
+      $creatorIdentity.subscribe((creatorIdentity) =>
+        this.setState({ creatorIdentity })
+      ),
+    ]
 
     window.addEventListener(
       'platformMessage',
@@ -233,6 +263,9 @@ export default class ManagePalette extends PureComponent<
   }
 
   componentWillUnmount = () => {
+    if (this.subscribePalette)
+      this.subscribePalette.forEach((unsubscribe) => unsubscribe())
+
     window.removeEventListener(
       'platformMessage',
       this.handleMessage as EventListener
@@ -352,68 +385,40 @@ export default class ManagePalette extends PureComponent<
       ) ?? getDefaultPreset(this.props.t)
     const scale = doScale(preset.stops, preset.min, preset.max, preset.easing)
 
-    this.setState({
-      subservice: 'BROWSE',
-      id: '',
-      sourceColors: [
-        ...this.state.sourceColors.filter(
-          (sourceColor: SourceColorConfiguration) =>
-            sourceColor.source === 'CANVAS'
-        ),
-        ...this.generateDefaultSourceColors(),
-      ],
-      name: this.props.t('settings.global.name.default'),
-      description: '',
-      preset: preset,
-      scale: scale,
-      shift: {
-        chroma: 100,
-        hue: 0,
-      },
-      areSourceColorsLocked: false,
-      colors: [],
-      themes: [],
-      colorSpace: 'LCH',
-      visionSimulationMode: 'NONE',
-      view: 'PALETTE_WITH_PROPERTIES',
-      algorithmVersion: this.props.config.versions.algorithmVersion,
-      textColorsTheme: {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      },
-      dates: {
+    suppressHistory(() => {
+      this.palette.set({
+        ...this.palette.get(),
+        id: '',
+        name: this.props.t('settings.global.name.default'),
+        description: '',
+        preset,
+        scale,
+        shift: { chroma: 100, hue: 0 },
+        areSourceColorsLocked: false,
+        colors: [],
+        colorSpace: 'LCH',
+        visionSimulationMode: 'NONE',
+        view: 'PALETTE_WITH_PROPERTIES',
+        algorithmVersion: this.props.config.versions.algorithmVersion,
+        textColorsTheme: { lightColor: '#FFFFFF', darkColor: '#000000' },
+      })
+      $themes.set([])
+      $dates.set({
         createdAt: '',
         updatedAt: '',
         publishedAt: '',
         openedAt: '',
-      },
-      publicationStatus: {
-        isPublished: false,
-        isShared: false,
-      },
-      creatorIdentity: {
+      })
+      $publicationStatus.set({ isPublished: false, isShared: false })
+      $creatorIdentity.set({
         creatorId: '',
         creatorFullName: '',
         creatorAvatar: '',
-      },
+      })
     })
 
-    this.palette.setKey('name', this.props.t('settings.global.name.default'))
-    this.palette.setKey('description', '')
-    this.palette.setKey('preset', preset)
-    this.palette.setKey('scale', scale)
-    this.palette.setKey('shift', {
-      chroma: 100,
-      hue: 0,
-    })
-    this.palette.setKey('areSourceColorsLocked', false)
-    this.palette.setKey('colorSpace', 'LCH')
-    this.palette.setKey('visionSimulationMode', 'NONE')
-    this.palette.setKey('view', 'PALETTE_WITH_PROPERTIES')
-    this.palette.setKey('textColorsTheme', {
-      lightColor: '#FFFFFF',
-      darkColor: '#000000',
-    })
+    clearHistory()
+    this.setState({ subservice: 'BROWSE' })
   }
 
   onLoadPalette = (palette: {
@@ -424,67 +429,51 @@ export default class ManagePalette extends PureComponent<
     const theme: ThemeConfiguration | undefined = palette.themes.find(
       (theme: ThemeConfiguration) => theme.isEnabled
     )
+    const isNewPalette = palette.meta.id !== (this.palette.get().id as string)
 
-    this.palette.setKey('id', palette.meta.id)
-    this.palette.setKey('name', palette.base.name)
-    this.palette.setKey('description', palette.base.description)
-    this.palette.setKey('preset', palette.base.preset)
-    this.palette.setKey('scale', theme?.scale ?? {})
-    this.palette.setKey('shift', palette.base.shift)
-    this.palette.setKey(
-      'areSourceColorsLocked',
-      palette.base.areSourceColorsLocked
-    )
-    this.palette.setKey('colors', palette.base.colors)
-    this.palette.setKey('colorSpace', palette.base.colorSpace)
-    this.palette.setKey(
-      'visionSimulationMode',
-      theme?.visionSimulationMode ?? 'NONE'
-    )
-    this.palette.setKey('algorithmVersion', palette.base.algorithmVersion)
-    this.palette.setKey(
-      'textColorsTheme',
-      theme?.textColorsTheme ?? {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      }
-    )
+    // Commit tout edit en attente avant que le parent écrase le state
+    flush()
 
-    this.setState({
-      subservice: 'OPEN',
-      id: palette.meta.id,
-      name: palette.base.name,
-      description: palette.base.description,
-      preset: palette.base.preset,
-      scale: theme?.scale ?? {},
-      shift: palette.base.shift,
-      areSourceColorsLocked: palette.base.areSourceColorsLocked,
-      colors: palette.base.colors,
-      colorSpace: palette.base.colorSpace,
-      visionSimulationMode: theme?.visionSimulationMode ?? 'NONE',
-      themes: palette.themes,
-      view: (palette.base.view as ViewConfiguration) ?? 'PALETTE',
-      algorithmVersion: palette.base.algorithmVersion,
-      textColorsTheme: theme?.textColorsTheme ?? {
-        lightColor: '#FFFFFF',
-        darkColor: '#000000',
-      },
-      dates: {
+    suppressHistory(() => {
+      this.palette.set({
+        ...this.palette.get(),
+        id: palette.meta.id,
+        name: palette.base.name,
+        description: palette.base.description,
+        preset: palette.base.preset,
+        scale: theme?.scale ?? {},
+        shift: palette.base.shift,
+        areSourceColorsLocked: palette.base.areSourceColorsLocked,
+        colors: palette.base.colors,
+        colorSpace: palette.base.colorSpace,
+        visionSimulationMode: theme?.visionSimulationMode ?? 'NONE',
+        algorithmVersion: palette.base.algorithmVersion,
+        textColorsTheme: theme?.textColorsTheme ?? {
+          lightColor: '#FFFFFF',
+          darkColor: '#000000',
+        },
+        view: (palette.base.view as ViewConfiguration) ?? 'PALETTE',
+      })
+      $themes.set(palette.themes)
+      $dates.set({
         createdAt: palette.meta.dates.createdAt,
         updatedAt: palette.meta.dates.updatedAt,
         publishedAt: palette.meta.dates.publishedAt,
         openedAt: palette.meta.dates.openedAt,
-      },
-      publicationStatus: {
+      })
+      $publicationStatus.set({
         isPublished: palette.meta.publicationStatus.isPublished,
         isShared: palette.meta.publicationStatus.isShared,
-      },
-      creatorIdentity: {
+      })
+      $creatorIdentity.set({
         creatorId: palette.meta.creatorIdentity.creatorId,
         creatorFullName: palette.meta.creatorIdentity.creatorFullName,
         creatorAvatar: palette.meta.creatorIdentity.creatorAvatar,
-      },
+      })
     })
+
+    if (isNewPalette) clearHistory()
+    this.setState({ subservice: 'OPEN' })
   }
 
   // Renders
@@ -513,13 +502,7 @@ export default class ManagePalette extends PureComponent<
               {...this.props}
               {...this.state}
               onChangeMode={(e) => this.setState({ ...e })}
-              onChangeScale={(e) => this.setState({ ...e })}
-              onChangePreset={(e) => this.setState({ ...e })}
               onChangeDistributionEasing={(e) => this.setState({ ...e })}
-              onChangeColors={(e) => this.setState({ ...e })}
-              onChangeThemes={(e) => this.setState({ ...e })}
-              onChangeSettings={(e) => this.setState({ ...e })}
-              onLockSourceColors={(e) => this.setState({ ...e })}
               onUnloadPalette={this.onResetPalette}
               onChangeDocument={(e) => this.setState({ ...e })}
               onDeletePalette={this.onResetPalette}

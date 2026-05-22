@@ -25,7 +25,6 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
-import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
@@ -73,9 +72,7 @@ interface PreviewProps
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   selectedShade?: { colorIndex: number; shadeIndex: number } | null
   themeOptions: Array<DropdownOption>
-  onLockSourceColors?: React.Dispatch<Partial<ManagePaletteState>>
   onResetSourceColors?: () => void
-  onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
   onAddColor?: () => void
   onAddStop?: () => void
   onInteractWithSourceColor?: (colorId: string) => void
@@ -300,10 +297,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     const lockSourceColors = () => {
       this.palette.setKey('areSourceColorsLocked', true)
 
-      this.props.onLockSourceColors?.({
-        areSourceColorsLocked: true,
-      })
-
       sendPluginMessage(
         {
           pluginMessage: {
@@ -335,10 +328,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
 
     const unlockSourceColors = () => {
       this.palette.setKey('areSourceColorsLocked', false)
-
-      this.props.onLockSourceColors?.({
-        areSourceColorsLocked: false,
-      })
 
       sendPluginMessage(
         {
@@ -376,10 +365,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         target.dataset.value as ColorSpaceConfiguration
       )
 
-      this.props.onChangeSettings?.({
-        colorSpace: target.dataset.value as ColorSpaceConfiguration,
-      })
-
       sendPluginMessage(
         {
           pluginMessage: {
@@ -416,11 +401,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         'visionSimulationMode',
         target.dataset.value as VisionSimulationModeConfiguration
       )
-
-      this.props.onChangeSettings?.({
-        visionSimulationMode: target.dataset
-          .value as VisionSimulationModeConfiguration,
-      })
 
       if (this.props.themes !== undefined)
         sendPluginMessage(

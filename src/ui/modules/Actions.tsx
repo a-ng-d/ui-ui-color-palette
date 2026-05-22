@@ -21,9 +21,9 @@ import {
   PublicationConfiguration,
 } from '@a_ng_d/utils-ui-color-palette'
 import { OpenPaletteState } from '../subservices/OpenPalette'
-import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import UndoRedoButtons from '../components/UndoRedoButtons'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
@@ -62,7 +62,6 @@ interface ActionsProps
   ) => void
   onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
     React.KeyboardEventHandler<HTMLButtonElement>
-  onChangeSettings?: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette?: () => void
 }
 
@@ -294,10 +293,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     this.palette.setKey('name', e.currentTarget.value)
-    if (this.props.onChangeSettings)
-      this.props.onChangeSettings({
-        name: e.currentTarget.value,
-      })
+
     sendPluginMessage(
       {
         pluginMessage: {
@@ -559,6 +555,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               }}
               action={this.props.onUnloadPalette}
             />
+            <UndoRedoButtons />
             <div
               style={{
                 flex: '0 1 200px',

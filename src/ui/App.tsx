@@ -36,6 +36,7 @@ import {
   $isWCAGDisplayed,
   $isWCAGIntervalDisplayed,
 } from '../stores/preferences'
+import { initHistory, redo, teardownHistory, undo } from '../stores/history'
 import { $creditsCount } from '../stores/credits'
 import {
   $userConsent,
@@ -247,6 +248,8 @@ class App extends Component<AppProps, AppState> {
       '*'
     )
 
+    initHistory()
+
     this.subsscribeSuggestedLanguage = $isSuggestedLanguageDisplayed.subscribe(
       (value) => {
         this.setState({
@@ -364,6 +367,7 @@ class App extends Component<AppProps, AppState> {
       this.handleMessage as EventListener
     )
     window.addEventListener('resize', this.handleResize)
+    window.addEventListener('keydown', this.handleKeydown)
   }
 
   componentWillUnmount = () => {
@@ -371,11 +375,31 @@ class App extends Component<AppProps, AppState> {
     if (this.subscribeUserConsent) this.subscribeUserConsent()
     if (this.subscribeCreditCount) this.subscribeCreditCount()
 
+    teardownHistory()
+
     window.removeEventListener(
       'platformMessage',
       this.handleMessage as EventListener
     )
     window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('keydown', this.handleKeydown)
+  }
+
+  handleKeydown = (e: KeyboardEvent) => {
+    if (!(e.metaKey || e.ctrlKey)) return
+    if (e.key !== 'z' && e.key !== 'Z') return
+
+    const active = document.activeElement
+    if (
+      active instanceof HTMLInputElement ||
+      active instanceof HTMLTextAreaElement ||
+      (active instanceof HTMLElement && active.isContentEditable)
+    )
+      return
+
+    e.preventDefault()
+    if (e.shiftKey) redo()
+    else undo()
   }
 
   // Handlers

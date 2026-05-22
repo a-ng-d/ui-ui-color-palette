@@ -50,14 +50,8 @@ interface OpenPaletteProps
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
   onChangeMode: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeScale: React.Dispatch<Partial<ManagePaletteState>>
-  onChangePreset: React.Dispatch<Partial<ManagePaletteState>>
   onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeColors: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeThemes: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeSettings: React.Dispatch<Partial<ManagePaletteState>>
   onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
-  onLockSourceColors: React.Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
   onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
