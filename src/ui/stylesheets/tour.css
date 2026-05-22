@@ -71,7 +71,10 @@
   color: var(--button-primary-text-color-hover);
 }
 
-.driver-popover-footer .driver-popover-next-btn:focus-visible {
+.driver-popover-footer .driver-popover-next-btn:focus-visible,
+.driver-popover-footer .driver-popover-next-btn:focus {
+  background-color: var(--button-primary-background-color-focus);
+  color: var(--button-primary-text-color-focus);
   outline: var(--button-primary-border-width-focus) solid
     var(--button-primary-border-color-focus);
   outline-offset: var(--button-primary-border-offset-focus);
@@ -95,7 +98,10 @@
   color: var(--button-secondary-text-color-hover);
 }
 
-.driver-popover-footer .driver-popover-prev-btn:focus-visible {
+.driver-popover-footer .driver-popover-prev-btn:focus-visible,
+.driver-popover-footer .driver-popover-prev-btn:focus {
+  background-color: var(--button-secondary-background-color-focus);
+  color: var(--button-secondary-text-color-focus);
   outline: var(--button-secondary-border-width-focus) solid
     var(--button-secondary-border-color-focus);
   outline-offset: var(--button-secondary-border-offset-focus);
@@ -125,6 +131,7 @@
   color: var(--button-base-icon-color);
   font-size: 16px;
   text-align: center;
+  color: var(--button-base-text-color);
 }
 
 .driver-popover-close-btn:hover {
@@ -132,7 +139,10 @@
   color: var(--button-base-text-color);
 }
 
-.driver-popover-close-btn:focus-visible {
+.driver-popover-close-btn:focus-visible,
+.driver-popover-close-btn:focus {
+  background-color: var(--icon-button-default-background-color-focus);
+  color: var(--button-base-text-color);
   outline: var(--button-secondary-border-width-focus) solid
     var(--button-secondary-border-color-focus);
   outline-offset: var(--button-secondary-border-offset-focus);

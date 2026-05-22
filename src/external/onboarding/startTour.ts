@@ -129,17 +129,14 @@ const startTour = async (t: TFunction, callbacks: TourCallbacks) => {
           callbacks.setEditContext('SETTINGS')
           break
         case 6:
-          callbacks.setEditContext('')
-          break
-        case 7:
           callbacks.setMode('EDIT')
           await wait(100)
           callbacks.setEditContext('')
           break
-        case 8:
+        case 7:
           callbacks.setInspectContext('')
           break
-        case 9:
+        case 8:
           callbacks.setMode('INSPECT')
           await wait(100)
           callbacks.setInspectContext('')
