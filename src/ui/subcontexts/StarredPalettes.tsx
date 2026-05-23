@@ -243,7 +243,8 @@ export default class StarredPalettes extends PureComponent<
             algorithm_version,
             creator_avatar_url,
             creator_full_name,
-            is_shared
+            is_shared,
+            star_count
           )
         `
         )
@@ -286,7 +287,8 @@ export default class StarredPalettes extends PureComponent<
             algorithm_version,
             creator_avatar_url,
             creator_full_name,
-            is_shared
+            is_shared,
+            star_count
           )
         `
         )
