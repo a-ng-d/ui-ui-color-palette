@@ -721,13 +721,13 @@
       "code": "SAVE20"
     },
     "figma": {
-      "cta": "Ir para /pro apenas para Figma",
+      "cta": "Assinar via Figma",
       "subtitle": {
         "discount": "$48 /ano no Figma",
         "regular": "$5 /mês no Figma"
       },
-      "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
-      "title": "UI Color Palette /pro /figma"
+      "text": "Se a janela de pagamento não abriu ou algo deu errado, você pode assinar o /pro diretamente pelo Figma. Planos mensais e anuais disponíveis.",
+      "title": "Pagamento via Figma"
     },
     "jump": {
       "cta": "Ir para /one",

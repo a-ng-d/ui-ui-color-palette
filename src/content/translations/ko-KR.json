@@ -721,13 +721,13 @@
       "code": "SAVE20"
     },
     "figma": {
-      "cta": "Figma 전용 /pro로 이동",
+      "cta": "Figma로 구독하기",
       "subtitle": {
         "discount": "Figma에서 $48 /year",
         "regular": "Figma에서 $5 /month"
       },
-      "text": "◻ 무제한 팔레트</br>◻ 무제한 소스 색상</br>◻ 무제한 스톱</br>◻ 무제한 색상 모드</br>◻ 무제한 크레딧",
-      "title": "UI Color Palette /pro /figma"
+      "text": "결제 창이 열리지 않거나 문제가 발생한 경우, Figma를 통해 직접 /pro를 구독할 수 있습니다. 월간 및 연간 플랜을 이용할 수 있습니다.",
+      "title": "Figma를 통해 결제"
     },
     "jump": {
       "cta": "/one으로 이동",

@@ -721,13 +721,13 @@
       "code": "SAVE20"
     },
     "figma": {
-      "cta": "仅为 Figma 升级 /pro",
+      "cta": "通过 Figma 订阅",
       "subtitle": {
         "discount": "Figma 上每年 $48",
         "regular": "Figma 上每月 $5"
       },
-      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
-      "title": "UI Color Palette /pro /figma"
+      "text": "如果结账窗口未打开或出现问题，您可以直接通过 Figma 订阅 /pro。提供月度和年度方案。",
+      "title": "通过 Figma 结账"
     },
     "jump": {
       "cta": "跳转到 /one",

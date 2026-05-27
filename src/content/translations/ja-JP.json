@@ -721,13 +721,13 @@
       "code": "SAVE20"
     },
     "figma": {
-      "cta": "Figma専用/proへ",
+      "cta": "Figmaで登録する",
       "subtitle": {
         "discount": "Figmaで$48 /year",
         "regular": "Figmaで$5 /month"
       },
-      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード</br>◻ 無制限のクレジット",
-      "title": "UI Color Palette /pro /figma"
+      "text": "チェックアウトウィンドウが開かなかった場合や問題が発生した場合は、Figmaから直接/proにご登録いただけます。月次プランと年次プランをご利用いただけます。",
+      "title": "Figma経由で購入"
     },
     "jump": {
       "cta": "/oneへ移動",

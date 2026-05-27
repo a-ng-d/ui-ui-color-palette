@@ -8,6 +8,7 @@ import ja_JP from '../content/translations/ja-JP.json'
 import fr_FR from '../content/translations/fr-FR.json'
 import es_ES from '../content/translations/es-ES.json'
 import en_US from '../content/translations/en-US.json'
+import uicpf from '../content/images/uicp_figma.webp'
 import updateThemes from './updates/updateThemes'
 import updateSettings from './updates/updateSettings'
 import updateScale from './updates/updateScale'
@@ -287,7 +288,13 @@ else {
         iframe?.contentWindow?.postMessage({
           type: 'GET_PRICING',
           data: {
-            licenseTrigger: 'ACTIVATE',
+            licenseTrigger: {
+              type: 'CUSTOM_CHECKOUT',
+              imageSrc: uicpf,
+              title: tolgee.t('pricing.figma.title'),
+              text: tolgee.t('pricing.figma.text'),
+              cta: tolgee.t('pricing.figma.cta'),
+            },
           },
         }),
       GET_LICENSE: async () =>

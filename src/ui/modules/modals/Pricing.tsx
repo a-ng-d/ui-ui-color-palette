@@ -33,7 +33,6 @@ import { signIn } from '../../../external/auth/authentication'
 import uicpu from '../../../content/images/uicp_ultimate.webp'
 import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
-import uicpj from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PricingProps
@@ -213,7 +212,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         subtitle={this.props.t('pricing.pro.subtitles.week', {
           price: this.getLocalizedPrice(
             this.props.config.urls.storeProWeekUrl,
-            '$3'
+            '$3.99'
           ),
         })}
         richText={
@@ -273,7 +272,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         subtitle={this.props.t('pricing.pro.subtitles.month', {
           price: this.getLocalizedPrice(
             this.props.config.urls.storeProMonthUrl,
-            '$5'
+            '$7.99'
           ),
         })}
         richText={
@@ -333,7 +332,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         subtitle={this.props.t('pricing.pro.subtitles.year', {
           price: this.getLocalizedPrice(
             this.props.config.urls.storeProYearUrl,
-            '$4'
+            '$75.99'
           ),
         })}
         richText={
@@ -392,7 +391,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         subtitle={this.props.t('pricing.pro.subtitles.lifetime', {
           price: this.getLocalizedPrice(
             this.props.config.urls.storeProLifetimeUrl,
-            '$96'
+            '$149.99'
           ),
         })}
         richText={
@@ -485,26 +484,24 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     )
   }
 
-  Jump = () => {
+  CustomCheckout = () => {
     return (
       <Card
-        src={uicpj}
-        title={this.props.t('pricing.jump.title')}
+        src={this.props.licenseTrigger.imageSrc}
+        title={this.props.licenseTrigger.title}
         richText={
-          <span className={texts.type}>
-            {this.props.t('pricing.jump.text')}
-          </span>
+          <span className={texts.type}>{this.props.licenseTrigger.text}</span>
         }
         actions={
           <Button
             type="primary"
-            label={this.props.t('pricing.jump.cta')}
+            label={this.props.licenseTrigger.cta}
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
                 {
                   pluginMessage: {
-                    type: 'GET_LICENSE',
+                    type: 'GO_TO_CHECKOUT',
                   },
                 },
                 '*'
@@ -517,7 +514,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           sendPluginMessage(
             {
               pluginMessage: {
-                type: 'GET_LICENSE',
+                type: 'GO_TO_CHECKOUT',
               },
             },
             '*'
@@ -794,7 +791,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 {this.state.selectedPlan === 'YEAR' && <this.Year />}
                 {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
                 <this.Ultimate />
-                {this.props.licenseTrigger === 'ACTIVATE' && <this.Activate />}
+                {this.props.licenseTrigger.type === 'ACTIVATE' && (
+                  <this.Activate />
+                )}
+                {this.props.licenseTrigger.type === 'CUSTOM_CHECKOUT' && (
+                  <this.CustomCheckout />
+                )}
               </div>
             </div>
           )}
