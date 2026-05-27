@@ -1177,9 +1177,9 @@ export default class EditPalette extends PureComponent<
                           })
                         }
                       />
-                      <UndoRedoButtons />
                     </div>
                   }
+                  rightPartSlot={<UndoRedoButtons />}
                   isVertical
                 />
               ),
