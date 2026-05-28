@@ -1,5 +1,5 @@
-import React from 'react'
 import { Component, createPortal } from 'preact/compat'
+import { createRef } from 'preact'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -94,7 +94,7 @@ class App extends Component<AppProps, AppState> {
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
   private isFirstCreditCountSubscription = true
-  private managePaletteRef = React.createRef<ManagePalette>()
+  private managePaletteRef = createRef<ManagePalette>()
 
   static features = (
     planStatus: PlanStatus,
@@ -224,7 +224,7 @@ class App extends Component<AppProps, AppState> {
         message: '',
         timer: 5000,
       },
-      licenseTrigger: 'ACTIVATE',
+      licenseTrigger: { type: 'ACTIVATE' },
       suggestedLanguage: null,
       isSuggestedLanguageDisplayed: true,
       isLoaded: false,

@@ -1,5 +1,7 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  MouseEvent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Button, Card, Dialog, List, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -11,7 +13,7 @@ import isb from '../../../content/images/isb_product_thumbnail.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface StoreProps extends BaseProps, WithConfigProps, WithTranslationProps {
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 export default class Store extends PureComponent<StoreProps> {
@@ -92,7 +94,7 @@ export default class Store extends PureComponent<StoreProps> {
                 <Button
                   type="primary"
                   label={this.props.t('store.isb.cta')}
-                  action={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  action={(e: MouseEvent<HTMLButtonElement>) => {
                     e.stopPropagation()
                     sendPluginMessage(
                       {

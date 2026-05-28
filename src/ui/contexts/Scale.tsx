@@ -1,4 +1,3 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
@@ -39,6 +38,7 @@ import {
 import { $palette, $themes } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   subservice: Subservice
@@ -53,7 +53,7 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   actions?: string
   onChangeScale: () => void
   onChangeShift: (feature?: string, state?: string, value?: number) => void
-  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDistributionEasing: Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ScaleState {

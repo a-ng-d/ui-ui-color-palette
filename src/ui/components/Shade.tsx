@@ -1,4 +1,3 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { doClassnames, FeatureStatus } from '@unoff/utils'

@@ -1,4 +1,4 @@
-import React from 'react'
+import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { layouts, Menu } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -41,7 +41,7 @@ interface ScoresControlsProps
   }) => void
 }
 
-export default class ScoresControls extends React.PureComponent<ScoresControlsProps> {
+export default class ScoresControls extends PureComponent<ScoresControlsProps> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

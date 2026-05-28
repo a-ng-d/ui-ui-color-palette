@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext } from 'react'
+import { createContext, useContext, useEffect, type ReactNode } from 'preact/compat'
 
 export type Theme = 'figma' | 'penpot' | 'sketch' | 'framer'
 export type Mode =
@@ -30,7 +30,7 @@ export const ThemeProvider = ({
   mode,
   children,
 }: ThemeProviderProps) => {
-  React.useEffect(() => {
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     document.documentElement.setAttribute('data-mode', mode)
   }, [theme, mode])

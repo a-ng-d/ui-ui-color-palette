@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react'
+import { ComponentType } from 'preact'
 import { useTranslate } from '@tolgee/react'
 
 export interface WithTranslationProps {

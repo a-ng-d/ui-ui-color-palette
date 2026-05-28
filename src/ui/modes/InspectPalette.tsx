@@ -1,6 +1,6 @@
 import type { DropdownOption } from '@unoff/ui'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import { createRef, RefObject } from 'preact'
 import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import { Bar, Button, Layout, layouts } from '@unoff/ui'
@@ -48,6 +48,7 @@ import {
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette, $themes } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface EditPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -70,11 +71,11 @@ interface EditPaletteProps
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
-  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
-  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
-  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeMode: Dispatch<Partial<OpenPaletteState>>
+  onChangeDistributionEasing: Dispatch<Partial<ManagePaletteState>>
+  onPublishPalette: Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
-  onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDocument: Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
 }
 
@@ -99,8 +100,8 @@ export default class EditPalette extends PureComponent<
 > {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
-  private themesRef: React.RefObject<Themes>
-  private previewRef: React.RefObject<Preview>
+  private themesRef: RefObject<Themes>
+  private previewRef: RefObject<Preview>
   private theme: string | null
   private palette: typeof $palette
 
@@ -171,8 +172,8 @@ export default class EditPalette extends PureComponent<
       isSecondaryLoading: false,
       shadeReport: null,
     }
-    this.themesRef = React.createRef()
-    this.previewRef = React.createRef()
+    this.themesRef = createRef()
+    this.previewRef = createRef()
     this.theme = document.documentElement.getAttribute('data-theme')
   }
 

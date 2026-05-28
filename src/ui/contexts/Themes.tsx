@@ -1,5 +1,5 @@
 import { uid } from 'uid'
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import {

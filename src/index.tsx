@@ -1,5 +1,4 @@
-import { createRoot } from 'react-dom/client'
-import React from 'react'
+import { render } from 'preact'
 import mixpanel from 'mixpanel-browser'
 import { TolgeeProvider } from '@tolgee/react'
 import * as Sentry from '@sentry/react'
@@ -26,8 +25,7 @@ import en_US from './content/translations/en-US.json'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
 
-const container = document.getElementById('app'),
-  root = createRoot(container)
+const container = document.getElementById('app')!
 
 const mixpanelUrl = import.meta.env.VITE_MIXPANEL_URL
 const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN
@@ -164,7 +162,7 @@ window.addEventListener('pluginMessage', ((event: MessageEvent) => {
 }) as EventListener)
 
 tolgee?.run().then(() => {
-  root.render(
+  render(
     <TolgeeProvider
       tolgee={tolgee}
       fallback="Loading..."
@@ -187,7 +185,8 @@ tolgee?.run().then(() => {
           <App />
         </ThemeProvider>
       </ConfigProvider>
-    </TolgeeProvider>
+    </TolgeeProvider>,
+    container
   )
 })
 

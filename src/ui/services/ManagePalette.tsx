@@ -1,8 +1,8 @@
 import { uid } from 'uid'
-import React from 'react'
 import 'driver.js/dist/driver.css'
 import '../stylesheets/tour.css'
 import { PureComponent } from 'preact/compat'
+import { createRef } from 'preact'
 import chroma from 'chroma-js'
 import { doScale, FeatureStatus } from '@unoff/utils'
 import {
@@ -101,7 +101,7 @@ export default class ManagePalette extends PureComponent<
   private palette: typeof $palette
   private theme: string | null
   private subscribePalette: Array<() => void> = []
-  private openPaletteRef = React.createRef<OpenPalette>()
+  private openPaletteRef = createRef<OpenPalette>()
 
   private generateDefaultSourceColors = (): Array<SourceColorConfiguration> =>
     Array.from({ length: 5 }, () => {

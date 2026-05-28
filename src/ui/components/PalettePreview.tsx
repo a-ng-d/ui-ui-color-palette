@@ -1,4 +1,3 @@
-import React from 'react'
 import { doClassnames } from '@unoff/utils'
 import { PaletteDataColorItem } from '@a_ng_d/utils-ui-color-palette'
 

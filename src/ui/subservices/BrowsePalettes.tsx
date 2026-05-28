@@ -1,5 +1,5 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import { createRef } from 'preact'
 import { FeatureStatus } from '@unoff/utils'
 import { Bar, Button, layouts, Tabs } from '@unoff/ui'
 import {
@@ -31,12 +31,14 @@ import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
 import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
+import type { ComponentChildren } from 'preact'
 
 interface BrowsePalettesProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   document: DocumentConfiguration
   sourceColors: Array<SourceColorConfiguration>
-  onCreatePalette: React.Dispatch<Partial<ManagePaletteState>>
+  onCreatePalette: Dispatch<Partial<ManagePaletteState>>
   onSeePalette: (palette: {
     base: BaseConfiguration
     themes: Array<ThemeConfiguration>
@@ -58,7 +60,7 @@ export default class BrowsePalettes extends PureComponent<
 > {
   private contexts: Array<ContextItem>
   private theme: string | null
-  private remotePalettesRef = React.createRef<RemotePalettes>()
+  private remotePalettesRef = createRef<RemotePalettes>()
   private palette = $palette
 
   static features = (
@@ -318,7 +320,7 @@ export default class BrowsePalettes extends PureComponent<
       }
     }
 
-    const buttons = [] as React.ReactNode[]
+    const buttons = [] as ComponentChildren[]
 
     if (this.props.document.isLinkedToPalette !== undefined)
       if (this.props.document.isLinkedToPalette)

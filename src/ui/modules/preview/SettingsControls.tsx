@@ -1,4 +1,6 @@
-import React from 'react'
+import { PureComponent,
+  ChangeEvent,
+} from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { layouts, Button, Dropdown, DropdownOption, Menu } from '@unoff/ui'
 import {
@@ -35,11 +37,11 @@ interface SettingsControlsProps
   onAddColor?: () => void
   onAddStop?: () => void
   onColorSettingsHandler: (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLLIElement>
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLLIElement>
   ) => void
 }
 
-export default class SettingsControls extends React.PureComponent<SettingsControlsProps> {
+export default class SettingsControls extends PureComponent<SettingsControlsProps> {
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,

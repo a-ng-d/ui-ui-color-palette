@@ -1,4 +1,3 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus, doScale } from '@unoff/utils'
 import {

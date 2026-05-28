@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext } from 'react'
+import { createContext, useContext, type ReactNode } from 'preact/compat'
 import { Config } from '../types/config'
 
 export type ConfigContextType = Config

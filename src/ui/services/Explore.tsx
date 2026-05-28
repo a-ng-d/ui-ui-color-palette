@@ -1,5 +1,4 @@
 import { uid } from 'uid'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
@@ -40,11 +39,12 @@ import {
   trackImportEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface ExploreProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
-  onChangeService: React.Dispatch<Partial<AppState>>
+  onChangeService: Dispatch<Partial<AppState>>
 }
 
 interface ExploreState {

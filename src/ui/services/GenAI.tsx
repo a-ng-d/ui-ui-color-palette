@@ -1,5 +1,4 @@
 import { uid } from 'uid'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
@@ -31,10 +30,11 @@ import {
 } from '../../external/tracking/eventsTracker'
 import { getMistral, MistralColorPalette } from '../../external/mistral'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface GenAiProps extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
-  onChangeService: React.Dispatch<Partial<AppState>>
+  onChangeService: Dispatch<Partial<AppState>>
 }
 
 interface GenAiState {

@@ -1,5 +1,4 @@
-import { createPortal } from 'react-dom'
-import React from 'react'
+import { createPortal } from 'preact/compat'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {

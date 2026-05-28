@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  MouseEventHandler,
+} from 'preact/compat'
 import chroma from 'chroma-js'
 import { FeatureStatus } from '@unoff/utils'
 import { Button, Chip } from '@unoff/ui'
@@ -16,7 +17,7 @@ interface SourceProps extends BaseProps, WithConfigProps, WithTranslationProps {
   name: string
   color: RgbModel
   isTransparent: boolean
-  onJumpToColor: React.MouseEventHandler<HTMLDivElement>
+  onJumpToColor: MouseEventHandler<HTMLDivElement>
 }
 
 interface SourceState {

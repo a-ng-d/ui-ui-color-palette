@@ -1,4 +1,3 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Bar, Button, Icon, layouts, Menu } from '@unoff/ui'
@@ -22,6 +21,7 @@ import { signIn, signOut } from '../../external/auth/authentication'
 import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 import PlanControls from './PlanControls'
+import type { Dispatch } from 'preact/hooks'
 
 interface ShortcutsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -29,17 +29,17 @@ interface ShortcutsProps
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
-  onReOpenAnnouncements: React.Dispatch<Partial<AppState>>
-  onReOpenOnboarding: React.Dispatch<Partial<AppState>>
-  onReOpenStore: React.Dispatch<Partial<AppState>>
-  onReOpenAbout: React.Dispatch<Partial<AppState>>
-  onReOpenReport: React.Dispatch<Partial<AppState>>
-  onReOpenPreferences: React.Dispatch<Partial<AppState>>
-  onReOpenLicense: React.Dispatch<Partial<AppState>>
-  onReOpenChat: React.Dispatch<Partial<AppState>>
-  onReOpenFeedback: React.Dispatch<Partial<AppState>>
-  onUpdateConsent: React.Dispatch<Partial<AppState>>
-  onUpdateLanguage: React.Dispatch<Partial<AppState>>
+  onReOpenAnnouncements: Dispatch<Partial<AppState>>
+  onReOpenOnboarding: Dispatch<Partial<AppState>>
+  onReOpenStore: Dispatch<Partial<AppState>>
+  onReOpenAbout: Dispatch<Partial<AppState>>
+  onReOpenReport: Dispatch<Partial<AppState>>
+  onReOpenPreferences: Dispatch<Partial<AppState>>
+  onReOpenLicense: Dispatch<Partial<AppState>>
+  onReOpenChat: Dispatch<Partial<AppState>>
+  onReOpenFeedback: Dispatch<Partial<AppState>>
+  onUpdateConsent: Dispatch<Partial<AppState>>
+  onUpdateLanguage: Dispatch<Partial<AppState>>
 }
 
 interface ShortcutsState {

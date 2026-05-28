@@ -1,5 +1,7 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEvent,
+  KeyboardEvent,
+} from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Dropdown,
@@ -29,8 +31,8 @@ interface ColorSettingsProps
   isLast?: boolean
   onChangeSettings: (
     e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+      | ChangeEvent<HTMLInputElement>
+      | KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
 }
 

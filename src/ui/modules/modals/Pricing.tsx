@@ -1,5 +1,7 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  MouseEvent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -34,12 +36,13 @@ import uicpu from '../../../content/images/uicp_ultimate.webp'
 import uicpp from '../../../content/images/uicp_pro.webp'
 import uicpa from '../../../content/images/uicp_activate.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface PricingProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   licenseTrigger: LicenseTrigger
-  onSubscribe: React.Dispatch<Partial<AppState>>
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onSubscribe: Dispatch<Partial<AppState>>
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 interface PricingState {
@@ -229,7 +232,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             type="primary"
             label={this.props.t('pricing.pro.ctas.week')}
             isLoading={this.state.isSigningIn}
-            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+            action={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProWeekUrl)
@@ -289,7 +292,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             type="primary"
             label={this.props.t('pricing.pro.ctas.month')}
             isLoading={this.state.isSigningIn}
-            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+            action={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProMonthUrl)
@@ -348,7 +351,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             type="primary"
             label={this.props.t('pricing.pro.ctas.year')}
             isLoading={this.state.isSigningIn}
-            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+            action={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProYearUrl)
@@ -407,7 +410,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             type="primary"
             label={this.props.t('pricing.pro.ctas.lifetime')}
             isLoading={this.state.isSigningIn}
-            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+            action={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
               this.openCheckout(this.props.config.urls.storeProLifetimeUrl)
@@ -456,7 +459,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.activate.cta')}
-            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+            action={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
                 {
@@ -496,7 +499,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.licenseTrigger.cta}
-            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+            action={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
                 {
@@ -542,7 +545,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
           <Button
             type="primary"
             label={this.props.t('pricing.ultimate.cta')}
-            action={(e: React.MouseEvent<HTMLButtonElement>) => {
+            action={(e: MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               sendPluginMessage(
                 {

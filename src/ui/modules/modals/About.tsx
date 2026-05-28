@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Dialog,
@@ -18,7 +19,7 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface AboutProps extends BaseProps, WithConfigProps, WithTranslationProps {
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 export default class About extends PureComponent<AboutProps> {

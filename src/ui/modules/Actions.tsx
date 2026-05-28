@@ -1,5 +1,10 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEvent,
+  MouseEvent,
+  KeyboardEvent,
+  MouseEventHandler,
+  KeyboardEventHandler,
+} from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -28,6 +33,7 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface ActionsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -41,26 +47,26 @@ interface ActionsProps
   publicationStatus?: PublicationConfiguration
   isPrimaryLoading?: boolean
   isSecondaryLoading?: boolean
-  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
+  onChangeMode: Dispatch<Partial<OpenPaletteState>>
   onSyncLocalStyles?: (
-    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+    e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>
   ) => void
   onSyncLocalVariables?: (
-    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+    e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>
   ) => void
   onSyncLocalTokens?: (
-    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+    e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>
   ) => void
   onGenerateDocument?: (
-    e: React.MouseEvent<Element> | React.KeyboardEvent<Element>
+    e: MouseEvent<Element> | KeyboardEvent<Element>
   ) => void
   onChangeView?: (
     e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+      | ChangeEvent<HTMLInputElement>
+      | KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
-  onExportPalette?: React.MouseEventHandler<HTMLButtonElement> &
-    React.KeyboardEventHandler<HTMLButtonElement>
+  onExportPalette?: MouseEventHandler<HTMLButtonElement> &
+    KeyboardEventHandler<HTMLButtonElement>
   onUnloadPalette?: () => void
 }
 
@@ -288,8 +294,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   // Handlers
   nameHandler = (
     e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+      | ChangeEvent<HTMLInputElement>
+      | KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     this.palette.setKey('name', e.currentTarget.value)
 
@@ -531,8 +537,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         ]}
         active={this.props.mode}
         action={(
-          e: React.MouseEvent<HTMLButtonElement> &
-            React.KeyboardEvent<HTMLButtonElement>
+          e: MouseEvent<HTMLButtonElement> &
+            KeyboardEvent<HTMLButtonElement>
         ) => {
           const feature = e.currentTarget.dataset.feature as Mode
           this.props.onChangeMode({ mode: feature ?? 'EDIT' })

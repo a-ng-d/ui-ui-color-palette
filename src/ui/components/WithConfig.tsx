@@ -1,4 +1,3 @@
-import React from 'react'
 import { ComponentType, PureComponent } from 'preact/compat'
 import { ConfigContext, ConfigContextType } from '../../config/ConfigContext'
 

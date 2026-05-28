@@ -1,9 +1,9 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
+import type { ComponentChildren } from 'preact'
 
 interface FeatureProps {
   isActive: boolean
-  children: React.ReactNode
+  children: ComponentChildren
 }
 
 export default class Feature extends PureComponent<FeatureProps> {

@@ -1,4 +1,4 @@
-import React from 'react'
+import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
@@ -49,7 +49,7 @@ interface ContrastReportState {
   fontWeight: number
 }
 
-export default class ContrastReport extends React.PureComponent<
+export default class ContrastReport extends PureComponent<
   ContrastReportProps,
   ContrastReportState
 > {

@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Notification } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -12,7 +13,7 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 interface NotificationBannerProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   notification: NotificationMessage
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 export default class NotificationBanner extends PureComponent<NotificationBannerProps> {

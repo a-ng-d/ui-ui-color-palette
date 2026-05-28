@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Dialog, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -11,7 +12,7 @@ import cp from '../../../content/images/choose_plan.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface TryProProps extends BaseProps, WithConfigProps, WithTranslationProps {
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 export default class TryPro extends PureComponent<TryProProps> {
