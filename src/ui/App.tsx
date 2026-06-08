@@ -805,6 +805,9 @@ class App extends Component<AppProps, AppState> {
       'pt-BR': 'pt',
       'fr-FR': 'fr',
       'zh-Hans-CN': 'zh',
+      'es-ES': 'es',
+      'ja-JP': 'ja',
+      'ko-KR': 'ko',
     }
     return language ? langCodeMap[language] || '' : ''
   }
@@ -837,6 +840,12 @@ class App extends Component<AppProps, AppState> {
       fr: 'fr-FR',
       'zh-Hans-CN': 'zh-Hans-CN',
       zh: 'zh-Hans-CN',
+      'es-ES': 'es-ES',
+      es: 'es-ES',
+      'ja-JP': 'ja-JP',
+      ja: 'ja-JP',
+      'ko-KR': 'ko-KR',
+      ko: 'ko-KR',
     }
 
     const suggestedLang =
