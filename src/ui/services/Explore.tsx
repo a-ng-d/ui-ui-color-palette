@@ -229,7 +229,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 5,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )

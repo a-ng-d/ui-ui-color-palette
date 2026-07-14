@@ -103,8 +103,10 @@ export default class ManagePalette extends PureComponent<
   private subscribePalette: Array<() => void> = []
   private openPaletteRef = React.createRef<OpenPalette>()
 
-  private generateDefaultSourceColors = (): Array<SourceColorConfiguration> =>
-    Array.from({ length: 5 }, () => {
+  private generateDefaultSourceColors = (
+    limit: number
+  ): Array<SourceColorConfiguration> =>
+    Array.from({ length: limit }, () => {
       const hex = chroma.random().hex()
       const gl = chroma(hex).gl()
       return {
@@ -166,7 +168,9 @@ export default class ManagePalette extends PureComponent<
     this.palette = $palette
     this.state = {
       subservice: 'BROWSE',
-      sourceColors: this.generateDefaultSourceColors(),
+      sourceColors: this.generateDefaultSourceColors(
+        this.features.COLORS.limit ?? 5
+      ),
       id: '',
       name: props.t('settings.global.name.default'),
       description: '',
@@ -303,7 +307,7 @@ export default class ManagePalette extends PureComponent<
               sourceColor.source !== 'CANVAS' &&
               sourceColor.source !== 'DEFAULT'
           ),
-          ...this.generateDefaultSourceColors(),
+          ...this.generateDefaultSourceColors(this.features.COLORS.limit ?? 5),
         ],
       })
   }
@@ -320,7 +324,9 @@ export default class ManagePalette extends PureComponent<
                 sourceColor.source !== 'CANVAS' &&
                 sourceColor.source !== 'DEFAULT'
             ),
-            ...this.generateDefaultSourceColors(),
+            ...this.generateDefaultSourceColors(
+              this.features.COLORS.limit ?? 5
+            ),
           ],
           document: {},
         })

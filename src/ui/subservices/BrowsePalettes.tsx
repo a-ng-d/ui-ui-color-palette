@@ -229,7 +229,7 @@ export default class BrowsePalettes extends PureComponent<
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 1,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )

@@ -201,7 +201,7 @@ export default class ColorWheel extends PureComponent<
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 5,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )
@@ -541,7 +541,7 @@ export default class ColorWheel extends PureComponent<
                             ]}
                             selected={this.state.wheelRule}
                             alignment="RIGHT"
-                            pin="TOP"
+                            pin="BOTTOM"
                           />
                         </FormItem>
                       </Feature>

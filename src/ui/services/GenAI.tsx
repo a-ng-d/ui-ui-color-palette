@@ -307,7 +307,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 5,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )
