@@ -55,6 +55,13 @@ export default class Themes extends PureComponent<ThemesProps> {
       currentService: service,
       currentEditor: editor,
     }),
+    THEMES_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'THEMES_ADD',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     THEMES_NAME: new FeatureStatus({
       features: config.features,
       featureName: 'THEMES_NAME',
@@ -399,7 +406,9 @@ export default class Themes extends PureComponent<ThemesProps> {
                       helper={{
                         label: this.props.t('themes.actions.new'),
                       }}
-                      isBlocked={this.features.THEMES.isBlocked()}
+                      isBlocked={this.features.THEMES_ADD.isReached(
+                        this.props.themes.length - 1
+                      )}
                       feature="ADD_THEME"
                       onBlock={() => {
                         sendPluginMessage(
@@ -423,7 +432,9 @@ export default class Themes extends PureComponent<ThemesProps> {
                       orientation="VERTICAL"
                       actionsSlot={
                         <>
-                          {this.features.THEMES.isBlocked() &&
+                          {this.features.THEMES_ADD.isReached(
+                            this.props.themes.length - 1
+                          ) &&
                             (this.props.config.plan.isTrialEnabled &&
                             this.props.trialStatus !== 'EXPIRED' ? (
                               <Button
@@ -458,7 +469,9 @@ export default class Themes extends PureComponent<ThemesProps> {
                             type="primary"
                             feature="ADD_THEME"
                             label={this.props.t('themes.callout.cta')}
-                            isBlocked={this.features.THEMES.isBlocked()}
+                            isBlocked={this.features.THEMES_ADD.isReached(
+                              this.props.themes.length - 1
+                            )}
                             onBlock={() => {
                               sendPluginMessage(
                                 {

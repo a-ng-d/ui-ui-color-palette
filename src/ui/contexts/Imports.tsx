@@ -362,7 +362,10 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
         ),
       })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.coolorsImport
         )
@@ -430,7 +433,10 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
         ),
       })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.realtimeColorsImport
         )

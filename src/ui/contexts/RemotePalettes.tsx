@@ -242,7 +242,10 @@ export default class RemotePalettes extends PureComponent<
             console.error('Failed to sync view count:', error)
           }
 
-        if (this.props.config.plan.isProEnabled)
+        if (
+          this.props.config.plan.isProEnabled &&
+          this.props.config.plan.isCreditsEnabled
+        )
           $creditsCount.set(
             $creditsCount.get() - this.props.config.fees.paletteCreate
           )

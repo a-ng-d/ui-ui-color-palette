@@ -55,6 +55,13 @@ export default class Colors extends PureComponent<ColorsProps> {
       currentService: service,
       currentEditor: editor,
     }),
+    COLORS_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'COLORS_ADD',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     COLORS_NAME: new FeatureStatus({
       features: config.features,
       featureName: 'COLORS_NAME',
@@ -604,7 +611,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
   // Render
   render() {
-    const limit = this.features.COLORS.limit ?? 0
+    const limit = this.features.COLORS_ADD.limit ?? 5
 
     return (
       <Layout
@@ -629,7 +636,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       helper={{
                         label: this.props.t('colors.actions.new'),
                       }}
-                      isBlocked={this.features.COLORS.isReached(
+                      isBlocked={this.features.COLORS_ADD.isReached(
                         this.props.colors.length
                       )}
                       onBlock={() => {
@@ -646,7 +653,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                   clip={['LEFT']}
                   border={['BOTTOM']}
                 />
-                {this.features.COLORS.isReached(this.props.colors.length) && (
+                {this.features.COLORS_ADD.isReached(
+                  this.props.colors.length
+                ) && (
                   <div
                     style={{
                       padding: 'var(--size-pos-xxsmall)',

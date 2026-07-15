@@ -200,7 +200,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
 
       this.setState({ generatedPalette: palette, isRequestProcessing: false })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.aiColorsGenerate
         )
@@ -293,7 +296,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )

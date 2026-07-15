@@ -223,7 +223,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
-        tag={this.props.t('pricing.checkout.trial')}
         actions={
           <Button
             type="primary"

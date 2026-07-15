@@ -13,6 +13,7 @@ export interface Config {
     localPalettes?: number
     sourceColors?: number
     customStops?: number
+    colorThemes?: number
   }
   env: {
     isDev: boolean

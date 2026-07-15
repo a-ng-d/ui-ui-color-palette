@@ -387,10 +387,13 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      if (this.props.config.plan.isProEnabled)
-        $creditsCount.set(
-          $creditsCount.get() - this.props.config.fees.paletteGenerate
+        if (
+          this.props.config.plan.isProEnabled &&
+          this.props.config.plan.isCreditsEnabled
         )
+          $creditsCount.set(
+            $creditsCount.get() - this.props.config.fees.paletteGenerate
+          )
 
       sendPluginMessage(
         {
@@ -424,7 +427,10 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.paletteWithPropsGenerate
         )
@@ -461,7 +467,10 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.sheetGenerate
         )
@@ -607,7 +616,10 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.localStylesSync
       )
@@ -635,7 +647,10 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.localVariablesSync
       )
@@ -663,7 +678,10 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.localTokensSync
       )

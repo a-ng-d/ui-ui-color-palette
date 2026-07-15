@@ -141,7 +141,10 @@ export default class ImagePalette extends PureComponent<
 
           const dominantColors = await DominantColors.extract(arrayBuffer, 5)
 
-          if (this.props.config.plan.isProEnabled)
+          if (
+            this.props.config.plan.isProEnabled &&
+            this.props.config.plan.isCreditsEnabled
+          )
             $creditsCount.set(
               $creditsCount.get() - this.props.config.fees.imageColorsExtract
             )
@@ -180,7 +183,10 @@ export default class ImagePalette extends PureComponent<
           const dominantColors: Array<DominantColorResult> =
             await DominantColors.extract(arrayBuffer as ArrayBuffer, 5)
 
-          if (this.props.config.plan.isProEnabled)
+          if (
+            this.props.config.plan.isProEnabled &&
+            this.props.config.plan.isCreditsEnabled
+          )
             $creditsCount.set(
               $creditsCount.get() - this.props.config.fees.imageColorsExtract
             )
@@ -220,7 +226,10 @@ export default class ImagePalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )
@@ -364,7 +373,10 @@ export default class ImagePalette extends PureComponent<
                 5
               )
 
-              if (this.props.config.plan.isProEnabled)
+              if (
+                this.props.config.plan.isProEnabled &&
+                this.props.config.plan.isCreditsEnabled
+              )
                 $creditsCount.set(
                   $creditsCount.get() -
                     this.props.config.fees.imageColorsExtract

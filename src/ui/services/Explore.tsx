@@ -264,7 +264,10 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     })
     this.onCreatePalette(sourceColors)
 
-    if (this.props.config.plan.isProEnabled) {
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    ) {
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.colourLoversImport
       )
