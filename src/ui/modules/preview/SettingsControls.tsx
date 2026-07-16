@@ -46,9 +46,9 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
     service: Service,
     editor: Editor
   ) => ({
-    COLORS: new FeatureStatus({
+    COLORS_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'COLORS',
+      featureName: 'COLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -398,11 +398,11 @@ export default class SettingsControls extends React.PureComponent<SettingsContro
                 label: this.props.t('preview.insert.color'),
                 value: 'ADD_COLOR',
                 type: 'OPTION',
-                isActive: this.features.COLORS.isActive(),
-                isBlocked: this.features.COLORS.isReached(
+                isActive: this.features.COLORS_ADD.isActive(),
+                isBlocked: this.features.COLORS_ADD.isReached(
                   this.props.colors.length
                 ),
-                isNew: this.features.COLORS.isNew(),
+                isNew: this.features.COLORS_ADD.isNew(),
                 onBlock: () => {
                   sendPluginMessage(
                     {
