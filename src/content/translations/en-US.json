@@ -1091,6 +1091,9 @@
         "simple": "Palette"
       }
     },
+    "themeBinding": {
+      "message": "This value is specific to the “{themeName}” color mode and can also be edited from Modes"
+    },
     "title": "Palette settings"
   },
   "shortcuts": {

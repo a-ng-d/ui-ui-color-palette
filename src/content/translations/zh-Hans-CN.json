@@ -1091,6 +1091,9 @@
         "simple": "调色板"
       }
     },
+    "themeBinding": {
+      "message": "此设置专属于“{themeName}”颜色模式,也可以在模式中编辑"
+    },
     "title": "调色板设置"
   },
   "shortcuts": {

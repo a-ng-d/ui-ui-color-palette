@@ -169,6 +169,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
     )
   }
 
+  private get activeThemeName(): string | undefined {
+    const activeTheme = (this.props.themes ?? []).find(
+      (theme) => theme.isEnabled
+    )
+    if (activeTheme === undefined) return undefined
+    return activeTheme.type === 'default theme' ? undefined : activeTheme.name
+  }
+
   constructor(props: ScaleProps) {
     super(props)
     this.state = {
@@ -612,6 +620,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                       indicator={Object.entries(
                         this.props.scale ?? {}
                       ).length.toString()}
+                      helper={
+                        this.activeThemeName !== undefined
+                          ? this.props.t('settings.themeBinding.message', {
+                              themeName: this.activeThemeName,
+                            })
+                          : undefined
+                      }
                     />
                   }
                   rightPartSlot={

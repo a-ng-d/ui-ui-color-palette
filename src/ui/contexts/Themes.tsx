@@ -6,12 +6,14 @@ import {
   ScaleConfiguration,
   TextColorsThemeConfiguration,
   ThemeConfiguration,
+  VisionSimulationModeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import {
   Bar,
   Button,
+  Dropdown,
   FormItem,
   Input,
   Layout,
@@ -83,6 +85,83 @@ export default class Themes extends PureComponent<ThemesProps> {
       currentService: service,
       currentEditor: editor,
     }),
+    SETTINGS_VISION_SIMULATION_MODE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_NONE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_NONE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SETTINGS_TEXT_COLORS_THEME: new FeatureStatus({
+      features: config.features,
+      featureName: 'SETTINGS_TEXT_COLORS_THEME',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -123,15 +202,17 @@ export default class Themes extends PureComponent<ThemesProps> {
   }
 
   // Handlers
-  themesHandler = (e: Event) => {
+  themesHandler = (e: Event, themeId?: string) => {
     const element: HTMLElement | null =
         (e.target as HTMLElement).closest('.draggable-item') ??
         (e.target as HTMLElement).closest('[data-theme-id]'),
       currentElement = e.currentTarget as HTMLInputElement
 
     const id: string | null =
-      element?.getAttribute('data-id') ||
-      (element?.getAttribute('data-theme-id') ?? null)
+      themeId ??
+      element?.getAttribute('data-id') ??
+      element?.getAttribute('data-theme-id') ??
+      null
 
     const addTheme = () => {
       const hasAlreadyNewUITheme = this.props.themes.filter((theme) =>
@@ -239,6 +320,99 @@ export default class Themes extends PureComponent<ThemesProps> {
       )
     }
 
+    const updateVisionSimulationMode = () => {
+      this.themesMessage.data = this.props.themes.map((item) => {
+        if (item.id === id)
+          item.visionSimulationMode = currentElement.dataset
+            .value as VisionSimulationModeConfiguration
+        return item
+      })
+
+      this.applyThemeChanges(this.themesMessage.data)
+
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
+
+      trackColorThemesManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_VISION_SIMULATION_MODE',
+        }
+      )
+    }
+
+    const updateTextLightColor = () => {
+      const code: HexModel =
+        currentElement.value.indexOf('#') === -1
+          ? '#' + currentElement.value
+          : currentElement.value
+
+      if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(code)) {
+        this.themesMessage.data = this.props.themes.map((item) => {
+          if (item.id === id)
+            item.textColorsTheme = {
+              ...item.textColorsTheme,
+              lightColor: code,
+            }
+          return item
+        })
+
+        this.applyThemeChanges(this.themesMessage.data)
+      }
+
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
+
+      trackColorThemesManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_TEXT_COLORS_THEME',
+        }
+      )
+    }
+
+    const updateTextDarkColor = () => {
+      const code: HexModel =
+        currentElement.value.indexOf('#') === -1
+          ? '#' + currentElement.value
+          : currentElement.value
+
+      if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(code)) {
+        this.themesMessage.data = this.props.themes.map((item) => {
+          if (item.id === id)
+            item.textColorsTheme = {
+              ...item.textColorsTheme,
+              darkColor: code,
+            }
+          return item
+        })
+
+        this.applyThemeChanges(this.themesMessage.data)
+      }
+
+      sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
+
+      trackColorThemesManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'UPDATE_TEXT_COLORS_THEME',
+        }
+      )
+    }
+
     const updateThemeDescription = () => {
       this.themesMessage.data = this.props.themes.map((item) => {
         if (item.id === id) item.description = currentElement.value
@@ -300,6 +474,9 @@ export default class Themes extends PureComponent<ThemesProps> {
       ADD_THEME: () => addTheme(),
       RENAME_THEME: () => renameTheme(),
       UPDATE_PALETTE_BACKGROUND: () => updatePaletteBackgroundColor(),
+      UPDATE_VISION_SIMULATION_MODE: () => updateVisionSimulationMode(),
+      UPDATE_TEXT_LIGHT_COLOR: () => updateTextLightColor(),
+      UPDATE_TEXT_DARK_COLOR: () => updateTextDarkColor(),
       UPDATE_DESCRIPTION: () => updateThemeDescription(),
       REMOVE_ITEM: () => removeTheme(),
       DEFAULT: () => null,
@@ -545,7 +722,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                             <Feature
                               isActive={this.features.THEMES_NAME.isActive()}
                             >
-                              <div className="draggable-item__param--compact">
+                              <div className="draggable-item__param">
                                 <Input
                                   type="TEXT"
                                   value={theme.name}
@@ -574,6 +751,336 @@ export default class Themes extends PureComponent<ThemesProps> {
                           }),
                           node: (() => (
                             <div data-theme-id={theme.id}>
+                              <Feature
+                                isActive={this.features.SETTINGS_VISION_SIMULATION_MODE.isActive()}
+                              >
+                                <FormItem
+                                  id={`update-vision-simulation-mode-${theme.id}`}
+                                  label={this.props.t(
+                                    'settings.color.visionSimulationMode.label'
+                                  )}
+                                  isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+                                >
+                                  <Dropdown
+                                    id={`update-vision-simulation-mode-${theme.id}`}
+                                    options={[
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.none'
+                                        ),
+                                        value: 'NONE',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        type: 'SEPARATOR',
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.colorBlind'
+                                        ),
+                                        type: 'TITLE',
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.protanomaly'
+                                        ),
+                                        value: 'PROTANOMALY',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.protanopia'
+                                        ),
+                                        value: 'PROTANOPIA',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.deuteranomaly'
+                                        ),
+                                        value: 'DEUTERANOMALY',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.deuteranopia'
+                                        ),
+                                        value: 'DEUTERANOPIA',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.tritanomaly'
+                                        ),
+                                        value: 'TRITANOMALY',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.tritanopia'
+                                        ),
+                                        value: 'TRITANOPIA',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.achromatomaly'
+                                        ),
+                                        value: 'ACHROMATOMALY',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                      {
+                                        label: this.props.t(
+                                          'settings.color.visionSimulationMode.achromatopsia'
+                                        ),
+                                        value: 'ACHROMATOPSIA',
+                                        feature:
+                                          'UPDATE_VISION_SIMULATION_MODE',
+                                        type: 'OPTION',
+                                        isActive:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
+                                        isBlocked:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
+                                        isNew:
+                                          this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
+                                        onBlock: () => {
+                                          sendPluginMessage(
+                                            {
+                                              pluginMessage: {
+                                                type: 'GET_PRO',
+                                              },
+                                            },
+                                            '*'
+                                          )
+                                        },
+                                        action: (e: Event) =>
+                                          this.themesHandler(e, theme.id),
+                                      },
+                                    ]}
+                                    selected={theme.visionSimulationMode}
+                                    alignment="RIGHT"
+                                    isFill
+                                    isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+                                    isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
+                                    onBlock={() => {
+                                      sendPluginMessage(
+                                        {
+                                          pluginMessage: { type: 'GET_PRO' },
+                                        },
+                                        '*'
+                                      )
+                                    }}
+                                  />
+                                </FormItem>
+                              </Feature>
+                              <Feature
+                                isActive={this.features.SETTINGS_TEXT_COLORS_THEME.isActive()}
+                              >
+                                <FormItem
+                                  id={`update-text-light-color-${theme.id}`}
+                                  label={this.props.t(
+                                    'settings.contrast.textColors.textLightColor'
+                                  )}
+                                  isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+                                >
+                                  <Input
+                                    id={`update-text-light-color-${theme.id}`}
+                                    type="COLOR"
+                                    value={
+                                      theme.textColorsTheme?.lightColor ??
+                                      '#FFFFFF'
+                                    }
+                                    isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+                                    isNew={this.features.SETTINGS_TEXT_COLORS_THEME.isNew()}
+                                    feature="UPDATE_TEXT_LIGHT_COLOR"
+                                    onPick={this.themesHandler}
+                                    onBlur={this.themesHandler}
+                                    onValid={this.themesHandler}
+                                  />
+                                </FormItem>
+                                <FormItem
+                                  id={`update-text-dark-color-${theme.id}`}
+                                  label={this.props.t(
+                                    'settings.contrast.textColors.textDarkColor'
+                                  )}
+                                  isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+                                >
+                                  <Input
+                                    id={`update-text-dark-color-${theme.id}`}
+                                    type="COLOR"
+                                    value={
+                                      theme.textColorsTheme?.darkColor ??
+                                      '#000000'
+                                    }
+                                    isBlocked={this.features.SETTINGS_TEXT_COLORS_THEME.isBlocked()}
+                                    isNew={this.features.SETTINGS_TEXT_COLORS_THEME.isNew()}
+                                    feature="UPDATE_TEXT_DARK_COLOR"
+                                    onPick={this.themesHandler}
+                                    onBlur={this.themesHandler}
+                                    onValid={this.themesHandler}
+                                  />
+                                </FormItem>
+                              </Feature>
                               <Feature
                                 isActive={this.features.THEMES_PARAMS.isActive()}
                               >

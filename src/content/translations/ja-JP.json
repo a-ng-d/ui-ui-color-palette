@@ -1091,6 +1091,9 @@
         "simple": "パレット"
       }
     },
+    "themeBinding": {
+      "message": "この設定は「{themeName}」カラーモード専用です。モードからも編集できます"
+    },
     "title": "パレット設定"
   },
   "shortcuts": {

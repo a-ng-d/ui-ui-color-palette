@@ -105,6 +105,8 @@ export interface ColorThemeEvent {
     | 'ADD_THEME'
     | 'ADD_THEME_FROM_DROPDOWN'
     | 'UPDATE_BACKGROUND'
+    | 'UPDATE_VISION_SIMULATION_MODE'
+    | 'UPDATE_TEXT_COLORS_THEME'
     | 'DESCRIBE_THEME'
     | 'REORDER_THEME'
 }

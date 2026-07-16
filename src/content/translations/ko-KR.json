@@ -1091,6 +1091,9 @@
         "simple": "팔레트"
       }
     },
+    "themeBinding": {
+      "message": "이 설정은 “{themeName}” 색상 모드 전용이며 모드에서도 편집할 수 있습니다"
+    },
     "title": "팔레트 설정"
   },
   "shortcuts": {

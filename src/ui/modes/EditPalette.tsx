@@ -387,13 +387,13 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-        if (
-          this.props.config.plan.isProEnabled &&
-          this.props.config.plan.isCreditsEnabled
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
+        $creditsCount.set(
+          $creditsCount.get() - this.props.config.fees.paletteGenerate
         )
-          $creditsCount.set(
-            $creditsCount.get() - this.props.config.fees.paletteGenerate
-          )
 
       sendPluginMessage(
         {
