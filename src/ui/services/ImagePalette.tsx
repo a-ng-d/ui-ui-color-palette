@@ -523,8 +523,23 @@ export default class ImagePalette extends PureComponent<
           },
           {
             node: <this.ExtractedColor />,
-            typeModifier: 'FIXED',
-            fixedWidth: '272px',
+            typeModifier: this.props.documentWidth > 460 ? 'DRAWER' : 'FIXED',
+            drawerOptions: {
+              minSize: {
+                value: 196,
+                unit: 'PIXEL' as const,
+              },
+              defaultSize: {
+                value: 272,
+                unit: 'PIXEL' as const,
+              },
+              maxSize: {
+                value: 496,
+                unit: 'PIXEL' as const,
+              },
+              pin: 'RIGHT' as const,
+              direction: 'HORIZONTAL' as const,
+            },
           },
         ]}
         isFullWidth
