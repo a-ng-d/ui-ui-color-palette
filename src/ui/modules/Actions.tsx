@@ -1,5 +1,11 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import {
+  CreatorConfiguration,
+  DatesConfiguration,
+  DocumentConfiguration,
+  PublicationConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -14,12 +20,6 @@ import {
   SegmentedControl,
   texts,
 } from '@unoff/ui'
-import {
-  CreatorConfiguration,
-  DatesConfiguration,
-  DocumentConfiguration,
-  PublicationConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'

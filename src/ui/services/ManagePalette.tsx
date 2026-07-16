@@ -4,7 +4,6 @@ import 'driver.js/dist/driver.css'
 import '../stylesheets/tour.css'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { doScale, FeatureStatus } from '@unoff/utils'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -26,7 +25,8 @@ import {
   CreatorConfiguration,
   ExtractOfBaseConfiguration,
   EasingConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { doScale, FeatureStatus } from '@unoff/utils'
 import OpenPalette from '../subservices/OpenPalette'
 import BrowsePalettes from '../subservices/BrowsePalettes'
 import Publication from '../modules/modals/Publication'

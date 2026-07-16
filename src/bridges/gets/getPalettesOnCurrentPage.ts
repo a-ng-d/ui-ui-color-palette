@@ -1,4 +1,7 @@
-import { FullConfiguration, PaletteData } from '@a_ng_d/utils-ui-color-palette'
+import {
+  FullConfiguration,
+  PaletteData,
+} from '@yelbolt/engine-ui-color-palette'
 
 const getPalettesOnCurrentPage = async () => {
   const iframe = document.querySelector(

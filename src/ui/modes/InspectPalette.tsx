@@ -1,9 +1,6 @@
 import type { DropdownOption } from '@unoff/ui'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import { doScale } from '@unoff/utils'
-import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -22,7 +19,10 @@ import {
   VisionSimulationModeConfiguration,
   PublicationConfiguration,
   CreatorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { doScale } from '@unoff/utils'
+import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import ContrastReport from '../modules/preview/ContrastReport'

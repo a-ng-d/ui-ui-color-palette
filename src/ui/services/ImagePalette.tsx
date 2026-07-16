@@ -2,6 +2,11 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import {
+  DominantColorResult,
+  DominantColors,
+  SourceColorConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -15,15 +20,12 @@ import {
 import { Dropzone } from '@unoff/ui'
 import { Card } from '@unoff/ui'
 import { texts } from '@unoff/ui'
-import {
-  DominantColorResult,
-  DominantColors,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import { PluginMessageData } from '../../types/messages'
@@ -257,8 +259,8 @@ export default class ImagePalette extends PureComponent<
     )
   }
 
-  onUsePalette = () => {
-    const sourceColors = this.state.dominantColors.map((color) => {
+  getSourceColors = (): Array<SourceColorConfiguration> =>
+    this.state.dominantColors.map((color) => {
       const gl = chroma(color.hex).gl()
       return {
         name: getClosestColorName(color.hex),
@@ -280,6 +282,9 @@ export default class ImagePalette extends PureComponent<
         isRemovable: false,
       }
     }) as Array<SourceColorConfiguration>
+
+  onUsePalette = () => {
+    const sourceColors = this.getSourceColors()
 
     this.props.onChangeService({
       service: 'MANAGE',
@@ -459,6 +464,20 @@ export default class ImagePalette extends PureComponent<
           alignment="CENTER"
           isListItem={false}
         />
+        {this.state.dominantColors.length > 0 && (
+          <div
+            style={{
+              padding: 'var(--size-pos-xsmall)',
+            }}
+          >
+            <PalettePreview
+              colors={setPreviewPalette(
+                this.getSourceColors(),
+                this.palette.get()
+              )}
+            />
+          </div>
+        )}
         {this.state.dominantColors.length === 0 ? (
           <Message
             icon="info"

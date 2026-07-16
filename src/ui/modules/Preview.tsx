@@ -1,15 +1,6 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { FeatureStatus } from '@unoff/utils'
-import {
-  Bar,
-  Chip,
-  ColorChip,
-  DropdownOption,
-  Layout,
-  layouts,
-} from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
@@ -24,7 +15,16 @@ import {
   ShiftConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import {
+  Bar,
+  Chip,
+  ColorChip,
+  DropdownOption,
+  Layout,
+  layouts,
+} from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'

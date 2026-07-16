@@ -1,6 +1,6 @@
 import React from 'react'
+import { PaletteDataColorItem } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames } from '@unoff/utils'
-import { PaletteDataColorItem } from '@a_ng_d/utils-ui-color-palette'
 
 interface PalettePreviewProps {
   colors: Array<PaletteDataColorItem>

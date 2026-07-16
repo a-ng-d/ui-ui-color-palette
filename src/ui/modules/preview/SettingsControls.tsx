@@ -1,6 +1,4 @@
 import React from 'react'
-import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { layouts, Button, Dropdown, DropdownOption, Menu } from '@unoff/ui'
 import {
   ColorConfiguration,
   ColorSpaceConfiguration,
@@ -8,7 +6,9 @@ import {
   PresetConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { layouts, Button, Dropdown, DropdownOption, Menu } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

@@ -1,5 +1,5 @@
 import { uid } from 'uid'
-import { MetaConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { MetaConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ManagePaletteState } from '../../ui/services/ManagePalette'

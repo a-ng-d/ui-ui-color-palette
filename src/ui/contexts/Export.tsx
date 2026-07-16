@@ -6,17 +6,6 @@ import {
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import {
-  Button,
-  Dropdown,
-  Layout,
-  layouts,
-  Menu,
-  SectionTitle,
-  SemanticMessage,
-  SimpleItem,
-} from '@unoff/ui'
 import {
   AlgorithmVersionConfiguration,
   BaseConfiguration,
@@ -30,7 +19,18 @@ import {
   ScaleConfiguration,
   ShiftConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import {
+  Button,
+  Dropdown,
+  Layout,
+  layouts,
+  Menu,
+  SectionTitle,
+  SemanticMessage,
+  SimpleItem,
+} from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

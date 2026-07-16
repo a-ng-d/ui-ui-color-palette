@@ -2,22 +2,24 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import { ColorHarmony } from '@yelbolt/engine-ui-color-palette'
+import {
+  SourceColorConfiguration,
+  ColorHarmonyResult,
+  Channel,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Bar, Dropdown, FormItem, Layout } from '@unoff/ui'
 import { Input } from '@unoff/ui'
 import { layouts } from '@unoff/ui'
 import { Chip } from '@unoff/ui'
 import { Button } from '@unoff/ui'
-import { ColorHarmony } from '@a_ng_d/utils-ui-color-palette'
-import {
-  SourceColorConfiguration,
-  ColorHarmonyResult,
-  Channel,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
@@ -218,8 +220,8 @@ export default class ColorWheel extends PureComponent<
     )
   }
 
-  onUsePalette = () => {
-    const sourceColors = this.state.colorHarmony.hexColors.map((color) => {
+  getSourceColors = (): Array<SourceColorConfiguration> =>
+    this.state.colorHarmony.hexColors.map((color) => {
       const gl = chroma(color).gl()
       return {
         name: getClosestColorName(color),
@@ -241,6 +243,9 @@ export default class ColorWheel extends PureComponent<
         isRemovable: false,
       }
     }) as Array<SourceColorConfiguration>
+
+  onUsePalette = () => {
+    const sourceColors = this.getSourceColors()
 
     this.props.onChangeService({
       service: 'MANAGE',
@@ -384,6 +389,18 @@ export default class ColorWheel extends PureComponent<
                   border={['BOTTOM']}
                 />
                 <this.HarmonyPreview />
+                <div
+                  style={{
+                    padding: 'var(--size-pos-xsmall)',
+                  }}
+                >
+                  <PalettePreview
+                    colors={setPreviewPalette(
+                      this.getSourceColors(),
+                      this.palette.get()
+                    )}
+                  />
+                </div>
                 <Bar
                   leftPartSlot={
                     <Feature isActive={this.features.WHEEL_BASE.isActive()}>

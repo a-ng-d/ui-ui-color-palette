@@ -1,11 +1,11 @@
-import { doScale } from '@unoff/utils'
 import {
   BaseConfiguration,
   ColorConfiguration,
   PresetConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { doScale } from '@unoff/utils'
 import { defaultPreset } from './presets'
 
 const FALLBACK_PRESET: PresetConfiguration = {

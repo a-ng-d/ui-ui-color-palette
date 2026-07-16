@@ -1,5 +1,10 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Dropdown,
@@ -9,11 +14,6 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
-import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
-  VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

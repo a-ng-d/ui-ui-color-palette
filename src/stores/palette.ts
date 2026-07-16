@@ -5,7 +5,7 @@ import {
   ExchangeConfiguration,
   PublicationConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
 import { getTolgee } from '../external/translation'
 import { getPresets } from './presets'
 

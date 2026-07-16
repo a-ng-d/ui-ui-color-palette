@@ -2,6 +2,7 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import { SourceColorConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -16,11 +17,12 @@ import {
   SimpleItem,
 } from '@unoff/ui'
 import { SemanticMessage } from '@unoff/ui'
-import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -519,6 +521,18 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           isListItem={false}
           alignment="CENTER"
         />
+        <div
+          style={{
+            padding: 'var(--size-pos-xsmall)',
+          }}
+        >
+          <PalettePreview
+            colors={setPreviewPalette(
+              this.convertMistralToSourceColors(this.state.generatedPalette),
+              this.palette.get()
+            )}
+          />
+        </div>
         <List
           isTopBorderEnabled
           isFullHeight

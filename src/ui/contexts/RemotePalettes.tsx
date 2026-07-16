@@ -1,14 +1,14 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import { Layout, Tabs } from '@unoff/ui'
 import {
   FullConfiguration,
   ExternalPalettes,
   BaseConfiguration,
   ThemeConfiguration,
   MetaConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { Layout, Tabs } from '@unoff/ui'
 import StarredPalettes from '../subcontexts/StarredPalettes'
 import SelfPalettes from '../subcontexts/SelfPalettes'
 import OrgPalettes from '../subcontexts/OrgPalettes'

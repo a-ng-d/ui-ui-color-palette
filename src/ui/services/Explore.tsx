@@ -2,6 +2,10 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import {
+  SourceColorConfiguration,
+  ColourLovers,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
@@ -15,14 +19,12 @@ import {
   SemanticMessage,
   texts,
 } from '@unoff/ui'
-import {
-  SourceColorConfiguration,
-  ColourLovers,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
@@ -243,8 +245,8 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     )
   }
 
-  onUsePalette = (palette: ColourLovers) => {
-    const sourceColors = palette.colors.map((color) => {
+  getSourceColors = (palette: ColourLovers): Array<SourceColorConfiguration> =>
+    palette.colors.map((color) => {
       const gl = chroma(color).gl()
       return {
         name: getClosestColorName(`#${color}`),
@@ -266,6 +268,9 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
         isRemovable: true,
       }
     }) as Array<SourceColorConfiguration>
+
+  onUsePalette = (palette: ColourLovers) => {
+    const sourceColors = this.getSourceColors(palette)
 
     this.props.onChangeService({
       service: 'MANAGE',
@@ -388,6 +393,14 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                     />
                   </Feature>
                 </>
+              }
+              complementSlot={
+                <PalettePreview
+                  colors={setPreviewPalette(
+                    this.getSourceColors(palette),
+                    this.palette.get()
+                  )}
+                />
               }
             />
           ))}

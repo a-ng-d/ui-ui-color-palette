@@ -1,4 +1,4 @@
-import { ThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { ThemeConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ManagePaletteState } from '../../ui/services/ManagePalette'

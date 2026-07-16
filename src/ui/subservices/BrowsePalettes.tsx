@@ -1,7 +1,5 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import { Bar, Button, layouts, Tabs } from '@unoff/ui'
 import {
   BaseConfiguration,
   DocumentConfiguration,
@@ -9,7 +7,9 @@ import {
   MetaConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Button, layouts, Tabs } from '@unoff/ui'
 import { ManagePaletteState } from '../services/ManagePalette'
 import RemotePalettes from '../contexts/RemotePalettes'
 import LocalPalettes from '../contexts/LocalPalettes'

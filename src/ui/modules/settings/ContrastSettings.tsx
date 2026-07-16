@@ -1,5 +1,6 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import { TextColorsThemeConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   FormItem,
@@ -9,7 +10,6 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
-import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'

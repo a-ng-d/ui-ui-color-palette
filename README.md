@@ -23,7 +23,7 @@ The project relies on several external packages and modules:
 
 - **@unoff/ui**: UI components library
 - **@unoff/utils**: Utility functions
-- **@a_ng_d/utils-ui-color-palette**: Color palette specific utilities
+- **@yelbolt/engine-ui-color-palette**: Color palette specific utilities
 - **@supabase/supabase-js**: Backend database integration
 - **chroma-js**: Color manipulation library
 - **JSZip**: File compression for exports

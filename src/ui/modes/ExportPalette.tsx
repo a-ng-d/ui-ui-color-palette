@@ -2,8 +2,6 @@ import React from 'react'
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
 import * as fflate from 'fflate'
-import { Case, FeatureStatus } from '@unoff/utils'
-import { Layout } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -24,7 +22,9 @@ import {
   Code,
   PublicationConfiguration,
   CreatorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { Case, FeatureStatus } from '@unoff/utils'
+import { Layout } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import Actions from '../modules/Actions'

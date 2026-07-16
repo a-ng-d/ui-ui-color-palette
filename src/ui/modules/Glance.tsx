@@ -1,5 +1,11 @@
 import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
+import {
+  BaseConfiguration,
+  FullConfiguration,
+  MetaConfiguration,
+  ThemeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -9,12 +15,6 @@ import {
   SectionTitle,
   SemanticMessage,
 } from '@unoff/ui'
-import {
-  BaseConfiguration,
-  FullConfiguration,
-  MetaConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import Properties from '../contexts/Properties'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'

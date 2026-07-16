@@ -1,4 +1,4 @@
-import { PresetConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { PresetConfiguration } from '@yelbolt/engine-ui-color-palette'
 
 export const getPresets = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

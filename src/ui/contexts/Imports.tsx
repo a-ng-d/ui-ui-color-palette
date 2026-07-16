@@ -2,6 +2,11 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import {
+  ColorConfiguration,
+  SourceColorConfiguration,
+  ThirdParty,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Accordion,
@@ -16,11 +21,6 @@ import {
   SectionTitle,
   SemanticMessage,
 } from '@unoff/ui'
-import {
-  ColorConfiguration,
-  SourceColorConfiguration,
-  ThirdParty,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'

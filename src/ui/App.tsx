@@ -393,8 +393,6 @@ class App extends Component<AppProps, AppState> {
           },
         }
 
-        console.log(event)
-
         return actions[event]?.()
       })
 

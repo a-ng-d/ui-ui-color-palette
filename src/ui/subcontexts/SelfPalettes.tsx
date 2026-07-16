@@ -1,5 +1,10 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
+import {
+  Data,
+  ExternalPalettes,
+  FullConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
@@ -11,11 +16,6 @@ import {
   Message,
   SemanticMessage,
 } from '@unoff/ui'
-import {
-  Data,
-  ExternalPalettes,
-  FullConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import PalettePreview from '../components/PalettePreview'

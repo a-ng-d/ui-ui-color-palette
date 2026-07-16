@@ -1,6 +1,5 @@
 import React, { createRef } from 'react'
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -18,7 +17,8 @@ import {
   DatesConfiguration,
   PublicationConfiguration,
   CreatorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
 import { ManagePaletteState } from '../services/ManagePalette'
 import InspectPalette from '../modes/InspectPalette'
 import ExportPalette from '../modes/ExportPalette'
