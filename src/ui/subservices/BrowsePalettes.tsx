@@ -223,6 +223,8 @@ export default class BrowsePalettes extends PureComponent<
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )
 
+    this.props.onCreatePalette({})
+
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,

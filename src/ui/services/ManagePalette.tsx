@@ -526,7 +526,14 @@ export default class ManagePalette extends PureComponent<
               {...this.props}
               {...this.state}
               sourceColors={this.state.sourceColors}
-              onCreatePalette={(e) => this.setState({ ...e })}
+              onCreatePalette={(e) =>
+                this.setState({
+                  ...e,
+                  sourceColors: this.generateDefaultSourceColors(
+                    this.features.COLORS_ADD.limit ?? 5
+                  ),
+                })
+              }
               onSeePalette={(palette) => this.onLoadPalette(palette)}
             />
           </Feature>
