@@ -1193,6 +1193,12 @@
       "defaultTheme": "なし",
       "label": "モード"
     },
+    "template": {
+      "dark": "ダーク",
+      "darkProtanomaly": "ダーク・第一色覚異常",
+      "light": "ライト",
+      "lightProtanomaly": "ライト・第一色覚異常"
+    },
     "title": "カラーモード"
   },
   "tour": {

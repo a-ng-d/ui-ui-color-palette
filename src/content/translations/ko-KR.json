@@ -1193,6 +1193,12 @@
       "defaultTheme": "없음",
       "label": "모드"
     },
+    "template": {
+      "dark": "다크",
+      "darkProtanomaly": "다크 · 제1색각이상",
+      "light": "라이트",
+      "lightProtanomaly": "라이트 · 제1색각이상"
+    },
     "title": "색상 모드"
   },
   "tour": {

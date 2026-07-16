@@ -1193,6 +1193,12 @@
       "defaultTheme": "无",
       "label": "模式"
     },
+    "template": {
+      "dark": "深色",
+      "darkProtanomaly": "深色·红色弱",
+      "light": "浅色",
+      "lightProtanomaly": "浅色·红色弱"
+    },
     "title": "颜色模式"
   },
   "tour": {

@@ -1193,6 +1193,12 @@
       "defaultTheme": "Ninguno",
       "label": "Modo"
     },
+    "template": {
+      "dark": "Oscuro",
+      "darkProtanomaly": "Oscuro · Protanomalía",
+      "light": "Claro",
+      "lightProtanomaly": "Claro · Protanomalía"
+    },
     "title": "Modos de color"
   },
   "tour": {

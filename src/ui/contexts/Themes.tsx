@@ -17,7 +17,6 @@ import {
   FormItem,
   Input,
   Layout,
-  layouts,
   SectionTitle,
   SemanticMessage,
   SortableList,
@@ -43,6 +42,7 @@ interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
 export default class Themes extends PureComponent<ThemesProps> {
   private themesMessage: ThemesMessage
   private palette: typeof $palette
+  private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
@@ -180,6 +180,37 @@ export default class Themes extends PureComponent<ThemesProps> {
       type: 'UPDATE_THEMES',
       id: this.props.id,
       data: [],
+    }
+    this.theme = document.documentElement.getAttribute('data-theme')
+  }
+
+  private get templateThemes(): Array<{ id: string; name: string }> {
+    return [
+      { id: 'template-light', name: this.props.t('themes.template.light') },
+      {
+        id: 'template-light-protanomaly',
+        name: this.props.t('themes.template.lightProtanomaly'),
+      },
+      { id: 'template-dark', name: this.props.t('themes.template.dark') },
+      {
+        id: 'template-dark-protanomaly',
+        name: this.props.t('themes.template.darkProtanomaly'),
+      },
+    ]
+  }
+
+  private get panelBackground(): string {
+    switch (this.theme) {
+      case 'figma':
+        return 'var(--figma-color-bg-default, var(--figma-color-bg))'
+      case 'penpot':
+        return 'var(--penpot-color-background-primary)'
+      case 'sketch':
+        return 'var(--sketch-color-background-primary)'
+      case 'framer':
+        return 'var(--framer-color-bg)'
+      default:
+        return 'var(--figma-color-bg-default, var(--figma-color-bg))'
     }
   }
 
@@ -603,66 +634,102 @@ export default class Themes extends PureComponent<ThemesProps> {
                   border={['BOTTOM']}
                 />
                 {customThemes.length === 0 ? (
-                  <div className={layouts.centered}>
-                    <SemanticMessage
-                      type="NEUTRAL"
-                      message={this.props.t('themes.callout.message')}
-                      orientation="VERTICAL"
-                      actionsSlot={
-                        <>
-                          {this.features.THEMES_ADD.isReached(
-                            this.props.themes.length - 1
-                          ) &&
-                            (this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED' ? (
-                              <Button
-                                type="secondary"
-                                label={this.props.t('plan.tryPro')}
-                                action={() =>
-                                  sendPluginMessage(
-                                    {
-                                      pluginMessage: { type: 'GET_TRIAL' },
-                                    },
-                                    '*'
-                                  )
-                                }
-                              />
-                            ) : (
-                              <Button
-                                type="secondary"
-                                label={this.props.t('plan.getPro')}
-                                action={() =>
-                                  sendPluginMessage(
-                                    {
-                                      pluginMessage: {
-                                        type: 'GET_PRO',
-                                      },
-                                    },
-                                    '*'
-                                  )
-                                }
-                              />
-                            ))}
-                          <Button
-                            type="primary"
-                            feature="ADD_THEME"
-                            label={this.props.t('themes.callout.cta')}
-                            isBlocked={this.features.THEMES_ADD.isReached(
-                              this.props.themes.length - 1
-                            )}
-                            onBlock={() => {
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: { type: 'GET_PRO' },
-                                },
-                                '*'
-                              )
-                            }}
-                            action={this.themesHandler}
+                  <div
+                    style={{
+                      position: 'relative',
+                      minHeight: '320px',
+                    }}
+                  >
+                    <SortableList<{ id: string; name: string }>
+                      data={this.templateThemes}
+                      primarySlot={this.templateThemes.map((theme) => (
+                        <div
+                          className="draggable-item__param--compact"
+                          key={theme.id}
+                        >
+                          <Input
+                            type="TEXT"
+                            value={theme.name}
+                            isDisabled
                           />
-                        </>
-                      }
+                        </div>
+                      ))}
+                      isScrollable
+                      isBlocked
+                      onChangeSortableList={() => null}
+                      onRemoveItem={() => null}
                     />
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'end',
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundImage: `linear-gradient(0deg, ${this.panelBackground} 20%, rgba(255, 255, 255, 0))`,
+                        zIndex: 1,
+                      }}
+                    >
+                      <SemanticMessage
+                        type="NEUTRAL"
+                        message={this.props.t('themes.callout.message')}
+                        orientation="VERTICAL"
+                        actionsSlot={
+                          <>
+                            {this.features.THEMES_ADD.isReached(
+                              this.props.themes.length - 1
+                            ) &&
+                              (this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED' ? (
+                                <Button
+                                  type="secondary"
+                                  label={this.props.t('plan.tryPro')}
+                                  action={() =>
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_TRIAL' },
+                                      },
+                                      '*'
+                                    )
+                                  }
+                                />
+                              ) : (
+                                <Button
+                                  type="secondary"
+                                  label={this.props.t('plan.getPro')}
+                                  action={() =>
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type: 'GET_PRO',
+                                        },
+                                      },
+                                      '*'
+                                    )
+                                  }
+                                />
+                              ))}
+                            <Button
+                              type="primary"
+                              feature="ADD_THEME"
+                              label={this.props.t('themes.callout.cta')}
+                              isBlocked={this.features.THEMES_ADD.isReached(
+                                this.props.themes.length - 1
+                              )}
+                              onBlock={() => {
+                                sendPluginMessage(
+                                  {
+                                    pluginMessage: { type: 'GET_PRO' },
+                                  },
+                                  '*'
+                                )
+                              }}
+                              action={this.themesHandler}
+                            />
+                          </>
+                        }
+                      />
+                    </div>
                   </div>
                 ) : (
                   <>
