@@ -434,7 +434,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
         this.props.onChangeExport({
           export: {
-            format: 'JSON',
+            format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
             data: this.getCodeFromProps().makeCssCustomProps('RGB')[0].content,
@@ -451,7 +451,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
         this.props.onChangeExport({
           export: {
-            format: 'JSON',
+            format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
             data: this.getCodeFromProps().makeCssCustomProps('HEX')[0].content,
