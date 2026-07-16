@@ -529,6 +529,7 @@
     "maxNumberOfLocalPalettes": "{count, plural, one {升级到 /pro 以添加超过一个本地调色板} other {升级到 /pro 以添加超过 # 个本地调色板}}",
     "maxNumberOfSourceColors": "{count, plural, one {升级到 /pro 以添加超过一个源颜色} other {升级到 /pro 以添加超过 # 个源颜色}}",
     "maxNumberOfStops": "{count, plural, one {升级到 /pro 以添加超过一个色阶} other {升级到 /pro 以添加超过 # 个色阶}}",
+    "maxNumberOfThemes": "{count, plural, one {升级到 /pro 以添加超过一个颜色模式} other {升级到 /pro 以添加超过 # 个颜色模式}}",
     "multipleBlockingMessages": {
       "algorithmVersion": "将色度速度设置为\"正弦和双曲\"",
       "chroma": "重置色度",

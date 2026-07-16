@@ -119,9 +119,9 @@ export default class ExportPalette extends PureComponent<
     super(props)
     this.state = {
       export: {
-        format: 'JSON',
-        context: 'TOKENS_NATIVE',
-        mimeType: 'application/json',
+        format: 'CSS',
+        context: 'STYLESHEET_CSS',
+        mimeType: 'text/css',
         data: new Code({
           paletteData: new Data({
             base: {
@@ -136,7 +136,7 @@ export default class ExportPalette extends PureComponent<
             } as BaseConfiguration,
             themes: this.props.themes,
           }).makePaletteData(),
-        }).makeNativeTokens()[0].content,
+        }).makeCssCustomProps('RGB')[0].content,
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,

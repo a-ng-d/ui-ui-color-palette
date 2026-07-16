@@ -529,6 +529,7 @@
     "maxNumberOfLocalPalettes": "{count, plural, one {/proにアップグレードして1つ以上のローカルパレットを追加} other {/proにアップグレードして#つ以上のローカルパレットを追加}}",
     "maxNumberOfSourceColors": "{count, plural, one {/proにアップグレードして1色以上のソースカラーを追加} other {/proにアップグレードして#色以上のソースカラーを追加}}",
     "maxNumberOfStops": "{count, plural, one {/proにアップグレードして1つ以上のストップを追加} other {/proにアップグレードして#つ以上のストップを追加}}",
+    "maxNumberOfThemes": "{count, plural, one {/proにアップグレードして1つ以上のカラーモードを追加} other {/proにアップグレードして#つ以上のカラーモードを追加}}",
     "multipleBlockingMessages": {
       "algorithmVersion": "クロマ速度を「正弦曲線と双曲線」に設定",
       "chroma": "クロマをリセット",

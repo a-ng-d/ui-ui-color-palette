@@ -290,12 +290,26 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
   // Lifecycle
   componentDidMount() {
+    this.setState({
+      colorSpace: {
+        selected: 'RGB',
+        options: this.colorSpaceHandler('STYLESHEET_CSS', [
+          'rgb',
+          'hex',
+          'hsl',
+          'lch',
+          'oklch',
+          'p3',
+        ]),
+      },
+    })
+
     this.props.onChangeExport({
       export: {
-        format: 'JSON',
-        context: 'TOKENS_NATIVE',
-        mimeType: 'application/json',
-        data: this.getCodeFromProps().makeNativeTokens()[0].content,
+        format: 'CSS',
+        context: 'STYLESHEET_CSS',
+        mimeType: 'text/css',
+        data: this.getCodeFromProps().makeCssCustomProps('RGB')[0].content,
       },
     })
   }
@@ -1030,104 +1044,6 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                           id="select-format"
                           options={[
                             {
-                              label: this.props.t('export.tokens.label'),
-                              value: 'TOKENS_GROUP',
-                              feature: 'SELECT_EXPORT_FILE',
-                              type: 'GROUP',
-                              isActive: this.features.EXPORT_TOKENS.isActive(),
-                              isBlocked:
-                                this.features.EXPORT_TOKENS.isBlocked(),
-                              isNew: this.features.EXPORT_TOKENS.isNew(),
-                              children: [
-                                {
-                                  label: this.props.t(
-                                    'export.tokens.nativeTokens.label'
-                                  ),
-                                  value: 'TOKENS_NATIVE',
-                                  type: 'OPTION',
-                                  isActive:
-                                    this.features.EXPORT_TOKENS_NATIVE.isActive(),
-                                  isBlocked:
-                                    this.features.EXPORT_TOKENS_NATIVE.isBlocked(),
-                                  isNew:
-                                    this.features.EXPORT_TOKENS_NATIVE.isNew(),
-                                  onBlock: () => {
-                                    sendPluginMessage(
-                                      {
-                                        pluginMessage: { type: 'GET_PRO' },
-                                      },
-                                      '*'
-                                    )
-                                  },
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label: this.props.t(
-                                    'export.tokens.dtcg.label'
-                                  ),
-                                  value: 'TOKENS_DTCG',
-                                  type: 'OPTION',
-                                  isActive:
-                                    this.features.EXPORT_TOKENS_DTCG.isActive(),
-                                  isBlocked:
-                                    this.features.EXPORT_TOKENS_DTCG.isBlocked(),
-                                  isNew:
-                                    this.features.EXPORT_TOKENS_DTCG.isNew(),
-                                  onBlock: () => {
-                                    sendPluginMessage(
-                                      {
-                                        pluginMessage: { type: 'GET_PRO' },
-                                      },
-                                      '*'
-                                    )
-                                  },
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label: this.props.t(
-                                    'export.tokens.styleDictionary'
-                                  ),
-                                  value: 'TOKENS_STYLE_DICTIONARY_V3',
-                                  type: 'OPTION',
-                                  isActive:
-                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isActive(),
-                                  isBlocked:
-                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isBlocked(),
-                                  isNew:
-                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isNew(),
-                                  onBlock: () => {
-                                    sendPluginMessage(
-                                      {
-                                        pluginMessage: { type: 'GET_PRO' },
-                                      },
-                                      '*'
-                                    )
-                                  },
-                                  action: this.exportHandler,
-                                },
-                                {
-                                  label: this.props.t('export.tokens.global'),
-                                  value: 'TOKENS_UNIVERSAL',
-                                  type: 'OPTION',
-                                  isActive:
-                                    this.features.EXPORT_TOKENS_UNIVERSAL.isActive(),
-                                  isBlocked:
-                                    this.features.EXPORT_TOKENS_UNIVERSAL.isBlocked(),
-                                  isNew:
-                                    this.features.EXPORT_TOKENS_UNIVERSAL.isNew(),
-                                  onBlock: () => {
-                                    sendPluginMessage(
-                                      {
-                                        pluginMessage: { type: 'GET_PRO' },
-                                      },
-                                      '*'
-                                    )
-                                  },
-                                  action: this.exportHandler,
-                                },
-                              ],
-                            },
-                            {
                               label: this.props.t('export.stylesheet.label'),
                               value: 'STYLESHEET_GROUP',
                               type: 'GROUP',
@@ -1241,6 +1157,104 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                     this.features.EXPORT_TAILWIND_V4.isBlocked(),
                                   isNew:
                                     this.features.EXPORT_TAILWIND_V4.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                              ],
+                            },
+                            {
+                              label: this.props.t('export.tokens.label'),
+                              value: 'TOKENS_GROUP',
+                              feature: 'SELECT_EXPORT_FILE',
+                              type: 'GROUP',
+                              isActive: this.features.EXPORT_TOKENS.isActive(),
+                              isBlocked:
+                                this.features.EXPORT_TOKENS.isBlocked(),
+                              isNew: this.features.EXPORT_TOKENS.isNew(),
+                              children: [
+                                {
+                                  label: this.props.t(
+                                    'export.tokens.nativeTokens.label'
+                                  ),
+                                  value: 'TOKENS_NATIVE',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_NATIVE.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_NATIVE.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_NATIVE.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t(
+                                    'export.tokens.dtcg.label'
+                                  ),
+                                  value: 'TOKENS_DTCG',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_DTCG.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_DTCG.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_DTCG.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t(
+                                    'export.tokens.styleDictionary'
+                                  ),
+                                  value: 'TOKENS_STYLE_DICTIONARY_V3',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isNew(),
+                                  onBlock: () => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: { type: 'GET_PRO' },
+                                      },
+                                      '*'
+                                    )
+                                  },
+                                  action: this.exportHandler,
+                                },
+                                {
+                                  label: this.props.t('export.tokens.global'),
+                                  value: 'TOKENS_UNIVERSAL',
+                                  type: 'OPTION',
+                                  isActive:
+                                    this.features.EXPORT_TOKENS_UNIVERSAL.isActive(),
+                                  isBlocked:
+                                    this.features.EXPORT_TOKENS_UNIVERSAL.isBlocked(),
+                                  isNew:
+                                    this.features.EXPORT_TOKENS_UNIVERSAL.isNew(),
                                   onBlock: () => {
                                     sendPluginMessage(
                                       {

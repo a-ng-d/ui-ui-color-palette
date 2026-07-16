@@ -529,6 +529,7 @@
     "maxNumberOfLocalPalettes": "{count, plural, one {Atualize para /pro para adicionar mais de uma paleta local} other {Atualize para /pro para adicionar mais de # paletas locais}}",
     "maxNumberOfSourceColors": "{count, plural, one {Atualize para /pro para adicionar mais de uma cor-fonte} other {Atualize para /pro para adicionar mais de # cores-fonte}}",
     "maxNumberOfStops": "{count, plural, one {Atualize para /pro para adicionar mais de uma parada} other {Atualize para /pro para adicionar mais de # paradas}}",
+    "maxNumberOfThemes": "{count, plural, one {Atualize para /pro para adicionar mais de um modo de cor} other {Atualize para /pro para adicionar mais de # modos de cor}}",
     "multipleBlockingMessages": {
       "algorithmVersion": "Definir velocidade do croma para \"Senoidal e hiperbólico\"",
       "chroma": "Resetar croma",

@@ -383,6 +383,7 @@ export default class Themes extends PureComponent<ThemesProps> {
     const customThemes = this.props.themes.filter(
       (item) => item.type === 'custom theme'
     )
+    const limit = this.features.THEMES_ADD.limit ?? 2
 
     return (
       <Layout
@@ -488,7 +489,9 @@ export default class Themes extends PureComponent<ThemesProps> {
                   </div>
                 ) : (
                   <>
-                    {this.features.THEMES.isBlocked() && (
+                    {this.features.THEMES_ADD.isReached(
+                      this.props.themes.length - 1
+                    ) && (
                       <div
                         style={{
                           padding: 'var(--size-pos-xxsmall)',
@@ -496,7 +499,9 @@ export default class Themes extends PureComponent<ThemesProps> {
                       >
                         <SemanticMessage
                           type="INFO"
-                          message={this.props.t('info.themesOnFree')}
+                          message={this.props.t('info.maxNumberOfThemes', {
+                            count: limit.toString(),
+                          })}
                           actionsSlot={
                             this.props.config.plan.isTrialEnabled &&
                             this.props.trialStatus !== 'EXPIRED' ? (

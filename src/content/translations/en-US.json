@@ -529,6 +529,7 @@
     "maxNumberOfLocalPalettes": "{count, plural, one {Upgrade to /pro to add more than one single local palette} other {Upgrade to /pro to add more than # local palettes}}",
     "maxNumberOfSourceColors": "{count, plural, one {Upgrade to /pro to add more than one single source color} other {Upgrade to /pro to add more than # source colors}}",
     "maxNumberOfStops": "{count, plural, one {Upgrade to /pro to add more than one single stop} other {Upgrade to /pro to add more than # stops}}",
+    "maxNumberOfThemes": "{count, plural, one {Upgrade to /pro to add more than one single color mode} other {Upgrade to /pro to add more than # color modes}}",
     "multipleBlockingMessages": {
       "algorithmVersion": "Set chroma velocity to \"Sinusoidal and hyperbolic\"",
       "chroma": "Reset chroma",
