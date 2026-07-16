@@ -36,6 +36,7 @@ interface SpecConfig {
 
 const proFeatures = [
   'CREATE_PALETTE',
+  'LOCAL_PALETTES',
   'DOCUMENT_CREATE',
   'SYNC_LOCAL_STYLES',
   'SYNC_LOCAL_VARIABLES',
@@ -272,6 +273,7 @@ const globalConfig: Config = {
     sourceColors: 5,
     customStops: 6,
     colorThemes: 2,
+    localPalettes: 3,
   },
   env: {
     ...specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].env,
@@ -367,6 +369,7 @@ const limitsMapping: { [key: string]: keyof typeof globalConfig.limits } = {
   COLORS_ADD: 'sourceColors',
   THEMES_ADD: 'colorThemes',
   PRESETS_CUSTOM_ADD: 'customStops',
+  LOCAL_PALETTES: 'localPalettes',
 }
 
 globalConfig.features.forEach((feature) => {

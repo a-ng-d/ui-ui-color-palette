@@ -369,11 +369,8 @@ export default class PagePalettes extends PureComponent<
                                   this.features.DUPLICATE_PALETTE.isActive(),
                                 isBlocked:
                                   this.features.DUPLICATE_PALETTE.isBlocked() ||
-                                  this.features.CREATE_PALETTE.isReached(
-                                    (this.props.creditsCount -
-                                      this.props.config.fees.paletteCreate) *
-                                      -1 -
-                                      1
+                                  this.features.LOCAL_PALETTES.isReached(
+                                    this.props.localPalettesList.length
                                   ),
                                 isNew: this.features.DUPLICATE_PALETTE.isNew(),
                                 onBlock: () => {
@@ -527,11 +524,8 @@ export default class PagePalettes extends PureComponent<
                     <Button
                       type="primary"
                       label={this.props.t('browse.actions.createPalette')}
-                      isBlocked={this.features.CREATE_PALETTE.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.paletteCreate) *
-                          -1 -
-                          1
+                      isBlocked={this.features.LOCAL_PALETTES.isReached(
+                        this.props.localPalettesList.length
                       )}
                       isNew={this.features.CREATE_PALETTE.isNew()}
                       onBlock={() => {

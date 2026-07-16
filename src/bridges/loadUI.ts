@@ -150,9 +150,10 @@ else {
       },
       //
       CREATE_PALETTE: () =>
-        createPalette(path).finally(() =>
+        createPalette(path).finally(() => {
+          getPalettesOnCurrentPage()
           iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
-        ),
+        }),
       CREATE_PALETTE_FROM_DOCUMENT: () =>
         console.log('Create palette from document', path),
       CREATE_PALETTE_FROM_REMOTE: () =>
@@ -167,6 +168,7 @@ else {
             })
           })
           .finally(() => {
+            getPalettesOnCurrentPage()
             iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
           }),
       SYNC_LOCAL_STYLES: () => {

@@ -34,6 +34,7 @@ import { ConfigContextType } from '../../config/ConfigContext'
 
 interface GenAiProps extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
+  localPalettesCount: number
   onChangeService: React.Dispatch<Partial<AppState>>
 }
 
@@ -65,6 +66,13 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    LOCAL_PALETTES: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -387,17 +395,30 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                   type="secondary"
                   label={this.props.t('genAi.actions.newPalette')}
                   helper={{
-                    label: this.props.t('genAi.actions.addColors'),
+                    label: this.features.LOCAL_PALETTES.isReached(
+                      this.props.localPalettesCount
+                    )
+                      ? this.props.t('info.maxNumberOfLocalPalettes', {
+                          count: (
+                            this.features.LOCAL_PALETTES.limit ?? 3
+                          ).toString(),
+                        })
+                      : this.props.t('genAi.actions.addColors'),
                     type: 'MULTI_LINE',
                   }}
                   isLoading={this.state.isActionLoading}
                   isDisabled={true}
-                  isBlocked={this.features.CREATE_PALETTE.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.paletteCreate) *
-                      -1 -
-                      1
-                  )}
+                  isBlocked={
+                    this.features.LOCAL_PALETTES.isReached(
+                      this.props.localPalettesCount
+                    ) ||
+                    this.features.CREATE_PALETTE.isReached(
+                      (this.props.creditsCount -
+                        this.props.config.fees.paletteCreate) *
+                        -1 -
+                        1
+                    )
+                  }
                   onBlock={() => {
                     sendPluginMessage(
                       {
@@ -459,16 +480,29 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                 type="secondary"
                 label={this.props.t('genAi.actions.newPalette')}
                 helper={{
-                  label: this.props.t('genAi.actions.addColors'),
+                  label: this.features.LOCAL_PALETTES.isReached(
+                    this.props.localPalettesCount
+                  )
+                    ? this.props.t('info.maxNumberOfLocalPalettes', {
+                        count: (
+                          this.features.LOCAL_PALETTES.limit ?? 3
+                        ).toString(),
+                      })
+                    : this.props.t('genAi.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
-                isBlocked={this.features.CREATE_PALETTE.isReached(
-                  (this.props.creditsCount -
-                    this.props.config.fees.paletteCreate) *
-                    -1 -
-                    1
-                )}
+                isBlocked={
+                  this.features.LOCAL_PALETTES.isReached(
+                    this.props.localPalettesCount
+                  ) ||
+                  this.features.CREATE_PALETTE.isReached(
+                    (this.props.creditsCount -
+                      this.props.config.fees.paletteCreate) *
+                      -1 -
+                      1
+                  )
+                }
                 isNew={this.features.CREATE_PALETTE.isNew()}
                 onBlock={() => {
                   sendPluginMessage(

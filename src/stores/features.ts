@@ -360,8 +360,8 @@ export const featuresScheme: Array<Feature<Service>> = [
     isPro: false,
     isNew: false,
     type: 'CONTEXT',
-    availabilityForServices: ['MANAGE'],
-    proForServices: ['MANAGE'],
+    availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
+    proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     availabilityForEditors: [
       'figma',
       'figjam',

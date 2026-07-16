@@ -145,9 +145,9 @@ export default class ManagePalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    COLORS: new FeatureStatus({
+    COLORS_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'COLORS',
+      featureName: 'COLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -169,7 +169,7 @@ export default class ManagePalette extends PureComponent<
     this.state = {
       subservice: 'BROWSE',
       sourceColors: this.generateDefaultSourceColors(
-        this.features.COLORS.limit ?? 5
+        this.features.COLORS_ADD.limit ?? 5
       ),
       id: '',
       name: props.t('settings.global.name.default'),
@@ -307,7 +307,9 @@ export default class ManagePalette extends PureComponent<
               sourceColor.source !== 'CANVAS' &&
               sourceColor.source !== 'DEFAULT'
           ),
-          ...this.generateDefaultSourceColors(this.features.COLORS.limit ?? 5),
+          ...this.generateDefaultSourceColors(
+            this.features.COLORS_ADD.limit ?? 5
+          ),
         ],
       })
   }
@@ -325,7 +327,7 @@ export default class ManagePalette extends PureComponent<
                 sourceColor.source !== 'DEFAULT'
             ),
             ...this.generateDefaultSourceColors(
-              this.features.COLORS.limit ?? 5
+              this.features.COLORS_ADD.limit ?? 5
             ),
           ],
           document: {},
@@ -338,12 +340,12 @@ export default class ManagePalette extends PureComponent<
             sourceColor.source !== 'CANVAS' && sourceColor.source !== 'DEFAULT'
         )
         const remaining =
-          (this.features.COLORS.limit ?? path.data.selection.length) -
+          (this.features.COLORS_ADD.limit ?? path.data.selection.length) -
           existingColors.length
 
         this.setState({
           sourceColors: existingColors.concat(
-            this.features.COLORS.isReached(existingColors.length)
+            this.features.COLORS_ADD.isReached(existingColors.length)
               ? []
               : path.data.selection.slice(0, remaining)
           ),

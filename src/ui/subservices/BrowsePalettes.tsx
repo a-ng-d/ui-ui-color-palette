@@ -354,10 +354,27 @@ export default class BrowsePalettes extends PureComponent<
             <Button
               type="secondary"
               label={this.props.t('browse.document.restore')}
+              helper={
+                this.features.LOCAL_PALETTES.isReached(
+                  this.state.localPalettesList.length
+                )
+                  ? {
+                      label: this.props.t('info.maxNumberOfLocalPalettes', {
+                        count: (
+                          this.features.LOCAL_PALETTES.limit ?? 3
+                        ).toString(),
+                      }),
+                      type: 'MULTI_LINE',
+                    }
+                  : undefined
+              }
               isLoading={this.state.isSecondaryActionLoading}
               isBlocked={
                 this.features.DOCUMENT_CREATE.isBlocked() ||
-                this.features.DOCUMENT_CREATE.isReached(
+                this.features.LOCAL_PALETTES.isReached(
+                  this.state.localPalettesList.length
+                ) ||
+                this.features.CREATE_PALETTE.isReached(
                   (this.props.creditsCount -
                     this.props.config.fees.paletteCreate) *
                     -1 -
@@ -388,12 +405,29 @@ export default class BrowsePalettes extends PureComponent<
           type="primary"
           icon="plus"
           label={this.props.t('actions.createPalette')}
+          helper={
+            this.features.LOCAL_PALETTES.isReached(
+              this.state.localPalettesList.length
+            )
+              ? {
+                  label: this.props.t('info.maxNumberOfLocalPalettes', {
+                    count: (this.features.LOCAL_PALETTES.limit ?? 3).toString(),
+                  }),
+                  type: 'MULTI_LINE',
+                }
+              : undefined
+          }
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
-          isBlocked={this.features.CREATE_PALETTE.isReached(
-            (this.props.creditsCount - this.props.config.fees.paletteCreate) *
-              -1 -
-              1
-          )}
+          isBlocked={
+            this.features.LOCAL_PALETTES.isReached(
+              this.state.localPalettesList.length
+            ) ||
+            this.features.CREATE_PALETTE.isReached(
+              (this.props.creditsCount - this.props.config.fees.paletteCreate) *
+                -1 -
+                1
+            )
+          }
           onBlock={() => {
             sendPluginMessage(
               {
