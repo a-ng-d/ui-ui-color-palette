@@ -456,20 +456,38 @@ export default class ContrastReport extends React.PureComponent<
                         message={this.props.t('contrast.callout.message')}
                         orientation="VERTICAL"
                         actionsSlot={
-                          <Button
-                            type="secondary"
-                            label={this.props.t('plan.getPro')}
-                            action={() =>
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'GET_PRO',
-                                  },
-                                },
-                                '*'
-                              )
-                            }
-                          />
+                          <>
+                            {this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED' ? (
+                              <Button
+                                type="secondary"
+                                label={this.props.t('plan.tryPro')}
+                                action={() =>
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_TRIAL' },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            ) : (
+                              <Button
+                                type="secondary"
+                                label={this.props.t('plan.getPro')}
+                                action={() =>
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: {
+                                        type: 'GET_PRO',
+                                      },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            )}
+                          </>
                         }
                       />
                     </div>
