@@ -2917,7 +2917,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
     proForServices: ['MANAGE', 'GEN', 'EXTRACT', 'WHEEL', 'EXPLORE'],
-    availabilityForEditors: ['figma', 'sketch', 'framer'],
+    availabilityForEditors: ['figma', 'sketch'],
     limit: 0,
   },
   {
