@@ -600,7 +600,6 @@ export default class Themes extends PureComponent<ThemesProps> {
           {
             node: (
               <>
-                ;
                 <Bar
                   id="modes-header"
                   leftPartSlot={
