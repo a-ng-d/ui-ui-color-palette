@@ -378,7 +378,6 @@ export default class BrowsePalettes extends PureComponent<
               }
               isLoading={this.state.isSecondaryActionLoading}
               isBlocked={
-                this.features.DOCUMENT_CREATE.isBlocked() ||
                 this.features.LOCAL_PALETTES.isReached(
                   this.state.localPalettesList.length
                 ) ||
