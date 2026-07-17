@@ -620,7 +620,8 @@ export default class Colors extends PureComponent<ColorsProps> {
           {
             node: (
               <>
-                ;<Bar
+                ;
+                <Bar
                   id="colors-header"
                   leftPartSlot={
                     <SectionTitle
@@ -659,424 +660,413 @@ export default class Colors extends PureComponent<ColorsProps> {
                   clip={['LEFT']}
                   border={['BOTTOM']}
                 />
-                {
-                  this.features.COLORS_ADD.isReached(
-                    this.props.colors.length
-                  ) && (
-                    <div
-                      style={{
-                        padding: 'var(--size-pos-xxsmall)',
-                      }}
-                    >
-                      <SemanticMessage
-                        type="INFO"
-                        message={this.props.t('info.maxNumberOfSourceColors', {
-                          count: limit.toString(),
-                        })}
-                        actionsSlot={
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED' ? (
-                            <Button
-                              type="secondary"
-                              label={this.props.t('plan.tryPro')}
-                              action={() =>
-                                sendPluginMessage(
-                                  { pluginMessage: { type: 'GET_TRIAL' } },
-                                  '*'
-                                )
-                              }
-                            />
-                          ) : (
-                            <Button
-                              type="secondary"
-                              label={this.props.t('plan.getPro')}
-                              action={() =>
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type:
-                                        this.props.config.plan.isTrialEnabled &&
-                                        this.props.trialStatus !== 'EXPIRED'
-                                          ? 'GET_TRIAL'
-                                          : 'GET_PRO',
-                                    },
-                                  },
-                                  '*'
-                                )
-                              }
-                            />
-                          )
-                        }
-                      />
-                    </div>
-                  )
-                }
-                {
-                  this.props.colors.length === 0 ? (
-                    <div className={layouts.centered}>
-                      <SemanticMessage
-                        type="NEUTRAL"
-                        message={this.props.t('colors.callout.message')}
-                        orientation="VERTICAL"
-                        actionsSlot={
+                {this.features.COLORS_ADD.isReached(
+                  this.props.colors.length
+                ) && (
+                  <div
+                    style={{
+                      padding: 'var(--size-pos-xxsmall)',
+                    }}
+                  >
+                    <SemanticMessage
+                      type="INFO"
+                      message={this.props.t('info.maxNumberOfSourceColors', {
+                        count: limit.toString(),
+                      })}
+                      actionsSlot={
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED' ? (
                           <Button
-                            type="primary"
-                            feature="ADD_COLOR"
-                            label={this.props.t('colors.callout.cta')}
-                            action={(e: Event) => this.colorsHandler(e)}
+                            type="secondary"
+                            label={this.props.t('plan.tryPro')}
+                            action={() =>
+                              sendPluginMessage(
+                                { pluginMessage: { type: 'GET_TRIAL' } },
+                                '*'
+                              )
+                            }
                           />
-                        }
-                      />
-                    </div>
-                  ) : (
-                    <SortableList<ColorConfiguration>
-                      data={this.props.colors}
-                      primarySlot={this.props.colors.map((color) => {
-                        const hex = chroma([
-                          color.rgb.r * 255,
-                          color.rgb.g * 255,
-                          color.rgb.b * 255,
-                        ]).hex()
+                        ) : (
+                          <Button
+                            type="secondary"
+                            label={this.props.t('plan.getPro')}
+                            action={() =>
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: {
+                                    type:
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
+                                        ? 'GET_TRIAL'
+                                        : 'GET_PRO',
+                                  },
+                                },
+                                '*'
+                              )
+                            }
+                          />
+                        )
+                      }
+                    />
+                  </div>
+                )}
+                {this.props.colors.length === 0 ? (
+                  <div className={layouts.centered}>
+                    <SemanticMessage
+                      type="NEUTRAL"
+                      message={this.props.t('colors.callout.message')}
+                      orientation="VERTICAL"
+                      actionsSlot={
+                        <Button
+                          type="primary"
+                          feature="ADD_COLOR"
+                          label={this.props.t('colors.callout.cta')}
+                          action={(e: Event) => this.colorsHandler(e)}
+                        />
+                      }
+                    />
+                  </div>
+                ) : (
+                  <SortableList<ColorConfiguration>
+                    data={this.props.colors}
+                    primarySlot={this.props.colors.map((color) => {
+                      const hex = chroma([
+                        color.rgb.r * 255,
+                        color.rgb.g * 255,
+                        color.rgb.b * 255,
+                      ]).hex()
 
-                        return (
-                          <>
-                            <Feature
-                              isActive={this.features.COLORS_NAME.isActive()}
-                            >
-                              <div className="draggable-item__param--compact">
-                                <Input
-                                  type="TEXT"
-                                  value={color.name}
-                                  charactersLimit={24}
-                                  feature="RENAME_COLOR"
-                                  helper={{
-                                    label: this.props.t(
-                                      'colors.actions.colorName'
-                                    ),
-                                  }}
-                                  canBeEmpty={false}
-                                  isBlocked={this.features.COLORS_NAME.isBlocked()}
-                                  isNew={this.features.COLORS_NAME.isNew()}
-                                  onBlur={this.colorsHandler}
-                                  onValid={this.colorsHandler}
-                                />
-                              </div>
-                            </Feature>
+                      return (
+                        <>
+                          <Feature
+                            isActive={this.features.COLORS_NAME.isActive()}
+                          >
+                            <div className="draggable-item__param--compact">
+                              <Input
+                                type="TEXT"
+                                value={color.name}
+                                charactersLimit={24}
+                                feature="RENAME_COLOR"
+                                helper={{
+                                  label: this.props.t(
+                                    'colors.actions.colorName'
+                                  ),
+                                }}
+                                canBeEmpty={false}
+                                isBlocked={this.features.COLORS_NAME.isBlocked()}
+                                isNew={this.features.COLORS_NAME.isNew()}
+                                onBlur={this.colorsHandler}
+                                onValid={this.colorsHandler}
+                              />
+                            </div>
+                          </Feature>
+                          <Feature
+                            isActive={
+                              this.features.COLORS_PARAMS.isActive() &&
+                              this.props.documentWidth > 460
+                            }
+                          >
+                            <div className="draggable-item__param">
+                              <Input
+                                type="COLOR"
+                                value={hex}
+                                feature="UPDATE_HEX"
+                                helper={{
+                                  label: this.props.t('colors.actions.hexCode'),
+                                }}
+                                isBlocked={this.features.COLORS_PARAMS.isBlocked()}
+                                isNew={this.features.COLORS_PARAMS.isNew()}
+                                onPick={this.colorsHandler}
+                                onBlur={this.colorsHandler}
+                                onValid={this.colorsHandler}
+                              />
+                            </div>
+                          </Feature>
+                        </>
+                      )
+                    })}
+                    secondarySlot={this.props.colors.map((color) => {
+                      const lch = chroma([
+                        color.rgb.r * 255,
+                        color.rgb.g * 255,
+                        color.rgb.b * 255,
+                      ]).lch()
+                      const hex = chroma([
+                        color.rgb.r * 255,
+                        color.rgb.g * 255,
+                        color.rgb.b * 255,
+                      ]).hex()
+
+                      return {
+                        title: this.props.t('colors.moreParameters', {
+                          colorName: color.name,
+                        }),
+                        node: (() => (
+                          <div data-color-id={color.id}>
                             <Feature
                               isActive={
                                 this.features.COLORS_PARAMS.isActive() &&
-                                this.props.documentWidth > 460
+                                this.props.documentWidth <= 460
                               }
                             >
-                              <div className="draggable-item__param">
+                              <FormItem
+                                id={`change-hex-secondary-${color.id}`}
+                                label={this.props.t('colors.actions.hexCode')}
+                                isBlocked={
+                                  this.features.COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
+                                }
+                              >
                                 <Input
+                                  id={`change-hex-secondary-${color.id}`}
                                   type="COLOR"
                                   value={hex}
                                   feature="UPDATE_HEX"
-                                  helper={{
-                                    label: this.props.t(
-                                      'colors.actions.hexCode'
-                                    ),
-                                  }}
                                   isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                                   isNew={this.features.COLORS_PARAMS.isNew()}
                                   onPick={this.colorsHandler}
                                   onBlur={this.colorsHandler}
                                   onValid={this.colorsHandler}
                                 />
-                              </div>
+                              </FormItem>
                             </Feature>
-                          </>
-                        )
-                      })}
-                      secondarySlot={this.props.colors.map((color) => {
-                        const lch = chroma([
-                          color.rgb.r * 255,
-                          color.rgb.g * 255,
-                          color.rgb.b * 255,
-                        ]).lch()
-                        const hex = chroma([
-                          color.rgb.r * 255,
-                          color.rgb.g * 255,
-                          color.rgb.b * 255,
-                        ]).hex()
-
-                        return {
-                          title: this.props.t('colors.moreParameters', {
-                            colorName: color.name,
-                          }),
-                          node: (() => (
-                            <div data-color-id={color.id}>
-                              <Feature
-                                isActive={
-                                  this.features.COLORS_PARAMS.isActive() &&
-                                  this.props.documentWidth <= 460
+                            <Feature
+                              isActive={this.features.COLORS_ALPHA.isActive()}
+                            >
+                              <FormItem
+                                id={`switch-alpha-mode-secondary-${color.id}`}
+                                label={this.props.t('colors.alpha.label')}
+                                isBlocked={
+                                  this.features.COLORS_ALPHA.isBlocked() &&
+                                  !color.alpha.isEnabled
                                 }
                               >
-                                <FormItem
-                                  id={`change-hex-secondary-${color.id}`}
-                                  label={this.props.t('colors.actions.hexCode')}
-                                  isBlocked={
-                                    this.features.COLORS_ALPHA.isBlocked() &&
-                                    !color.alpha.isEnabled
-                                  }
-                                >
-                                  <Input
-                                    id={`change-hex-secondary-${color.id}`}
-                                    type="COLOR"
-                                    value={hex}
-                                    feature="UPDATE_HEX"
-                                    isBlocked={this.features.COLORS_PARAMS.isBlocked()}
-                                    isNew={this.features.COLORS_PARAMS.isNew()}
-                                    onPick={this.colorsHandler}
-                                    onBlur={this.colorsHandler}
-                                    onValid={this.colorsHandler}
-                                  />
-                                </FormItem>
-                              </Feature>
-                              <Feature
-                                isActive={this.features.COLORS_ALPHA.isActive()}
-                              >
-                                <FormItem
+                                <Select
                                   id={`switch-alpha-mode-secondary-${color.id}`}
-                                  label={this.props.t('colors.alpha.label')}
+                                  type="SWITCH_BUTTON"
+                                  feature="SWITCH_ALPHA_MODE"
+                                  data-color-id={color.id}
+                                  preview={{
+                                    image: am,
+                                    text: this.props.t('colors.alpha.helper'),
+                                  }}
+                                  isChecked={color.alpha.isEnabled}
                                   isBlocked={
                                     this.features.COLORS_ALPHA.isBlocked() &&
                                     !color.alpha.isEnabled
                                   }
-                                >
-                                  <Select
-                                    id={`switch-alpha-mode-secondary-${color.id}`}
-                                    type="SWITCH_BUTTON"
-                                    feature="SWITCH_ALPHA_MODE"
-                                    data-color-id={color.id}
-                                    preview={{
-                                      image: am,
-                                      text: this.props.t('colors.alpha.helper'),
-                                    }}
-                                    isChecked={color.alpha.isEnabled}
-                                    isBlocked={
-                                      this.features.COLORS_ALPHA.isBlocked() &&
-                                      !color.alpha.isEnabled
-                                    }
-                                    isNew={this.features.COLORS_ALPHA.isNew()}
-                                    onBlock={() => {
-                                      sendPluginMessage(
-                                        {
-                                          pluginMessage: {
-                                            type:
-                                              this.props.config.plan
-                                                .isTrialEnabled &&
-                                              this.props.trialStatus !==
-                                                'EXPIRED'
-                                                ? 'GET_TRIAL'
-                                                : 'GET_PRO',
-                                          },
+                                  isNew={this.features.COLORS_ALPHA.isNew()}
+                                  onBlock={() => {
+                                    sendPluginMessage(
+                                      {
+                                        pluginMessage: {
+                                          type:
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
+                                              ? 'GET_TRIAL'
+                                              : 'GET_PRO',
                                         },
-                                        '*'
-                                      )
-                                    }}
-                                    action={this.colorsHandler}
-                                  />
-                                </FormItem>
-                              </Feature>
-                              <Feature
-                                isActive={
-                                  this.features.COLORS_BACKGROUND_COLOR.isActive() &&
-                                  color.alpha.isEnabled
-                                }
+                                      },
+                                      '*'
+                                    )
+                                  }}
+                                  action={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={
+                                this.features.COLORS_BACKGROUND_COLOR.isActive() &&
+                                color.alpha.isEnabled
+                              }
+                            >
+                              <FormItem
+                                id={`update-color-background-secondary-${color.id}`}
+                                label={this.props.t(
+                                  'colors.actions.alphaBackground'
+                                )}
+                                isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
                               >
-                                <FormItem
+                                <Input
                                   id={`update-color-background-secondary-${color.id}`}
-                                  label={this.props.t(
-                                    'colors.actions.alphaBackground'
-                                  )}
+                                  type="COLOR"
+                                  value={color.alpha.backgroundColor}
+                                  feature="UPDATE_BACKGROUND_COLOR"
+                                  data-color-id={color.id}
                                   isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                >
+                                  isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
+                                  onPick={this.colorsHandler}
+                                  onBlur={this.colorsHandler}
+                                  onValid={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={this.features.COLORS_CHROMA_SHIFTING.isActive()}
+                            >
+                              <FormItem
+                                id="shift-chroma"
+                                label={this.props.t(
+                                  'colors.chromaShifting.label'
+                                )}
+                                isBlocked={this.features.COLORS_CHROMA_SHIFTING.isBlocked()}
+                              >
+                                <div className={layouts['snackbar--tight']}>
                                   <Input
-                                    id={`update-color-background-secondary-${color.id}`}
-                                    type="COLOR"
-                                    value={color.alpha.backgroundColor}
-                                    feature="UPDATE_BACKGROUND_COLOR"
-                                    data-color-id={color.id}
-                                    isBlocked={this.features.COLORS_BACKGROUND_COLOR.isBlocked()}
-                                    isNew={this.features.COLORS_BACKGROUND_COLOR.isNew()}
-                                    onPick={this.colorsHandler}
+                                    id="shift-chroma"
+                                    type="NUMBER"
+                                    icon={{ type: 'LETTER', value: 'C' }}
+                                    unit="%"
+                                    value={
+                                      color.chroma.shift !== undefined
+                                        ? color.chroma.shift.toString()
+                                        : '100'
+                                    }
+                                    min="0"
+                                    max="200"
+                                    feature="SHIFT_CHROMA"
+                                    isBlocked={this.features.COLORS_CHROMA_SHIFTING.isBlocked()}
+                                    isNew={this.features.COLORS_CHROMA_SHIFTING.isNew()}
                                     onBlur={this.colorsHandler}
-                                    onValid={this.colorsHandler}
+                                    onShift={this.colorsHandler}
                                   />
-                                </FormItem>
-                              </Feature>
-                              <Feature
-                                isActive={this.features.COLORS_CHROMA_SHIFTING.isActive()}
-                              >
-                                <FormItem
-                                  id="shift-chroma"
-                                  label={this.props.t(
-                                    'colors.chromaShifting.label'
+                                  {!this.features.COLORS_CHROMA_SHIFTING.isBlocked() && (
+                                    <Button
+                                      type="icon"
+                                      icon="reset"
+                                      feature="RESET_CHROMA"
+                                      isDisabled={!color.chroma.isLocked}
+                                      action={this.colorsHandler}
+                                    />
                                   )}
-                                  isBlocked={this.features.COLORS_CHROMA_SHIFTING.isBlocked()}
-                                >
-                                  <div className={layouts['snackbar--tight']}>
-                                    <Input
-                                      id="shift-chroma"
-                                      type="NUMBER"
-                                      icon={{ type: 'LETTER', value: 'C' }}
-                                      unit="%"
-                                      value={
-                                        color.chroma.shift !== undefined
-                                          ? color.chroma.shift.toString()
-                                          : '100'
-                                      }
-                                      min="0"
-                                      max="200"
-                                      feature="SHIFT_CHROMA"
-                                      isBlocked={this.features.COLORS_CHROMA_SHIFTING.isBlocked()}
-                                      isNew={this.features.COLORS_CHROMA_SHIFTING.isNew()}
-                                      onBlur={this.colorsHandler}
-                                      onShift={this.colorsHandler}
-                                    />
-                                    {!this.features.COLORS_CHROMA_SHIFTING.isBlocked() && (
-                                      <Button
-                                        type="icon"
-                                        icon="reset"
-                                        feature="RESET_CHROMA"
-                                        isDisabled={!color.chroma.isLocked}
-                                        action={this.colorsHandler}
-                                      />
-                                    )}
-                                  </div>
-                                </FormItem>
-                              </Feature>
-                              <Feature
-                                isActive={this.features.COLORS_HUE_SHIFTING.isActive()}
+                                </div>
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={this.features.COLORS_HUE_SHIFTING.isActive()}
+                            >
+                              <FormItem
+                                id="shift-hue"
+                                label={this.props.t('colors.hueShifting.label')}
+                                isBlocked={this.features.COLORS_HUE_SHIFTING.isBlocked()}
                               >
-                                <FormItem
-                                  id="shift-hue"
-                                  label={this.props.t(
-                                    'colors.hueShifting.label'
+                                <div className={layouts['snackbar--tight']}>
+                                  <Input
+                                    id="shift-hue"
+                                    type="NUMBER"
+                                    icon={{ type: 'LETTER', value: 'H' }}
+                                    unit="°"
+                                    value={
+                                      color.hue.shift !== undefined
+                                        ? color.hue.shift.toString()
+                                        : '0'
+                                    }
+                                    min="-180"
+                                    max="180"
+                                    feature="SHIFT_HUE"
+                                    isBlocked={this.features.COLORS_HUE_SHIFTING.isBlocked()}
+                                    isNew={this.features.COLORS_HUE_SHIFTING.isNew()}
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                  {!this.features.COLORS_HUE_SHIFTING.isBlocked() && (
+                                    <Button
+                                      type="icon"
+                                      icon="reset"
+                                      feature="RESET_HUE"
+                                      isDisabled={!color.hue.isLocked}
+                                      action={this.colorsHandler}
+                                    />
                                   )}
-                                  isBlocked={this.features.COLORS_HUE_SHIFTING.isBlocked()}
-                                >
-                                  <div className={layouts['snackbar--tight']}>
-                                    <Input
-                                      id="shift-hue"
-                                      type="NUMBER"
-                                      icon={{ type: 'LETTER', value: 'H' }}
-                                      unit="°"
-                                      value={
-                                        color.hue.shift !== undefined
-                                          ? color.hue.shift.toString()
-                                          : '0'
-                                      }
-                                      min="-180"
-                                      max="180"
-                                      feature="SHIFT_HUE"
-                                      isBlocked={this.features.COLORS_HUE_SHIFTING.isBlocked()}
-                                      isNew={this.features.COLORS_HUE_SHIFTING.isNew()}
-                                      onBlur={this.colorsHandler}
-                                      onShift={this.colorsHandler}
-                                    />
-                                    {!this.features.COLORS_HUE_SHIFTING.isBlocked() && (
-                                      <Button
-                                        type="icon"
-                                        icon="reset"
-                                        feature="RESET_HUE"
-                                        isDisabled={!color.hue.isLocked}
-                                        action={this.colorsHandler}
-                                      />
-                                    )}
-                                  </div>
-                                </FormItem>
-                              </Feature>
-                              <Feature
-                                isActive={this.features.COLORS_PARAMS.isActive()}
+                                </div>
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={this.features.COLORS_PARAMS.isActive()}
+                            >
+                              <FormItem
+                                id="shift-lch"
+                                label={this.props.t('colors.lch.label')}
+                                isBlocked={this.features.COLORS_PARAMS.isBlocked()}
                               >
-                                <FormItem
-                                  id="shift-lch"
-                                  label={this.props.t('colors.lch.label')}
-                                  isBlocked={this.features.COLORS_PARAMS.isBlocked()}
-                                >
-                                  <InputsBar customClassName="draggable-item__param">
-                                    <Input
-                                      type="NUMBER"
-                                      value={lch[0].toFixed(0)}
-                                      min="0"
-                                      max="100"
-                                      isBlocked={this.features.COLORS_PARAMS.isBlocked()}
-                                      feature="UPDATE_LIGHTNESS"
-                                      onBlur={this.colorsHandler}
-                                      onShift={this.colorsHandler}
-                                    />
-                                    <Input
-                                      type="NUMBER"
-                                      value={lch[1].toFixed(0)}
-                                      min="0"
-                                      max="100"
-                                      isBlocked={this.features.COLORS_PARAMS.isBlocked()}
-                                      feature="UPDATE_CHROMA"
-                                      onBlur={this.colorsHandler}
-                                      onShift={this.colorsHandler}
-                                    />
-                                    <Input
-                                      type="NUMBER"
-                                      value={
-                                        lch[2].toFixed(0) === 'NaN'
-                                          ? '0'
-                                          : lch[2].toFixed(0)
-                                      }
-                                      min="0"
-                                      max="360"
-                                      isBlocked={this.features.COLORS_PARAMS.isBlocked()}
-                                      feature="UPDATE_HUE"
-                                      onBlur={this.colorsHandler}
-                                      onShift={this.colorsHandler}
-                                    />
-                                  </InputsBar>
-                                </FormItem>
-                              </Feature>
-                              <Feature
-                                isActive={this.features.COLORS_DESCRIPTION.isActive()}
+                                <InputsBar customClassName="draggable-item__param">
+                                  <Input
+                                    type="NUMBER"
+                                    value={lch[0].toFixed(0)}
+                                    min="0"
+                                    max="100"
+                                    isBlocked={this.features.COLORS_PARAMS.isBlocked()}
+                                    feature="UPDATE_LIGHTNESS"
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                  <Input
+                                    type="NUMBER"
+                                    value={lch[1].toFixed(0)}
+                                    min="0"
+                                    max="100"
+                                    isBlocked={this.features.COLORS_PARAMS.isBlocked()}
+                                    feature="UPDATE_CHROMA"
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                  <Input
+                                    type="NUMBER"
+                                    value={
+                                      lch[2].toFixed(0) === 'NaN'
+                                        ? '0'
+                                        : lch[2].toFixed(0)
+                                    }
+                                    min="0"
+                                    max="360"
+                                    isBlocked={this.features.COLORS_PARAMS.isBlocked()}
+                                    feature="UPDATE_HUE"
+                                    onBlur={this.colorsHandler}
+                                    onShift={this.colorsHandler}
+                                  />
+                                </InputsBar>
+                              </FormItem>
+                            </Feature>
+                            <Feature
+                              isActive={this.features.COLORS_DESCRIPTION.isActive()}
+                            >
+                              <FormItem
+                                id="update-color-description"
+                                label={this.props.t('global.description.label')}
+                                isMultiLine
+                                isBlocked={this.features.COLORS_DESCRIPTION.isBlocked()}
                               >
-                                <FormItem
+                                <Input
                                   id="update-color-description"
-                                  label={this.props.t(
-                                    'global.description.label'
+                                  type="LONG_TEXT"
+                                  value={color.description}
+                                  placeholder={this.props.t(
+                                    'global.description.placeholder'
                                   )}
-                                  isMultiLine
+                                  feature="UPDATE_DESCRIPTION"
                                   isBlocked={this.features.COLORS_DESCRIPTION.isBlocked()}
-                                >
-                                  <Input
-                                    id="update-color-description"
-                                    type="LONG_TEXT"
-                                    value={color.description}
-                                    placeholder={this.props.t(
-                                      'global.description.placeholder'
-                                    )}
-                                    feature="UPDATE_DESCRIPTION"
-                                    isBlocked={this.features.COLORS_DESCRIPTION.isBlocked()}
-                                    isNew={this.features.COLORS_DESCRIPTION.isNew()}
-                                    isGrowing
-                                    onBlur={this.colorsHandler}
-                                    onValid={this.colorsHandler}
-                                  />
-                                </FormItem>
-                              </Feature>
-                            </div>
-                          ))(),
-                        }
-                      })}
-                      helpers={{
-                        remove: this.props.t('colors.actions.removeColor'),
-                        more: this.props.t('colors.actions.moreParameters'),
-                      }}
-                      canBeEmpty={false}
-                      isScrollable
-                      onChangeSortableList={this.onChangeOrder}
-                      onRemoveItem={this.colorsHandler}
-                    />
-                  )
-                }
+                                  isNew={this.features.COLORS_DESCRIPTION.isNew()}
+                                  isGrowing
+                                  onBlur={this.colorsHandler}
+                                  onValid={this.colorsHandler}
+                                />
+                              </FormItem>
+                            </Feature>
+                          </div>
+                        ))(),
+                      }
+                    })}
+                    helpers={{
+                      remove: this.props.t('colors.actions.removeColor'),
+                      more: this.props.t('colors.actions.moreParameters'),
+                    }}
+                    canBeEmpty={false}
+                    isScrollable
+                    onChangeSortableList={this.onChangeOrder}
+                    onRemoveItem={this.colorsHandler}
+                  />
+                )}
               </>
             ),
             typeModifier: 'BLANK',
