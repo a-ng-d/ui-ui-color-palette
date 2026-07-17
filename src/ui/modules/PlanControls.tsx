@@ -20,10 +20,7 @@ interface PlanControlsProps
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<
-  PlanControlsProps,
-  PlanControlsState
-> {
+export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (
@@ -431,7 +428,13 @@ export default class PlanControls extends PureComponent<
           onBlock={() => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )
@@ -471,7 +474,18 @@ export default class PlanControls extends PureComponent<
               icon="lock-off"
               label={this.props.t('plan.getPro')}
               action={() =>
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
+                  },
+                  '*'
+                )
               }
             />
           ),
@@ -541,7 +555,18 @@ export default class PlanControls extends PureComponent<
               icon="lock-off"
               label={this.props.t('plan.getPro')}
               action={() =>
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
+                  },
+                  '*'
+                )
               }
             />
           ),
@@ -572,7 +597,18 @@ export default class PlanControls extends PureComponent<
               icon="lock-off"
               label={this.props.t('plan.getPro')}
               action={() =>
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
+                  },
+                  '*'
+                )
               }
             />
           ),

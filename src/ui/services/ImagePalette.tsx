@@ -368,7 +368,13 @@ export default class ImagePalette extends PureComponent<
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -451,7 +457,13 @@ export default class ImagePalette extends PureComponent<
                 onBlock={() => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )

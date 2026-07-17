@@ -350,7 +350,18 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                 this.features.PRESETS[`PRESETS_${preset.id}`].isBlocked(),
               isNew: this.features.PRESETS[`PRESETS_${preset.id}`].isNew(),
               onBlock: () => {
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
+                  },
+                  '*'
+                )
               },
               action: this.presetsHandler,
             })),
@@ -367,7 +378,18 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
               this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isBlocked(),
             isNew: this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isNew(),
             onBlock: () => {
-              sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+              sendPluginMessage(
+                {
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
+                },
+                '*'
+              )
             },
             action: this.presetsHandler,
           }
@@ -382,7 +404,18 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
           feature: 'PRESETS_CUSTOM',
           type: 'OPTION',
           onBlock: () => {
-            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
+              },
+              '*'
+            )
           },
         },
         ...(options[options.length - 1].children ?? []),
@@ -556,7 +589,13 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -577,7 +616,13 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -614,7 +659,13 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                   onBlock={() => {
                     sendPluginMessage(
                       {
-                        pluginMessage: { type: 'GET_PRO' },
+                        pluginMessage: {
+                          type:
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
+                              ? 'GET_TRIAL'
+                              : 'GET_PRO',
+                        },
                       },
                       '*'
                     )
@@ -671,7 +722,18 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         isBlocked: this.features.SCALE_REVERSE.isBlocked(),
         isNew: this.features.SCALE_REVERSE.isNew(),
         onBlock: () => {
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
+            },
+            '*'
+          )
         },
         action: this.onReverseStops,
       })
@@ -685,7 +747,18 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         isBlocked: this.features.SCALE_RESET.isBlocked(),
         isNew: this.features.SCALE_RESET.isNew(),
         onBlock: () => {
-          sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
+            },
+            '*'
+          )
         },
         action: this.onResetScale,
       })
@@ -702,7 +775,13 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
         onBlock={() => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )

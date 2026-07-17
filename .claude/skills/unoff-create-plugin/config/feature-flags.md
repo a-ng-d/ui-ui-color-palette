@@ -443,7 +443,7 @@ Editor type is detected at runtime via `checkEditor()` bridge function and store
    <Button
      isBlocked={features.MY_NEW_FEATURE.isBlocked()}
      isNew={features.MY_NEW_FEATURE.isNew()}
-     onUnblock={() => sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')}
+     onUnblock={() => sendPluginMessage({ pluginMessage: { type: this.props.config.plan.isTrialEnabled && this.props.trialStatus !== 'EXPIRED' ? 'GET_TRIAL' : 'GET_PRO' } }, '*')}
    />
    ```
 
@@ -489,7 +489,7 @@ render() {
 <Button
   isBlocked={features.MY_FEATURE.isBlocked()}
   onUnblock={() => {
-    sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+    sendPluginMessage({ pluginMessage: { type: this.props.config.plan.isTrialEnabled && this.props.trialStatus !== 'EXPIRED' ? 'GET_TRIAL' : 'GET_PRO' } }, '*')
   }}
 />
 ```

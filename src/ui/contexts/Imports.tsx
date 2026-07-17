@@ -493,7 +493,13 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           onBlock={() => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )
@@ -581,7 +587,13 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           onBlock={() => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )
@@ -691,7 +703,13 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           onBlock={() => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )
@@ -818,7 +836,13 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -860,7 +884,15 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                             label={this.props.t('plan.getPro')}
                             action={() =>
                               sendPluginMessage(
-                                { pluginMessage: { type: 'GET_PRO' } },
+                                {
+                                  pluginMessage: {
+                                    type:
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
+                                        ? 'GET_TRIAL'
+                                        : 'GET_PRO',
+                                  },
+                                },
                                 '*'
                               )
                             }

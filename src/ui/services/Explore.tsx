@@ -382,7 +382,13 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )

@@ -165,7 +165,7 @@ feature.isNew(): boolean
   }}
   onUnblock={() => {
     // Handle when user clicks blocked feature
-    sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+    sendPluginMessage({ pluginMessage: { type: this.props.config.plan.isTrialEnabled && this.props.trialStatus !== 'EXPIRED' ? 'GET_TRIAL' : 'GET_PRO' } }, '*')
   }}
 />
 ```
@@ -279,7 +279,7 @@ feature.isNew(): boolean
   searchLabel="Search…"
   noResultsLabel="No results"
   onUnblock={() => {
-    sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+    sendPluginMessage({ pluginMessage: { type: this.props.config.plan.isTrialEnabled && this.props.trialStatus !== 'EXPIRED' ? 'GET_TRIAL' : 'GET_PRO' } }, '*')
   }}
 />
 ```
@@ -997,7 +997,7 @@ Icon-based tab switcher. Each segment shows an icon (or a letter) with a tooltip
     this.setState({ view: id })
   }}
   onUnblock={() => {
-    sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+    sendPluginMessage({ pluginMessage: { type: this.props.config.plan.isTrialEnabled && this.props.trialStatus !== 'EXPIRED' ? 'GET_TRIAL' : 'GET_PRO' } }, '*')
   }}
 />
 ```
@@ -1295,7 +1295,7 @@ export default class ExportPanel extends React.Component<Props, State> {
             action={this.handleExport}
             onUnblock={() => {
               sendPluginMessage({
-                pluginMessage: { type: 'GET_PRO' }
+                pluginMessage: { type: this.props.config.plan.isTrialEnabled && this.props.trialStatus !== 'EXPIRED' ? 'GET_TRIAL' : 'GET_PRO' }
               }, '*')
             }}
           />
@@ -1406,7 +1406,7 @@ const features = MyComponent.features(planStatus, config, service, editor)
 <Button
   isBlocked={true}
   onUnblock={() => {
-    sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+    sendPluginMessage({ pluginMessage: { type: this.props.config.plan.isTrialEnabled && this.props.trialStatus !== 'EXPIRED' ? 'GET_TRIAL' : 'GET_PRO' } }, '*')
   }}
 />
 

@@ -519,7 +519,13 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
                     onBlock={() => {
                       sendPluginMessage(
                         {
-                          pluginMessage: { type: 'GET_PRO' },
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
                         },
                         '*'
                       )
@@ -595,7 +601,18 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
           isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onBlock={() => {
-            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
+              },
+              '*'
+            )
           }}
           onChange={this.contrastLightForegroundHandler}
         />
@@ -623,7 +640,18 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
           isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onBlock={() => {
-            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
+              },
+              '*'
+            )
           }}
           onChange={this.contrastDarkForegroundHandler}
         />

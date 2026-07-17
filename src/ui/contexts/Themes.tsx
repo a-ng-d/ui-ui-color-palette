@@ -600,6 +600,7 @@ export default class Themes extends PureComponent<ThemesProps> {
           {
             node: (
               <>
+                ;
                 <Bar
                   id="modes-header"
                   leftPartSlot={
@@ -622,7 +623,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -719,7 +726,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                               onBlock={() => {
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: { type: 'GET_PRO' },
+                                    pluginMessage: {
+                                      type:
+                                        this.props.config.plan.isTrialEnabled &&
+                                        this.props.trialStatus !== 'EXPIRED'
+                                          ? 'GET_TRIAL'
+                                          : 'GET_PRO',
+                                    },
                                   },
                                   '*'
                                 )
@@ -849,7 +862,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -885,7 +904,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -912,7 +937,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -939,7 +970,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -966,7 +1003,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -993,7 +1036,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -1020,7 +1069,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -1047,7 +1102,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -1074,7 +1135,13 @@ export default class Themes extends PureComponent<ThemesProps> {
                                           sendPluginMessage(
                                             {
                                               pluginMessage: {
-                                                type: 'GET_PRO',
+                                                type:
+                                                  this.props.config.plan
+                                                    .isTrialEnabled &&
+                                                  this.props.trialStatus !==
+                                                    'EXPIRED'
+                                                    ? 'GET_TRIAL'
+                                                    : 'GET_PRO',
                                               },
                                             },
                                             '*'
@@ -1092,7 +1159,15 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     onBlock={() => {
                                       sendPluginMessage(
                                         {
-                                          pluginMessage: { type: 'GET_PRO' },
+                                          pluginMessage: {
+                                            type:
+                                              this.props.config.plan
+                                                .isTrialEnabled &&
+                                              this.props.trialStatus !==
+                                                'EXPIRED'
+                                                ? 'GET_TRIAL'
+                                                : 'GET_PRO',
+                                          },
                                         },
                                         '*'
                                       )
