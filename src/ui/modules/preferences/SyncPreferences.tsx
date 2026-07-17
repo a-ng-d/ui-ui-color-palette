@@ -123,12 +123,13 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canStylesDeepSync}
           isBlocked={
             !this.state.canStylesDeepSync &&
-            this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isReached(
+            (this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isReached(
               (this.props.creditsCount -
                 this.props.config.fees.localStylesSync) *
                 -1 -
                 1
-            )
+            ) ||
+              this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isBlocked())
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
@@ -181,12 +182,13 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canVariablesDeepSync}
           isBlocked={
             !this.state.canVariablesDeepSync &&
-            this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isReached(
+            (this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isReached(
               (this.props.creditsCount -
                 this.props.config.fees.localVariablesSync) *
                 -1 -
                 1
-            )
+            ) ||
+              this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isBlocked())
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
@@ -239,12 +241,13 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canTokensDeepSync}
           isBlocked={
             !this.state.canTokensDeepSync &&
-            this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isReached(
+            (this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isReached(
               (this.props.creditsCount -
                 this.props.config.fees.localTokensSync) *
                 -1 -
                 1
-            )
+            ) ||
+              this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isBlocked())
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isNew()}
           feature="UPDATE_TOKENS_DEEP_SYNC"
