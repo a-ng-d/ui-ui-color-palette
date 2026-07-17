@@ -82,7 +82,7 @@ export default class Source extends PureComponent<SourceProps, SourceState> {
             {this.props.t('paletteProperties.transparent')}
           </Chip>
         )}
-        {(this.state.isMouseEnter || this.props.isTransparent) && (
+        {this.state.isMouseEnter && (
           <div className="preview__cell__actions">
             <Feature
               isActive={
