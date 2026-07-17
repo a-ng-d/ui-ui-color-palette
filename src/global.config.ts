@@ -5,7 +5,13 @@ import { doSpecificMode } from './stores/features'
 
 declare const __PLATFORM__: 'figma' | 'penpot' | 'sketch' | 'framer'
 declare const __COLOR_MODE__: 'dark' | 'light'
-declare const __EDITOR__: 'figma' | 'dev' | 'penpot' | 'framer'
+declare const __EDITOR__:
+  | 'figma'
+  | 'dev'
+  | 'figjam'
+  | 'buzz'
+  | 'penpot'
+  | 'framer'
 
 const isDev = import.meta.env.MODE === 'development'
 declare const __APP_VERSION__: string
@@ -16,7 +22,14 @@ interface SpecConfig {
       [editor: string]: {
         env: {
           platform: 'figma' | 'penpot' | 'sketch' | 'framer'
-          editor: 'figma' | 'dev' | 'penpot' | 'sketch' | 'framer'
+          editor:
+            | 'figma'
+            | 'dev'
+            | 'figjam'
+            | 'buzz'
+            | 'penpot'
+            | 'sketch'
+            | 'framer'
           ui: 'figma' | 'penpot' | 'sketch' | 'framer'
           colorMode:
             | 'figma-light'
@@ -44,7 +57,6 @@ const proFeatures = [
   'USER_PREFERENCES_SYNC_DEEP_STYLES',
   'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
   'USER_PREFERENCES_SYNC_DEEP_TOKENS',
-  // 'PREVIEW_LOCK_SOURCE_COLORS',
   'PREVIEW_SCORES_WCAG_INTERVAL',
   'PREVIEW_SCORES_APCA_INTERVAL',
   'PREVIEW_FILTER_PASS',
@@ -53,14 +65,6 @@ const proFeatures = [
   'DOCUMENT_PALETTE_PROPERTIES',
   'DOCUMENT_SHEET',
   'DOCUMENT_PUSH_UPDATES',
-  // 'VIEWS_PALETTE',
-  // 'VIEWS_PALETTE_WITH_PROPERTIES',
-  // 'VIEWS_SHEET',
-  // 'IMPORTS_COOLORS_ADD',
-  // 'IMPORTS_REALTIME_COLORS_ADD',
-  // 'GEN_REQUEST',
-  // 'EXTRACT_UPLOAD',
-  // 'WHEEL_BASE',
   'PRESETS_MATERIAL',
   'PRESETS_MATERIAL_3',
   'PRESETS_TAILWIND',
@@ -75,36 +79,8 @@ const proFeatures = [
   'PRESETS_FLUENT',
   'PRESETS_POLARIS',
   'PRESETS_CUSTOM_ADD',
-  // 'SCALE_CONTRAST_RATIO',
-  // 'SCALE_CHROMA',
-  // 'SCALE_HUE',
-  // 'COLORS',
   'COLORS_ADD',
-  // 'COLORS_HUE_SHIFTING',
-  // 'COLORS_CHROMA_SHIFTING',
-  // 'COLORS_ALPHA',
-  // 'COLORS_BACKGROUND_COLOR',
-  // 'THEMES',
   'THEMES_ADD',
-  // 'THEMES_NAME',
-  // 'THEMES_PARAMS',
-  // 'THEMES_DESCRIPTION',
-  // 'SETTINGS_COLOR_SPACE_OKLCH',
-  // 'SETTINGS_COLOR_SPACE_LAB',
-  // 'SETTINGS_COLOR_SPACE_OKLAB',
-  // 'SETTINGS_COLOR_SPACE_HSV',
-  // 'SETTINGS_COLOR_SPACE_HSLUV',
-  // 'SETTINGS_COLOR_SPACE_CMYK',
-  // 'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
-  // 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
-  // 'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
-  // 'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
-  // 'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
-  // 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
-  // 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
-  // 'SETTINGS_ALGORITHM_V1',
-  // 'SETTINGS_ALGORITHM_V2',
-  // 'SETTINGS_TEXT_COLORS_THEME',
   'EXPORT_TOKENS_DTCG',
   'EXPORT_TOKENS_NATIVE',
   'EXPORT_TOKENS_STYLE_DICTIONARY_V3',
@@ -143,6 +119,24 @@ const specConfig: SpecConfig = {
         },
         features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
       },
+      figjam: {
+        env: {
+          platform: 'figma',
+          editor: 'figjam',
+          ui: 'figma',
+          colorMode: 'figma-light',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
+      buzz: {
+        env: {
+          platform: 'figma',
+          editor: 'buzz',
+          ui: 'figma',
+          colorMode: 'figma-light',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
     },
     dark: {
       figma: {
@@ -158,6 +152,24 @@ const specConfig: SpecConfig = {
         env: {
           platform: 'figma',
           editor: 'dev',
+          ui: 'figma',
+          colorMode: 'figma-dark',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
+      figjam: {
+        env: {
+          platform: 'figma',
+          editor: 'figjam',
+          ui: 'figma',
+          colorMode: 'figma-dark',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
+      buzz: {
+        env: {
+          platform: 'figma',
+          editor: 'buzz',
           ui: 'figma',
           colorMode: 'figma-dark',
         },

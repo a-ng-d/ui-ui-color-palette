@@ -35,6 +35,8 @@
     "start:figma:dark:figma": "PLATFORM=figma COLOR_MODE=dark EDITOR=figma vite --mode development",
     "start:figma:light:dev": "PLATFORM=figma COLOR_MODE=light EDITOR=dev vite --mode development",
     "start:figma:dark:dev": "PLATFORM=figma COLOR_MODE=dark EDITOR=dev vite --mode development",
+    "start:figma:light:buzz": "PLATFORM=figma COLOR_MODE=light EDITOR=buzz vite --mode development",
+    "start:figma:dark:buzz": "PLATFORM=figma COLOR_MODE=dark EDITOR=buzz vite --mode development",
     "start:penpot:light:penpot": "PLATFORM=penpot COLOR_MODE=light EDITOR=penpot vite --mode development",
     "start:penpot:dark:penpot": "PLATFORM=penpot COLOR_MODE=dark EDITOR=penpot vite --mode development",
     "start:sketch:light:sketch": "PLATFORM=sketch COLOR_MODE=light EDITOR=sketch vite --mode development",
