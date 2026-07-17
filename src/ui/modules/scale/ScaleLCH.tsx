@@ -709,6 +709,20 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
           isBlocked: this.features.PRESETS_CUSTOM_ADD.isReached(
             this.props.preset.stops.length
           ),
+          onBlock: () => {
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
+              },
+              '*'
+            )
+          },
           action: this.customHandler,
         })
     }
