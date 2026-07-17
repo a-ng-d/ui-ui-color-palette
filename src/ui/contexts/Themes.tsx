@@ -199,21 +199,6 @@ export default class Themes extends PureComponent<ThemesProps> {
     ]
   }
 
-  private get panelBackground(): string {
-    switch (this.theme) {
-      case 'figma':
-        return 'var(--figma-color-bg-default, var(--figma-color-bg))'
-      case 'penpot':
-        return 'var(--penpot-color-background-primary)'
-      case 'sketch':
-        return 'var(--sketch-color-background-primary)'
-      case 'framer':
-        return 'var(--framer-color-bg)'
-      default:
-        return 'var(--figma-color-bg-default, var(--figma-color-bg))'
-    }
-  }
-
   // Helpers
   private applyThemeChanges = (themes: Array<ThemeConfiguration>) => {
     const enabled = themes.find((t) => t.isEnabled)
@@ -588,6 +573,25 @@ export default class Themes extends PureComponent<ThemesProps> {
 
   // Render
   render() {
+    let background
+
+    switch (this.theme) {
+      case 'figma':
+        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
+        break
+      case 'penpot':
+        background = 'var(--penpot-color-background-primary)'
+        break
+      case 'sketch':
+        background = 'var(--sketch-color-background-primary)'
+        break
+      case 'framer':
+        background = 'var(--framer-color-bg)'
+        break
+      default:
+        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
+    }
+    
     const customThemes = this.props.themes.filter(
       (item) => item.type === 'custom theme'
     )
@@ -672,7 +676,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                         alignItems: 'end',
                         position: 'absolute',
                         inset: 0,
-                        backgroundImage: `linear-gradient(0deg, ${this.panelBackground} 20%, rgba(255, 255, 255, 0))`,
+                        backgroundImage: `linear-gradient(0deg, ${background} 20%, rgba(255, 255, 255, 0))`,
                         zIndex: 1,
                       }}
                     >
