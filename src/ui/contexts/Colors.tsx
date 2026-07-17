@@ -620,7 +620,6 @@ export default class Colors extends PureComponent<ColorsProps> {
           {
             node: (
               <>
-                ;
                 <Bar
                   id="colors-header"
                   leftPartSlot={
