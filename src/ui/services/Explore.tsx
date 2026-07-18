@@ -367,17 +367,9 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                         type: 'MULTI_LINE',
                       }}
                       isLoading={this.state.isActionLoading}
-                      isBlocked={
-                        this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesCount
-                        ) ||
-                        this.features.CREATE_PALETTE.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.paletteCreate) *
-                            -1 -
-                            1
-                        )
-                      }
+                      isBlocked={this.features.LOCAL_PALETTES.isReached(
+                        this.props.localPalettesCount
+                      )}
                       isNew={this.features.CREATE_PALETTE.isNew()}
                       onBlock={() => {
                         sendPluginMessage(

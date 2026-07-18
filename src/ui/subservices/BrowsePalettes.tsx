@@ -377,17 +377,9 @@ export default class BrowsePalettes extends PureComponent<
                   : undefined
               }
               isLoading={this.state.isSecondaryActionLoading}
-              isBlocked={
-                this.features.LOCAL_PALETTES.isReached(
-                  this.state.localPalettesList.length
-                ) ||
-                this.features.CREATE_PALETTE.isReached(
-                  (this.props.creditsCount -
-                    this.props.config.fees.paletteCreate) *
-                    -1 -
-                    1
-                )
-              }
+              isBlocked={this.features.LOCAL_PALETTES.isReached(
+                this.state.localPalettesList.length
+              )}
               isNew={this.features.DOCUMENT_CREATE.isNew()}
               shouldReflow={{
                 icon: 'link-connected',
@@ -431,16 +423,9 @@ export default class BrowsePalettes extends PureComponent<
               : undefined
           }
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
-          isBlocked={
-            this.features.LOCAL_PALETTES.isReached(
-              this.state.localPalettesList.length
-            ) ||
-            this.features.CREATE_PALETTE.isReached(
-              (this.props.creditsCount - this.props.config.fees.paletteCreate) *
-                -1 -
-                1
-            )
-          }
+          isBlocked={this.features.LOCAL_PALETTES.isReached(
+            this.state.localPalettesList.length
+          )}
           onBlock={() => {
             sendPluginMessage(
               {

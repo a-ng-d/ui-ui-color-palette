@@ -491,17 +491,9 @@ export default class OrgPalettes extends PureComponent<
                           isEnabled: true,
                           icon: 'plus',
                         }}
-                        isBlocked={
-                          this.features.LOCAL_PALETTES.isReached(
-                            this.props.localPalettesList.length
-                          ) ||
-                          this.features.CREATE_PALETTE.isReached(
-                            (this.props.creditsCount -
-                              this.props.config.fees.paletteCreate) *
-                              -1 -
-                              1
-                          )
-                        }
+                        isBlocked={this.features.LOCAL_PALETTES.isReached(
+                          this.props.localPalettesList.length
+                        )}
                         isNew={this.features.ADD_PALETTE.isNew()}
                         onBlock={() => {
                           sendPluginMessage(

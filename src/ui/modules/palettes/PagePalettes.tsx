@@ -610,7 +610,7 @@ export default class PagePalettes extends PureComponent<
 
   // Render
   render() {
-    const limit = this.features.LOCAL_PALETTES.limit ?? 0
+    const limit = this.features.LOCAL_PALETTES.limit ?? 3
 
     return (
       <>

@@ -410,17 +410,9 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                   }}
                   isLoading={this.state.isActionLoading}
                   isDisabled={true}
-                  isBlocked={
-                    this.features.LOCAL_PALETTES.isReached(
-                      this.props.localPalettesCount
-                    ) ||
-                    this.features.CREATE_PALETTE.isReached(
-                      (this.props.creditsCount -
-                        this.props.config.fees.paletteCreate) *
-                        -1 -
-                        1
-                    )
-                  }
+                  isBlocked={this.features.LOCAL_PALETTES.isReached(
+                    this.props.localPalettesCount
+                  )}
                   onBlock={() => {
                     sendPluginMessage(
                       {
@@ -500,17 +492,9 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
-                isBlocked={
-                  this.features.LOCAL_PALETTES.isReached(
-                    this.props.localPalettesCount
-                  ) ||
-                  this.features.CREATE_PALETTE.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.paletteCreate) *
-                      -1 -
-                      1
-                  )
-                }
+                isBlocked={this.features.LOCAL_PALETTES.isReached(
+                  this.props.localPalettesCount
+                )}
                 isNew={this.features.CREATE_PALETTE.isNew()}
                 onBlock={() => {
                   sendPluginMessage(

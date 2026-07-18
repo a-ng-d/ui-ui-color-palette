@@ -443,17 +443,9 @@ export default class ImagePalette extends PureComponent<
                 }}
                 isLoading={this.state.isActionLoading}
                 isDisabled={this.state.dominantColors.length === 0}
-                isBlocked={
-                  this.features.LOCAL_PALETTES.isReached(
-                    this.props.localPalettesCount
-                  ) ||
-                  this.features.CREATE_PALETTE.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.paletteCreate) *
-                      -1 -
-                      1
-                  )
-                }
+                isBlocked={this.features.LOCAL_PALETTES.isReached(
+                  this.props.localPalettesCount
+                )}
                 onBlock={() => {
                   sendPluginMessage(
                     {
