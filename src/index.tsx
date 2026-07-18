@@ -48,7 +48,7 @@ if (globalConfig.env.isMixpanelEnabled) {
     disable_cookie: true,
     ignore_dnt: true,
     opt_out_tracking_by_default: true,
-    record_sessions_percent: 50,
+    record_sessions_percent: globalConfig.env.isDev ? 0 : 50,
     record_mask_text_selector: '*',
     record_block_selector: 'img',
     record_heatmap_data: true,
