@@ -626,7 +626,7 @@ export default class ColorWheel extends PureComponent<
                   }
                   shouldReflow
                   isInverted
-                  border={['BOTTOM']}
+                  border={['TOP']}
                 />
               </>
             ),
