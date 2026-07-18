@@ -122,10 +122,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     this.setState({
       productPrices: await getPrices(
         [
-          this.props.config.urls.storeProWeekUrl,
-          this.props.config.urls.storeProMonthUrl,
-          this.props.config.urls.storeProYearUrl,
-          this.props.config.urls.storeProLifetimeUrl,
+          this.props.config.plan.storeProWeekId,
+          this.props.config.plan.storeProMonthId,
+          this.props.config.plan.storeProYearId,
+          this.props.config.plan.storeProLifetimeId,
         ],
         this.getPricingLocale()
       ),
@@ -211,7 +211,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         title={this.props.t('pricing.pro.titles.week')}
         subtitle={this.props.t('pricing.pro.subtitles.week', {
           price: this.getLocalizedPrice(
-            this.props.config.urls.storeProWeekUrl,
+            this.props.config.plan.storeProWeekId,
             '$3.99'
           ),
         })}
@@ -231,7 +231,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
-              this.openCheckout(this.props.config.urls.storeProWeekUrl)
+              this.openCheckout(this.props.config.plan.storeProWeekId)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -248,7 +248,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         shouldFill
         action={() => {
           if (!this.props.config.env.isPolarEnabled) return
-          this.openCheckout(this.props.config.urls.storeProWeekUrl)
+          this.openCheckout(this.props.config.plan.storeProWeekId)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,
@@ -270,7 +270,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         title={this.props.t('pricing.pro.titles.month')}
         subtitle={this.props.t('pricing.pro.subtitles.month', {
           price: this.getLocalizedPrice(
-            this.props.config.urls.storeProMonthUrl,
+            this.props.config.plan.storeProMonthId,
             '$7.99'
           ),
         })}
@@ -291,7 +291,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
-              this.openCheckout(this.props.config.urls.storeProMonthUrl)
+              this.openCheckout(this.props.config.plan.storeProMonthId)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -308,7 +308,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         shouldFill
         action={() => {
           if (!this.props.config.env.isPolarEnabled) return
-          this.openCheckout(this.props.config.urls.storeProMonthUrl)
+          this.openCheckout(this.props.config.plan.storeProMonthId)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,
@@ -330,7 +330,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         title={this.props.t('pricing.pro.titles.year')}
         subtitle={this.props.t('pricing.pro.subtitles.year', {
           price: this.getLocalizedPrice(
-            this.props.config.urls.storeProYearUrl,
+            this.props.config.plan.storeProYearId,
             '$75.99'
           ),
         })}
@@ -350,7 +350,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
-              this.openCheckout(this.props.config.urls.storeProYearUrl)
+              this.openCheckout(this.props.config.plan.storeProYearId)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -367,7 +367,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         shouldFill
         action={() => {
           if (!this.props.config.env.isPolarEnabled) return
-          this.openCheckout(this.props.config.urls.storeProYearUrl)
+          this.openCheckout(this.props.config.plan.storeProYearId)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,
@@ -389,7 +389,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         title={this.props.t('pricing.pro.titles.lifetime')}
         subtitle={this.props.t('pricing.pro.subtitles.lifetime', {
           price: this.getLocalizedPrice(
-            this.props.config.urls.storeProLifetimeUrl,
+            this.props.config.plan.storeProLifetimeId,
             '$149.99'
           ),
         })}
@@ -409,7 +409,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             action={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation()
               if (!this.props.config.env.isPolarEnabled) return
-              this.openCheckout(this.props.config.urls.storeProLifetimeUrl)
+              this.openCheckout(this.props.config.plan.storeProLifetimeId)
               trackPricingEvent(
                 this.props.config.env.isMixpanelEnabled,
                 this.props.userSession.userId,
@@ -426,7 +426,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         shouldFill
         action={() => {
           if (!this.props.config.env.isPolarEnabled) return
-          this.openCheckout(this.props.config.urls.storeProLifetimeUrl)
+          this.openCheckout(this.props.config.plan.storeProLifetimeId)
           trackPricingEvent(
             this.props.config.env.isMixpanelEnabled,
             this.props.userSession.userId,

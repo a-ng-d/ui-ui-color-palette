@@ -47,6 +47,10 @@ export interface Config {
     creditsLimit: number
     creditsRenewalPeriodDays: number
     creditsRenewalPeriodHours?: number
+    storeProWeekId: string
+    storeProMonthId: string
+    storeProYearId: string
+    storeProLifetimeId: string
   }
   dbs: {
     palettesDbViewName: string
@@ -76,11 +80,8 @@ export interface Config {
     vsCodeFigmaPluginUrl: string
     isbUrl: string
     uicpUrl: string
+    storeUrl: string
     storeManagementUrl: string
-    storeProWeekUrl: string
-    storeProMonthUrl: string
-    storeProYearUrl: string
-    storeProLifetimeUrl: string
     storeUltimateRequestUrl: string
     howToUseUrl: string
   }
