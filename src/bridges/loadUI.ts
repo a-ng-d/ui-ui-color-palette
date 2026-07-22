@@ -45,7 +45,12 @@ const windowSize: Window = {
   ),
 }
 
+const isEmbed = ['1', 'true'].includes(
+  (new URLSearchParams(window.location.search).get('embed') ?? '').toLowerCase()
+)
+
 if (iframe) {
+  iframe.src = isEmbed ? './iframe.html?embed=1' : './iframe.html'
   iframe.width = windowSize.width.toString()
   iframe.height = windowSize.height.toString()
 }

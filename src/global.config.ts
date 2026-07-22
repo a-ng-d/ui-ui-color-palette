@@ -16,6 +16,8 @@ declare const __EDITOR__:
 const isDev = import.meta.env.MODE === 'development'
 declare const __APP_VERSION__: string
 
+const isUiOverrideEnabled = import.meta.env.VITE_UI_OVERRIDE_ENABLED === 'true'
+
 interface SpecConfig {
   [platform: string]: {
     [colorMode: string]: {
@@ -278,6 +280,38 @@ const specConfig: SpecConfig = {
   },
 }
 
+type SpecTarget = SpecConfig[string][string][string]
+
+const resolveSpecTarget = (): SpecTarget => {
+  const buildTarget = specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__]
+
+  if (!isUiOverrideEnabled || typeof window === 'undefined') return buildTarget
+
+  const params = new URLSearchParams(window.location.search)
+  const platformParam = params.get('platform')
+  const colorModeParam = params.get('theme')
+  const editorParam = params.get('editor')
+
+  if (!platformParam && !colorModeParam && !editorParam) return buildTarget
+
+  const platformGroup = platformParam ? specConfig[platformParam] : undefined
+  if (!platformGroup) return buildTarget
+
+  const colorModeGroup =
+    (colorModeParam && platformGroup[colorModeParam]) ||
+    platformGroup[__COLOR_MODE__] ||
+    Object.values(platformGroup)[0]
+  if (!colorModeGroup) return buildTarget
+
+  const target =
+    (editorParam && colorModeGroup[editorParam]) ||
+    Object.values(colorModeGroup)[0]
+
+  return target ?? buildTarget
+}
+
+const specTarget = resolveSpecTarget()
+
 const globalConfig: Config = {
   limits: {
     pageSize: 20,
@@ -291,7 +325,7 @@ const globalConfig: Config = {
     localPalettes: 3,
   },
   env: {
-    ...specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].env,
+    ...specTarget.env,
     isDev,
     isSupabaseEnabled: import.meta.env.VITE_SUPABASE_ENABLED === 'true',
     isMixpanelEnabled: import.meta.env.VITE_MIXPANEL_ENABLED === 'true',
@@ -361,7 +395,7 @@ const globalConfig: Config = {
     pluginVersion: __APP_VERSION__,
     creditsVersion: '2026.05',
   },
-  features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
+  features: specTarget.features,
   lang: 'en-US',
   fees: {
     colourLoversImport: 25,

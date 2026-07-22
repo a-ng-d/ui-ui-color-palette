@@ -53,6 +53,7 @@ jobs:
           echo VITE_PRO_ENABLED="${{ vars.VITE_PRO_ENABLED }}" >> .env.local
           echo VITE_TRIAL_ENABLED="${{ vars.VITE_TRIAL_ENABLED }}" >> .env.local
           echo VITE_CREDITS_ENABLED="${{ vars.VITE_CREDITS_ENABLED }}" >> .env.local
+          echo VITE_UI_OVERRIDE_ENABLED="${{ vars.VITE_UI_OVERRIDE_ENABLED }}" >> .env.local
           echo VITE_SUPABASE_URL="${{ vars.VITE_SUPABASE_URL }}" >> .env.local
           echo VITE_SUPABASE_PUBLIC_ANON_KEY="${{ secrets.VITE_SUPABASE_PUBLIC_ANON_KEY }}" >> .env.local
           echo VITE_SENTRY_DSN="${{ vars.VITE_SENTRY_DSN }}" >> .env.local
