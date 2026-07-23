@@ -297,12 +297,12 @@ const resolveSpecTarget = (): SpecTarget => {
 
   const params = new URLSearchParams(window.location.search)
   const platformParam = params.get('platform')
-  const colorModeParam = params.get('theme')
+  const colorModeParam = params.get('mode')
   const editorParam = params.get('editor')
 
   if (!platformParam && !colorModeParam && !editorParam) return buildTarget
 
-  const platformGroup = platformParam ? specConfig[platformParam] : undefined
+  const platformGroup = specConfig[platformParam ?? __PLATFORM__]
   if (!platformGroup) return buildTarget
 
   const colorModeGroup =
