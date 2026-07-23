@@ -17,6 +17,7 @@ export interface Config {
   }
   env: {
     isDev: boolean
+    isEmbed: boolean
     platform: 'figma' | 'penpot' | 'sketch' | 'framer'
     editor: Editor
     ui: 'figma' | 'penpot' | 'sketch' | 'framer'

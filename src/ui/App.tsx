@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component, createPortal } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
   Button,
@@ -972,7 +972,10 @@ class App extends Component<AppProps, AppState> {
     if (this.state.isLoaded)
       return (
         <main
-          className="ui"
+          className={doClassnames([
+            'ui',
+            this.props.config.env.isEmbed && 'ui--embed',
+          ])}
           inert={
             this.state.modalContext !== 'EMPTY' || this.state.mustUserConsent
           }
@@ -1268,7 +1271,12 @@ class App extends Component<AppProps, AppState> {
       )
     else
       return (
-        <main className="ui">
+        <main
+          className={doClassnames([
+            'ui',
+            this.props.config.env.isEmbed && 'ui--embed',
+          ])}
+        >
           <div className={layouts.centered}>
             <Icon
               type="PICTO"

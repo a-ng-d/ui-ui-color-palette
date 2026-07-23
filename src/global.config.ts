@@ -18,6 +18,14 @@ declare const __APP_VERSION__: string
 
 const isUiOverrideEnabled = import.meta.env.VITE_UI_OVERRIDE_ENABLED === 'true'
 
+const isEmbed =
+  typeof window !== 'undefined' &&
+  ['1', 'true'].includes(
+    (
+      new URLSearchParams(window.location.search).get('embed') ?? ''
+    ).toLowerCase()
+  )
+
 interface SpecConfig {
   [platform: string]: {
     [colorMode: string]: {
@@ -327,6 +335,7 @@ const globalConfig: Config = {
   env: {
     ...specTarget.env,
     isDev,
+    isEmbed,
     isSupabaseEnabled: import.meta.env.VITE_SUPABASE_ENABLED === 'true',
     isMixpanelEnabled: import.meta.env.VITE_MIXPANEL_ENABLED === 'true',
     isSentryEnabled: import.meta.env.VITE_SENTRY_ENABLED === 'true',

@@ -53,21 +53,23 @@ main {
 }
 
 html.is-embed,
-html.is-embed body {
+html.is-embed body,
+html.is-embed div#app {
   margin: 0;
   border: 0;
   box-shadow: none;
 }
 
-html.is-embed div#app {
+main.ui--embed {
   width: 100%;
-  height: 100%;
+  margin: 0;
   border: 0;
   border-radius: 0;
   box-shadow: none;
 }
 
-html.is-embed .box-resizer-grip {
+html.is-embed .box-resizer-grip,
+.ui--embed .box-resizer-grip {
   display: none !important;
 }
 

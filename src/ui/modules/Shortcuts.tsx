@@ -1142,7 +1142,12 @@ export default class Shortcuts extends PureComponent<
                   }
                 />
               </div>
-              <Feature isActive={this.features.RESIZE_UI.isActive()}>
+              <Feature
+                isActive={
+                  this.features.RESIZE_UI.isActive() &&
+                  !this.props.config.env.isEmbed
+                }
+              >
                 <div
                   className="box-resizer-grip"
                   onMouseDown={this.onHold.bind(this)}
