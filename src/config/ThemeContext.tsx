@@ -30,7 +30,7 @@ export const ThemeProvider = ({
   mode,
   children,
 }: ThemeProviderProps) => {
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     document.documentElement.setAttribute('data-mode', mode)
   }, [theme, mode])
