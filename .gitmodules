@@ -14,8 +14,8 @@
 	path = packages/cors-yelbolt-worker
 	url = https://github.com/a-ng-d/cors-yelbolt-worker.git
 [submodule "specs"]
-	path = specs/docs
 	url = https://github.com/a-ng-d/specs-ui-color-palette
+	path = docs/specs
 [submodule "skills"]
 	path = .claude/skills
 	url = https://github.com/yelbolt/unoff-skills
