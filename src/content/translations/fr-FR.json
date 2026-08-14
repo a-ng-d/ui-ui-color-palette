@@ -878,6 +878,7 @@
       "reverseStops": "Inverser les étapes"
     },
     "contrast": {
+      "helper": "Le rapport de contraste mesure la lisibilité d'une couleur de premier plan sur un fond, de 1 à 21. Modifiez un rapport sur l'une ou l'autre couleur de premier plan pour recalculer la luminosité de cette étape jusqu'à ce que le rapport soit atteint.",
       "label": "Mode contraste",
       "title": "Rapport de contraste"
     },
@@ -894,6 +895,10 @@
     },
     "howTo": "Comment ajuster",
     "keyboardShortcuts": "Revoir les raccourcis clavier",
+    "lightness": {
+      "helper": "Les étapes de luminosité déterminent la clarté ou l'obscurité de chaque niveau de l'échelle, du plus foncé au plus clair. Déplacez une étape pour réorganiser la répartition des nuances et teintes de la palette.",
+      "label": "Luminosité"
+    },
     "namingConvention": {
       "hundreds": "100 - 1000",
       "ones": "1 - 10",
@@ -931,11 +936,23 @@
     },
     "shift": {
       "chroma": {
+        "helper": "La chroma indique à quel point une couleur paraît vive ou saturée. Ce décalage s'applique à toutes les couleurs de la palette à la fois, sauf à une couleur dont la chroma a été ajustée individuellement : elle conserve alors sa propre valeur jusqu'à sa réinitialisation.",
         "label": "Chroma",
         "warning": "Passez à /pro pour créer une palette avec un décalage de chroma modifié. Réinitialisez-le à 100% ou passez à niveau supérieur."
       },
+      "curve": {
+        "free": "Libre",
+        "hyperbola": "Hyperbole",
+        "label": "Distribution",
+        "linear": "Linéaire"
+      },
       "hue": {
+        "helper": "La teinte indique la position d'une couleur sur le cercle chromatique. Ce décalage s'applique à toutes les couleurs de la palette à la fois, sauf à une couleur dont la teinte a été ajustée individuellement : elle conserve alors sa propre valeur jusqu'à sa réinitialisation.",
         "label": "Teinte"
+      },
+      "threshold": {
+        "left": "L",
+        "right": "R"
       }
     },
     "tips": {

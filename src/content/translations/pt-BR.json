@@ -878,6 +878,7 @@
       "reverseStops": "Reverter paradas"
     },
     "contrast": {
+      "helper": "A taxa de contraste mede a legibilidade de uma cor de primeiro plano sobre um fundo, de 1 a 21. Edite uma taxa em qualquer uma das cores de primeiro plano para recalcular a luminosidade dessa parada até que a taxa seja atingida.",
       "label": "Modo de contraste",
       "title": "Taxa de contraste"
     },
@@ -894,6 +895,10 @@
     },
     "howTo": "Como usar",
     "keyboardShortcuts": "Revisar os atalhos do teclado",
+    "lightness": {
+      "helper": "As paradas de luminosidade definem o quão claro ou escuro é cada etapa da escala, do tom mais escuro ao mais claro. Mova uma parada para reorganizar a distribuição de tons e matizes na paleta.",
+      "label": "Luminosidade"
+    },
     "namingConvention": {
       "hundreds": "100 - 1000",
       "ones": "1 - 10",
@@ -931,11 +936,23 @@
     },
     "shift": {
       "chroma": {
+        "helper": "O croma indica o quão viva ou saturada uma cor parece. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo croma foi ajustado individualmente — essa cor mantém seu próprio valor até ser redefinida.",
         "label": "Croma",
         "warning": "Atualize para /pro para criar uma paleta com deslocamento de croma modificado. Redefina para 100% ou atualize."
       },
+      "curve": {
+        "free": "Livre",
+        "hyperbola": "Hipérbole",
+        "label": "Distribuição",
+        "linear": "Linear"
+      },
       "hue": {
+        "helper": "O matiz indica a posição de uma cor na roda de cores. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo matiz foi ajustado individualmente — essa cor mantém seu próprio valor até ser redefinida.",
         "label": "Matiz"
+      },
+      "threshold": {
+        "left": "L",
+        "right": "R"
       }
     },
     "tips": {

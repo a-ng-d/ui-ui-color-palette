@@ -878,6 +878,7 @@
       "reverseStops": "Reverse stops"
     },
     "contrast": {
+      "helper": "Contrast ratio measures how legible a foreground color is against a background, from 1 to 21. Edit a ratio on either foreground color to recompute that stop's lightness until the ratio is met.",
       "label": "Contrast mode",
       "title": "Contrast ratio"
     },
@@ -894,6 +895,10 @@
     },
     "howTo": "How to use",
     "keyboardShortcuts": "Review the keyboard shortcuts",
+    "lightness": {
+      "helper": "Lightness stops set how light or dark each step of the scale is, from the darkest shade to the lightest tint. Move a stop to reshape where the shades and tints fall across the palette.",
+      "label": "Lightness"
+    },
     "namingConvention": {
       "hundreds": "100 - 1000",
       "ones": "1 - 10",
@@ -931,11 +936,23 @@
     },
     "shift": {
       "chroma": {
+        "helper": "Chroma is how colorful or saturated a color looks. This shift applies to every color in the palette at once, except a color whose chroma has been adjusted individually — that color keeps its own value until it's reset.",
         "label": "Chroma",
         "warning": "Upgrade to /pro to create a palette with a modified chroma shift. Reset it to 100% or upgrade."
       },
+      "curve": {
+        "free": "Free",
+        "hyperbola": "Hyperbola",
+        "label": "Distribution",
+        "linear": "Linear"
+      },
       "hue": {
+        "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually — that color keeps its own value until it's reset.",
         "label": "Hue"
+      },
+      "threshold": {
+        "left": "L",
+        "right": "R"
       }
     },
     "tips": {

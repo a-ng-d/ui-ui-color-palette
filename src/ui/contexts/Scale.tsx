@@ -732,40 +732,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                     <div
                       className={doClassnames([layouts['snackbar--medium']])}
                     >
-                      <Feature isActive={this.features.SCALE_HELPER.isActive()}>
-                        <Feature
-                          isActive={this.features.SCALE_HELPER_TIPS.isActive()}
-                        >
-                          <Button
-                            type="icon"
-                            icon="help"
-                            helper={{
-                              label: this.props.t('scale.keyboardShortcuts'),
-                            }}
-                            isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
-                            isNew={this.features.SCALE_HELPER_TIPS.isNew()}
-                            onBlock={() => {
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type:
-                                      this.props.config.plan.isTrialEnabled &&
-                                      this.props.trialStatus !== 'EXPIRED'
-                                        ? 'GET_TRIAL'
-                                        : 'GET_PRO',
-                                  },
-                                },
-                                '*'
-                              )
-                            }}
-                            action={() => {
-                              this.setState({
-                                isTipsOpen: true,
-                              })
-                            }}
-                          />
-                        </Feature>
-                      </Feature>
                       <Feature isActive={this.features.SCALE_RESET.isActive()}>
                         <Button
                           type="icon"
@@ -791,6 +757,38 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                             )
                           }}
                           action={this.onResetScale}
+                        />
+                      </Feature>
+                      <Feature
+                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
+                      >
+                        <Button
+                          type="icon"
+                          icon="help"
+                          helper={{
+                            label: this.props.t('scale.keyboardShortcuts'),
+                          }}
+                          isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
+                          isNew={this.features.SCALE_HELPER_TIPS.isNew()}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: {
+                                  type:
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
+                                      ? 'GET_TRIAL'
+                                      : 'GET_PRO',
+                                },
+                              },
+                              '*'
+                            )
+                          }}
+                          action={() => {
+                            this.setState({
+                              isTipsOpen: true,
+                            })
+                          }}
                         />
                       </Feature>
                     </div>

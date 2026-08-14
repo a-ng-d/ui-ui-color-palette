@@ -878,6 +878,7 @@
       "reverseStops": "Invertir paradas"
     },
     "contrast": {
+      "helper": "La relación de contraste mide la legibilidad de un color de primer plano sobre un fondo, de 1 a 21. Modifica una relación en cualquiera de los colores de primer plano para recalcular la luminosidad de esa parada hasta alcanzarla.",
       "label": "Modo de contraste",
       "title": "Relación de contraste"
     },
@@ -894,6 +895,10 @@
     },
     "howTo": "Cómo usar",
     "keyboardShortcuts": "Revisar los atajos de teclado",
+    "lightness": {
+      "helper": "Las paradas de luminosidad determinan cuán claro u oscuro es cada paso de la escala, del más oscuro al más claro. Mueve una parada para reorganizar cómo se distribuyen los tonos a lo largo de la paleta.",
+      "label": "Luminosidad"
+    },
     "namingConvention": {
       "hundreds": "100 - 1000",
       "ones": "1 - 10",
@@ -931,11 +936,23 @@
     },
     "shift": {
       "chroma": {
+        "helper": "El croma indica cuán vivo o saturado se ve un color. Este desplazamiento afecta a todos los colores de la paleta a la vez, excepto a un color cuyo croma se haya ajustado de forma individual: ese color conserva su propio valor hasta que se restablezca.",
         "label": "Croma",
         "warning": "Actualiza a /pro para crear una paleta con un desplazamiento de croma modificado. Restablécelo al 100% o actualiza."
       },
+      "curve": {
+        "free": "Libre",
+        "hyperbola": "Hipérbola",
+        "label": "Distribución",
+        "linear": "Lineal"
+      },
       "hue": {
+        "helper": "El tono indica la posición de un color en el círculo cromático. Este desplazamiento afecta a todos los colores de la paleta a la vez, excepto a un color cuyo tono se haya ajustado de forma individual: ese color conserva su propio valor hasta que se restablezca.",
         "label": "Tono"
+      },
+      "threshold": {
+        "left": "L",
+        "right": "R"
       }
     },
     "tips": {
