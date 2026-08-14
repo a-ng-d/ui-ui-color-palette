@@ -851,7 +851,10 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                         const stops = Object.values(this.props.scale)
                         const shiftRange =
                           stops.length > 0
-                            ? { min: Math.min(...stops), max: Math.max(...stops) }
+                            ? {
+                                min: Math.min(...stops),
+                                max: Math.max(...stops),
+                              }
                             : { min: 0, max: 0 }
                         const scaledColors: Array<HexModel> = stops
                           .reverse()

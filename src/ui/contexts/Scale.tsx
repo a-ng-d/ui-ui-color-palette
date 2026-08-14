@@ -13,7 +13,15 @@ import {
   makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
-import { Bar, Button, Dropdown, Layout, layouts, List, SectionTitle } from '@unoff/ui'
+import {
+  Bar,
+  Button,
+  Dropdown,
+  Layout,
+  layouts,
+  List,
+  SectionTitle,
+} from '@unoff/ui'
 import { ManagePaletteState } from '../services/ManagePalette'
 import ScaleLCH from '../modules/scale/ScaleLCH'
 import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'

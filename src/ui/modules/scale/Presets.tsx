@@ -18,7 +18,8 @@ import { $palette } from '../../../stores/palette'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface PresetsProps extends BaseProps, WithConfigProps, WithTranslationProps {
+interface PresetsProps
+  extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   preset: PresetConfiguration
   onChangeThemes?: (scale: ScaleConfiguration) => void

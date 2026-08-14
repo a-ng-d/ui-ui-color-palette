@@ -43,7 +43,10 @@ interface ContrastState {
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class Contrast extends PureComponent<ContrastProps, ContrastState> {
+export default class Contrast extends PureComponent<
+  ContrastProps,
+  ContrastState
+> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette

@@ -591,7 +591,7 @@ export default class Themes extends PureComponent<ThemesProps> {
       default:
         background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
     }
-    
+
     const customThemes = this.props.themes.filter(
       (item) => item.type === 'custom theme'
     )
