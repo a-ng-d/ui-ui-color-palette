@@ -3,11 +3,17 @@ import { PureComponent } from 'preact/compat'
 import {
   ExchangeConfiguration,
   ShiftConfiguration,
+  ShiftCurve,
+  ShiftCurveConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
-import { SimpleSlider } from '@unoff/ui'
+import { Section, SectionTitle, SimpleItem } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
+import {
+  ShiftCurveFields,
+  ShiftCurveSelector,
+} from '../../components/ShiftCurveControl'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
@@ -18,7 +24,11 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 interface ChromaProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   shift: ShiftConfiguration
-  onChangeShift: (feature?: string, state?: string, value?: number) => void
+  onChangeShift: (
+    feature?: string,
+    state?: string,
+    value?: ShiftCurveConfiguration
+  ) => void
 }
 
 export default class Chroma extends PureComponent<ChromaProps> {
@@ -72,40 +82,49 @@ export default class Chroma extends PureComponent<ChromaProps> {
   }
 
   // Handlers
-  shiftHandler = (feature: string, state: string, value: number) => {
+  shiftHandler = (
+    feature: string,
+    state: string,
+    patch: Partial<ShiftCurveConfiguration>
+  ) => {
+    const nextShift: ShiftCurveConfiguration = {
+      ...this.props.shift.chroma,
+      ...patch,
+    }
+
     const onReleaseStop = () => {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeShift(feature, state, nextShift)
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
-      this.palette.setKey('shift.chroma', value)
+      this.palette.setKey('shift.chroma', nextShift)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeShift(feature, state, nextShift)
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
-      this.palette.setKey('shift.chroma', value)
+      this.palette.setKey('shift.chroma', nextShift)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
-      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeShift(feature, state, nextShift)
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
-      this.palette.setKey('shift.chroma', value)
-      this.props.onChangeShift(feature, state, value)
+      this.palette.setKey('shift.chroma', nextShift)
+      this.props.onChangeShift(feature, state, nextShift)
     }
 
     const actions: {
@@ -121,39 +140,78 @@ export default class Chroma extends PureComponent<ChromaProps> {
     return actions[state ?? 'DEFAULT']?.()
   }
 
+  curveHandler = (feature: string, curve: ShiftCurve) => {
+    this.shiftHandler(feature, 'RELEASED', { curve })
+  }
+
+  onBlockHandler = () => {
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type:
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
+              ? 'GET_TRIAL'
+              : 'GET_PRO',
+        },
+      },
+      '*'
+    )
+  }
+
   // Render
   render() {
     return (
       <Feature isActive={this.features.SCALE_CHROMA.isActive()}>
-        <SimpleSlider
-          id="update-chroma"
-          label={this.props.t('scale.shift.chroma.label')}
-          value={this.props.shift.chroma ?? 100}
-          min={0}
-          max={200}
-          step={1}
-          colors={{
-            min: 'hsl(187, 0%, 75%)',
-            max: 'hsl(187, 100%, 75%)',
-          }}
-          feature="SHIFT_CHROMA"
-          isBlocked={this.features.SCALE_CHROMA.isBlocked()}
-          isNew={this.features.SCALE_CHROMA.isNew()}
-          onBlock={() => {
-            sendPluginMessage(
-              {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
-              },
-              '*'
-            )
-          }}
-          onChange={this.shiftHandler}
+        <Section
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={this.props.t('scale.shift.chroma.label')}
+                  helper={this.props.t('scale.shift.chroma.helper')}
+                />
+              }
+              rightPartSlot={
+                <ShiftCurveSelector
+                  id="update-chroma"
+                  curve={this.props.shift.chroma.curve}
+                  feature="SHIFT_CHROMA"
+                  isBlocked={this.features.SCALE_CHROMA.isBlocked()}
+                  isNew={this.features.SCALE_CHROMA.isNew()}
+                  onBlock={this.onBlockHandler}
+                  onChangeCurve={this.curveHandler}
+                  t={this.props.t}
+                />
+              }
+              isListItem={false}
+              alignment="CENTER"
+            />
+          }
+          body={[
+            {
+              node: (
+                <ShiftCurveFields
+                  id="update-chroma"
+                  channel="CHROMA"
+                  label={this.props.t('scale.shift.chroma.label')}
+                  shift={this.props.shift.chroma}
+                  colors={{
+                    min: 'hsl(187, 0%, 75%)',
+                    max: 'hsl(187, 100%, 75%)',
+                  }}
+                  feature="SHIFT_CHROMA"
+                  isBlocked={this.features.SCALE_CHROMA.isBlocked()}
+                  isNew={this.features.SCALE_CHROMA.isNew()}
+                  onBlock={this.onBlockHandler}
+                  onChangeValue={this.shiftHandler}
+                  t={this.props.t}
+                />
+              ),
+              spacingModifier: 'LARGE',
+            },
+          ]}
+          border={['BOTTOM']}
         />
       </Feature>
     )

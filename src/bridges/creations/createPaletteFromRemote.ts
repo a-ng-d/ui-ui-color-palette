@@ -3,6 +3,7 @@ import {
   Data,
   MetaConfiguration,
   ThemeConfiguration,
+  normalizeShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { tolgee } from '../loadUI'
 
@@ -29,9 +30,22 @@ const createFromRemote = async (msg: Msg) => {
       name: msg.data.base.name,
       description: msg.data.base.description,
       preset: msg.data.base.preset,
-      shift: msg.data.base.shift,
+      shift: {
+        chroma: normalizeShift(msg.data.base.shift?.chroma, 'CHROMA'),
+        hue: normalizeShift(msg.data.base.shift?.hue, 'HUE'),
+      },
       areSourceColorsLocked: msg.data.base.areSourceColorsLocked,
-      colors: msg.data.base.colors,
+      colors: msg.data.base.colors.map((color) => ({
+        ...color,
+        hue: {
+          ...color.hue,
+          shift: normalizeShift(color.hue?.shift, 'HUE'),
+        },
+        chroma: {
+          ...color.chroma,
+          shift: normalizeShift(color.chroma?.shift, 'CHROMA'),
+        },
+      })),
       colorSpace: msg.data.base.colorSpace,
       algorithmVersion: msg.data.base.algorithmVersion,
     },

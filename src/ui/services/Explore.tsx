@@ -5,6 +5,7 @@ import chroma from 'chroma-js'
 import {
   SourceColorConfiguration,
   ColourLovers,
+  makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
@@ -256,11 +257,11 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
           b: gl[2],
         },
         hue: {
-          shift: 0,
+          shift: makeDefaultShift('HUE'),
           isLocked: false,
         },
         chroma: {
-          shift: 100,
+          shift: makeDefaultShift('CHROMA'),
           isLocked: false,
         },
         id: uid(),

@@ -3,11 +3,17 @@ import { PureComponent } from 'preact/compat'
 import {
   ExchangeConfiguration,
   ShiftConfiguration,
+  ShiftCurve,
+  ShiftCurveConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
-import { SimpleSlider } from '@unoff/ui'
+import { Section, SectionTitle, SimpleItem } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
+import {
+  ShiftCurveFields,
+  ShiftCurveSelector,
+} from '../../components/ShiftCurveControl'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
@@ -18,7 +24,11 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 interface HueProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   shift: ShiftConfiguration
-  onChangeShift: (feature?: string, state?: string, value?: number) => void
+  onChangeShift: (
+    feature?: string,
+    state?: string,
+    value?: ShiftCurveConfiguration
+  ) => void
 }
 
 export default class Hue extends PureComponent<HueProps> {
@@ -72,40 +82,49 @@ export default class Hue extends PureComponent<HueProps> {
   }
 
   // Handlers
-  shiftHandler = (feature: string, state: string, value: number) => {
+  shiftHandler = (
+    feature: string,
+    state: string,
+    patch: Partial<ShiftCurveConfiguration>
+  ) => {
+    const nextShift: ShiftCurveConfiguration = {
+      ...this.props.shift.hue,
+      ...patch,
+    }
+
     const onReleaseStop = () => {
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeShift(feature, state, nextShift)
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onChangeStop = () => {
-      this.palette.setKey('shift.hue', value)
+      this.palette.setKey('shift.hue', nextShift)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
 
-      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeShift(feature, state, nextShift)
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onTypeStopValue = () => {
-      this.palette.setKey('shift.hue', value)
+      this.palette.setKey('shift.hue', nextShift)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
-      this.props.onChangeShift(feature, state, value)
+      this.props.onChangeShift(feature, state, nextShift)
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
     }
 
     const onUpdatingStop = () => {
-      this.palette.setKey('shift.hue', value)
-      this.props.onChangeShift(feature, state, value)
+      this.palette.setKey('shift.hue', nextShift)
+      this.props.onChangeShift(feature, state, nextShift)
     }
 
     const actions: {
@@ -121,39 +140,79 @@ export default class Hue extends PureComponent<HueProps> {
     return actions[state ?? 'DEFAULT']?.()
   }
 
+  curveHandler = (feature: string, curve: ShiftCurve) => {
+    // Curve switches are a discrete, committed change — flow through the
+    // same RELEASED branch a slider uses when the user lets go of a stop
+    this.shiftHandler(feature, 'RELEASED', { curve })
+  }
+
+  onBlockHandler = () => {
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type:
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
+              ? 'GET_TRIAL'
+              : 'GET_PRO',
+        },
+      },
+      '*'
+    )
+  }
+
   // Render
   render() {
     return (
       <Feature isActive={this.features.SCALE_HUE.isActive()}>
-        <SimpleSlider
-          id="update-hue"
-          label={this.props.t('scale.shift.hue.label')}
-          value={this.props.shift.hue ?? 0}
-          min={-180}
-          max={180}
-          step={1}
-          colors={{
-            min: 'hsl(0, 100%, 75%)',
-            max: 'hsl(180, 100%, 75%)',
-          }}
-          feature="SHIFT_HUE"
-          isBlocked={this.features.SCALE_HUE.isBlocked()}
-          isNew={this.features.SCALE_HUE.isNew()}
-          onBlock={() => {
-            sendPluginMessage(
-              {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
-              },
-              '*'
-            )
-          }}
-          onChange={this.shiftHandler}
+        <Section
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={this.props.t('scale.shift.hue.label')}
+                  helper={this.props.t('scale.shift.hue.helper')}
+                />
+              }
+              rightPartSlot={
+                <ShiftCurveSelector
+                  id="update-hue"
+                  curve={this.props.shift.hue.curve}
+                  feature="SHIFT_HUE"
+                  isBlocked={this.features.SCALE_HUE.isBlocked()}
+                  isNew={this.features.SCALE_HUE.isNew()}
+                  onBlock={this.onBlockHandler}
+                  onChangeCurve={this.curveHandler}
+                  t={this.props.t}
+                />
+              }
+              isListItem={false}
+              alignment="CENTER"
+            />
+          }
+          body={[
+            {
+              node: (
+                <ShiftCurveFields
+                  id="update-hue"
+                  channel="HUE"
+                  label={this.props.t('scale.shift.hue.label')}
+                  shift={this.props.shift.hue}
+                  colors={{
+                    min: 'hsl(0, 100%, 75%)',
+                    max: 'hsl(180, 100%, 75%)',
+                  }}
+                  feature="SHIFT_HUE"
+                  isBlocked={this.features.SCALE_HUE.isBlocked()}
+                  isNew={this.features.SCALE_HUE.isNew()}
+                  onBlock={this.onBlockHandler}
+                  onChangeValue={this.shiftHandler}
+                  t={this.props.t}
+                />
+              ),
+              spacingModifier: 'LARGE',
+            },
+          ]}
         />
       </Feature>
     )

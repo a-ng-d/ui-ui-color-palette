@@ -15,6 +15,7 @@ import {
   ExchangeConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
+  ShiftCurveConfiguration,
   ThemeConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
@@ -309,7 +310,11 @@ export default class EditPalette extends PureComponent<
     )
   }
 
-  shiftHandler = (feature?: string, state?: string, value?: number) => {
+  shiftHandler = (
+    feature?: string,
+    state?: string,
+    value?: ShiftCurveConfiguration
+  ) => {
     const onReleaseStop = () => {
       setData()
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -344,15 +349,20 @@ export default class EditPalette extends PureComponent<
     const setData = () => {
       const shift: ShiftConfiguration = {
         chroma:
-          feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
-        hue: feature === 'SHIFT_HUE' ? (value ?? 0) : this.props.shift.hue,
+          feature === 'SHIFT_CHROMA'
+            ? (value ?? this.props.shift.chroma)
+            : this.props.shift.chroma,
+        hue:
+          feature === 'SHIFT_HUE'
+            ? (value ?? this.props.shift.hue)
+            : this.props.shift.hue,
       }
 
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
-          item.chroma.shift = value ?? this.props.shift.chroma
+          item.chroma.shift = { ...shift.chroma }
         if (feature === 'SHIFT_HUE' && !item.hue.isLocked)
-          item.hue.shift = value ?? this.props.shift.hue
+          item.hue.shift = { ...shift.hue }
         return item
       })
 
@@ -867,11 +877,11 @@ export default class EditPalette extends PureComponent<
       },
       id: uid(),
       hue: {
-        shift: 0,
+        shift: { ...this.props.shift.hue },
         isLocked: false,
       },
       chroma: {
-        shift: 100,
+        shift: { ...this.props.shift.chroma },
         isLocked: false,
       },
       alpha: {

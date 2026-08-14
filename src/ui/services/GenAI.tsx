@@ -2,7 +2,10 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { SourceColorConfiguration } from '@yelbolt/engine-ui-color-palette'
+import {
+  makeDefaultShift,
+  SourceColorConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -269,11 +272,11 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           b: color.rgb.b / 255,
         },
         hue: {
-          shift: 0,
+          shift: makeDefaultShift('HUE'),
           isLocked: false,
         },
         chroma: {
-          shift: 0,
+          shift: makeDefaultShift('CHROMA'),
           isLocked: false,
         },
         source: 'AI',

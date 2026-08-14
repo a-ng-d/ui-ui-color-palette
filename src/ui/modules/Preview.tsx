@@ -12,6 +12,8 @@ import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
   LockedSourceColorsConfiguration,
+  normalizeShift,
+  resolveShift,
   ShiftConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
@@ -508,9 +510,14 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     const color = colors[colorIndex]
     if (!color) return
 
-    const scaledColors: Array<HexModel> = Object.values(this.props.scale)
+    const stops = Object.values(this.props.scale)
+    const shiftRange =
+      stops.length > 0
+        ? { min: Math.min(...stops), max: Math.max(...stops) }
+        : { min: 0, max: 0 }
+    const scaledColors: Array<HexModel> = stops
       .reverse()
-      .map((lightness) => this.setColor(color, lightness))
+      .map((lightness) => this.setColor(color, lightness, shiftRange))
     const scaleNames = Object.keys(this.props.scale).reverse()
     const scaleName = scaleNames[shadeIndex] || String(shadeIndex)
     const scaledColor = scaledColors[shadeIndex]
@@ -603,14 +610,25 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
 
   setColor = (
     color: ColorConfiguration | SourceColorConfiguration,
-    scale: number
+    scale: number,
+    shiftRange: { min: number; max: number }
   ): HexModel => {
     if ('alpha' in color && color.alpha.isEnabled) {
       const foregroundColorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         alpha: parseFloat((scale / 100).toFixed(2)),
-        hueShifting: color.hue?.shift,
-        chromaShifting: color.chroma?.shift,
+        hueShifting: resolveShift(
+          normalizeShift(color.hue?.shift, 'HUE'),
+          scale,
+          shiftRange,
+          'HUE'
+        ),
+        chromaShifting: resolveShift(
+          normalizeShift(color.chroma?.shift, 'CHROMA'),
+          scale,
+          shiftRange,
+          'CHROMA'
+        ),
         algorithmVersion: this.props.algorithmVersion,
         visionSimulationMode: this.props.visionSimulationMode,
       })
@@ -709,8 +727,18 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       const colorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         lightness: scale,
-        hueShifting: color.hue?.shift,
-        chromaShifting: color.chroma?.shift,
+        hueShifting: resolveShift(
+          normalizeShift(color.hue?.shift, 'HUE'),
+          scale,
+          shiftRange,
+          'HUE'
+        ),
+        chromaShifting: resolveShift(
+          normalizeShift(color.chroma?.shift, 'CHROMA'),
+          scale,
+          shiftRange,
+          'CHROMA'
+        ),
         algorithmVersion: this.props.algorithmVersion,
         visionSimulationMode: this.props.visionSimulationMode,
         alpha:
@@ -820,11 +848,16 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                         return true
                       })
                       .map((color, index) => {
-                        const scaledColors: Array<HexModel> = Object.values(
-                          this.props.scale
-                        )
+                        const stops = Object.values(this.props.scale)
+                        const shiftRange =
+                          stops.length > 0
+                            ? { min: Math.min(...stops), max: Math.max(...stops) }
+                            : { min: 0, max: 0 }
+                        const scaledColors: Array<HexModel> = stops
                           .reverse()
-                          .map((lightness) => this.setColor(color, lightness))
+                          .map((lightness) =>
+                            this.setColor(color, lightness, shiftRange)
+                          )
 
                         const scaleNames = Object.keys(
                           this.props.scale

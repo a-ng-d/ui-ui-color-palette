@@ -2,7 +2,10 @@ import { uid } from 'uid'
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { ColorHarmony } from '@yelbolt/engine-ui-color-palette'
+import {
+  ColorHarmony,
+  makeDefaultShift,
+} from '@yelbolt/engine-ui-color-palette'
 import {
   SourceColorConfiguration,
   ColorHarmonyResult,
@@ -231,11 +234,11 @@ export default class ColorWheel extends PureComponent<
           b: gl[2],
         },
         hue: {
-          shift: 0,
+          shift: makeDefaultShift('HUE'),
           isLocked: false,
         },
         chroma: {
-          shift: 0,
+          shift: makeDefaultShift('CHROMA'),
           isLocked: false,
         },
         source: 'HARMONY',

@@ -268,6 +268,7 @@ export default class Lightness extends PureComponent<
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
+            hasPadding={false}
             isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
             isNew={this.features.SCALE_CONFIGURATION.isNew()}
             onBlock={() => {
@@ -308,6 +309,7 @@ export default class Lightness extends PureComponent<
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
+            hasPadding={false}
             isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
             isNew={this.features.SCALE_CONFIGURATION.isNew()}
             onBlock={() => {

@@ -6,6 +6,7 @@ import {
   DominantColorResult,
   DominantColors,
   SourceColorConfiguration,
+  makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
@@ -270,11 +271,11 @@ export default class ImagePalette extends PureComponent<
           b: gl[2],
         },
         hue: {
-          shift: 0,
+          shift: makeDefaultShift('HUE'),
           isLocked: false,
         },
         chroma: {
-          shift: 0,
+          shift: makeDefaultShift('CHROMA'),
           isLocked: false,
         },
         source: 'IMAGE',

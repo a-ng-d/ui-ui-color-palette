@@ -5,6 +5,7 @@ import {
   ExchangeConfiguration,
   PublicationConfiguration,
   ThemeConfiguration,
+  makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { getTolgee } from '../external/translation'
 import { getPresets } from './presets'
@@ -24,8 +25,8 @@ export const $palette = deepMap<ExchangeConfiguration>({
   },
   scale: {},
   shift: {
-    chroma: 100,
-    hue: 0,
+    chroma: makeDefaultShift('CHROMA'),
+    hue: makeDefaultShift('HUE'),
   },
   areSourceColorsLocked: false,
   colorSpace: 'LCH',
