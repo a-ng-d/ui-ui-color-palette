@@ -1,6 +1,7 @@
 import {
   ColorSpaceConfiguration,
   EasingConfiguration,
+  ShiftCurve,
 } from '@yelbolt/engine-ui-color-palette'
 import { Language } from './translations'
 
@@ -59,12 +60,12 @@ export interface ScaleEvent {
     | 'SWITCH_POLARIS'
     | 'SWITCH_FLUENT'
     | 'OPEN_KEYBOARD_SHORTCUTS'
-    | 'CONTRAST_MODE_ON'
-    | 'CONTRAST_MODE_OFF'
     | EasingConfiguration
     | 'APPLY_EASING'
     | 'REVERSE_STOPS'
     | 'RESET_SCALE'
+    | `SET_HUE_CURVE_${ShiftCurve}`
+    | `SET_CHROMA_CURVE_${ShiftCurve}`
 }
 
 export interface PreviewEvent {
@@ -96,6 +97,8 @@ export interface SourceColorEvent {
     | 'SWITCH_ALPHA_MODE'
     | 'UPDATE_BACKGROUND_COLOR'
     | 'REORDER_COLOR'
+    | `SET_HUE_CURVE_${ShiftCurve}`
+    | `SET_CHROMA_CURVE_${ShiftCurve}`
 }
 
 export interface ColorThemeEvent {

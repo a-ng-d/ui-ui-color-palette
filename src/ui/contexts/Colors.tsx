@@ -42,6 +42,25 @@ interface ColorsProps extends BaseProps, WithConfigProps, WithTranslationProps {
   shift: ShiftConfiguration
 }
 
+const CURVE_TRACKING_FEATURE: Record<
+  'hue' | 'chroma',
+  Record<
+    ShiftCurve,
+    `SET_HUE_CURVE_${ShiftCurve}` | `SET_CHROMA_CURVE_${ShiftCurve}`
+  >
+> = {
+  hue: {
+    LINEAR: 'SET_HUE_CURVE_LINEAR',
+    HYPERBOLA: 'SET_HUE_CURVE_HYPERBOLA',
+    FREE: 'SET_HUE_CURVE_FREE',
+  },
+  chroma: {
+    LINEAR: 'SET_CHROMA_CURVE_LINEAR',
+    HYPERBOLA: 'SET_CHROMA_CURVE_HYPERBOLA',
+    FREE: 'SET_CHROMA_CURVE_FREE',
+  },
+}
+
 export default class Colors extends PureComponent<ColorsProps> {
   private colorsMessage: ColorsMessage
   private palette: typeof $palette
@@ -647,6 +666,8 @@ export default class Colors extends PureComponent<ColorsProps> {
 
     sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
 
+    const curve = patch.curve
+
     trackSourceColorsManagementEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -655,7 +676,12 @@ export default class Colors extends PureComponent<ColorsProps> {
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
       {
-        feature: feature === 'SHIFT_HUE' ? 'SHIFT_HUE' : 'SHIFT_CHROMA',
+        feature:
+          curve !== undefined
+            ? CURVE_TRACKING_FEATURE[channel][curve]
+            : feature === 'SHIFT_HUE'
+              ? 'SHIFT_HUE'
+              : 'SHIFT_CHROMA',
       }
     )
   }

@@ -19,7 +19,17 @@ import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import { $palette } from '../../../stores/palette'
+import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
+
+const CURVE_TRACKING_FEATURE: Record<
+  ShiftCurve,
+  `SET_HUE_CURVE_${ShiftCurve}`
+> = {
+  LINEAR: 'SET_HUE_CURVE_LINEAR',
+  HYPERBOLA: 'SET_HUE_CURVE_HYPERBOLA',
+  FREE: 'SET_HUE_CURVE_FREE',
+}
 
 interface HueProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
@@ -99,6 +109,20 @@ export default class Hue extends PureComponent<HueProps> {
       this.props.onChangeShift(feature, state, nextShift)
 
       sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+
+      const curve = patch.curve
+      if (curve !== undefined)
+        trackScaleManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: CURVE_TRACKING_FEATURE[curve],
+          }
+        )
     }
 
     const onChangeStop = () => {
