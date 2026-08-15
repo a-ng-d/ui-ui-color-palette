@@ -1,5 +1,4 @@
 import { uid } from 'uid'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
@@ -33,12 +32,13 @@ import {
   trackImportEvent,
 } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface ColorWheelProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
   localPalettesCount: number
-  onChangeService: React.Dispatch<Partial<AppState>>
+  onChangeService: Dispatch<Partial<AppState>>
 }
 
 interface ColorWheelState {

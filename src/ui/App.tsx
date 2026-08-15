@@ -1,6 +1,6 @@
-import React from 'react'
 import { Component, createPortal } from 'preact/compat'
-import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { createRef } from 'preact'
+import { FeatureStatus, doClassnames } from '@unoff/utils'
 import {
   Bar,
   Button,
@@ -96,7 +96,7 @@ class App extends Component<AppProps, AppState> {
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
   private isFirstCreditCountSubscription = true
-  private managePaletteRef = React.createRef<ManagePalette>()
+  private managePaletteRef = createRef<ManagePalette>()
 
   static features = (
     planStatus: PlanStatus,
@@ -226,9 +226,7 @@ class App extends Component<AppProps, AppState> {
         message: '',
         timer: 5000,
       },
-      licenseTrigger: {
-        type: 'ACTIVATE',
-      },
+      licenseTrigger: { type: 'ACTIVATE' },
       suggestedLanguage: null,
       isSuggestedLanguageDisplayed: true,
       isLoaded: false,
@@ -825,6 +823,9 @@ class App extends Component<AppProps, AppState> {
       'pt-BR': 'pt',
       'fr-FR': 'fr',
       'zh-Hans-CN': 'zh',
+      'es-ES': 'es',
+      'ja-JP': 'ja',
+      'ko-KR': 'ko',
     }
     return language ? langCodeMap[language] || '' : ''
   }
@@ -857,6 +858,12 @@ class App extends Component<AppProps, AppState> {
       fr: 'fr-FR',
       'zh-Hans-CN': 'zh-Hans-CN',
       zh: 'zh-Hans-CN',
+      'es-ES': 'es-ES',
+      es: 'es-ES',
+      'ja-JP': 'ja-JP',
+      ja: 'ja-JP',
+      'ko-KR': 'ko-KR',
+      ko: 'ko-KR',
     }
 
     const suggestedLang =

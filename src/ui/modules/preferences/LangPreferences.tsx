@@ -1,4 +1,3 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import {

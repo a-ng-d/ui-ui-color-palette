@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'preact/compat'
+import { Fragment, ComponentChildren } from 'preact'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Button, IconChip, layouts, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -197,11 +198,11 @@ export default class PlanControls extends PureComponent<
   }
 
   private withSeparators = (
-    items: Array<{ node: React.ReactNode; isActive: boolean }>
-  ): React.ReactNode => {
+    items: Array<{ node: ComponentChildren; isActive: boolean }>
+  ): ComponentChildren => {
     const visibleItems = items.filter((item) => item.isActive)
     return visibleItems.map((item, index) => (
-      <React.Fragment key={index}>
+      <Fragment key={index}>
         {index > 0 && (
           <span
             className={doClassnames([texts.type, texts['type--secondary']])}
@@ -210,12 +211,12 @@ export default class PlanControls extends PureComponent<
           </span>
         )}
         {item.node}
-      </React.Fragment>
+      </Fragment>
     ))
   }
 
   // Templates
-  Fees = (): React.ReactNode => {
+  Fees = (): ComponentChildren => {
     return (
       <ul className="list-item">
         {this.features.IMPORTS_COOLORS.isActive() && (

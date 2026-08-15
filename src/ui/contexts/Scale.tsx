@@ -1,4 +1,3 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
   ExchangeConfiguration,
@@ -42,6 +41,7 @@ import { defaultPreset } from '../../stores/presets'
 import { $palette, $themes } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   subservice: Subservice
@@ -60,7 +60,7 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
     state?: string,
     value?: ShiftCurveConfiguration
   ) => void
-  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDistributionEasing: Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ScaleState {

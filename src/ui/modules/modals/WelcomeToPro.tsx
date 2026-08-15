@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Dialog, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -11,7 +12,7 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface WelcomeToProProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 export default class WelcomeToPro extends PureComponent<WelcomeToProProps> {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { PaletteDataColorItem } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames } from '@unoff/utils'
 
