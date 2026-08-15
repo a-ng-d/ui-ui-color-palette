@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -23,7 +24,7 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface LicenseProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 interface LicenseState {

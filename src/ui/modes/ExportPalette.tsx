@@ -1,4 +1,3 @@
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
 import * as fflate from 'fflate'
@@ -36,6 +35,7 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
 import { BaseProps, PlanStatus, Service, Editor, Mode } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface ExportPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -58,11 +58,11 @@ interface ExportPaletteProps
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
-  onChangeMode: React.Dispatch<Partial<OpenPaletteState>>
-  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
-  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeMode: Dispatch<Partial<OpenPaletteState>>
+  onChangeDistributionEasing: Dispatch<Partial<ManagePaletteState>>
+  onPublishPalette: Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
-  onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDocument: Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
 }
 

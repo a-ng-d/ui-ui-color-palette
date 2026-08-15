@@ -1,4 +1,3 @@
-import React from 'react'
 import { createPortal, PureComponent } from 'preact/compat'
 import {
   BaseConfiguration,

@@ -1,4 +1,6 @@
-import React, { createPortal } from 'react'
+import { createPortal,
+  PureComponent,
+} from 'preact/compat'
 import {
   Dialog,
   KeyboardShortcutItem,
@@ -17,7 +19,7 @@ interface KeyboardShortcutsProps
   onClose: () => void
 }
 
-export default class KeyboardShortcuts extends React.PureComponent<KeyboardShortcutsProps> {
+export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsProps> {
   // Render
   render() {
     if (!this.props.isOpen) return null

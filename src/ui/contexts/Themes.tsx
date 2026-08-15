@@ -1,5 +1,5 @@
 import { uid } from 'uid'
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'preact/compat'
 import {
   HexModel,
   PresetConfiguration,

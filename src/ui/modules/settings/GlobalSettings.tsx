@@ -1,5 +1,7 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEvent,
+  KeyboardEvent,
+} from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { FormItem, Input, Section, SectionTitle, SimpleItem } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -15,8 +17,8 @@ interface GlobalSettingsProps
   isLast?: boolean
   onChangeSettings: (
     e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+      | ChangeEvent<HTMLInputElement>
+      | KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
 }
 

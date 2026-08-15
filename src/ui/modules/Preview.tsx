@@ -1,5 +1,10 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEvent,
+} from 'preact/compat'
+import { createRef,
+  RefObject,
+  ComponentChildren,
+} from 'preact'
 import chroma from 'chroma-js'
 import {
   Color,
@@ -109,7 +114,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   private subscribeAPCAInterval: (() => void) | undefined
   private subscribeContrastScores: (() => void) | undefined
   private palette: typeof $palette
-  private paletteContainerRef: React.RefObject<HTMLDivElement>
+  private paletteContainerRef: RefObject<HTMLDivElement>
   private theme: string | null
 
   static defaultProps = {
@@ -167,7 +172,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       contrastScoresVersion: 0,
     }
     this.paletteContainerRef =
-      React.createRef() as React.RefObject<HTMLDivElement>
+      createRef() as RefObject<HTMLDivElement>
   }
 
   // Lifecycle
@@ -292,7 +297,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   }
 
   colorSettingsHandler = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLLIElement>
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLLIElement>
   ) => {
     const lockSourceColors = () => {
       this.palette.setKey('areSourceColorsLocked', true)
@@ -751,7 +756,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     interval,
     lightForeground,
   }: {
-    interval: string | React.ReactNode
+    interval: string | ComponentChildren
     lightForeground: HexModel
   }) => (
     <Chip

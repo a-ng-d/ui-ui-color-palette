@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  ChangeEventHandler,
+} from 'preact/compat'
 import WelcomeToTrial from '../modules/modals/WelcomeToTrial'
 import WelcomeToPro from '../modules/modals/WelcomeToPro'
 import TryPro from '../modules/modals/TryPro'
@@ -27,6 +28,7 @@ import {
   trackAnnouncementsEvent,
   trackOnboardingEvent,
 } from '../../external/tracking/eventsTracker'
+import type { Dispatch } from 'preact/hooks'
 import type { AppState } from '../App'
 
 interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -34,11 +36,11 @@ interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
   notification: NotificationMessage
   announcements: AnnouncementsDigest
   licenseTrigger: LicenseTrigger
-  onChangePublication: React.Dispatch<Partial<AppState>>
-  onManageLicense: React.Dispatch<Partial<AppState>>
-  onSkipAndResetPalette: React.Dispatch<Partial<AppState>>
-  onSubscribe: React.Dispatch<Partial<AppState>>
-  onClose: React.ChangeEventHandler<HTMLInputElement> & (() => void)
+  onChangePublication: Dispatch<Partial<AppState>>
+  onManageLicense: Dispatch<Partial<AppState>>
+  onSkipAndResetPalette: Dispatch<Partial<AppState>>
+  onSubscribe: Dispatch<Partial<AppState>>
+  onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
 
 export default class Modal extends PureComponent<ModalProps> {

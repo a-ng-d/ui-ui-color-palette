@@ -1,5 +1,6 @@
-import React, { createRef } from 'react'
 import { PureComponent } from 'preact/compat'
+import { createRef } from 'preact'
+import { FeatureStatus } from '@unoff/utils'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -36,6 +37,7 @@ import {
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface OpenPaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -58,11 +60,11 @@ interface OpenPaletteProps
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
-  onChangeMode: React.Dispatch<Partial<ManagePaletteState>>
-  onChangeDistributionEasing: React.Dispatch<Partial<ManagePaletteState>>
-  onPublishPalette: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeMode: Dispatch<Partial<ManagePaletteState>>
+  onChangeDistributionEasing: Dispatch<Partial<ManagePaletteState>>
+  onPublishPalette: Dispatch<Partial<ManagePaletteState>>
   onUnloadPalette: () => void
-  onChangeDocument: React.Dispatch<Partial<ManagePaletteState>>
+  onChangeDocument: Dispatch<Partial<ManagePaletteState>>
   onDeletePalette: () => void
   onResetPalette: () => void
 }

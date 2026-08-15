@@ -1,5 +1,6 @@
-import React from 'react'
-import { PureComponent } from 'preact/compat'
+import { PureComponent,
+  MouseEventHandler,
+} from 'preact/compat'
 import { Data, PaletteData } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Avatar, Button, Chip, Dialog, texts } from '@unoff/ui'
@@ -26,13 +27,14 @@ import { signIn } from '../../../external/auth/authentication'
 import { getSupabase } from '../../../external/auth'
 import p from '../../../content/images/publication.webp'
 import { ConfigContextType } from '../../../config/ConfigContext'
+import type { Dispatch } from 'preact/hooks'
 
 interface PublicationProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   paletteData: ManagePaletteState
   appData: AppState
-  onChangePublication: React.Dispatch<Partial<ManagePaletteState & AppState>>
-  onClosePublication: React.MouseEventHandler<HTMLButtonElement>
+  onChangePublication: Dispatch<Partial<ManagePaletteState & AppState>>
+  onClosePublication: MouseEventHandler<HTMLButtonElement>
 }
 
 type PublicationStatus =

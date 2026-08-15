@@ -74,29 +74,15 @@ export default defineConfig(({ mode }) => {
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
     },
 
-    resolve: {
-      alias: {
-        react: 'preact/compat',
-        'react-dom': 'preact/compat',
-        'react/jsx-runtime': 'preact/jsx-runtime',
-      },
-      dedupe: ['react', 'react-dom', 'preact'],
-    },
-
     optimizeDeps: {
       include: [
+        'preact',
+        'preact/hooks',
         'preact/compat',
         'preact/jsx-runtime',
         '@unoff/ui',
         '@unoff/utils',
       ],
-      esbuildOptions: {
-        alias: {
-          react: 'preact/compat',
-          'react-dom': 'preact/compat',
-          'react/jsx-runtime': 'preact/jsx-runtime',
-        },
-      },
     },
 
     build: {

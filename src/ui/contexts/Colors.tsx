@@ -1,5 +1,4 @@
 import { uid } from 'uid'
-import React from 'react'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {

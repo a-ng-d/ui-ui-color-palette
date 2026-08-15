@@ -1,4 +1,3 @@
-import React from 'react'
 import { Component } from 'preact/compat'
 import { Button, layouts } from '@unoff/ui'
 import { useTranslate } from '@tolgee/react'
