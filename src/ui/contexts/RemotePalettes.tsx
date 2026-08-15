@@ -1,13 +1,13 @@
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import { Layout, Tabs } from '@unoff/ui'
 import {
   FullConfiguration,
   ExternalPalettes,
   BaseConfiguration,
   ThemeConfiguration,
   MetaConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { Layout, Tabs } from '@unoff/ui'
 import StarredPalettes from '../subcontexts/StarredPalettes'
 import SelfPalettes from '../subcontexts/SelfPalettes'
 import OrgPalettes from '../subcontexts/OrgPalettes'
@@ -241,7 +241,10 @@ export default class RemotePalettes extends PureComponent<
             console.error('Failed to sync view count:', error)
           }
 
-        if (this.props.config.plan.isProEnabled)
+        if (
+          this.props.config.plan.isProEnabled &&
+          this.props.config.plan.isCreditsEnabled
+        )
           $creditsCount.set(
             $creditsCount.get() - this.props.config.fees.paletteCreate
           )

@@ -1,6 +1,11 @@
 import { uid } from 'uid'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import {
+  ColorConfiguration,
+  HexModel,
+  ShiftConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -15,11 +20,6 @@ import {
   SemanticMessage,
   SortableList,
 } from '@unoff/ui'
-import {
-  ColorConfiguration,
-  HexModel,
-  ShiftConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -50,6 +50,13 @@ export default class Colors extends PureComponent<ColorsProps> {
     COLORS: new FeatureStatus({
       features: config.features,
       featureName: 'COLORS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    COLORS_ADD: new FeatureStatus({
+      features: config.features,
+      featureName: 'COLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -603,7 +610,7 @@ export default class Colors extends PureComponent<ColorsProps> {
 
   // Render
   render() {
-    const limit = this.features.COLORS.limit ?? 0
+    const limit = this.features.COLORS_ADD.limit ?? 5
 
     return (
       <Layout
@@ -628,13 +635,19 @@ export default class Colors extends PureComponent<ColorsProps> {
                       helper={{
                         label: this.props.t('colors.actions.new'),
                       }}
-                      isBlocked={this.features.COLORS.isReached(
+                      isBlocked={this.features.COLORS_ADD.isReached(
                         this.props.colors.length
                       )}
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -645,7 +658,9 @@ export default class Colors extends PureComponent<ColorsProps> {
                   clip={['LEFT']}
                   border={['BOTTOM']}
                 />
-                {this.features.COLORS.isReached(this.props.colors.length) && (
+                {this.features.COLORS_ADD.isReached(
+                  this.props.colors.length
+                ) && (
                   <div
                     style={{
                       padding: 'var(--size-pos-xxsmall)',
@@ -675,7 +690,15 @@ export default class Colors extends PureComponent<ColorsProps> {
                             label={this.props.t('plan.getPro')}
                             action={() =>
                               sendPluginMessage(
-                                { pluginMessage: { type: 'GET_PRO' } },
+                                {
+                                  pluginMessage: {
+                                    type:
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
+                                        ? 'GET_TRIAL'
+                                        : 'GET_PRO',
+                                  },
+                                },
                                 '*'
                               )
                             }
@@ -835,7 +858,12 @@ export default class Colors extends PureComponent<ColorsProps> {
                                     sendPluginMessage(
                                       {
                                         pluginMessage: {
-                                          type: 'GET_PRO',
+                                          type:
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
+                                              ? 'GET_TRIAL'
+                                              : 'GET_PRO',
                                         },
                                       },
                                       '*'

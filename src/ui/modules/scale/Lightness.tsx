@@ -1,6 +1,4 @@
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import { MultipleSlider } from '@unoff/ui'
 import {
   Contrast,
   ExchangeConfiguration,
@@ -8,7 +6,9 @@ import {
   ScaleConfiguration,
   TextColorsThemeConfiguration,
   EasingConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { MultipleSlider } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -272,7 +272,13 @@ export default class Lightness extends PureComponent<
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -306,7 +312,13 @@ export default class Lightness extends PureComponent<
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )

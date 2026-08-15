@@ -1,4 +1,12 @@
 import { PureComponent } from 'preact/compat'
+import {
+  Contrast,
+  EasingConfiguration,
+  ExchangeConfiguration,
+  PresetConfiguration,
+  ScaleConfiguration,
+  TextColorsThemeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -7,14 +15,6 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
-import {
-  Contrast,
-  EasingConfiguration,
-  ExchangeConfiguration,
-  PresetConfiguration,
-  ScaleConfiguration,
-  TextColorsThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -518,7 +518,13 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
                     onBlock={() => {
                       sendPluginMessage(
                         {
-                          pluginMessage: { type: 'GET_PRO' },
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
                         },
                         '*'
                       )
@@ -594,7 +600,18 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
           isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onBlock={() => {
-            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
+              },
+              '*'
+            )
           }}
           onChange={this.contrastLightForegroundHandler}
         />
@@ -622,7 +639,18 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
           isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
           isNew={features.SCALE_CONTRAST_RATIO.isNew()}
           onBlock={() => {
-            sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
+              },
+              '*'
+            )
           }}
           onChange={this.contrastDarkForegroundHandler}
         />

@@ -1,10 +1,10 @@
-import { ConsentConfiguration } from '@unoff/ui'
 import {
   ColorConfiguration,
   HexModel,
   SourceColorConfiguration,
   UserConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { ConsentConfiguration } from '@unoff/ui'
 import { UserSession } from './user'
 
 export interface ContrastReportShadeData {

@@ -529,6 +529,7 @@
     "maxNumberOfLocalPalettes": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule palette locale} other {Passez à /pro pour ajouter plus de # palettes locales}}",
     "maxNumberOfSourceColors": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule couleur source} other {Passez à /pro pour ajouter plus de # couleurs sources}}",
     "maxNumberOfStops": "{count, plural, one {Passez à /pro pour ajouter plus d'une seule étape} other {Passez à /pro pour ajouter plus de # étapes}}",
+    "maxNumberOfThemes": "{count, plural, one {Passez à /pro pour ajouter plus d'un seul mode de couleur} other {Passez à /pro pour ajouter plus de # modes de couleur}}",
     "multipleBlockingMessages": {
       "algorithmVersion": "Remettre la vélocité de chroma sur « Sinusoïdal et hyperbolique »",
       "chroma": "Réinitialiser la chroma",
@@ -1090,6 +1091,9 @@
         "simple": "Palette"
       }
     },
+    "themeBinding": {
+      "message": "Ce réglage est propre au mode de couleur « {themeName} » et peut aussi être modifié depuis Modes"
+    },
     "title": "Paramètres de la palette"
   },
   "shortcuts": {
@@ -1188,6 +1192,12 @@
     "switchTheme": {
       "defaultTheme": "Aucun",
       "label": "Mode"
+    },
+    "template": {
+      "dark": "Sombre",
+      "darkProtanomaly": "Sombre · Protanomalie",
+      "light": "Clair",
+      "lightProtanomaly": "Clair · Protanomalie"
     },
     "title": "Modes de couleur"
   },

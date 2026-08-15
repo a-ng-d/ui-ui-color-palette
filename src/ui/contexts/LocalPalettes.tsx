@@ -1,10 +1,10 @@
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import { Layout } from '@unoff/ui'
 import {
   FullConfiguration,
   SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { Layout } from '@unoff/ui'
 import PagePalettes from '../modules/palettes/PagePalettes'
 import FilePalettes from '../modules/palettes/FilePalettes'
 import { WithTranslationProps } from '../components/WithTranslation'

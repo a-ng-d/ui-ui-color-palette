@@ -1,4 +1,9 @@
 import { PureComponent } from 'preact/compat'
+import {
+  Data,
+  FullConfiguration,
+  ExternalPalettes,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
@@ -9,11 +14,6 @@ import {
   Message,
   SemanticMessage,
 } from '@unoff/ui'
-import {
-  Data,
-  FullConfiguration,
-  ExternalPalettes,
-} from '@a_ng_d/utils-ui-color-palette'
 import Glance from '../modules/Glance'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -384,7 +384,13 @@ export default class OrgPalettes extends PureComponent<
                         onBlock={() => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )
@@ -411,7 +417,13 @@ export default class OrgPalettes extends PureComponent<
                         onBlock={() => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )
@@ -456,22 +468,42 @@ export default class OrgPalettes extends PureComponent<
                       <Button
                         type="secondary"
                         label={this.props.t('actions.addToLocal')}
+                        helper={
+                          this.features.LOCAL_PALETTES.isReached(
+                            this.props.localPalettesList.length
+                          )
+                            ? {
+                                label: this.props.t(
+                                  'info.maxNumberOfLocalPalettes',
+                                  {
+                                    count: (
+                                      this.features.LOCAL_PALETTES.limit ?? 3
+                                    ).toString(),
+                                  }
+                                ),
+                                type: 'MULTI_LINE',
+                              }
+                            : undefined
+                        }
                         isLoading={this.state.isSecondaryActionLoading[index]}
                         shouldReflow={{
                           isEnabled: true,
                           icon: 'plus',
                         }}
-                        isBlocked={this.features.CREATE_PALETTE.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.paletteCreate) *
-                            -1 -
-                            1
+                        isBlocked={this.features.LOCAL_PALETTES.isReached(
+                          this.props.localPalettesList.length
                         )}
                         isNew={this.features.ADD_PALETTE.isNew()}
                         onBlock={() => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )

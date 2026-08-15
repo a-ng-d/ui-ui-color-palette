@@ -1,7 +1,7 @@
 import {
   ColorSpaceConfiguration,
   EasingConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
 import { Language } from './translations'
 
 export interface TrialEvent {
@@ -105,6 +105,8 @@ export interface ColorThemeEvent {
     | 'ADD_THEME'
     | 'ADD_THEME_FROM_DROPDOWN'
     | 'UPDATE_BACKGROUND'
+    | 'UPDATE_VISION_SIMULATION_MODE'
+    | 'UPDATE_TEXT_COLORS_THEME'
     | 'DESCRIBE_THEME'
     | 'REORDER_THEME'
 }

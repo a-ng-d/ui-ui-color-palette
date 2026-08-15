@@ -1,6 +1,7 @@
 import { uid } from 'uid'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import { SourceColorConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -15,11 +16,12 @@ import {
   SimpleItem,
 } from '@unoff/ui'
 import { SemanticMessage } from '@unoff/ui'
-import { SourceColorConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -34,6 +36,7 @@ import type { Dispatch } from 'preact/hooks'
 
 interface GenAiProps extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
+  localPalettesCount: number
   onChangeService: Dispatch<Partial<AppState>>
 }
 
@@ -65,6 +68,13 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    LOCAL_PALETTES: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -200,7 +210,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
 
       this.setState({ generatedPalette: palette, isRequestProcessing: false })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.aiColorsGenerate
         )
@@ -293,7 +306,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )
@@ -307,7 +323,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 5,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )
@@ -381,21 +397,32 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                   type="secondary"
                   label={this.props.t('genAi.actions.newPalette')}
                   helper={{
-                    label: this.props.t('genAi.actions.addColors'),
+                    label: this.features.LOCAL_PALETTES.isReached(
+                      this.props.localPalettesCount
+                    )
+                      ? this.props.t('info.maxNumberOfLocalPalettes', {
+                          count: (
+                            this.features.LOCAL_PALETTES.limit ?? 3
+                          ).toString(),
+                        })
+                      : this.props.t('genAi.actions.addColors'),
                     type: 'MULTI_LINE',
                   }}
                   isLoading={this.state.isActionLoading}
                   isDisabled={true}
-                  isBlocked={this.features.CREATE_PALETTE.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.paletteCreate) *
-                      -1 -
-                      1
+                  isBlocked={this.features.LOCAL_PALETTES.isReached(
+                    this.props.localPalettesCount
                   )}
                   onBlock={() => {
                     sendPluginMessage(
                       {
-                        pluginMessage: { type: 'GET_PRO' },
+                        pluginMessage: {
+                          type:
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
+                              ? 'GET_TRIAL'
+                              : 'GET_PRO',
+                        },
                       },
                       '*'
                     )
@@ -453,21 +480,32 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                 type="secondary"
                 label={this.props.t('genAi.actions.newPalette')}
                 helper={{
-                  label: this.props.t('genAi.actions.addColors'),
+                  label: this.features.LOCAL_PALETTES.isReached(
+                    this.props.localPalettesCount
+                  )
+                    ? this.props.t('info.maxNumberOfLocalPalettes', {
+                        count: (
+                          this.features.LOCAL_PALETTES.limit ?? 3
+                        ).toString(),
+                      })
+                    : this.props.t('genAi.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isDisabled={false}
-                isBlocked={this.features.CREATE_PALETTE.isReached(
-                  (this.props.creditsCount -
-                    this.props.config.fees.paletteCreate) *
-                    -1 -
-                    1
+                isBlocked={this.features.LOCAL_PALETTES.isReached(
+                  this.props.localPalettesCount
                 )}
                 isNew={this.features.CREATE_PALETTE.isNew()}
                 onBlock={() => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -479,6 +517,18 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           isListItem={false}
           alignment="CENTER"
         />
+        <div
+          style={{
+            padding: 'var(--size-pos-xsmall)',
+          }}
+        >
+          <PalettePreview
+            colors={setPreviewPalette(
+              this.convertMistralToSourceColors(this.state.generatedPalette),
+              this.palette.get()
+            )}
+          />
+        </div>
         <List
           isTopBorderEnabled
           isFullHeight
@@ -590,7 +640,13 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                             onBlock={() => {
                               sendPluginMessage(
                                 {
-                                  pluginMessage: { type: 'GET_PRO' },
+                                  pluginMessage: {
+                                    type:
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
+                                        ? 'GET_TRIAL'
+                                        : 'GET_PRO',
+                                  },
                                 },
                                 '*'
                               )
@@ -608,8 +664,23 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           },
           {
             node: <this.ColorPreview />,
-            typeModifier: 'FIXED',
-            fixedWidth: '272px',
+            typeModifier: this.props.documentWidth > 460 ? 'DRAWER' : 'FIXED',
+            drawerOptions: {
+              minSize: {
+                value: 196,
+                unit: 'PIXEL' as const,
+              },
+              defaultSize: {
+                value: 272,
+                unit: 'PIXEL' as const,
+              },
+              maxSize: {
+                value: 496,
+                unit: 'PIXEL' as const,
+              },
+              pin: 'RIGHT' as const,
+              direction: 'HORIZONTAL' as const,
+            },
           },
         ]}
         isFullHeight

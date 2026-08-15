@@ -1,4 +1,9 @@
 import { PureComponent } from 'preact/compat'
+import {
+  Data,
+  ExternalPalettes,
+  FullConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
@@ -10,11 +15,6 @@ import {
   Message,
   SemanticMessage,
 } from '@unoff/ui'
-import {
-  Data,
-  ExternalPalettes,
-  FullConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import PalettePreview from '../components/PalettePreview'
@@ -561,7 +561,13 @@ export default class SelfPalettes extends PureComponent<
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -570,22 +576,42 @@ export default class SelfPalettes extends PureComponent<
                     <Button
                       type="secondary"
                       label={this.props.t('actions.addToLocal')}
+                      helper={
+                        this.features.LOCAL_PALETTES.isReached(
+                          this.props.localPalettesList.length
+                        )
+                          ? {
+                              label: this.props.t(
+                                'info.maxNumberOfLocalPalettes',
+                                {
+                                  count: (
+                                    this.features.LOCAL_PALETTES.limit ?? 3
+                                  ).toString(),
+                                }
+                              ),
+                              type: 'MULTI_LINE',
+                            }
+                          : undefined
+                      }
                       isLoading={this.state.isAddToLocalActionLoading[index]}
                       shouldReflow={{
                         isEnabled: true,
                         icon: 'plus',
                       }}
-                      isBlocked={this.features.CREATE_PALETTE.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.paletteCreate) *
-                          -1 -
-                          1
+                      isBlocked={this.features.LOCAL_PALETTES.isReached(
+                        this.props.localPalettesList.length
                       )}
                       isNew={this.features.CREATE_PALETTE.isNew()}
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )

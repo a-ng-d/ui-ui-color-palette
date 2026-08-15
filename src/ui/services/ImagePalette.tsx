@@ -1,6 +1,11 @@
 import { uid } from 'uid'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import {
+  DominantColorResult,
+  DominantColors,
+  SourceColorConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
@@ -14,15 +19,12 @@ import {
 import { Dropzone } from '@unoff/ui'
 import { Card } from '@unoff/ui'
 import { texts } from '@unoff/ui'
-import {
-  DominantColorResult,
-  DominantColors,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import { PluginMessageData } from '../../types/messages'
@@ -39,6 +41,7 @@ import type { Dispatch } from 'preact/hooks'
 interface ImagePaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
+  localPalettesCount: number
   onChangeService: Dispatch<Partial<AppState>>
 }
 
@@ -71,6 +74,13 @@ export default class ImagePalette extends PureComponent<
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    LOCAL_PALETTES: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -141,7 +151,10 @@ export default class ImagePalette extends PureComponent<
 
           const dominantColors = await DominantColors.extract(arrayBuffer, 5)
 
-          if (this.props.config.plan.isProEnabled)
+          if (
+            this.props.config.plan.isProEnabled &&
+            this.props.config.plan.isCreditsEnabled
+          )
             $creditsCount.set(
               $creditsCount.get() - this.props.config.fees.imageColorsExtract
             )
@@ -180,7 +193,10 @@ export default class ImagePalette extends PureComponent<
           const dominantColors: Array<DominantColorResult> =
             await DominantColors.extract(arrayBuffer as ArrayBuffer, 5)
 
-          if (this.props.config.plan.isProEnabled)
+          if (
+            this.props.config.plan.isProEnabled &&
+            this.props.config.plan.isCreditsEnabled
+          )
             $creditsCount.set(
               $creditsCount.get() - this.props.config.fees.imageColorsExtract
             )
@@ -220,7 +236,10 @@ export default class ImagePalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )
@@ -234,14 +253,14 @@ export default class ImagePalette extends PureComponent<
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 5,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )
   }
 
-  onUsePalette = () => {
-    const sourceColors = this.state.dominantColors.map((color) => {
+  getSourceColors = (): Array<SourceColorConfiguration> =>
+    this.state.dominantColors.map((color) => {
       const gl = chroma(color.hex).gl()
       return {
         name: getClosestColorName(color.hex),
@@ -263,6 +282,9 @@ export default class ImagePalette extends PureComponent<
         isRemovable: false,
       }
     }) as Array<SourceColorConfiguration>
+
+  onUsePalette = () => {
+    const sourceColors = this.getSourceColors()
 
     this.props.onChangeService({
       service: 'MANAGE',
@@ -346,7 +368,13 @@ export default class ImagePalette extends PureComponent<
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -364,7 +392,10 @@ export default class ImagePalette extends PureComponent<
                 5
               )
 
-              if (this.props.config.plan.isProEnabled)
+              if (
+                this.props.config.plan.isProEnabled &&
+                this.props.config.plan.isCreditsEnabled
+              )
                 $creditsCount.set(
                   $creditsCount.get() -
                     this.props.config.fees.imageColorsExtract
@@ -399,21 +430,32 @@ export default class ImagePalette extends PureComponent<
                 type="secondary"
                 label={this.props.t('imagePalette.actions.newPalette')}
                 helper={{
-                  label: this.props.t('imagePalette.actions.addColors'),
+                  label: this.features.LOCAL_PALETTES.isReached(
+                    this.props.localPalettesCount
+                  )
+                    ? this.props.t('info.maxNumberOfLocalPalettes', {
+                        count: (
+                          this.features.LOCAL_PALETTES.limit ?? 3
+                        ).toString(),
+                      })
+                    : this.props.t('imagePalette.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
                 isLoading={this.state.isActionLoading}
                 isDisabled={this.state.dominantColors.length === 0}
-                isBlocked={this.features.CREATE_PALETTE.isReached(
-                  (this.props.creditsCount -
-                    this.props.config.fees.paletteCreate) *
-                    -1 -
-                    1
+                isBlocked={this.features.LOCAL_PALETTES.isReached(
+                  this.props.localPalettesCount
                 )}
                 onBlock={() => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -426,6 +468,20 @@ export default class ImagePalette extends PureComponent<
           alignment="CENTER"
           isListItem={false}
         />
+        {this.state.dominantColors.length > 0 && (
+          <div
+            style={{
+              padding: 'var(--size-pos-xsmall)',
+            }}
+          >
+            <PalettePreview
+              colors={setPreviewPalette(
+                this.getSourceColors(),
+                this.palette.get()
+              )}
+            />
+          </div>
+        )}
         {this.state.dominantColors.length === 0 ? (
           <Message
             icon="info"
@@ -471,8 +527,23 @@ export default class ImagePalette extends PureComponent<
           },
           {
             node: <this.ExtractedColor />,
-            typeModifier: 'FIXED',
-            fixedWidth: '272px',
+            typeModifier: this.props.documentWidth > 460 ? 'DRAWER' : 'FIXED',
+            drawerOptions: {
+              minSize: {
+                value: 196,
+                unit: 'PIXEL' as const,
+              },
+              defaultSize: {
+                value: 272,
+                unit: 'PIXEL' as const,
+              },
+              maxSize: {
+                value: 496,
+                unit: 'PIXEL' as const,
+              },
+              pin: 'RIGHT' as const,
+              direction: 'HORIZONTAL' as const,
+            },
           },
         ]}
         isFullWidth

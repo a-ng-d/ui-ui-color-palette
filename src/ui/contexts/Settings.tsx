@@ -1,6 +1,4 @@
 import { PureComponent } from 'preact/compat'
-import { FeatureStatus } from '@unoff/utils'
-import { Bar, Layout, List, SectionTitle } from '@unoff/ui'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
@@ -9,7 +7,9 @@ import {
   TextColorsThemeConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Layout, List, SectionTitle } from '@unoff/ui'
 import GlobalSettings from '../modules/settings/GlobalSettings'
 import DangerZone from '../modules/settings/DangerZone'
 import ContrastSettings from '../modules/settings/ContrastSettings'

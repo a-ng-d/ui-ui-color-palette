@@ -1,5 +1,11 @@
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import {
+  ColorConfiguration,
+  Contrast,
+  HexModel,
+  SourceColorConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -18,12 +24,6 @@ import {
   Tabs,
   texts,
 } from '@unoff/ui'
-import {
-  ColorConfiguration,
-  Contrast,
-  HexModel,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -456,20 +456,38 @@ export default class ContrastReport extends PureComponent<
                         message={this.props.t('contrast.callout.message')}
                         orientation="VERTICAL"
                         actionsSlot={
-                          <Button
-                            type="secondary"
-                            label={this.props.t('plan.getPro')}
-                            action={() =>
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'GET_PRO',
-                                  },
-                                },
-                                '*'
-                              )
-                            }
-                          />
+                          <>
+                            {this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED' ? (
+                              <Button
+                                type="secondary"
+                                label={this.props.t('plan.tryPro')}
+                                action={() =>
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: { type: 'GET_TRIAL' },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            ) : (
+                              <Button
+                                type="secondary"
+                                label={this.props.t('plan.getPro')}
+                                action={() =>
+                                  sendPluginMessage(
+                                    {
+                                      pluginMessage: {
+                                        type: 'GET_PRO',
+                                      },
+                                    },
+                                    '*'
+                                  )
+                                }
+                              />
+                            )}
+                          </>
                         }
                       />
                     </div>

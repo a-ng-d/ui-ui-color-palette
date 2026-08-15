@@ -2,6 +2,10 @@ import { PureComponent,
   ChangeEvent,
   KeyboardEvent,
 } from 'preact/compat'
+import {
+  TextColorsThemeConfiguration,
+  ThemeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   FormItem,
@@ -11,7 +15,6 @@ import {
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
-import { TextColorsThemeConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -21,6 +24,7 @@ import { ConfigContextType } from '../../../config/ConfigContext'
 interface ContrastSettingsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  themes?: Array<ThemeConfiguration>
   isLast?: boolean
   onChangeSettings: (
     e:
@@ -56,6 +60,14 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
       this.props.service,
       this.props.editor
     )
+  }
+
+  private get activeThemeName(): string | undefined {
+    const activeTheme = (this.props.themes ?? []).find(
+      (theme) => theme.isEnabled
+    )
+    if (activeTheme === undefined) return undefined
+    return activeTheme.type === 'default theme' ? undefined : activeTheme.name
   }
 
   // Templates
@@ -114,7 +126,16 @@ export default class ContrastSettings extends PureComponent<ContrastSettingsProp
         title={
           <SimpleItem
             leftPartSlot={
-              <SectionTitle label={this.props.t('settings.contrast.title')} />
+              <SectionTitle
+                label={this.props.t('settings.contrast.title')}
+                helper={
+                  this.activeThemeName !== undefined
+                    ? this.props.t('settings.themeBinding.message', {
+                        themeName: this.activeThemeName,
+                      })
+                    : undefined
+                }
+              />
             }
             isListItem={false}
             alignment="CENTER"

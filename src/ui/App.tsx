@@ -1,6 +1,6 @@
 import { Component, createPortal } from 'preact/compat'
 import { createRef } from 'preact'
-import { FeatureStatus } from '@unoff/utils'
+import { FeatureStatus, doClassnames } from '@unoff/utils'
 import {
   Bar,
   Button,
@@ -36,6 +36,7 @@ import {
   $isWCAGDisplayed,
   $isWCAGIntervalDisplayed,
 } from '../stores/preferences'
+import { $localPalettesCount } from '../stores/localPalettes'
 import { initHistory, redo, teardownHistory, undo } from '../stores/history'
 import { $creditsCount } from '../stores/credits'
 import {
@@ -87,6 +88,7 @@ export interface AppState extends BaseProps {
   isLoaded: boolean
   isNotificationDisplayed: boolean
   onGoingStep: string
+  localPalettesCount: number
 }
 
 class App extends Component<AppProps, AppState> {
@@ -231,6 +233,7 @@ class App extends Component<AppProps, AppState> {
       isNotificationDisplayed: false,
       documentWidth: document.documentElement.clientWidth,
       onGoingStep: 'app started',
+      localPalettesCount: 0,
     }
   }
 
@@ -245,6 +248,14 @@ class App extends Component<AppProps, AppState> {
           data: {
             userConsent: $userConsent.get(),
           },
+        },
+      },
+      '*'
+    )
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'GET_PALETTES',
         },
       },
       '*'
@@ -379,8 +390,6 @@ class App extends Component<AppProps, AppState> {
             })
           },
         }
-
-        console.log(event)
 
         return actions[event]?.()
       })
@@ -555,6 +564,14 @@ class App extends Component<AppProps, AppState> {
         })
       }
 
+      const exposePalettes = () => {
+        const count = Array.isArray(path.data) ? path.data.length : 0
+        $localPalettesCount.set(count)
+        this.setState({
+          localPalettesCount: count,
+        })
+      }
+
       const checkAnnouncements = () => {
         checkAnnouncementsVersion(
           this.props.config.urls.announcementsWorkerUrl,
@@ -703,6 +720,7 @@ class App extends Component<AppProps, AppState> {
         CHECK_EDITOR: () => checkEditor(),
         CHECK_TRIAL_STATUS: () => checkTrialStatus(),
         CHECK_CREDITS: () => checkCredits(),
+        EXPOSE_PALETTES: () => exposePalettes(),
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
         POST_MESSAGE: () => postMessage(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
@@ -961,7 +979,10 @@ class App extends Component<AppProps, AppState> {
     if (this.state.isLoaded)
       return (
         <main
-          className="ui"
+          className={doClassnames([
+            'ui',
+            this.props.config.env.isEmbed && 'ui--embed',
+          ])}
           inert={
             this.state.modalContext !== 'EMPTY' || this.state.mustUserConsent
           }
@@ -1257,7 +1278,12 @@ class App extends Component<AppProps, AppState> {
       )
     else
       return (
-        <main className="ui">
+        <main
+          className={doClassnames([
+            'ui',
+            this.props.config.env.isEmbed && 'ui--embed',
+          ])}
+        >
           <div className={layouts.centered}>
             <Icon
               type="PICTO"

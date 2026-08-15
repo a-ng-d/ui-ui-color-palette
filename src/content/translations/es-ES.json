@@ -529,6 +529,7 @@
     "maxNumberOfLocalPalettes": "{count, plural, one {Actualiza a /pro para añadir más de una paleta local} other {Actualiza a /pro para añadir más de # paletas locales}}",
     "maxNumberOfSourceColors": "{count, plural, one {Actualiza a /pro para añadir más de un color fuente} other {Actualiza a /pro para añadir más de # colores fuente}}",
     "maxNumberOfStops": "{count, plural, one {Actualiza a /pro para añadir más de una parada} other {Actualiza a /pro para añadir más de # paradas}}",
+    "maxNumberOfThemes": "{count, plural, one {Actualiza a /pro para añadir más de un modo de color} other {Actualiza a /pro para añadir más de # modos de color}}",
     "multipleBlockingMessages": {
       "algorithmVersion": "Establece la velocidad de croma en \"Sinusoidal e hiperbólica\"",
       "chroma": "Restablecer croma",
@@ -1090,6 +1091,9 @@
         "simple": "Paleta"
       }
     },
+    "themeBinding": {
+      "message": "Este valor es específico del modo de color «{themeName}» y también se puede editar desde Modos"
+    },
     "title": "Ajustes de la paleta"
   },
   "shortcuts": {
@@ -1188,6 +1192,12 @@
     "switchTheme": {
       "defaultTheme": "Ninguno",
       "label": "Modo"
+    },
+    "template": {
+      "dark": "Oscuro",
+      "darkProtanomaly": "Oscuro · Protanomalía",
+      "light": "Claro",
+      "lightProtanomaly": "Claro · Protanomalía"
     },
     "title": "Modos de color"
   },

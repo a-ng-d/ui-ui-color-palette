@@ -1,9 +1,9 @@
 import { PureComponent,
   MouseEventHandler,
 } from 'preact/compat'
+import { Data, PaletteData } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Avatar, Button, Chip, Dialog, texts } from '@unoff/ui'
-import { Data, PaletteData } from '@a_ng_d/utils-ui-color-palette'
 import { ManagePaletteState } from '../../services/ManagePalette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
@@ -1160,7 +1160,13 @@ export default class Publication extends PureComponent<
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -1181,7 +1187,13 @@ export default class Publication extends PureComponent<
           onBlock={() => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )

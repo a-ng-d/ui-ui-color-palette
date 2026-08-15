@@ -1,7 +1,5 @@
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
 import {
   Color,
   ColorConfiguration,
@@ -11,7 +9,9 @@ import {
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
   VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,

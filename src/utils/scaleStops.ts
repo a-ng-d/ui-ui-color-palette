@@ -1,8 +1,8 @@
-import { doScale } from '@unoff/utils'
 import {
   EasingConfiguration,
   ScaleConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { doScale } from '@unoff/utils'
 
 export const computeScaleForStops = (
   stops: number[],

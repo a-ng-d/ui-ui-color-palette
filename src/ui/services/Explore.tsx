@@ -1,6 +1,10 @@
 import { uid } from 'uid'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import {
+  SourceColorConfiguration,
+  ColourLovers,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
@@ -14,14 +18,12 @@ import {
   SemanticMessage,
   texts,
 } from '@unoff/ui'
-import {
-  SourceColorConfiguration,
-  ColourLovers,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
@@ -44,6 +46,7 @@ import type { Dispatch } from 'preact/hooks'
 interface ExploreProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
+  localPalettesCount: number
   onChangeService: Dispatch<Partial<AppState>>
 }
 
@@ -69,6 +72,13 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    LOCAL_PALETTES: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -229,14 +239,14 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 5,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )
   }
 
-  onUsePalette = (palette: ColourLovers) => {
-    const sourceColors = palette.colors.map((color) => {
+  getSourceColors = (palette: ColourLovers): Array<SourceColorConfiguration> =>
+    palette.colors.map((color) => {
       const gl = chroma(color).gl()
       return {
         name: getClosestColorName(`#${color}`),
@@ -259,12 +269,18 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
       }
     }) as Array<SourceColorConfiguration>
 
+  onUsePalette = (palette: ColourLovers) => {
+    const sourceColors = this.getSourceColors(palette)
+
     this.props.onChangeService({
       service: 'MANAGE',
     })
     this.onCreatePalette(sourceColors)
 
-    if (this.props.config.plan.isProEnabled) {
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    ) {
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.colourLoversImport
       )
@@ -339,21 +355,32 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                       type="secondary"
                       label={this.props.t('explore.actions.newPalette')}
                       helper={{
-                        label: this.props.t('explore.actions.addColors'),
+                        label: this.features.LOCAL_PALETTES.isReached(
+                          this.props.localPalettesCount
+                        )
+                          ? this.props.t('info.maxNumberOfLocalPalettes', {
+                              count: (
+                                this.features.LOCAL_PALETTES.limit ?? 3
+                              ).toString(),
+                            })
+                          : this.props.t('explore.actions.addColors'),
                         type: 'MULTI_LINE',
                       }}
                       isLoading={this.state.isActionLoading}
-                      isBlocked={this.features.CREATE_PALETTE.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.paletteCreate) *
-                          -1 -
-                          1
+                      isBlocked={this.features.LOCAL_PALETTES.isReached(
+                        this.props.localPalettesCount
                       )}
                       isNew={this.features.CREATE_PALETTE.isNew()}
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -364,6 +391,14 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                     />
                   </Feature>
                 </>
+              }
+              complementSlot={
+                <PalettePreview
+                  colors={setPreviewPalette(
+                    this.getSourceColors(palette),
+                    this.palette.get()
+                  )}
+                />
               }
             />
           ))}

@@ -52,6 +52,27 @@ main {
   height: inherit;
 }
 
+html.is-embed,
+html.is-embed body,
+html.is-embed div#app {
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+main.ui--embed {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html.is-embed .box-resizer-grip,
+.ui--embed .box-resizer-grip {
+  display: none !important;
+}
+
 /* Layout */
 section.context {
   display: flex;

@@ -2,9 +2,9 @@ import { PureComponent,
   MouseEventHandler,
 } from 'preact/compat'
 import chroma from 'chroma-js'
+import { RgbModel } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { Button, Chip } from '@unoff/ui'
-import { RgbModel } from '@a_ng_d/utils-ui-color-palette'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
@@ -83,7 +83,7 @@ export default class Source extends PureComponent<SourceProps, SourceState> {
             {this.props.t('paletteProperties.transparent')}
           </Chip>
         )}
-        {(this.state.isMouseEnter || this.props.isTransparent) && (
+        {this.state.isMouseEnter && (
           <div className="preview__cell__actions">
             <Feature
               isActive={

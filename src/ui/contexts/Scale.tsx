@@ -1,4 +1,13 @@
 import { PureComponent } from 'preact/compat'
+import {
+  PresetConfiguration,
+  ScaleConfiguration,
+  SourceColorConfiguration,
+  TextColorsThemeConfiguration,
+  EasingConfiguration,
+  ShiftConfiguration,
+  ThemeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -10,15 +19,6 @@ import {
   SectionTitle,
   Select,
 } from '@unoff/ui'
-import {
-  PresetConfiguration,
-  ScaleConfiguration,
-  SourceColorConfiguration,
-  TextColorsThemeConfiguration,
-  EasingConfiguration,
-  ShiftConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import ScaleLCH from '../modules/scale/ScaleLCH'
 import ScaleCR from '../modules/scale/ScaleCR'
@@ -167,6 +167,14 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
       this.props.service,
       this.props.editor
     )
+  }
+
+  private get activeThemeName(): string | undefined {
+    const activeTheme = (this.props.themes ?? []).find(
+      (theme) => theme.isEnabled
+    )
+    if (activeTheme === undefined) return undefined
+    return activeTheme.type === 'default theme' ? undefined : activeTheme.name
   }
 
   constructor(props: ScaleProps) {
@@ -385,7 +393,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               onBlock: () => {
                 sendPluginMessage(
                   {
-                    pluginMessage: { type: 'GET_PRO' },
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
                   },
                   '*'
                 )
@@ -408,7 +422,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               onBlock: () => {
                 sendPluginMessage(
                   {
-                    pluginMessage: { type: 'GET_PRO' },
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
                   },
                   '*'
                 )
@@ -427,7 +447,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               onBlock: () => {
                 sendPluginMessage(
                   {
-                    pluginMessage: { type: 'GET_PRO' },
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
                   },
                   '*'
                 )
@@ -447,7 +473,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               onBlock: () => {
                 sendPluginMessage(
                   {
-                    pluginMessage: { type: 'GET_PRO' },
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
                   },
                   '*'
                 )
@@ -465,7 +497,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
           onBlock={() => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )
@@ -487,7 +525,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -506,7 +550,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -525,7 +575,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -540,7 +596,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -561,7 +623,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -612,6 +680,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                       indicator={Object.entries(
                         this.props.scale ?? {}
                       ).length.toString()}
+                      helper={
+                        this.activeThemeName !== undefined
+                          ? this.props.t('settings.themeBinding.message', {
+                              themeName: this.activeThemeName,
+                            })
+                          : undefined
+                      }
                     />
                   }
                   rightPartSlot={
@@ -678,7 +753,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                             onBlock={() => {
                               sendPluginMessage(
                                 {
-                                  pluginMessage: { type: 'GET_PRO' },
+                                  pluginMessage: {
+                                    type:
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
+                                        ? 'GET_TRIAL'
+                                        : 'GET_PRO',
+                                  },
                                 },
                                 '*'
                               )

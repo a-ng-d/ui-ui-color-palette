@@ -4,7 +4,6 @@ import '../stylesheets/tour.css'
 import { PureComponent } from 'preact/compat'
 import { createRef } from 'preact'
 import chroma from 'chroma-js'
-import { doScale, FeatureStatus } from '@unoff/utils'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -26,7 +25,8 @@ import {
   CreatorConfiguration,
   ExtractOfBaseConfiguration,
   EasingConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { doScale, FeatureStatus } from '@unoff/utils'
 import OpenPalette from '../subservices/OpenPalette'
 import BrowsePalettes from '../subservices/BrowsePalettes'
 import Publication from '../modules/modals/Publication'
@@ -103,8 +103,10 @@ export default class ManagePalette extends PureComponent<
   private subscribePalette: Array<() => void> = []
   private openPaletteRef = createRef<OpenPalette>()
 
-  private generateDefaultSourceColors = (): Array<SourceColorConfiguration> =>
-    Array.from({ length: 5 }, () => {
+  private generateDefaultSourceColors = (
+    limit: number
+  ): Array<SourceColorConfiguration> =>
+    Array.from({ length: limit }, () => {
       const hex = chroma.random().hex()
       const gl = chroma(hex).gl()
       return {
@@ -143,9 +145,9 @@ export default class ManagePalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    COLORS: new FeatureStatus({
+    COLORS_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'COLORS',
+      featureName: 'COLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -166,7 +168,9 @@ export default class ManagePalette extends PureComponent<
     this.palette = $palette
     this.state = {
       subservice: 'BROWSE',
-      sourceColors: this.generateDefaultSourceColors(),
+      sourceColors: this.generateDefaultSourceColors(
+        this.features.COLORS_ADD.limit ?? 5
+      ),
       id: '',
       name: props.t('settings.global.name.default'),
       description: '',
@@ -303,7 +307,9 @@ export default class ManagePalette extends PureComponent<
               sourceColor.source !== 'CANVAS' &&
               sourceColor.source !== 'DEFAULT'
           ),
-          ...this.generateDefaultSourceColors(),
+          ...this.generateDefaultSourceColors(
+            this.features.COLORS_ADD.limit ?? 5
+          ),
         ],
       })
   }
@@ -320,7 +326,9 @@ export default class ManagePalette extends PureComponent<
                 sourceColor.source !== 'CANVAS' &&
                 sourceColor.source !== 'DEFAULT'
             ),
-            ...this.generateDefaultSourceColors(),
+            ...this.generateDefaultSourceColors(
+              this.features.COLORS_ADD.limit ?? 5
+            ),
           ],
           document: {},
         })
@@ -332,12 +340,12 @@ export default class ManagePalette extends PureComponent<
             sourceColor.source !== 'CANVAS' && sourceColor.source !== 'DEFAULT'
         )
         const remaining =
-          (this.features.COLORS.limit ?? path.data.selection.length) -
+          (this.features.COLORS_ADD.limit ?? path.data.selection.length) -
           existingColors.length
 
         this.setState({
           sourceColors: existingColors.concat(
-            this.features.COLORS.isReached(existingColors.length)
+            this.features.COLORS_ADD.isReached(existingColors.length)
               ? []
               : path.data.selection.slice(0, remaining)
           ),
@@ -518,7 +526,14 @@ export default class ManagePalette extends PureComponent<
               {...this.props}
               {...this.state}
               sourceColors={this.state.sourceColors}
-              onCreatePalette={(e) => this.setState({ ...e })}
+              onCreatePalette={(e) =>
+                this.setState({
+                  ...e,
+                  sourceColors: this.generateDefaultSourceColors(
+                    this.features.COLORS_ADD.limit ?? 5
+                  ),
+                })
+              }
               onSeePalette={(palette) => this.onLoadPalette(palette)}
             />
           </Feature>

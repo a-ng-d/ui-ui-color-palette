@@ -18,6 +18,14 @@
         width: 100%;
       }
     </style>
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var embedParam = (params.get('embed') || '').toLowerCase();
+        var isEmbed = embedParam === '1' || embedParam === 'true';
+        if (isEmbed) document.documentElement.classList.add('is-embed');
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

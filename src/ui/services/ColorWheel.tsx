@@ -1,22 +1,24 @@
 import { uid } from 'uid'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
+import { ColorHarmony } from '@yelbolt/engine-ui-color-palette'
+import {
+  SourceColorConfiguration,
+  ColorHarmonyResult,
+  Channel,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Bar, Dropdown, FormItem, Layout } from '@unoff/ui'
 import { Input } from '@unoff/ui'
 import { layouts } from '@unoff/ui'
 import { Chip } from '@unoff/ui'
 import { Button } from '@unoff/ui'
-import { ColorHarmony } from '@a_ng_d/utils-ui-color-palette'
-import {
-  SourceColorConfiguration,
-  ColorHarmonyResult,
-  Channel,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettePreview from '../components/PalettePreview'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
+import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
@@ -32,6 +34,7 @@ import type { Dispatch } from 'preact/hooks'
 interface ColorWheelProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
+  localPalettesCount: number
   onChangeService: Dispatch<Partial<AppState>>
 }
 
@@ -107,6 +110,13 @@ export default class ColorWheel extends PureComponent<
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    LOCAL_PALETTES: new FeatureStatus({
+      features: config.features,
+      featureName: 'LOCAL_PALETTES',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -187,7 +197,10 @@ export default class ColorWheel extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )
@@ -201,14 +214,14 @@ export default class ColorWheel extends PureComponent<
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 5,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )
   }
 
-  onUsePalette = () => {
-    const sourceColors = this.state.colorHarmony.hexColors.map((color) => {
+  getSourceColors = (): Array<SourceColorConfiguration> =>
+    this.state.colorHarmony.hexColors.map((color) => {
       const gl = chroma(color).gl()
       return {
         name: getClosestColorName(color),
@@ -231,12 +244,18 @@ export default class ColorWheel extends PureComponent<
       }
     }) as Array<SourceColorConfiguration>
 
+  onUsePalette = () => {
+    const sourceColors = this.getSourceColors()
+
     this.props.onChangeService({
       service: 'MANAGE',
     })
     this.onCreatePalette(sourceColors)
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.harmonyCreate
       )
@@ -328,21 +347,32 @@ export default class ColorWheel extends PureComponent<
                           icon="plus"
                           label={this.props.t('wheel.actions.newPalette')}
                           helper={{
-                            label: this.props.t('wheel.actions.addColors'),
+                            label: this.features.LOCAL_PALETTES.isReached(
+                              this.props.localPalettesCount
+                            )
+                              ? this.props.t('info.maxNumberOfLocalPalettes', {
+                                  count: (
+                                    this.features.LOCAL_PALETTES.limit ?? 3
+                                  ).toString(),
+                                })
+                              : this.props.t('wheel.actions.addColors'),
                             type: 'MULTI_LINE',
                           }}
                           isLoading={this.state.isActionLoading}
-                          isBlocked={this.features.CREATE_PALETTE.isReached(
-                            (this.props.creditsCount -
-                              this.props.config.fees.paletteCreate) *
-                              -1 -
-                              1
+                          isBlocked={this.features.LOCAL_PALETTES.isReached(
+                            this.props.localPalettesCount
                           )}
                           isNew={this.features.CREATE_PALETTE.isNew()}
                           onBlock={() => {
                             sendPluginMessage(
                               {
-                                pluginMessage: { type: 'GET_PRO' },
+                                pluginMessage: {
+                                  type:
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
+                                      ? 'GET_TRIAL'
+                                      : 'GET_PRO',
+                                },
                               },
                               '*'
                             )
@@ -357,6 +387,18 @@ export default class ColorWheel extends PureComponent<
                   border={['BOTTOM']}
                 />
                 <this.HarmonyPreview />
+                <div
+                  style={{
+                    padding: 'var(--size-pos-xsmall)',
+                  }}
+                >
+                  <PalettePreview
+                    colors={setPreviewPalette(
+                      this.getSourceColors(),
+                      this.palette.get()
+                    )}
+                  />
+                </div>
                 <Bar
                   leftPartSlot={
                     <Feature isActive={this.features.WHEEL_BASE.isActive()}>
@@ -431,7 +473,14 @@ export default class ColorWheel extends PureComponent<
                                 onBlock: () => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO' },
+                                      pluginMessage: {
+                                        type:
+                                          this.props.config.plan
+                                            .isTrialEnabled &&
+                                          this.props.trialStatus !== 'EXPIRED'
+                                            ? 'GET_TRIAL'
+                                            : 'GET_PRO',
+                                      },
                                     },
                                     '*'
                                   )
@@ -457,7 +506,14 @@ export default class ColorWheel extends PureComponent<
                                 onBlock: () => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO' },
+                                      pluginMessage: {
+                                        type:
+                                          this.props.config.plan
+                                            .isTrialEnabled &&
+                                          this.props.trialStatus !== 'EXPIRED'
+                                            ? 'GET_TRIAL'
+                                            : 'GET_PRO',
+                                      },
                                     },
                                     '*'
                                   )
@@ -481,7 +537,14 @@ export default class ColorWheel extends PureComponent<
                                 onBlock: () => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO' },
+                                      pluginMessage: {
+                                        type:
+                                          this.props.config.plan
+                                            .isTrialEnabled &&
+                                          this.props.trialStatus !== 'EXPIRED'
+                                            ? 'GET_TRIAL'
+                                            : 'GET_PRO',
+                                      },
                                     },
                                     '*'
                                   )
@@ -505,7 +568,14 @@ export default class ColorWheel extends PureComponent<
                                 onBlock: () => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO' },
+                                      pluginMessage: {
+                                        type:
+                                          this.props.config.plan
+                                            .isTrialEnabled &&
+                                          this.props.trialStatus !== 'EXPIRED'
+                                            ? 'GET_TRIAL'
+                                            : 'GET_PRO',
+                                      },
                                     },
                                     '*'
                                   )
@@ -527,7 +597,14 @@ export default class ColorWheel extends PureComponent<
                                 onBlock: () => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO' },
+                                      pluginMessage: {
+                                        type:
+                                          this.props.config.plan
+                                            .isTrialEnabled &&
+                                          this.props.trialStatus !== 'EXPIRED'
+                                            ? 'GET_TRIAL'
+                                            : 'GET_PRO',
+                                      },
                                     },
                                     '*'
                                   )
@@ -541,7 +618,7 @@ export default class ColorWheel extends PureComponent<
                             ]}
                             selected={this.state.wheelRule}
                             alignment="RIGHT"
-                            pin="TOP"
+                            pin="BOTTOM"
                           />
                         </FormItem>
                       </Feature>
@@ -549,7 +626,7 @@ export default class ColorWheel extends PureComponent<
                   }
                   shouldReflow
                   isInverted
-                  border={['BOTTOM']}
+                  border={['TOP']}
                 />
               </>
             ),

@@ -23,7 +23,10 @@ import {
   VisionSimulationModeConfiguration,
   PublicationConfiguration,
   CreatorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { doScale } from '@unoff/utils'
+import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import Preview from '../modules/Preview'
@@ -388,7 +391,10 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.paletteGenerate
         )
@@ -425,7 +431,10 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.paletteWithPropsGenerate
         )
@@ -462,7 +471,10 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      if (this.props.config.plan.isProEnabled)
+      if (
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      )
         $creditsCount.set(
           $creditsCount.get() - this.props.config.fees.sheetGenerate
         )
@@ -608,7 +620,10 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.localStylesSync
       )
@@ -636,7 +651,10 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.localVariablesSync
       )
@@ -664,7 +682,10 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.localTokensSync
       )
@@ -788,7 +809,13 @@ export default class EditPalette extends PureComponent<
         onBlock: () => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )
@@ -1005,6 +1032,7 @@ export default class EditPalette extends PureComponent<
                             minWidth: '200px',
                             overflow: 'hidden',
                             position: 'relative',
+                            height: '100%',
                           }}
                         >
                           {fragment}

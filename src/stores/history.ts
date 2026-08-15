@@ -2,7 +2,7 @@ import { atom } from 'nanostores'
 import {
   ExchangeConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { $palette, $themes } from './palette'
 

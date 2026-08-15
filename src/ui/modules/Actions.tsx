@@ -5,6 +5,12 @@ import { PureComponent,
   MouseEventHandler,
   KeyboardEventHandler,
 } from 'preact/compat'
+import {
+  CreatorConfiguration,
+  DatesConfiguration,
+  DocumentConfiguration,
+  PublicationConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -19,12 +25,6 @@ import {
   SegmentedControl,
   texts,
 } from '@unoff/ui'
-import {
-  CreatorConfiguration,
-  DatesConfiguration,
-  DocumentConfiguration,
-  PublicationConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -323,16 +323,23 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_PALETTE',
         type: 'OPTION',
         isActive: this.features.DOCUMENT_PALETTE.isActive(),
-        isBlocked: this.features.DOCUMENT_PALETTE.isReached(
-          (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
-            -1 -
-            1
-        ),
+        isBlocked:
+          this.features.DOCUMENT_PALETTE.isReached(
+            (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
+              -1 -
+              1
+          ) || this.features.DOCUMENT_PALETTE.isBlocked(),
         isNew: this.features.DOCUMENT_PALETTE.isNew(),
         onBlock: () => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )
@@ -344,17 +351,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
         type: 'OPTION',
         isActive: this.features.DOCUMENT_PALETTE_PROPERTIES.isActive(),
-        isBlocked: this.features.DOCUMENT_PALETTE_PROPERTIES.isReached(
-          (this.props.creditsCount -
-            this.props.config.fees.paletteWithPropsGenerate) *
-            -1 -
-            1
-        ),
+        isBlocked:
+          this.features.DOCUMENT_PALETTE_PROPERTIES.isReached(
+            (this.props.creditsCount -
+              this.props.config.fees.paletteWithPropsGenerate) *
+              -1 -
+              1
+          ) || this.features.DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
         isNew: this.features.DOCUMENT_PALETTE_PROPERTIES.isNew(),
         onBlock: () => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )
@@ -366,16 +380,23 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_SHEET',
         type: 'OPTION',
         isActive: this.features.DOCUMENT_SHEET.isActive(),
-        isBlocked: this.features.DOCUMENT_SHEET.isReached(
-          (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
-            -1 -
-            1
-        ),
+        isBlocked:
+          this.features.DOCUMENT_SHEET.isReached(
+            (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
+              -1 -
+              1
+          ) || this.features.DOCUMENT_SHEET.isBlocked(),
         isNew: this.features.DOCUMENT_SHEET.isNew(),
         onBlock: () => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )
@@ -394,16 +415,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           feature: 'PUSH_UPDATES',
           type: 'OPTION',
           isActive: this.features.DOCUMENT_PUSH_UPDATES.isActive(),
-          isBlocked: this.features.DOCUMENT_PUSH_UPDATES.isReached(
-            (this.props.creditsCount - this.props.config.fees.paletteUpdates) *
-              -1 -
-              1
-          ),
+          isBlocked:
+            this.features.DOCUMENT_PUSH_UPDATES.isReached(
+              (this.props.creditsCount -
+                this.props.config.fees.paletteUpdates) *
+                -1 -
+                1
+            ) || this.features.DOCUMENT_PUSH_UPDATES.isBlocked(),
           isNew: true,
           onBlock: () => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )
@@ -422,16 +451,23 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'PALETTE',
         type: 'OPTION' as const,
         isActive: this.features.VIEWS_PALETTE.isActive(),
-        isBlocked: this.features.VIEWS_PALETTE.isReached(
-          (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
-            -1 -
-            1
-        ),
+        isBlocked:
+          this.features.VIEWS_PALETTE.isReached(
+            (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
+              -1 -
+              1
+          ) || this.features.VIEWS_PALETTE.isBlocked(),
         isNew: this.features.VIEWS_PALETTE.isNew(),
         onBlock: () => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )
@@ -443,17 +479,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'PALETTE_WITH_PROPERTIES',
         type: 'OPTION' as const,
         isActive: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
-        isBlocked: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
-          (this.props.creditsCount -
-            this.props.config.fees.paletteWithPropsGenerate) *
-            -1 -
-            1
-        ),
+        isBlocked:
+          this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
+            (this.props.creditsCount -
+              this.props.config.fees.paletteWithPropsGenerate) *
+              -1 -
+              1
+          ) || this.features.VIEWS_PALETTE_WITH_PROPERTIES.isBlocked(),
         isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
         onBlock: () => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )
@@ -465,16 +508,23 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'SHEET',
         type: 'OPTION' as const,
         isActive: this.features.VIEWS_SHEET.isActive(),
-        isBlocked: this.features.VIEWS_SHEET.isReached(
-          (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
-            -1 -
-            1
-        ),
+        isBlocked:
+          this.features.VIEWS_SHEET.isReached(
+            (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
+              -1 -
+              1
+          ) || this.features.VIEWS_SHEET.isBlocked(),
         isNew: this.features.VIEWS_SHEET.isNew(),
         onBlock: () => {
           sendPluginMessage(
             {
-              pluginMessage: { type: 'GET_PRO' },
+              pluginMessage: {
+                type:
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
+                    ? 'GET_TRIAL'
+                    : 'GET_PRO',
+              },
             },
             '*'
           )
@@ -617,7 +667,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -643,7 +699,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     onBlock={() => {
                       sendPluginMessage(
                         {
-                          pluginMessage: { type: 'GET_PRO' },
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
                         },
                         '*'
                       )
@@ -661,17 +723,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       feature: 'SYNC_LOCAL_STYLES',
                       type: 'OPTION',
                       isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
-                      isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.localStylesSync) *
-                          -1 -
-                          1
-                      ),
+                      isBlocked:
+                        this.features.SYNC_LOCAL_STYLES.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localStylesSync) *
+                            -1 -
+                            1
+                        ) || this.features.SYNC_LOCAL_STYLES.isBlocked(),
                       isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
                       onBlock: () => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -684,17 +753,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       feature: 'SYNC_LOCAL_VARIABLES',
                       type: 'OPTION',
                       isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                      isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.localVariablesSync) *
-                          -1 -
-                          1
-                      ),
+                      isBlocked:
+                        this.features.SYNC_LOCAL_VARIABLES.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localVariablesSync) *
+                            -1 -
+                            1
+                        ) || this.features.SYNC_LOCAL_VARIABLES.isBlocked(),
                       isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                       onBlock: () => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -707,17 +783,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       feature: 'SYNC_LOCAL_TOKENS',
                       type: 'OPTION',
                       isActive: this.features.SYNC_LOCAL_TOKENS.isActive(),
-                      isBlocked: this.features.SYNC_LOCAL_TOKENS.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.localTokensSync) *
-                          -1 -
-                          1
-                      ),
+                      isBlocked:
+                        this.features.SYNC_LOCAL_TOKENS.isReached(
+                          (this.props.creditsCount -
+                            this.props.config.fees.localTokensSync) *
+                            -1 -
+                            1
+                        ) || this.features.SYNC_LOCAL_TOKENS.isBlocked(),
                       isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
                       onBlock: () => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -730,7 +813,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   onBlock={() => {
                     sendPluginMessage(
                       {
-                        pluginMessage: { type: 'GET_PRO' },
+                        pluginMessage: {
+                          type:
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
+                              ? 'GET_TRIAL'
+                              : 'GET_PRO',
+                        },
                       },
                       '*'
                     )
@@ -754,17 +843,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         feature: 'SYNC_LOCAL_STYLES',
                         type: 'OPTION',
                         isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
-                        isBlocked: this.features.SYNC_LOCAL_STYLES.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.localStylesSync) *
-                            -1 -
-                            1
-                        ),
+                        isBlocked:
+                          this.features.SYNC_LOCAL_STYLES.isReached(
+                            (this.props.creditsCount -
+                              this.props.config.fees.localStylesSync) *
+                              -1 -
+                              1
+                          ) || this.features.SYNC_LOCAL_STYLES.isBlocked(),
                         isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
                         onBlock: () => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )
@@ -777,17 +873,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         feature: 'SYNC_LOCAL_VARIABLES',
                         type: 'OPTION',
                         isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                        isBlocked: this.features.SYNC_LOCAL_VARIABLES.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.localVariablesSync) *
-                            -1 -
-                            1
-                        ),
+                        isBlocked:
+                          this.features.SYNC_LOCAL_VARIABLES.isReached(
+                            (this.props.creditsCount -
+                              this.props.config.fees.localVariablesSync) *
+                              -1 -
+                              1
+                          ) || this.features.SYNC_LOCAL_VARIABLES.isBlocked(),
                         isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                         onBlock: () => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )
@@ -800,17 +903,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         feature: 'SYNC_LOCAL_TOKENS',
                         type: 'OPTION',
                         isActive: this.features.SYNC_LOCAL_TOKENS.isActive(),
-                        isBlocked: this.features.SYNC_LOCAL_TOKENS.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.localTokensSync) *
-                            -1 -
-                            1
-                        ),
+                        isBlocked:
+                          this.features.SYNC_LOCAL_TOKENS.isReached(
+                            (this.props.creditsCount -
+                              this.props.config.fees.localTokensSync) *
+                              -1 -
+                              1
+                          ) || this.features.SYNC_LOCAL_TOKENS.isBlocked(),
                         isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
                         onBlock: () => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )
@@ -847,7 +957,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 onBlock={() => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )

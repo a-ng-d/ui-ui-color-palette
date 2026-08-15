@@ -10,7 +10,9 @@ import {
   PresetConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
+import { layouts, Button, Dropdown, DropdownOption, Menu } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -48,9 +50,9 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
     service: Service,
     editor: Editor
   ) => ({
-    COLORS: new FeatureStatus({
+    COLORS_ADD: new FeatureStatus({
       features: config.features,
-      featureName: 'COLORS',
+      featureName: 'COLORS_ADD',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -181,7 +183,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -199,7 +207,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -217,7 +231,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -235,7 +255,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -256,7 +282,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -274,7 +306,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -292,7 +330,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -313,7 +357,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -332,7 +382,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -366,7 +422,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -400,15 +462,21 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 label: this.props.t('preview.insert.color'),
                 value: 'ADD_COLOR',
                 type: 'OPTION',
-                isActive: this.features.COLORS.isActive(),
-                isBlocked: this.features.COLORS.isReached(
+                isActive: this.features.COLORS_ADD.isActive(),
+                isBlocked: this.features.COLORS_ADD.isReached(
                   this.props.colors.length
                 ),
-                isNew: this.features.COLORS.isNew(),
+                isNew: this.features.COLORS_ADD.isNew(),
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -429,7 +497,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -441,7 +515,13 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )

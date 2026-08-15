@@ -1,6 +1,17 @@
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
+  AlgorithmVersionConfiguration,
+  ColorConfiguration,
+  ColorSpaceConfiguration,
+  CreatorConfiguration,
+  DatesConfiguration,
+  LockedSourceColorsConfiguration,
+  PresetConfiguration,
+  PublicationConfiguration,
+  ThemeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
+import {
   Bar,
   ColorItem,
   FormItem,
@@ -11,17 +22,6 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
-import {
-  AlgorithmVersionConfiguration,
-  ColorConfiguration,
-  ColorSpaceConfiguration,
-  CreatorConfiguration,
-  DatesConfiguration,
-  LockedSourceColorsConfiguration,
-  PresetConfiguration,
-  PublicationConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { BaseProps } from '../../types/app'

@@ -2,20 +2,22 @@ import { PureComponent,
   ChangeEvent,
   KeyboardEvent,
 } from 'preact/compat'
+import {
+  AlgorithmVersionConfiguration,
+  ColorSpaceConfiguration,
+  ThemeConfiguration,
+  VisionSimulationModeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Dropdown,
   FormItem,
+  IconChip,
   Section,
   SectionTitle,
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
-import {
-  AlgorithmVersionConfiguration,
-  ColorSpaceConfiguration,
-  VisionSimulationModeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -28,6 +30,7 @@ interface ColorSettingsProps
   colorSpace: ColorSpaceConfiguration
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion?: AlgorithmVersionConfiguration
+  themes?: Array<ThemeConfiguration>
   isLast?: boolean
   onChangeSettings: (
     e:
@@ -219,6 +222,14 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
     )
   }
 
+  private get activeThemeName(): string | undefined {
+    const activeTheme = (this.props.themes ?? []).find(
+      (theme) => theme.isEnabled
+    )
+    if (activeTheme === undefined) return undefined
+    return activeTheme.type === 'default theme' ? undefined : activeTheme.name
+  }
+
   // Templates
   ColorSpace = () => {
     return (
@@ -242,7 +253,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -260,7 +277,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -278,7 +301,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -296,7 +325,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -317,7 +352,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -335,7 +376,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -353,7 +400,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -374,7 +427,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -390,7 +449,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )
@@ -417,238 +482,326 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           label={this.props.t('settings.color.visionSimulationMode.label')}
           isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
         >
-          <Dropdown
-            id="update-color-blind-mode"
-            options={[
-              {
-                label: this.props.t('settings.color.visionSimulationMode.none'),
-                value: 'NONE',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                type: 'SEPARATOR',
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.colorBlind'
-                ),
-                type: 'TITLE',
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.protanomaly'
-                ),
-                value: 'PROTANOMALY',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.protanopia'
-                ),
-                value: 'PROTANOPIA',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.deuteranomaly'
-                ),
-                value: 'DEUTERANOMALY',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.deuteranopia'
-                ),
-                value: 'DEUTERANOPIA',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.tritanomaly'
-                ),
-                value: 'TRITANOMALY',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.tritanopia'
-                ),
-                value: 'TRITANOPIA',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.achromatomaly'
-                ),
-                value: 'ACHROMATOMALY',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-              {
-                label: this.props.t(
-                  'settings.color.visionSimulationMode.achromatopsia'
-                ),
-                value: 'ACHROMATOPSIA',
-                feature: 'UPDATE_COLOR_BLIND_MODE',
-                type: 'OPTION',
-                isActive:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
-                isBlocked:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
-                isNew:
-                  this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
-                onBlock: () => {
-                  sendPluginMessage(
-                    {
-                      pluginMessage: { type: 'GET_PRO' },
-                    },
-                    '*'
-                  )
-                },
-                action: this.props.onChangeSettings,
-              },
-            ]}
-            selected={this.props.visionSimulationMode}
-            alignment="RIGHT"
-            isFill
-            isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
-            isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
-            onBlock={() => {
-              sendPluginMessage(
-                {
-                  pluginMessage: { type: 'GET_PRO' },
-                },
-                '*'
-              )
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+              gap: 'var(--size-pos-xxsmall)',
             }}
-          />
+          >
+            <div
+              style={{
+                flex: '1 1 auto',
+                minWidth: 0,
+              }}
+            >
+              <Dropdown
+                id="update-color-blind-mode"
+                options={[
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.none'
+                    ),
+                    value: 'NONE',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    type: 'SEPARATOR',
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.colorBlind'
+                    ),
+                    type: 'TITLE',
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.protanomaly'
+                    ),
+                    value: 'PROTANOMALY',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.protanopia'
+                    ),
+                    value: 'PROTANOPIA',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.deuteranomaly'
+                    ),
+                    value: 'DEUTERANOMALY',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.deuteranopia'
+                    ),
+                    value: 'DEUTERANOPIA',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.tritanomaly'
+                    ),
+                    value: 'TRITANOMALY',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.tritanopia'
+                    ),
+                    value: 'TRITANOPIA',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.achromatomaly'
+                    ),
+                    value: 'ACHROMATOMALY',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                  {
+                    label: this.props.t(
+                      'settings.color.visionSimulationMode.achromatopsia'
+                    ),
+                    value: 'ACHROMATOPSIA',
+                    feature: 'UPDATE_COLOR_BLIND_MODE',
+                    type: 'OPTION',
+                    isActive:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isActive(),
+                    isBlocked:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isBlocked(),
+                    isNew:
+                      this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
+                    onBlock: () => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    },
+                    action: this.props.onChangeSettings,
+                  },
+                ]}
+                selected={this.props.visionSimulationMode}
+                alignment="RIGHT"
+                isFill
+                isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
+                isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
+                onBlock={() => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
+                    },
+                    '*'
+                  )
+                }}
+              />
+            </div>
+            {this.activeThemeName !== undefined && (
+              <IconChip
+                iconType="PICTO"
+                iconName="info"
+                text={this.props.t('settings.themeBinding.message', {
+                  themeName: this.activeThemeName,
+                })}
+                type="MULTI_LINE"
+              />
+            )}
+          </div>
         </FormItem>
       </Feature>
     )
@@ -676,7 +829,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -694,7 +853,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -712,7 +877,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 onBlock: () => {
                   sendPluginMessage(
                     {
-                      pluginMessage: { type: 'GET_PRO' },
+                      pluginMessage: {
+                        type:
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
+                            ? 'GET_TRIAL'
+                            : 'GET_PRO',
+                      },
                     },
                     '*'
                   )
@@ -728,7 +899,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             onBlock={() => {
               sendPluginMessage(
                 {
-                  pluginMessage: { type: 'GET_PRO' },
+                  pluginMessage: {
+                    type:
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
+                        ? 'GET_TRIAL'
+                        : 'GET_PRO',
+                  },
                 },
                 '*'
               )

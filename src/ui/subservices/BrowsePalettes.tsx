@@ -9,7 +9,9 @@ import {
   MetaConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { FeatureStatus } from '@unoff/utils'
+import { Bar, Button, layouts, Tabs } from '@unoff/ui'
 import { ManagePaletteState } from '../services/ManagePalette'
 import RemotePalettes from '../contexts/RemotePalettes'
 import LocalPalettes from '../contexts/LocalPalettes'
@@ -217,10 +219,15 @@ export default class BrowsePalettes extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )
+
+    this.props.onCreatePalette({})
 
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -231,7 +238,7 @@ export default class BrowsePalettes extends PureComponent<
         ?.isConsented ?? false,
       {
         feature: 'CREATE_PALETTE',
-        colors: 1,
+        colors: sourceColors.length,
         stops: this.palette.value?.preset.stops.length,
       }
     )
@@ -338,7 +345,13 @@ export default class BrowsePalettes extends PureComponent<
               onBlock={() => {
                 sendPluginMessage(
                   {
-                    pluginMessage: { type: 'GET_PRO' },
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
                   },
                   '*'
                 )
@@ -353,16 +366,24 @@ export default class BrowsePalettes extends PureComponent<
             <Button
               type="secondary"
               label={this.props.t('browse.document.restore')}
-              isLoading={this.state.isSecondaryActionLoading}
-              isBlocked={
-                this.features.DOCUMENT_CREATE.isBlocked() ||
-                this.features.DOCUMENT_CREATE.isReached(
-                  (this.props.creditsCount -
-                    this.props.config.fees.paletteCreate) *
-                    -1 -
-                    1
+              helper={
+                this.features.LOCAL_PALETTES.isReached(
+                  this.state.localPalettesList.length
                 )
+                  ? {
+                      label: this.props.t('info.maxNumberOfLocalPalettes', {
+                        count: (
+                          this.features.LOCAL_PALETTES.limit ?? 3
+                        ).toString(),
+                      }),
+                      type: 'MULTI_LINE',
+                    }
+                  : undefined
               }
+              isLoading={this.state.isSecondaryActionLoading}
+              isBlocked={this.features.LOCAL_PALETTES.isReached(
+                this.state.localPalettesList.length
+              )}
               isNew={this.features.DOCUMENT_CREATE.isNew()}
               shouldReflow={{
                 icon: 'link-connected',
@@ -371,7 +392,13 @@ export default class BrowsePalettes extends PureComponent<
               onBlock={() => {
                 sendPluginMessage(
                   {
-                    pluginMessage: { type: 'GET_PRO' },
+                    pluginMessage: {
+                      type:
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                          ? 'GET_TRIAL'
+                          : 'GET_PRO',
+                    },
                   },
                   '*'
                 )
@@ -387,16 +414,32 @@ export default class BrowsePalettes extends PureComponent<
           type="primary"
           icon="plus"
           label={this.props.t('actions.createPalette')}
+          helper={
+            this.features.LOCAL_PALETTES.isReached(
+              this.state.localPalettesList.length
+            )
+              ? {
+                  label: this.props.t('info.maxNumberOfLocalPalettes', {
+                    count: (this.features.LOCAL_PALETTES.limit ?? 3).toString(),
+                  }),
+                  type: 'MULTI_LINE',
+                }
+              : undefined
+          }
           shouldReflow={{ isEnabled: true, icon: 'plus' }}
-          isBlocked={this.features.CREATE_PALETTE.isReached(
-            (this.props.creditsCount - this.props.config.fees.paletteCreate) *
-              -1 -
-              1
+          isBlocked={this.features.LOCAL_PALETTES.isReached(
+            this.state.localPalettesList.length
           )}
           onBlock={() => {
             sendPluginMessage(
               {
-                pluginMessage: { type: 'GET_PRO' },
+                pluginMessage: {
+                  type:
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                      ? 'GET_TRIAL'
+                      : 'GET_PRO',
+                },
               },
               '*'
             )

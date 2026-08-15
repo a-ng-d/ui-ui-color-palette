@@ -5,10 +5,26 @@ import { doSpecificMode } from './stores/features'
 
 declare const __PLATFORM__: 'figma' | 'penpot' | 'sketch' | 'framer'
 declare const __COLOR_MODE__: 'dark' | 'light'
-declare const __EDITOR__: 'figma' | 'dev' | 'penpot' | 'framer'
+declare const __EDITOR__:
+  | 'figma'
+  | 'dev'
+  | 'figjam'
+  | 'buzz'
+  | 'penpot'
+  | 'framer'
 
 const isDev = import.meta.env.MODE === 'development'
 declare const __APP_VERSION__: string
+
+const isUiOverrideEnabled = import.meta.env.VITE_UI_OVERRIDE_ENABLED === 'true'
+
+const isEmbed =
+  typeof window !== 'undefined' &&
+  ['1', 'true'].includes(
+    (
+      new URLSearchParams(window.location.search).get('embed') ?? ''
+    ).toLowerCase()
+  )
 
 interface SpecConfig {
   [platform: string]: {
@@ -16,7 +32,14 @@ interface SpecConfig {
       [editor: string]: {
         env: {
           platform: 'figma' | 'penpot' | 'sketch' | 'framer'
-          editor: 'figma' | 'dev' | 'penpot' | 'sketch' | 'framer'
+          editor:
+            | 'figma'
+            | 'dev'
+            | 'figjam'
+            | 'buzz'
+            | 'penpot'
+            | 'sketch'
+            | 'framer'
           ui: 'figma' | 'penpot' | 'sketch' | 'framer'
           colorMode:
             | 'figma-light'
@@ -36,6 +59,7 @@ interface SpecConfig {
 
 const proFeatures = [
   'CREATE_PALETTE',
+  'LOCAL_PALETTES',
   'DOCUMENT_CREATE',
   'SYNC_LOCAL_STYLES',
   'SYNC_LOCAL_VARIABLES',
@@ -43,7 +67,6 @@ const proFeatures = [
   'USER_PREFERENCES_SYNC_DEEP_STYLES',
   'USER_PREFERENCES_SYNC_DEEP_VARIABLES',
   'USER_PREFERENCES_SYNC_DEEP_TOKENS',
-  'PREVIEW_LOCK_SOURCE_COLORS',
   'PREVIEW_SCORES_WCAG_INTERVAL',
   'PREVIEW_SCORES_APCA_INTERVAL',
   'PREVIEW_FILTER_PASS',
@@ -52,19 +75,14 @@ const proFeatures = [
   'DOCUMENT_PALETTE_PROPERTIES',
   'DOCUMENT_SHEET',
   'DOCUMENT_PUSH_UPDATES',
-  'VIEWS_PALETTE',
-  'VIEWS_PALETTE_WITH_PROPERTIES',
-  'VIEWS_SHEET',
-  'IMPORTS_COOLORS_ADD',
-  'IMPORTS_REALTIME_COLORS_ADD',
-  'GEN_REQUEST',
-  'EXTRACT_UPLOAD',
-  'WHEEL_BASE',
   'PRESETS_MATERIAL',
   'PRESETS_MATERIAL_3',
   'PRESETS_TAILWIND',
+  'PRESETS_ANT',
   'PRESETS_RADIX',
   'PRESETS_UNTITLED_UI',
+  'PRESETS_BOOTSTRAP',
+  'PRESETS_OPEN_COLOR',
   'PRESETS_SPECTRUM',
   'PRESETS_SPECTRUM_NEUTRAL',
   'PRESETS_ADS',
@@ -74,34 +92,12 @@ const proFeatures = [
   'PRESETS_FLUENT',
   'PRESETS_POLARIS',
   'PRESETS_CUSTOM_ADD',
-  'SCALE_CONTRAST_RATIO',
-  'SCALE_CHROMA',
-  'SCALE_HUE',
-  'THEMES',
-  'THEMES_NAME',
-  'THEMES_PARAMS',
-  'THEMES_DESCRIPTION',
-  'COLORS',
-  'COLORS_HUE_SHIFTING',
-  'COLORS_CHROMA_SHIFTING',
-  'COLORS_ALPHA',
-  'COLORS_BACKGROUND_COLOR',
-  'SETTINGS_COLOR_SPACE_OKLCH',
-  'SETTINGS_COLOR_SPACE_LAB',
-  'SETTINGS_COLOR_SPACE_OKLAB',
-  'SETTINGS_COLOR_SPACE_HSV',
-  'SETTINGS_COLOR_SPACE_HSLUV',
-  'SETTINGS_COLOR_SPACE_CMYK',
-  'SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA',
-  'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY',
-  'SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA',
-  'SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY',
-  'SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA',
-  'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY',
-  'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
-  'SETTINGS_ALGORITHM_V1',
-  'SETTINGS_ALGORITHM_V2',
-  'SETTINGS_TEXT_COLORS_THEME',
+  'COLORS_ADD',
+  'THEMES_ADD',
+  'EXPORT_TOKENS_DTCG',
+  'EXPORT_TOKENS_NATIVE',
+  'EXPORT_TOKENS_STYLE_DICTIONARY_V3',
+  'EXPORT_TOKENS_UNIVERSAL',
   'EXPORT_STYLESHEET_SCSS',
   'EXPORT_STYLESHEET_LESS',
   'EXPORT_TAILWIND_V3',
@@ -136,6 +132,24 @@ const specConfig: SpecConfig = {
         },
         features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
       },
+      figjam: {
+        env: {
+          platform: 'figma',
+          editor: 'figjam',
+          ui: 'figma',
+          colorMode: 'figma-light',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
+      buzz: {
+        env: {
+          platform: 'figma',
+          editor: 'buzz',
+          ui: 'figma',
+          colorMode: 'figma-light',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
     },
     dark: {
       figma: {
@@ -151,6 +165,24 @@ const specConfig: SpecConfig = {
         env: {
           platform: 'figma',
           editor: 'dev',
+          ui: 'figma',
+          colorMode: 'figma-dark',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
+      figjam: {
+        env: {
+          platform: 'figma',
+          editor: 'figjam',
+          ui: 'figma',
+          colorMode: 'figma-dark',
+        },
+        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+      },
+      buzz: {
+        env: {
+          platform: 'figma',
+          editor: 'buzz',
           ui: 'figma',
           colorMode: 'figma-dark',
         },
@@ -256,6 +288,38 @@ const specConfig: SpecConfig = {
   },
 }
 
+type SpecTarget = SpecConfig[string][string][string]
+
+const resolveSpecTarget = (): SpecTarget => {
+  const buildTarget = specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__]
+
+  if (!isUiOverrideEnabled || typeof window === 'undefined') return buildTarget
+
+  const params = new URLSearchParams(window.location.search)
+  const platformParam = params.get('platform')
+  const colorModeParam = params.get('mode')
+  const editorParam = params.get('editor')
+
+  if (!platformParam && !colorModeParam && !editorParam) return buildTarget
+
+  const platformGroup = specConfig[platformParam ?? __PLATFORM__]
+  if (!platformGroup) return buildTarget
+
+  const colorModeGroup =
+    (colorModeParam && platformGroup[colorModeParam]) ||
+    platformGroup[__COLOR_MODE__] ||
+    Object.values(platformGroup)[0]
+  if (!colorModeGroup) return buildTarget
+
+  const target =
+    (editorParam && colorModeGroup[editorParam]) ||
+    Object.values(colorModeGroup)[0]
+
+  return target ?? buildTarget
+}
+
+const specTarget = resolveSpecTarget()
+
 const globalConfig: Config = {
   limits: {
     pageSize: 20,
@@ -264,11 +328,14 @@ const globalConfig: Config = {
     minWidth: 240,
     minHeight: 420,
     sourceColors: 5,
-    customStops: 8,
+    customStops: 6,
+    colorThemes: 2,
+    localPalettes: 3,
   },
   env: {
-    ...specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].env,
+    ...specTarget.env,
     isDev,
+    isEmbed,
     isSupabaseEnabled: import.meta.env.VITE_SUPABASE_ENABLED === 'true',
     isMixpanelEnabled: import.meta.env.VITE_MIXPANEL_ENABLED === 'true',
     isSentryEnabled: import.meta.env.VITE_SENTRY_ENABLED === 'true',
@@ -287,6 +354,10 @@ const globalConfig: Config = {
     creditsLimit: 500,
     creditsRenewalPeriodDays: 7,
     creditsRenewalPeriodHours: 168,
+    storeProWeekId: '20d1df96-8052-47de-bf62-36b412c35885',
+    storeProMonthId: '5f0502a5-9708-459d-b002-495e2860c23a',
+    storeProYearId: '66a55061-29ff-4c52-8ce0-0661ab12890e',
+    storeProLifetimeId: 'ae8ecdd5-badd-42d1-98fc-91f6ffdc77a6',
   },
   dbs: {
     palettesDbViewName: import.meta.env.VITE_DBS_PALETTES_VIEW as string,
@@ -320,11 +391,8 @@ const globalConfig: Config = {
       'https://marketplace.visualstudio.com/items?itemName=figma.figma-vscode-extension',
     isbUrl: 'https://isb.ylb.lt/website',
     uicpUrl: 'https://uicp.ylb.lt/website',
+    storeUrl: 'https://uicp.ylb.lt/store',
     storeManagementUrl: 'https://uicp.ylb.lt/store-management',
-    storeProWeekUrl: '20d1df96-8052-47de-bf62-36b412c35885',
-    storeProMonthUrl: '5f0502a5-9708-459d-b002-495e2860c23a',
-    storeProYearUrl: '66a55061-29ff-4c52-8ce0-0661ab12890e',
-    storeProLifetimeUrl: 'ae8ecdd5-badd-42d1-98fc-91f6ffdc77a6',
     storeUltimateRequestUrl: 'https://uicp.ylb.lt/ultimate-request',
     howToUseUrl: 'https://uicp.ylb.lt/how-to-use-figma',
   },
@@ -336,7 +404,7 @@ const globalConfig: Config = {
     pluginVersion: __APP_VERSION__,
     creditsVersion: '2026.05',
   },
-  features: specConfig[__PLATFORM__][__COLOR_MODE__][__EDITOR__].features,
+  features: specTarget.features,
   lang: 'en-US',
   fees: {
     colourLoversImport: 25,
@@ -357,8 +425,10 @@ const globalConfig: Config = {
 }
 
 const limitsMapping: { [key: string]: keyof typeof globalConfig.limits } = {
-  COLORS: 'sourceColors',
+  COLORS_ADD: 'sourceColors',
+  THEMES_ADD: 'colorThemes',
   PRESETS_CUSTOM_ADD: 'customStops',
+  LOCAL_PALETTES: 'localPalettes',
 }
 
 globalConfig.features.forEach((feature) => {

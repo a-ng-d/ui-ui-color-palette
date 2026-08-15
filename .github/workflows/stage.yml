@@ -53,6 +53,7 @@ jobs:
           echo VITE_PRO_ENABLED="${{ vars.VITE_PRO_ENABLED }}" >> .env.local
           echo VITE_TRIAL_ENABLED="${{ vars.VITE_TRIAL_ENABLED }}" >> .env.local
           echo VITE_CREDITS_ENABLED="${{ vars.VITE_CREDITS_ENABLED }}" >> .env.local
+          echo VITE_UI_OVERRIDE_ENABLED="${{ vars.VITE_UI_OVERRIDE_ENABLED }}" >> .env.local
           echo VITE_SUPABASE_URL="${{ vars.VITE_SUPABASE_URL }}" >> .env.local
           echo VITE_SUPABASE_PUBLIC_ANON_KEY="${{ secrets.VITE_SUPABASE_PUBLIC_ANON_KEY }}" >> .env.local
           echo VITE_SENTRY_DSN="${{ vars.VITE_SENTRY_DSN }}" >> .env.local
@@ -60,7 +61,7 @@ jobs:
           echo VITE_AUTH_WORKER_URL="${{ vars.VITE_AUTH_WORKER_URL }}" >> .env.local
           echo VITE_AUTH_URL="${{ vars.VITE_AUTH_URL }}" >> .env.local
           echo VITE_ANNOUNCEMENTS_WORKER_URL="${{ vars.VITE_ANNOUNCEMENTS_WORKER_URL }}" >> .env.local
-          VITE_CORS_WORKER_URL="${{ vars.VITE_CORS_WORKER_URL }}" >> .env.local
+          echo VITE_CORS_WORKER_URL="${{ vars.VITE_CORS_WORKER_URL }}" >> .env.local
           echo VITE_UI_URL="${{ vars.VITE_UI_URL }}" >> .env.local
           echo VITE_NOTION_ANNOUNCEMENTS_ID="${{ vars.VITE_NOTION_ANNOUNCEMENTS_ID }}" >> .env.local
           echo VITE_NOTION_ONBOARDING_ID="${{ vars.VITE_NOTION_ONBOARDING_ID }}" >> .env.local

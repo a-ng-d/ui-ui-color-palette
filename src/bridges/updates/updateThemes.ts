@@ -1,4 +1,4 @@
-import { FullConfiguration } from '@a_ng_d/utils-ui-color-palette'
+import { FullConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { ThemesMessage } from '../../types/messages'
 
 const updateThemes = async (msg: ThemesMessage) => {

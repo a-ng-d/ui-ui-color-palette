@@ -1,4 +1,10 @@
 import { createPortal, PureComponent } from 'preact/compat'
+import {
+  BaseConfiguration,
+  FullConfiguration,
+  MetaConfiguration,
+  ThemeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
   Bar,
@@ -8,12 +14,6 @@ import {
   SectionTitle,
   SemanticMessage,
 } from '@unoff/ui'
-import {
-  BaseConfiguration,
-  FullConfiguration,
-  MetaConfiguration,
-  ThemeConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import Properties from '../contexts/Properties'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -371,7 +371,13 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         onBlock={() => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )
@@ -390,7 +396,13 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         onBlock={() => {
                           sendPluginMessage(
                             {
-                              pluginMessage: { type: 'GET_PRO' },
+                              pluginMessage: {
+                                type:
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
+                                    ? 'GET_TRIAL'
+                                    : 'GET_PRO',
+                              },
                             },
                             '*'
                           )
@@ -414,7 +426,13 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -434,7 +452,13 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )

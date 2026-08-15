@@ -1,5 +1,5 @@
+import { AlgorithmVersionConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { Feature } from '@unoff/utils'
-import { AlgorithmVersionConfiguration } from '@a_ng_d/utils-ui-color-palette'
 import { Language } from './translations'
 import { Editor, Service } from './app'
 
@@ -13,9 +13,11 @@ export interface Config {
     localPalettes?: number
     sourceColors?: number
     customStops?: number
+    colorThemes?: number
   }
   env: {
     isDev: boolean
+    isEmbed: boolean
     platform: 'figma' | 'penpot' | 'sketch' | 'framer'
     editor: Editor
     ui: 'figma' | 'penpot' | 'sketch' | 'framer'
@@ -46,6 +48,10 @@ export interface Config {
     creditsLimit: number
     creditsRenewalPeriodDays: number
     creditsRenewalPeriodHours?: number
+    storeProWeekId: string
+    storeProMonthId: string
+    storeProYearId: string
+    storeProLifetimeId: string
   }
   dbs: {
     palettesDbViewName: string
@@ -75,11 +81,8 @@ export interface Config {
     vsCodeFigmaPluginUrl: string
     isbUrl: string
     uicpUrl: string
+    storeUrl: string
     storeManagementUrl: string
-    storeProWeekUrl: string
-    storeProMonthUrl: string
-    storeProYearUrl: string
-    storeProLifetimeUrl: string
     storeUltimateRequestUrl: string
     howToUseUrl: string
   }

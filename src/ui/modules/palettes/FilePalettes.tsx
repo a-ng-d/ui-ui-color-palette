@@ -1,5 +1,10 @@
 import { createPortal } from 'preact/compat'
 import { PureComponent } from 'preact/compat'
+import {
+  Data,
+  FullConfiguration,
+  SourceColorConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   ActionsItem,
@@ -13,11 +18,6 @@ import {
   SimpleItem,
   texts,
 } from '@unoff/ui'
-import {
-  Data,
-  FullConfiguration,
-  SourceColorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import PalettePreview from '../../components/PalettePreview'
@@ -213,7 +213,10 @@ export default class FilePalettes extends PureComponent<
       '*'
     )
 
-    if (this.props.config.plan.isProEnabled)
+    if (
+      this.props.config.plan.isProEnabled &&
+      this.props.config.plan.isCreditsEnabled
+    )
       $creditsCount.set(
         $creditsCount.get() - this.props.config.fees.paletteCreate
       )
@@ -361,17 +364,21 @@ export default class FilePalettes extends PureComponent<
                                   this.features.DUPLICATE_PALETTE.isActive(),
                                 isBlocked:
                                   this.features.DUPLICATE_PALETTE.isBlocked() ||
-                                  this.features.CREATE_PALETTE.isReached(
-                                    (this.props.creditsCount -
-                                      this.props.config.fees.paletteCreate) *
-                                      -1 -
-                                      1
+                                  this.features.LOCAL_PALETTES.isReached(
+                                    this.props.localPalettesList.length
                                   ),
                                 isNew: this.features.DUPLICATE_PALETTE.isNew(),
                                 onBlock: () => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO' },
+                                      pluginMessage: {
+                                        type:
+                                          this.props.config.plan
+                                            .isTrialEnabled &&
+                                          this.props.trialStatus !== 'EXPIRED'
+                                            ? 'GET_TRIAL'
+                                            : 'GET_PRO',
+                                      },
                                     },
                                     '*'
                                   )
@@ -400,7 +407,14 @@ export default class FilePalettes extends PureComponent<
                                 onBlock: () => {
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: { type: 'GET_PRO' },
+                                      pluginMessage: {
+                                        type:
+                                          this.props.config.plan
+                                            .isTrialEnabled &&
+                                          this.props.trialStatus !== 'EXPIRED'
+                                            ? 'GET_TRIAL'
+                                            : 'GET_PRO',
+                                      },
                                     },
                                     '*'
                                   )
@@ -427,7 +441,13 @@ export default class FilePalettes extends PureComponent<
                             onBlock={() => {
                               sendPluginMessage(
                                 {
-                                  pluginMessage: { type: 'GET_PRO' },
+                                  pluginMessage: {
+                                    type:
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
+                                        ? 'GET_TRIAL'
+                                        : 'GET_PRO',
+                                  },
                                 },
                                 '*'
                               )
@@ -448,7 +468,13 @@ export default class FilePalettes extends PureComponent<
                               onBlock={() => {
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: { type: 'GET_PRO' },
+                                    pluginMessage: {
+                                      type:
+                                        this.props.config.plan.isTrialEnabled &&
+                                        this.props.trialStatus !== 'EXPIRED'
+                                          ? 'GET_TRIAL'
+                                          : 'GET_PRO',
+                                    },
                                   },
                                   '*'
                                 )
@@ -471,7 +497,13 @@ export default class FilePalettes extends PureComponent<
                               onBlock={() => {
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: { type: 'GET_PRO' },
+                                    pluginMessage: {
+                                      type:
+                                        this.props.config.plan.isTrialEnabled &&
+                                        this.props.trialStatus !== 'EXPIRED'
+                                          ? 'GET_TRIAL'
+                                          : 'GET_PRO',
+                                    },
                                   },
                                   '*'
                                 )
@@ -522,17 +554,20 @@ export default class FilePalettes extends PureComponent<
                     <Button
                       type="primary"
                       label={this.props.t('browse.actions.createPalette')}
-                      isBlocked={this.features.CREATE_PALETTE.isReached(
-                        (this.props.creditsCount -
-                          this.props.config.fees.paletteCreate) *
-                          -1 -
-                          1
+                      isBlocked={this.features.LOCAL_PALETTES.isReached(
+                        this.props.localPalettesList.length
                       )}
                       isNew={this.features.CREATE_PALETTE.isNew()}
                       onBlock={() => {
                         sendPluginMessage(
                           {
-                            pluginMessage: { type: 'GET_PRO' },
+                            pluginMessage: {
+                              type:
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                                  ? 'GET_TRIAL'
+                                  : 'GET_PRO',
+                            },
                           },
                           '*'
                         )
@@ -573,7 +608,7 @@ export default class FilePalettes extends PureComponent<
 
   // Render
   render() {
-    const limit = this.features.LOCAL_PALETTES.limit ?? 0
+    const limit = this.features.LOCAL_PALETTES.limit ?? 3
 
     return (
       <>
@@ -616,7 +651,11 @@ export default class FilePalettes extends PureComponent<
                       label={this.props.t('plan.getPro')}
                       action={() =>
                         sendPluginMessage(
-                          { pluginMessage: { type: 'GET_PRO' } },
+                          {
+                            pluginMessage: {
+                              type: 'GET_PRO',
+                            },
+                          },
                           '*'
                         )
                       }

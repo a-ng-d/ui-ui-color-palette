@@ -1,8 +1,6 @@
 import { PureComponent } from 'preact/compat'
 import FileSaver from 'file-saver'
 import * as fflate from 'fflate'
-import { Case, FeatureStatus } from '@unoff/utils'
-import { Layout } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -23,7 +21,9 @@ import {
   Code,
   PublicationConfiguration,
   CreatorConfiguration,
-} from '@a_ng_d/utils-ui-color-palette'
+} from '@yelbolt/engine-ui-color-palette'
+import { Case, FeatureStatus } from '@unoff/utils'
+import { Layout } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import Actions from '../modules/Actions'
@@ -119,9 +119,9 @@ export default class ExportPalette extends PureComponent<
     super(props)
     this.state = {
       export: {
-        format: 'JSON',
-        context: 'TOKENS_NATIVE',
-        mimeType: 'application/json',
+        format: 'CSS',
+        context: 'STYLESHEET_CSS',
+        mimeType: 'text/css',
         data: new Code({
           paletteData: new Data({
             base: {
@@ -136,7 +136,7 @@ export default class ExportPalette extends PureComponent<
             } as BaseConfiguration,
             themes: this.props.themes,
           }).makePaletteData(),
-        }).makeNativeTokens()[0].content,
+        }).makeCssCustomProps('RGB')[0].content,
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
