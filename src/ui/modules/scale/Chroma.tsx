@@ -1,10 +1,14 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
+  Channel,
+  ColorConfiguration,
   ExchangeConfiguration,
+  Preview,
   ShiftConfiguration,
   ShiftCurve,
   ShiftCurveConfiguration,
+  ShiftGradientStop,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { Section, SectionTitle, SimpleItem } from '@unoff/ui'
@@ -31,6 +35,8 @@ const CURVE_TRACKING_FEATURE: Record<
   FREE: 'SET_CHROMA_CURVE_FREE',
 }
 
+const MAX_STACKED_TRACKS = 6
+
 interface ChromaProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   shift: ShiftConfiguration
@@ -41,10 +47,15 @@ interface ChromaProps extends BaseProps, WithConfigProps, WithTranslationProps {
   ) => void
 }
 
-export default class Chroma extends PureComponent<ChromaProps> {
+interface ChromaState {
+  gradient: { tracks: ShiftGradientStop[][] }
+}
+
+export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
+  private gradientKey: string
 
   static features = (
     planStatus: PlanStatus,
@@ -78,12 +89,63 @@ export default class Chroma extends PureComponent<ChromaProps> {
       id: this.props.id,
       data: this.palette.value as ExchangeConfiguration,
     }
+    this.gradientKey = this.makeGradientKey()
+    this.state = { gradient: this.computeGradient() }
+  }
+
+  // Derived Data
+  makeGradientKey = (): string => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+
+    return JSON.stringify([
+      sourceColors?.map((color) => color.rgb),
+      palette.colorSpace,
+      palette.algorithmVersion,
+      palette.visionSimulationMode,
+    ])
+  }
+
+  computeGradient = (): { tracks: ShiftGradientStop[][] } => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+
+    if (sourceColors === undefined || sourceColors.length === 0)
+      return { tracks: [] }
+
+    const perColorTracks = sourceColors.map((sourceColor) =>
+      new Preview({
+        sourceColor: [
+          sourceColor.rgb.r * 255,
+          sourceColor.rgb.g * 255,
+          sourceColor.rgb.b * 255,
+        ] as Channel,
+        colorSpace: palette.colorSpace,
+        algorithmVersion: palette.algorithmVersion,
+        visionSimulationMode: palette.visionSimulationMode,
+      })
+        .sampleShift('CHROMA')
+        .map((stop) => ({ ...stop, outOfGamut: false }))
+    )
+
+    return {
+      tracks:
+        perColorTracks.length > MAX_STACKED_TRACKS
+          ? [Preview.blend(perColorTracks)]
+          : perColorTracks,
+    }
   }
 
   // Lifecycle
   componentDidMount = () => {
     this.subscribePalette = $palette.subscribe((value) => {
       this.scaleMessage.data = value as ExchangeConfiguration
+
+      const nextGradientKey = this.makeGradientKey()
+      if (nextGradientKey !== this.gradientKey) {
+        this.gradientKey = nextGradientKey
+        this.setState({ gradient: this.computeGradient() })
+      }
     })
   }
 
@@ -224,6 +286,7 @@ export default class Chroma extends PureComponent<ChromaProps> {
                     min: 'hsl(187, 0%, 75%)',
                     max: 'hsl(187, 100%, 75%)',
                   }}
+                  gradient={this.state.gradient}
                   feature="SHIFT_CHROMA"
                   isBlocked={this.features.SCALE_CHROMA.isBlocked()}
                   isNew={this.features.SCALE_CHROMA.isNew()}

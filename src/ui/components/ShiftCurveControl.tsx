@@ -10,12 +10,19 @@ import { doClassnames } from '@unoff/utils'
 import { Input, layouts, SegmentedControl, SimpleSlider } from '@unoff/ui'
 import { WithTranslationProps } from './WithTranslation'
 
+export interface ShiftGradientStop {
+  offset: number
+  color: string
+  outOfGamut?: boolean
+}
+
 export interface ShiftCurveFieldsProps extends WithTranslationProps {
   id: string
   channel: ShiftChannel
   label: string
   shift: ShiftCurveConfiguration
   colors?: { min: string; max: string }
+  gradient?: { tracks: ShiftGradientStop[][] }
   feature: string
   isBlocked?: boolean
   isNew?: boolean
@@ -65,8 +72,16 @@ export class ShiftCurveFields extends PureComponent<ShiftCurveFieldsProps> {
 
   // Templates
   Field = (field: FieldSpec) => {
-    const { id, channel, colors, feature, isBlocked, isNew, onBlock } =
-      this.props
+    const {
+      id,
+      channel,
+      colors,
+      gradient,
+      feature,
+      isBlocked,
+      isNew,
+      onBlock,
+    } = this.props
     const variant = this.props.variant ?? 'SLIDER'
     const [min, max] = SHIFT_BOUNDS[channel]
     const unit = channel === 'CHROMA' ? '%' : '°'
@@ -105,6 +120,7 @@ export class ShiftCurveFields extends PureComponent<ShiftCurveFieldsProps> {
         max={max}
         step={1}
         colors={colors}
+        gradient={gradient}
         feature={feature}
         hasPadding={false}
         isBlocked={isBlocked}
@@ -214,6 +230,7 @@ export interface ShiftCurveControlProps extends WithTranslationProps {
   label: string
   shift: ShiftCurveConfiguration
   colors?: { min: string; max: string }
+  gradient?: { tracks: ShiftGradientStop[][] }
   feature: string
   isBlocked?: boolean
   isNew?: boolean
@@ -237,6 +254,7 @@ export default class ShiftCurveControl extends PureComponent<ShiftCurveControlPr
       label,
       shift,
       colors,
+      gradient,
       feature,
       isBlocked,
       isNew,
@@ -261,6 +279,7 @@ export default class ShiftCurveControl extends PureComponent<ShiftCurveControlPr
             label={label}
             shift={shift}
             colors={colors}
+            gradient={gradient}
             feature={feature}
             isBlocked={isBlocked}
             isNew={isNew}

@@ -1,10 +1,14 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
+  Channel,
+  ColorConfiguration,
   ExchangeConfiguration,
+  Preview,
   ShiftConfiguration,
   ShiftCurve,
   ShiftCurveConfiguration,
+  ShiftGradientStop,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { Section, SectionTitle, SimpleItem } from '@unoff/ui'
@@ -31,6 +35,8 @@ const CURVE_TRACKING_FEATURE: Record<
   FREE: 'SET_HUE_CURVE_FREE',
 }
 
+const MAX_STACKED_TRACKS = 6
+
 interface HueProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   shift: ShiftConfiguration
@@ -41,10 +47,15 @@ interface HueProps extends BaseProps, WithConfigProps, WithTranslationProps {
   ) => void
 }
 
-export default class Hue extends PureComponent<HueProps> {
+interface HueState {
+  gradient: { tracks: ShiftGradientStop[][] }
+}
+
+export default class Hue extends PureComponent<HueProps, HueState> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
+  private gradientKey: string
 
   static features = (
     planStatus: PlanStatus,
@@ -78,12 +89,63 @@ export default class Hue extends PureComponent<HueProps> {
       id: this.props.id,
       data: this.palette.value as ExchangeConfiguration,
     }
+    this.gradientKey = this.makeGradientKey()
+    this.state = { gradient: this.computeGradient() }
+  }
+
+  // Derived Data
+  makeGradientKey = (): string => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+
+    return JSON.stringify([
+      sourceColors?.map((color) => color.rgb),
+      palette.colorSpace,
+      palette.algorithmVersion,
+      palette.visionSimulationMode,
+    ])
+  }
+
+  computeGradient = (): { tracks: ShiftGradientStop[][] } => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+
+    if (sourceColors === undefined || sourceColors.length === 0)
+      return { tracks: [] }
+
+    const perColorTracks = sourceColors.map((sourceColor) =>
+      new Preview({
+        sourceColor: [
+          sourceColor.rgb.r * 255,
+          sourceColor.rgb.g * 255,
+          sourceColor.rgb.b * 255,
+        ] as Channel,
+        colorSpace: palette.colorSpace,
+        algorithmVersion: palette.algorithmVersion,
+        visionSimulationMode: palette.visionSimulationMode,
+      })
+        .sampleShift('HUE')
+        .map((stop) => ({ ...stop, outOfGamut: false }))
+    )
+
+    return {
+      tracks:
+        perColorTracks.length > MAX_STACKED_TRACKS
+          ? [Preview.blend(perColorTracks)]
+          : perColorTracks,
+    }
   }
 
   // Lifecycle
   componentDidMount = () => {
     this.subscribePalette = $palette.subscribe((value) => {
       this.scaleMessage.data = value as ExchangeConfiguration
+
+      const nextGradientKey = this.makeGradientKey()
+      if (nextGradientKey !== this.gradientKey) {
+        this.gradientKey = nextGradientKey
+        this.setState({ gradient: this.computeGradient() })
+      }
     })
   }
 
@@ -226,6 +288,7 @@ export default class Hue extends PureComponent<HueProps> {
                     min: 'hsl(0, 100%, 75%)',
                     max: 'hsl(180, 100%, 75%)',
                   }}
+                  gradient={this.state.gradient}
                   feature="SHIFT_HUE"
                   isBlocked={this.features.SCALE_HUE.isBlocked()}
                   isNew={this.features.SCALE_HUE.isNew()}

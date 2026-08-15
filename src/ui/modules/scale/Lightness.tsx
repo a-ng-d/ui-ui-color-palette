@@ -1,12 +1,16 @@
 import React from 'react'
 import { PureComponent } from 'preact/compat'
 import {
+  Channel,
+  ColorConfiguration,
   Contrast,
+  EasingConfiguration,
   ExchangeConfiguration,
   PresetConfiguration,
+  Preview,
   ScaleConfiguration,
+  ShiftGradientStop,
   TextColorsThemeConfiguration,
-  EasingConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { MultipleSlider } from '@unoff/ui'
@@ -35,15 +39,16 @@ interface LightnessProps
 interface LightnessState {
   ratioLightForeground: ScaleConfiguration
   ratioDarkForeground: ScaleConfiguration
+  gradient: { tracks: ShiftGradientStop[][] }
 }
 
-export default class Lightness extends PureComponent<
-  LightnessProps,
-  LightnessState
-> {
+const MAX_STACKED_TRACKS = 6
+
+export default class Lightness extends PureComponent<LightnessProps, LightnessState> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
+  private gradientKey: string
 
   static features = (
     planStatus: PlanStatus,
@@ -84,9 +89,71 @@ export default class Lightness extends PureComponent<
       id: this.props.id,
       data: this.palette.value as ExchangeConfiguration,
     }
+    this.gradientKey = this.makeGradientKey()
     this.state = {
       ratioLightForeground: {},
       ratioDarkForeground: {},
+      gradient: this.computeGradient(),
+    }
+  }
+
+  // Derived Data
+  makeGradientKey = (): string => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+
+    return JSON.stringify([
+      sourceColors?.map((color) => color.rgb),
+      palette.shift?.hue,
+      palette.shift?.chroma,
+      palette.colorSpace,
+      palette.algorithmVersion,
+      palette.visionSimulationMode,
+      this.props.preset.min,
+      this.props.preset.max,
+    ])
+  }
+
+  computeGradient = (): { tracks: ShiftGradientStop[][] } => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+    const shift = palette.shift
+
+    if (
+      sourceColors === undefined ||
+      sourceColors.length === 0 ||
+      shift === undefined
+    )
+      return { tracks: [] }
+
+    const lightnessRange = {
+      min: this.props.preset.min,
+      max: this.props.preset.max,
+    }
+
+    const perColorTracks = sourceColors.map((sourceColor) =>
+      new Preview({
+        sourceColor: [
+          sourceColor.rgb.r * 255,
+          sourceColor.rgb.g * 255,
+          sourceColor.rgb.b * 255,
+        ] as Channel,
+        colorSpace: palette.colorSpace,
+        algorithmVersion: palette.algorithmVersion,
+        visionSimulationMode: palette.visionSimulationMode,
+      })
+        .sampleLightness(
+          { hue: shift.hue, chroma: shift.chroma },
+          lightnessRange
+        )
+        .map((stop) => ({ ...stop, outOfGamut: false }))
+    )
+
+    return {
+      tracks:
+        perColorTracks.length > MAX_STACKED_TRACKS
+          ? [Preview.blend(perColorTracks)]
+          : perColorTracks,
     }
   }
 
@@ -94,6 +161,12 @@ export default class Lightness extends PureComponent<
   componentDidMount = () => {
     this.subscribePalette = $palette.subscribe((value) => {
       this.scaleMessage.data = value as ExchangeConfiguration
+
+      const nextGradientKey = this.makeGradientKey()
+      if (nextGradientKey !== this.gradientKey) {
+        this.gradientKey = nextGradientKey
+        this.setState({ gradient: this.computeGradient() })
+      }
     })
   }
 
@@ -265,6 +338,7 @@ export default class Lightness extends PureComponent<
               min: 'black',
               max: 'white',
             }}
+            gradient={this.state.gradient}
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
@@ -306,6 +380,7 @@ export default class Lightness extends PureComponent<
               min: 'black',
               max: 'white',
             }}
+            gradient={this.state.gradient}
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
