@@ -1,10 +1,5 @@
-import { PureComponent,
-  ChangeEvent,
-} from 'preact/compat'
-import { createRef,
-  RefObject,
-  ComponentChildren,
-} from 'preact'
+import { PureComponent, ChangeEvent } from 'preact/compat'
+import { createRef, RefObject, ComponentChildren } from 'preact'
 import chroma from 'chroma-js'
 import {
   Color,
@@ -173,8 +168,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       openDialogKey: null,
       contrastScoresVersion: 0,
     }
-    this.paletteContainerRef =
-      createRef() as RefObject<HTMLDivElement>
+    this.paletteContainerRef = createRef() as RefObject<HTMLDivElement>
   }
 
   // Lifecycle

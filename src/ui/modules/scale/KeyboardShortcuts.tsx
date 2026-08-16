@@ -1,6 +1,4 @@
-import { createPortal,
-  PureComponent,
-} from 'preact/compat'
+import { createPortal, PureComponent } from 'preact/compat'
 import {
   Dialog,
   KeyboardShortcutItem,

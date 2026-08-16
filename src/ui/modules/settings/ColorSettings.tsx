@@ -1,7 +1,4 @@
-import { PureComponent,
-  ChangeEvent,
-  KeyboardEvent,
-} from 'preact/compat'
+import { PureComponent, ChangeEvent, KeyboardEvent } from 'preact/compat'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,

@@ -1,6 +1,4 @@
-import { PureComponent,
-  ChangeEventHandler,
-} from 'preact/compat'
+import { PureComponent, ChangeEventHandler } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Dialog,

@@ -1,6 +1,4 @@
-import { PureComponent,
-  ChangeEventHandler,
-} from 'preact/compat'
+import { PureComponent, ChangeEventHandler } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Dialog, List } from '@unoff/ui'
 import SyncPreferences from '../preferences/SyncPreferences'

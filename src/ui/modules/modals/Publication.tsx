@@ -1,6 +1,4 @@
-import { PureComponent,
-  MouseEventHandler,
-} from 'preact/compat'
+import { PureComponent, MouseEventHandler } from 'preact/compat'
 import { Data, PaletteData } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Avatar, Button, Chip, Dialog, texts } from '@unoff/ui'

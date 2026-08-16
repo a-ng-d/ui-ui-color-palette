@@ -1,6 +1,4 @@
-import { PureComponent,
-  MouseEventHandler,
-} from 'preact/compat'
+import { PureComponent, MouseEventHandler } from 'preact/compat'
 import chroma from 'chroma-js'
 import { RgbModel } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'

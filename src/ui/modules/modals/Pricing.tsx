@@ -1,7 +1,4 @@
-import { PureComponent,
-  MouseEvent,
-  ChangeEventHandler,
-} from 'preact/compat'
+import { PureComponent, MouseEvent, ChangeEventHandler } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Button,
