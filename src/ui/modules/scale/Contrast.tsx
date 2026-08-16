@@ -102,22 +102,12 @@ export default class Contrast extends PureComponent<
   // Handlers
   calculateLightnessForContrast = (
     textColor: string,
-    contrastRatio: number,
-    previousLightness?: number
+    contrastRatio: number
   ): number => {
     const contrast = new ContrastEngine({ textColor })
     const newLightness = contrast.getLightnessForContrastRatio(contrastRatio)
 
-    if (previousLightness !== undefined) {
-      const maxChange = Math.max(5, previousLightness * 0.1)
-      if (Math.abs(newLightness - previousLightness) > maxChange)
-        return (
-          previousLightness +
-          (newLightness > previousLightness ? maxChange : -maxChange)
-        )
-    }
-
-    return newLightness
+    return Math.min(100, Math.max(0, newLightness))
   }
 
   contrastLightForegroundHandler = (
@@ -140,13 +130,11 @@ export default class Contrast extends PureComponent<
     const onChangeStop = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.lightColor,
-          value,
-          currentScale[key]
+          value
         )
         darkForegroundRatio[key] = parseFloat(
           new ContrastEngine({
@@ -156,8 +144,6 @@ export default class Contrast extends PureComponent<
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -177,20 +163,16 @@ export default class Contrast extends PureComponent<
     const onTypeStopValue = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.lightColor,
-          value,
-          currentScale[key]
+          value
         )
         darkForegroundRatio[key] = new ContrastEngine({
           textColor: this.props.textColorsTheme.darkColor,
         }).getContrastRatioForLightness(scale[key])
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -209,20 +191,16 @@ export default class Contrast extends PureComponent<
     const onUpdatingStop = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.lightColor,
-          value,
-          currentScale[key]
+          value
         )
         darkForegroundRatio[key] = new ContrastEngine({
           textColor: this.props.textColorsTheme.darkColor,
         }).getContrastRatioForLightness(scale[key])
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -267,13 +245,11 @@ export default class Contrast extends PureComponent<
     const onChangeStop = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.darkColor,
-          value,
-          currentScale[key]
+          value
         )
         darkForegroundRatio[key] = parseFloat(
           new ContrastEngine({
@@ -283,8 +259,6 @@ export default class Contrast extends PureComponent<
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -304,13 +278,11 @@ export default class Contrast extends PureComponent<
     const onTypeStopValue = () => {
       const scale = {} as ScaleConfiguration
       const lightForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.darkColor,
-          value,
-          currentScale[key]
+          value
         )
         lightForegroundRatio[key] = parseFloat(
           new ContrastEngine({
@@ -320,8 +292,6 @@ export default class Contrast extends PureComponent<
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -340,13 +310,11 @@ export default class Contrast extends PureComponent<
     const onUpdatingStop = () => {
       const scale = {} as ScaleConfiguration
       const lightForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.darkColor,
-          value,
-          currentScale[key]
+          value
         )
         lightForegroundRatio[key] = parseFloat(
           new ContrastEngine({
@@ -356,8 +324,6 @@ export default class Contrast extends PureComponent<
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -383,48 +349,6 @@ export default class Contrast extends PureComponent<
   }
 
   // Direct Actions
-  sortScaleIfNeeded = (scale: ScaleConfiguration) => {
-    const stops = this.props.preset.stops
-    if (!stops || stops.length < 2) return
-
-    const scaleValues = stops.map((stop) => ({ stop, value: scale[stop] || 0 }))
-
-    const firstValue = scaleValues[0].value
-    const lastValue = scaleValues[scaleValues.length - 1].value
-    const shouldBeIncreasing = lastValue > firstValue
-
-    let needsSorting = false
-    for (let i = 1; i < scaleValues.length; i++) {
-      const prevValue = scaleValues[i - 1].value
-      const currValue = scaleValues[i].value
-
-      if (
-        (shouldBeIncreasing && prevValue > currValue) ||
-        (!shouldBeIncreasing && prevValue < currValue)
-      ) {
-        needsSorting = true
-        break
-      }
-    }
-
-    if (needsSorting) {
-      const min = Math.min(...scaleValues.map((item) => item.value))
-      const max = Math.max(...scaleValues.map((item) => item.value))
-      const range = max - min
-
-      scaleValues.forEach((item, index) => {
-        const position = index / (scaleValues.length - 1)
-        const newValue = shouldBeIncreasing
-          ? min + range * position
-          : max - range * position
-
-        const currentValue = item.value
-        const weight = 0.7
-        scale[item.stop] = currentValue * (1 - weight) + newValue * weight
-      })
-    }
-  }
-
   setContrastMode = () => {
     const lightForegroundRatio = {} as ScaleConfiguration
     const darkForegroundRatio = {} as ScaleConfiguration
