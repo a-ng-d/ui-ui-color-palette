@@ -27,8 +27,11 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import ShiftCurveControl from '../components/ShiftCurveControl'
 import Feature from '../components/Feature'
+import { rafThrottle } from '../../utils/rafThrottle'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { debounce } from '../../utils/debounce'
 import { ColorsMessage } from '../../types/messages'
+import { SourceColorEvent } from '../../types/events'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { trackSourceColorsManagementEvent } from '../../external/tracking/eventsTracker'
@@ -63,6 +66,14 @@ const CURVE_TRACKING_FEATURE: Record<
 export default class Colors extends PureComponent<ColorsProps> {
   private colorsMessage: ColorsMessage
   private palette: typeof $palette
+  private commitColorsChange: ((
+    feature: SourceColorEvent['feature']
+  ) => void) & {
+    cancel: () => void
+  }
+  private applyColorsChange: ((data: ColorConfiguration[]) => void) & {
+    cancel: () => void
+  }
 
   static features = (
     planStatus: PlanStatus,
@@ -152,6 +163,32 @@ export default class Colors extends PureComponent<ColorsProps> {
       id: this.props.id,
       data: [],
     }
+    this.commitColorsChange = debounce(
+      (feature: SourceColorEvent['feature']) => {
+        sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
+
+        trackSourceColorsManagementEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature,
+          }
+        )
+      },
+      250
+    )
+    this.applyColorsChange = rafThrottle((data: ColorConfiguration[]) => {
+      this.palette.setKey('colors', data)
+    })
+  }
+
+  componentWillUnmount = () => {
+    this.commitColorsChange.cancel()
+    this.applyColorsChange.cancel()
   }
 
   // Handlers
@@ -194,21 +231,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         },
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'ADD_COLOR',
-        }
-      )
+      this.commitColorsChange('ADD_COLOR')
     }
 
     const renameColor = () => {
@@ -225,21 +250,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'RENAME_COLOR',
-        }
-      )
+      this.commitColorsChange('RENAME_COLOR')
     }
 
     const updateHexCode = () => {
@@ -264,22 +277,10 @@ export default class Colors extends PureComponent<ColorsProps> {
           return item
         })
 
-        this.palette.setKey('colors', this.colorsMessage.data)
+        this.applyColorsChange(this.colorsMessage.data)
       }
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'UPDATE_HEX',
-        }
-      )
+      this.commitColorsChange('UPDATE_HEX')
     }
 
     const updateLightnessProp = () => {
@@ -296,21 +297,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'UPDATE_LCH',
-        }
-      )
+      this.commitColorsChange('UPDATE_LCH')
     }
 
     const updateChromaProp = () => {
@@ -327,21 +316,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'UPDATE_LCH',
-        }
-      )
+      this.commitColorsChange('UPDATE_LCH')
     }
 
     const updateHueProp = () => {
@@ -358,21 +335,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'UPDATE_LCH',
-        }
-      )
+      this.commitColorsChange('UPDATE_LCH')
     }
 
     const setHueShifting = () => {
@@ -394,21 +359,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SHIFT_HUE',
-        }
-      )
+      this.commitColorsChange('SHIFT_HUE')
     }
 
     const setChromaShifting = () => {
@@ -430,21 +383,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SHIFT_CHROMA',
-        }
-      )
+      this.commitColorsChange('SHIFT_CHROMA')
     }
 
     const resetHue = () => {
@@ -456,20 +397,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'RESET_HUE',
-        }
-      )
+      this.commitColorsChange('RESET_HUE')
     }
 
     const resetChroma = () => {
@@ -481,20 +411,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'RESET_CHROMA',
-        }
-      )
+      this.commitColorsChange('RESET_CHROMA')
     }
 
     const updateColorDescription = () => {
@@ -503,23 +422,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      console.log(this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      this.palette.setKey('colors', this.colorsMessage.data)
-
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'DESCRIBE_COLOR',
-        }
-      )
+      this.commitColorsChange('DESCRIBE_COLOR')
     }
 
     const switchAlphaMode = () => {
@@ -531,21 +436,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'SWITCH_ALPHA_MODE',
-        }
-      )
+      this.commitColorsChange('SWITCH_ALPHA_MODE')
     }
 
     const updateBackgroundColor = () => {
@@ -554,21 +447,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         return item
       })
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'UPDATE_BACKGROUND_COLOR',
-        }
-      )
+      this.commitColorsChange('UPDATE_BACKGROUND_COLOR')
     }
 
     const removeColor = () => {
@@ -576,21 +457,9 @@ export default class Colors extends PureComponent<ColorsProps> {
         (item) => item.id !== id
       )
 
-      this.palette.setKey('colors', this.colorsMessage.data)
+      this.applyColorsChange(this.colorsMessage.data)
 
-      sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
-
-      trackSourceColorsManagementEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'REMOVE_COLOR',
-        }
-      )
+      this.commitColorsChange('REMOVE_COLOR')
     }
 
     const actions: {
@@ -659,7 +528,7 @@ export default class Colors extends PureComponent<ColorsProps> {
       return item
     })
 
-    this.palette.setKey('colors', this.colorsMessage.data)
+    this.applyColorsChange(this.colorsMessage.data)
 
     if (state === 'UPDATING') return
 
