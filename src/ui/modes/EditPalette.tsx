@@ -237,7 +237,7 @@ export default class EditPalette extends PureComponent<
   componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
     if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
-        ['SCALE', 'COLORS', 'THEMES', 'SETTINGS'],
+        ['SCALE', 'COLORS', 'THEMES', 'IMPORTS', 'SETTINGS'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
