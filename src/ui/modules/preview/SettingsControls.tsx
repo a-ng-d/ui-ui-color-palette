@@ -1,8 +1,4 @@
-import { PureComponent,
-  ChangeEvent,
-} from 'preact/compat'
-import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { layouts, Button, Dropdown, DropdownOption, Menu } from '@unoff/ui'
+import { PureComponent, ChangeEvent } from 'preact/compat'
 import {
   ColorConfiguration,
   ColorSpaceConfiguration,

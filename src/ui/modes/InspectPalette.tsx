@@ -1,9 +1,6 @@
 import type { DropdownOption } from '@unoff/ui'
 import { PureComponent } from 'preact/compat'
 import { createRef, RefObject } from 'preact'
-import { FeatureStatus } from '@unoff/utils'
-import { doScale } from '@unoff/utils'
-import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,

@@ -1,6 +1,5 @@
 import { PureComponent } from 'preact/compat'
 import { createRef } from 'preact'
-import { FeatureStatus } from '@unoff/utils'
 import {
   PresetConfiguration,
   ScaleConfiguration,
