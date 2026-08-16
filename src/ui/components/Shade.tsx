@@ -1,9 +1,7 @@
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
-  Color,
   ColorConfiguration,
-  Contrast,
   HexModel,
   LockedSourceColorsConfiguration,
   SourceColorConfiguration,
@@ -12,6 +10,7 @@ import {
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
+import { resolveShadeContrast } from '../../utils/resolveShadeContrast'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   BaseProps,
@@ -21,7 +20,6 @@ import {
   ScoreFilterStatus,
   Service,
 } from '../../types/app'
-import { setContrastScore } from '../../stores/contrasts'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
@@ -34,7 +32,7 @@ interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
   color: HexModel
   scaleName: string
   sourceColor: SourceColorConfiguration | ColorConfiguration
-  scaledColors: HexModel[]
+  minDistanceIndex: number
   isWCAGDisplayed: boolean
   isAPCADisplayed: boolean
   isWCAGIntervalDisplayed: boolean
@@ -355,15 +353,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
 
   // Render
   render() {
-    const sourceColor = chroma([
-      this.props.sourceColor.rgb.r * 255,
-      this.props.sourceColor.rgb.g * 255,
-      this.props.sourceColor.rgb.b * 255,
-    ]).hex()
-    const distances = this.props.scaledColors.map((scaledColor) =>
-      chroma.distance(sourceColor, scaledColor, 'rgb')
-    )
-    const minDistanceIndex = distances.indexOf(Math.min(...distances))
+    const minDistanceIndex = this.props.minDistanceIndex
     const distance: number = chroma.distance(
       chroma([
         this.props.sourceColor.rgb.r * 255,
@@ -373,37 +363,6 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       this.props.color,
       'rgb'
     )
-
-    const background: HexModel =
-      this.props.index === minDistanceIndex &&
-      this.props.areSourceColorsLocked &&
-      !(
-        'alpha' in this.props.sourceColor &&
-        this.props.sourceColor.alpha.isEnabled
-      )
-        ? (new Color({
-            sourceColor: chroma(sourceColor).rgb(),
-            visionSimulationMode: this.props.visionSimulationMode,
-          }).setColor() as HexModel)
-        : this.props.color
-
-    const darkForeground = new Color({
-      sourceColor: chroma(this.props.textColorsTheme.darkColor).rgb(),
-      visionSimulationMode: this.props.visionSimulationMode,
-    }).setColor() as HexModel
-    const lightForeground = new Color({
-      sourceColor: chroma(this.props.textColorsTheme.lightColor).rgb(),
-      visionSimulationMode: this.props.visionSimulationMode,
-    }).setColor() as HexModel
-
-    const lightForegroundContrast = new Contrast({
-      backgroundColor: chroma(background).rgb(false),
-      textColor: lightForeground,
-    })
-    const darkForegroundContrast = new Contrast({
-      backgroundColor: chroma(background).rgb(false),
-      textColor: darkForeground,
-    })
 
     const filters = this.props.scoreFilters
     const isWCAGFilterActive =
@@ -420,46 +379,29 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       this.props.isAPCAIntervalDisplayed ||
       isAPCAFilterActive
 
-    let lightWCAGScore = 0
-    let darkWCAGScore = 0
-    let lightAPCAScore = 0
-    let darkAPCAScore = 0
-    let lightWCAGFriendlyScore = ''
-    let darkWCAGFriendlyScore = ''
-    let lightRecommendedUsage: ReturnType<
-      typeof lightForegroundContrast.getRecommendedUsage
-    > = 'UNKNOWN'
-    let darkRecommendedUsage: ReturnType<
-      typeof darkForegroundContrast.getRecommendedUsage
-    > = 'UNKNOWN'
-
-    if (shouldCalculateWCAG) {
-      lightWCAGScore = lightForegroundContrast.getWCAGContrast()
-      darkWCAGScore = darkForegroundContrast.getWCAGContrast()
-      lightWCAGFriendlyScore = lightForegroundContrast.getWCAGScore()
-      darkWCAGFriendlyScore = darkForegroundContrast.getWCAGScore()
-    }
-
-    if (shouldCalculateAPCA) {
-      lightAPCAScore = lightForegroundContrast.getAPCAContrast()
-      darkAPCAScore = darkForegroundContrast.getAPCAContrast()
-      lightRecommendedUsage = lightForegroundContrast.getRecommendedUsage()
-      darkRecommendedUsage = darkForegroundContrast.getRecommendedUsage()
-    }
-
-    if (shouldCalculateWCAG || shouldCalculateAPCA)
-      setContrastScore({
-        colorId: this.props.sourceColor.id,
-        colorName: this.props.sourceColor.name,
-        scaleName: this.props.scaleName,
-        shadeIndex: this.props.index,
-        lightWCAG: lightWCAGScore,
-        darkWCAG: darkWCAGScore,
-        lightAPCA: lightAPCAScore,
-        darkAPCA: darkAPCAScore,
-        lightWCAGFriendly: lightWCAGFriendlyScore,
-        darkWCAGFriendly: darkWCAGFriendlyScore,
-      })
+    const {
+      background,
+      lightForeground,
+      darkForeground,
+      lightWCAG: lightWCAGScore,
+      darkWCAG: darkWCAGScore,
+      lightAPCA: lightAPCAScore,
+      darkAPCA: darkAPCAScore,
+      lightWCAGFriendly: lightWCAGFriendlyScore,
+      darkWCAGFriendly: darkWCAGFriendlyScore,
+      lightRecommendedUsage,
+      darkRecommendedUsage,
+    } = resolveShadeContrast({
+      sourceColor: this.props.sourceColor,
+      scaledColor: this.props.color,
+      index: this.props.index,
+      minDistanceIndex,
+      areSourceColorsLocked: this.props.areSourceColorsLocked,
+      visionSimulationMode: this.props.visionSimulationMode,
+      textColorsTheme: this.props.textColorsTheme,
+      shouldCalculateWCAG,
+      shouldCalculateAPCA,
+    })
 
     let isOutOfResults = false
     if (isWCAGFilterActive || isAPCAFilterActive) {

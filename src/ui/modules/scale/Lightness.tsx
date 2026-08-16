@@ -1,4 +1,5 @@
 import { PureComponent } from 'preact/compat'
+import { listenKeys } from 'nanostores'
 import {
   Channel,
   ColorConfiguration,
@@ -42,6 +43,15 @@ interface LightnessState {
 }
 
 const MAX_STACKED_TRACKS = 6
+
+const GRADIENT_WATCHED_KEYS = [
+  'colors',
+  'shift.hue',
+  'shift.chroma',
+  'colorSpace',
+  'algorithmVersion',
+  'visionSimulationMode',
+] as const
 
 export default class Lightness extends PureComponent<
   LightnessProps,
@@ -152,24 +162,25 @@ export default class Lightness extends PureComponent<
     )
 
     return {
-      tracks:
-        perColorTracks.length > MAX_STACKED_TRACKS
-          ? [Preview.blend(perColorTracks)]
-          : perColorTracks,
+      tracks: perColorTracks.slice(0, MAX_STACKED_TRACKS),
     }
   }
 
   // Lifecycle
   componentDidMount = () => {
-    this.subscribePalette = $palette.subscribe((value) => {
-      this.scaleMessage.data = value as ExchangeConfiguration
+    this.subscribePalette = listenKeys(
+      $palette,
+      GRADIENT_WATCHED_KEYS,
+      (value) => {
+        this.scaleMessage.data = value as ExchangeConfiguration
 
-      const nextGradientKey = this.makeGradientKey()
-      if (nextGradientKey !== this.gradientKey) {
-        this.gradientKey = nextGradientKey
-        this.setState({ gradient: this.computeGradient() })
+        const nextGradientKey = this.makeGradientKey()
+        if (nextGradientKey !== this.gradientKey) {
+          this.gradientKey = nextGradientKey
+          this.setState({ gradient: this.computeGradient() })
+        }
       }
-    })
+    )
   }
 
   componentWillUnmount = () => {
@@ -195,7 +206,7 @@ export default class Lightness extends PureComponent<
     }
 
     const onChangeStop = () => {
-      this.palette.setKey('scale', results.scale)
+      this.palette.setKey('scale', { ...results.scale })
       if (feature === 'ADD_STOP' || feature === 'DELETE_STOP') {
         this.palette.setKey('preset.stops', results.stops ?? [])
         this.props.onChangeStops?.(results.stops ?? [])
@@ -235,7 +246,7 @@ export default class Lightness extends PureComponent<
     }
 
     const onTypeStopValue = () => {
-      this.palette.setKey('scale', results.scale)
+      this.palette.setKey('scale', { ...results.scale })
 
       const lightForegroundRatio = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
@@ -290,7 +301,7 @@ export default class Lightness extends PureComponent<
         )
       })
 
-      this.palette.setKey('scale', results.scale)
+      this.palette.setKey('scale', { ...results.scale })
 
       this.setState({
         ratioLightForeground: lightForegroundRatio,

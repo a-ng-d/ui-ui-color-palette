@@ -1,5 +1,7 @@
 import { PureComponent } from 'preact/compat'
+import { listenKeys } from 'nanostores'
 import {
+  areShiftsEqual,
   Channel,
   ColorConfiguration,
   ExchangeConfiguration,
@@ -35,6 +37,13 @@ const CURVE_TRACKING_FEATURE: Record<
 }
 
 const MAX_STACKED_TRACKS = 6
+
+const GRADIENT_WATCHED_KEYS = [
+  'colors',
+  'colorSpace',
+  'algorithmVersion',
+  'visionSimulationMode',
+] as const
 
 interface ChromaProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
@@ -128,24 +137,25 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
     )
 
     return {
-      tracks:
-        perColorTracks.length > MAX_STACKED_TRACKS
-          ? [Preview.blend(perColorTracks)]
-          : perColorTracks,
+      tracks: perColorTracks.slice(0, MAX_STACKED_TRACKS),
     }
   }
 
   // Lifecycle
   componentDidMount = () => {
-    this.subscribePalette = $palette.subscribe((value) => {
-      this.scaleMessage.data = value as ExchangeConfiguration
+    this.subscribePalette = listenKeys(
+      $palette,
+      GRADIENT_WATCHED_KEYS,
+      (value) => {
+        this.scaleMessage.data = value as ExchangeConfiguration
 
-      const nextGradientKey = this.makeGradientKey()
-      if (nextGradientKey !== this.gradientKey) {
-        this.gradientKey = nextGradientKey
-        this.setState({ gradient: this.computeGradient() })
+        const nextGradientKey = this.makeGradientKey()
+        if (nextGradientKey !== this.gradientKey) {
+          this.gradientKey = nextGradientKey
+          this.setState({ gradient: this.computeGradient() })
+        }
       }
-    })
+    )
   }
 
   componentWillUnmount = () => {
@@ -187,7 +197,8 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
     }
 
     const onChangeStop = () => {
-      this.palette.setKey('shift.chroma', nextShift)
+      if (!areShiftsEqual(this.palette.get().shift.chroma, nextShift))
+        this.palette.setKey('shift.chroma', nextShift)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
       this.scaleMessage.feature = feature
@@ -198,7 +209,8 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
     }
 
     const onTypeStopValue = () => {
-      this.palette.setKey('shift.chroma', nextShift)
+      if (!areShiftsEqual(this.palette.get().shift.chroma, nextShift))
+        this.palette.setKey('shift.chroma', nextShift)
 
       this.scaleMessage.data = this.palette.value as ExchangeConfiguration
 
@@ -208,7 +220,8 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
     }
 
     const onUpdatingStop = () => {
-      this.palette.setKey('shift.chroma', nextShift)
+      if (!areShiftsEqual(this.palette.get().shift.chroma, nextShift))
+        this.palette.setKey('shift.chroma', nextShift)
       this.props.onChangeShift(feature, state, nextShift)
     }
 

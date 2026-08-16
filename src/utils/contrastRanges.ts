@@ -1,102 +1,49 @@
-import { map } from 'nanostores'
-
-export interface ContrastScore {
-  colorId: string
-  colorName: string
+export interface ShadeContrastScoreEntry {
   scaleName: string
   shadeIndex: number
   lightWCAG: number
   darkWCAG: number
   lightAPCA: number
   darkAPCA: number
-  lightWCAGFriendly: string
-  darkWCAGFriendly: string
 }
 
-export const $contrastScores = map<Record<string, ContrastScore>>({})
-
-export const setContrastScore = (score: ContrastScore) => {
-  const key = `${score.colorId}-${score.shadeIndex}`
-  const currentScores = $contrastScores.get()
-
-  const existingScore = currentScores[key]
-  if (existingScore) {
-    const hasChanged =
-      existingScore.lightWCAG !== score.lightWCAG ||
-      existingScore.darkWCAG !== score.darkWCAG ||
-      existingScore.lightAPCA !== score.lightAPCA ||
-      existingScore.darkAPCA !== score.darkAPCA
-
-    if (!hasChanged) return
-  }
-
-  $contrastScores.setKey(key, score)
+export interface ContrastRange {
+  min: number
+  max: number
+  range: number
 }
 
-export const removeContrastScore = (colorId: string, shadeIndex: number) => {
-  const key = `${colorId}-${shadeIndex}`
-  const currentScores = $contrastScores.get()
-  const newScores = { ...currentScores }
-  delete newScores[key]
-  $contrastScores.set(newScores)
-}
-
-export const clearContrastScores = () => {
-  $contrastScores.set({})
-}
-
-export const getContrastScore = (
-  colorId: string,
+export interface ContrastColumnRanges {
+  scaleName: string
   shadeIndex: number
-): ContrastScore | undefined => {
-  const key = `${colorId}-${shadeIndex}`
-  return $contrastScores.get()[key]
+  lightWCAG: ContrastRange
+  darkWCAG: ContrastRange
+  lightAPCA: ContrastRange
+  darkAPCA: ContrastRange
 }
 
-export const getAllContrastScores = (): ContrastScore[] => {
-  return Object.values($contrastScores.get())
-}
-
-export const getContrastRangesByColumn = (options?: {
-  calculateWCAG?: boolean
-  calculateAPCA?: boolean
-}): Map<
-  string,
-  {
-    scaleName: string
-    shadeIndex: number
-    lightWCAG: { min: number; max: number; range: number }
-    darkWCAG: { min: number; max: number; range: number }
-    lightAPCA: { min: number; max: number; range: number }
-    darkAPCA: { min: number; max: number; range: number }
+export const getContrastRangesByColumn = (
+  scores: ShadeContrastScoreEntry[],
+  options?: {
+    calculateWCAG?: boolean
+    calculateAPCA?: boolean
   }
-> => {
+): Map<string, ContrastColumnRanges> => {
   const shouldCalculateWCAG = options?.calculateWCAG ?? true
   const shouldCalculateAPCA = options?.calculateAPCA ?? true
 
-  const allScores = getAllContrastScores()
-  const rangesByColumn = new Map<
-    string,
-    {
-      scaleName: string
-      shadeIndex: number
-      lightWCAG: { min: number; max: number; range: number }
-      darkWCAG: { min: number; max: number; range: number }
-      lightAPCA: { min: number; max: number; range: number }
-      darkAPCA: { min: number; max: number; range: number }
-    }
-  >()
+  const rangesByColumn = new Map<string, ContrastColumnRanges>()
 
   const groupedByScale = new Map<
     string,
     {
       scaleName: string
       shadeIndex: number
-      scores: ContrastScore[]
+      scores: ShadeContrastScoreEntry[]
     }
   >()
 
-  allScores.forEach((score) => {
+  scores.forEach((score) => {
     const key = score.scaleName
     if (!groupedByScale.has(key))
       groupedByScale.set(key, {

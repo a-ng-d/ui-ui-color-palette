@@ -3,6 +3,7 @@ import { uid } from 'uid'
 import { PureComponent, ChangeEvent, KeyboardEvent } from 'preact/compat'
 import { createRef, RefObject } from 'preact'
 import {
+  areShiftsEqual,
   PresetConfiguration,
   ScaleConfiguration,
   TextColorsThemeConfiguration,
@@ -303,9 +304,15 @@ export default class EditPalette extends PureComponent<
   }
 
   slideHandler = () => {
+    const themes = $themes.get()
+    const currentScale = this.palette.get().scale
+    const activeTheme = themes.find((theme) => theme.isEnabled)
+
+    if (activeTheme && activeTheme.scale === currentScale) return
+
     $themes.set(
-      $themes.get().map((theme: ThemeConfiguration) => {
-        if (theme.isEnabled) theme.scale = this.palette.get().scale
+      themes.map((theme: ThemeConfiguration) => {
+        if (theme.isEnabled) theme.scale = currentScale
         return theme
       })
     )
@@ -367,8 +374,19 @@ export default class EditPalette extends PureComponent<
         return item
       })
 
-      this.palette.setKey('shift', shift)
-      this.palette.setKey('colors', this.colorsMessage.data)
+      const current = this.palette.get()
+      const isShiftUnchanged =
+        areShiftsEqual(current.shift.chroma, shift.chroma) &&
+        areShiftsEqual(current.shift.hue, shift.hue)
+
+      if (isShiftUnchanged)
+        this.palette.setKey('colors', this.colorsMessage.data)
+      else
+        this.palette.set({
+          ...current,
+          shift,
+          colors: this.colorsMessage.data,
+        })
     }
 
     const actions: {
