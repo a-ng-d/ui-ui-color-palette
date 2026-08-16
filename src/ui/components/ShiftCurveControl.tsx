@@ -1,4 +1,5 @@
 import { PureComponent } from 'preact/compat'
+import { ComponentChildren } from 'preact'
 import {
   SHIFT_BOUNDS,
   ShiftChannel,
@@ -235,7 +236,7 @@ export interface ShiftCurveControlProps extends WithTranslationProps {
   isNew?: boolean
   onBlock?: () => void
   variant?: 'SLIDER' | 'INPUT'
-  resetSlot?: React.ReactNode
+  resetSlot?: ComponentChildren
   onChangeCurve: (feature: string, curve: ShiftCurve) => void
   onChangeValue: (
     feature: string,

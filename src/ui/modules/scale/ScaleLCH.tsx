@@ -1,4 +1,5 @@
 import { PureComponent } from 'preact/compat'
+import { ComponentChildren } from 'preact'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -49,7 +50,7 @@ interface ScaleLCHProps
   ) => void
   onChangeThemes?: (scale: ScaleConfiguration) => void
   onChangeStops?: (stops: number[]) => void
-  distributionEasingSlot?: React.ReactNode
+  distributionEasingSlot?: ComponentChildren
 }
 
 export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
