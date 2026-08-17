@@ -1593,23 +1593,6 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                     />
                   </div>
                 )}
-                {this.props.context === 'TOKENS_DTCG' &&
-                  Array.isArray(this.props.code) &&
-                  this.props.code.length > 1 && (
-                    <div
-                      style={{
-                        padding:
-                          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
-                      }}
-                    >
-                      <SemanticMessage
-                        type="INFO"
-                        message={this.props.t(
-                          'export.tokens.dtcg.multiModeMessage'
-                        )}
-                      />
-                    </div>
-                  )}
                 {this.props.context === 'TOKENS_NATIVE' && (
                   <div
                     style={{
