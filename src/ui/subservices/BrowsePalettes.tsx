@@ -18,6 +18,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import isValidPaletteConfiguration from '../../utils/isValidPaletteConfiguration'
 import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
@@ -175,11 +176,17 @@ export default class BrowsePalettes extends PureComponent<
     const actions: {
       [action: string]: () => void
     } = {
-      EXPOSE_PALETTES: () =>
-        this.setState({
-          localPalettesListStatus: path.data.length > 0 ? 'LOADED' : 'EMPTY',
-          localPalettesList: path.data,
-        }),
+      EXPOSE_PALETTES: () => {
+        const validPalettes = (path.data as Array<unknown>).filter(
+          isValidPaletteConfiguration
+        )
+
+        return this.setState({
+          localPalettesListStatus:
+            validPalettes.length > 0 ? 'LOADED' : 'EMPTY',
+          localPalettesList: validPalettes,
+        })
+      },
       LOAD_PALETTES: () =>
         this.setState({ localPalettesListStatus: 'LOADING' }),
       STOP_LOADER: () =>

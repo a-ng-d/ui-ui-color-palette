@@ -13,6 +13,7 @@ import {
 } from '@unoff/ui'
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
+import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
 import { UserSession } from '../types/user'
 import { Language } from '../types/translations'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
@@ -565,7 +566,10 @@ class App extends Component<AppProps, AppState> {
       }
 
       const exposePalettes = () => {
-        const count = Array.isArray(path.data) ? path.data.length : 0
+        const count = Array.isArray(path.data)
+          ? (path.data as Array<unknown>).filter(isValidPaletteConfiguration)
+              .length
+          : 0
         $localPalettesCount.set(count)
         this.setState({
           localPalettesCount: count,
