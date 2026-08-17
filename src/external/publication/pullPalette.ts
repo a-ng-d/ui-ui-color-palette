@@ -1,4 +1,8 @@
-import { ThemeConfiguration } from '@yelbolt/engine-ui-color-palette'
+import {
+  ColorConfiguration,
+  normalizeShift,
+  ThemeConfiguration,
+} from '@yelbolt/engine-ui-color-palette'
 import { getSupabase } from '../auth'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ManagePaletteState } from '../../ui/services/ManagePalette'
@@ -42,7 +46,10 @@ const pullPalette = async ({
             },
             {
               key: 'base.shift',
-              value: data[0].shift,
+              value: {
+                chroma: normalizeShift(data[0].shift?.chroma, 'CHROMA'),
+                hue: normalizeShift(data[0].shift?.hue, 'HUE'),
+              },
             },
             {
               key: 'base.areSourceColorsLocked',
@@ -50,7 +57,17 @@ const pullPalette = async ({
             },
             {
               key: 'base.colors',
-              value: data[0].colors,
+              value: data[0].colors.map((color: ColorConfiguration) => ({
+                ...color,
+                hue: {
+                  ...color.hue,
+                  shift: normalizeShift(color.hue?.shift, 'HUE'),
+                },
+                chroma: {
+                  ...color.chroma,
+                  shift: normalizeShift(color.chroma?.shift, 'CHROMA'),
+                },
+              })),
             },
             {
               key: 'base.colorSpace',
@@ -115,9 +132,22 @@ const pullPalette = async ({
       scale:
         data[0].themes.find((theme: ThemeConfiguration) => theme.isEnabled)
           ?.scale || {},
-      shift: data[0].shift,
+      shift: {
+        chroma: normalizeShift(data[0].shift?.chroma, 'CHROMA'),
+        hue: normalizeShift(data[0].shift?.hue, 'HUE'),
+      },
       areSourceColorsLocked: data[0].are_source_colors_locked,
-      colors: data[0].colors,
+      colors: data[0].colors.map((color: ColorConfiguration) => ({
+        ...color,
+        hue: {
+          ...color.hue,
+          shift: normalizeShift(color.hue?.shift, 'HUE'),
+        },
+        chroma: {
+          ...color.chroma,
+          shift: normalizeShift(color.chroma?.shift, 'CHROMA'),
+        },
+      })),
       colorSpace: data[0].color_space,
       algorithmVersion: data[0].algorithm_version,
       themes: data[0].themes,
