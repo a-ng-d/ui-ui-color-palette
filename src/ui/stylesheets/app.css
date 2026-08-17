@@ -224,7 +224,8 @@ div.export-palette__preview {
 
 /* Properties */
 @media (width <= 460px) {
-  #properties span, #properties li {
+  #properties span,
+  #properties li {
     display: block;
     width: 100%;
     overflow: hidden;
@@ -232,7 +233,6 @@ div.export-palette__preview {
     white-space: nowrap;
   }
 }
-
 
 /* Contrast report */
 .contrast {
