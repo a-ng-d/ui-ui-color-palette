@@ -20,6 +20,7 @@ import {
   ShiftCurveSelector,
 } from '../../components/ShiftCurveControl'
 import Feature from '../../components/Feature'
+import { sampleColorsEvenly } from '../../../utils/sampleColorsEvenly'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -36,7 +37,7 @@ const CURVE_TRACKING_FEATURE: Record<
   FREE: 'SET_CHROMA_CURVE_FREE',
 }
 
-const MAX_STACKED_TRACKS = 6
+const MAX_STACKED_TRACKS = 24
 
 const GRADIENT_WATCHED_KEYS = [
   'colors',
@@ -107,7 +108,9 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
     const sourceColors = palette.colors as ColorConfiguration[] | undefined
 
     return JSON.stringify([
-      sourceColors?.map((color) => color.rgb),
+      sampleColorsEvenly(sourceColors ?? [], MAX_STACKED_TRACKS).map(
+        (color) => color.rgb
+      ),
       palette.colorSpace,
       palette.algorithmVersion,
       palette.visionSimulationMode,
@@ -121,7 +124,10 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
     if (sourceColors === undefined || sourceColors.length === 0)
       return { tracks: [] }
 
-    const perColorTracks = sourceColors.map((sourceColor) =>
+    const perColorTracks = sampleColorsEvenly(
+      sourceColors,
+      MAX_STACKED_TRACKS
+    ).map((sourceColor) =>
       new Preview({
         sourceColor: [
           sourceColor.rgb.r * 255,
@@ -137,7 +143,7 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
     )
 
     return {
-      tracks: perColorTracks.slice(0, MAX_STACKED_TRACKS),
+      tracks: perColorTracks,
     }
   }
 

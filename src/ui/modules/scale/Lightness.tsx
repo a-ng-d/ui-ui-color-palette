@@ -17,6 +17,7 @@ import { MultipleSlider } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sampleColorsEvenly } from '../../../utils/sampleColorsEvenly'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -42,7 +43,7 @@ interface LightnessState {
   gradient: { tracks: ShiftGradientStop[][] }
 }
 
-const MAX_STACKED_TRACKS = 6
+const MAX_STACKED_TRACKS = 24
 
 const GRADIENT_WATCHED_KEYS = [
   'colors',
@@ -115,7 +116,9 @@ export default class Lightness extends PureComponent<
     const sourceColors = palette.colors as ColorConfiguration[] | undefined
 
     return JSON.stringify([
-      sourceColors?.map((color) => color.rgb),
+      sampleColorsEvenly(sourceColors ?? [], MAX_STACKED_TRACKS).map(
+        (color) => color.rgb
+      ),
       palette.shift?.hue,
       palette.shift?.chroma,
       palette.colorSpace,
@@ -143,7 +146,10 @@ export default class Lightness extends PureComponent<
       max: this.props.preset.max,
     }
 
-    const perColorTracks = sourceColors.map((sourceColor) =>
+    const perColorTracks = sampleColorsEvenly(
+      sourceColors,
+      MAX_STACKED_TRACKS
+    ).map((sourceColor) =>
       new Preview({
         sourceColor: [
           sourceColor.rgb.r * 255,
@@ -162,7 +168,7 @@ export default class Lightness extends PureComponent<
     )
 
     return {
-      tracks: perColorTracks.slice(0, MAX_STACKED_TRACKS),
+      tracks: perColorTracks,
     }
   }
 
