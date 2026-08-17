@@ -9,6 +9,7 @@ import {
   AlgorithmVersionConfiguration,
   BaseConfiguration,
   Code,
+  type CodeFile,
   ColorConfiguration,
   ColorSpaceConfiguration,
   Data,
@@ -52,7 +53,7 @@ interface ExportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   themes: Array<ThemeConfiguration>
   algorithmVersion: AlgorithmVersionConfiguration
   context: ExportConfiguration['context']
-  code: ExportConfiguration['data']
+  code: string | Array<CodeFile>
   isCodeCopied: boolean
   onChangeExport: (args: { export: ExportConfiguration }) => void
   onCopyCode: () => void
@@ -341,7 +342,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JSON',
             context: 'TOKENS_DTCG',
             mimeType: 'application/json',
-            data: this.getCodeFromProps().makeDtcgTokens('RGB')[0].content,
+            data: this.getCodeFromProps().makeDtcgTokens('RGB'),
           },
         })
       },
@@ -357,7 +358,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JSON',
             context: 'TOKENS_DTCG',
             mimeType: 'application/json',
-            data: this.getCodeFromProps().makeDtcgTokens('RGB')[0].content,
+            data: this.getCodeFromProps().makeDtcgTokens('RGB'),
           },
         })
       },
@@ -374,7 +375,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JSON',
             context: 'TOKENS_DTCG',
             mimeType: 'application/json',
-            data: this.getCodeFromProps().makeDtcgTokens('OKLCH')[0].content,
+            data: this.getCodeFromProps().makeDtcgTokens('OKLCH'),
           },
         })
       },
@@ -1592,6 +1593,23 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                     />
                   </div>
                 )}
+                {this.props.context === 'TOKENS_DTCG' &&
+                  Array.isArray(this.props.code) &&
+                  this.props.code.length > 1 && (
+                    <div
+                      style={{
+                        padding:
+                          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                      }}
+                    >
+                      <SemanticMessage
+                        type="INFO"
+                        message={this.props.t(
+                          'export.tokens.dtcg.multiModeMessage'
+                        )}
+                      />
+                    </div>
+                  )}
                 {this.props.context === 'TOKENS_NATIVE' && (
                   <div
                     style={{
@@ -1672,9 +1690,12 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                     wrapLongLines={true}
                   >
                     {this.props.context === 'CSV'
-                      ? (JSON.parse(this.props.code)[0].colors[0].csv ??
-                        this.props.t('warning.emptySourceColors'))
-                      : this.props.code}
+                      ? (JSON.parse(this.props.code as string)[0].colors[0]
+                          .csv ?? this.props.t('warning.emptySourceColors'))
+                      : this.props.context === 'TOKENS_DTCG' &&
+                          Array.isArray(this.props.code)
+                        ? this.props.code[0].content
+                        : (this.props.code as string)}
                   </SyntaxHighlighter>
                 </div>
               </>

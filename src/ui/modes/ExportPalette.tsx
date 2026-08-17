@@ -8,6 +8,7 @@ import {
   AlgorithmVersionConfiguration,
   ColorConfiguration,
   ColorSpaceConfiguration,
+  type CodeFile,
   DatesConfiguration,
   DocumentConfiguration,
   ExportConfiguration,
@@ -67,7 +68,9 @@ interface ExportPaletteProps
 }
 
 interface ExportPaletteState {
-  export: ExportConfiguration
+  export: Omit<ExportConfiguration, 'data'> & {
+    data: string | Array<CodeFile>
+  }
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
   isCodeCopied: boolean
@@ -179,6 +182,38 @@ export default class ExportPalette extends PureComponent<
 
   // Direct Actions
   onExport = () => {
+    if (Array.isArray(this.state.export.data)) {
+      const files = this.state.export.data
+      const paletteName =
+        this.props.name === ''
+          ? new Case(this.props.t('name')).doSnakeCase()
+          : new Case(this.props.name).doSnakeCase()
+
+      if (files.length === 1) {
+        const file = files[0]
+        const blob = new Blob([file.content], {
+          type: file.mimeType,
+        })
+        FileSaver.saveAs(blob, file.filename)
+        return
+      }
+
+      const zipEntries: Record<string, Uint8Array> = {}
+      const encoder = new TextEncoder()
+
+      files.forEach((file) => {
+        zipEntries[file.filename] = encoder.encode(file.content)
+      })
+
+      const zipData = fflate.zipSync(zipEntries)
+      const zipBlob = new Blob([new Uint8Array(zipData)], {
+        type: 'application/zip',
+      })
+
+      FileSaver.saveAs(zipBlob, `${paletteName}.zip`)
+      return
+    }
+
     const blob = new Blob([this.state.export.data], {
       type: this.state.export.mimeType,
     })
@@ -272,7 +307,9 @@ export default class ExportPalette extends PureComponent<
 
     try {
       const textarea = document.createElement('textarea')
-      textarea.value = this.state.export.data
+      textarea.value = Array.isArray(this.state.export.data)
+        ? this.state.export.data[0].content
+        : this.state.export.data
 
       textarea.style.position = 'absolute'
       textarea.style.left = '-9999px'
