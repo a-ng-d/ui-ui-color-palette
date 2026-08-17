@@ -208,7 +208,21 @@ export default class Properties extends PureComponent<PropertiesProps> {
                   label={this.props.t('see.properties.colors.chromaShifting')}
                   isBaseline
                 >
-                  <span className={texts.type}>{color.chroma.shift + '%'}</span>
+                  <ul className={texts.type}>
+                    <li>
+                      {(() => {
+                        const chromaCurveKey =
+                          color.chroma.shift.curve.toLowerCase()
+                        return (
+                          this.props.t(`scale.shift.curve.${chromaCurveKey}`) ||
+                          color.chroma.shift.curve
+                        )
+                      })()}
+                    </li>
+                    <li>{color.chroma.shift.value + '%'}</li>
+                    <li>{'L ' + color.chroma.shift.min + '%'}</li>
+                    <li>{'R ' + color.chroma.shift.max + '%'}</li>
+                  </ul>
                 </FormItem>
               ),
               spacingModifier: 'LARGE',
@@ -220,7 +234,20 @@ export default class Properties extends PureComponent<PropertiesProps> {
                   label={this.props.t('see.properties.colors.hueShifting')}
                   isBaseline
                 >
-                  <span className={texts.type}>{color.hue.shift + '°'}</span>
+                  <ul className={texts.type}>
+                    <li>
+                      {(() => {
+                        const hueCurveKey = color.hue.shift.curve.toLowerCase()
+                        return (
+                          this.props.t(`scale.shift.curve.${hueCurveKey}`) ||
+                          color.hue.shift.curve
+                        )
+                      })()}
+                    </li>
+                    <li>{color.hue.shift.value + '°'}</li>
+                    <li>{'L ' + color.hue.shift.min + '°'}</li>
+                    <li>{'R ' + color.hue.shift.max + '°'}</li>
+                  </ul>
                 </FormItem>
               ),
               spacingModifier: 'LARGE',

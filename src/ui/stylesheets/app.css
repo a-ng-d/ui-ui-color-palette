@@ -222,6 +222,18 @@ div.export-palette__preview {
   inset: auto var(--size-pos-xxxsmall) var(--size-pos-xxxsmall) auto;
 }
 
+/* Properties */
+@media (width <= 460px) {
+  #properties span, #properties li {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
 /* Contrast report */
 .contrast {
   display: grid;
