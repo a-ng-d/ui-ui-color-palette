@@ -5,6 +5,7 @@ import {
   Channel,
   ColorConfiguration,
   ExchangeConfiguration,
+  PresetConfiguration,
   Preview,
   ShiftConfiguration,
   ShiftCurve,
@@ -44,10 +45,12 @@ const GRADIENT_WATCHED_KEYS = [
   'colorSpace',
   'algorithmVersion',
   'visionSimulationMode',
+  'shift.chroma',
 ] as const
 
 interface HueProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
+  preset: PresetConfiguration
   shift: ShiftConfiguration
   onChangeShift: (
     feature?: string,
@@ -111,9 +114,12 @@ export default class Hue extends PureComponent<HueProps, HueState> {
       sampleColorsEvenly(sourceColors ?? [], MAX_STACKED_TRACKS).map(
         (color) => color.rgb
       ),
+      palette.shift?.chroma,
       palette.colorSpace,
       palette.algorithmVersion,
       palette.visionSimulationMode,
+      this.props.preset.min,
+      this.props.preset.max,
     ])
   }
 
@@ -123,6 +129,11 @@ export default class Hue extends PureComponent<HueProps, HueState> {
 
     if (sourceColors === undefined || sourceColors.length === 0)
       return { tracks: [] }
+
+    const lightnessRange = {
+      min: this.props.preset.min,
+      max: this.props.preset.max,
+    }
 
     const perColorTracks = sampleColorsEvenly(
       sourceColors,
@@ -138,7 +149,10 @@ export default class Hue extends PureComponent<HueProps, HueState> {
         algorithmVersion: palette.algorithmVersion,
         visionSimulationMode: palette.visionSimulationMode,
       })
-        .sampleShift('HUE')
+        .sampleShift('HUE', {
+          otherShift: palette.shift?.chroma,
+          lightnessRange,
+        })
         .map((stop) => ({ ...stop, outOfGamut: false }))
     )
 
