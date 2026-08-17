@@ -397,7 +397,7 @@
     "actions": {
       "addColors": "이 색상들로 UI Color Palette 만들기",
       "generate": "색상 생성 (⌃⏎ 또는 ⌘⏎)",
-      "newPalette": "새로 만들기"
+      "newPalette": "새 UI Color Palette"
     },
     "colorTypes": {
       "alert": "알림",
@@ -459,7 +459,7 @@
   "imagePalette": {
     "actions": {
       "addColors": "이 색상들로 UI Color Palette 만들기",
-      "newPalette": "새로 만들기"
+      "newPalette": "새 UI Color Palette"
     },
     "dropzone": {
       "cta": "또는 클릭하여 찾아보기",

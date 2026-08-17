@@ -397,7 +397,7 @@
     "actions": {
       "addColors": "Créer une UI Color Palette avec ces couleurs",
       "generate": "Générer des couleurs (⌃⏎ ou ⌘⏎)",
-      "newPalette": "Nouveau"
+      "newPalette": "Nouvelle UI Color Palette"
     },
     "colorTypes": {
       "alert": "Alerte",
@@ -459,7 +459,7 @@
   "imagePalette": {
     "actions": {
       "addColors": "Créer une UI Color Palette avec ces couleurs",
-      "newPalette": "Nouveau"
+      "newPalette": "Nouvelle UI Color Palette"
     },
     "dropzone": {
       "cta": "ou cliquer pour parcourir",

@@ -535,7 +535,7 @@ export default class ImagePalette extends PureComponent<
                 unit: 'PIXEL' as const,
               },
               defaultSize: {
-                value: 272,
+                value: 320,
                 unit: 'PIXEL' as const,
               },
               maxSize: {

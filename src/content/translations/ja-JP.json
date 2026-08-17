@@ -397,7 +397,7 @@
     "actions": {
       "addColors": "これらのカラーでUI Color Paletteを作成",
       "generate": "カラーを生成 (⌃⏎ または ⌘⏎)",
-      "newPalette": "新規"
+      "newPalette": "新しいUI Color Palette"
     },
     "colorTypes": {
       "alert": "アラート",
@@ -459,7 +459,7 @@
   "imagePalette": {
     "actions": {
       "addColors": "これらのカラーでUI Color Paletteを作成",
-      "newPalette": "新規"
+      "newPalette": "新しいUI Color Palette"
     },
     "dropzone": {
       "cta": "またはクリックして参照",
