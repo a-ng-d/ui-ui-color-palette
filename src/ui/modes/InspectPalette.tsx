@@ -384,7 +384,10 @@ export default class EditPalette extends PureComponent<
                       <section className="context">
                         <div
                           style={{
-                            minWidth: '200px',
+                            minWidth:
+                              this.props.documentWidth > 460
+                                ? '200px'
+                                : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
                             height: '100%',
