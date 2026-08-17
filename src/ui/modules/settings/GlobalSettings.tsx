@@ -1,7 +1,4 @@
-import { PureComponent,
-  ChangeEvent,
-  KeyboardEvent,
-} from 'preact/compat'
+import { PureComponent, ChangeEvent, KeyboardEvent } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { FormItem, Input, Section, SectionTitle, SimpleItem } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'

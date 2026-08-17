@@ -1,10 +1,5 @@
-import { PureComponent,
-  ChangeEvent,
-} from 'preact/compat'
-import { createRef,
-  RefObject,
-  ComponentChildren,
-} from 'preact'
+import { PureComponent, ChangeEvent } from 'preact/compat'
+import { createRef, RefObject } from 'preact'
 import chroma from 'chroma-js'
 import {
   Color,
@@ -17,33 +12,24 @@ import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
   LockedSourceColorsConfiguration,
+  normalizeShift,
+  resolveShift,
   ShiftConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { FeatureStatus } from '@unoff/utils'
-import {
-  Bar,
-  Chip,
-  ColorChip,
-  DropdownOption,
-  Layout,
-  layouts,
-} from '@unoff/ui'
+import { Bar, Chip, DropdownOption, Layout, layouts } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
 import Shade from '../components/Shade'
-import Feature from '../components/Feature'
+import { resolveShadeContrast } from '../../utils/resolveShadeContrast'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
-  BaseProps,
-  Editor,
-  Mode,
-  PlanStatus,
-  ScoreFilterStatus,
-  Service,
-} from '../../types/app'
+  getContrastRangesByColumn,
+  ShadeContrastScoreEntry,
+} from '../../utils/contrastRanges'
+import { BaseProps, Mode, ScoreFilterStatus } from '../../types/app'
 import {
   $isAPCADisplayed,
   $isAPCAIntervalDisplayed,
@@ -51,15 +37,10 @@ import {
   $isWCAGIntervalDisplayed,
 } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
-import {
-  $contrastScores,
-  clearContrastScores,
-  getContrastRangesByColumn,
-} from '../../stores/contrasts'
 import { trackPreviewManagementEvent } from '../../external/tracking/eventsTracker'
-import { ConfigContextType } from '../..'
 import SettingsControls from './preview/SettingsControls'
 import ScoresControls from './preview/ScoresControls'
+import ContrastIntervalFooter from './preview/ContrastIntervalFooter'
 
 interface PreviewProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -104,7 +85,6 @@ interface PreviewState {
     darkAPCA: ScoreFilterStatus
   }
   openDialogKey: string | null
-  contrastScoresVersion: number
 }
 
 export default class Preview extends PureComponent<PreviewProps, PreviewState> {
@@ -112,45 +92,14 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   private subscribeAPCA: (() => void) | undefined
   private subscribeWCAGInterval: (() => void) | undefined
   private subscribeAPCAInterval: (() => void) | undefined
-  private subscribeContrastScores: (() => void) | undefined
   private palette: typeof $palette
   private paletteContainerRef: RefObject<HTMLDivElement>
   private theme: string | null
+  private colorCache: Map<string, HexModel>
 
   static defaultProps = {
     sourceColors: [],
     scale: {},
-  }
-
-  static features = (
-    planStatus: PlanStatus,
-    config: ConfigContextType,
-    service: Service,
-    editor: Editor
-  ) => ({
-    PREVIEW_SCORES_WCAG_INTERVAL: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_SCORES_WCAG_INTERVAL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    PREVIEW_SCORES_APCA_INTERVAL: new FeatureStatus({
-      features: config.features,
-      featureName: 'PREVIEW_SCORES_APCA_INTERVAL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-  })
-
-  private get features() {
-    return Preview.features(
-      this.props.planStatus,
-      this.props.config,
-      this.props.service,
-      this.props.editor
-    )
   }
 
   constructor(props: PreviewProps) {
@@ -169,10 +118,9 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
         darkAPCA: 'ALL',
       },
       openDialogKey: null,
-      contrastScoresVersion: 0,
     }
-    this.paletteContainerRef =
-      createRef() as RefObject<HTMLDivElement>
+    this.paletteContainerRef = createRef() as RefObject<HTMLDivElement>
+    this.colorCache = new Map()
   }
 
   // Lifecycle
@@ -189,31 +137,9 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     this.subscribeAPCAInterval = $isAPCAIntervalDisplayed.subscribe((value) => {
       this.setState({ isAPCAIntervalDisplayed: value })
     })
-    this.subscribeContrastScores = $contrastScores.subscribe(() => {
-      this.setState((prev) => ({
-        contrastScoresVersion: prev.contrastScoresVersion + 1,
-      }))
-    })
   }
 
-  componentDidUpdate = (
-    prevProps: PreviewProps,
-    prevState: PreviewState
-  ): void => {
-    const propsChanged =
-      prevProps.colorSpace !== this.props.colorSpace ||
-      prevProps.visionSimulationMode !== this.props.visionSimulationMode ||
-      prevProps.textColorsTheme !== this.props.textColorsTheme ||
-      prevProps.colors !== this.props.colors ||
-      prevProps.scale !== this.props.scale
-
-    const intervalToggled =
-      prevState.isWCAGIntervalDisplayed !==
-        this.state.isWCAGIntervalDisplayed ||
-      prevState.isAPCAIntervalDisplayed !== this.state.isAPCAIntervalDisplayed
-
-    if (propsChanged || intervalToggled) clearContrastScores()
-
+  componentDidUpdate = (prevProps: PreviewProps): void => {
     const prev = prevProps.selectedShade
     const next = this.props.selectedShade
     if (
@@ -229,14 +155,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     if (this.subscribeAPCA) this.subscribeAPCA()
     if (this.subscribeWCAGInterval) this.subscribeWCAGInterval()
     if (this.subscribeAPCAInterval) this.subscribeAPCAInterval()
-    if (this.subscribeContrastScores) this.subscribeContrastScores()
+    this.colorCache.clear()
     if (this.paletteContainerRef.current)
       this.paletteContainerRef.current.removeEventListener(
         'wheel',
         this.handleHorizontalScroll
       )
-
-    clearContrastScores()
   }
 
   // Handlers
@@ -513,9 +437,14 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     const color = colors[colorIndex]
     if (!color) return
 
-    const scaledColors: Array<HexModel> = Object.values(this.props.scale)
+    const stops = Object.values(this.props.scale)
+    const shiftRange =
+      stops.length > 0
+        ? { min: Math.min(...stops), max: Math.max(...stops) }
+        : { min: 0, max: 0 }
+    const scaledColors: Array<HexModel> = stops
       .reverse()
-      .map((lightness) => this.setColor(color, lightness))
+      .map((lightness) => this.setColor(color, lightness, shiftRange))
     const scaleNames = Object.keys(this.props.scale).reverse()
     const scaleName = scaleNames[shadeIndex] || String(shadeIndex)
     const scaledColor = scaledColors[shadeIndex]
@@ -606,16 +535,81 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     this.openShadeData(this.filteredSortedColors(), colorIndex, shadeIndex)
   }
 
+  private buildColorCacheKey = (
+    color: ColorConfiguration | SourceColorConfiguration,
+    scale: number,
+    shiftRange: { min: number; max: number }
+  ): string => {
+    const alpha = 'alpha' in color ? color.alpha : undefined
+    const hueShift = color.hue?.shift
+    const chromaShift = color.chroma?.shift
+
+    return [
+      color.id,
+      color.rgb.r,
+      color.rgb.g,
+      color.rgb.b,
+      hueShift?.min,
+      hueShift?.max,
+      hueShift?.value,
+      hueShift?.curve,
+      chromaShift?.min,
+      chromaShift?.max,
+      chromaShift?.value,
+      chromaShift?.curve,
+      alpha?.isEnabled,
+      alpha?.backgroundColor,
+      scale,
+      shiftRange.min,
+      shiftRange.max,
+      this.props.colorSpace,
+      this.props.algorithmVersion,
+      this.props.visionSimulationMode,
+      this.props.areSourceColorsLocked,
+    ].join('|')
+  }
+
+  private static readonly MAX_COLOR_CACHE_SIZE = 1000
+
   setColor = (
     color: ColorConfiguration | SourceColorConfiguration,
-    scale: number
+    scale: number,
+    shiftRange: { min: number; max: number }
+  ): HexModel => {
+    const cacheKey = this.buildColorCacheKey(color, scale, shiftRange)
+    const cached = this.colorCache.get(cacheKey)
+    if (cached !== undefined) return cached
+
+    const result = this.computeColor(color, scale, shiftRange)
+
+    if (this.colorCache.size >= Preview.MAX_COLOR_CACHE_SIZE)
+      this.colorCache.clear()
+    this.colorCache.set(cacheKey, result)
+
+    return result
+  }
+
+  private computeColor = (
+    color: ColorConfiguration | SourceColorConfiguration,
+    scale: number,
+    shiftRange: { min: number; max: number }
   ): HexModel => {
     if ('alpha' in color && color.alpha.isEnabled) {
       const foregroundColorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         alpha: parseFloat((scale / 100).toFixed(2)),
-        hueShifting: color.hue?.shift,
-        chromaShifting: color.chroma?.shift,
+        hueShifting: resolveShift(
+          normalizeShift(color.hue?.shift, 'HUE'),
+          scale,
+          shiftRange,
+          'HUE'
+        ),
+        chromaShifting: resolveShift(
+          normalizeShift(color.chroma?.shift, 'CHROMA'),
+          scale,
+          shiftRange,
+          'CHROMA'
+        ),
         algorithmVersion: this.props.algorithmVersion,
         visionSimulationMode: this.props.visionSimulationMode,
       })
@@ -714,8 +708,18 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       const colorData = new Color({
         sourceColor: [color.rgb.r * 255, color.rgb.g * 255, color.rgb.b * 255],
         lightness: scale,
-        hueShifting: color.hue?.shift,
-        chromaShifting: color.chroma?.shift,
+        hueShifting: resolveShift(
+          normalizeShift(color.hue?.shift, 'HUE'),
+          scale,
+          shiftRange,
+          'HUE'
+        ),
+        chromaShifting: resolveShift(
+          normalizeShift(color.chroma?.shift, 'CHROMA'),
+          scale,
+          shiftRange,
+          'CHROMA'
+        ),
         algorithmVersion: this.props.algorithmVersion,
         visionSimulationMode: this.props.visionSimulationMode,
         alpha:
@@ -752,28 +756,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     <Chip state="ON_BACKGROUND">{stop}</Chip>
   )
 
-  IntervalTag = ({
-    interval,
-    lightForeground,
-  }: {
-    interval: string | ComponentChildren
-    lightForeground: HexModel
-  }) => (
-    <Chip
-      state="ON_BACKGROUND"
-      leftSlot={
-        <ColorChip
-          color={lightForeground}
-          width="var(--size-pos-xxsmall)"
-          height="var(--size-pos-xxsmall)"
-          isRounded
-        />
-      }
-    >
-      {interval}
-    </Chip>
-  )
-
   // Render
   render() {
     const lightForeground = new Color({
@@ -785,6 +767,12 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
       sourceColor: chroma(this.props.textColorsTheme.darkColor).rgb(),
       visionSimulationMode: this.props.visionSimulationMode,
     }).setColor() as HexModel
+
+    const shouldComputeContrastRanges =
+      (this.state.isWCAGIntervalDisplayed ||
+        this.state.isAPCAIntervalDisplayed) &&
+      this.props.colors.length > 1
+    const contrastScoreEntries: ShadeContrastScoreEntry[] = []
 
     return (
       <Layout
@@ -825,15 +813,65 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                         return true
                       })
                       .map((color, index) => {
-                        const scaledColors: Array<HexModel> = Object.values(
-                          this.props.scale
-                        )
+                        const stops = Object.values(this.props.scale)
+                        const shiftRange =
+                          stops.length > 0
+                            ? {
+                                min: Math.min(...stops),
+                                max: Math.max(...stops),
+                              }
+                            : { min: 0, max: 0 }
+                        const scaledColors: Array<HexModel> = stops
                           .reverse()
-                          .map((lightness) => this.setColor(color, lightness))
+                          .map((lightness) =>
+                            this.setColor(color, lightness, shiftRange)
+                          )
 
                         const scaleNames = Object.keys(
                           this.props.scale
                         ).reverse()
+
+                        const rowSourceColorHex = chroma([
+                          color.rgb.r * 255,
+                          color.rgb.g * 255,
+                          color.rgb.b * 255,
+                        ]).hex()
+                        const rowDistances = scaledColors.map((scaledColor) =>
+                          chroma.distance(rowSourceColorHex, scaledColor, 'rgb')
+                        )
+                        const minDistanceIndex = rowDistances.indexOf(
+                          Math.min(...rowDistances)
+                        )
+
+                        if (shouldComputeContrastRanges)
+                          scaledColors.forEach((scaledColor, shadeIndex) => {
+                            const scaleName =
+                              scaleNames[shadeIndex] || String(shadeIndex)
+                            const { lightWCAG, darkWCAG, lightAPCA, darkAPCA } =
+                              resolveShadeContrast({
+                                sourceColor: color,
+                                scaledColor,
+                                index: shadeIndex,
+                                minDistanceIndex,
+                                areSourceColorsLocked:
+                                  this.props.areSourceColorsLocked,
+                                visionSimulationMode:
+                                  this.props.visionSimulationMode,
+                                textColorsTheme: this.props.textColorsTheme,
+                                shouldCalculateWCAG:
+                                  this.state.isWCAGIntervalDisplayed,
+                                shouldCalculateAPCA:
+                                  this.state.isAPCAIntervalDisplayed,
+                              })
+                            contrastScoreEntries.push({
+                              scaleName,
+                              shadeIndex,
+                              lightWCAG,
+                              darkWCAG,
+                              lightAPCA,
+                              darkAPCA,
+                            })
+                          })
 
                         return (
                           <div
@@ -867,7 +905,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                                     color={scaledColor}
                                     scaleName={scaleName}
                                     sourceColor={color}
-                                    scaledColors={scaledColors}
+                                    minDistanceIndex={minDistanceIndex}
                                     isWCAGDisplayed={this.state.isWCAGDisplayed}
                                     isAPCADisplayed={this.state.isAPCADisplayed}
                                     isWCAGIntervalDisplayed={
@@ -913,110 +951,27 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                         )
                       })}
                   </div>
-                  {(this.state.isWCAGIntervalDisplayed ||
-                    this.state.isAPCAIntervalDisplayed) &&
-                    this.props.colors.length > 1 && (
-                      <>
-                        <Feature
-                          isActive={
-                            this.features.PREVIEW_SCORES_WCAG_INTERVAL.isActive() &&
-                            this.state.isWCAGIntervalDisplayed
-                          }
-                        >
-                          <div className="preview__footer">
-                            <div className="preview__cell preview__cell--no-height preview__cell--frozen">
-                              <Chip state="ON_BACKGROUND">
-                                {this.props.t(
-                                  'preview.score.tags.wcagInterval'
-                                )}
-                              </Chip>
-                            </div>
-                            {(() => {
-                              const contrastRanges = getContrastRangesByColumn({
-                                calculateWCAG: true,
-                                calculateAPCA: false,
-                              })
-                              return Object.keys(this.props.scale)
-                                .reverse()
-                                .map((scaleName, index) => {
-                                  const rangeData =
-                                    contrastRanges.get(scaleName)
-                                  if (!rangeData) return null
-
-                                  return (
-                                    <div
-                                      className="preview__cell preview__cell--no-height"
-                                      key={index}
-                                    >
-                                      <this.IntervalTag
-                                        interval={rangeData.lightWCAG.range.toFixed(
-                                          2
-                                        )}
-                                        lightForeground={lightForeground}
-                                      />
-                                      <this.IntervalTag
-                                        interval={rangeData.darkWCAG.range.toFixed(
-                                          2
-                                        )}
-                                        lightForeground={darkForeground}
-                                      />
-                                    </div>
-                                  )
-                                })
-                            })()}
-                          </div>
-                        </Feature>
-                        <Feature
-                          isActive={
-                            this.features.PREVIEW_SCORES_APCA_INTERVAL.isActive() &&
-                            this.state.isAPCAIntervalDisplayed
-                          }
-                        >
-                          <div className="preview__footer">
-                            <div className="preview__cell preview__cell--no-height preview__cell--frozen">
-                              <Chip state="ON_BACKGROUND">
-                                {this.props.t(
-                                  'preview.score.tags.apcaInterval'
-                                )}
-                              </Chip>
-                            </div>
-                            {(() => {
-                              const contrastRanges = getContrastRangesByColumn({
-                                calculateWCAG: false,
-                                calculateAPCA: true,
-                              })
-                              return Object.keys(this.props.scale)
-                                .reverse()
-                                .map((scaleName, index) => {
-                                  const rangeData =
-                                    contrastRanges.get(scaleName)
-                                  if (!rangeData) return null
-
-                                  return (
-                                    <div
-                                      className="preview__cell preview__cell--no-height"
-                                      key={index}
-                                    >
-                                      <this.IntervalTag
-                                        interval={rangeData.lightAPCA.range.toFixed(
-                                          2
-                                        )}
-                                        lightForeground={lightForeground}
-                                      />
-                                      <this.IntervalTag
-                                        interval={rangeData.darkAPCA.range.toFixed(
-                                          2
-                                        )}
-                                        lightForeground={darkForeground}
-                                      />
-                                    </div>
-                                  )
-                                })
-                            })()}
-                          </div>
-                        </Feature>
-                      </>
-                    )}
+                  {shouldComputeContrastRanges && (
+                    <ContrastIntervalFooter
+                      {...this.props}
+                      scale={this.props.scale}
+                      isWCAGIntervalDisplayed={
+                        this.state.isWCAGIntervalDisplayed
+                      }
+                      isAPCAIntervalDisplayed={
+                        this.state.isAPCAIntervalDisplayed
+                      }
+                      lightForeground={lightForeground}
+                      darkForeground={darkForeground}
+                      contrastRanges={getContrastRangesByColumn(
+                        contrastScoreEntries,
+                        {
+                          calculateWCAG: this.state.isWCAGIntervalDisplayed,
+                          calculateAPCA: this.state.isAPCAIntervalDisplayed,
+                        }
+                      )}
+                    />
+                  )}
                 </div>
                 <Bar
                   leftPartSlot={

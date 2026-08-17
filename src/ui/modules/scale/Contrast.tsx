@@ -1,17 +1,18 @@
 import { PureComponent } from 'preact/compat'
 import {
-  Contrast,
+  Contrast as ContrastEngine,
   EasingConfiguration,
   ExchangeConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   TextColorsThemeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
+import { FeatureStatus } from '@unoff/utils'
 import {
   Button,
-  layouts,
   MultipleSlider,
+  Section,
+  SectionTitle,
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
@@ -21,12 +22,10 @@ import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
-import { defaultPreset } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
-import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
-interface ScaleCRProps
+interface ContrastProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   preset: PresetConfiguration
@@ -36,20 +35,22 @@ interface ScaleCRProps
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   distributionEasing: EasingConfiguration
   onChangeScale: () => void
-  onSwitchMode: () => void
 }
 
-interface ScaleCRState {
+interface ContrastState {
   ratioLightForeground: ScaleConfiguration
   ratioDarkForeground: ScaleConfiguration
 }
 
-export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
+export default class Contrast extends PureComponent<
+  ContrastProps,
+  ContrastState
+> {
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
 
-  static defaultProps: Partial<ScaleCRProps> = {
+  static defaultProps: Partial<ContrastProps> = {
     distributionEasing: 'LINEAR',
   }
 
@@ -66,16 +67,9 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
       currentService: service,
       currentEditor: editor,
     }),
-    SCALE_RESET: new FeatureStatus({
-      features: config.features,
-      featureName: 'SCALE_RESET',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
   })
 
-  constructor(props: ScaleCRProps) {
+  constructor(props: ContrastProps) {
     super(props)
     this.palette = $palette
     this.scaleMessage = {
@@ -97,7 +91,7 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     })
   }
 
-  componentDidUpdate(previousProps: Readonly<ScaleCRProps>): void {
+  componentDidUpdate(previousProps: Readonly<ContrastProps>): void {
     if (previousProps.scale !== this.props.scale) this.setContrastMode()
   }
 
@@ -108,22 +102,12 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
   // Handlers
   calculateLightnessForContrast = (
     textColor: string,
-    contrastRatio: number,
-    previousLightness?: number
+    contrastRatio: number
   ): number => {
-    const contrast = new Contrast({ textColor })
+    const contrast = new ContrastEngine({ textColor })
     const newLightness = contrast.getLightnessForContrastRatio(contrastRatio)
 
-    if (previousLightness !== undefined) {
-      const maxChange = Math.max(5, previousLightness * 0.1)
-      if (Math.abs(newLightness - previousLightness) > maxChange)
-        return (
-          previousLightness +
-          (newLightness > previousLightness ? maxChange : -maxChange)
-        )
-    }
-
-    return newLightness
+    return Math.min(100, Math.max(0, newLightness))
   }
 
   contrastLightForegroundHandler = (
@@ -146,24 +130,20 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     const onChangeStop = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.lightColor,
-          value,
-          currentScale[key]
+          value
         )
         darkForegroundRatio[key] = parseFloat(
-          new Contrast({
+          new ContrastEngine({
             textColor: this.props.textColorsTheme.darkColor,
           })
             .getContrastRatioForLightness(scale[key])
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -183,20 +163,16 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     const onTypeStopValue = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.lightColor,
-          value,
-          currentScale[key]
+          value
         )
-        darkForegroundRatio[key] = new Contrast({
+        darkForegroundRatio[key] = new ContrastEngine({
           textColor: this.props.textColorsTheme.darkColor,
         }).getContrastRatioForLightness(scale[key])
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -215,20 +191,16 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     const onUpdatingStop = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.lightColor,
-          value,
-          currentScale[key]
+          value
         )
-        darkForegroundRatio[key] = new Contrast({
+        darkForegroundRatio[key] = new ContrastEngine({
           textColor: this.props.textColorsTheme.darkColor,
         }).getContrastRatioForLightness(scale[key])
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -273,24 +245,20 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     const onChangeStop = () => {
       const scale = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.darkColor,
-          value,
-          currentScale[key]
+          value
         )
         darkForegroundRatio[key] = parseFloat(
-          new Contrast({
+          new ContrastEngine({
             textColor: this.props.textColorsTheme.lightColor,
           })
             .getContrastRatioForLightness(scale[key])
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -310,24 +278,20 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     const onTypeStopValue = () => {
       const scale = {} as ScaleConfiguration
       const lightForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.darkColor,
-          value,
-          currentScale[key]
+          value
         )
         lightForegroundRatio[key] = parseFloat(
-          new Contrast({
+          new ContrastEngine({
             textColor: this.props.textColorsTheme.lightColor,
           })
             .getContrastRatioForLightness(scale[key])
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -346,24 +310,20 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     const onUpdatingStop = () => {
       const scale = {} as ScaleConfiguration
       const lightForegroundRatio = {} as ScaleConfiguration
-      const currentScale = this.palette.get().scale || {}
 
       Object.entries(results.scale).forEach(([key, value]) => {
         scale[key] = this.calculateLightnessForContrast(
           this.props.textColorsTheme.darkColor,
-          value,
-          currentScale[key]
+          value
         )
         lightForegroundRatio[key] = parseFloat(
-          new Contrast({
+          new ContrastEngine({
             textColor: this.props.textColorsTheme.lightColor,
           })
             .getContrastRatioForLightness(scale[key])
             .toFixed(1)
         )
       })
-
-      this.sortScaleIfNeeded(scale)
 
       this.palette.setKey('scale', scale)
 
@@ -389,62 +349,20 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
   }
 
   // Direct Actions
-  sortScaleIfNeeded = (scale: ScaleConfiguration) => {
-    const stops = this.props.preset.stops
-    if (!stops || stops.length < 2) return
-
-    const scaleValues = stops.map((stop) => ({ stop, value: scale[stop] || 0 }))
-
-    const firstValue = scaleValues[0].value
-    const lastValue = scaleValues[scaleValues.length - 1].value
-    const shouldBeIncreasing = lastValue > firstValue
-
-    let needsSorting = false
-    for (let i = 1; i < scaleValues.length; i++) {
-      const prevValue = scaleValues[i - 1].value
-      const currValue = scaleValues[i].value
-
-      if (
-        (shouldBeIncreasing && prevValue > currValue) ||
-        (!shouldBeIncreasing && prevValue < currValue)
-      ) {
-        needsSorting = true
-        break
-      }
-    }
-
-    if (needsSorting) {
-      const min = Math.min(...scaleValues.map((item) => item.value))
-      const max = Math.max(...scaleValues.map((item) => item.value))
-      const range = max - min
-
-      scaleValues.forEach((item, index) => {
-        const position = index / (scaleValues.length - 1)
-        const newValue = shouldBeIncreasing
-          ? min + range * position
-          : max - range * position
-
-        const currentValue = item.value
-        const weight = 0.7
-        scale[item.stop] = currentValue * (1 - weight) + newValue * weight
-      })
-    }
-  }
-
   setContrastMode = () => {
     const lightForegroundRatio = {} as ScaleConfiguration
     const darkForegroundRatio = {} as ScaleConfiguration
 
     Object.entries(this.props.scale ?? {}).forEach(([key, value]) => {
       lightForegroundRatio[key] = parseFloat(
-        new Contrast({
+        new ContrastEngine({
           textColor: this.props.textColorsTheme.lightColor,
         })
           .getContrastRatioForLightness(value)
           .toFixed(1)
       )
       darkForegroundRatio[key] = parseFloat(
-        new Contrast({
+        new ContrastEngine({
           textColor: this.props.textColorsTheme.darkColor,
         })
           .getContrastRatioForLightness(value)
@@ -458,35 +376,9 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     })
   }
 
-  // Direct Actions
-  onResetStops = () => {
-    const preset = this.props.preset ?? defaultPreset
-
-    this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
-
-    this.palette.setKey('scale', this.scaleMessage.data.scale)
-    this.palette.setKey('shift.chroma', 100)
-
-    this.props.onChangeScale()
-
-    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
-
-    trackScaleManagementEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'RESET_SCALE',
-      }
-    )
-  }
-
   // Render
   render() {
-    const features = ScaleCR.features(
+    const features = Contrast.features(
       this.props.planStatus,
       this.props.config,
       this.props.service,
@@ -494,27 +386,86 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
     )
 
     return (
-      <>
-        <div
-          className={doClassnames([
-            layouts['stackbar'],
-            layouts['stackbar--fill'],
-          ])}
-        >
-          <SimpleItem
-            id="reset-preset"
-            rightPartSlot={
-              <div className={layouts['snackbar--medium']}>
-                <Feature isActive={features.SCALE_RESET.isActive()}>
-                  <Button
-                    type="icon"
-                    icon="reset"
-                    helper={{
-                      label: this.props.t('scale.actions.resetStops'),
+      <Feature isActive={features.SCALE_CONTRAST_RATIO.isActive()}>
+        <Section
+          title={
+            <SimpleItem
+              leftPartSlot={
+                <SectionTitle
+                  label={this.props.t('scale.contrast.title')}
+                  helper={this.props.t('scale.contrast.helper')}
+                />
+              }
+              isListItem={false}
+              alignment="CENTER"
+            />
+          }
+          body={[
+            ...(features.SCALE_CONTRAST_RATIO.isBlocked()
+              ? [
+                  {
+                    node: (
+                      <SemanticMessage
+                        type="INFO"
+                        message={this.props.t('info.contrastRatioOnFree')}
+                        actionsSlot={
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED' ? (
+                            <Button
+                              type="secondary"
+                              label={this.props.t('plan.tryPro')}
+                              action={() =>
+                                sendPluginMessage(
+                                  { pluginMessage: { type: 'GET_TRIAL' } },
+                                  '*'
+                                )
+                              }
+                            />
+                          ) : (
+                            <Button
+                              type="secondary"
+                              label={this.props.t('plan.getPro')}
+                              action={() =>
+                                sendPluginMessage(
+                                  { pluginMessage: { type: 'GET_PRO' } },
+                                  '*'
+                                )
+                              }
+                            />
+                          )
+                        }
+                      />
+                    ),
+                  },
+                ]
+              : []),
+            {
+              node: (
+                <>
+                  <MultipleSlider
+                    {...this.props}
+                    type="EDIT"
+                    scale={this.state.ratioLightForeground}
+                    stops={{
+                      list: this.props.preset.stops,
+                      min: Infinity,
+                      max: Infinity,
                     }}
-                    feature="RESET_SCALE"
-                    isBlocked={features.SCALE_RESET.isBlocked()}
-                    isNew={features.SCALE_RESET.isNew()}
+                    range={{
+                      min: 0,
+                      max: 21,
+                      step: 0.1,
+                    }}
+                    colors={{
+                      min: this.props.textColorsTheme.lightColor,
+                      max: this.props.textColorsTheme.lightColor,
+                    }}
+                    tips={{
+                      minMax: this.props.t('scale.tips.distributeAsTooltip'),
+                    }}
+                    hasPadding={false}
+                    isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+                    isNew={features.SCALE_CONTRAST_RATIO.isNew()}
                     onBlock={() => {
                       sendPluginMessage(
                         {
@@ -529,132 +480,56 @@ export default class ScaleCR extends PureComponent<ScaleCRProps, ScaleCRState> {
                         '*'
                       )
                     }}
-                    action={this.onResetStops}
+                    onChange={this.contrastLightForegroundHandler}
                   />
-                </Feature>
-              </div>
-            }
-            alignment="CENTER"
-            isListItem={false}
-          />
-          {features.SCALE_CONTRAST_RATIO.isBlocked() && (
-            <div
-              style={{
-                padding: '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall)',
-              }}
-            >
-              <SemanticMessage
-                type="INFO"
-                message={this.props.t('info.contrastRatioOnFree')}
-                actionsSlot={
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED' ? (
-                    <Button
-                      type="secondary"
-                      label={this.props.t('plan.tryPro')}
-                      action={() =>
-                        sendPluginMessage(
-                          { pluginMessage: { type: 'GET_TRIAL' } },
-                          '*'
-                        )
-                      }
-                    />
-                  ) : (
-                    <Button
-                      type="secondary"
-                      label={this.props.t('plan.getPro')}
-                      action={() =>
-                        sendPluginMessage(
-                          { pluginMessage: { type: 'GET_PRO' } },
-                          '*'
-                        )
-                      }
-                    />
-                  )
-                }
-              />
-            </div>
-          )}
-        </div>
-        <MultipleSlider
-          {...this.props}
-          type="EDIT"
-          scale={this.state.ratioLightForeground}
-          stops={{
-            list: this.props.preset.stops,
-            min: Infinity,
-            max: Infinity,
-          }}
-          range={{
-            min: 0,
-            max: 21,
-            step: 0.1,
-          }}
-          colors={{
-            min: this.props.textColorsTheme.lightColor,
-            max: this.props.textColorsTheme.lightColor,
-          }}
-          tips={{
-            minMax: this.props.t('scale.tips.distributeAsTooltip'),
-          }}
-          isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
-          isNew={features.SCALE_CONTRAST_RATIO.isNew()}
-          onBlock={() => {
-            sendPluginMessage(
-              {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
-              },
-              '*'
-            )
-          }}
-          onChange={this.contrastLightForegroundHandler}
+                  <MultipleSlider
+                    {...this.props}
+                    type="EDIT"
+                    scale={this.state.ratioDarkForeground}
+                    stops={{
+                      list: this.props.preset.stops,
+                      min: Infinity,
+                      max: Infinity,
+                    }}
+                    range={{
+                      min: 0,
+                      max: 21,
+                      step: 0.1,
+                    }}
+                    colors={{
+                      min: this.props.textColorsTheme.darkColor,
+                      max: this.props.textColorsTheme.darkColor,
+                    }}
+                    tips={{
+                      minMax: this.props.t('scale.tips.distributeAsTooltip'),
+                    }}
+                    hasPadding={false}
+                    isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
+                    isNew={features.SCALE_CONTRAST_RATIO.isNew()}
+                    onBlock={() => {
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type:
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
+                                ? 'GET_TRIAL'
+                                : 'GET_PRO',
+                          },
+                        },
+                        '*'
+                      )
+                    }}
+                    onChange={this.contrastDarkForegroundHandler}
+                  />
+                </>
+              ),
+              spacingModifier: 'LARGE',
+            },
+          ]}
+          border={['BOTTOM']}
         />
-        <MultipleSlider
-          {...this.props}
-          type="EDIT"
-          scale={this.state.ratioDarkForeground}
-          stops={{
-            list: this.props.preset.stops,
-            min: Infinity,
-            max: Infinity,
-          }}
-          range={{
-            min: 0,
-            max: 21,
-            step: 0.1,
-          }}
-          colors={{
-            min: this.props.textColorsTheme.darkColor,
-            max: this.props.textColorsTheme.darkColor,
-          }}
-          tips={{
-            minMax: this.props.t('scale.tips.distributeAsTooltip'),
-          }}
-          isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
-          isNew={features.SCALE_CONTRAST_RATIO.isNew()}
-          onBlock={() => {
-            sendPluginMessage(
-              {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
-              },
-              '*'
-            )
-          }}
-          onChange={this.contrastDarkForegroundHandler}
-        />
-      </>
+      </Feature>
     )
   }
 }

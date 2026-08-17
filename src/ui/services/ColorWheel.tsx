@@ -1,7 +1,10 @@
 import { uid } from 'uid'
 import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
-import { ColorHarmony } from '@yelbolt/engine-ui-color-palette'
+import {
+  ColorHarmony,
+  makeDefaultShift,
+} from '@yelbolt/engine-ui-color-palette'
 import {
   SourceColorConfiguration,
   ColorHarmonyResult,
@@ -231,11 +234,11 @@ export default class ColorWheel extends PureComponent<
           b: gl[2],
         },
         hue: {
-          shift: 0,
+          shift: makeDefaultShift('HUE'),
           isLocked: false,
         },
         chroma: {
-          shift: 0,
+          shift: makeDefaultShift('CHROMA'),
           isLocked: false,
         },
         source: 'HARMONY',
@@ -331,61 +334,6 @@ export default class ColorWheel extends PureComponent<
           {
             node: (
               <>
-                <Bar
-                  rightPartSlot={
-                    <div
-                      className={doClassnames([
-                        layouts['snackbar--medium'],
-                        layouts['snackbar--right'],
-                      ])}
-                    >
-                      <Feature
-                        isActive={this.features.CREATE_PALETTE.isActive()}
-                      >
-                        <Button
-                          type="primary"
-                          icon="plus"
-                          label={this.props.t('wheel.actions.newPalette')}
-                          helper={{
-                            label: this.features.LOCAL_PALETTES.isReached(
-                              this.props.localPalettesCount
-                            )
-                              ? this.props.t('info.maxNumberOfLocalPalettes', {
-                                  count: (
-                                    this.features.LOCAL_PALETTES.limit ?? 3
-                                  ).toString(),
-                                })
-                              : this.props.t('wheel.actions.addColors'),
-                            type: 'MULTI_LINE',
-                          }}
-                          isLoading={this.state.isActionLoading}
-                          isBlocked={this.features.LOCAL_PALETTES.isReached(
-                            this.props.localPalettesCount
-                          )}
-                          isNew={this.features.CREATE_PALETTE.isNew()}
-                          onBlock={() => {
-                            sendPluginMessage(
-                              {
-                                pluginMessage: {
-                                  type:
-                                    this.props.config.plan.isTrialEnabled &&
-                                    this.props.trialStatus !== 'EXPIRED'
-                                      ? 'GET_TRIAL'
-                                      : 'GET_PRO',
-                                },
-                              },
-                              '*'
-                            )
-                          }}
-                          action={this.onUsePalette}
-                        />
-                      </Feature>
-                    </div>
-                  }
-                  shouldReflow
-                  isInverted
-                  border={['BOTTOM']}
-                />
                 <this.HarmonyPreview />
                 <div
                   style={{
@@ -621,6 +569,47 @@ export default class ColorWheel extends PureComponent<
                             pin="BOTTOM"
                           />
                         </FormItem>
+                      </Feature>
+                      <Feature
+                        isActive={this.features.CREATE_PALETTE.isActive()}
+                      >
+                        <Button
+                          type="secondary"
+                          label={this.props.t('wheel.actions.newPalette')}
+                          helper={{
+                            label: this.features.LOCAL_PALETTES.isReached(
+                              this.props.localPalettesCount
+                            )
+                              ? this.props.t('info.maxNumberOfLocalPalettes', {
+                                  count: (
+                                    this.features.LOCAL_PALETTES.limit ?? 3
+                                  ).toString(),
+                                })
+                              : this.props.t('wheel.actions.addColors'),
+                            type: 'MULTI_LINE',
+                            pin: 'TOP',
+                          }}
+                          isLoading={this.state.isActionLoading}
+                          isBlocked={this.features.LOCAL_PALETTES.isReached(
+                            this.props.localPalettesCount
+                          )}
+                          isNew={this.features.CREATE_PALETTE.isNew()}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: {
+                                  type:
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
+                                      ? 'GET_TRIAL'
+                                      : 'GET_PRO',
+                                },
+                              },
+                              '*'
+                            )
+                          }}
+                          action={this.onUsePalette}
+                        />
                       </Feature>
                     </div>
                   }

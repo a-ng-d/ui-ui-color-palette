@@ -1,6 +1,4 @@
-import { PureComponent,
-  ChangeEventHandler,
-} from 'preact/compat'
+import { PureComponent, ChangeEventHandler } from 'preact/compat'
 import WelcomeToTrial from '../modules/modals/WelcomeToTrial'
 import WelcomeToPro from '../modules/modals/WelcomeToPro'
 import TryPro from '../modules/modals/TryPro'

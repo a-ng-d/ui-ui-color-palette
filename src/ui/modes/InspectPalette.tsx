@@ -1,9 +1,6 @@
 import type { DropdownOption } from '@unoff/ui'
 import { PureComponent } from 'preact/compat'
 import { createRef, RefObject } from 'preact'
-import { FeatureStatus } from '@unoff/utils'
-import { doScale } from '@unoff/utils'
-import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import {
   PresetConfiguration,
   ScaleConfiguration,
@@ -23,7 +20,7 @@ import {
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { FeatureStatus } from '@unoff/utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
@@ -387,7 +384,10 @@ export default class EditPalette extends PureComponent<
                       <section className="context">
                         <div
                           style={{
-                            minWidth: '200px',
+                            minWidth:
+                              this.props.documentWidth > 460
+                                ? '200px'
+                                : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
                             height: '100%',
@@ -397,7 +397,10 @@ export default class EditPalette extends PureComponent<
                         </div>
                       </section>
                     ),
-                    typeModifier: 'DRAWER' as const,
+                    typeModifier:
+                      this.props.documentWidth > 460
+                        ? ('DRAWER' as const)
+                        : ('BLANK' as const),
                     drawerOptions: {
                       minSize: {
                         value: 48,
@@ -423,7 +426,14 @@ export default class EditPalette extends PureComponent<
                 <Bar
                   id="contexts-nav"
                   leftPartSlot={
-                    <div className={layouts['stackbar--medium']}>
+                    <div
+                      className={doClassnames([
+                        this.props.documentWidth > 460
+                          ? layouts['stackbar--medium']
+                          : layouts['snackbar--medium'],
+                        layouts['stackbar--wrap'],
+                      ])}
+                    >
                       <Feature isActive={this.features.PROPERTIES.isActive()}>
                         <Button
                           type="icon"
@@ -486,15 +496,20 @@ export default class EditPalette extends PureComponent<
                       />
                     </div>
                   }
-                  isVertical
+                  isVertical={this.props.documentWidth > 460}
+                  shouldReflow
                 />
               ),
               typeModifier: ['FIXED', 'BLANK'],
-              fixedWidth: 'var(--bar-min-height)',
+              fixedWidth:
+                this.props.documentWidth > 460
+                  ? 'var(--bar-min-height)'
+                  : undefined,
             },
           ]}
           isFullHeight
           isFullWidth
+          shouldReflow
         />
       </>
     )

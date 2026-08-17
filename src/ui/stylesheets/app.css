@@ -56,16 +56,16 @@ html.is-embed,
 html.is-embed body,
 html.is-embed div#app {
   margin: 0;
-  border: 0;
   box-shadow: none;
+  border: 0;
 }
 
 main.ui--embed {
-  width: 100%;
   margin: 0;
+  box-shadow: none;
   border: 0;
   border-radius: 0;
-  box-shadow: none;
+  width: 100%;
 }
 
 html.is-embed .box-resizer-grip,
@@ -221,6 +221,18 @@ div.export-palette__preview {
   z-index: 3;
   inset: auto var(--size-pos-xxxsmall) var(--size-pos-xxxsmall) auto;
 }
+
+/* Properties */
+@media (width <= 460px) {
+  #properties span, #properties li {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 
 /* Contrast report */
 .contrast {

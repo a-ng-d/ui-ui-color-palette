@@ -1,4 +1,5 @@
-import { PureComponent,
+import {
+  PureComponent,
   ChangeEvent,
   MouseEvent,
   KeyboardEvent,
@@ -57,9 +58,7 @@ interface ActionsProps
   onSyncLocalTokens?: (
     e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>
   ) => void
-  onGenerateDocument?: (
-    e: MouseEvent<Element> | KeyboardEvent<Element>
-  ) => void
+  onGenerateDocument?: (e: MouseEvent<Element> | KeyboardEvent<Element>) => void
   onChangeView?: (
     e:
       | ChangeEvent<HTMLInputElement>
@@ -587,8 +586,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         ]}
         active={this.props.mode}
         action={(
-          e: MouseEvent<HTMLButtonElement> &
-            KeyboardEvent<HTMLButtonElement>
+          e: MouseEvent<HTMLButtonElement> & KeyboardEvent<HTMLButtonElement>
         ) => {
           const feature = e.currentTarget.dataset.feature as Mode
           this.props.onChangeMode({ mode: feature ?? 'EDIT' })

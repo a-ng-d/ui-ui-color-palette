@@ -1,6 +1,4 @@
-import { PureComponent,
-  ChangeEventHandler,
-} from 'preact/compat'
+import { PureComponent, ChangeEventHandler } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Dialog, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'

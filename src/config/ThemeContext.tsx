@@ -1,4 +1,9 @@
-import { createContext, useContext, useEffect, type ReactNode } from 'preact/compat'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  type ReactNode,
+} from 'preact/compat'
 
 export type Theme = 'figma' | 'penpot' | 'sketch' | 'framer'
 export type Mode =

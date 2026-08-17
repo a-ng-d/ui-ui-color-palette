@@ -1,17 +1,23 @@
 import { PureComponent } from 'preact/compat'
+import { listenKeys } from 'nanostores'
 import {
+  Channel,
+  ColorConfiguration,
   Contrast,
+  EasingConfiguration,
   ExchangeConfiguration,
   PresetConfiguration,
+  Preview,
   ScaleConfiguration,
+  ShiftGradientStop,
   TextColorsThemeConfiguration,
-  EasingConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { MultipleSlider } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
+import { sampleColorsEvenly } from '../../../utils/sampleColorsEvenly'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -34,7 +40,19 @@ interface LightnessProps
 interface LightnessState {
   ratioLightForeground: ScaleConfiguration
   ratioDarkForeground: ScaleConfiguration
+  gradient: { tracks: ShiftGradientStop[][] }
 }
+
+const MAX_STACKED_TRACKS = 24
+
+const GRADIENT_WATCHED_KEYS = [
+  'colors',
+  'shift.hue',
+  'shift.chroma',
+  'colorSpace',
+  'algorithmVersion',
+  'visionSimulationMode',
+] as const
 
 export default class Lightness extends PureComponent<
   LightnessProps,
@@ -43,6 +61,7 @@ export default class Lightness extends PureComponent<
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
   private palette: typeof $palette
+  private gradientKey: string
 
   static features = (
     planStatus: PlanStatus,
@@ -83,17 +102,91 @@ export default class Lightness extends PureComponent<
       id: this.props.id,
       data: this.palette.value as ExchangeConfiguration,
     }
+    this.gradientKey = this.makeGradientKey()
     this.state = {
       ratioLightForeground: {},
       ratioDarkForeground: {},
+      gradient: this.computeGradient(),
+    }
+  }
+
+  // Derived Data
+  makeGradientKey = (): string => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+
+    return JSON.stringify([
+      sampleColorsEvenly(sourceColors ?? [], MAX_STACKED_TRACKS).map(
+        (color) => color.rgb
+      ),
+      palette.shift?.hue,
+      palette.shift?.chroma,
+      palette.colorSpace,
+      palette.algorithmVersion,
+      palette.visionSimulationMode,
+      this.props.preset.min,
+      this.props.preset.max,
+    ])
+  }
+
+  computeGradient = (): { tracks: ShiftGradientStop[][] } => {
+    const palette = this.palette.value as ExchangeConfiguration
+    const sourceColors = palette.colors as ColorConfiguration[] | undefined
+    const shift = palette.shift
+
+    if (
+      sourceColors === undefined ||
+      sourceColors.length === 0 ||
+      shift === undefined
+    )
+      return { tracks: [] }
+
+    const lightnessRange = {
+      min: this.props.preset.min,
+      max: this.props.preset.max,
+    }
+
+    const perColorTracks = sampleColorsEvenly(
+      sourceColors,
+      MAX_STACKED_TRACKS
+    ).map((sourceColor) =>
+      new Preview({
+        sourceColor: [
+          sourceColor.rgb.r * 255,
+          sourceColor.rgb.g * 255,
+          sourceColor.rgb.b * 255,
+        ] as Channel,
+        colorSpace: palette.colorSpace,
+        algorithmVersion: palette.algorithmVersion,
+        visionSimulationMode: palette.visionSimulationMode,
+      })
+        .sampleLightness(
+          { hue: shift.hue, chroma: shift.chroma },
+          lightnessRange
+        )
+        .map((stop) => ({ ...stop, outOfGamut: false }))
+    )
+
+    return {
+      tracks: perColorTracks,
     }
   }
 
   // Lifecycle
   componentDidMount = () => {
-    this.subscribePalette = $palette.subscribe((value) => {
-      this.scaleMessage.data = value as ExchangeConfiguration
-    })
+    this.subscribePalette = listenKeys(
+      $palette,
+      GRADIENT_WATCHED_KEYS,
+      (value) => {
+        this.scaleMessage.data = value as ExchangeConfiguration
+
+        const nextGradientKey = this.makeGradientKey()
+        if (nextGradientKey !== this.gradientKey) {
+          this.gradientKey = nextGradientKey
+          this.setState({ gradient: this.computeGradient() })
+        }
+      }
+    )
   }
 
   componentWillUnmount = () => {
@@ -119,7 +212,7 @@ export default class Lightness extends PureComponent<
     }
 
     const onChangeStop = () => {
-      this.palette.setKey('scale', results.scale)
+      this.palette.setKey('scale', { ...results.scale })
       if (feature === 'ADD_STOP' || feature === 'DELETE_STOP') {
         this.palette.setKey('preset.stops', results.stops ?? [])
         this.props.onChangeStops?.(results.stops ?? [])
@@ -159,7 +252,7 @@ export default class Lightness extends PureComponent<
     }
 
     const onTypeStopValue = () => {
-      this.palette.setKey('scale', results.scale)
+      this.palette.setKey('scale', { ...results.scale })
 
       const lightForegroundRatio = {} as ScaleConfiguration
       const darkForegroundRatio = {} as ScaleConfiguration
@@ -214,7 +307,7 @@ export default class Lightness extends PureComponent<
         )
       })
 
-      this.palette.setKey('scale', results.scale)
+      this.palette.setKey('scale', { ...results.scale })
 
       this.setState({
         ratioLightForeground: lightForegroundRatio,
@@ -264,9 +357,11 @@ export default class Lightness extends PureComponent<
               min: 'black',
               max: 'white',
             }}
+            gradient={this.state.gradient}
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
+            hasPadding={false}
             isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
             isNew={this.features.SCALE_CONFIGURATION.isNew()}
             onBlock={() => {
@@ -304,9 +399,11 @@ export default class Lightness extends PureComponent<
               min: 'black',
               max: 'white',
             }}
+            gradient={this.state.gradient}
             tips={{
               minMax: this.props.t('scale.tips.distributeAsTooltip'),
             }}
+            hasPadding={false}
             isBlocked={this.features.SCALE_CONFIGURATION.isBlocked()}
             isNew={this.features.SCALE_CONFIGURATION.isNew()}
             onBlock={() => {

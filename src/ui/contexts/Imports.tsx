@@ -3,6 +3,7 @@ import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
   ColorConfiguration,
+  makeDefaultShift,
   SourceColorConfiguration,
   ThirdParty,
 } from '@yelbolt/engine-ui-color-palette'
@@ -230,8 +231,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           description: '',
           rgb: sourceColor.rgb,
           id: sourceColor.id,
-          hue: sourceColor.hue ?? { shift: 0, isLocked: false },
-          chroma: sourceColor.chroma ?? { shift: 100, isLocked: false },
+          hue: sourceColor.hue ?? {
+            shift: makeDefaultShift('HUE'),
+            isLocked: false,
+          },
+          chroma: sourceColor.chroma ?? {
+            shift: makeDefaultShift('CHROMA'),
+            isLocked: false,
+          },
           alpha: {
             isEnabled: false,
             backgroundColor: '#FFFFFF',
@@ -346,11 +353,11 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                 b: gl[2],
               },
               hue: {
-                shift: 0,
+                shift: makeDefaultShift('HUE'),
                 isLocked: false,
               },
               chroma: {
-                shift: 100,
+                shift: makeDefaultShift('CHROMA'),
                 isLocked: false,
               },
               source: 'COOLORS' as ThirdParty,
@@ -417,11 +424,11 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                 b: gl[2],
               },
               hue: {
-                shift: 0,
+                shift: makeDefaultShift('HUE'),
                 isLocked: false,
               },
               chroma: {
-                shift: 100,
+                shift: makeDefaultShift('CHROMA'),
                 isLocked: false,
               },
               source: 'REALTIME_COLORS' as ThirdParty,

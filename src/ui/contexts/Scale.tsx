@@ -1,12 +1,15 @@
 import { PureComponent } from 'preact/compat'
 import {
+  ExchangeConfiguration,
   PresetConfiguration,
   ScaleConfiguration,
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
   EasingConfiguration,
   ShiftConfiguration,
+  ShiftCurveConfiguration,
   ThemeConfiguration,
+  makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
@@ -17,17 +20,16 @@ import {
   layouts,
   List,
   SectionTitle,
-  Select,
 } from '@unoff/ui'
 import { ManagePaletteState } from '../services/ManagePalette'
 import ScaleLCH from '../modules/scale/ScaleLCH'
-import ScaleCR from '../modules/scale/ScaleCR'
 import KeyboardShortcuts from '../modules/scale/KeyboardShortcuts'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { computeScaleForStops } from '../../utils/scaleStops'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { ScaleMessage } from '../../types/messages'
 import {
   BaseProps,
   Editor,
@@ -35,6 +37,7 @@ import {
   Service,
   Subservice,
 } from '../../types/app'
+import { defaultPreset } from '../../stores/presets'
 import { $palette, $themes } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -52,17 +55,22 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   actions?: string
   onChangeScale: () => void
-  onChangeShift: (feature?: string, state?: string, value?: number) => void
+  onChangeShift: (
+    feature?: string,
+    state?: string,
+    value?: ShiftCurveConfiguration
+  ) => void
   onChangeDistributionEasing: Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ScaleState {
   isTipsOpen: boolean
-  isContrastMode: boolean
 }
 
 export default class Scale extends PureComponent<ScaleProps, ScaleState> {
   private theme: string | null
+  private scaleMessage: ScaleMessage
+  private subscribePalette: (() => void) | undefined
 
   static defaultProps: Partial<ScaleProps> = {
     distributionEasing: 'LINEAR',
@@ -158,6 +166,13 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
       currentService: service,
       currentEditor: editor,
     }),
+    SCALE_RESET: new FeatureStatus({
+      features: config.features,
+      featureName: 'SCALE_RESET',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -181,9 +196,24 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
     super(props)
     this.state = {
       isTipsOpen: false,
-      isContrastMode: false,
     }
     this.theme = document.documentElement.getAttribute('data-theme')
+    this.scaleMessage = {
+      type: 'UPDATE_SCALE',
+      id: this.props.id,
+      data: $palette.value as ExchangeConfiguration,
+    }
+  }
+
+  // Lifecycle
+  componentDidMount = () => {
+    this.subscribePalette = $palette.subscribe((value) => {
+      this.scaleMessage.data = value as ExchangeConfiguration
+    })
+  }
+
+  componentWillUnmount = () => {
+    if (this.subscribePalette) this.subscribePalette()
   }
 
   // Handlers
@@ -296,26 +326,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
     )
   }
 
-  onSwitchContrasteMode = () => {
-    this.setState({
-      isContrastMode: !this.state.isContrastMode,
-    })
-
-    trackScaleManagementEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: this.state.isContrastMode
-          ? 'CONTRAST_MODE_ON'
-          : 'CONTRAST_MODE_OFF',
-      }
-    )
-  }
-
   onApplyDistributionEasing = (
     scale: ScaleConfiguration,
     distributionEasing: EasingConfiguration
@@ -368,6 +378,47 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
           })
         )
       : calculatedScale
+  }
+
+  onResetScale = () => {
+    const preset = this.props.preset ?? defaultPreset
+
+    if (preset.id === 'CUSTOM_1_10') preset.stops = [1, 2, 3, 4, 5, 6]
+    else if (preset.id === 'CUSTOM_10_100')
+      preset.stops = [10, 20, 30, 40, 50, 60]
+    else if (preset.id === 'CUSTOM_100_1000')
+      preset.stops = [100, 200, 300, 400, 500, 600]
+
+    this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
+    this.scaleMessage.data.shift.chroma = makeDefaultShift('CHROMA')
+    this.scaleMessage.data.shift.hue = makeDefaultShift('HUE')
+
+    $palette.setKey('preset', preset)
+    $palette.setKey('scale', this.scaleMessage.data.scale)
+    $palette.setKey('shift.chroma', makeDefaultShift('CHROMA'))
+    $palette.setKey('shift.hue', makeDefaultShift('HUE'))
+
+    this.props.onChangeScale()
+    this.props.onChangeShift(
+      'SHIFT_CHROMA',
+      'SHIFTED',
+      makeDefaultShift('CHROMA')
+    )
+    this.props.onChangeShift('SHIFT_HUE', 'SHIFTED', makeDefaultShift('HUE'))
+
+    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+
+    trackScaleManagementEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'RESET_SCALE',
+      }
+    )
   }
 
   // Templates
@@ -672,11 +723,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                   id="scale-header"
                   leftPartSlot={
                     <SectionTitle
-                      label={
-                        this.state.isContrastMode
-                          ? this.props.t('scale.contrast.title')
-                          : this.props.t('scale.title')
-                      }
+                      label={this.props.t('scale.title')}
                       indicator={Object.entries(
                         this.props.scale ?? {}
                       ).length.toString()}
@@ -693,17 +740,63 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                     <div
                       className={doClassnames([layouts['snackbar--medium']])}
                     >
+                      <Feature isActive={this.features.SCALE_RESET.isActive()}>
+                        <Button
+                          type="icon"
+                          icon="reset"
+                          helper={{
+                            label: this.props.t('scale.actions.resetScale'),
+                          }}
+                          feature="RESET_SCALE"
+                          isBlocked={this.features.SCALE_RESET.isBlocked()}
+                          isNew={this.features.SCALE_RESET.isNew()}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: {
+                                  type:
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
+                                      ? 'GET_TRIAL'
+                                      : 'GET_PRO',
+                                },
+                              },
+                              '*'
+                            )
+                          }}
+                          action={this.onResetScale}
+                        />
+                      </Feature>
                       <Feature
-                        isActive={this.features.SCALE_CONTRAST_RATIO.isActive()}
+                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
                       >
-                        <Select
-                          id="switch-contrast-mode"
-                          type="SWITCH_BUTTON"
-                          label={this.props.t('scale.contrast.label')}
-                          shouldReflow
-                          isChecked={this.state.isContrastMode}
-                          isNew={this.features.SCALE_CONTRAST_RATIO.isNew()}
-                          action={this.onSwitchContrasteMode}
+                        <Button
+                          type="icon"
+                          icon="help"
+                          helper={{
+                            label: this.props.t('scale.keyboardShortcuts'),
+                          }}
+                          isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
+                          isNew={this.features.SCALE_HELPER_TIPS.isNew()}
+                          onBlock={() => {
+                            sendPluginMessage(
+                              {
+                                pluginMessage: {
+                                  type:
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
+                                      ? 'GET_TRIAL'
+                                      : 'GET_PRO',
+                                },
+                              },
+                              '*'
+                            )
+                          }}
+                          action={() => {
+                            this.setState({
+                              isTipsOpen: true,
+                            })
+                          }}
                         />
                       </Feature>
                     </div>
@@ -715,64 +808,21 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                   isFullHeight
                   isFullWidth
                 >
-                  {!this.state.isContrastMode ? (
-                    <ScaleLCH
-                      {...this.props}
-                      onChangeThemes={this.themesHandler}
-                      onChangeStops={this.stopsHandler}
-                      onSwitchMode={this.onSwitchContrasteMode}
-                    />
-                  ) : (
-                    <ScaleCR
-                      {...this.props}
-                      onSwitchMode={this.onSwitchContrasteMode}
-                    />
-                  )}
-                  <Feature isActive={this.features.SCALE_HELPER.isActive()}>
-                    <Bar
-                      id="update-easing"
-                      leftPartSlot={
+                  <ScaleLCH
+                    {...this.props}
+                    onChangeThemes={this.themesHandler}
+                    onChangeStops={this.stopsHandler}
+                    distributionEasingSlot={
+                      <Feature isActive={this.features.SCALE_HELPER.isActive()}>
                         <Feature
                           isActive={this.features.SCALE_HELPER_DISTRIBUTION.isActive()}
                         >
                           <this.DistributionEasing />
                         </Feature>
-                      }
-                      rightPartSlot={
-                        <Feature
-                          isActive={this.features.SCALE_HELPER_TIPS.isActive()}
-                        >
-                          <Button
-                            type="icon"
-                            icon="help"
-                            helper={{
-                              label: this.props.t('scale.keyboardShortcuts'),
-                            }}
-                            isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
-                            isNew={this.features.SCALE_HELPER_TIPS.isNew()}
-                            onBlock={() => {
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type:
-                                      this.props.config.plan.isTrialEnabled &&
-                                      this.props.trialStatus !== 'EXPIRED'
-                                        ? 'GET_TRIAL'
-                                        : 'GET_PRO',
-                                  },
-                                },
-                                '*'
-                              )
-                            }}
-                            action={() => {
-                              this.setState({
-                                isTipsOpen: true,
-                              })
-                            }}
-                          />
-                        </Feature>
-                      }
-                    />
+                      </Feature>
+                    }
+                  />
+                  <Feature isActive={this.features.SCALE_HELPER.isActive()}>
                     <KeyboardShortcuts
                       {...this.props}
                       isOpen={this.state.isTipsOpen}

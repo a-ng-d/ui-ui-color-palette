@@ -25,6 +25,8 @@ import {
   CreatorConfiguration,
   ExtractOfBaseConfiguration,
   EasingConfiguration,
+  makeDefaultShift,
+  normalizeShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { doScale, FeatureStatus } from '@unoff/utils'
 import OpenPalette from '../subservices/OpenPalette'
@@ -178,8 +180,8 @@ export default class ManagePalette extends PureComponent<
       distributionEasing: 'LINEAR',
       scale: {},
       shift: {
-        chroma: 100,
-        hue: 0,
+        chroma: makeDefaultShift('CHROMA'),
+        hue: makeDefaultShift('HUE'),
       },
       areSourceColorsLocked: false,
       colors: [],
@@ -407,7 +409,10 @@ export default class ManagePalette extends PureComponent<
         description: '',
         preset,
         scale,
-        shift: { chroma: 100, hue: 0 },
+        shift: {
+          chroma: makeDefaultShift('CHROMA'),
+          hue: makeDefaultShift('HUE'),
+        },
         areSourceColorsLocked: false,
         colors: [],
         colorSpace: 'LCH',
@@ -471,9 +476,22 @@ export default class ManagePalette extends PureComponent<
         description: palette.base.description,
         preset: palette.base.preset,
         scale: theme?.scale ?? {},
-        shift: palette.base.shift,
+        shift: {
+          chroma: normalizeShift(palette.base.shift?.chroma, 'CHROMA'),
+          hue: normalizeShift(palette.base.shift?.hue, 'HUE'),
+        },
         areSourceColorsLocked: palette.base.areSourceColorsLocked,
-        colors: palette.base.colors,
+        colors: palette.base.colors.map((color) => ({
+          ...color,
+          hue: {
+            ...color.hue,
+            shift: normalizeShift(color.hue?.shift, 'HUE'),
+          },
+          chroma: {
+            ...color.chroma,
+            shift: normalizeShift(color.chroma?.shift, 'CHROMA'),
+          },
+        })),
         colorSpace: palette.base.colorSpace,
         visionSimulationMode: theme?.visionSimulationMode ?? 'NONE',
         algorithmVersion: palette.base.algorithmVersion,

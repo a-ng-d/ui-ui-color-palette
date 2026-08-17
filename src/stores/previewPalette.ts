@@ -4,6 +4,8 @@ import {
   PresetConfiguration,
   SourceColorConfiguration,
   ThemeConfiguration,
+  makeDefaultShift,
+  normalizeShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { doScale } from '@unoff/utils'
 import { defaultPreset } from './presets'
@@ -27,7 +29,10 @@ export const makePreviewData = (
       name: '',
       description: '',
       preset,
-      shift: { chroma: 100, hue: 0 },
+      shift: {
+        chroma: makeDefaultShift('CHROMA'),
+        hue: makeDefaultShift('HUE'),
+      },
       areSourceColorsLocked: false,
       colors: sourceColors.map(
         (sourceColor): ColorConfiguration => ({
@@ -36,11 +41,11 @@ export const makePreviewData = (
           description: '',
           rgb: sourceColor.rgb,
           hue: {
-            shift: sourceColor.hue?.shift ?? 0,
+            shift: normalizeShift(sourceColor.hue?.shift, 'HUE'),
             isLocked: sourceColor.hue?.isLocked ?? false,
           },
           chroma: {
-            shift: sourceColor.chroma?.shift ?? 100,
+            shift: normalizeShift(sourceColor.chroma?.shift, 'CHROMA'),
             isLocked: sourceColor.chroma?.isLocked ?? false,
           },
           alpha: { isEnabled: false, backgroundColor: '#FFFFFF' },

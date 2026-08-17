@@ -2,10 +2,8 @@ import type { DropdownOption, IconList } from '@unoff/ui'
 import { uid } from 'uid'
 import { PureComponent, ChangeEvent, KeyboardEvent } from 'preact/compat'
 import { createRef, RefObject } from 'preact'
-import { FeatureStatus } from '@unoff/utils'
-import { doScale } from '@unoff/utils'
-import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import {
+  areShiftsEqual,
   PresetConfiguration,
   ScaleConfiguration,
   TextColorsThemeConfiguration,
@@ -18,13 +16,14 @@ import {
   ExchangeConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
+  ShiftCurveConfiguration,
   ThemeConfiguration,
   ViewConfiguration,
   VisionSimulationModeConfiguration,
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { FeatureStatus } from '@unoff/utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import { doScale } from '@unoff/utils'
 import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
@@ -239,7 +238,7 @@ export default class EditPalette extends PureComponent<
   componentDidUpdate(previousProps: Readonly<EditPaletteProps>): void {
     if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
-        ['SCALE', 'COLORS', 'THEMES', 'SETTINGS'],
+        ['SCALE', 'COLORS', 'THEMES', 'IMPORTS', 'SETTINGS'],
         this.props.planStatus,
         this.props.config.features,
         this.props.editor,
@@ -305,15 +304,25 @@ export default class EditPalette extends PureComponent<
   }
 
   slideHandler = () => {
+    const themes = $themes.get()
+    const currentScale = this.palette.get().scale
+    const activeTheme = themes.find((theme) => theme.isEnabled)
+
+    if (activeTheme && activeTheme.scale === currentScale) return
+
     $themes.set(
-      $themes.get().map((theme: ThemeConfiguration) => {
-        if (theme.isEnabled) theme.scale = this.palette.get().scale
+      themes.map((theme: ThemeConfiguration) => {
+        if (theme.isEnabled) theme.scale = currentScale
         return theme
       })
     )
   }
 
-  shiftHandler = (feature?: string, state?: string, value?: number) => {
+  shiftHandler = (
+    feature?: string,
+    state?: string,
+    value?: ShiftCurveConfiguration
+  ) => {
     const onReleaseStop = () => {
       setData()
       sendPluginMessage({ pluginMessage: this.colorsMessage }, '*')
@@ -348,20 +357,36 @@ export default class EditPalette extends PureComponent<
     const setData = () => {
       const shift: ShiftConfiguration = {
         chroma:
-          feature === 'SHIFT_CHROMA' ? (value ?? 100) : this.props.shift.chroma,
-        hue: feature === 'SHIFT_HUE' ? (value ?? 0) : this.props.shift.hue,
+          feature === 'SHIFT_CHROMA'
+            ? (value ?? this.props.shift.chroma)
+            : this.props.shift.chroma,
+        hue:
+          feature === 'SHIFT_HUE'
+            ? (value ?? this.props.shift.hue)
+            : this.props.shift.hue,
       }
 
       this.colorsMessage.data = this.props.colors.map((item) => {
         if (feature === 'SHIFT_CHROMA' && !item.chroma.isLocked)
-          item.chroma.shift = value ?? this.props.shift.chroma
+          item.chroma.shift = { ...shift.chroma }
         if (feature === 'SHIFT_HUE' && !item.hue.isLocked)
-          item.hue.shift = value ?? this.props.shift.hue
+          item.hue.shift = { ...shift.hue }
         return item
       })
 
-      this.palette.setKey('shift', shift)
-      this.palette.setKey('colors', this.colorsMessage.data)
+      const current = this.palette.get()
+      const isShiftUnchanged =
+        areShiftsEqual(current.shift.chroma, shift.chroma) &&
+        areShiftsEqual(current.shift.hue, shift.hue)
+
+      if (isShiftUnchanged)
+        this.palette.setKey('colors', this.colorsMessage.data)
+      else
+        this.palette.set({
+          ...current,
+          shift,
+          colors: this.colorsMessage.data,
+        })
     }
 
     const actions: {
@@ -871,11 +896,11 @@ export default class EditPalette extends PureComponent<
       },
       id: uid(),
       hue: {
-        shift: 0,
+        shift: { ...this.props.shift.hue },
         isLocked: false,
       },
       chroma: {
-        shift: 100,
+        shift: { ...this.props.shift.chroma },
         isLocked: false,
       },
       alpha: {
@@ -1029,7 +1054,10 @@ export default class EditPalette extends PureComponent<
                       <section className="context">
                         <div
                           style={{
-                            minWidth: '200px',
+                            minWidth:
+                              this.props.documentWidth > 460
+                                ? '200px'
+                                : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
                             height: '100%',
@@ -1039,7 +1067,10 @@ export default class EditPalette extends PureComponent<
                         </div>
                       </section>
                     ),
-                    typeModifier: 'DRAWER' as const,
+                    typeModifier:
+                      this.props.documentWidth > 460
+                        ? ('DRAWER' as const)
+                        : ('BLANK' as const),
                     drawerOptions: {
                       minSize: {
                         value: 48,
@@ -1065,7 +1096,14 @@ export default class EditPalette extends PureComponent<
                 <Bar
                   id="contexts-nav"
                   leftPartSlot={
-                    <div className={layouts['stackbar--medium']}>
+                    <div
+                      className={doClassnames([
+                        this.props.documentWidth > 460
+                          ? layouts['stackbar--medium']
+                          : layouts['snackbar--medium'],
+                        layouts['stackbar--wrap'],
+                      ])}
+                    >
                       <Feature isActive={this.features.SCALE.isActive()}>
                         <Button
                           type="icon"
@@ -1209,15 +1247,20 @@ export default class EditPalette extends PureComponent<
                     </div>
                   }
                   rightPartSlot={<UndoRedoButtons />}
-                  isVertical
+                  isVertical={this.props.documentWidth > 460}
+                  shouldReflow
                 />
               ),
               typeModifier: ['FIXED', 'BLANK'],
-              fixedWidth: 'var(--bar-min-height)',
+              fixedWidth:
+                this.props.documentWidth > 460
+                  ? 'var(--bar-min-height)'
+                  : undefined,
             },
           ]}
           isFullHeight
           isFullWidth
+          shouldReflow
         />
       </>
     )

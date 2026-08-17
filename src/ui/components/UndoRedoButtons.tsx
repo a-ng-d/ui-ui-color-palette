@@ -10,6 +10,7 @@ interface UndoRedoButtonsState {
 
 interface UndoRedoButtonsProps {
   t: (key: string, fallback?: string) => string
+  documentWidth: number
 }
 
 class UndoRedoButtonsInner extends Component<
@@ -44,7 +45,13 @@ class UndoRedoButtonsInner extends Component<
   render = () => {
     const { t } = this.props
     return (
-      <div className={layouts['stackbar--medium']}>
+      <div
+        className={
+          this.props.documentWidth > 460
+            ? layouts['stackbar--medium']
+            : layouts['snackbar--medium']
+        }
+      >
         <Button
           type="icon"
           icon="undo"
@@ -66,7 +73,12 @@ class UndoRedoButtonsInner extends Component<
 
 const UndoRedoButtons = () => {
   const { t } = useTranslate()
-  return <UndoRedoButtonsInner t={t} />
+  return (
+    <UndoRedoButtonsInner
+      t={t}
+      documentWidth={window.innerWidth}
+    />
+  )
 }
 
 export default UndoRedoButtons
