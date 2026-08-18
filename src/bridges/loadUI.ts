@@ -10,6 +10,7 @@ import es_ES from '../content/translations/es-ES.json'
 import en_US from '../content/translations/en-US.json'
 import uicpf from '../content/images/uicp_figma.webp'
 import updateThemes from './updates/updateThemes'
+import updateSystemSchema from './updates/updateSystemSchema'
 import updateSettings from './updates/updateSettings'
 import updateScale from './updates/updateScale'
 import updatePalette from './updates/updatePalette'
@@ -135,6 +136,7 @@ else {
       UPDATE_COLORS: () => updateColors(path),
       UPDATE_THEMES: () => updateThemes(path),
       UPDATE_SETTINGS: () => updateSettings(path),
+      UPDATE_SYSTEM_SCHEMA: () => updateSystemSchema(path),
       UPDATE_PALETTE: () =>
         updatePalette({
           msg: path,

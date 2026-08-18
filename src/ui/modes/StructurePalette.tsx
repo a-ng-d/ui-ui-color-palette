@@ -18,7 +18,7 @@ import {
   CreatorConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
-import { Bar, Button, Layout, layouts } from '@unoff/ui'
+import { Bar, Layout, Tabs } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import Actions from '../modules/Actions'
@@ -72,7 +72,7 @@ interface StructurePaletteProps
 }
 
 interface StructurePaletteState {
-  context: Context | ''
+  context: Context
 }
 
 export default class StructurePalette extends PureComponent<
@@ -80,6 +80,7 @@ export default class StructurePalette extends PureComponent<
   StructurePaletteState
 > {
   private contexts: Array<ContextItem>
+  private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
@@ -140,6 +141,7 @@ export default class StructurePalette extends PureComponent<
       context:
         this.contexts[0] !== undefined ? this.contexts[0].id : 'TAXONOMY',
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -161,9 +163,40 @@ export default class StructurePalette extends PureComponent<
   // Handlers
   onSyncLocalSemantics = () => undefined
 
+  navHandler = (e: Event) =>
+    this.setState({
+      context: (e.currentTarget as HTMLElement).dataset.feature as Context,
+    })
+
   // Render
   render() {
     let fragment
+    let isFlex = true
+    let padding
+
+    switch (this.theme) {
+      case 'figma':
+        isFlex = false
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'penpot':
+        isFlex = true
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'sketch':
+        isFlex = false
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        isFlex = true
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      default:
+        isFlex = false
+        padding = 'var(--size-null) var(--size-pos-xsmall)'
+    }
+
+    if (this.props.documentWidth > 460) padding = 'var(--size-null)'
 
     switch (this.state.context) {
       case 'TAXONOMY': {
@@ -216,6 +249,26 @@ export default class StructurePalette extends PureComponent<
           column={[
             {
               node: (
+                <div
+                  style={{
+                    padding: padding,
+                  }}
+                >
+                  <Tabs
+                    tabs={this.contexts}
+                    active={this.state.context ?? ''}
+                    direction="VERTICAL"
+                    isFlex={isFlex}
+                    maxVisibleTabs={3}
+                    action={this.navHandler}
+                  />
+                </div>
+              ),
+              typeModifier: 'FIXED',
+              fixedWidth: '148px',
+            },
+            {
+              node: (
                 <section
                   className="context"
                   style={{
@@ -228,69 +281,6 @@ export default class StructurePalette extends PureComponent<
                 </section>
               ),
               typeModifier: 'BLANK',
-            },
-            {
-              node: (
-                <Bar
-                  id="contexts-nav"
-                  leftPartSlot={
-                    <div className={layouts['stackbar--medium']}>
-                      <Feature isActive={this.features.TAXONOMY.isActive()}>
-                        <Button
-                          type="icon"
-                          icon="group"
-                          state={
-                            this.state.context === 'TAXONOMY'
-                              ? 'selected'
-                              : undefined
-                          }
-                          helper={{
-                            label: this.props.t('contexts.taxonomy'),
-                          }}
-                          action={() => this.setState({ context: 'TAXONOMY' })}
-                        />
-                      </Feature>
-                      <Feature isActive={this.features.BINDING.isActive()}>
-                        <Button
-                          type="icon"
-                          icon="link-connected"
-                          state={
-                            this.state.context === 'BINDING'
-                              ? 'selected'
-                              : undefined
-                          }
-                          helper={{
-                            label: this.props.t('contexts.binding'),
-                          }}
-                          action={() => this.setState({ context: 'BINDING' })}
-                        />
-                      </Feature>
-                      <Feature isActive={this.features.VISUALIZE.isActive()}>
-                        <Button
-                          type="icon"
-                          icon="explore"
-                          state={
-                            this.state.context === 'VISUALIZE'
-                              ? 'selected'
-                              : undefined
-                          }
-                          helper={{
-                            label: this.props.t('contexts.visualize'),
-                          }}
-                          action={() => this.setState({ context: 'VISUALIZE' })}
-                        />
-                      </Feature>
-                    </div>
-                  }
-                  isVertical={this.props.documentWidth > 460}
-                  shouldReflow
-                />
-              ),
-              typeModifier: ['FIXED', 'BLANK'],
-              fixedWidth:
-                this.props.documentWidth > 460
-                  ? 'var(--bar-min-height)'
-                  : undefined,
             },
           ]}
           isFullHeight

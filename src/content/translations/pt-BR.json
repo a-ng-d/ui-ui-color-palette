@@ -1179,6 +1179,62 @@
     },
     "title": "Mais produtos da Yelbolt"
   },
+  "structure": {
+    "taxonomy": {
+      "addGroup": "Add a group",
+      "addMember": "Add a member",
+      "example": {
+        "groups": {
+          "prominence": {
+            "members": {
+              "accent": "Accent",
+              "danger": "Danger",
+              "info": "Info",
+              "primary": "Primary",
+              "secondary": "Secondary",
+              "success": "Success",
+              "tertiary": "Tertiary",
+              "warning": "Warning"
+            },
+            "name": "Prominence"
+          },
+          "state": {
+            "members": {
+              "default": "Default",
+              "disabled": "Disabled",
+              "hover": "Hover",
+              "pressed": "Pressed"
+            },
+            "name": "State"
+          },
+          "type": {
+            "members": {
+              "background": "Background",
+              "border": "Border",
+              "icon": "Icon",
+              "text": "Text"
+            },
+            "name": "Type"
+          }
+        },
+        "message": "This is an example taxonomy to help you get started",
+        "startFromScratch": "Start from scratch",
+        "useExample": "Use this example"
+      },
+      "groupName": "Group name",
+      "groups": "Groups ({count})",
+      "groupsHelper": "A semantic dimension of your taxonomy, such as role, state, or prominence",
+      "memberName": "Member name",
+      "members": "Members ({count})",
+      "membersHelper": "The possible values within this group, e.g. Primary, Secondary, Danger",
+      "newGroupName": "New group",
+      "newMemberName": "New member",
+      "noGroupSelected": "Select a group to see its members",
+      "removeGroup": "Remove group",
+      "removeMember": "Remove member",
+      "selectGroup": "Show this group's members"
+    }
+  },
   "success": {
     "activatedLicense": "A chave de licença \"{licenseKey}\" foi ativada",
     "addToLocal": "A paleta foi adicionada a esta página",

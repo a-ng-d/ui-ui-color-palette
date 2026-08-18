@@ -1,3 +1,4 @@
+import { readSystem } from '../utils/systemStorage'
 import { tolgee } from '../loadUI'
 
 const jumpToPalette = async (id: string) => {
@@ -13,7 +14,7 @@ const jumpToPalette = async (id: string) => {
   window.localStorage.setItem(`palette_${id}`, JSON.stringify(palette))
   return iframe?.contentWindow?.postMessage({
     type: 'LOAD_PALETTE',
-    data: palette,
+    data: { ...palette, system: readSystem(id) },
   })
 }
 
