@@ -204,6 +204,7 @@
   },
   "contexts": {
     "back": "返回调色板",
+    "binding": "Binding",
     "colors": "颜色",
     "export": "导出",
     "hide": "最大化调色板",
@@ -214,7 +215,9 @@
     "scale": "比例",
     "settings": "设置",
     "source": "源",
-    "themes": "模式"
+    "taxonomy": "Taxonomy",
+    "themes": "模式",
+    "visualize": "Visualize"
   },
   "contrast": {
     "actions": {
@@ -561,7 +564,8 @@
   "modes": {
     "edit": "编辑",
     "export": "导出",
-    "inspect": "检查"
+    "inspect": "检查",
+    "structure": "Structure"
   },
   "name": "UI Color Palette",
   "onboarding": {

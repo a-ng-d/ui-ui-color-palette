@@ -204,6 +204,7 @@
   },
   "contexts": {
     "back": "パレット一覧に戻る",
+    "binding": "Binding",
     "colors": "カラー",
     "export": "エクスポート",
     "hide": "パレットを最大化",
@@ -214,7 +215,9 @@
     "scale": "スケール",
     "settings": "設定",
     "source": "ソース",
-    "themes": "モード"
+    "taxonomy": "Taxonomy",
+    "themes": "モード",
+    "visualize": "Visualize"
   },
   "contrast": {
     "actions": {
@@ -561,7 +564,8 @@
   "modes": {
     "edit": "編集",
     "export": "エクスポート",
-    "inspect": "インスペクト"
+    "inspect": "インスペクト",
+    "structure": "Structure"
   },
   "name": "UI Color Palette",
   "onboarding": {

@@ -25,6 +25,7 @@ import {
   CreatorConfiguration,
   ExtractOfBaseConfiguration,
   EasingConfiguration,
+  SystemConfiguration,
   makeDefaultShift,
   normalizeShift,
 } from '@yelbolt/engine-ui-color-palette'
@@ -56,6 +57,7 @@ import {
   $dates,
   $palette,
   $publicationStatus,
+  $system,
   $themes,
   initializePaletteStore,
 } from '../../stores/palette'
@@ -93,6 +95,7 @@ export interface ManagePaletteState {
   document: DocumentConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
+  system: SystemConfiguration
   canBePublished: boolean
 }
 
@@ -211,6 +214,10 @@ export default class ManagePalette extends PureComponent<
         creatorFullName: '',
         creatorAvatar: '',
       },
+      system: {
+        schema: { groups: [] },
+        bindings: [],
+      },
       canBePublished: false,
     }
     this.theme = document.documentElement.getAttribute('data-theme')
@@ -259,6 +266,7 @@ export default class ManagePalette extends PureComponent<
       $creatorIdentity.subscribe((creatorIdentity) =>
         this.setState({ creatorIdentity })
       ),
+      $system.subscribe((system) => this.setState({ system })),
     ]
 
     window.addEventListener(
@@ -434,6 +442,7 @@ export default class ManagePalette extends PureComponent<
         creatorFullName: '',
         creatorAvatar: '',
       })
+      $system.set({ schema: { groups: [] }, bindings: [] })
     })
 
     clearHistory()
@@ -460,6 +469,7 @@ export default class ManagePalette extends PureComponent<
     base: BaseConfiguration
     themes: Array<ThemeConfiguration>
     meta: MetaConfiguration
+    system?: SystemConfiguration
   }) => {
     const theme: ThemeConfiguration | undefined = palette.themes.find(
       (theme: ThemeConfiguration) => theme.isEnabled
@@ -526,6 +536,7 @@ export default class ManagePalette extends PureComponent<
         creatorFullName: palette.meta.creatorIdentity.creatorFullName,
         creatorAvatar: palette.meta.creatorIdentity.creatorAvatar,
       })
+      $system.set(palette.system ?? { schema: { groups: [] }, bindings: [] })
     })
 
     if (isNewPalette) clearHistory()

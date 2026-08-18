@@ -58,6 +58,8 @@ interface ActionsProps
   onSyncLocalTokens?: (
     e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>
   ) => void
+  onSyncLocalSemantics?: MouseEventHandler<HTMLButtonElement> &
+    KeyboardEventHandler<HTMLButtonElement>
   onGenerateDocument?: (e: MouseEvent<Element> | KeyboardEvent<Element>) => void
   onChangeView?: (
     e:
@@ -98,6 +100,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     INSPECT: new FeatureStatus({
       features: config.features,
       featureName: 'INSPECT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    STRUCTURE: new FeatureStatus({
+      features: config.features,
+      featureName: 'STRUCTURE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -568,6 +577,21 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 },
               ]
             : []),
+          ...(this.features.STRUCTURE.isActive()
+            ? [
+                {
+                  id: 'STRUCTURE',
+                  icon: {
+                    type: 'PICTO' as const,
+                    name: 'component' as IconList,
+                  },
+                  helper: {
+                    label: this.props.t('modes.structure'),
+                    pin: 'BOTTOM' as const,
+                  },
+                },
+              ]
+            : []),
           ...(this.features.EXPORT.isActive()
             ? [
                 {
@@ -1022,6 +1046,57 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     )
   }
 
+  Structure = () => {
+    return (
+      <Bar
+        leftPartSlot={
+          <div className={layouts['snackbar--tight']}>
+            <Button
+              type="icon"
+              icon="back"
+              helper={{
+                label: this.props.t('contexts.back'),
+              }}
+              action={this.props.onUnloadPalette}
+            />
+            <span
+              className={doClassnames([texts.type, texts['type--truncated']])}
+            >
+              {this.props.name !== '' ? this.props.name : this.props.t('name')}
+            </span>
+            <Feature
+              isActive={
+                this.features.PUBLICATION.isActive() &&
+                this.props.publicationStatus?.isPublished
+              }
+            >
+              <Chip isSolo>{this.props.t('publication.statusPublished')}</Chip>
+            </Feature>
+          </div>
+        }
+        rightPartSlot={
+          <div
+            className={doClassnames([
+              layouts['snackbar--medium'],
+              layouts['snackbar--right'],
+              layouts['snackbar--wrap'],
+            ])}
+          >
+            <Button
+              type="primary"
+              label={this.props.t('actions.syncLocalVariables')}
+              feature="SYNC_LOCAL_SEMANTICS"
+              action={this.props.onSyncLocalSemantics}
+            />
+            <this.Modes />
+          </div>
+        }
+        clip={['LEFT']}
+        border={['BOTTOM']}
+      />
+    )
+  }
+
   Export = () => {
     return (
       <Bar
@@ -1089,6 +1164,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       <>
         {this.props.mode === 'EDIT' && <this.Deploy />}
         {this.props.mode === 'INSPECT' && <this.Inspect />}
+        {this.props.mode === 'STRUCTURE' && <this.Structure />}
         {this.props.mode === 'EXPORT' && <this.Export />}
       </>
     )

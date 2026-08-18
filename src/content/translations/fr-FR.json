@@ -204,6 +204,7 @@
   },
   "contexts": {
     "back": "Retour aux palettes",
+    "binding": "Binding",
     "colors": "Couleurs",
     "export": "Export",
     "hide": "Maximiser la palette",
@@ -214,7 +215,9 @@
     "scale": "Échelle",
     "settings": "Paramètres",
     "source": "Sources",
-    "themes": "Modes"
+    "taxonomy": "Taxonomy",
+    "themes": "Modes",
+    "visualize": "Visualize"
   },
   "contrast": {
     "actions": {
@@ -561,7 +564,8 @@
   "modes": {
     "edit": "Éditer",
     "export": "Exporter",
-    "inspect": "Inspecter"
+    "inspect": "Inspecter",
+    "structure": "Structure"
   },
   "name": "UI Color Palette",
   "onboarding": {

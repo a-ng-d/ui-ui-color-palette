@@ -23,7 +23,7 @@ export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
 export type Service = 'MANAGE' | 'GEN' | 'EXTRACT' | 'WHEEL' | 'EXPLORE'
 export type Subservice = 'BROWSE' | 'OPEN'
-export type Mode = 'EDIT' | 'INSPECT' | 'EXPORT'
+export type Mode = 'EDIT' | 'INSPECT' | 'STRUCTURE' | 'EXPORT'
 export type Context =
   | 'LOCAL_PALETTES'
   | 'LOCAL_PALETTES_PAGE'
@@ -41,6 +41,9 @@ export type Context =
   | 'SETTINGS'
   | 'REPORT'
   | 'PROPERTIES'
+  | 'TAXONOMY'
+  | 'BINDING'
+  | 'VISUALIZE'
 
 export interface ContextItem {
   label: string
