@@ -1180,6 +1180,19 @@
     "title": "Más productos de Yelbolt"
   },
   "structure": {
+    "binding": {
+      "allTokensShown": "All tokens are shown",
+      "brokenRef": "This reference no longer resolves — pick a color to fix it",
+      "details": "Details",
+      "excluded": "Excluded",
+      "loadMore": "Load more",
+      "noResults": "No matching primitives",
+      "noTokens": "No tokens yet — define a taxonomy first",
+      "noTokensMatch": "No tokens match your search",
+      "search": "Search tokens…",
+      "searchRef": "Search primitives…",
+      "values": "Values"
+    },
     "taxonomy": {
       "addGroup": "Add a group",
       "addMember": "Add a member",

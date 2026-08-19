@@ -18,7 +18,7 @@ import {
   CreatorConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
-import { Bar, Layout, Tabs } from '@unoff/ui'
+import { Layout, Tabs } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import Actions from '../modules/Actions'
