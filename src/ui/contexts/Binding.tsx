@@ -25,7 +25,6 @@ import {
   List,
   Message,
   SemanticMessage,
-  SimpleItem,
   texts,
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -273,7 +272,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                       }
                     />
                   )}
-                  {[...groups.entries()].map(([groupLabel, tokens]) => {
+                  {[...groups.entries()].map(([groupLabel, tokens], groupIndex) => {
                     const segments =
                       groupLabel === '' ? [] : groupLabel.split(' / ')
                     const lastSegment = segments[segments.length - 1]
@@ -282,9 +281,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                     return (
                       <Fragment key={groupLabel}>
                         {groupLabel !== '' && (
-                          <SimpleItem
-                            isListItem
-                            isInteractive={false}
+                          <Bar
                             leftPartSlot={
                               <span>
                                 {leadingSegments.map((segment, index) => (
@@ -311,7 +308,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                                 </span>
                               </span>
                             }
-                            alignment="CENTER"
+                            border={groupIndex > 0 ? ['TOP'] : undefined}
                           />
                         )}
                         {tokens.map((token) => (

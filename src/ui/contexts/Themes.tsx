@@ -810,7 +810,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                   type="TEXT"
                                   value={theme.name}
                                   feature="RENAME_THEME"
-                                  charactersLimit={24}
+                                  charactersLimit={32}
                                   helper={{
                                     label: this.props.t(
                                       'themes.actions.themeName'

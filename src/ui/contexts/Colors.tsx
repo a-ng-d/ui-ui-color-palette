@@ -713,7 +713,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                               <Input
                                 type="TEXT"
                                 value={color.name}
-                                charactersLimit={24}
+                                charactersLimit={32}
                                 feature="RENAME_COLOR"
                                 helper={{
                                   label: this.props.t(
