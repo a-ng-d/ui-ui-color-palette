@@ -347,6 +347,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                     }
                     isCentered
                     padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+                    border={['TOP']}
                   />
                 )}
               </>

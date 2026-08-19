@@ -1184,6 +1184,7 @@
       "allTokensShown": "All tokens are shown",
       "brokenRef": "This reference no longer resolves — pick a color to fix it",
       "details": "Details",
+      "detailsTitle": "{token} · {option}",
       "excluded": "Excluded",
       "loadMore": "Load more",
       "noResults": "No matching primitives",

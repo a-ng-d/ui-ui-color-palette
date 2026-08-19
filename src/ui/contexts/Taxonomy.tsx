@@ -536,9 +536,11 @@ export default class Taxonomy extends PureComponent<
                   leftPartSlot={
                     <SectionTitle
                       label={this.props.t('structure.taxonomy.members')}
-                      indicator={(
-                        selectedGroup?.members.length ?? 0
-                      ).toString()}
+                      indicator={
+                        selectedGroup !== null
+                          ? `${selectedGroup.name} · ${selectedGroup.members.length}`
+                          : undefined
+                      }
                       helper={this.props.t('structure.taxonomy.membersHelper')}
                     />
                   }

@@ -9,6 +9,7 @@ import {
 import { doClassnames } from '@unoff/utils'
 import {
   Button,
+  Chip,
   ColorChip,
   ColorItem,
   DraggableWindow,
@@ -95,6 +96,13 @@ export default class BindingRow extends PureComponent<
 
     const currentTheme = themes.find((theme) => theme.isEnabled) ?? themes[0]
 
+    const [selectedColorId, selectedStop] = selectedRef.split(':')
+    const selectedOptionLabel = `${
+      colors.find((color) => color.id === selectedColorId)?.name ??
+      selectedColorId
+    } / ${selectedStop}`
+    const tokenLabel = token.pathNames.join(' / ')
+
     const hasCustomThemes = themes.some((theme) => theme.id !== '00000000000')
 
     const valueEntries: Array<{ key: string; name: string; hex: string }> =
@@ -144,9 +152,21 @@ export default class BindingRow extends PureComponent<
         <SimpleItem
           isListItem
           leftPartSlot={
-            <span className={texts.type}>
-              {token.pathNames[token.pathNames.length - 1]}
-            </span>
+            <div className={layouts['snackbar--tight']}>
+              <span
+                className={
+                  doClassnames([
+                    texts.type,
+                    token.isExcluded ? texts['type--secondary'] : texts.type,
+                  ]) as string
+                }
+              >
+                {token.pathNames[token.pathNames.length - 1]}
+              </span>
+              {token.isExcluded && (
+                <Chip state="INACTIVE">{t('structure.binding.excluded')}</Chip>
+              )}
+            </div>
           }
           rightPartSlot={
             <div className={layouts['snackbar--tight']}>
@@ -205,7 +225,10 @@ export default class BindingRow extends PureComponent<
         />
         {this.state.isDetailsOpen && (
           <DraggableWindow
-            title={t('structure.binding.details')}
+            title={t('structure.binding.detailsTitle', {
+              token: tokenLabel,
+              option: selectedOptionLabel,
+            })}
             triggerRef={this.triggerRef}
             onClose={this.closeDetails}
           >
