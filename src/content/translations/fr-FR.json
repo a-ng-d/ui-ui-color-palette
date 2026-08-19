@@ -1235,14 +1235,15 @@
         "useExample": "Use this example"
       },
       "groupName": "Group name",
-      "groups": "Groups ({count})",
+      "groups": "Groups",
       "groupsHelper": "A semantic dimension of your taxonomy, such as role, state, or prominence",
       "memberName": "Member name",
-      "members": "Members ({count})",
+      "members": "Members",
       "membersHelper": "The possible values within this group, e.g. Primary, Secondary, Danger",
       "newGroupName": "New group",
       "newMemberName": "New member",
       "noGroupSelected": "Select a group to see its members",
+      "noMembers": "This group has no members yet — add one to get started",
       "removeGroup": "Remove group",
       "removeMember": "Remove member",
       "selectGroup": "Show this group's members"

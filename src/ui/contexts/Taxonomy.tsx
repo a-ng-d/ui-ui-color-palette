@@ -31,7 +31,6 @@ interface TaxonomyProps
 
 interface TaxonomyState {
   selectedGroupId: string | null
-  hasDismissedExample: boolean
 }
 
 export default class Taxonomy extends PureComponent<
@@ -40,12 +39,8 @@ export default class Taxonomy extends PureComponent<
 > {
   private schemaMessage: SystemSchemaMessage
   private system: typeof $system
-  // Cached once (and refreshed only when the translation function changes)
-  // rather than rebuilt on every render — buildExampleSchema() mints fresh
-  // uid()s each call, which would otherwise thrash the SortableList's `data`
-  // (and every row's React key) on any unrelated re-render while the
-  // first-open example view is showing.
   private exampleSchema: TaxonomySchema
+  private theme: string | null
 
   constructor(props: TaxonomyProps) {
     super(props)
@@ -58,8 +53,8 @@ export default class Taxonomy extends PureComponent<
     this.exampleSchema = this.buildExampleSchema()
     this.state = {
       selectedGroupId: this.props.system.schema.groups[0]?.id ?? null,
-      hasDismissedExample: false,
     }
+    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   componentDidUpdate = (previousProps: Readonly<TaxonomyProps>) => {
@@ -112,9 +107,7 @@ export default class Taxonomy extends PureComponent<
       },
       {
         id: uid(),
-        name: this.props.t(
-          'structure.taxonomy.example.groups.prominence.name'
-        ),
+        name: this.props.t('structure.taxonomy.example.groups.prominence.name'),
         members: [
           {
             id: uid(),
@@ -313,9 +306,7 @@ export default class Taxonomy extends PureComponent<
         group.id === selectedGroupId
           ? {
               ...group,
-              members: group.members.filter(
-                (member) => member.id !== memberId
-              ),
+              members: group.members.filter((member) => member.id !== memberId),
             }
           : group
       ),
@@ -364,20 +355,36 @@ export default class Taxonomy extends PureComponent<
     const schema = this.exampleSchema
     this.applySchemaChange(schema)
     this.setState({ selectedGroupId: schema.groups[0]?.id ?? null })
-    // Next time the example is shown (a different, still-empty palette),
-    // it should get its own fresh ids rather than reusing this now-live one.
     this.exampleSchema = this.buildExampleSchema()
   }
 
   private onStartFromScratch = () => {
-    this.setState({ hasDismissedExample: true })
+    this.addGroup()
   }
 
   // Render
   render() {
+    let background
+
+    switch (this.theme) {
+      case 'figma':
+        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
+        break
+      case 'penpot':
+        background = 'var(--penpot-color-background-primary)'
+        break
+      case 'sketch':
+        background = 'var(--sketch-color-background-primary)'
+        break
+      case 'framer':
+        background = 'var(--framer-color-bg)'
+        break
+      default:
+        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
+    }
+
     const { schema } = this.props.system
-    const showExample =
-      schema.groups.length === 0 && !this.state.hasDismissedExample
+    const showExample = schema.groups.length === 0
     const exampleSchema = showExample ? this.exampleSchema : null
     const displayGroups = exampleSchema?.groups ?? schema.groups
     const selectedGroup = showExample
@@ -397,9 +404,8 @@ export default class Taxonomy extends PureComponent<
                   id="taxonomy-groups-header"
                   leftPartSlot={
                     <SectionTitle
-                      label={this.props.t('structure.taxonomy.groups', {
-                        count: displayGroups.length,
-                      })}
+                      label={this.props.t('structure.taxonomy.groups')}
+                      indicator={displayGroups.length.toString()}
                       helper={this.props.t('structure.taxonomy.groupsHelper')}
                     />
                   }
@@ -419,87 +425,105 @@ export default class Taxonomy extends PureComponent<
                   clip={['LEFT']}
                   border={['BOTTOM']}
                 />
-                {showExample && (
-                  <div style={{ padding: 'var(--size-pos-xxsmall)' }}>
-                    <SemanticMessage
-                      type="NEUTRAL"
-                      message={this.props.t('structure.taxonomy.example.message')}
-                      orientation="VERTICAL"
-                      actionsSlot={
-                        <>
+                <div style={{ position: 'relative', minHeight: '320px' }}>
+                  <SortableList<TaxonomyGroup>
+                    data={displayGroups}
+                    primarySlot={displayGroups.map((group) => (
+                      <div
+                        key={group.id}
+                        className={layouts['snackbar--medium']}
+                      >
+                        <Input
+                          type="TEXT"
+                          value={group.name}
+                          charactersLimit={32}
+                          isFlex
+                          isDisabled={showExample}
+                          canBeEmpty={false}
+                          helper={{
+                            label: this.props.t('structure.taxonomy.groupName'),
+                          }}
+                          onBlur={(e) =>
+                            this.renameGroup(
+                              group.id,
+                              (e.currentTarget as HTMLInputElement).value
+                            )
+                          }
+                          onValid={(e) =>
+                            this.renameGroup(
+                              group.id,
+                              (e.currentTarget as HTMLInputElement).value
+                            )
+                          }
+                        />
+                        {!showExample && (
                           <Button
-                            type="secondary"
-                            label={this.props.t(
-                              'structure.taxonomy.example.startFromScratch'
-                            )}
-                            action={this.onStartFromScratch}
+                            type="icon"
+                            icon="adjust"
+                            state={
+                              selectedGroup?.id === group.id
+                                ? 'selected'
+                                : undefined
+                            }
+                            helper={{
+                              label: this.props.t(
+                                'structure.taxonomy.selectGroup'
+                              ),
+                            }}
+                            action={() => this.selectGroup(group.id)}
                           />
-                          <Button
-                            type="primary"
-                            label={this.props.t(
-                              'structure.taxonomy.example.useExample'
-                            )}
-                            action={this.onUseExample}
-                          />
-                        </>
-                      }
-                    />
-                  </div>
-                )}
-                <SortableList<TaxonomyGroup>
-                  data={displayGroups}
-                  primarySlot={displayGroups.map((group) => (
-                    <div key={group.id} className={layouts['snackbar--medium']}>
-                      <Button
-                        type="icon"
-                        icon="check"
-                        state={
-                          selectedGroup?.id === group.id
-                            ? 'selected'
-                            : undefined
-                        }
-                        isDisabled={showExample}
-                        helper={{
-                          label: this.props.t(
-                            'structure.taxonomy.selectGroup'
-                          ),
-                        }}
-                        action={() => this.selectGroup(group.id)}
-                      />
-                      <Input
-                        type="TEXT"
-                        value={group.name}
-                        charactersLimit={32}
-                        isFlex
-                        isDisabled={showExample}
-                        canBeEmpty={false}
-                        helper={{
-                          label: this.props.t('structure.taxonomy.groupName'),
-                        }}
-                        onBlur={(e) =>
-                          this.renameGroup(
-                            group.id,
-                            (e.currentTarget as HTMLInputElement).value
-                          )
-                        }
-                        onValid={(e) =>
-                          this.renameGroup(
-                            group.id,
-                            (e.currentTarget as HTMLInputElement).value
-                          )
+                        )}
+                      </div>
+                    ))}
+                    helpers={{
+                      remove: this.props.t('structure.taxonomy.removeGroup'),
+                    }}
+                    canBeEmpty
+                    isBlocked={showExample}
+                    isScrollable
+                    onChangeSortableList={this.onChangeGroupsOrder}
+                    onRemoveItem={this.removeGroupHandler}
+                  />
+                  {showExample && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'end',
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundImage: `linear-gradient(0deg, ${background} 20%, rgba(255, 255, 255, 0))`,
+                        zIndex: 1,
+                      }}
+                    >
+                      <SemanticMessage
+                        type="NEUTRAL"
+                        message={this.props.t(
+                          'structure.taxonomy.example.message'
+                        )}
+                        orientation="VERTICAL"
+                        actionsSlot={
+                          <>
+                            <Button
+                              type="secondary"
+                              label={this.props.t(
+                                'structure.taxonomy.example.startFromScratch'
+                              )}
+                              action={this.onStartFromScratch}
+                            />
+                            <Button
+                              type="primary"
+                              label={this.props.t(
+                                'structure.taxonomy.example.useExample'
+                              )}
+                              action={this.onUseExample}
+                            />
+                          </>
                         }
                       />
                     </div>
-                  ))}
-                  helpers={{
-                    remove: this.props.t('structure.taxonomy.removeGroup'),
-                  }}
-                  canBeEmpty
-                  isBlocked={showExample}
-                  isScrollable
-                  onChangeSortableList={this.onChangeGroupsOrder}
-                  onRemoveItem={this.removeGroupHandler}
-                />
+                  )}
+                </div>
               </>
             ),
             typeModifier: 'BLANK',
@@ -511,9 +535,10 @@ export default class Taxonomy extends PureComponent<
                   id="taxonomy-members-header"
                   leftPartSlot={
                     <SectionTitle
-                      label={this.props.t('structure.taxonomy.members', {
-                        count: selectedGroup?.members.length ?? 0,
-                      })}
+                      label={this.props.t('structure.taxonomy.members')}
+                      indicator={(
+                        selectedGroup?.members.length ?? 0
+                      ).toString()}
                       helper={this.props.t('structure.taxonomy.membersHelper')}
                     />
                   }
@@ -543,6 +568,13 @@ export default class Taxonomy extends PureComponent<
                       )}
                     />
                   </div>
+                ) : selectedGroup.members.length === 0 ? (
+                  <div className={layouts.centered}>
+                    <SemanticMessage
+                      type="NEUTRAL"
+                      message={this.props.t('structure.taxonomy.noMembers')}
+                    />
+                  </div>
                 ) : (
                   <SortableList<TaxonomyGroupMember>
                     data={selectedGroup.members}
@@ -556,9 +588,7 @@ export default class Taxonomy extends PureComponent<
                         isDisabled={showExample}
                         canBeEmpty={false}
                         helper={{
-                          label: this.props.t(
-                            'structure.taxonomy.memberName'
-                          ),
+                          label: this.props.t('structure.taxonomy.memberName'),
                         }}
                         onBlur={(e) =>
                           this.renameMember(
