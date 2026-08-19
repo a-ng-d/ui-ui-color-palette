@@ -157,7 +157,8 @@ export default class BindingRow extends PureComponent<
                 className={
                   doClassnames([
                     texts.type,
-                    token.isExcluded ? texts['type--secondary'] : texts.type,
+                    texts['type--truncated'],
+                    token.isExcluded ? texts['type--tertiary'] : texts.type,
                   ]) as string
                 }
               >
