@@ -1,4 +1,5 @@
 import { FullConfiguration } from '@yelbolt/engine-ui-color-palette'
+import { readSystem } from '../utils/systemStorage'
 import { PaletteMessage } from '../../types/messages'
 
 const updatePalette = async ({
@@ -42,7 +43,7 @@ const updatePalette = async ({
   if (shouldLoadPalette)
     iframe?.contentWindow?.postMessage({
       type: 'LOAD_PALETTE',
-      data: palette,
+      data: { ...palette, system: readSystem(msg.id) },
     })
 
   return window.localStorage.setItem(
