@@ -107,7 +107,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
                 label={this.props.t('see.properties.settings.preset')}
                 isBaseline
               >
-                <span className={texts.type}>{this.props.preset.name}</span>
+                <span className={texts.type}>
+                  {this.props.preset?.name ?? this.props.t('empty')}
+                </span>
               </FormItem>
             ),
           },
@@ -119,6 +121,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
               >
                 <span className={texts.type}>
                   {(() => {
+                    if (!this.props.colorSpace) return this.props.t('empty')
                     const colorSpaceKey = this.props.colorSpace.toLowerCase()
                     return (
                       this.props.t(
@@ -193,9 +196,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
                   id={color.id}
                   name={color.name}
                   hex={chroma([
-                    color.rgb.r * 255,
-                    color.rgb.g * 255,
-                    color.rgb.b * 255,
+                    (color.rgb?.r ?? 0) * 255,
+                    (color.rgb?.g ?? 0) * 255,
+                    (color.rgb?.b ?? 0) * 255,
                   ]).hex()}
                 />
               ),
@@ -211,6 +214,8 @@ export default class Properties extends PureComponent<PropertiesProps> {
                   <ul className={texts.type}>
                     <li>
                       {(() => {
+                        if (!color.chroma?.shift?.curve)
+                          return this.props.t('empty')
                         const chromaCurveKey =
                           color.chroma.shift.curve.toLowerCase()
                         return (
@@ -219,9 +224,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
                         )
                       })()}
                     </li>
-                    <li>{color.chroma.shift.value + '%'}</li>
-                    <li>{'L ' + color.chroma.shift.min + '%'}</li>
-                    <li>{'R ' + color.chroma.shift.max + '%'}</li>
+                    <li>{(color.chroma?.shift?.value ?? 0) + '%'}</li>
+                    <li>{'L ' + (color.chroma?.shift?.min ?? 0) + '%'}</li>
+                    <li>{'R ' + (color.chroma?.shift?.max ?? 0) + '%'}</li>
                   </ul>
                 </FormItem>
               ),
@@ -237,6 +242,8 @@ export default class Properties extends PureComponent<PropertiesProps> {
                   <ul className={texts.type}>
                     <li>
                       {(() => {
+                        if (!color.hue?.shift?.curve)
+                          return this.props.t('empty')
                         const hueCurveKey = color.hue.shift.curve.toLowerCase()
                         return (
                           this.props.t(`scale.shift.curve.${hueCurveKey}`) ||
@@ -244,9 +251,9 @@ export default class Properties extends PureComponent<PropertiesProps> {
                         )
                       })()}
                     </li>
-                    <li>{color.hue.shift.value + '°'}</li>
-                    <li>{'L ' + color.hue.shift.min + '°'}</li>
-                    <li>{'R ' + color.hue.shift.max + '°'}</li>
+                    <li>{(color.hue?.shift?.value ?? 0) + '°'}</li>
+                    <li>{'L ' + (color.hue?.shift?.min ?? 0) + '°'}</li>
+                    <li>{'R ' + (color.hue?.shift?.max ?? 0) + '°'}</li>
                   </ul>
                 </FormItem>
               ),
@@ -358,6 +365,8 @@ export default class Properties extends PureComponent<PropertiesProps> {
                 >
                   <span className={texts.type}>
                     {(() => {
+                      if (!theme.visionSimulationMode)
+                        return this.props.t('empty')
                       const visionModeKey =
                         theme.visionSimulationMode.toLowerCase()
                       return (
@@ -376,7 +385,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
                 <ColorItem
                   id={`text-light-color-${index}`}
                   name={this.props.t('see.properties.themes.textLightColor')}
-                  hex={theme.textColorsTheme.lightColor}
+                  hex={theme.textColorsTheme?.lightColor ?? ''}
                 />
               ),
               spacingModifier: 'TIGHT',
@@ -386,7 +395,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
                 <ColorItem
                   id={`text-dark-color-${index}`}
                   name={this.props.t('see.properties.themes.textDarkColor')}
-                  hex={theme.textColorsTheme.darkColor}
+                  hex={theme.textColorsTheme?.darkColor ?? ''}
                 />
               ),
               spacingModifier: 'TIGHT',
@@ -472,7 +481,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
                 isBaseline
               >
                 <span className={texts.type}>
-                  {this.props.creatorIdentity.creatorFullName === ''
+                  {!this.props.creatorIdentity?.creatorFullName
                     ? this.props.t('empty')
                     : this.props.creatorIdentity.creatorFullName}
                 </span>
