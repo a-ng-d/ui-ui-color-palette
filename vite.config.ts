@@ -85,6 +85,10 @@ export default defineConfig(({ mode }) => {
       ],
     },
 
+    resolve: {
+      preserveSymlinks: true,
+    },
+
     build: {
       sourcemap: true,
       minify: !isDev,
