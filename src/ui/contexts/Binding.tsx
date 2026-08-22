@@ -58,6 +58,7 @@ interface BindingState {
   searchQuery: string
   renderLimit: number
   selectedPaths: Set<string>
+  lastSelectedPath: string | null
 }
 
 interface ComputedSystem {
@@ -70,6 +71,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
   private system: typeof $system
   private sentinelRef = createRef<HTMLDivElement>()
   private observer: IntersectionObserver | null = null
+  private isShiftPressed = false
   private memoInputs: {
     system: SystemConfiguration
     colors: Array<ColorConfiguration>
@@ -90,6 +92,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
       searchQuery: '',
       renderLimit: RENDER_PAGE_SIZE,
       selectedPaths: new Set(),
+      lastSelectedPath: null,
     }
   }
 
@@ -102,13 +105,37 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     )
     if (this.sentinelRef.current)
       this.observer.observe(this.sentinelRef.current)
+
+    window.addEventListener('keydown', this.onKeyDown)
+    window.addEventListener('keyup', this.onKeyUp)
   }
 
   componentWillUnmount = () => {
     this.observer?.disconnect()
+    window.removeEventListener('keydown', this.onKeyDown)
+    window.removeEventListener('keyup', this.onKeyUp)
+  }
+
+  private onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Shift') this.isShiftPressed = true
+  }
+
+  private onKeyUp = (e: KeyboardEvent) => {
+    if (e.key === 'Shift') this.isShiftPressed = false
   }
 
   // Derived Data
+  private getFilteredTokens = (): Array<SystemDataToken> => {
+    const { systemData } = this.getComputed()
+    const query = this.state.searchQuery.trim().toLowerCase()
+
+    return query === ''
+      ? systemData.tokens
+      : systemData.tokens.filter((token) =>
+          token.pathNames.join(' / ').toLowerCase().includes(query)
+        )
+  }
+
   private getComputed = (): ComputedSystem => {
     const { system, colors, themes, preset } = this.props
 
@@ -234,15 +261,41 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
 
   private onToggleSelect = (path: Array<string>) => {
     const key = path.join('|')
+
+    if (this.isShiftPressed && this.state.lastSelectedPath !== null) {
+      const orderedKeys = this.getFilteredTokens().map((token) =>
+        token.path.join('|')
+      )
+      const anchorIndex = orderedKeys.indexOf(this.state.lastSelectedPath)
+      const targetIndex = orderedKeys.indexOf(key)
+
+      if (anchorIndex !== -1 && targetIndex !== -1) {
+        const [start, end] =
+          anchorIndex <= targetIndex
+            ? [anchorIndex, targetIndex]
+            : [targetIndex, anchorIndex]
+
+        this.setState((state) => {
+          const nextSelectedPaths = new Set(state.selectedPaths)
+          orderedKeys
+            .slice(start, end + 1)
+            .forEach((rangeKey) => nextSelectedPaths.add(rangeKey))
+          return { selectedPaths: nextSelectedPaths, lastSelectedPath: key }
+        })
+        return
+      }
+    }
+
     this.setState((state) => {
       const nextSelectedPaths = new Set(state.selectedPaths)
       if (nextSelectedPaths.has(key)) nextSelectedPaths.delete(key)
       else nextSelectedPaths.add(key)
-      return { selectedPaths: nextSelectedPaths }
+      return { selectedPaths: nextSelectedPaths, lastSelectedPath: key }
     })
   }
 
-  private onClearSelection = () => this.setState({ selectedPaths: new Set() })
+  private onClearSelection = () =>
+    this.setState({ selectedPaths: new Set(), lastSelectedPath: null })
 
   private setExcludedForSelected = (isExcluded: boolean) => {
     const bindings = this.props.system.bindings ?? []
@@ -279,7 +332,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     this.bindingsMessage.data = nextBindings
     this.system.setKey('bindings', nextBindings)
     sendPluginMessage({ pluginMessage: this.bindingsMessage }, '*')
-    this.setState({ selectedPaths: new Set() })
+    this.setState({ selectedPaths: new Set(), lastSelectedPath: null })
   }
 
   private onExcludeSelected = () => this.setExcludedForSelected(true)
@@ -288,14 +341,8 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
 
   // Render
   render() {
-    const { systemData } = this.getComputed()
     const query = this.state.searchQuery.trim().toLowerCase()
-    const filteredTokens =
-      query === ''
-        ? systemData.tokens
-        : systemData.tokens.filter((token) =>
-            token.pathNames.join(' / ').toLowerCase().includes(query)
-          )
+    const filteredTokens = this.getFilteredTokens()
 
     const pagedTokens = filteredTokens.slice(0, this.state.renderLimit)
     const hasMore = this.state.renderLimit < filteredTokens.length
