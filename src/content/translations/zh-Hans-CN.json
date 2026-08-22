@@ -745,7 +745,7 @@
         "discount": "Figma、Penpot、Sketch、Framer 上终身 $47",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $59"
       },
-      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
+      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -772,10 +772,10 @@
         "year": "每个用户/年 {price}"
       },
       "texts": {
-        "lifetime": "◻ 终身访问</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式",
-        "month": "◻ 灵活</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式",
-        "week": "◻ 按需付费</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式",
-        "year": "◻ 节省资金</br>◻ 无限积分</br>◻ 无限色彩/色阶</br>◻ 无限模式"
+        "lifetime": "◻ 终身访问</br>◻ 无限色彩/色阶</br>◻ 无限模式",
+        "month": "◻ 灵活</br>◻ 无限色彩/色阶</br>◻ 无限模式",
+        "week": "◻ 按需付费</br>◻ 无限色彩/色阶</br>◻ 无限模式",
+        "year": "◻ 节省资金</br>◻ 无限色彩/色阶</br>◻ 无限模式"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -1390,7 +1390,7 @@
     "noSelfPaletteOnRemote": "这里很空！发布您的调色板以在多个文档中重用",
     "noStarredPalettes": "您还没有收藏的调色板。浏览社区找到启发性的调色板并收藏它们以便快速访问。",
     "paletteNameRecommendation": "建议最多 64 个字符",
-    "tooManyThemesToCreateModes": "在当前计划中您不能创建超过 4 种模式",
+    "tooManyThemesToCreateModes": "{count, plural, other {在当前计划中您不能创建超过 # 种模式}}",
     "uncopiedCode": "代码未复制到剪贴板",
     "unselectedColor": "选择至少填充一种纯色的图层"
   },
