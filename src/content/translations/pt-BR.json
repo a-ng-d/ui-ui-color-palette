@@ -1183,6 +1183,7 @@
     "binding": {
       "allTokensShown": "All tokens are shown",
       "brokenRef": "This reference no longer resolves — pick a color to fix it",
+      "copyFromAbove": "Use value from row above",
       "details": "Details",
       "detailsTitle": "{token} · {option}",
       "excluded": "Excluded",

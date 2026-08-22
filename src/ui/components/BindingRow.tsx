@@ -31,6 +31,7 @@ export interface BindingRowProps extends WithTranslationProps {
   stops: Array<string>
   themes: Array<ThemeConfiguration>
   defaultRef: string
+  previousRef?: string
   resolveHex: (
     themeId: string,
     colorId: string,
@@ -81,9 +82,12 @@ export default class BindingRow extends PureComponent<
 
   // Render
   render() {
-    const { token, binding, colors, stops, themes, defaultRef, t } = this.props
+    const { token, binding, colors, stops, themes, defaultRef, previousRef, t } =
+      this.props
     const rowId = token.path.join('-')
     const selectedRef = binding?.ref ?? defaultRef
+    const canCopyAbove =
+      previousRef !== undefined && previousRef !== selectedRef
     const isBroken =
       binding !== undefined &&
       !token.isExcluded &&
@@ -171,6 +175,18 @@ export default class BindingRow extends PureComponent<
           }
           rightPartSlot={
             <div className={layouts['snackbar--tight']}>
+              {canCopyAbove && (
+                <Button
+                  type="icon"
+                  icon="copy"
+                  helper={{
+                    label: t('structure.binding.copyFromAbove'),
+                  }}
+                  action={() =>
+                    this.props.onChangeRef(token.path, previousRef as string)
+                  }
+                />
+              )}
               <Dropdown
                 id={`binding-ref-${rowId}`}
                 options={colors.flatMap((color) =>

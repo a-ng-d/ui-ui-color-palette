@@ -311,7 +311,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                             border={groupIndex > 0 ? ['TOP'] : undefined}
                           />
                         )}
-                        {tokens.map((token) => (
+                        {tokens.map((token, tokenIndex) => (
                           <BindingRow
                             key={token.path.join('|')}
                             token={token}
@@ -320,6 +320,12 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                             stops={stops}
                             themes={this.props.themes}
                             defaultRef={this.defaultRef}
+                            previousRef={
+                              tokenIndex > 0
+                                ? (this.findBinding(tokens[tokenIndex - 1].path)
+                                    ?.ref ?? this.defaultRef)
+                                : undefined
+                            }
                             resolveHex={this.resolveHex}
                             onChangeRef={this.onChangeRef}
                             onChangeDescription={this.onChangeDescription}
