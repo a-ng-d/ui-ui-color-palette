@@ -31,7 +31,7 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
-import BindingRow from '../components/BindingRow'
+import BindingRow, { EMPTY_REF_VALUE } from '../components/BindingRow'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { SystemBindingsMessage } from '../../types/messages'
 import { BaseProps } from '../../types/app'
@@ -146,10 +146,6 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     return this.memoComputed
   }
 
-  private get defaultRef(): string {
-    return `${this.props.colors[0]?.id ?? ''}:${this.props.preset.stops[0] ?? ''}`
-  }
-
   private pathsEqual = (a: Array<string>, b: Array<string>): boolean =>
     a.length === b.length && a.every((segment, i) => segment === b[i])
 
@@ -185,7 +181,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
       index === -1
         ? [
             ...bindings,
-            { path, ref: this.defaultRef, ...patch } as TaxonomyBinding,
+            { path, ref: EMPTY_REF_VALUE, ...patch } as TaxonomyBinding,
           ]
         : bindings.map((binding, i) =>
             i === index ? { ...binding, ...patch } : binding
@@ -198,6 +194,29 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
 
   private onChangeRef = (path: Array<string>, ref: string) =>
     this.upsertBinding(path, { ref })
+
+  private onClearRef = (path: Array<string>) => {
+    const bindings = this.props.system.bindings ?? []
+    const existing = bindings.find((binding) =>
+      this.pathsEqual(binding.path, path)
+    )
+    const hasOtherData =
+      existing !== undefined &&
+      (existing.isExcluded === true || Boolean(existing.description))
+
+    if (hasOtherData) {
+      this.upsertBinding(path, { ref: EMPTY_REF_VALUE })
+      return
+    }
+
+    const nextBindings = bindings.filter(
+      (binding) => !this.pathsEqual(binding.path, path)
+    )
+
+    this.bindingsMessage.data = nextBindings
+    this.system.setKey('bindings', nextBindings)
+    sendPluginMessage({ pluginMessage: this.bindingsMessage }, '*')
+  }
 
   private onChangeDescription = (path: Array<string>, description: string) =>
     this.upsertBinding(path, { description })
@@ -249,7 +268,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
             (token) =>
               ({
                 path: token.path,
-                ref: this.defaultRef,
+                ref: EMPTY_REF_VALUE,
                 isExcluded: true,
               }) as TaxonomyBinding
           )
@@ -417,12 +436,12 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                               colors={this.props.colors}
                               stops={stops}
                               themes={this.props.themes}
-                              defaultRef={this.defaultRef}
+                              hasRowAbove={tokenIndex > 0}
                               previousRef={
                                 tokenIndex > 0
-                                  ? (this.findBinding(
+                                  ? this.findBinding(
                                       tokens[tokenIndex - 1].path
-                                    )?.ref ?? this.defaultRef)
+                                    )?.ref
                                   : undefined
                               }
                               isSelected={this.state.selectedPaths.has(
@@ -430,6 +449,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                               )}
                               resolveHex={this.resolveHex}
                               onChangeRef={this.onChangeRef}
+                              onClearRef={this.onClearRef}
                               onChangeDescription={this.onChangeDescription}
                               onToggleExcluded={this.onToggleExcluded}
                               onToggleSelect={this.onToggleSelect}

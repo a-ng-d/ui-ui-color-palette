@@ -17,6 +17,7 @@ import {
   FormItem,
   Input,
   List,
+  SemanticMessage,
   Select,
   SimpleItem,
   layouts,
@@ -24,13 +25,18 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from './WithTranslation'
 
+export const EMPTY_REF_VALUE = '__EMPTY__'
+
+const isRefEmpty = (ref: string | undefined): boolean =>
+  ref === undefined || ref === EMPTY_REF_VALUE
+
 export interface BindingRowProps extends WithTranslationProps {
   token: SystemDataToken
   binding: TaxonomyBinding | undefined
   colors: Array<ColorConfiguration>
   stops: Array<string>
   themes: Array<ThemeConfiguration>
-  defaultRef: string
+  hasRowAbove: boolean
   previousRef?: string
   isSelected: boolean
   resolveHex: (
@@ -39,6 +45,7 @@ export interface BindingRowProps extends WithTranslationProps {
     shadeName: string
   ) => string | undefined
   onChangeRef: (path: Array<string>, ref: string) => void
+  onClearRef: (path: Array<string>) => void
   onChangeDescription: (path: Array<string>, description: string) => void
   onToggleExcluded: (path: Array<string>, isExcluded: boolean) => void
   onToggleSelect: (path: Array<string>) => void
@@ -84,16 +91,24 @@ export default class BindingRow extends PureComponent<
 
   // Render
   render() {
-    const { token, binding, colors, stops, themes, defaultRef, previousRef, t } =
-      this.props
+    const {
+      token,
+      binding,
+      colors,
+      stops,
+      themes,
+      hasRowAbove,
+      previousRef,
+      t,
+    } = this.props
     const rowId = token.path.join('-')
-    const selectedRef = binding?.ref ?? defaultRef
-    const canCopyAbove =
-      previousRef !== undefined && previousRef !== selectedRef
+    const selectedRef = isRefEmpty(binding?.ref) ? undefined : binding?.ref
+    const normalizedPreviousRef = isRefEmpty(previousRef)
+      ? undefined
+      : previousRef
+    const canCopyAbove = hasRowAbove && normalizedPreviousRef !== selectedRef
     const isBroken =
-      binding !== undefined &&
-      !token.isExcluded &&
-      token.refs.some((ref) => ref.shadeId === null)
+      !token.isExcluded && token.refs.some((ref) => ref.shadeId === null)
 
     const themeLabel = (themeToLabel: ThemeConfiguration): string =>
       themeToLabel.id === '00000000000'
@@ -102,31 +117,21 @@ export default class BindingRow extends PureComponent<
 
     const currentTheme = themes.find((theme) => theme.isEnabled) ?? themes[0]
 
-    const [selectedColorId, selectedStop] = selectedRef.split(':')
-    const selectedOptionLabel = `${
-      colors.find((color) => color.id === selectedColorId)?.name ??
-      selectedColorId
-    } / ${selectedStop}`
+    const [selectedColorId, selectedStop] = selectedRef?.split(':') ?? []
+    const selectedOptionLabel =
+      selectedRef !== undefined
+        ? `${
+            colors.find((color) => color.id === selectedColorId)?.name ??
+            selectedColorId
+          } / ${selectedStop}`
+        : t('structure.binding.notSet')
     const tokenLabel = token.pathNames.join(' / ')
 
     const hasCustomThemes = themes.some((theme) => theme.id !== '00000000000')
 
     const valueEntries: Array<{ key: string; name: string; hex: string }> =
-      binding === undefined
-        ? (() => {
-            const [defaultColorId, defaultStopName] = defaultRef.split(':')
-            return themes
-              .filter((theme) => !hasCustomThemes || theme.id !== '00000000000')
-              .flatMap((theme) => {
-                const hex = this.props.resolveHex(
-                  theme.id,
-                  defaultColorId,
-                  defaultStopName
-                )
-                if (hex === undefined) return []
-                return [{ key: theme.id, name: themeLabel(theme), hex }]
-              })
-          })()
+      selectedRef === undefined
+        ? []
         : token.refs.flatMap((ref) => {
             if (ref.shadeId === null) return []
             if (hasCustomThemes && ref.themeId === '00000000000') return []
@@ -196,36 +201,53 @@ export default class BindingRow extends PureComponent<
                     label: t('structure.binding.copyFromAbove'),
                   }}
                   action={() =>
-                    this.props.onChangeRef(token.path, previousRef as string)
+                    normalizedPreviousRef !== undefined
+                      ? this.props.onChangeRef(
+                          token.path,
+                          normalizedPreviousRef
+                        )
+                      : this.props.onClearRef(token.path)
                   }
                 />
               )}
               <Dropdown
                 id={`binding-ref-${rowId}`}
-                options={colors.flatMap((color) =>
-                  stops.map((stop) => {
-                    const hex =
-                      currentTheme !== undefined
-                        ? this.props.resolveHex(currentTheme.id, color.id, stop)
-                        : undefined
+                options={[
+                  {
+                    type: 'OPTION' as const,
+                    label: t('structure.binding.notSet'),
+                    value: EMPTY_REF_VALUE,
+                    action: () => this.props.onClearRef(token.path),
+                  },
+                  ...colors.flatMap((color) =>
+                    stops.map((stop) => {
+                      const hex =
+                        currentTheme !== undefined
+                          ? this.props.resolveHex(
+                              currentTheme.id,
+                              color.id,
+                              stop
+                            )
+                          : undefined
 
-                    return {
-                      type: 'OPTION' as const,
-                      label: `${color.name} / ${stop}`,
-                      value: `${color.id}:${stop}`,
-                      startSlot:
-                        hex !== undefined ? (
-                          <ColorChip color={hex} />
-                        ) : undefined,
-                      action: () =>
-                        this.props.onChangeRef(
-                          token.path,
-                          `${color.id}:${stop}`
-                        ),
-                    }
-                  })
-                )}
-                selected={selectedRef}
+                      return {
+                        type: 'OPTION' as const,
+                        label: `${color.name} / ${stop}`,
+                        value: `${color.id}:${stop}`,
+                        startSlot:
+                          hex !== undefined ? (
+                            <ColorChip color={hex} />
+                          ) : undefined,
+                        action: () =>
+                          this.props.onChangeRef(
+                            token.path,
+                            `${color.id}:${stop}`
+                          ),
+                      }
+                    })
+                  ),
+                ]}
+                selected={selectedRef ?? EMPTY_REF_VALUE}
                 alignment="RIGHT"
                 pin="TOP"
                 canBeSearched
@@ -234,7 +256,11 @@ export default class BindingRow extends PureComponent<
                 warning={
                   isBroken
                     ? {
-                        label: t('structure.binding.brokenRef'),
+                        label: t(
+                          selectedRef === undefined
+                            ? 'structure.binding.unbound'
+                            : 'structure.binding.brokenRef'
+                        ),
                       }
                     : undefined
                 }
@@ -316,14 +342,24 @@ export default class BindingRow extends PureComponent<
                 >
                   {t('structure.binding.values')}
                 </span>
-                <List isFullWidth>
-                  {valueEntries.map((entry) => (
-                    <ColorItem
-                      key={entry.key}
-                      name={entry.name}
-                      hex={entry.hex}
+                <List
+                  isFullWidth
+                  isMessage={valueEntries.length === 0}
+                >
+                  {valueEntries.length === 0 ? (
+                    <SemanticMessage
+                      type="NEUTRAL"
+                      message={t('structure.binding.unbound')}
                     />
-                  ))}
+                  ) : (
+                    valueEntries.map((entry) => (
+                      <ColorItem
+                        key={entry.key}
+                        name={entry.name}
+                        hex={entry.hex}
+                      />
+                    ))
+                  )}
                 </List>
               </div>
             )}

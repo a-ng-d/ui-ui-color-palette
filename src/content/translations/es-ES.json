@@ -1194,10 +1194,12 @@
       "noResults": "No matching primitives",
       "noTokens": "No tokens yet — define a taxonomy first",
       "noTokensMatch": "No tokens match your search",
+      "notSet": "Not set",
       "search": "Search tokens…",
       "searchRef": "Search primitives…",
       "select": "Select",
       "selectedCount": "{count} selected",
+      "unbound": "No primitive has been picked yet — pick a color to set it",
       "values": "Values"
     },
     "taxonomy": {
