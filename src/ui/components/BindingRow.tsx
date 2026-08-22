@@ -32,6 +32,7 @@ export interface BindingRowProps extends WithTranslationProps {
   themes: Array<ThemeConfiguration>
   defaultRef: string
   previousRef?: string
+  isSelected: boolean
   resolveHex: (
     themeId: string,
     colorId: string,
@@ -40,6 +41,7 @@ export interface BindingRowProps extends WithTranslationProps {
   onChangeRef: (path: Array<string>, ref: string) => void
   onChangeDescription: (path: Array<string>, description: string) => void
   onToggleExcluded: (path: Array<string>, isExcluded: boolean) => void
+  onToggleSelect: (path: Array<string>) => void
 }
 
 interface BindingRowState {
@@ -156,21 +158,32 @@ export default class BindingRow extends PureComponent<
         <SimpleItem
           isListItem
           leftPartSlot={
-            <div className={layouts['snackbar--tight']}>
-              <span
-                className={
-                  doClassnames([
-                    texts.type,
-                    texts['type--truncated'],
-                    token.isExcluded ? texts['type--tertiary'] : texts.type,
-                  ]) as string
-                }
-              >
-                {token.pathNames[token.pathNames.length - 1]}
-              </span>
-              {token.isExcluded && (
-                <Chip state="INACTIVE">{t('structure.binding.excluded')}</Chip>
-              )}
+            <div className={layouts['snackbar--large']}>
+              <Select
+                id={`binding-select-${rowId}`}
+                type="CHECK_BOX"
+                isChecked={this.props.isSelected}
+                helper={{ label: t('structure.binding.select') }}
+                action={() => this.props.onToggleSelect(token.path)}
+              />
+              <div className={layouts.snackbar}>
+                <span
+                  className={
+                    doClassnames([
+                      texts.type,
+                      texts['type--truncated'],
+                      token.isExcluded ? texts['type--tertiary'] : texts.type,
+                    ]) as string
+                  }
+                >
+                  {token.pathNames[token.pathNames.length - 1]}
+                </span>
+                {token.isExcluded && (
+                  <Chip state="INACTIVE">
+                    {t('structure.binding.excluded')}
+                  </Chip>
+                )}
+              </div>
             </div>
           }
           rightPartSlot={

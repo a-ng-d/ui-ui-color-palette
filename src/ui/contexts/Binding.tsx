@@ -20,8 +20,10 @@ import {
 import { doClassnames } from '@unoff/utils'
 import {
   Bar,
+  Button,
   Input,
   Layout,
+  layouts,
   List,
   Message,
   SemanticMessage,
@@ -55,6 +57,7 @@ interface BindingProps
 interface BindingState {
   searchQuery: string
   renderLimit: number
+  selectedPaths: Set<string>
 }
 
 interface ComputedSystem {
@@ -86,6 +89,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     this.state = {
       searchQuery: '',
       renderLimit: RENDER_PAGE_SIZE,
+      selectedPaths: new Set(),
     }
   }
 
@@ -209,6 +213,60 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
       renderLimit: state.renderLimit + RENDER_PAGE_SIZE,
     }))
 
+  private onToggleSelect = (path: Array<string>) => {
+    const key = path.join('|')
+    this.setState((state) => {
+      const nextSelectedPaths = new Set(state.selectedPaths)
+      if (nextSelectedPaths.has(key)) nextSelectedPaths.delete(key)
+      else nextSelectedPaths.add(key)
+      return { selectedPaths: nextSelectedPaths }
+    })
+  }
+
+  private onClearSelection = () => this.setState({ selectedPaths: new Set() })
+
+  private setExcludedForSelected = (isExcluded: boolean) => {
+    const bindings = this.props.system.bindings ?? []
+    const selectedKeys = this.state.selectedPaths
+    const existingKeys = new Set(
+      bindings.map((binding) => binding.path.join('|'))
+    )
+
+    const updatedBindings = bindings.map((binding) =>
+      selectedKeys.has(binding.path.join('|'))
+        ? { ...binding, isExcluded }
+        : binding
+    )
+
+    const newBindings = isExcluded
+      ? this.getComputed()
+          .systemData.tokens.filter(
+            (token) =>
+              selectedKeys.has(token.path.join('|')) &&
+              !existingKeys.has(token.path.join('|'))
+          )
+          .map(
+            (token) =>
+              ({
+                path: token.path,
+                ref: this.defaultRef,
+                isExcluded: true,
+              }) as TaxonomyBinding
+          )
+      : []
+
+    const nextBindings = [...updatedBindings, ...newBindings]
+
+    this.bindingsMessage.data = nextBindings
+    this.system.setKey('bindings', nextBindings)
+    sendPluginMessage({ pluginMessage: this.bindingsMessage }, '*')
+    this.setState({ selectedPaths: new Set() })
+  }
+
+  private onExcludeSelected = () => this.setExcludedForSelected(true)
+
+  private onIncludeSelected = () => this.setExcludedForSelected(false)
+
   // Render
   render() {
     const { systemData } = this.getComputed()
@@ -257,6 +315,45 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                   clip={['LEFT']}
                   border={['BOTTOM']}
                 />
+                {this.state.selectedPaths.size > 0 && (
+                  <Bar
+                    id="binding-bulk-actions"
+                    leftPartSlot={
+                      <div className={layouts['snackbar--tight']}>
+                        <span className={texts.type}>
+                          {this.props.t('structure.binding.selectedCount', {
+                            count: this.state.selectedPaths.size,
+                          })}
+                        </span>
+                        <Button
+                          type="secondary"
+                          label={this.props.t('structure.binding.deselectAll')}
+                          action={this.onClearSelection}
+                        />
+                      </div>
+                    }
+                    rightPartSlot={
+                      <div className={layouts['snackbar--tight']}>
+                        <Button
+                          type="secondary"
+                          label={this.props.t(
+                            'structure.binding.includeSelected'
+                          )}
+                          action={this.onIncludeSelected}
+                        />
+                        <Button
+                          type="primary"
+                          label={this.props.t(
+                            'structure.binding.excludeSelected'
+                          )}
+                          action={this.onExcludeSelected}
+                        />
+                      </div>
+                    }
+                    clip={['LEFT']}
+                    border={['BOTTOM']}
+                  />
+                )}
                 <List
                   isFullWidth
                   isFullHeight
@@ -272,70 +369,77 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                       }
                     />
                   )}
-                  {[...groups.entries()].map(([groupLabel, tokens], groupIndex) => {
-                    const segments =
-                      groupLabel === '' ? [] : groupLabel.split(' / ')
-                    const lastSegment = segments[segments.length - 1]
-                    const leadingSegments = segments.slice(0, -1)
+                  {[...groups.entries()].map(
+                    ([groupLabel, tokens], groupIndex) => {
+                      const segments =
+                        groupLabel === '' ? [] : groupLabel.split(' / ')
+                      const lastSegment = segments[segments.length - 1]
+                      const leadingSegments = segments.slice(0, -1)
 
-                    return (
-                      <Fragment key={groupLabel}>
-                        {groupLabel !== '' && (
-                          <Bar
-                            leftPartSlot={
-                              <span>
-                                {leadingSegments.map((segment, index) => (
-                                  <span
-                                    key={index}
-                                    className={doClassnames([
-                                      texts.type,
-                                      texts['type--secondary'],
-                                    ])}
-                                  >
-                                    {segment}
+                      return (
+                        <Fragment key={groupLabel}>
+                          {groupLabel !== '' && (
+                            <Bar
+                              leftPartSlot={
+                                <span>
+                                  {leadingSegments.map((segment, index) => (
                                     <span
+                                      key={index}
                                       className={doClassnames([
                                         texts.type,
                                         texts['type--secondary'],
                                       ])}
                                     >
-                                      {' / '}
+                                      {segment}
+                                      <span
+                                        className={doClassnames([
+                                          texts.type,
+                                          texts['type--secondary'],
+                                        ])}
+                                      >
+                                        {' / '}
+                                      </span>
                                     </span>
+                                  ))}
+                                  <span className={texts.type}>
+                                    {lastSegment}
                                   </span>
-                                ))}
-                                <span className={texts.type}>
-                                  {lastSegment}
                                 </span>
-                              </span>
-                            }
-                            border={groupIndex > 0 ? ['TOP'] : undefined}
-                          />
-                        )}
-                        {tokens.map((token, tokenIndex) => (
-                          <BindingRow
-                            key={token.path.join('|')}
-                            token={token}
-                            binding={this.findBinding(token.path)}
-                            colors={this.props.colors}
-                            stops={stops}
-                            themes={this.props.themes}
-                            defaultRef={this.defaultRef}
-                            previousRef={
-                              tokenIndex > 0
-                                ? (this.findBinding(tokens[tokenIndex - 1].path)
-                                    ?.ref ?? this.defaultRef)
-                                : undefined
-                            }
-                            resolveHex={this.resolveHex}
-                            onChangeRef={this.onChangeRef}
-                            onChangeDescription={this.onChangeDescription}
-                            onToggleExcluded={this.onToggleExcluded}
-                            t={this.props.t}
-                          />
-                        ))}
-                      </Fragment>
-                    )
-                  })}
+                              }
+                              border={groupIndex > 0 ? ['TOP'] : undefined}
+                            />
+                          )}
+                          {tokens.map((token, tokenIndex) => (
+                            <BindingRow
+                              key={token.path.join('|')}
+                              token={token}
+                              binding={this.findBinding(token.path)}
+                              colors={this.props.colors}
+                              stops={stops}
+                              themes={this.props.themes}
+                              defaultRef={this.defaultRef}
+                              previousRef={
+                                tokenIndex > 0
+                                  ? (this.findBinding(
+                                      tokens[tokenIndex - 1].path
+                                    )?.ref ?? this.defaultRef)
+                                  : undefined
+                              }
+                              isSelected={this.state.selectedPaths.has(
+                                token.path.join('|')
+                              )}
+                              resolveHex={this.resolveHex}
+                              onChangeRef={this.onChangeRef}
+                              onChangeDescription={this.onChangeDescription}
+                              onToggleExcluded={this.onToggleExcluded}
+                              onToggleSelect={this.onToggleSelect}
+                              t={this.props.t}
+                            />
+                          ))}
+                        </Fragment>
+                      )
+                    }
+                  )}
                   <div ref={this.sentinelRef} />
                 </List>
                 {!hasMore && filteredTokens.length > 0 && (
