@@ -32,6 +32,7 @@ import {
   SectionTitle,
   SemanticMessage,
   SimpleItem,
+  Tabs,
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -59,7 +60,7 @@ interface ExportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   code: string | Array<CodeFile>
   isCodeCopied: boolean
   onChangeExport: (args: { export: ExportConfiguration }) => void
-  onCopyCode: () => void
+  onCopyCode: (fileIndex?: number) => void
 }
 
 interface ExportState {
@@ -67,6 +68,7 @@ interface ExportState {
     selected: ColorSpaceConfiguration
     options: Array<DropdownOption>
   }
+  selectedFileIndex: number
 }
 
 export default class Export extends PureComponent<ExportProps, ExportState> {
@@ -288,10 +290,16 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         selected: 'RGB',
         options: [],
       },
+      selectedFileIndex: 0,
     }
   }
 
   // Lifecycle
+  componentDidUpdate(previousProps: Readonly<ExportProps>) {
+    if (previousProps.context !== this.props.context)
+      this.setState({ selectedFileIndex: 0 })
+  }
+
   componentDidMount() {
     this.setState({
       colorSpace: {
@@ -943,6 +951,14 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
     ]
   }
 
+  onSelectFile = (e: Event) =>
+    this.setState({
+      selectedFileIndex: parseInt(
+        (e.currentTarget as HTMLElement).dataset.feature ?? '0',
+        10
+      ),
+    })
+
   handleCodeSyntaxTheme = () => {
     const figmaMode = document.documentElement.getAttribute('class')
 
@@ -1038,10 +1054,64 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         textColor = 'var(--figma-color-text-disabled)'
     }
 
+    const files = Array.isArray(this.props.code) ? this.props.code : []
+    const selectedFile = files[this.state.selectedFileIndex] ?? files[0]
+
+    let isFlex = true
+    let filesPadding
+
+    switch (this.theme) {
+      case 'figma':
+        isFlex = false
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'penpot':
+        isFlex = true
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'sketch':
+        isFlex = false
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        isFlex = true
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      default:
+        isFlex = false
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+    }
+
+    if (this.props.documentWidth > 460) filesPadding = 'var(--size-null)'
+
     return (
       <Layout
         id="export"
         column={[
+          ...(files.length > 1 && this.props.context !== 'CSV'
+            ? [
+                {
+                  node: (
+                    <div style={{ padding: filesPadding }}>
+                      <Tabs
+                        tabs={files.map((file, index) => ({
+                          id: index.toString(),
+                          label: file.filename,
+                          isUpdated: false,
+                        }))}
+                        active={this.state.selectedFileIndex.toString()}
+                        direction="VERTICAL"
+                        isFlex={isFlex}
+                        maxVisibleTabs={3}
+                        action={this.onSelectFile}
+                      />
+                    </div>
+                  ),
+                  typeModifier: 'FIXED' as const,
+                  fixedWidth: '148px',
+                },
+              ]
+            : []),
           {
             node: (
               <>
@@ -1581,7 +1651,11 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                             helper={{
                               label: this.props.t('export.actions.copyCode'),
                             }}
-                            action={this.props.onCopyCode}
+                            action={() =>
+                              this.props.onCopyCode(
+                                this.state.selectedFileIndex
+                              )
+                            }
                           />
                         )}
                       </div>
@@ -1683,15 +1757,9 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                     wrapLongLines={true}
                   >
                     {this.props.context === 'CSV'
-                      ? (JSON.parse(
-                          (Array.isArray(this.props.code)
-                            ? this.props.code[0].content
-                            : this.props.code) as string
-                        )[0].colors[0].csv ??
-                        this.props.t('warning.emptySourceColors'))
-                      : Array.isArray(this.props.code)
-                        ? this.props.code[0].content
-                        : this.props.code}
+                      ? (JSON.parse(files[0]?.content ?? '[]')[0]?.colors[0]
+                          ?.csv ?? this.props.t('warning.emptySourceColors'))
+                      : (selectedFile?.content ?? '')}
                   </SyntaxHighlighter>
                 </div>
               </>
@@ -1699,6 +1767,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
           },
         ]}
         isFullHeight
+        shouldReflow
       />
     )
   }

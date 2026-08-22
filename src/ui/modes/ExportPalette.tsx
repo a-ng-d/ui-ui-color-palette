@@ -340,13 +340,14 @@ export default class ExportPalette extends PureComponent<
       )
   }
 
-  onCopyCode = () => {
+  onCopyCode = (fileIndex = 0) => {
     if (!this.state.export.data) return
 
     try {
       const textarea = document.createElement('textarea')
       textarea.value = Array.isArray(this.state.export.data)
-        ? this.state.export.data[0].content
+        ? (this.state.export.data[fileIndex] ?? this.state.export.data[0])
+            .content
         : this.state.export.data
 
       textarea.style.position = 'absolute'
