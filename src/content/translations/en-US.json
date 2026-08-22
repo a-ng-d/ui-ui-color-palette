@@ -749,7 +749,7 @@
         "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
+      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -776,10 +776,10 @@
         "year": "{price} per user/year"
       },
       "texts": {
-        "lifetime": "◻ Lifetime access</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "month": "◻ Flexible</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "week": "◻ Pay-as-you-go</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "year": "◻ Save money</br>◻ Unlimited credits</br>◻ Unlimited colors/stops</br>◻ Unlimited modes"
+        "lifetime": "◻ Lifetime access</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "month": "◻ Flexible</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "week": "◻ Pay-as-you-go</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
+        "year": "◻ Save money</br>◻ Unlimited colors/stops</br>◻ Unlimited modes"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -1473,7 +1473,7 @@
     "noSelfPaletteOnRemote": "This is quite empty around here! Publish your palette to reuse it across multiple documents",
     "noStarredPalettes": "You have no starred palettes yet. Browse the community to find inspiring palettes and star them for quick access later.",
     "paletteNameRecommendation": "64 characters max is recommended",
-    "tooManyThemesToCreateModes": "You cannot create more than 4 modes in the current plan",
+    "tooManyThemesToCreateModes": "{count, plural, one {You cannot create more than 1 mode in the current plan} other {You cannot create more than # modes in the current plan}}",
     "uncopiedCode": "The code has not been copied to the clipboard",
     "unselectedColor": "Select a layer that is filled with at least one solid color"
   },

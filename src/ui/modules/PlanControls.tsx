@@ -21,10 +21,7 @@ interface PlanControlsProps
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<
-  PlanControlsProps,
-  PlanControlsState
-> {
+export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (
@@ -552,31 +549,6 @@ export default class PlanControls extends PureComponent<
     >
       {this.withSeparators([
         {
-          node: (
-            <Button
-              type="alternative"
-              size="small"
-              icon="lock-off"
-              label={this.props.t('plan.getPro')}
-              action={() =>
-                sendPluginMessage(
-                  {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
-                  },
-                  '*'
-                )
-              }
-            />
-          ),
-          isActive: this.features.PRICING.isActive(),
-        },
-        {
           node: <this.RemainingTime />,
           isActive: true,
         },
@@ -604,11 +576,7 @@ export default class PlanControls extends PureComponent<
                 sendPluginMessage(
                   {
                     pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
+                      type: 'GET_PRO',
                     },
                   },
                   '*'

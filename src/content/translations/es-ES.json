@@ -749,7 +749,7 @@
         "discount": "$47 /lifetime en Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime en Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Paletas ilimitadas</br>◻ Colores fuente ilimitados</br>◻ Paradas ilimitadas</br>◻ Modos de color ilimitados</br>◻ Créditos ilimitados",
+      "text": "◻ Paletas ilimitadas</br>◻ Colores fuente ilimitados</br>◻ Paradas ilimitadas</br>◻ Modos de color ilimitados",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -776,10 +776,10 @@
         "year": "{price} por usuario/año"
       },
       "texts": {
-        "lifetime": "◻ Acceso de por vida</br>◻ Créditos ilimitados</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
-        "month": "◻ Flexible</br>◻ Créditos ilimitados</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
-        "week": "◻ Paga según uses</br>◻ Créditos ilimitados</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
-        "year": "◻ Ahorra dinero</br>◻ Créditos ilimitados</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados"
+        "lifetime": "◻ Acceso de por vida</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
+        "month": "◻ Flexible</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
+        "week": "◻ Paga según uses</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
+        "year": "◻ Ahorra dinero</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -1473,7 +1473,7 @@
     "noSelfPaletteOnRemote": "¡Está bastante vacío por aquí! Publica tu paleta para reutilizarla en múltiples documentos",
     "noStarredPalettes": "Aún no tienes paletas favoritas. Explora la comunidad para encontrar paletas inspiradoras y márcalas para acceder a ellas rápidamente.",
     "paletteNameRecommendation": "Se recomienda un máximo de 64 caracteres",
-    "tooManyThemesToCreateModes": "No puedes crear más de 4 modos en el plan actual",
+    "tooManyThemesToCreateModes": "{count, plural, one {No puedes crear más de 1 modo en el plan actual} other {No puedes crear más de # modos en el plan actual}}",
     "uncopiedCode": "El código no se ha copiado al portapapeles",
     "unselectedColor": "Selecciona una capa que esté rellena con al menos un color sólido"
   },

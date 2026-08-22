@@ -749,7 +749,7 @@
         "discount": "Figma, Penpot, Sketch, Framer에서 $47 /lifetime",
         "regular": "Figma, Penpot, Sketch, Framer에서 $59 /lifetime"
       },
-      "text": "◻ 무제한 팔레트</br>◻ 무제한 소스 색상</br>◻ 무제한 스톱</br>◻ 무제한 색상 모드</br>◻ 무제한 크레딧",
+      "text": "◻ 무제한 팔레트</br>◻ 무제한 소스 색상</br>◻ 무제한 스톱</br>◻ 무제한 색상 모드",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -776,10 +776,10 @@
         "year": "사용자/년 {price}"
       },
       "texts": {
-        "lifetime": "◻ 평생 액세스</br>◻ 무제한 크레딧</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "month": "◻ 유연함</br>◻ 무제한 크레딧</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "week": "◻ 종량제</br>◻ 무제한 크레딧</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "year": "◻ 절약</br>◻ 무제한 크레딧</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드"
+        "lifetime": "◻ 평생 액세스</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
+        "month": "◻ 유연함</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
+        "week": "◻ 종량제</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
+        "year": "◻ 절약</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -1473,7 +1473,7 @@
     "noSelfPaletteOnRemote": "아직 비어있습니다! 여러 문서에서 재사용할 수 있도록 팔레트를 게시하세요",
     "noStarredPalettes": "아직 즐겨찾기한 팔레트가 없습니다. 커뮤니티를 탐색하여 영감을 주는 팔레트를 찾고 나중에 빠르게 접근할 수 있도록 즐겨찾기 하세요.",
     "paletteNameRecommendation": "최대 64자를 권장합니다",
-    "tooManyThemesToCreateModes": "현재 플랜에서는 4개 이상의 모드를 만들 수 없습니다",
+    "tooManyThemesToCreateModes": "{count, plural, other {현재 플랜에서는 #개 이상의 모드를 만들 수 없습니다}}",
     "uncopiedCode": "코드가 클립보드에 복사되지 않았습니다",
     "unselectedColor": "솔리드 색상으로 채워진 레이어를 선택하세요"
   },

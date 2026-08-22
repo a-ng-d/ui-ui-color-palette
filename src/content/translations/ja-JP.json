@@ -749,7 +749,7 @@
         "discount": "Figma、Penpot、Sketch、Framerで$47 /lifetime",
         "regular": "Figma、Penpot、Sketch、Framerで$59 /lifetime"
       },
-      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード</br>◻ 無制限のクレジット",
+      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -776,10 +776,10 @@
         "year": "{price} ユーザー/年"
       },
       "texts": {
-        "lifetime": "◻ 永久アクセス</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "month": "◻ 柔軟</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "week": "◻ 従量課金</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "year": "◻ お得</br>◻ 無制限のクレジット</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード"
+        "lifetime": "◻ 永久アクセス</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
+        "month": "◻ 柔軟</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
+        "week": "◻ 従量課金</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
+        "year": "◻ お得</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -1473,7 +1473,7 @@
     "noSelfPaletteOnRemote": "まだ何もありません！パレットを公開して複数のドキュメントで再利用しましょう",
     "noStarredPalettes": "まだお気に入りのパレットがありません。コミュニティを探してインスピレーションを得るパレットを見つけ、後で素早くアクセスできるようにスターを付けましょう。",
     "paletteNameRecommendation": "64文字以内を推奨します",
-    "tooManyThemesToCreateModes": "現在のプランでは4つ以上のモードを作成できません",
+    "tooManyThemesToCreateModes": "{count, plural, other {現在のプランでは#つ以上のモードを作成できません}}",
     "uncopiedCode": "コードがクリップボードにコピーされませんでした",
     "unselectedColor": "少なくとも1つのソリッドカラーで塗りつぶされたレイヤーを選択してください"
   },

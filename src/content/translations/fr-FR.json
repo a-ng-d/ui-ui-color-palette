@@ -749,7 +749,7 @@
         "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
         "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
+      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -776,10 +776,10 @@
         "year": "{price} par util./an"
       },
       "texts": {
-        "lifetime": "◻ Accès à vie</br>◻ Crédits illimités</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
-        "month": "◻ Flexible</br>◻ Crédits illimités</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
-        "week": "◻ À la carte</br>◻ Crédits illimités</br>◻ Couleurs/étapes/crédits illimités</br>◻ Modes illimités",
-        "year": "◻ Économisez</br>◻ Crédits illimitées</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités"
+        "lifetime": "◻ Accès à vie</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
+        "month": "◻ Flexible</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
+        "week": "◻ À la carte</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
+        "year": "◻ Économisez</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -1473,7 +1473,7 @@
     "noSelfPaletteOnRemote": "C'est plutôt vide par ici ! Publiez votre palette pour la réutiliser dans plusieurs documents",
     "noStarredPalettes": "Vous n'avez pas encore de palettes favorites. Parcourez la communauté pour trouver des palettes inspirantes et ajoutez-les aux favoris pour un accès rapide ultérieur.",
     "paletteNameRecommendation": "64 caractères maximum recommandé",
-    "tooManyThemesToCreateModes": "Vous ne pouvez pas créer plus de 4 modes dans le forfait actuel",
+    "tooManyThemesToCreateModes": "{count, plural, one {Vous ne pouvez pas créer plus d'un mode dans le forfait actuel} other {Vous ne pouvez pas créer plus de # modes dans le forfait actuel}}",
     "uncopiedCode": "Le code n'a pas été copié dans le presse-papiers",
     "unselectedColor": "Sélectionnez un calque qui est rempli avec au moins une couleur unie"
   },
