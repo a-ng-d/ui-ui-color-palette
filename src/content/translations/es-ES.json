@@ -943,8 +943,10 @@
       "curve": {
         "free": "Libre",
         "hyperbola": "Hipérbola",
+        "hyperbolaLabel": "L/R",
         "label": "Distribución",
-        "linear": "Lineal"
+        "linear": "Lineal",
+        "linearLabel": "Global"
       },
       "hue": {
         "helper": "El tono indica la posición de un color en el círculo cromático. Este desplazamiento afecta a todos los colores de la paleta a la vez, excepto a un color cuyo tono se haya ajustado de forma individual: ese color conserva su propio valor hasta que se restablezca.",

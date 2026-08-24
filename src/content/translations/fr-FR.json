@@ -943,8 +943,10 @@
       "curve": {
         "free": "Libre",
         "hyperbola": "Hyperbole",
+        "hyperbolaLabel": "L/R",
         "label": "Distribution",
-        "linear": "Linéaire"
+        "linear": "Linéaire",
+        "linearLabel": "Global"
       },
       "hue": {
         "helper": "La teinte indique la position d'une couleur sur le cercle chromatique. Ce décalage s'applique à toutes les couleurs de la palette à la fois, sauf à une couleur dont la teinte a été ajustée individuellement : elle conserve alors sa propre valeur jusqu'à sa réinitialisation.",

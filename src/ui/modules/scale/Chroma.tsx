@@ -312,7 +312,6 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
                 <ShiftCurveFields
                   id="update-chroma"
                   channel="CHROMA"
-                  label={this.props.t('scale.shift.chroma.label')}
                   shift={this.props.shift.chroma}
                   colors={{
                     min: 'hsl(187, 0%, 75%)',

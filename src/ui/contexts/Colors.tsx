@@ -883,9 +883,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 <ShiftCurveControl
                                   id={`shift-chroma-${color.id}`}
                                   channel="CHROMA"
-                                  label={this.props.t(
-                                    'colors.chromaShifting.label'
-                                  )}
                                   shift={color.chroma.shift}
                                   colors={{
                                     min: 'hsl(187, 0%, 75%)',
@@ -939,9 +936,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 <ShiftCurveControl
                                   id={`shift-hue-${color.id}`}
                                   channel="HUE"
-                                  label={this.props.t(
-                                    'colors.hueShifting.label'
-                                  )}
                                   shift={color.hue.shift}
                                   colors={{
                                     min: 'hsl(0, 100%, 75%)',
