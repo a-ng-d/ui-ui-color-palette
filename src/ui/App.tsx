@@ -505,6 +505,10 @@ class App extends Component<AppProps, AppState> {
         getTolgee()
           .changeLanguage(path.data.userLanguage)
           .then(() => {
+            document.documentElement.setAttribute(
+              'lang',
+              path.data.userLanguage ?? this.props.config.lang
+            )
             updatePresets(this.props.t)
             updateUserConsent(this.props.t)
           })
@@ -792,6 +796,11 @@ class App extends Component<AppProps, AppState> {
       updatePresets(this.props.t)
       updateUserConsent(this.props.t)
     })
+
+    document.documentElement.setAttribute(
+      'lang',
+      this.state.suggestedLanguage ?? this.props.config.lang
+    )
 
     sendPluginMessage(
       {

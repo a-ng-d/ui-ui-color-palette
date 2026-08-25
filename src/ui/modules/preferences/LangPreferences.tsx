@@ -116,6 +116,10 @@ export default class LangPreferences extends PureComponent<
   // Handlers
   changeUserLanguageHandler = (lang: Language, tolgee: TolgeeInstance) => {
     tolgee.changeLanguage(lang).then(() => {
+      document.documentElement.setAttribute(
+        'lang',
+        lang ?? this.props.config.lang
+      )
       updatePresets(this.props.t)
       updateUserConsent(this.props.t)
     })
