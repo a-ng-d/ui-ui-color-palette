@@ -522,7 +522,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         />
         <div
           style={{
-            padding: 'var(--size-pos-xsmall)',
+            padding: 'var(--size-pos-xxsmall) var(--size-pos-xsmall)',
           }}
         >
           <PalettePreview

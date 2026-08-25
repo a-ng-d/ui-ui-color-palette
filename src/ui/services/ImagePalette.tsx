@@ -472,7 +472,7 @@ export default class ImagePalette extends PureComponent<
         {this.state.dominantColors.length > 0 && (
           <div
             style={{
-              padding: 'var(--size-pos-xsmall)',
+              padding: 'var(--size-pos-xxsmall) var(--size-pos-small)',
             }}
           >
             <PalettePreview

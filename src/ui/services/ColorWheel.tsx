@@ -11,7 +11,7 @@ import {
   Channel,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Bar, Dropdown, FormItem, Layout } from '@unoff/ui'
+import { Bar, Dropdown, FormItem, Layout, texts } from '@unoff/ui'
 import { Input } from '@unoff/ui'
 import { layouts } from '@unoff/ui'
 import { Chip } from '@unoff/ui'
@@ -337,7 +337,7 @@ export default class ColorWheel extends PureComponent<
                 <this.HarmonyPreview />
                 <div
                   style={{
-                    padding: 'var(--size-pos-xsmall)',
+                    padding: 'var(--size-pos-xxsmall) var(--size-pos-xsmall)',
                   }}
                 >
                   <PalettePreview
@@ -573,6 +573,14 @@ export default class ColorWheel extends PureComponent<
                       <Feature
                         isActive={this.features.CREATE_PALETTE.isActive()}
                       >
+                        <span
+                          className={doClassnames([
+                            texts.type,
+                            texts['type--secondary'],
+                          ])}
+                        >
+                          {this.props.t('separator')}
+                        </span>
                         <Button
                           type="secondary"
                           label={this.props.t('wheel.actions.newPalette')}
