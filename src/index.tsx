@@ -176,15 +176,19 @@ window.addEventListener('pluginMessage', ((event: MessageEvent) => {
 }) as EventListener)
 
 // Themes
-void commons
-void figmaColors
-void figmaTypes
-void penpotColors
-void penpotTypes
-void sketchColors
-void sketchTypes
-void framerColors
-void framerTypes
+;(
+  window as unknown as { __unoffThemeTokens: Record<string, unknown> }
+).__unoffThemeTokens = {
+  commons,
+  figmaColors,
+  figmaTypes,
+  penpotColors,
+  penpotTypes,
+  sketchColors,
+  sketchTypes,
+  framerColors,
+  framerTypes,
+}
 
 // Render
 tolgee?.run().then(() => {

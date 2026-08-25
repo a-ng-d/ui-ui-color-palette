@@ -21,7 +21,10 @@ interface PlanControlsProps
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
+export default class PlanControls extends PureComponent<
+  PlanControlsProps,
+  PlanControlsState
+> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (

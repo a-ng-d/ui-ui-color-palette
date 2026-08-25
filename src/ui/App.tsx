@@ -625,6 +625,7 @@ class App extends Component<AppProps, AppState> {
         })
       }
 
+      /*
       const handleOnboarding = () => {
         this.setState({
           modalContext:
@@ -634,6 +635,7 @@ class App extends Component<AppProps, AppState> {
               : 'ONBOARDING',
         })
       }
+      */
 
       const getTrial = () =>
         this.setState({

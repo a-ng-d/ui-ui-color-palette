@@ -85,6 +85,10 @@ section.context {
   flex: 1;
 }
 
+#services {
+  flex: 1;
+}
+
 /* Export */
 div.export-palette__preview {
   display: flex;
