@@ -430,15 +430,14 @@ export default class PlanControls extends PureComponent<
           isBlocked={this.features.INVOLVE_FEEDBACK.isBlocked()}
           isNew={this.features.INVOLVE_FEEDBACK.isNew()}
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : { type: 'GET_PRO', data: { origin: 'INVOLVE_FEEDBACK' } },
               },
               '*'
             )
@@ -477,20 +476,19 @@ export default class PlanControls extends PureComponent<
               size="small"
               icon="lock-off"
               label={this.props.t('plan.getPro')}
-              action={() =>
+              action={() => {
+                const isTrial =
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
                 sendPluginMessage(
                   {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
+                    pluginMessage: isTrial
+                      ? { type: 'GET_TRIAL' }
+                      : { type: 'GET_PRO', data: { origin: 'PRICING' } },
                   },
                   '*'
                 )
-              }
+              }}
             />
           ),
           isActive: this.features.PRICING.isActive(),
@@ -526,7 +524,12 @@ export default class PlanControls extends PureComponent<
                       '*'
                     )
                   : sendPluginMessage(
-                      { pluginMessage: { type: 'GET_PRO' } },
+                      {
+                        pluginMessage: {
+                          type: 'GET_PRO',
+                          data: { origin: 'PRICING' },
+                        },
+                      },
                       '*'
                     )
               }}
@@ -580,6 +583,7 @@ export default class PlanControls extends PureComponent<
                   {
                     pluginMessage: {
                       type: 'GET_PRO',
+                      data: { origin: 'PRICING' },
                     },
                   },
                   '*'

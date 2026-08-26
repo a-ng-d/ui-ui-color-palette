@@ -174,6 +174,7 @@ export interface PricingEvent {
     | 'GO_TO_PRO_LIFETIME'
     | 'GO_TO_ULTIMATE_REQUEST'
     | 'RESET_AND_CONTINUE'
+  origin?: string
 }
 
 export interface LanguageEvent {

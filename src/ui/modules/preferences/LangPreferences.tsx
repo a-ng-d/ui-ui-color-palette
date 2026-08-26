@@ -184,15 +184,17 @@ export default class LangPreferences extends PureComponent<
                           this.features.USER_LANGUAGE_EN_US.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_EN_US.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LANGUAGE_EN_US' },
+                                  },
                             },
                             '*'
                           )
@@ -209,15 +211,17 @@ export default class LangPreferences extends PureComponent<
                           this.features.USER_LANGUAGE_ES_ES.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_ES_ES.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LANGUAGE_ES_ES' },
+                                  },
                             },
                             '*'
                           )
@@ -234,15 +238,17 @@ export default class LangPreferences extends PureComponent<
                           this.features.USER_LANGUAGE_FR_FR.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_FR_FR.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LANGUAGE_FR_FR' },
+                                  },
                             },
                             '*'
                           )
@@ -259,15 +265,17 @@ export default class LangPreferences extends PureComponent<
                           this.features.USER_LANGUAGE_PT_BR.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_PT_BR.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LANGUAGE_PT_BR' },
+                                  },
                             },
                             '*'
                           )
@@ -284,15 +292,17 @@ export default class LangPreferences extends PureComponent<
                           this.features.USER_LANGUAGE_ZH_CN.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_ZH_CN.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LANGUAGE_ZH_CN' },
+                                  },
                             },
                             '*'
                           )
@@ -309,15 +319,17 @@ export default class LangPreferences extends PureComponent<
                           this.features.USER_LANGUAGE_JA_JP.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_JA_JP.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LANGUAGE_JA_JP' },
+                                  },
                             },
                             '*'
                           )
@@ -334,15 +346,17 @@ export default class LangPreferences extends PureComponent<
                           this.features.USER_LANGUAGE_KO_KR.isBlocked(),
                         isNew: this.features.USER_LANGUAGE_KO_KR.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LANGUAGE_KO_KR' },
+                                  },
                             },
                             '*'
                           )
@@ -355,15 +369,17 @@ export default class LangPreferences extends PureComponent<
                     isBlocked={this.features.USER_LANGUAGE.isBlocked()}
                     isNew={this.features.USER_LANGUAGE.isNew()}
                     onBlock={() => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'USER_LANGUAGE' },
+                              },
                         },
                         '*'
                       )

@@ -271,15 +271,17 @@ export default class Presets extends PureComponent<PresetsProps> {
                 this.features.PRESETS[`PRESETS_${preset.id}`].isBlocked(),
               isNew: this.features.PRESETS[`PRESETS_${preset.id}`].isNew(),
               onBlock: () => {
+                const isTrial =
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
                 sendPluginMessage(
                   {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
+                    pluginMessage: isTrial
+                      ? { type: 'GET_TRIAL' }
+                      : {
+                          type: 'GET_PRO',
+                          data: { origin: `PRESETS_${preset.id}` },
+                        },
                   },
                   '*'
                 )
@@ -299,15 +301,17 @@ export default class Presets extends PureComponent<PresetsProps> {
               this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isBlocked(),
             isNew: this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isNew(),
             onBlock: () => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: `PRESETS_${preset[1][0].id}` },
+                      },
                 },
                 '*'
               )
@@ -325,15 +329,17 @@ export default class Presets extends PureComponent<PresetsProps> {
           feature: 'PRESETS_CUSTOM',
           type: 'OPTION',
           onBlock: () => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'PRESETS_CUSTOM' },
+                    },
               },
               '*'
             )

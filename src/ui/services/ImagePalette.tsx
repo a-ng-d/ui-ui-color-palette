@@ -367,15 +367,17 @@ export default class ImagePalette extends PureComponent<
             )}
             isNew={this.features.EXTRACT_UPLOAD.isNew()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'EXTRACT_UPLOAD' },
+                      },
                 },
                 '*'
               )
@@ -448,15 +450,17 @@ export default class ImagePalette extends PureComponent<
                   this.props.localPalettesCount
                 )}
                 onBlock={() => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'LOCAL_PALETTES' },
+                          },
                     },
                     '*'
                   )

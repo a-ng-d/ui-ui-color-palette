@@ -84,6 +84,7 @@ export interface AppState extends BaseProps {
   announcements: AnnouncementsDigest
   notification: NotificationMessage
   licenseTrigger: LicenseTrigger
+  pricingOrigin: string
   suggestedLanguage: Language | null
   isSuggestedLanguageDisplayed: boolean
   isLoaded: boolean
@@ -228,6 +229,7 @@ class App extends Component<AppProps, AppState> {
         timer: 5000,
       },
       licenseTrigger: { type: 'ACTIVATE' },
+      pricingOrigin: 'UNKNOWN',
       suggestedLanguage: null,
       isSuggestedLanguageDisplayed: true,
       isLoaded: false,
@@ -671,6 +673,7 @@ class App extends Component<AppProps, AppState> {
         this.setState({
           modalContext: 'PRICING',
           licenseTrigger: path.data.licenseTrigger,
+          pricingOrigin: path.data.origin ?? 'UNKNOWN',
         })
 
       const getLicense = () =>

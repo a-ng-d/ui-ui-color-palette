@@ -369,15 +369,17 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         isLoading={this.state.isSecondaryActionLoading}
                         isBlocked={this.features.STAR_PALETTE.isBlocked()}
                         onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'STAR_PALETTE' },
+                                  },
                             },
                             '*'
                           )
@@ -394,15 +396,17 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                         isLoading={this.state.isSecondaryActionLoading}
                         isBlocked={this.features.STAR_PALETTE.isBlocked()}
                         onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'STAR_PALETTE' },
+                                  },
                             },
                             '*'
                           )
@@ -424,15 +428,17 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                       isLoading={this.state.isSecondaryActionLoading}
                       isBlocked={this.features.STAR_PALETTE.isBlocked()}
                       onBlock={() => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'STAR_PALETTE' },
+                                },
                           },
                           '*'
                         )
@@ -450,15 +456,17 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
                       )}
                       isNew={this.features.ADD_PALETTE.isNew()}
                       onBlock={() => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'LOCAL_PALETTES' },
+                                },
                           },
                           '*'
                         )

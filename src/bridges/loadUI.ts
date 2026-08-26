@@ -298,6 +298,7 @@ else {
               text: tolgee.t('pricing.figma.text'),
               cta: tolgee.t('pricing.figma.cta'),
             },
+            origin: path.data?.origin ?? 'UNKNOWN',
           },
         }),
       GET_LICENSE: async () =>

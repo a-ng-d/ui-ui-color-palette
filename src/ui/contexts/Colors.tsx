@@ -564,15 +564,14 @@ export default class Colors extends PureComponent<ColorsProps> {
   }
 
   onShiftBlockHandler = () => {
+    const isTrial =
+      this.props.config.plan.isTrialEnabled &&
+      this.props.trialStatus !== 'EXPIRED'
     sendPluginMessage(
       {
-        pluginMessage: {
-          type:
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-              ? 'GET_TRIAL'
-              : 'GET_PRO',
-        },
+        pluginMessage: isTrial
+          ? { type: 'GET_TRIAL' }
+          : { type: 'GET_PRO', data: { origin: 'COLOR_SHIFTING' } },
       },
       '*'
     )
@@ -609,15 +608,17 @@ export default class Colors extends PureComponent<ColorsProps> {
                         this.props.colors.length
                       )}
                       onBlock={() => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'ADD_COLOR' },
+                                },
                           },
                           '*'
                         )
@@ -661,13 +662,14 @@ export default class Colors extends PureComponent<ColorsProps> {
                             action={() =>
                               sendPluginMessage(
                                 {
-                                  pluginMessage: {
-                                    type:
-                                      this.props.config.plan.isTrialEnabled &&
-                                      this.props.trialStatus !== 'EXPIRED'
-                                        ? 'GET_TRIAL'
-                                        : 'GET_PRO',
-                                  },
+                                  pluginMessage:
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: { origin: 'COLORS_ADD' },
+                                        },
                                 },
                                 '*'
                               )
@@ -825,16 +827,19 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   }
                                   isNew={this.features.COLORS_ALPHA.isNew()}
                                   onBlock={() => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'SWITCH_ALPHA_MODE',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )

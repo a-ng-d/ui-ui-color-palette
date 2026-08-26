@@ -480,6 +480,7 @@ export default class ContrastReport extends PureComponent<
                                     {
                                       pluginMessage: {
                                         type: 'GET_PRO',
+                                        data: { origin: 'REPORT' },
                                       },
                                     },
                                     '*'

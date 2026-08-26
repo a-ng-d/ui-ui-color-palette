@@ -263,15 +263,14 @@ export default class Chroma extends PureComponent<ChromaProps, ChromaState> {
   }
 
   onBlockHandler = () => {
+    const isTrial =
+      this.props.config.plan.isTrialEnabled &&
+      this.props.trialStatus !== 'EXPIRED'
     sendPluginMessage(
       {
-        pluginMessage: {
-          type:
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-              ? 'GET_TRIAL'
-              : 'GET_PRO',
-        },
+        pluginMessage: isTrial
+          ? { type: 'GET_TRIAL' }
+          : { type: 'GET_PRO', data: { origin: 'SCALE_CHROMA' } },
       },
       '*'
     )

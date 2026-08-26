@@ -832,15 +832,14 @@ export default class EditPalette extends PureComponent<
         isBlocked: this.features.THEMES.isBlocked(),
         isNew: this.features.THEMES.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : { type: 'GET_PRO', data: { origin: 'ADD_THEME' } },
             },
             '*'
           )
