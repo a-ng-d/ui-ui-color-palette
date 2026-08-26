@@ -680,7 +680,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                 unit: 'PIXEL' as const,
               },
               defaultSize: {
-                value: 320,
+                value: 360,
                 unit: 'PIXEL' as const,
               },
               maxSize: {
