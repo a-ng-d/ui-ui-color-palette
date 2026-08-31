@@ -94,6 +94,7 @@ export type Editor =
   | 'penpot'
   | 'sketch'
   | 'framer'
+  | 'web'
 
 export type FetchStatus =
   | 'UNLOADED'
