@@ -382,15 +382,17 @@ export default class OrgPalettes extends PureComponent<
                         isBlocked={this.features.GLANCE_PALETTE.isBlocked()}
                         isNew={this.features.GLANCE_PALETTE.isNew()}
                         onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'GLANCE_PALETTE' },
+                                  },
                             },
                             '*'
                           )
@@ -415,15 +417,17 @@ export default class OrgPalettes extends PureComponent<
                         isBlocked={this.features.SEE_PALETTE.isBlocked()}
                         isNew={this.features.SEE_PALETTE.isNew()}
                         onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'SEE_PALETTE' },
+                                  },
                             },
                             '*'
                           )
@@ -495,15 +499,17 @@ export default class OrgPalettes extends PureComponent<
                         )}
                         isNew={this.features.ADD_PALETTE.isNew()}
                         onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'LOCAL_PALETTES' },
+                                  },
                             },
                             '*'
                           )

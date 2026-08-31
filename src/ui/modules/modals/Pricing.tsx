@@ -38,6 +38,7 @@ import type { Dispatch } from 'preact/hooks'
 interface PricingProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   licenseTrigger: LicenseTrigger
+  pricingOrigin: string
   onSubscribe: Dispatch<Partial<AppState>>
   onClose: ChangeEventHandler<HTMLInputElement> & (() => void)
 }
@@ -106,7 +107,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       this.props.planStatus,
       this.props.userConsent.find((consent) => consent.id === 'mixpanel')
         ?.isConsented ?? false,
-      { feature: 'VIEW_PRICING' }
+      { feature: 'VIEW_PRICING', origin: this.props.pricingOrigin }
     )
   }
 
@@ -240,7 +241,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_WEEK' }
+                { feature: 'GO_TO_PRO_WEEK', origin: this.props.pricingOrigin }
               )
             }}
           />
@@ -256,7 +257,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_WEEK' }
+            { feature: 'GO_TO_PRO_WEEK', origin: this.props.pricingOrigin }
           )
         }}
       />
@@ -300,7 +301,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_MONTH' }
+                { feature: 'GO_TO_PRO_MONTH', origin: this.props.pricingOrigin }
               )
             }}
           />
@@ -316,7 +317,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_MONTH' }
+            { feature: 'GO_TO_PRO_MONTH', origin: this.props.pricingOrigin }
           )
         }}
       />
@@ -359,7 +360,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_YEAR' }
+                { feature: 'GO_TO_PRO_YEAR', origin: this.props.pricingOrigin }
               )
             }}
           />
@@ -375,7 +376,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_YEAR' }
+            { feature: 'GO_TO_PRO_YEAR', origin: this.props.pricingOrigin }
           )
         }}
       />
@@ -418,7 +419,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_LIFETIME' }
+                { feature: 'GO_TO_PRO_LIFETIME', origin: this.props.pricingOrigin }
               )
             }}
           />
@@ -434,7 +435,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_LIFETIME' }
+            { feature: 'GO_TO_PRO_LIFETIME', origin: this.props.pricingOrigin }
           )
         }}
       />
@@ -560,7 +561,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_ULTIMATE_REQUEST' }
+                { feature: 'GO_TO_ULTIMATE_REQUEST', origin: this.props.pricingOrigin }
               )
             }}
           />
@@ -583,7 +584,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_ULTIMATE_REQUEST' }
+            { feature: 'GO_TO_ULTIMATE_REQUEST', origin: this.props.pricingOrigin }
           )
         }}
       />

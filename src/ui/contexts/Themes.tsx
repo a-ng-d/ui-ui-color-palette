@@ -624,15 +624,17 @@ export default class Themes extends PureComponent<ThemesProps> {
                       )}
                       feature="ADD_THEME"
                       onBlock={() => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'ADD_THEME' },
+                                },
                           },
                           '*'
                         )
@@ -712,6 +714,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                       {
                                         pluginMessage: {
                                           type: 'GET_PRO',
+                                          data: { origin: 'ADD_THEME' },
                                         },
                                       },
                                       '*'
@@ -727,15 +730,17 @@ export default class Themes extends PureComponent<ThemesProps> {
                                 this.props.themes.length - 1
                               )}
                               onBlock={() => {
+                                const isTrial =
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: {
-                                      type:
-                                        this.props.config.plan.isTrialEnabled &&
-                                        this.props.trialStatus !== 'EXPIRED'
-                                          ? 'GET_TRIAL'
-                                          : 'GET_PRO',
-                                    },
+                                    pluginMessage: isTrial
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: { origin: 'ADD_THEME' },
+                                        },
                                   },
                                   '*'
                                 )
@@ -786,6 +791,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     {
                                       pluginMessage: {
                                         type: 'GET_PRO',
+                                        data: { origin: 'ADD_THEME' },
                                       },
                                     },
                                     '*'
@@ -862,17 +868,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -904,17 +914,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -937,17 +951,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -970,17 +988,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -1003,17 +1025,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -1036,17 +1062,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -1069,17 +1099,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -1102,17 +1136,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -1135,17 +1173,21 @@ export default class Themes extends PureComponent<ThemesProps> {
                                         isNew:
                                           this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
                                         onBlock: () => {
+                                          const isTrial =
+                                            this.props.config.plan
+                                              .isTrialEnabled &&
+                                            this.props.trialStatus !== 'EXPIRED'
                                           sendPluginMessage(
                                             {
-                                              pluginMessage: {
-                                                type:
-                                                  this.props.config.plan
-                                                    .isTrialEnabled &&
-                                                  this.props.trialStatus !==
-                                                    'EXPIRED'
-                                                    ? 'GET_TRIAL'
-                                                    : 'GET_PRO',
-                                              },
+                                              pluginMessage: isTrial
+                                                ? { type: 'GET_TRIAL' }
+                                                : {
+                                                    type: 'GET_PRO',
+                                                    data: {
+                                                      origin:
+                                                        'UPDATE_VISION_SIMULATION_MODE',
+                                                    },
+                                                  },
                                             },
                                             '*'
                                           )
@@ -1160,17 +1202,20 @@ export default class Themes extends PureComponent<ThemesProps> {
                                     isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
                                     isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
                                     onBlock={() => {
+                                      const isTrial =
+                                        this.props.config.plan.isTrialEnabled &&
+                                        this.props.trialStatus !== 'EXPIRED'
                                       sendPluginMessage(
                                         {
-                                          pluginMessage: {
-                                            type:
-                                              this.props.config.plan
-                                                .isTrialEnabled &&
-                                              this.props.trialStatus !==
-                                                'EXPIRED'
-                                                ? 'GET_TRIAL'
-                                                : 'GET_PRO',
-                                          },
+                                          pluginMessage: isTrial
+                                            ? { type: 'GET_TRIAL' }
+                                            : {
+                                                type: 'GET_PRO',
+                                                data: {
+                                                  origin:
+                                                    'SETTINGS_VISION_SIMULATION_MODE',
+                                                },
+                                              },
                                         },
                                         '*'
                                       )

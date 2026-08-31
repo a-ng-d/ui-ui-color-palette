@@ -84,6 +84,7 @@ export interface AppState extends BaseProps {
   announcements: AnnouncementsDigest
   notification: NotificationMessage
   licenseTrigger: LicenseTrigger
+  pricingOrigin: string
   suggestedLanguage: Language | null
   isSuggestedLanguageDisplayed: boolean
   isLoaded: boolean
@@ -228,6 +229,7 @@ class App extends Component<AppProps, AppState> {
         timer: 5000,
       },
       licenseTrigger: { type: 'ACTIVATE' },
+      pricingOrigin: 'UNKNOWN',
       suggestedLanguage: null,
       isSuggestedLanguageDisplayed: true,
       isLoaded: false,
@@ -505,6 +507,10 @@ class App extends Component<AppProps, AppState> {
         getTolgee()
           .changeLanguage(path.data.userLanguage)
           .then(() => {
+            document.documentElement.setAttribute(
+              'lang',
+              path.data.userLanguage ?? this.props.config.lang
+            )
             updatePresets(this.props.t)
             updateUserConsent(this.props.t)
           })
@@ -625,6 +631,7 @@ class App extends Component<AppProps, AppState> {
         })
       }
 
+      /*
       const handleOnboarding = () => {
         this.setState({
           modalContext:
@@ -634,6 +641,7 @@ class App extends Component<AppProps, AppState> {
               : 'ONBOARDING',
         })
       }
+      */
 
       const getTrial = () =>
         this.setState({
@@ -665,6 +673,7 @@ class App extends Component<AppProps, AppState> {
         this.setState({
           modalContext: 'PRICING',
           licenseTrigger: path.data.licenseTrigger,
+          pricingOrigin: path.data.origin ?? 'UNKNOWN',
         })
 
       const getLicense = () =>
@@ -790,6 +799,11 @@ class App extends Component<AppProps, AppState> {
       updatePresets(this.props.t)
       updateUserConsent(this.props.t)
     })
+
+    document.documentElement.setAttribute(
+      'lang',
+      this.state.suggestedLanguage ?? this.props.config.lang
+    )
 
     sendPluginMessage(
       {

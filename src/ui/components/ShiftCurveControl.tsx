@@ -19,7 +19,6 @@ export interface ShiftGradientStop {
 export interface ShiftCurveFieldsProps extends WithTranslationProps {
   id: string
   channel: ShiftChannel
-  label: string
   shift: ShiftCurveConfiguration
   colors?: { min: string; max: string }
   gradient?: { tracks: ShiftGradientStop[][] }
@@ -133,7 +132,7 @@ export class ShiftCurveFields extends PureComponent<ShiftCurveFieldsProps> {
 
   // Render
   render() {
-    const { label, shift, t } = this.props
+    const { shift, t } = this.props
     const { curve } = shift
     const letter = this.props.channel === 'CHROMA' ? 'C' : 'H'
 
@@ -157,7 +156,10 @@ export class ShiftCurveFields extends PureComponent<ShiftCurveFieldsProps> {
     ) : (
       this.Field({
         value: curve === 'HYPERBOLA' ? shift.min : shift.value,
-        sliderLabel: label,
+        sliderLabel:
+          curve === 'HYPERBOLA'
+            ? t('scale.shift.curve.hyperbolaLabel')
+            : t('scale.shift.curve.linearLabel'),
         sliderHandler:
           curve === 'HYPERBOLA' ? this.hyperbolaHandler : this.valueHandler,
         inputLetter: letter,
@@ -227,7 +229,6 @@ export class ShiftCurveSelector extends PureComponent<ShiftCurveSelectorProps> {
 export interface ShiftCurveControlProps extends WithTranslationProps {
   id: string
   channel: ShiftChannel
-  label: string
   shift: ShiftCurveConfiguration
   colors?: { min: string; max: string }
   gradient?: { tracks: ShiftGradientStop[][] }
@@ -251,7 +252,6 @@ export default class ShiftCurveControl extends PureComponent<ShiftCurveControlPr
     const {
       id,
       channel,
-      label,
       shift,
       colors,
       gradient,
@@ -276,7 +276,6 @@ export default class ShiftCurveControl extends PureComponent<ShiftCurveControlPr
           <ShiftCurveFields
             id={id}
             channel={channel}
-            label={label}
             shift={shift}
             colors={colors}
             gradient={gradient}

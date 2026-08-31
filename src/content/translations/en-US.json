@@ -947,8 +947,10 @@
       "curve": {
         "free": "Free",
         "hyperbola": "Hyperbola",
+        "hyperbolaLabel": "L/R",
         "label": "Distribution",
-        "linear": "Linear"
+        "linear": "Linear",
+        "linearLabel": "Global"
       },
       "hue": {
         "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually — that color keeps its own value until it's reset.",

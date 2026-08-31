@@ -216,15 +216,17 @@ export default class StopTools extends PureComponent<StopToolsProps> {
             isBlocked={this.features.SCALE_REVERSE.isBlocked()}
             isNew={this.features.SCALE_REVERSE.isNew()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'REVERSE_SCALE' },
+                      },
                 },
                 '*'
               )
@@ -259,15 +261,17 @@ export default class StopTools extends PureComponent<StopToolsProps> {
                     this.props.preset.stops.length
                   )}
                   onBlock={() => {
+                    const isTrial =
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
                     sendPluginMessage(
                       {
-                        pluginMessage: {
-                          type:
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                              ? 'GET_TRIAL'
-                              : 'GET_PRO',
-                        },
+                        pluginMessage: isTrial
+                          ? { type: 'GET_TRIAL' }
+                          : {
+                              type: 'GET_PRO',
+                              data: { origin: 'ADD_STOP' },
+                            },
                       },
                       '*'
                     )
@@ -312,15 +316,17 @@ export default class StopTools extends PureComponent<StopToolsProps> {
             this.props.preset.stops.length
           ),
           onBlock: () => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'ADD_STOP' },
+                    },
               },
               '*'
             )
@@ -338,15 +344,17 @@ export default class StopTools extends PureComponent<StopToolsProps> {
         isBlocked: this.features.SCALE_REVERSE.isBlocked(),
         isNew: this.features.SCALE_REVERSE.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : {
+                    type: 'GET_PRO',
+                    data: { origin: 'REVERSE_SCALE' },
+                  },
             },
             '*'
           )
@@ -364,15 +372,17 @@ export default class StopTools extends PureComponent<StopToolsProps> {
           label: this.props.t('scale.actions.moreTools'),
         }}
         onBlock={() => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : {
+                    type: 'GET_PRO',
+                    data: { origin: 'MORE_TOOLS' },
+                  },
             },
             '*'
           )

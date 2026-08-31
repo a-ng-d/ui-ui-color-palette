@@ -1,5 +1,16 @@
 import { render } from 'preact'
 import mixpanel from 'mixpanel-browser'
+import {
+  commons,
+  figmaColors,
+  figmaTypes,
+  framerColors,
+  framerTypes,
+  penpotColors,
+  penpotTypes,
+  sketchColors,
+  sketchTypes,
+} from '@unoff/ui'
 import { TolgeeProvider } from '@tolgee/react'
 import * as Sentry from '@sentry/react'
 import App from './ui/App'
@@ -25,6 +36,7 @@ import en_US from './content/translations/en-US.json'
 import { ThemeProvider } from './config/ThemeContext'
 import { ConfigProvider } from './config/ConfigContext'
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const container = document.getElementById('app')!
 
 const mixpanelUrl = import.meta.env.VITE_MIXPANEL_URL
@@ -163,6 +175,22 @@ window.addEventListener('pluginMessage', ((event: MessageEvent) => {
   }
 }) as EventListener)
 
+// Themes
+;(
+  window as unknown as { __unoffThemeTokens: Record<string, unknown> }
+).__unoffThemeTokens = {
+  commons,
+  figmaColors,
+  figmaTypes,
+  penpotColors,
+  penpotTypes,
+  sketchColors,
+  sketchTypes,
+  framerColors,
+  framerTypes,
+}
+
+// Render
 tolgee?.run().then(() => {
   render(
     <TolgeeProvider

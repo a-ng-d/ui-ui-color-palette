@@ -395,15 +395,17 @@ export default class Shortcuts extends PureComponent<
                     isBlocked={this.features.HELP_DOCUMENTATION.isBlocked()}
                     isNew={this.features.HELP_DOCUMENTATION.isNew()}
                     onBlock={() => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'HELP_DOCUMENTATION' },
+                              },
                         },
                         '*'
                       )
@@ -493,15 +495,19 @@ export default class Shortcuts extends PureComponent<
                               isNew:
                                 this.features.BACKSTAGE_AUTHENTICATION.isNew(),
                               onBlock: () => {
+                                const isTrial =
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: {
-                                      type:
-                                        this.props.config.plan.isTrialEnabled &&
-                                        this.props.trialStatus !== 'EXPIRED'
-                                          ? 'GET_TRIAL'
-                                          : 'GET_PRO',
-                                    },
+                                    pluginMessage: isTrial
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: {
+                                            origin: 'BACKSTAGE_AUTHENTICATION',
+                                          },
+                                        },
                                   },
                                   '*'
                                 )
@@ -570,15 +576,19 @@ export default class Shortcuts extends PureComponent<
                               isNew:
                                 this.features.BACKSTAGE_AUTHENTICATION.isNew(),
                               onBlock: () => {
+                                const isTrial =
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: {
-                                      type:
-                                        this.props.config.plan.isTrialEnabled &&
-                                        this.props.trialStatus !== 'EXPIRED'
-                                          ? 'GET_TRIAL'
-                                          : 'GET_PRO',
-                                    },
+                                    pluginMessage: isTrial
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: {
+                                            origin: 'BACKSTAGE_AUTHENTICATION',
+                                          },
+                                        },
                                   },
                                   '*'
                                 )
@@ -650,15 +660,17 @@ export default class Shortcuts extends PureComponent<
                         isBlocked: this.features.USER_CONSENT.isBlocked(),
                         isNew: this.features.USER_CONSENT.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_CONSENT' },
+                                  },
                             },
                             '*'
                           )
@@ -675,15 +687,17 @@ export default class Shortcuts extends PureComponent<
                         isBlocked: this.features.USER_PREFERENCES.isBlocked(),
                         isNew: this.features.USER_PREFERENCES.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_PREFERENCES' },
+                                  },
                             },
                             '*'
                           )
@@ -700,15 +714,17 @@ export default class Shortcuts extends PureComponent<
                         isBlocked: this.features.USER_LICENSE.isBlocked(),
                         isNew: this.features.USER_LICENSE.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'USER_LICENSE' },
+                                  },
                             },
                             '*'
                           )
@@ -727,15 +743,14 @@ export default class Shortcuts extends PureComponent<
                     }}
                     selected={this.props.config.lang}
                     onBlock={() => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : { type: 'GET_PRO', data: { origin: 'USER' } },
                         },
                         '*'
                       )
@@ -757,15 +772,17 @@ export default class Shortcuts extends PureComponent<
                           ? true
                           : false,
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'HELP_ANNOUNCEMENTS' },
+                                },
                           },
                           '*'
                         )
@@ -782,15 +799,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.HELP_ONBOARDING.isBlocked(),
                       isNew: this.features.HELP_ONBOARDING.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'HELP_ONBOARDING' },
+                                },
                           },
                           '*'
                         )
@@ -807,15 +826,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.HELP_EMAIL.isBlocked(),
                       isNew: this.features.HELP_EMAIL.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'HELP_EMAIL' },
+                                },
                           },
                           '*'
                         )
@@ -840,15 +861,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.HELP_CHAT.isBlocked(),
                       isNew: this.features.HELP_CHAT.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'HELP_CHAT' },
+                                },
                           },
                           '*'
                         )
@@ -868,15 +891,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.INVOLVE_COMMUNITY.isBlocked(),
                       isNew: this.features.INVOLVE_COMMUNITY.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'INVOLVE_COMMUNITY' },
+                                },
                           },
                           '*'
                         )
@@ -901,15 +926,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.INVOLVE_REQUESTS.isBlocked(),
                       isNew: this.features.INVOLVE_REQUESTS.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'INVOLVE_REQUESTS' },
+                                },
                           },
                           '*'
                         )
@@ -936,15 +963,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.INVOLVE_ISSUES.isBlocked(),
                       isNew: this.features.INVOLVE_ISSUES.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'INVOLVE_ISSUES' },
+                                },
                           },
                           '*'
                         )
@@ -961,15 +990,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.INVOLVE_FEEDBACK.isBlocked(),
                       isNew: this.features.INVOLVE_FEEDBACK.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'INVOLVE_FEEDBACK' },
+                                },
                           },
                           '*'
                         )
@@ -994,15 +1025,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.INVOLVE_REPOSITORY.isBlocked(),
                       isNew: this.features.INVOLVE_REPOSITORY.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'INVOLVE_REPOSITORY' },
+                                },
                           },
                           '*'
                         )
@@ -1030,15 +1063,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.MORE_STORE.isBlocked(),
                       isNew: this.features.MORE_STORE.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'MORE_STORE' },
+                                },
                           },
                           '*'
                         )
@@ -1055,15 +1090,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.MORE_ABOUT.isBlocked(),
                       isNew: this.features.MORE_ABOUT.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'MORE_ABOUT' },
+                                },
                           },
                           '*'
                         )
@@ -1080,15 +1117,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.MORE_NETWORK.isBlocked(),
                       isNew: this.features.MORE_NETWORK.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'MORE_NETWORK' },
+                                },
                           },
                           '*'
                         )
@@ -1113,15 +1152,17 @@ export default class Shortcuts extends PureComponent<
                       isBlocked: this.features.MORE_AUTHOR.isBlocked(),
                       isNew: this.features.MORE_AUTHOR.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'MORE_AUTHOR' },
+                                },
                           },
                           '*'
                         )

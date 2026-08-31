@@ -863,15 +863,14 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         isNew:
           features[feature as keyof ReturnType<typeof Export.features>].isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : { type: 'GET_PRO', data: { origin: 'SELECT_COLOR_SPACE' } },
             },
             '*'
           )
@@ -1072,16 +1071,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_STYLESHEET_CSS.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_STYLESHEET_CSS',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1099,16 +1101,20 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_STYLESHEET_SCSS.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin:
+                                                  'EXPORT_STYLESHEET_SCSS',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1126,16 +1132,20 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_STYLESHEET_LESS.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin:
+                                                  'EXPORT_STYLESHEET_LESS',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1165,16 +1175,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_TAILWIND_V3.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_TAILWIND_V3',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1192,16 +1205,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_TAILWIND_V4.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_TAILWIND_V4',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1233,16 +1249,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_TOKENS_NATIVE.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_TOKENS_NATIVE',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1262,16 +1281,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_TOKENS_DTCG.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_TOKENS_DTCG',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1291,16 +1313,20 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_TOKENS_STYLE_DICTIONARY_V3.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin:
+                                                  'EXPORT_TOKENS_STYLE_DICTIONARY_V3',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1318,16 +1344,20 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_TOKENS_UNIVERSAL.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin:
+                                                  'EXPORT_TOKENS_UNIVERSAL',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1355,16 +1385,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_APPLE_SWIFTUI.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_APPLE_SWIFTUI',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1382,16 +1415,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_APPLE_UIKIT.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_APPLE_UIKIT',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1421,16 +1457,20 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_ANDROID_COMPOSE.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin:
+                                                  'EXPORT_ANDROID_COMPOSE',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1450,16 +1490,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                   isNew:
                                     this.features.EXPORT_ANDROID_XML.isNew(),
                                   onBlock: () => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'EXPORT_ANDROID_XML',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -1468,15 +1511,17 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                                 },
                               ],
                               onBlock: () => {
+                                const isTrial =
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: {
-                                      type:
-                                        this.props.config.plan.isTrialEnabled &&
-                                        this.props.trialStatus !== 'EXPIRED'
-                                          ? 'GET_TRIAL'
-                                          : 'GET_PRO',
-                                    },
+                                    pluginMessage: isTrial
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: { origin: 'EXPORT_ANDROID' },
+                                        },
                                   },
                                   '*'
                                 )
@@ -1491,15 +1536,17 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                               isBlocked: this.features.EXPORT_CSV.isBlocked(),
                               isNew: this.features.EXPORT_CSV.isNew(),
                               onBlock: () => {
+                                const isTrial =
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: {
-                                      type:
-                                        this.props.config.plan.isTrialEnabled &&
-                                        this.props.trialStatus !== 'EXPIRED'
-                                          ? 'GET_TRIAL'
-                                          : 'GET_PRO',
-                                    },
+                                    pluginMessage: isTrial
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: { origin: 'EXPORT_CSV' },
+                                        },
                                   },
                                   '*'
                                 )
@@ -1513,15 +1560,17 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                           isBlocked={this.features.EXPORT.isBlocked()}
                           isNew={this.features.EXPORT.isNew()}
                           onBlock={() => {
+                            const isTrial =
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
                             sendPluginMessage(
                               {
-                                pluginMessage: {
-                                  type:
-                                    this.props.config.plan.isTrialEnabled &&
-                                    this.props.trialStatus !== 'EXPIRED'
-                                      ? 'GET_TRIAL'
-                                      : 'GET_PRO',
-                                },
+                                pluginMessage: isTrial
+                                  ? { type: 'GET_TRIAL' }
+                                  : {
+                                      type: 'GET_PRO',
+                                      data: { origin: 'EXPORT' },
+                                    },
                               },
                               '*'
                             )
@@ -1548,15 +1597,19 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                               isBlocked={this.features.EXPORT_COLOR_SPACE.isBlocked()}
                               isNew={this.features.EXPORT_COLOR_SPACE.isNew()}
                               onBlock={() => {
+                                const isTrial =
+                                  this.props.config.plan.isTrialEnabled &&
+                                  this.props.trialStatus !== 'EXPIRED'
                                 sendPluginMessage(
                                   {
-                                    pluginMessage: {
-                                      type:
-                                        this.props.config.plan.isTrialEnabled &&
-                                        this.props.trialStatus !== 'EXPIRED'
-                                          ? 'GET_TRIAL'
-                                          : 'GET_PRO',
-                                    },
+                                    pluginMessage: isTrial
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: {
+                                            origin: 'EXPORT_COLOR_SPACE',
+                                          },
+                                        },
                                   },
                                   '*'
                                 )

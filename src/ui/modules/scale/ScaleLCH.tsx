@@ -115,7 +115,15 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
               type="secondary"
               label={this.props.t('plan.getPro')}
               action={() =>
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type: 'GET_PRO',
+                      data: { origin: 'PRESETS_CUSTOM_ADD' },
+                    },
+                  },
+                  '*'
+                )
               }
             />
           )

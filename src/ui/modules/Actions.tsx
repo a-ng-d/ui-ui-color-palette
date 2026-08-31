@@ -337,15 +337,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           ) || this.features.DOCUMENT_PALETTE.isBlocked(),
         isNew: this.features.DOCUMENT_PALETTE.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : { type: 'GET_PRO', data: { origin: 'GENERATE_PALETTE' } },
             },
             '*'
           )
@@ -366,15 +365,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           ) || this.features.DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
         isNew: this.features.DOCUMENT_PALETTE_PROPERTIES.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : {
+                    type: 'GET_PRO',
+                    data: { origin: 'GENERATE_PALETTE_WITH_PROPERTIES' },
+                  },
             },
             '*'
           )
@@ -394,15 +395,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           ) || this.features.DOCUMENT_SHEET.isBlocked(),
         isNew: this.features.DOCUMENT_SHEET.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : { type: 'GET_PRO', data: { origin: 'GENERATE_SHEET' } },
             },
             '*'
           )
@@ -430,15 +430,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             ) || this.features.DOCUMENT_PUSH_UPDATES.isBlocked(),
           isNew: true,
           onBlock: () => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : { type: 'GET_PRO', data: { origin: 'PUSH_UPDATES' } },
               },
               '*'
             )
@@ -465,15 +464,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           ) || this.features.VIEWS_PALETTE.isBlocked(),
         isNew: this.features.VIEWS_PALETTE.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : { type: 'GET_PRO', data: { origin: 'VIEWS_PALETTE' } },
             },
             '*'
           )
@@ -494,15 +492,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           ) || this.features.VIEWS_PALETTE_WITH_PROPERTIES.isBlocked(),
         isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : {
+                    type: 'GET_PRO',
+                    data: { origin: 'VIEWS_PALETTE_WITH_PROPERTIES' },
+                  },
             },
             '*'
           )
@@ -522,15 +522,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           ) || this.features.VIEWS_SHEET.isBlocked(),
         isNew: this.features.VIEWS_SHEET.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : { type: 'GET_PRO', data: { origin: 'VIEWS_SHEET' } },
             },
             '*'
           )
@@ -670,15 +669,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       isBlocked={this.features.VIEWS.isBlocked()}
                       isNew={this.features.VIEWS.isNew()}
                       onBlock={() => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : { type: 'GET_PRO', data: { origin: 'VIEWS' } },
                           },
                           '*'
                         )
@@ -702,15 +700,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     }
                     isNew={this.state.canUpdateDocument}
                     onBlock={() => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : { type: 'GET_PRO', data: { origin: 'DOCUMENT' } },
                         },
                         '*'
                       )
@@ -737,15 +734,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         ) || this.features.SYNC_LOCAL_STYLES.isBlocked(),
                       isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'SYNC_LOCAL_STYLES' },
+                                },
                           },
                           '*'
                         )
@@ -767,15 +766,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         ) || this.features.SYNC_LOCAL_VARIABLES.isBlocked(),
                       isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'SYNC_LOCAL_VARIABLES' },
+                                },
                           },
                           '*'
                         )
@@ -797,15 +798,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                         ) || this.features.SYNC_LOCAL_TOKENS.isBlocked(),
                       isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
                       onBlock: () => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'SYNC_LOCAL_TOKENS' },
+                                },
                           },
                           '*'
                         )
@@ -816,15 +819,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                   alignment="BOTTOM_RIGHT"
                   state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
                   onBlock={() => {
+                    const isTrial =
+                      this.props.config.plan.isTrialEnabled &&
+                      this.props.trialStatus !== 'EXPIRED'
                     sendPluginMessage(
                       {
-                        pluginMessage: {
-                          type:
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                              ? 'GET_TRIAL'
-                              : 'GET_PRO',
-                        },
+                        pluginMessage: isTrial
+                          ? { type: 'GET_TRIAL' }
+                          : { type: 'GET_PRO', data: { origin: 'SYNC' } },
                       },
                       '*'
                     )
@@ -857,15 +859,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                           ) || this.features.SYNC_LOCAL_STYLES.isBlocked(),
                         isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'SYNC_LOCAL_STYLES' },
+                                  },
                             },
                             '*'
                           )
@@ -887,15 +891,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                           ) || this.features.SYNC_LOCAL_VARIABLES.isBlocked(),
                         isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'SYNC_LOCAL_VARIABLES' },
+                                  },
                             },
                             '*'
                           )
@@ -917,15 +923,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                           ) || this.features.SYNC_LOCAL_TOKENS.isBlocked(),
                         isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
                         onBlock: () => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
                           sendPluginMessage(
                             {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'SYNC_LOCAL_TOKENS' },
+                                  },
                             },
                             '*'
                           )
@@ -960,15 +968,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 }
                 isNew={this.state.canUpdateDocument}
                 onBlock={() => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : { type: 'GET_PRO', data: { origin: 'SYNC' } },
                     },
                     '*'
                   )

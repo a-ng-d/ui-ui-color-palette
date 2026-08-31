@@ -248,15 +248,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_LCH.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_LCH.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -272,15 +274,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLCH.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_OKLCH.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -296,15 +300,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_LAB.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_LAB.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -320,15 +326,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_OKLAB.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_OKLAB.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -347,15 +355,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSL.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSL.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -371,15 +381,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSV.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSV.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -395,15 +407,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_HSLUV.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_HSLUV.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -422,15 +436,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_COLOR_SPACE_CMYK.isBlocked(),
                 isNew: this.features.SETTINGS_COLOR_SPACE_CMYK.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_COLOR_SPACE' },
+                          },
                     },
                     '*'
                   )
@@ -444,15 +460,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             isBlocked={this.features.SETTINGS_COLOR_SPACE.isBlocked()}
             isNew={this.features.SETTINGS_COLOR_SPACE.isNew()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'SETTINGS_COLOR_SPACE' },
+                      },
                 },
                 '*'
               )
@@ -510,15 +528,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_NONE.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -548,15 +568,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOMALY.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -577,15 +599,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_PROTANOPIA.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -606,15 +630,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOMALY.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -635,15 +661,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_DEUTERANOPIA.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -664,15 +692,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOMALY.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -693,15 +723,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_TRITANOPIA.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -722,15 +754,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOMALY.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -751,15 +785,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                     isNew:
                       this.features.SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'UPDATE_COLOR_BLIND_MODE' },
+                              },
                         },
                         '*'
                       )
@@ -773,15 +809,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked={this.features.SETTINGS_VISION_SIMULATION_MODE.isBlocked()}
                 isNew={this.features.SETTINGS_VISION_SIMULATION_MODE.isNew()}
                 onBlock={() => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'SETTINGS_VISION_SIMULATION_MODE' },
+                          },
                     },
                     '*'
                   )
@@ -824,15 +862,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_ALGORITHM_V1.isBlocked(),
                 isNew: this.features.SETTINGS_ALGORITHM_V1.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_ALGORITHM_VERSION' },
+                          },
                     },
                     '*'
                   )
@@ -848,15 +888,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_ALGORITHM_V2.isBlocked(),
                 isNew: this.features.SETTINGS_ALGORITHM_V2.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_ALGORITHM_VERSION' },
+                          },
                     },
                     '*'
                   )
@@ -872,15 +914,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
                 isBlocked: this.features.SETTINGS_ALGORITHM_V3.isBlocked(),
                 isNew: this.features.SETTINGS_ALGORITHM_V3.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'UPDATE_ALGORITHM_VERSION' },
+                          },
                     },
                     '*'
                   )
@@ -894,15 +938,17 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
             isBlocked={this.features.SETTINGS_ALGORITHM.isBlocked()}
             isNew={this.features.SETTINGS_ALGORITHM.isNew()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'SETTINGS_ALGORITHM' },
+                      },
                 },
                 '*'
               )

@@ -34,7 +34,6 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
-import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData, ThemesMessage } from '../../types/messages'
 import {
   BaseProps,
@@ -252,8 +251,6 @@ export default class EditPalette extends PureComponent<
     this.palette.setKey('visionSimulationMode', newVisionSimulationMode)
     this.palette.setKey('textColorsTheme', newTextColorsTheme)
     $themes.set(this.themesMessage.data)
-
-    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
   }
 
   setThemes = (): Array<DropdownOption> => {

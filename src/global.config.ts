@@ -400,7 +400,7 @@ const globalConfig: Config = {
     userConsentVersion: '2024.01',
     trialVersion: '2024.04',
     algorithmVersion: 'v3',
-    paletteVersion: '2025.06',
+    paletteVersion: '2026.08',
     pluginVersion: __APP_VERSION__,
     creditsVersion: '2026.05',
   },

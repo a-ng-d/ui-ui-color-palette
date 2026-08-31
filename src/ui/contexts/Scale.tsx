@@ -442,15 +442,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               isBlocked:
                 this.features.SCALE_HELPER_DISTRIBUTION_LINEAR.isBlocked(),
               onBlock: () => {
+                const isTrial =
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
                 sendPluginMessage(
                   {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
+                    pluginMessage: isTrial
+                      ? { type: 'GET_TRIAL' }
+                      : {
+                          type: 'GET_PRO',
+                          data: { origin: 'SCALE_HELPER_DISTRIBUTION_LINEAR' },
+                        },
                   },
                   '*'
                 )
@@ -471,15 +473,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isBlocked(),
               isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN.isNew(),
               onBlock: () => {
+                const isTrial =
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
                 sendPluginMessage(
                   {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
+                    pluginMessage: isTrial
+                      ? { type: 'GET_TRIAL' }
+                      : {
+                          type: 'GET_PRO',
+                          data: { origin: 'SCALE_HELPER_DISTRIBUTION_EASE_IN' },
+                        },
                   },
                   '*'
                 )
@@ -496,15 +500,19 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                 this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isBlocked(),
               isNew: this.features.SCALE_HELPER_DISTRIBUTION_EASE_OUT.isNew(),
               onBlock: () => {
+                const isTrial =
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
                 sendPluginMessage(
                   {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
+                    pluginMessage: isTrial
+                      ? { type: 'GET_TRIAL' }
+                      : {
+                          type: 'GET_PRO',
+                          data: {
+                            origin: 'SCALE_HELPER_DISTRIBUTION_EASE_OUT',
+                          },
+                        },
                   },
                   '*'
                 )
@@ -522,15 +530,19 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
               isNew:
                 this.features.SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT.isNew(),
               onBlock: () => {
+                const isTrial =
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
                 sendPluginMessage(
                   {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
+                    pluginMessage: isTrial
+                      ? { type: 'GET_TRIAL' }
+                      : {
+                          type: 'GET_PRO',
+                          data: {
+                            origin: 'SCALE_HELPER_DISTRIBUTION_EASE_IN_OUT',
+                          },
+                        },
                   },
                   '*'
                 )
@@ -546,15 +558,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
           isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
           isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'SCALE_HELPER_DISTRIBUTION' },
+                    },
               },
               '*'
             )
@@ -574,15 +588,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                   this.features.SCALE_HELPER_DISTRIBUTION_SINE.isBlocked(),
                 isNew: this.features.SCALE_HELPER_DISTRIBUTION_SINE.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'SCALE_HELPER_DISTRIBUTION_SINE' },
+                          },
                     },
                     '*'
                   )
@@ -599,15 +615,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                   this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isBlocked(),
                 isNew: this.features.SCALE_HELPER_DISTRIBUTION_QUAD.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'SCALE_HELPER_DISTRIBUTION_QUAD' },
+                          },
                     },
                     '*'
                   )
@@ -624,15 +642,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                   this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isBlocked(),
                 isNew: this.features.SCALE_HELPER_DISTRIBUTION_CUBIC.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'SCALE_HELPER_DISTRIBUTION_CUBIC' },
+                          },
                     },
                     '*'
                   )
@@ -645,15 +665,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
             isBlocked={this.features.SCALE_HELPER_DISTRIBUTION.isBlocked()}
             isNew={this.features.SCALE_HELPER_DISTRIBUTION.isNew()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'SCALE_HELPER_DISTRIBUTION' },
+                      },
                 },
                 '*'
               )
@@ -672,15 +694,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
             isBlocked={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isBlocked()}
             isNew={this.features.SCALE_HELPER_DISTRIBUTION_APPLY.isNew()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'SCALE_HELPER_DISTRIBUTION_APPLY' },
+                      },
                 },
                 '*'
               )
@@ -751,15 +775,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                           isBlocked={this.features.SCALE_RESET.isBlocked()}
                           isNew={this.features.SCALE_RESET.isNew()}
                           onBlock={() => {
+                            const isTrial =
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
                             sendPluginMessage(
                               {
-                                pluginMessage: {
-                                  type:
-                                    this.props.config.plan.isTrialEnabled &&
-                                    this.props.trialStatus !== 'EXPIRED'
-                                      ? 'GET_TRIAL'
-                                      : 'GET_PRO',
-                                },
+                                pluginMessage: isTrial
+                                  ? { type: 'GET_TRIAL' }
+                                  : {
+                                      type: 'GET_PRO',
+                                      data: { origin: 'RESET_SCALE' },
+                                    },
                               },
                               '*'
                             )
@@ -779,15 +805,17 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
                           isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
                           isNew={this.features.SCALE_HELPER_TIPS.isNew()}
                           onBlock={() => {
+                            const isTrial =
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
                             sendPluginMessage(
                               {
-                                pluginMessage: {
-                                  type:
-                                    this.props.config.plan.isTrialEnabled &&
-                                    this.props.trialStatus !== 'EXPIRED'
-                                      ? 'GET_TRIAL'
-                                      : 'GET_PRO',
-                                },
+                                pluginMessage: isTrial
+                                  ? { type: 'GET_TRIAL' }
+                                  : {
+                                      type: 'GET_PRO',
+                                      data: { origin: 'SCALE_HELPER_TIPS' },
+                                    },
                               },
                               '*'
                             )
