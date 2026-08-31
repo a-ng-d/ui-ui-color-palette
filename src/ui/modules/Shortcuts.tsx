@@ -40,6 +40,9 @@ interface ShortcutsProps
   onReOpenFeedback: Dispatch<Partial<AppState>>
   onUpdateConsent: Dispatch<Partial<AppState>>
   onUpdateLanguage: Dispatch<Partial<AppState>>
+  onSignIn?: () => Promise<unknown>
+  onSignOut?: () => Promise<unknown>
+  orientation?: 'HORIZONTAL' | 'VERTICAL'
 }
 
 interface ShortcutsState {
@@ -327,6 +330,24 @@ export default class Shortcuts extends PureComponent<
   // Render
   render() {
     let height, radius
+    const isVertical = this.props.orientation === 'VERTICAL'
+    const signInAction =
+      this.props.onSignIn ??
+      (() =>
+        signIn({
+          authWorkerUrl: this.props.config.urls.authWorkerUrl,
+          authUrl: this.props.config.urls.authUrl,
+          platformUrl: this.props.config.urls.platformUrl,
+          pluginId: this.props.config.env.pluginId,
+        }))
+    const signOutAction =
+      this.props.onSignOut ??
+      (() =>
+        signOut({
+          authUrl: this.props.config.urls.authUrl,
+          platformUrl: this.props.config.urls.platformUrl,
+          pluginId: this.props.config.env.pluginId,
+        }))
 
     switch (this.theme) {
       case 'figma':
@@ -358,7 +379,9 @@ export default class Shortcuts extends PureComponent<
               <div
                 className={doClassnames([
                   'shortcuts',
-                  layouts['snackbar--medium'],
+                  isVertical
+                    ? layouts['stackbar--medium']
+                    : layouts['snackbar--medium'],
                 ])}
               >
                 <Feature isActive={this.features.HELP_DOCUMENTATION.isActive()}>
@@ -485,12 +508,7 @@ export default class Shortcuts extends PureComponent<
                               },
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
-                                signOut({
-                                  authUrl: this.props.config.urls.authUrl,
-                                  platformUrl:
-                                    this.props.config.urls.platformUrl,
-                                  pluginId: this.props.config.env.pluginId,
-                                })
+                                signOutAction()
                                   .then(() => {
                                     sendPluginMessage(
                                       {
@@ -567,14 +585,7 @@ export default class Shortcuts extends PureComponent<
                               },
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
-                                signIn({
-                                  authWorkerUrl:
-                                    this.props.config.urls.authWorkerUrl,
-                                  authUrl: this.props.config.urls.authUrl,
-                                  platformUrl:
-                                    this.props.config.urls.platformUrl,
-                                  pluginId: this.props.config.env.pluginId,
-                                })
+                                signInAction()
                                   .then(() => {
                                     sendPluginMessage(
                                       {
@@ -1173,7 +1184,8 @@ export default class Shortcuts extends PureComponent<
               <PlanControls {...this.props} />
             </Feature>
           }
-          shouldReflow
+          shouldReflow={!isVertical}
+          isVertical={isVertical}
           border={['TOP']}
         />
       </>

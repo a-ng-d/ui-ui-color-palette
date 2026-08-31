@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "Add to local",
     "addToSource": "Add to source",
+    "copyPaletteLink": "Copy palette link",
     "createPalette": "New UI Color Palette",
     "duplicate": "Duplicate",
     "export": "Export palette as {format}",
@@ -278,6 +279,8 @@
     "announcements": "The announcements cannot be loaded",
     "authentication": "The authentication has failed",
     "badResponse": "The response is not valid",
+    "copyLink": "Couldn't copy the link automatically — copy it from the address bar instead.",
+    "copyLinkNoPalette": "No palette open to share yet.",
     "corruption": "Your UI Color Palette seems corrupted. Do not edit any layer within it.",
     "document": "The document cannot be generated",
     "export": "The code cannot be generated because the palette has not been found",
@@ -288,6 +291,7 @@
     "onboarding": "The onboarding cannot be loaded",
     "openPalette": "The palette cannot be opened",
     "palette": "The palette cannot be created",
+    "paletteAccessDenied": "You don't have access to this palette.",
     "paletteSizeExceeded": "The palette size exceeds the limit. Please reduce the number of color modes, source colors or shades/tints.",
     "palettesPicking": "The palettes cannot be picked for now",
     "publication": "The palette cannot be published",
@@ -1178,6 +1182,7 @@
   "success": {
     "activatedLicense": "The license key \"{licenseKey}\" has been activated",
     "addToLocal": "The palette has been added to this page",
+    "copyLink": "Link copied to clipboard",
     "detachment": "The palette has been detached",
     "nonPublication": "The palette has been unpublished",
     "publication": "The palette has been published",

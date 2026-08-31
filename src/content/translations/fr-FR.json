@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "Ajouter en local",
     "addToSource": "Ajouter aux sources",
+    "copyPaletteLink": "Copier le lien de la palette",
     "createPalette": "Nouvelle UI Color Palette",
     "duplicate": "Dupliquer",
     "export": "Exporter la palette en {format}",
@@ -278,6 +279,8 @@
     "announcements": "Les annonces ne peuvent pas être chargées",
     "authentication": "L'authentification a échoué",
     "badResponse": "La réponse n'est pas valide",
+    "copyLink": "Impossible de copier le lien automatiquement — copiez-le depuis la barre d'adresse.",
+    "copyLinkNoPalette": "Aucune palette ouverte à partager pour le moment.",
     "corruption": "Votre UI Color Palette semble corrompue. Ne modifiez aucun calque à l'intérieur.",
     "document": "Le document ne peut pas être généré",
     "export": "Le code ne peut pas être généré car la palette n'a pas été trouvée",
@@ -288,6 +291,7 @@
     "onboarding": "Le onboarding ne peut pas être chargée",
     "openPalette": "La palette ne peut pas être ouverte",
     "palette": "La palette ne peut pas être créée",
+    "paletteAccessDenied": "Vous n'avez pas accès à cette palette.",
     "paletteSizeExceeded": "La taille de la palette dépasse la limite. Veuillez réduire le nombre de modes de couleur, couleurs sources ou nuances/teintes.",
     "palettesPicking": "Les palettes ne peuvent pas être sélectionnées pour l'instant",
     "publication": "La palette ne peut pas être publiée",
@@ -1178,6 +1182,7 @@
   "success": {
     "activatedLicense": "La clé de licence \"{licenseKey}\" a été activée",
     "addToLocal": "La palette a été ajoutée à cette page",
+    "copyLink": "Lien copié dans le presse-papiers",
     "detachment": "La palette a été détachée",
     "nonPublication": "La palette a été dépubliée",
     "publication": "La palette a été publiée",

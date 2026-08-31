@@ -228,6 +228,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
+    SHARE_LINK: new FeatureStatus({
+      features: config.features,
+      featureName: 'SHARE_LINK',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: ActionsProps) {
@@ -969,6 +976,27 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               />
             )}
             <this.Modes />
+            <Feature isActive={this.features.SHARE_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="hyperlink"
+                feature="SHARE_LINK"
+                helper={{
+                  label: this.props.t('actions.copyPaletteLink'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'COPY_SHARE_LINK',
+                        id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
           </div>
         }
         clip={['LEFT']}
@@ -1014,6 +1042,27 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             ])}
           >
             <this.Modes />
+            <Feature isActive={this.features.SHARE_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="hyperlink"
+                feature="SHARE_LINK"
+                helper={{
+                  label: this.props.t('actions.copyPaletteLink'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'COPY_SHARE_LINK',
+                        id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
           </div>
         }
         clip={['LEFT']}
@@ -1075,6 +1124,27 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               </Button>
             </Feature>
             <this.Modes />
+            <Feature isActive={this.features.SHARE_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="hyperlink"
+                feature="SHARE_LINK"
+                helper={{
+                  label: this.props.t('actions.copyPaletteLink'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'COPY_SHARE_LINK',
+                        id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
           </div>
         }
         clip={['LEFT']}
