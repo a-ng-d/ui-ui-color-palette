@@ -1002,7 +1002,9 @@ class App extends Component<AppProps, AppState> {
             this.props.config.env.isEmbed && 'ui--embed',
           ])}
           inert={
-            this.state.modalContext !== 'EMPTY' || this.state.mustUserConsent
+            this.state.modalContext !== 'EMPTY' ||
+            (this.state.mustUserConsent &&
+              this.features.USER_CONSENT.isActive())
           }
         >
           <Layout
