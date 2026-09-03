@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "Add to local",
     "addToSource": "Add to source",
+    "copyPaletteLink": "Copy palette link",
     "createPalette": "New UI Color Palette",
     "duplicate": "Duplicate",
     "export": "Export palette as {format}",
@@ -278,6 +279,8 @@
     "announcements": "The announcements cannot be loaded",
     "authentication": "The authentication has failed",
     "badResponse": "The response is not valid",
+    "copyLink": "Couldn't copy the link automatically. Copy it from the address bar instead.",
+    "copyLinkNoPalette": "No palette open to share yet.",
     "corruption": "Your UI Color Palette seems corrupted. Do not edit any layer within it.",
     "document": "The document cannot be generated",
     "export": "The code cannot be generated because the palette has not been found",
@@ -288,6 +291,7 @@
     "onboarding": "The onboarding cannot be loaded",
     "openPalette": "The palette cannot be opened",
     "palette": "The palette cannot be created",
+    "paletteAccessDenied": "You don't have access to this palette.",
     "paletteSizeExceeded": "The palette size exceeds the limit. Please reduce the number of color modes, source colors or shades/tints.",
     "palettesPicking": "The palettes cannot be picked for now",
     "publication": "The palette cannot be published",
@@ -936,7 +940,7 @@
     },
     "shift": {
       "chroma": {
-        "helper": "Chroma is how colorful or saturated a color looks. This shift applies to every color in the palette at once, except a color whose chroma has been adjusted individually — that color keeps its own value until it's reset.",
+        "helper": "Chroma is how colorful or saturated a color looks. This shift applies to every color in the palette at once, except a color whose chroma has been adjusted individually: that color keeps its own value until it's reset.",
         "label": "Chroma",
         "warning": "Upgrade to /pro to create a palette with a modified chroma shift. Reset it to 100% or upgrade."
       },
@@ -949,7 +953,7 @@
         "linearLabel": "Global"
       },
       "hue": {
-        "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually — that color keeps its own value until it's reset.",
+        "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually: that color keeps its own value until it's reset.",
         "label": "Hue"
       },
       "threshold": {
@@ -1180,6 +1184,7 @@
   "success": {
     "activatedLicense": "The license key \"{licenseKey}\" has been activated",
     "addToLocal": "The palette has been added to this page",
+    "copyLink": "Link copied to clipboard",
     "detachment": "The palette has been detached",
     "nonPublication": "The palette has been unpublished",
     "publication": "The palette has been published",
@@ -1231,7 +1236,7 @@
       "title": "Pick the colors that drive your palette"
     },
     "export": {
-      "description": "Generate production-ready code — copy, paste, ship.",
+      "description": "Generate production-ready code: copy, paste, ship.",
       "title": "Export to Tailwind, CSS variables & W3C tokens"
     },
     "imports": {
@@ -1252,7 +1257,7 @@
       "title": "Check contrast for every shade pair"
     },
     "scale": {
-      "description": "Set your lightness stops and easing curve — every shade is calculated from here.",
+      "description": "Set your lightness stops and easing curve: every shade is calculated from here.",
       "title": "Sculpt the distribution of your shades"
     },
     "scoresControls": {
@@ -1264,7 +1269,7 @@
       "title": "Fine-tune your palette generation settings"
     },
     "themes": {
-      "description": "Switch between dark mode, brand variants, and more — all from the same source.",
+      "description": "Switch between dark mode, brand variants, and more, all from the same source.",
       "title": "Build multiple themes from one palette"
     }
   },
