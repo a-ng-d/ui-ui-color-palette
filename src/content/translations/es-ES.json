@@ -1231,7 +1231,7 @@
       "title": "Elige los colores que impulsan tu paleta"
     },
     "export": {
-      "description": "Genera código listo para producción — copia, pega, entrega.",
+      "description": "Genera código listo para producción: copia, pega, entrega.",
       "title": "Exporta a Tailwind, variables CSS y tokens W3C"
     },
     "imports": {
@@ -1252,7 +1252,7 @@
       "title": "Comprueba el contraste de cada par de tonos"
     },
     "scale": {
-      "description": "Establece tus stops de luminosidad y curva de easing — cada tono se calcula desde aquí.",
+      "description": "Establece tus stops de luminosidad y curva de easing: cada tono se calcula desde aquí.",
       "title": "Esculpe la distribución de tus tonos"
     },
     "scoresControls": {
@@ -1264,7 +1264,7 @@
       "title": "Ajusta la configuración de generación de tu paleta"
     },
     "themes": {
-      "description": "Alterna entre modo oscuro, variantes de marca y más — todo desde la misma fuente.",
+      "description": "Alterna entre modo oscuro, variantes de marca y más, todo desde la misma fuente.",
       "title": "Crea múltiples temas desde una sola paleta"
     }
   },

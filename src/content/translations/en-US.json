@@ -279,7 +279,7 @@
     "announcements": "The announcements cannot be loaded",
     "authentication": "The authentication has failed",
     "badResponse": "The response is not valid",
-    "copyLink": "Couldn't copy the link automatically — copy it from the address bar instead.",
+    "copyLink": "Couldn't copy the link automatically. Copy it from the address bar instead.",
     "copyLinkNoPalette": "No palette open to share yet.",
     "corruption": "Your UI Color Palette seems corrupted. Do not edit any layer within it.",
     "document": "The document cannot be generated",
@@ -940,7 +940,7 @@
     },
     "shift": {
       "chroma": {
-        "helper": "Chroma is how colorful or saturated a color looks. This shift applies to every color in the palette at once, except a color whose chroma has been adjusted individually — that color keeps its own value until it's reset.",
+        "helper": "Chroma is how colorful or saturated a color looks. This shift applies to every color in the palette at once, except a color whose chroma has been adjusted individually: that color keeps its own value until it's reset.",
         "label": "Chroma",
         "warning": "Upgrade to /pro to create a palette with a modified chroma shift. Reset it to 100% or upgrade."
       },
@@ -953,7 +953,7 @@
         "linearLabel": "Global"
       },
       "hue": {
-        "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually — that color keeps its own value until it's reset.",
+        "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually: that color keeps its own value until it's reset.",
         "label": "Hue"
       },
       "threshold": {
@@ -1236,7 +1236,7 @@
       "title": "Pick the colors that drive your palette"
     },
     "export": {
-      "description": "Generate production-ready code — copy, paste, ship.",
+      "description": "Generate production-ready code: copy, paste, ship.",
       "title": "Export to Tailwind, CSS variables & W3C tokens"
     },
     "imports": {
@@ -1257,7 +1257,7 @@
       "title": "Check contrast for every shade pair"
     },
     "scale": {
-      "description": "Set your lightness stops and easing curve — every shade is calculated from here.",
+      "description": "Set your lightness stops and easing curve: every shade is calculated from here.",
       "title": "Sculpt the distribution of your shades"
     },
     "scoresControls": {
@@ -1269,7 +1269,7 @@
       "title": "Fine-tune your palette generation settings"
     },
     "themes": {
-      "description": "Switch between dark mode, brand variants, and more — all from the same source.",
+      "description": "Switch between dark mode, brand variants, and more, all from the same source.",
       "title": "Build multiple themes from one palette"
     }
   },
