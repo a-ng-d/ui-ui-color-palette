@@ -936,7 +936,7 @@
     },
     "shift": {
       "chroma": {
-        "helper": "O croma indica o quão viva ou saturada uma cor parece. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo croma foi ajustado individualmente — essa cor mantém seu próprio valor até ser redefinida.",
+        "helper": "O croma indica o quão viva ou saturada uma cor parece. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo croma foi ajustado individualmente: essa cor mantém seu próprio valor até ser redefinida.",
         "label": "Croma",
         "warning": "Atualize para /pro para criar uma paleta com deslocamento de croma modificado. Redefina para 100% ou atualize."
       },
@@ -949,7 +949,7 @@
         "linearLabel": "Global"
       },
       "hue": {
-        "helper": "O matiz indica a posição de uma cor na roda de cores. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo matiz foi ajustado individualmente — essa cor mantém seu próprio valor até ser redefinida.",
+        "helper": "O matiz indica a posição de uma cor na roda de cores. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo matiz foi ajustado individualmente: essa cor mantém seu próprio valor até ser redefinida.",
         "label": "Matiz"
       },
       "threshold": {
@@ -1231,7 +1231,7 @@
       "title": "Escolha as cores que impulsionam sua paleta"
     },
     "export": {
-      "description": "Gere código pronto para produção — copie, cole, entregue.",
+      "description": "Gere código pronto para produção: copie, cole, entregue.",
       "title": "Exporte para Tailwind, variáveis CSS e tokens W3C"
     },
     "imports": {
@@ -1252,7 +1252,7 @@
       "title": "Verifique o contraste de cada par de tons"
     },
     "scale": {
-      "description": "Defina os stops de luminosidade e a curva de easing — cada tom é calculado a partir daqui.",
+      "description": "Defina os stops de luminosidade e a curva de easing: cada tom é calculado a partir daqui.",
       "title": "Esculpa a distribuição dos seus tons"
     },
     "scoresControls": {
@@ -1264,7 +1264,7 @@
       "title": "Ajuste as configurações de geração da sua paleta"
     },
     "themes": {
-      "description": "Alterne entre modo escuro, variantes de marca e mais — tudo da mesma fonte.",
+      "description": "Alterne entre modo escuro, variantes de marca e mais, tudo da mesma fonte.",
       "title": "Crie múltiplos temas a partir de uma paleta"
     }
   },
