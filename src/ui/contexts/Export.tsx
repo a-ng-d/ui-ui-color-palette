@@ -18,6 +18,8 @@ import {
   PresetConfiguration,
   ScaleConfiguration,
   ShiftConfiguration,
+  System,
+  SystemConfiguration,
   ThemeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
@@ -30,6 +32,7 @@ import {
   SectionTitle,
   SemanticMessage,
   SimpleItem,
+  Tabs,
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -52,11 +55,12 @@ interface ExportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   colorSpace: ColorSpaceConfiguration
   themes: Array<ThemeConfiguration>
   algorithmVersion: AlgorithmVersionConfiguration
+  system: SystemConfiguration
   context: ExportConfiguration['context']
   code: string | Array<CodeFile>
   isCodeCopied: boolean
   onChangeExport: (args: { export: ExportConfiguration }) => void
-  onCopyCode: () => void
+  onCopyCode: (fileIndex?: number) => void
 }
 
 interface ExportState {
@@ -64,6 +68,7 @@ interface ExportState {
     selected: ColorSpaceConfiguration
     options: Array<DropdownOption>
   }
+  selectedFileIndex: number
 }
 
 export default class Export extends PureComponent<ExportProps, ExportState> {
@@ -285,10 +290,16 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         selected: 'RGB',
         options: [],
       },
+      selectedFileIndex: 0,
     }
   }
 
   // Lifecycle
+  componentDidUpdate(previousProps: Readonly<ExportProps>) {
+    if (previousProps.context !== this.props.context)
+      this.setState({ selectedFileIndex: 0 })
+  }
+
   componentDidMount() {
     this.setState({
       colorSpace: {
@@ -309,7 +320,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         format: 'CSS',
         context: 'STYLESHEET_CSS',
         mimeType: 'text/css',
-        data: this.getCodeFromProps().makeCssCustomProps('RGB')[0].content,
+        data: this.getCodeFromProps().makeCssCustomProps('RGB'),
       },
     })
   }
@@ -325,7 +336,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JSON',
             context: 'TOKENS_NATIVE',
             mimeType: 'application/json',
-            data: this.getCodeFromProps().makeNativeTokens()[0].content,
+            data: this.getCodeFromProps().makeNativeTokens(),
           },
         })
       },
@@ -385,8 +396,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JSON',
             context: 'TOKENS_STYLE_DICTIONARY_V3',
             mimeType: 'application/json',
-            data: this.getCodeFromProps().makeStyleDictionaryV3Tokens()[0]
-              .content,
+            data: this.getCodeFromProps().makeStyleDictionaryV3Tokens(),
           },
         })
       },
@@ -396,7 +406,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JSON',
             context: 'TOKENS_UNIVERSAL',
             mimeType: 'application/json',
-            data: this.getCodeFromProps().makeUniversalJson()[0].content,
+            data: this.getCodeFromProps().makeUniversalJson(),
           },
         })
       },
@@ -420,7 +430,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('RGB')[0].content,
+            data: this.getCodeFromProps().makeCssCustomProps('RGB'),
           },
         })
       },
@@ -437,7 +447,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('RGB')[0].content,
+            data: this.getCodeFromProps().makeCssCustomProps('RGB'),
           },
         })
       },
@@ -454,7 +464,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('HEX')[0].content,
+            data: this.getCodeFromProps().makeCssCustomProps('HEX'),
           },
         })
       },
@@ -471,7 +481,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('HSL')[0].content,
+            data: this.getCodeFromProps().makeCssCustomProps('HSL'),
           },
         })
       },
@@ -488,7 +498,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('LCH')[0].content,
+            data: this.getCodeFromProps().makeCssCustomProps('LCH'),
           },
         })
       },
@@ -505,8 +515,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('OKLCH')[0]
-              .content,
+            data: this.getCodeFromProps().makeCssCustomProps('OKLCH'),
           },
         })
       },
@@ -523,7 +532,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('P3')[0].content,
+            data: this.getCodeFromProps().makeCssCustomProps('P3'),
           },
         })
       },
@@ -546,7 +555,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SCSS',
             context: 'STYLESHEET_SCSS',
             mimeType: 'text/x-scss',
-            data: this.getCodeFromProps().makeScssVariables('RGB')[0].content,
+            data: this.getCodeFromProps().makeScssVariables('RGB'),
           },
         })
       },
@@ -563,7 +572,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SCSS',
             context: 'STYLESHEET_SCSS',
             mimeType: 'text/x-scss',
-            data: this.getCodeFromProps().makeScssVariables('RGB')[0].content,
+            data: this.getCodeFromProps().makeScssVariables('RGB'),
           },
         })
       },
@@ -580,7 +589,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SCSS',
             context: 'STYLESHEET_SCSS',
             mimeType: 'text/x-scss',
-            data: this.getCodeFromProps().makeScssVariables('HEX')[0].content,
+            data: this.getCodeFromProps().makeScssVariables('HEX'),
           },
         })
       },
@@ -597,7 +606,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SCSS',
             context: 'STYLESHEET_SCSS',
             mimeType: 'text/x-scss',
-            data: this.getCodeFromProps().makeScssVariables('HSL')[0].content,
+            data: this.getCodeFromProps().makeScssVariables('HSL'),
           },
         })
       },
@@ -614,7 +623,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SCSS',
             context: 'STYLESHEET_SCSS',
             mimeType: 'text/x-scss',
-            data: this.getCodeFromProps().makeScssVariables('LCH')[0].content,
+            data: this.getCodeFromProps().makeScssVariables('LCH'),
           },
         })
       },
@@ -631,7 +640,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SCSS',
             context: 'STYLESHEET_SCSS',
             mimeType: 'text/x-scss',
-            data: this.getCodeFromProps().makeScssVariables('OKLCH')[0].content,
+            data: this.getCodeFromProps().makeScssVariables('OKLCH'),
           },
         })
       },
@@ -653,7 +662,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'LESS',
             context: 'STYLESHEET_LESS',
             mimeType: 'text/x-less',
-            data: this.getCodeFromProps().makeLessVariables('RGB')[0].content,
+            data: this.getCodeFromProps().makeLessVariables('RGB'),
           },
         })
       },
@@ -670,7 +679,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'LESS',
             context: 'STYLESHEET_LESS',
             mimeType: 'text/x-less',
-            data: this.getCodeFromProps().makeLessVariables('RGB')[0].content,
+            data: this.getCodeFromProps().makeLessVariables('RGB'),
           },
         })
       },
@@ -687,7 +696,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'LESS',
             context: 'STYLESHEET_LESS',
             mimeType: 'text/x-less',
-            data: this.getCodeFromProps().makeLessVariables('HEX')[0].content,
+            data: this.getCodeFromProps().makeLessVariables('HEX'),
           },
         })
       },
@@ -704,7 +713,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'LESS',
             context: 'STYLESHEET_LESS',
             mimeType: 'text/x-less',
-            data: this.getCodeFromProps().makeLessVariables('HSL')[0].content,
+            data: this.getCodeFromProps().makeLessVariables('HSL'),
           },
         })
       },
@@ -721,7 +730,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'LESS',
             context: 'STYLESHEET_LESS',
             mimeType: 'text/x-less',
-            data: this.getCodeFromProps().makeLessVariables('LCH')[0].content,
+            data: this.getCodeFromProps().makeLessVariables('LCH'),
           },
         })
       },
@@ -738,7 +747,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'LESS',
             context: 'STYLESHEET_LESS',
             mimeType: 'text/x-less',
-            data: this.getCodeFromProps().makeLessVariables('OKLCH')[0].content,
+            data: this.getCodeFromProps().makeLessVariables('OKLCH'),
           },
         })
       },
@@ -748,7 +757,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JS',
             context: 'TAILWIND_V3',
             mimeType: 'text/javascript',
-            data: this.getCodeFromProps().makeTailwindV3Config()[0].content,
+            data: this.getCodeFromProps().makeTailwindV3Config(),
           },
         })
       },
@@ -758,7 +767,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'TAILWIND_V4',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeTailwindV4Config()[0].content,
+            data: this.getCodeFromProps().makeTailwindV4Config(),
           },
         })
       },
@@ -768,7 +777,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SWIFT',
             context: 'APPLE_SWIFTUI',
             mimeType: 'text/swift',
-            data: this.getCodeFromProps().makeSwiftUI()[0].content,
+            data: this.getCodeFromProps().makeSwiftUI(),
           },
         })
       },
@@ -778,7 +787,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SWIFT',
             context: 'APPLE_UIKIT',
             mimeType: 'text/swift',
-            data: this.getCodeFromProps().makeUIKit()[0].content,
+            data: this.getCodeFromProps().makeUIKit(),
           },
         })
       },
@@ -788,7 +797,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'KT',
             context: 'ANDROID_COMPOSE',
             mimeType: 'text/x-kotlin',
-            data: this.getCodeFromProps().makeCompose()[0].content,
+            data: this.getCodeFromProps().makeCompose(),
           },
         })
       },
@@ -798,7 +807,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'XML',
             context: 'ANDROID_XML',
             mimeType: 'text/xml',
-            data: this.getCodeFromProps().makeResources()[0].content,
+            data: this.getCodeFromProps().makeResources(),
           },
         })
       },
@@ -808,7 +817,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSV',
             context: 'CSV',
             mimeType: 'text/csv',
-            data: this.getCodeFromProps().makeCsv()[0].content,
+            data: this.getCodeFromProps().makeCsv(),
           },
         })
       },
@@ -941,6 +950,14 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
     ]
   }
 
+  onSelectFile = (e: Event) =>
+    this.setState({
+      selectedFileIndex: parseInt(
+        (e.currentTarget as HTMLElement).dataset.feature ?? '0',
+        10
+      ),
+    })
+
   handleCodeSyntaxTheme = () => {
     const figmaMode = document.documentElement.getAttribute('class')
 
@@ -983,7 +1000,16 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
     const data = new Data(args).makePaletteData()
 
-    return new Code({ paletteData: data })
+    return new Code({
+      paletteData: data,
+      systemData:
+        this.props.system.schema.groups.length > 0
+          ? new System({
+              paletteData: data,
+              system: this.props.system,
+            }).makeSystemData()
+          : undefined,
+    })
   }
 
   // Render
@@ -1027,10 +1053,64 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         textColor = 'var(--figma-color-text-disabled)'
     }
 
+    const files = Array.isArray(this.props.code) ? this.props.code : []
+    const selectedFile = files[this.state.selectedFileIndex] ?? files[0]
+
+    let isFlex = true
+    let filesPadding
+
+    switch (this.theme) {
+      case 'figma':
+        isFlex = false
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'penpot':
+        isFlex = true
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'sketch':
+        isFlex = false
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'framer':
+        isFlex = true
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      default:
+        isFlex = false
+        filesPadding = 'var(--size-null) var(--size-pos-xsmall)'
+    }
+
+    if (this.props.documentWidth > 460) filesPadding = 'var(--size-null)'
+
     return (
       <Layout
         id="export"
         column={[
+          ...(files.length > 1 && this.props.context !== 'CSV'
+            ? [
+                {
+                  node: (
+                    <div style={{ padding: filesPadding }}>
+                      <Tabs
+                        tabs={files.map((file, index) => ({
+                          id: index.toString(),
+                          label: file.filename,
+                          isUpdated: false,
+                        }))}
+                        active={this.state.selectedFileIndex.toString()}
+                        direction="VERTICAL"
+                        isFlex={isFlex}
+                        maxVisibleTabs={3}
+                        action={this.onSelectFile}
+                      />
+                    </div>
+                  ),
+                  typeModifier: 'FIXED' as const,
+                  fixedWidth: '148px',
+                },
+              ]
+            : []),
           {
             node: (
               <>
@@ -1624,7 +1704,11 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                             helper={{
                               label: this.props.t('export.actions.copyCode'),
                             }}
-                            action={this.props.onCopyCode}
+                            action={() =>
+                              this.props.onCopyCode(
+                                this.state.selectedFileIndex
+                              )
+                            }
                           />
                         )}
                       </div>
@@ -1726,12 +1810,9 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                     wrapLongLines={true}
                   >
                     {this.props.context === 'CSV'
-                      ? (JSON.parse(this.props.code as string)[0].colors[0]
-                          .csv ?? this.props.t('warning.emptySourceColors'))
-                      : this.props.context === 'TOKENS_DTCG' &&
-                          Array.isArray(this.props.code)
-                        ? this.props.code[0].content
-                        : (this.props.code as string)}
+                      ? (JSON.parse(files[0]?.content ?? '[]')[0]?.colors[0]
+                          ?.csv ?? this.props.t('warning.emptySourceColors'))
+                      : (selectedFile?.content ?? '')}
                   </SyntaxHighlighter>
                 </div>
               </>
@@ -1739,6 +1820,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
           },
         ]}
         isFullHeight
+        shouldReflow
       />
     )
   }

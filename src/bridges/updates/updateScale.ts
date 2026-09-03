@@ -1,5 +1,6 @@
 import { FullConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { doScale } from '@unoff/utils'
+import { readSystem } from '../utils/systemStorage'
 import { ScaleMessage } from '../../types/messages'
 
 const updateScale = async (msg: ScaleMessage) => {
@@ -60,7 +61,7 @@ const updateScale = async (msg: ScaleMessage) => {
 
   iframe?.contentWindow?.postMessage({
     type: 'LOAD_PALETTE',
-    data: palette,
+    data: { ...palette, system: readSystem(msg.id) },
   })
 
   return window.localStorage.setItem(

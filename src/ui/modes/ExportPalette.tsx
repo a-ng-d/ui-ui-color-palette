@@ -20,6 +20,8 @@ import {
   BaseConfiguration,
   Data,
   Code,
+  System,
+  SystemConfiguration,
   PublicationConfiguration,
   CreatorConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
@@ -54,6 +56,7 @@ interface ExportPaletteProps
   themes: Array<ThemeConfiguration>
   view: ViewConfiguration
   algorithmVersion: AlgorithmVersionConfiguration
+  system: SystemConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   document: DocumentConfiguration
   dates: DatesConfiguration
@@ -120,26 +123,36 @@ export default class ExportPalette extends PureComponent<
 
   constructor(props: ExportPaletteProps) {
     super(props)
+
+    const paletteData = new Data({
+      base: {
+        name: this.props.name,
+        description: this.props.description,
+        preset: this.props.preset,
+        shift: this.props.shift,
+        areSourceColorsLocked: this.props.areSourceColorsLocked,
+        colors: this.props.colors,
+        colorSpace: this.props.colorSpace,
+        algorithmVersion: this.props.algorithmVersion,
+      } as BaseConfiguration,
+      themes: this.props.themes,
+    }).makePaletteData()
+
     this.state = {
       export: {
         format: 'CSS',
         context: 'STYLESHEET_CSS',
         mimeType: 'text/css',
         data: new Code({
-          paletteData: new Data({
-            base: {
-              name: this.props.name,
-              description: this.props.description,
-              preset: this.props.preset,
-              shift: this.props.shift,
-              areSourceColorsLocked: this.props.areSourceColorsLocked,
-              colors: this.props.colors,
-              colorSpace: this.props.colorSpace,
-              algorithmVersion: this.props.algorithmVersion,
-            } as BaseConfiguration,
-            themes: this.props.themes,
-          }).makePaletteData(),
-        }).makeCssCustomProps('RGB')[0].content,
+          paletteData,
+          systemData:
+            this.props.system.schema.groups.length > 0
+              ? new System({
+                  paletteData,
+                  system: this.props.system,
+                }).makeSystemData()
+              : undefined,
+        }).makeCssCustomProps('RGB'),
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
@@ -182,19 +195,80 @@ export default class ExportPalette extends PureComponent<
 
   // Direct Actions
   onExport = () => {
+    const paletteName =
+      this.props.name === ''
+        ? new Case(this.props.t('name')).doSnakeCase()
+        : new Case(this.props.name).doSnakeCase()
+
+    if (this.state.export.mimeType === 'text/csv') {
+      // makeCsv()'s first file is always the per-theme/per-color JSON
+      // payload; a second file (semantics.csv), when present, is a flat
+      // CSV that gets zipped alongside it as its own top-level entry.
+      const primitivesContent = Array.isArray(this.state.export.data)
+        ? this.state.export.data[0].content
+        : this.state.export.data
+      const semanticsFile = Array.isArray(this.state.export.data)
+        ? this.state.export.data[1]
+        : undefined
+
+      const zipEntries: Record<string, Uint8Array> = {}
+      const encoder = new TextEncoder()
+
+      JSON.parse(primitivesContent).forEach(
+        (theme: {
+          name: string
+          type: string
+          colors: Array<{ name: string; csv: string }>
+        }) => {
+          if (theme.type !== 'default theme')
+            theme.colors.forEach((color) => {
+              const fileName = `${theme.name}/${new Case(color.name).doSnakeCase()}.csv`
+              zipEntries[fileName] = encoder.encode(color.csv)
+            })
+          else
+            theme.colors.forEach((color) => {
+              const fileName = `${new Case(color.name).doSnakeCase()}.csv`
+              zipEntries[fileName] = encoder.encode(color.csv)
+            })
+        }
+      )
+
+      if (semanticsFile)
+        zipEntries[semanticsFile.filename] = encoder.encode(
+          semanticsFile.content
+        )
+
+      const zipData = fflate.zipSync(zipEntries)
+      const zipBlob = new Blob([new Uint8Array(zipData)], {
+        type: 'application/zip',
+      })
+
+      FileSaver.saveAs(zipBlob, `${paletteName}.zip`)
+      return
+    }
+
     if (Array.isArray(this.state.export.data)) {
       const files = this.state.export.data
-      const paletteName =
-        this.props.name === ''
-          ? new Case(this.props.t('name')).doSnakeCase()
-          : new Case(this.props.name).doSnakeCase()
 
       if (files.length === 1) {
         const file = files[0]
         const blob = new Blob([file.content], {
           type: file.mimeType,
         })
-        FileSaver.saveAs(blob, file.filename)
+        const extension = file.filename.includes('.')
+          ? file.filename.slice(file.filename.lastIndexOf('.'))
+          : ''
+
+        // Tailwind configs are looked up by tooling under a fixed
+        // conventional filename — never palette-named. Every other
+        // single-file format keeps the palette-name-based download it
+        // always had; only the extension comes from the engine's file
+        // (which now drives every format, not just these two).
+        if (this.state.export.context === 'TAILWIND_V3')
+          FileSaver.saveAs(blob, 'tailwind.config.js')
+        else if (this.state.export.context === 'TAILWIND_V4')
+          FileSaver.saveAs(blob, 'tailwind.theme.css')
+        else FileSaver.saveAs(blob, `${paletteName}${extension}`)
         return
       }
 
@@ -217,43 +291,7 @@ export default class ExportPalette extends PureComponent<
     const blob = new Blob([this.state.export.data], {
       type: this.state.export.mimeType,
     })
-    if (this.state.export.mimeType === 'text/csv') {
-      const zipEntries: Record<string, Uint8Array> = {}
-      const encoder = new TextEncoder()
-
-      JSON.parse(this.state.export.data).forEach(
-        (theme: {
-          name: string
-          type: string
-          colors: Array<{ name: string; csv: string }>
-        }) => {
-          if (theme.type !== 'default theme')
-            theme.colors.forEach((color) => {
-              const fileName = `${theme.name}/${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
-            })
-          else
-            theme.colors.forEach((color) => {
-              const fileName = `${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
-            })
-        }
-      )
-
-      const zipData = fflate.zipSync(zipEntries)
-      const zipBlob = new Blob([new Uint8Array(zipData)], {
-        type: 'application/zip',
-      })
-
-      FileSaver.saveAs(
-        zipBlob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.zip`
-      )
-    } else if (this.state.export.context === 'TAILWIND_V3')
+    if (this.state.export.context === 'TAILWIND_V3')
       FileSaver.saveAs(blob, 'tailwind.config.js')
     else if (this.state.export.context === 'TAILWIND_V4')
       FileSaver.saveAs(blob, 'tailwind.theme.css')
@@ -302,13 +340,14 @@ export default class ExportPalette extends PureComponent<
       )
   }
 
-  onCopyCode = () => {
+  onCopyCode = (fileIndex = 0) => {
     if (!this.state.export.data) return
 
     try {
       const textarea = document.createElement('textarea')
       textarea.value = Array.isArray(this.state.export.data)
-        ? this.state.export.data[0].content
+        ? (this.state.export.data[fileIndex] ?? this.state.export.data[0])
+            .content
         : this.state.export.data
 
       textarea.style.position = 'absolute'

@@ -9,6 +9,7 @@ import {
   EasingConfiguration,
   LockedSourceColorsConfiguration,
   ShiftConfiguration,
+  SystemConfiguration,
   VisionSimulationModeConfiguration,
   ThemeConfiguration,
   DocumentConfiguration,
@@ -20,6 +21,7 @@ import {
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import { ManagePaletteState } from '../services/ManagePalette'
+import StructurePalette from '../modes/StructurePalette'
 import InspectPalette from '../modes/InspectPalette'
 import ExportPalette from '../modes/ExportPalette'
 import EditPalette from '../modes/EditPalette'
@@ -59,6 +61,7 @@ interface OpenPaletteProps
   dates: DatesConfiguration
   publicationStatus: PublicationConfiguration
   creatorIdentity: CreatorConfiguration
+  system: SystemConfiguration
   onChangeMode: Dispatch<Partial<ManagePaletteState>>
   onChangeDistributionEasing: Dispatch<Partial<ManagePaletteState>>
   onPublishPalette: Dispatch<Partial<ManagePaletteState>>
@@ -80,6 +83,7 @@ export default class OpenPalette extends PureComponent<
   private modes: Array<Mode>
   private editPaletteRef = createRef<EditPalette>()
   private inspectPaletteRef = createRef<InspectPalette>()
+  private structurePaletteRef = createRef<StructurePalette>()
 
   setMode = (mode: Mode) => this.setState({ mode })
 
@@ -116,6 +120,13 @@ export default class OpenPalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    STRUCTURE: new FeatureStatus({
+      features: config.features,
+      featureName: 'STRUCTURE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     EXPORT: new FeatureStatus({
       features: config.features,
       featureName: 'EXPORT',
@@ -147,6 +158,7 @@ export default class OpenPalette extends PureComponent<
     this.modes = [
       ...(this.features.EDIT.isActive() ? ['EDIT' as Mode] : []),
       ...(this.features.INSPECT.isActive() ? ['INSPECT' as Mode] : []),
+      ...(this.features.STRUCTURE.isActive() ? ['STRUCTURE' as Mode] : []),
       ...(this.features.EXPORT.isActive() ? ['EXPORT' as Mode] : []),
     ]
     this.state = {
@@ -177,6 +189,19 @@ export default class OpenPalette extends PureComponent<
           <Feature isActive={this.features.INSPECT.isActive()}>
             <InspectPalette
               ref={this.inspectPaletteRef}
+              {...this.props}
+              {...this.state}
+              onChangeMode={(e) => this.setState({ ...e })}
+            />
+          </Feature>
+        )
+        break
+      }
+      case 'STRUCTURE': {
+        fragment = (
+          <Feature isActive={this.features.STRUCTURE.isActive()}>
+            <StructurePalette
+              ref={this.structurePaletteRef}
               {...this.props}
               {...this.state}
               onChangeMode={(e) => this.setState({ ...e })}

@@ -3,6 +3,8 @@ import {
   ColorConfiguration,
   ColorSpaceConfiguration,
   ExchangeConfiguration,
+  TaxonomyBinding,
+  TaxonomySchema,
   TextColorsThemeConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
@@ -38,6 +40,18 @@ export interface SettingsMessage {
     algorithmVersion: AlgorithmVersionConfiguration
     textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   }
+}
+
+export interface SystemSchemaMessage {
+  type: 'UPDATE_SYSTEM_SCHEMA'
+  id: string
+  data: TaxonomySchema
+}
+
+export interface SystemBindingsMessage {
+  type: 'UPDATE_SYSTEM_BINDINGS'
+  id: string
+  data: Array<TaxonomyBinding>
 }
 
 export interface PaletteMessage {

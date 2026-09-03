@@ -204,6 +204,7 @@
   },
   "contexts": {
     "back": "Volver a las paletas",
+    "binding": "Binding",
     "colors": "Colores",
     "export": "Exportar",
     "hide": "Maximizar paleta",
@@ -214,7 +215,9 @@
     "scale": "Escala",
     "settings": "Ajustes",
     "source": "Fuentes",
-    "themes": "Modos"
+    "taxonomy": "Taxonomy",
+    "themes": "Modos",
+    "visualize": "Visualize"
   },
   "contrast": {
     "actions": {
@@ -561,7 +564,8 @@
   "modes": {
     "edit": "Editar",
     "export": "Exportar",
-    "inspect": "Inspeccionar"
+    "inspect": "Inspeccionar",
+    "structure": "Structure"
   },
   "name": "UI Color Palette",
   "onboarding": {
@@ -1176,6 +1180,85 @@
       "title": "Ideas Spark Booth"
     },
     "title": "Más productos de Yelbolt"
+  },
+  "structure": {
+    "binding": {
+      "allTokensShown": "All tokens are shown",
+      "brokenRef": "This reference no longer resolves — pick a color to fix it",
+      "copyFromAbove": "Use value from row above",
+      "deselectAll": "Deselect all",
+      "details": "Details",
+      "detailsTitle": "{token} · {option}",
+      "excluded": "Excluded",
+      "excludeSelected": "Exclude selected",
+      "includeSelected": "Include selected",
+      "loadMore": "Load more",
+      "noResults": "No matching primitives",
+      "noTokens": "No tokens yet — define a taxonomy first",
+      "noTokensMatch": "No tokens match your search",
+      "notSet": "Not set",
+      "search": "Search tokens…",
+      "searchRef": "Search primitives…",
+      "select": "Select",
+      "selectedCount": "{count} selected",
+      "unbound": "No primitive has been picked yet — pick a color to set it",
+      "values": "Values"
+    },
+    "taxonomy": {
+      "addGroup": "Add a group",
+      "addMember": "Add a member",
+      "example": {
+        "groups": {
+          "prominence": {
+            "members": {
+              "accent": "Accent",
+              "danger": "Danger",
+              "info": "Info",
+              "primary": "Primary",
+              "secondary": "Secondary",
+              "success": "Success",
+              "tertiary": "Tertiary",
+              "warning": "Warning"
+            },
+            "name": "Prominence"
+          },
+          "state": {
+            "members": {
+              "default": "Default",
+              "disabled": "Disabled",
+              "hover": "Hover",
+              "pressed": "Pressed"
+            },
+            "name": "State"
+          },
+          "type": {
+            "members": {
+              "background": "Background",
+              "border": "Border",
+              "icon": "Icon",
+              "text": "Text"
+            },
+            "name": "Type"
+          }
+        },
+        "message": "This is an example taxonomy to help you get started",
+        "startFromScratch": "Start from scratch",
+        "useExample": "Use this example"
+      },
+      "groupName": "Group name",
+      "groups": "Groups",
+      "groupsHelper": "A semantic dimension of your taxonomy, such as role, state, or prominence",
+      "memberName": "Member name",
+      "members": "Members",
+      "membersHelper": "The possible values within this group, e.g. Primary, Secondary, Danger",
+      "newGroupName": "New group",
+      "newMemberName": "New member",
+      "noGroupSelected": "Select a group to see its members",
+      "noMembers": "This group has no members yet — add one to get started",
+      "removeGroup": "Remove group",
+      "removeMember": "Remove member",
+      "selectGroup": "Show this group's members"
+    }
   },
   "success": {
     "activatedLicense": "La clave de licencia \"{licenseKey}\" ha sido activada",
