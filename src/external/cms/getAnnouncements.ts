@@ -71,7 +71,6 @@ const getAnnouncements = (
         throw new Error(data.message)
 
       const label = PLATFORM_LABELS[platform]
-      console.log(data.announcements)
       return (data.announcements as NotionItem[])
         .filter((item) =>
           item.properties['Platforms']?.multi_select?.some(
