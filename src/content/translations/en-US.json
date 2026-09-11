@@ -1371,6 +1371,13 @@
     },
     "signIn": "Sign in",
     "signOut": "Sign out",
+    "theme": {
+      "dark": "Dark",
+      "label": "Change theme",
+      "light": "Light",
+      "system": "System",
+      "title": "Theme"
+    },
     "updateConsent": "Manage cookies",
     "updatePreferences": "Update preferences",
     "useLicense": "Use license key",

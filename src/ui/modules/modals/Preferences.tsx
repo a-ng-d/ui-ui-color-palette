@@ -1,6 +1,7 @@
 import { PureComponent, ChangeEventHandler } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Dialog, List } from '@unoff/ui'
+import ThemePreferences from '../preferences/ThemePreferences'
 import SyncPreferences from '../preferences/SyncPreferences'
 import LangPreferences from '../preferences/LangPreferences'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -86,6 +87,7 @@ export default class Preferences extends PureComponent<PreferencesProps> {
               isFullHeight
             >
               <SyncPreferences {...this.props} />
+              <ThemePreferences {...this.props} />
               <LangPreferences
                 {...this.props}
                 isLast={true}

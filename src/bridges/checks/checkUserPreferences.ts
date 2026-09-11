@@ -22,6 +22,7 @@ const checkUserPreferences = async () => {
     'is_suggested_language_displayed'
   )
   const userLanguage = window.localStorage.getItem('user_language')
+  const userTheme = window.localStorage.getItem('user_theme')
 
   if (isWCAGDisplayed === null)
     window.localStorage.setItem('is_wcag_displayed', 'true')
@@ -49,6 +50,8 @@ const checkUserPreferences = async () => {
 
   if (userLanguage === null)
     window.localStorage.setItem('user_language', globalConfig.lang)
+
+  if (userTheme === null) window.localStorage.setItem('user_theme', 'system')
 
   tolgee.changeLanguage(userLanguage ?? globalConfig.lang)
 
@@ -81,6 +84,7 @@ const checkUserPreferences = async () => {
             ? true
             : isSuggestedLanguageDisplayed === 'true',
         userLanguage: userLanguage ?? globalConfig.lang,
+        userTheme: userTheme ?? 'system',
       },
     },
     '*'

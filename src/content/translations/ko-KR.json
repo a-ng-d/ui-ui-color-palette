@@ -1366,6 +1366,13 @@
     },
     "signIn": "로그인",
     "signOut": "로그아웃",
+    "theme": {
+      "dark": "다크",
+      "label": "테마 변경",
+      "light": "라이트",
+      "system": "시스템",
+      "title": "테마"
+    },
     "updateConsent": "쿠키 관리",
     "updatePreferences": "환경설정 업데이트",
     "useLicense": "라이선스 키 사용",

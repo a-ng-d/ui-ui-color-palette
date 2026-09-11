@@ -1366,6 +1366,13 @@
     },
     "signIn": "登录",
     "signOut": "登出",
+    "theme": {
+      "dark": "深色",
+      "label": "更改主题",
+      "light": "浅色",
+      "system": "跟随系统",
+      "title": "主题"
+    },
     "updateConsent": "管理 Cookie",
     "updatePreferences": "更新偏好设置",
     "useLicense": "使用许可证密钥",

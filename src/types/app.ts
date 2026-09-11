@@ -21,6 +21,8 @@ export interface ContrastReportShadeData {
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
 
+export type UserTheme = 'dark' | 'light' | 'system'
+
 export type Service = 'MANAGE' | 'GEN' | 'EXTRACT' | 'WHEEL' | 'EXPLORE'
 export type Subservice = 'BROWSE' | 'OPEN'
 export type Mode = 'EDIT' | 'INSPECT' | 'EXPORT'

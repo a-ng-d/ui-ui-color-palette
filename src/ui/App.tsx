@@ -36,6 +36,7 @@ import {
   $isSuggestedLanguageDisplayed,
   $isWCAGDisplayed,
   $isWCAGIntervalDisplayed,
+  $userTheme,
 } from '../stores/preferences'
 import { $localPalettesCount } from '../stores/localPalettes'
 import { initHistory, redo, teardownHistory, undo } from '../stores/history'
@@ -501,6 +502,7 @@ class App extends Component<AppProps, AppState> {
         $isSuggestedLanguageDisplayed.set(
           path.data.isSuggestedLanguageDisplayed
         )
+        $userTheme.set(path.data.userTheme ?? 'system')
 
         this.onDetectBrowserLanguage(path.data.userLanguage)
 

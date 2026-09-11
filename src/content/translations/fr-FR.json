@@ -1371,6 +1371,13 @@
     },
     "signIn": "Se connecter",
     "signOut": "Se déconnecter",
+    "theme": {
+      "dark": "Sombre",
+      "label": "Changer de thème",
+      "light": "Clair",
+      "system": "Système",
+      "title": "Thème"
+    },
     "updateConsent": "Gérer les cookies",
     "updatePreferences": "Mettre à jour les préférences",
     "useLicense": "Utiliser une clé de licence",

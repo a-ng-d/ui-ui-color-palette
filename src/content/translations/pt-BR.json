@@ -1366,6 +1366,13 @@
     },
     "signIn": "Entrar",
     "signOut": "Sair",
+    "theme": {
+      "dark": "Escuro",
+      "label": "Alterar tema",
+      "light": "Claro",
+      "system": "Sistema",
+      "title": "Tema"
+    },
     "updateConsent": "Gerenciar cookies",
     "updatePreferences": "Atualizar preferências",
     "useLicense": "Usar chave de licença",
