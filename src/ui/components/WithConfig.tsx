@@ -1,4 +1,4 @@
-import { ComponentType, PureComponent } from 'preact/compat'
+import { ComponentType, forwardRef, useContext } from 'preact/compat'
 import { ConfigContext, ConfigContextType } from '../../config/ConfigContext'
 
 export interface WithConfigProps {
@@ -8,23 +8,15 @@ export interface WithConfigProps {
 export const WithConfig = <P extends WithConfigProps>(
   WrappedComponent: ComponentType<P>
 ) => {
-  return class WithConfigComponent extends PureComponent<
-    Omit<P, keyof WithConfigProps>
-  > {
-    render() {
-      return (
-        <ConfigContext.Consumer>
-          {(config) => {
-            if (!config) throw new Error('Config context is undefined')
-            return (
-              <WrappedComponent
-                {...(this.props as P)}
-                config={config}
-              />
-            )
-          }}
-        </ConfigContext.Consumer>
-      )
-    }
-  }
+  return forwardRef<unknown, Omit<P, keyof WithConfigProps>>((props, ref) => {
+    const config = useContext(ConfigContext)
+    if (!config) throw new Error('Config context is undefined')
+    return (
+      <WrappedComponent
+        {...(props as P)}
+        config={config}
+        ref={ref}
+      />
+    )
+  })
 }
