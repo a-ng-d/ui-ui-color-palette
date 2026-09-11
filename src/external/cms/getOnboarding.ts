@@ -20,6 +20,7 @@ const EDITOR_LABELS: Record<Editor, string> = {
   penpot: 'Penpot',
   sketch: 'Sketch',
   framer: 'Framer',
+  web: 'Web',
 }
 
 const getOnboarding = (
