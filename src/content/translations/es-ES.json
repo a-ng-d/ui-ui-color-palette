@@ -171,6 +171,10 @@
     "signInFirst": {
       "message": "Encuentra y usa tus paletas propias y favoritas una vez autenticado",
       "signIn": "Inicia sesión para cargar tus paletas"
+    },
+    "views": {
+      "list": "Vista de lista",
+      "mosaic": "Vista de mosaico"
     }
   },
   "colors": {

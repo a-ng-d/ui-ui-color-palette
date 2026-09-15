@@ -21,7 +21,10 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettesViewSwitch from '../components/PalettesViewSwitch'
+import PalettesMosaic from '../components/PalettesMosaic'
 import PalettePreview from '../components/PalettePreview'
+import PaletteCard from '../components/PaletteCard'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
 import setPreviewPalette from '../../utils/setPreviewPalette'
@@ -32,9 +35,11 @@ import {
   Editor,
   FetchStatus,
   FilterOptions,
+  PalettesView,
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $palettesView } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
 import {
@@ -52,6 +57,7 @@ interface ExploreProps
 }
 
 interface ExploreState {
+  palettesView: PalettesView
   isActionLoading: boolean
   colourLoversPaletteList: Array<ColourLovers>
   activeFilters: Array<FilterOptions>
@@ -61,6 +67,7 @@ interface ExploreState {
 }
 
 export default class Explore extends PureComponent<ExploreProps, ExploreState> {
+  private subscribePalettesView: (() => void) | undefined
   private filters: Array<FilterOptions>
   private palette = $palette
 
@@ -100,6 +107,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     this.filters = ['ANY', 'YELLOW', 'ORANGE', 'RED', 'GREEN', 'VIOLET', 'BLUE']
     this.palette = $palette
     this.state = {
+      palettesView: $palettesView.get(),
       isActionLoading: false,
       colourLoversPaletteList: [],
       activeFilters: ['ANY'],
@@ -112,6 +120,14 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   // Lifecycle
   componentDidMount = () => {
     this.callUICPAgent()
+
+    this.subscribePalettesView = $palettesView.subscribe((value) => {
+      this.setState({ palettesView: value })
+    })
+  }
+
+  componentWillUnmount = () => {
+    if (this.subscribePalettesView) this.subscribePalettesView()
   }
 
   componentDidUpdate = (
@@ -271,6 +287,12 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     }) as Array<SourceColorConfiguration>
 
   onUsePalette = (palette: ColourLovers) => {
+    if (
+      !this.features.CREATE_PALETTE.isActive() ||
+      this.features.LOCAL_PALETTES.isReached(this.props.localPalettesCount)
+    )
+      return
+
     const sourceColors = this.getSourceColors(palette)
 
     this.props.onChangeService({
@@ -304,6 +326,102 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   }
 
   // Templates
+  PaletteActions = ({
+    palette,
+    isCompact = false,
+  }: {
+    palette: ColourLovers
+    isCompact?: boolean
+  }) => (
+    <>
+      <Button
+        type="icon"
+        icon="link-connected"
+        helper={{
+          label: this.props.t('explore.actions.openPalette'),
+        }}
+        action={() =>
+          sendPluginMessage(
+            {
+              pluginMessage: {
+                type: 'OPEN_IN_BROWSER',
+                data: {
+                  url: palette.url?.replace('http', 'https'),
+                },
+              },
+            },
+            '*'
+          )
+        }
+      />
+      <Feature isActive={this.features.CREATE_PALETTE.isActive() && !isCompact}>
+        <Button
+          type="secondary"
+          label={this.props.t('explore.actions.newPalette')}
+          helper={{
+            label: this.features.LOCAL_PALETTES.isReached(
+              this.props.localPalettesCount
+            )
+              ? this.props.t('info.maxNumberOfLocalPalettes', {
+                  count: (this.features.LOCAL_PALETTES.limit ?? 3).toString(),
+                })
+              : this.props.t('explore.actions.addColors'),
+            type: 'MULTI_LINE',
+          }}
+          isLoading={this.state.isActionLoading}
+          isBlocked={this.features.LOCAL_PALETTES.isReached(
+            this.props.localPalettesCount
+          )}
+          isNew={this.features.CREATE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'LOCAL_PALETTES' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => {
+            this.onUsePalette(palette)
+          }}
+        />
+      </Feature>
+    </>
+  )
+
+  SourceColorsMosaic = () => (
+    <PalettesMosaic>
+      {this.state.colourLoversPaletteList.map((palette, index: number) => (
+        <PaletteCard
+          key={`source-colors-${index}`}
+          src={palette.imageUrl?.replace('http', 'https')}
+          name={palette.title ?? ''}
+          description={`#${palette.rank}`}
+          subdescription={this.props.t('explore.meta', {
+            votes: palette.numVotes?.toString() ?? '0',
+            views: palette.numViews?.toString() ?? '0',
+            comments: palette.numComments?.toString() ?? '0',
+          })}
+          actionsSlot={
+            <this.PaletteActions
+              palette={palette}
+              isCompact
+            />
+          }
+          action={() => this.onUsePalette(palette)}
+        />
+      ))}
+    </PalettesMosaic>
+  )
+
   ExternalSourceColorsList = () => {
     let fragment
 
@@ -313,98 +431,39 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     )
       fragment = (
         <>
-          {this.state.colourLoversPaletteList.map((palette, index: number) => (
-            <ActionsItem
-              id={palette.id?.toString() ?? ''}
-              key={`source-colors-${index}`}
-              src={palette.imageUrl?.replace('http', 'https')}
-              name={palette.title}
-              description={`#${palette.rank}`}
-              subdescription={this.props.t('explore.meta', {
-                votes: palette.numVotes?.toString() ?? '0',
-                views: palette.numViews?.toString() ?? '0',
-                comments: palette.numComments?.toString() ?? '0',
-              })}
-              user={{
-                avatar: undefined,
-                name: palette.userName ?? '',
-              }}
-              actionsSlot={
-                <>
-                  <Button
-                    type="icon"
-                    icon="link-connected"
-                    helper={{
-                      label: this.props.t('explore.actions.openPalette'),
-                    }}
-                    action={() =>
-                      sendPluginMessage(
-                        {
-                          pluginMessage: {
-                            type: 'OPEN_IN_BROWSER',
-                            data: {
-                              url: palette.url?.replace('http', 'https'),
-                            },
-                          },
-                        },
-                        '*'
-                      )
-                    }
+          {this.state.palettesView === 'MOSAIC' && <this.SourceColorsMosaic />}
+          {this.state.palettesView === 'LIST' &&
+            this.state.colourLoversPaletteList.map((palette, index: number) => (
+              <ActionsItem
+                id={palette.id?.toString() ?? ''}
+                key={`source-colors-${index}`}
+                src={palette.imageUrl?.replace('http', 'https')}
+                name={palette.title}
+                description={`#${palette.rank}`}
+                subdescription={this.props.t('explore.meta', {
+                  votes: palette.numVotes?.toString() ?? '0',
+                  views: palette.numViews?.toString() ?? '0',
+                  comments: palette.numComments?.toString() ?? '0',
+                })}
+                user={{
+                  avatar: undefined,
+                  name: palette.userName ?? '',
+                }}
+                actionsSlot={
+                  <>
+                    <this.PaletteActions palette={palette} />
+                  </>
+                }
+                complementSlot={
+                  <PalettePreview
+                    colors={setPreviewPalette(
+                      this.getSourceColors(palette),
+                      this.palette.get()
+                    )}
                   />
-                  <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
-                    <Button
-                      type="secondary"
-                      label={this.props.t('explore.actions.newPalette')}
-                      helper={{
-                        label: this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesCount
-                        )
-                          ? this.props.t('info.maxNumberOfLocalPalettes', {
-                              count: (
-                                this.features.LOCAL_PALETTES.limit ?? 3
-                              ).toString(),
-                            })
-                          : this.props.t('explore.actions.addColors'),
-                        type: 'MULTI_LINE',
-                      }}
-                      isLoading={this.state.isActionLoading}
-                      isBlocked={this.features.LOCAL_PALETTES.isReached(
-                        this.props.localPalettesCount
-                      )}
-                      isNew={this.features.CREATE_PALETTE.isNew()}
-                      onBlock={() => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'LOCAL_PALETTES' },
-                                },
-                          },
-                          '*'
-                        )
-                      }}
-                      action={() => {
-                        this.onUsePalette(palette)
-                      }}
-                    />
-                  </Feature>
-                </>
-              }
-              complementSlot={
-                <PalettePreview
-                  colors={setPreviewPalette(
-                    this.getSourceColors(palette),
-                    this.palette.get()
-                  )}
-                />
-              }
-            />
-          ))}
+                }
+              />
+            ))}
           <Bar
             soloPartSlot={
               this.state.colourLoversPalettesListStatus === 'LOADED' ? (
@@ -461,7 +520,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
             node: (
               <>
                 <Bar
-                  soloPartSlot={
+                  leftPartSlot={
                     <FormItem
                       id="explore-filters"
                       label={this.props.t('explore.filters.label')}
@@ -487,6 +546,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                       />
                     </FormItem>
                   }
+                  rightPartSlot={<PalettesViewSwitch />}
                   border={['BOTTOM']}
                 />
                 <this.ExternalSourceColorsList />

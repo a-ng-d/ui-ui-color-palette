@@ -172,6 +172,10 @@
     "signInFirst": {
       "message": "Trouvez et utilisez vos propres palettes et favorites une fois authentifié",
       "signIn": "Se connecter pour récupérer vos palettes"
+    },
+    "views": {
+      "list": "Vue liste",
+      "mosaic": "Vue mosaïque"
     }
   },
   "colors": {

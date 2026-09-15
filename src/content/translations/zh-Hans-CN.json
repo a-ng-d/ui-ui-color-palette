@@ -171,6 +171,10 @@
     "signInFirst": {
       "message": "登录后查找和使用您收藏的调色板",
       "signIn": "登录以获取您的调色板"
+    },
+    "views": {
+      "list": "列表视图",
+      "mosaic": "网格视图"
     }
   },
   "colors": {

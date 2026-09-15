@@ -1,5 +1,8 @@
 export { default as Feature } from './Feature'
+export { default as PaletteCard } from './PaletteCard'
 export { default as PalettePreview } from './PalettePreview'
+export { default as PalettesMosaic } from './PalettesMosaic'
+export { default as PalettesViewSwitch } from './PalettesViewSwitch'
 export { default as Shade } from './Shade'
 export { default as Source } from './Source'
 export { default as UndoRedoButtons } from './UndoRedoButtons'

@@ -1,7 +1,8 @@
 import { atom } from 'nanostores'
-import { UserTheme } from '../types/app'
+import { PalettesView, UserTheme } from '../types/app'
 
 export const $userTheme = atom<UserTheme>('system')
+export const $palettesView = atom<PalettesView>('LIST')
 export const $isWCAGDisplayed = atom<boolean>(true)
 export const $isAPCADisplayed = atom<boolean>(true)
 export const $isWCAGIntervalDisplayed = atom<boolean>(false)

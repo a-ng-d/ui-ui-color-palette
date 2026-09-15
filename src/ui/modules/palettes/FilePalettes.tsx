@@ -20,13 +20,23 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
+import PalettesViewSwitch from '../../components/PalettesViewSwitch'
+import PalettesMosaic from '../../components/PalettesMosaic'
 import PalettePreview from '../../components/PalettePreview'
+import PaletteCard from '../../components/PaletteCard'
 import Feature from '../../components/Feature'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { PluginMessageData } from '../../../types/messages'
-import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PalettesView,
+  PlanStatus,
+  Service,
+} from '../../../types/app'
 import { makePreviewData } from '../../../stores/previewPalette'
+import { $palettesView } from '../../../stores/preferences'
 import { $creditsCount } from '../../../stores/credits'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -40,6 +50,7 @@ interface FilePalettesProps
 }
 
 interface FilePalettesState {
+  palettesView: PalettesView
   isDeleteDialogOpen: boolean
   targetedPaletteId: string
   targetedPaletteName: string
@@ -51,6 +62,7 @@ export default class FilePalettes extends PureComponent<
   FilePalettesProps,
   FilePalettesState
 > {
+  private subscribePalettesView: (() => void) | undefined
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -117,9 +129,18 @@ export default class FilePalettes extends PureComponent<
     )
   }
 
+  private get sortedPalettes() {
+    return [...this.props.localPalettesList].sort(
+      (a, b) =>
+        new Date(b.meta.dates.openedAt).getTime() -
+        new Date(a.meta.dates.openedAt).getTime()
+    )
+  }
+
   constructor(props: FilePalettesProps) {
     super(props)
     this.state = {
+      palettesView: $palettesView.get(),
       isDeleteDialogOpen: false,
       targetedPaletteId: '',
       targetedPaletteName: '',
@@ -134,6 +155,10 @@ export default class FilePalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    this.subscribePalettesView = $palettesView.subscribe((value) => {
+      this.setState({ palettesView: value })
+    })
   }
 
   componentDidUpdate = (prevProps: Readonly<FilePalettesProps>): void => {
@@ -152,6 +177,8 @@ export default class FilePalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    if (this.subscribePalettesView) this.subscribePalettesView()
   }
 
   // Handlers
@@ -200,6 +227,20 @@ export default class FilePalettes extends PureComponent<
       },
       '*'
     )
+  }
+
+  onOpenPalette = (id: string) => {
+    if (
+      this.features.OPEN_PALETTE.isActive() &&
+      !this.features.OPEN_PALETTE.isBlocked()
+    )
+      return this.onEditPalette(id)
+
+    if (
+      this.features.SEE_PALETTE.isActive() &&
+      !this.features.SEE_PALETTE.isBlocked()
+    )
+      return this.onSeePalette(id)
   }
 
   onDuplicatePalette = (id: string) => {
@@ -301,6 +342,309 @@ export default class FilePalettes extends PureComponent<
     )
   }
 
+  PaletteActionsMenu = ({
+    palette,
+    index,
+  }: {
+    palette: FullConfiguration
+    index: number
+  }) => (
+    <Menu
+      id={`more-actions-${palette.meta.id}`}
+      icon="ellipses"
+      options={[
+        {
+          label: this.props.t('browse.actions.duplicatePalette'),
+          type: 'OPTION',
+          isActive: this.features.DUPLICATE_PALETTE.isActive(),
+          isBlocked:
+            this.features.DUPLICATE_PALETTE.isBlocked() ||
+            this.features.LOCAL_PALETTES.isReached(
+              this.props.localPalettesList.length
+            ),
+          isNew: this.features.DUPLICATE_PALETTE.isNew(),
+          onBlock: () => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: {
+                        origin: 'DUPLICATE_PALETTE',
+                      },
+                    },
+              },
+              '*'
+            )
+          },
+          action: () => {
+            this.setState({
+              isContextActionLoading: this.state.isContextActionLoading.map(
+                (loading, i) => (i === index ? true : loading)
+              ),
+            })
+            this.onDuplicatePalette(palette.meta.id)
+          },
+        },
+        {
+          label: this.props.t('browse.actions.deletePalette'),
+          type: 'OPTION',
+          isActive: this.features.DELETE_PALETTE.isActive(),
+          isBlocked: this.features.DELETE_PALETTE.isBlocked(),
+          isNew: this.features.DELETE_PALETTE.isNew(),
+          onBlock: () => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'DELETE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          },
+          action: () =>
+            this.setState({
+              isDeleteDialogOpen: true,
+              targetedPaletteId: palette.meta.id,
+              targetedPaletteName: palette.base.name,
+            }),
+        },
+      ]}
+      alignment="BOTTOM_RIGHT"
+      state={this.state.isContextActionLoading[index] ? 'LOADING' : 'DEFAULT'}
+      helper={{
+        label: this.props.t('browse.actions.moreParameters'),
+      }}
+      onBlock={() => {
+        const isTrial =
+          this.props.config.plan.isTrialEnabled &&
+          this.props.trialStatus !== 'EXPIRED'
+        sendPluginMessage(
+          {
+            pluginMessage: isTrial
+              ? { type: 'GET_TRIAL' }
+              : {
+                  type: 'GET_PRO',
+                  data: {
+                    origin: 'PALETTE_ACTIONS_MENU',
+                  },
+                },
+          },
+          '*'
+        )
+      }}
+    />
+  )
+
+  PaletteOpenActions = ({ palette }: { palette: FullConfiguration }) => (
+    <>
+      <Feature isActive={this.features.OPEN_PALETTE.isActive()}>
+        <Button
+          type="secondary"
+          label={this.props.t('browse.actions.openPalette')}
+          shouldReflow={{
+            isEnabled: true,
+            icon: 'forward',
+          }}
+          isBlocked={this.features.OPEN_PALETTE.isBlocked()}
+          isNew={this.features.OPEN_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'OPEN_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => this.onEditPalette(palette.meta.id)}
+        />
+      </Feature>
+      <Feature isActive={this.features.SEE_PALETTE.isActive()}>
+        <Button
+          type="secondary"
+          label={this.props.t('browse.actions.openPalette')}
+          shouldReflow={{
+            isEnabled: true,
+            icon: 'forward',
+          }}
+          isBlocked={this.features.SEE_PALETTE.isBlocked()}
+          isNew={this.features.SEE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'SEE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => this.onSeePalette(palette.meta.id)}
+        />
+      </Feature>
+    </>
+  )
+
+  PaletteCardActions = ({
+    palette,
+    index,
+  }: {
+    palette: FullConfiguration
+    index: number
+  }) => (
+    <>
+      <Feature isActive={this.features.DUPLICATE_PALETTE.isActive()}>
+        <Button
+          type="icon"
+          icon="copy"
+          helper={{
+            label: this.props.t('browse.actions.duplicatePalette'),
+          }}
+          isLoading={this.state.isContextActionLoading[index]}
+          isBlocked={
+            this.features.DUPLICATE_PALETTE.isBlocked() ||
+            this.features.LOCAL_PALETTES.isReached(
+              this.props.localPalettesList.length
+            )
+          }
+          isNew={this.features.DUPLICATE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'DUPLICATE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => {
+            this.setState({
+              isContextActionLoading: this.state.isContextActionLoading.map(
+                (loading, i) => (i === index ? true : loading)
+              ),
+            })
+            this.onDuplicatePalette(palette.meta.id)
+          }}
+        />
+      </Feature>
+      <Feature isActive={this.features.DELETE_PALETTE.isActive()}>
+        <Button
+          type="icon"
+          icon="trash"
+          helper={{
+            label: this.props.t('browse.actions.deletePalette'),
+          }}
+          isBlocked={this.features.DELETE_PALETTE.isBlocked()}
+          isNew={this.features.DELETE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'DELETE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() =>
+            this.setState({
+              isDeleteDialogOpen: true,
+              targetedPaletteId: palette.meta.id,
+              targetedPaletteName: palette.base.name,
+            })
+          }
+        />
+      </Feature>
+    </>
+  )
+
+  PalettesMosaic = () => (
+    <PalettesMosaic>
+      {this.sortedPalettes.map((palette, index) => {
+        try {
+          const enabledThemeIndex = palette.themes.findIndex(
+            (theme) => theme.isEnabled
+          )
+
+          return (
+            <PaletteCard
+              key={`palette-${index}`}
+              name={
+                palette.base.name === ''
+                  ? this.props.t('name')
+                  : palette.base.name
+              }
+              description={palette.base.preset.name}
+              subdescription={setPaletteMeta({
+                colors: palette.base.colors,
+                themes: palette.themes,
+                locales: this.props.t,
+              })}
+              indicator={
+                palette.meta.publicationStatus.isPublished
+                  ? {
+                      label: this.props.t('publication.statusPublished'),
+                      status: 'ACTIVE',
+                    }
+                  : undefined
+              }
+              colors={
+                new Data(palette).makePaletteData().themes[enabledThemeIndex]
+                  .colors
+              }
+              actionsSlot={
+                <this.PaletteCardActions
+                  palette={palette}
+                  index={index}
+                />
+              }
+              action={() => this.onOpenPalette(palette.meta.id)}
+            />
+          )
+        } catch {
+          return null
+        }
+      })}
+    </PalettesMosaic>
+  )
+
   FilePalettesList = () => {
     return (
       <List
@@ -310,15 +654,12 @@ export default class FilePalettes extends PureComponent<
         isFullWidth
         isTopBorderEnabled
       >
-        {this.props.localPalettesListStatus === 'LOADED' && (
-          <>
-            {this.props.localPalettesList
-              .sort(
-                (a, b) =>
-                  new Date(b.meta.dates.openedAt).getTime() -
-                  new Date(a.meta.dates.openedAt).getTime()
-              )
-              .map((palette, index) => {
+        {this.props.localPalettesListStatus === 'LOADED' &&
+          this.state.palettesView === 'MOSAIC' && <this.PalettesMosaic />}
+        {this.props.localPalettesListStatus === 'LOADED' &&
+          this.state.palettesView === 'LIST' && (
+            <>
+              {this.sortedPalettes.map((palette, index) => {
                 try {
                   const enabledThemeIndex = palette.themes.findIndex(
                     (theme) => theme.isEnabled
@@ -351,178 +692,11 @@ export default class FilePalettes extends PureComponent<
                       })}
                       actionsSlot={
                         <>
-                          <Menu
-                            id={`more-actions-${palette.meta.id}`}
-                            icon="ellipses"
-                            options={[
-                              {
-                                label: this.props.t(
-                                  'browse.actions.duplicatePalette'
-                                ),
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.DUPLICATE_PALETTE.isActive(),
-                                isBlocked:
-                                  this.features.DUPLICATE_PALETTE.isBlocked() ||
-                                  this.features.LOCAL_PALETTES.isReached(
-                                    this.props.localPalettesList.length
-                                  ),
-                                isNew: this.features.DUPLICATE_PALETTE.isNew(),
-                                onBlock: () => {
-                                  const isTrial =
-                                    this.props.config.plan.isTrialEnabled &&
-                                    this.props.trialStatus !== 'EXPIRED'
-                                  sendPluginMessage(
-                                    {
-                                      pluginMessage: isTrial
-                                        ? { type: 'GET_TRIAL' }
-                                        : {
-                                            type: 'GET_PRO',
-                                            data: {
-                                              origin: 'DUPLICATE_PALETTE',
-                                            },
-                                          },
-                                    },
-                                    '*'
-                                  )
-                                },
-                                action: () => {
-                                  this.setState({
-                                    isContextActionLoading:
-                                      this.state.isContextActionLoading.map(
-                                        (loading, i) =>
-                                          i === index ? true : loading
-                                      ),
-                                  })
-                                  this.onDuplicatePalette(palette.meta.id)
-                                },
-                              },
-                              {
-                                label: this.props.t(
-                                  'browse.actions.deletePalette'
-                                ),
-                                type: 'OPTION',
-                                isActive:
-                                  this.features.DELETE_PALETTE.isActive(),
-                                isBlocked:
-                                  this.features.DELETE_PALETTE.isBlocked(),
-                                isNew: this.features.DELETE_PALETTE.isNew(),
-                                onBlock: () => {
-                                  const isTrial =
-                                    this.props.config.plan.isTrialEnabled &&
-                                    this.props.trialStatus !== 'EXPIRED'
-                                  sendPluginMessage(
-                                    {
-                                      pluginMessage: isTrial
-                                        ? { type: 'GET_TRIAL' }
-                                        : {
-                                            type: 'GET_PRO',
-                                            data: { origin: 'DELETE_PALETTE' },
-                                          },
-                                    },
-                                    '*'
-                                  )
-                                },
-                                action: () =>
-                                  this.setState({
-                                    isDeleteDialogOpen: true,
-                                    targetedPaletteId: palette.meta.id,
-                                    targetedPaletteName: palette.base.name,
-                                  }),
-                              },
-                            ]}
-                            alignment="BOTTOM_RIGHT"
-                            state={
-                              this.state.isContextActionLoading[index]
-                                ? 'LOADING'
-                                : 'DEFAULT'
-                            }
-                            helper={{
-                              label: this.props.t(
-                                'browse.actions.moreParameters'
-                              ),
-                            }}
-                            onBlock={() => {
-                              const isTrial =
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: isTrial
-                                    ? { type: 'GET_TRIAL' }
-                                    : {
-                                        type: 'GET_PRO',
-                                        data: {
-                                          origin: 'PALETTE_ACTIONS_MENU',
-                                        },
-                                      },
-                                },
-                                '*'
-                              )
-                            }}
+                          <this.PaletteActionsMenu
+                            palette={palette}
+                            index={index}
                           />
-                          <Feature
-                            isActive={this.features.OPEN_PALETTE.isActive()}
-                          >
-                            <Button
-                              type="secondary"
-                              label={this.props.t('browse.actions.openPalette')}
-                              shouldReflow={{
-                                isEnabled: true,
-                                icon: 'forward',
-                              }}
-                              isBlocked={this.features.OPEN_PALETTE.isBlocked()}
-                              isNew={this.features.OPEN_PALETTE.isNew()}
-                              onBlock={() => {
-                                const isTrial =
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: isTrial
-                                      ? { type: 'GET_TRIAL' }
-                                      : {
-                                          type: 'GET_PRO',
-                                          data: { origin: 'OPEN_PALETTE' },
-                                        },
-                                  },
-                                  '*'
-                                )
-                              }}
-                              action={() => this.onEditPalette(palette.meta.id)}
-                            />
-                          </Feature>
-                          <Feature
-                            isActive={this.features.SEE_PALETTE.isActive()}
-                          >
-                            <Button
-                              type="secondary"
-                              label={this.props.t('browse.actions.openPalette')}
-                              shouldReflow={{
-                                isEnabled: true,
-                                icon: 'forward',
-                              }}
-                              isBlocked={this.features.SEE_PALETTE.isBlocked()}
-                              isNew={this.features.SEE_PALETTE.isNew()}
-                              onBlock={() => {
-                                const isTrial =
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: isTrial
-                                      ? { type: 'GET_TRIAL' }
-                                      : {
-                                          type: 'GET_PRO',
-                                          data: { origin: 'SEE_PALETTE' },
-                                        },
-                                  },
-                                  '*'
-                                )
-                              }}
-                              action={() => this.onSeePalette(palette.meta.id)}
-                            />
-                          </Feature>
+                          <this.PaletteOpenActions palette={palette} />
                         </>
                       }
                       complementSlot={
@@ -540,8 +714,8 @@ export default class FilePalettes extends PureComponent<
                   return null
                 }
               })}
-          </>
-        )}
+            </>
+          )}
         {this.props.localPalettesListStatus === 'EMPTY' && (
           <div className={doClassnames([layouts['stackbar--center']])}>
             <SemanticMessage
@@ -630,6 +804,12 @@ export default class FilePalettes extends PureComponent<
           leftPartSlot={
             <SectionTitle label={this.props.t('browse.file.title')} />
           }
+          rightPartSlot={
+            this.props.localPalettesListStatus === 'LOADED' ? (
+              <PalettesViewSwitch />
+            ) : undefined
+          }
+          alignment="CENTER"
           isListItem={false}
         />
         {this.features.LOCAL_PALETTES.isReached(

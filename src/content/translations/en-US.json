@@ -172,6 +172,10 @@
     "signInFirst": {
       "message": "Find and use your own and starred palettes once authenticated",
       "signIn": "Sign in to fetch your palettes"
+    },
+    "views": {
+      "list": "List view",
+      "mosaic": "Mosaic view"
     }
   },
   "colors": {
