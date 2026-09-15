@@ -169,7 +169,7 @@ div.export-palette__preview {
 }
 
 .preview__cell--no-height {
-  min-height: unset;
+  min-height: unset !important;
 }
 
 .preview__cell--compact {
@@ -193,8 +193,8 @@ div.export-palette__preview {
 }
 
 .preview__cell--free {
-  min-width: unset;
-  overflow: hidden;
+  min-width: unset !important;
+  overflow: hidden !important;
 }
 
 .preview__cell--header {

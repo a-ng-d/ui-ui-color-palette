@@ -1223,6 +1223,7 @@ export default class Publication extends PureComponent<
                   this.buildPaletteData().themes[this.enabledThemeIndex].colors
                 }
                 isFullHeight
+                isFree
               />
             </div>
             <div className="dialog__text">
