@@ -30,6 +30,7 @@
     "./external/tracking": "./src/external/tracking/index.ts",
     "./external/transactional": "./src/external/transactional/index.ts",
     "./external/translation": "./src/external/translation/index.ts",
+    "./utils/isValidPaletteConfiguration": "./src/utils/isValidPaletteConfiguration.ts",
     "./translations/*": "./src/content/translations/*"
   },
   "workspaces": [

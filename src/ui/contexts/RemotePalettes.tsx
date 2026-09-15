@@ -339,31 +339,31 @@ export default class RemotePalettes extends PureComponent<
   render() {
     let fragment
     let isFlex = true
-    let padding
+    let padding =
+      'var(--bar-padding-top) var(--bar-padding-right) var(--bar-padding-bottom) var(--bar-padding-left)'
 
     switch (this.theme) {
       case 'figma':
         isFlex = false
-        padding = 'var(--size-null) var(--size-pos-xsmall)'
         break
       case 'penpot':
         isFlex = true
-        padding = 'var(--size-null) var(--size-pos-xsmall)'
         break
       case 'sketch':
         isFlex = false
-        padding = 'var(--size-null) var(--size-pos-xsmall)'
         break
       case 'framer':
         isFlex = true
-        padding = 'var(--size-null) var(--size-pos-xsmall)'
+        break
+      case 'yelbolt':
+        isFlex = false
         break
       default:
         isFlex = false
-        padding = 'var(--size-null) var(--size-pos-xsmall)'
     }
 
-    if (this.props.documentWidth > 460) padding = 'var(--size-null)'
+    console.log(this.props.documentWidth)
+    if (this.props.documentWidth > 460) padding = 'var(--scale-null)'
 
     switch (this.state.context) {
       case 'REMOTE_PALETTES_SELF': {

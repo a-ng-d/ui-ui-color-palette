@@ -634,7 +634,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                 ) && (
                   <div
                     style={{
-                      padding: 'var(--size-pos-xxsmall)',
+                      padding: 'var(--scale-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage

@@ -623,7 +623,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           {this.state.sourceColors.filter(
             (sourceColor) => sourceColor.source === 'COOLORS'
           ).length === 0 ? (
-            <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+            <div style={{ padding: '0 var(--scale-pos-xsmall)' }}>
               <FormItem
                 id="update-coolors-url"
                 helper={this.state.coolorsUrl.helper}
@@ -741,7 +741,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           {this.state.sourceColors.filter(
             (sourceColor) => sourceColor.source === 'REALTIME_COLORS'
           ).length === 0 ? (
-            <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+            <div style={{ padding: '0 var(--scale-pos-xsmall)' }}>
               <FormItem
                 id="update-realtime-colors-url"
                 helper={this.state.realtimeColorsUrl.helper}
@@ -865,7 +865,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                 ) && (
                   <div
                     style={{
-                      padding: 'var(--size-pos-xxsmall)',
+                      padding: 'var(--scale-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage

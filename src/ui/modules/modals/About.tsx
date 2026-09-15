@@ -266,20 +266,10 @@ export default class About extends PureComponent<AboutProps> {
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <Layout
-            id="about"
-            column={[
-              {
-                node: (
-                  <>
-                    <this.QuickInfo />
-                    <this.Attributions />
-                  </>
-                ),
-              },
-            ]}
-            isFullWidth
-          />
+          <div className="dialog__blank">
+            <this.QuickInfo />
+            <this.Attributions />
+          </div>
         </Dialog>
       </Feature>
     )

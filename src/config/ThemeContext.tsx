@@ -8,7 +8,7 @@ import {
 import { UserTheme } from '../types/app'
 import { $userTheme } from '../stores/preferences'
 
-export type Theme = 'figma' | 'penpot' | 'sketch' | 'framer'
+export type Theme = 'figma' | 'penpot' | 'sketch' | 'framer' | 'yelbolt'
 export type Mode =
   | 'figma-light'
   | 'figma-dark'
@@ -19,6 +19,8 @@ export type Mode =
   | 'sketch-dark'
   | 'framer-light'
   | 'framer-dark'
+  | 'yelbolt-uicp-light'
+  | 'yelbolt-uicp-dark'
 
 interface ThemeContextType {
   theme: Theme
@@ -34,10 +36,11 @@ interface ThemeProviderProps {
 }
 
 // Figjam has no light/dark variant, so a user override cannot apply to it
-const resolveMode = (theme: Theme, mode: Mode, userTheme: UserTheme): Mode =>
-  userTheme === 'system' || mode === 'figjam'
-    ? mode
-    : (`${theme}-${userTheme}` as Mode)
+const resolveMode = (theme: Theme, mode: Mode, userTheme: UserTheme): Mode => {
+  if (userTheme === 'system' || mode === 'figjam') return mode
+  const prefix = mode.slice(0, mode.lastIndexOf('-'))
+  return `${prefix}-${userTheme}` as Mode
+}
 
 export const ThemeProvider = ({
   theme,

@@ -502,7 +502,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
               display: 'flex',
               alignItems: 'center',
               width: '100%',
-              gap: 'var(--size-pos-xxsmall)',
+              gap: 'var(--scale-pos-xxsmall)',
             }}
           >
             <div

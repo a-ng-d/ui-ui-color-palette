@@ -329,7 +329,7 @@ export default class Shortcuts extends PureComponent<
 
   // Render
   render() {
-    let height, radius
+    let height
     const isVertical = this.props.orientation === 'VERTICAL'
     const signInAction =
       this.props.onSignIn ??
@@ -351,24 +351,19 @@ export default class Shortcuts extends PureComponent<
 
     switch (this.theme) {
       case 'figma':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
+        height = 'calc(100% - var(--scale-pos-xxsmall))'
         break
       case 'penpot':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
+        height = 'calc(100% - var(--scale-pos-xxsmall))'
         break
       case 'sketch':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
+        height = 'calc(100% - var(--scale-pos-xxsmall))'
         break
       case 'framer':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-xlarge)'
+        height = 'calc(100% - var(--scale-pos-xxsmall))'
         break
       default:
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
+        height = 'calc(100% - var(--scale-pos-xxsmall))'
     }
 
     return (
@@ -440,7 +435,7 @@ export default class Shortcuts extends PureComponent<
                           src={this.props.userSession.userAvatar}
                           style={{
                             height: height,
-                            borderRadius: radius,
+                            borderRadius: 'var(--avatar-radius)',
                           }}
                           alt="User Avatar"
                         />

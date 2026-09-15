@@ -337,7 +337,7 @@ export default class ColorWheel extends PureComponent<
                 <this.HarmonyPreview />
                 <div
                   style={{
-                    padding: 'var(--size-pos-xxsmall) var(--size-pos-xsmall)',
+                    padding: 'var(--scale-pos-xxsmall) var(--scale-pos-xsmall)',
                   }}
                 >
                   <PalettePreview
@@ -536,8 +536,7 @@ export default class ColorWheel extends PureComponent<
                                         : {
                                             type: 'GET_PRO',
                                             data: {
-                                              origin:
-                                                'WHEEL_ALGORITHM_TRIADIC',
+                                              origin: 'WHEEL_ALGORITHM_TRIADIC',
                                             },
                                           },
                                     },

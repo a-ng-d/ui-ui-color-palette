@@ -268,7 +268,7 @@ export default class SelfPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
     else if (this.props.status === 'COMPLETE')
@@ -281,7 +281,7 @@ export default class SelfPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
 

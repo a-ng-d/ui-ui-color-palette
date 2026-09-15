@@ -80,6 +80,10 @@ export default class License extends PureComponent<LicenseProps, LicenseState> {
 
   // Lifecycle
   componentDidMount = () => {
+    window.addEventListener(
+      'platformMessage',
+      this.handleMessage as EventListener
+    )
     sendPluginMessage(
       {
         pluginMessage: {
@@ -92,10 +96,6 @@ export default class License extends PureComponent<LicenseProps, LicenseState> {
         },
       },
       '*'
-    )
-    window.addEventListener(
-      'platformMessage',
-      this.handleMessage as EventListener
     )
   }
 
@@ -123,14 +123,14 @@ export default class License extends PureComponent<LicenseProps, LicenseState> {
         else this.setState({ userLicenseKey: '', hasLicense: false })
       },
       GET_ITEM_USER_LICENSE_INSTANCE_ID: () => {
-        if (
+        this.setState((prevState) =>
           path.data.value !== null &&
           path.data.value !== undefined &&
           path.data.value !== '' &&
-          this.state.userLicenseKey !== ''
+          prevState.userLicenseKey !== ''
+            ? { userInstanceId: path.data.value, hasLicense: true }
+            : { userInstanceId: '', hasLicense: false }
         )
-          this.setState({ userInstanceId: path.data.value, hasLicense: true })
-        else this.setState({ userInstanceId: '', hasLicense: false })
       },
       GET_ITEM_USER_LICENSE_INSTANCE_NAME: () => {
         if (
@@ -174,6 +174,7 @@ export default class License extends PureComponent<LicenseProps, LicenseState> {
                 userInstanceId: data.instance_id,
                 userInstanceName: data.instance_name,
                 licenseStatus: 'VALID',
+                hasLicense: true,
               })
               sendPluginMessage(
                 {
@@ -291,33 +292,28 @@ export default class License extends PureComponent<LicenseProps, LicenseState> {
 
   // Render
   render() {
-    let modalPadding, messagePadding
+    let messagePadding
 
     switch (this.theme) {
       case 'figma':
-        modalPadding = 'var(--size-pos-xxsmall) 0'
         messagePadding =
-          '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall) var(--size-pos-xsmall)'
+          '0 var(--scale-pos-xsmall) var(--scale-pos-xxxsmall) var(--scale-pos-xsmall)'
         break
       case 'penpot':
-        modalPadding = 'var(--size-pos-xxsmall) var(--size-pos-xsmall)'
         messagePadding =
-          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
+          '0 var(--scale-pos-xsmall) var(--scale-pos-xxsmall) var(--scale-pos-xsmall)'
         break
       case 'sketch':
-        modalPadding = 'var(--size-pos-xsmall) var(--size-pos-xsmall)'
         messagePadding =
-          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
+          '0 var(--scale-pos-xsmall) var(--scale-pos-xxsmall) var(--scale-pos-xsmall)'
         break
       case 'framer':
-        modalPadding = 'var(--size-pos-xsmall) var(--size-pos-xxxsmall)'
         messagePadding =
-          '0 var(--size-pos-xsmall) var(--size-pos-xxsmall) var(--size-pos-xsmall)'
+          '0 var(--scale-pos-xsmall) var(--scale-pos-xxsmall) var(--scale-pos-xsmall)'
         break
       default:
-        modalPadding = 'var(--size-pos-xxsmall) 0'
         messagePadding =
-          '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall) var(--size-pos-xsmall)'
+          '0 var(--scale-pos-xsmall) var(--scale-pos-xxxsmall) var(--scale-pos-xsmall)'
     }
 
     return (
@@ -407,12 +403,9 @@ export default class License extends PureComponent<LicenseProps, LicenseState> {
           )}
           {this.state.hasLicense && (
             <div
+              className="dialog__block"
               style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
                 justifyContent: 'center',
-                padding: modalPadding,
               }}
             >
               {this.state.licenseStatus === 'ERROR' && (

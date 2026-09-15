@@ -139,12 +139,12 @@ export default class BrowsePalettes extends PureComponent<
 
   // Lifecycle
   componentDidMount = () => {
-    sendPluginMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
-
     window.addEventListener(
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    sendPluginMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
   }
 
   componentDidUpdate(previousProps: Readonly<BrowsePalettesProps>): void {

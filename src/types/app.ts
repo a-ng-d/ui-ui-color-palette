@@ -19,7 +19,7 @@ export interface ContrastReportShadeData {
   onNext?: () => void
 }
 
-export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
+export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer' | 'yelbolt'
 
 export type UserTheme = 'dark' | 'light' | 'system'
 

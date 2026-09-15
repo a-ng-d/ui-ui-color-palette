@@ -638,7 +638,7 @@ export default class FilePalettes extends PureComponent<
           !this.props.editor.includes('dev') && (
             <div
               style={{
-                padding: '0 var(--size-pos-xsmall) var(--size-pos-xxxsmall)',
+                padding: '0 var(--scale-pos-xsmall) var(--scale-pos-xxxsmall)',
               }}
             >
               <SemanticMessage

@@ -45,14 +45,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              maxWidth: '100%',
-            }}
-          >
+          <div className="dialog__blank">
             <Section
               body={[
                 {
@@ -67,7 +60,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       ]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -76,7 +69,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -85,7 +78,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.escape')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -99,7 +92,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       ]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -108,7 +101,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.tab')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -121,7 +114,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       separator={this.props.t('scale.tips.inputs.or')}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -137,7 +130,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       separator={this.props.t('scale.tips.inputs.or')}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -153,7 +146,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       separator={this.props.t('scale.tips.inputs.or')}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
               ]}
               border={['BOTTOM']}
@@ -176,7 +169,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -187,7 +180,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       ]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
               ]}
             />
