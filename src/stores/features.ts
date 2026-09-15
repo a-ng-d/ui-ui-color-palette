@@ -176,14 +176,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: [
-      'figma',
-      'figjam',
-      'penpot',
-      'sketch',
-      'framer',
-      'buzz',
-    ],
+    availabilityForEditors: ['web'],
   },
   // Modes
   {
@@ -232,7 +225,6 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
       'web',
     ],
   },
@@ -1131,8 +1123,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
-      'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1456,6 +1447,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1467,7 +1459,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'CONTEXT',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'THEMES_SWITCH',
@@ -1489,7 +1488,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'THEMES_PARAMS',
@@ -1500,7 +1506,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'THEMES_DESCRIPTION',
@@ -1511,7 +1524,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer', 'buzz'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'EXPORT_COLOR_SPACE',
@@ -1529,7 +1549,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1548,7 +1568,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1567,7 +1587,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1586,7 +1606,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1605,7 +1625,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1624,7 +1644,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1643,7 +1663,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1662,7 +1682,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1681,7 +1701,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1700,7 +1720,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1719,7 +1739,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1738,7 +1758,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1757,7 +1777,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1776,7 +1796,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1795,7 +1815,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1814,7 +1834,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1833,7 +1853,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1852,7 +1872,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1871,7 +1891,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1890,7 +1910,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1909,7 +1929,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1928,7 +1948,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1947,7 +1967,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1966,7 +1986,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1985,7 +2005,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -2004,7 +2024,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
-      'buzz',
+      'web',
     ],
   },
   {
