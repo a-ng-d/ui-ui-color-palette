@@ -19,6 +19,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { getPortalTarget } from '../../utils/getPortalTarget'
 import {
   BaseProps,
   Editor,
@@ -483,10 +484,10 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
 
     return (
       <Feature isActive={this.features.GLANCE_PALETTE.isActive()}>
-        {document.getElementById('modal') &&
+        {getPortalTarget('modal') &&
           createPortal(
             modal,
-            document.getElementById('modal') ?? document.createElement('app')
+            getPortalTarget('modal') ?? document.createElement('app')
           )}
       </Feature>
     )

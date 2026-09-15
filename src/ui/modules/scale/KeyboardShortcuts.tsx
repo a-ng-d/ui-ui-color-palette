@@ -8,6 +8,7 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
+import { getPortalTarget } from '../../../utils/getPortalTarget'
 import { BaseProps } from '../../../types/app'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 
@@ -38,7 +39,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
     )
 
     return (
-      document.getElementById('modal') &&
+      getPortalTarget('modal') &&
       createPortal(
         <Dialog
           title={this.props.t('scale.tips.title')}
@@ -186,7 +187,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
             />
           </div>
         </Dialog>,
-        document.getElementById('modal') ?? document.createElement('app')
+        getPortalTarget('modal') ?? document.createElement('app')
       )
     )
   }

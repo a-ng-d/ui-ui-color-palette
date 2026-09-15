@@ -15,6 +15,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { AppState } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { getDocumentAttribute } from '../../../utils/getDocumentAttribute'
 import {
   BaseProps,
   Editor,
@@ -83,7 +84,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   constructor(props: PricingProps) {
     super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
+    this.theme = getDocumentAttribute('data-theme')
     this.state = {
       selectedPlan: 'WEEK',
       isSigningIn: false,

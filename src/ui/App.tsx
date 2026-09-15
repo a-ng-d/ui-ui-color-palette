@@ -14,6 +14,7 @@ import {
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
+import { getPortalTarget } from '../utils/getPortalTarget'
 import { UserSession } from '../types/user'
 import { Language } from '../types/translations'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
@@ -1190,7 +1191,7 @@ class App extends Component<AppProps, AppState> {
             />
           </Feature>
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>
-            {document.getElementById('modal') &&
+            {getPortalTarget('modal') &&
               createPortal(
                 <Modal
                   {...this.props}
@@ -1210,12 +1211,12 @@ class App extends Component<AppProps, AppState> {
                     })
                   }
                 />,
-                document.getElementById('modal') ??
+                getPortalTarget('modal') ??
                   document.createElement('app')
               )}
           </Feature>
           <Feature isActive={this.state.isNotificationDisplayed}>
-            {document.getElementById('toast') &&
+            {getPortalTarget('toast') &&
               createPortal(
                 <Modal
                   {...this.props}
@@ -1236,7 +1237,7 @@ class App extends Component<AppProps, AppState> {
                     })
                   }
                 />,
-                document.getElementById('toast') ??
+                getPortalTarget('toast') ??
                   document.createElement('app')
               )}
           </Feature>
@@ -1246,7 +1247,7 @@ class App extends Component<AppProps, AppState> {
               this.features.USER_CONSENT.isActive()
             }
           >
-            {document.getElementById('modal') &&
+            {getPortalTarget('modal') &&
               createPortal(
                 <Consent
                   welcomeMessage={this.props.t('user.cookies.welcome')}
@@ -1294,7 +1295,7 @@ class App extends Component<AppProps, AppState> {
                   closeLabel={this.props.t('user.cookies.close')}
                   onClose={() => this.setState({ mustUserConsent: false })}
                 />,
-                document.getElementById('modal') ??
+                getPortalTarget('modal') ??
                   document.createElement('app')
               )}
           </Feature>

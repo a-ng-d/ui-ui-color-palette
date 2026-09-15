@@ -224,7 +224,6 @@ export default class EditPalette extends PureComponent<
     }
     this.themesRef = createRef()
     this.previewRef = createRef()
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle

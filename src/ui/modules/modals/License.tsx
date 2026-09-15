@@ -13,6 +13,7 @@ import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { getDocumentAttribute } from '../../../utils/getDocumentAttribute'
 import { PluginMessageData } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import validateUserLicenseKey from '../../../external/license/validateUserLicenseKey '
@@ -75,7 +76,7 @@ export default class License extends PureComponent<LicenseProps, LicenseState> {
       userInstanceId: '',
       userInstanceName: '',
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
+    this.theme = getDocumentAttribute('data-theme')
   }
 
   // Lifecycle

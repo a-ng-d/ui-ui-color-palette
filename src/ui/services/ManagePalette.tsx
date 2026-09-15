@@ -213,7 +213,6 @@ export default class ManagePalette extends PureComponent<
       },
       canBePublished: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle

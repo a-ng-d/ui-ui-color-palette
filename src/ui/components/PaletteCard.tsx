@@ -68,11 +68,7 @@ const PaletteCard = ({
       </div>
     }
     shouldFill
-    action={(e: MouseEvent<Element> | KeyboardEvent<Element>) => {
-      if ((e.target as HTMLElement).closest('.card__actions') !== null) return
-
-      action()
-    }}
+    action={action}
   />
 )
 

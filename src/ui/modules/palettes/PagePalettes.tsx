@@ -27,6 +27,7 @@ import PaletteCard from '../../components/PaletteCard'
 import Feature from '../../components/Feature'
 import setPaletteMeta from '../../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { getPortalTarget } from '../../../utils/getPortalTarget'
 import { PluginMessageData } from '../../../types/messages'
 import {
   BaseProps,
@@ -297,7 +298,7 @@ export default class PagePalettes extends PureComponent<
           this.state.isDeleteDialogOpen
         }
       >
-        {document.getElementById('modal') &&
+        {getPortalTarget('modal') &&
           createPortal(
             <Dialog
               title={this.props.t('browse.deletePaletteDialog.title')}
@@ -340,7 +341,7 @@ export default class PagePalettes extends PureComponent<
                 </p>
               </div>
             </Dialog>,
-            document.getElementById('modal') ?? document.createElement('app')
+            getPortalTarget('modal') ?? document.createElement('app')
           )}
       </Feature>
     )

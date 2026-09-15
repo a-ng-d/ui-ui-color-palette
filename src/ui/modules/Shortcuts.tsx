@@ -256,7 +256,6 @@ export default class Shortcuts extends PureComponent<
 
   constructor(props: ShortcutsProps) {
     super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       isUserMenuLoading: false,
     }
@@ -329,7 +328,7 @@ export default class Shortcuts extends PureComponent<
 
   // Render
   render() {
-    let height
+    const height = 'calc(100% - var(--scale-pos-xxsmall))'
     const isVertical = this.props.orientation === 'VERTICAL'
     const signInAction =
       this.props.onSignIn ??
@@ -348,23 +347,6 @@ export default class Shortcuts extends PureComponent<
           platformUrl: this.props.config.urls.platformUrl,
           pluginId: this.props.config.env.pluginId,
         }))
-
-    switch (this.theme) {
-      case 'figma':
-        height = 'calc(100% - var(--scale-pos-xxsmall))'
-        break
-      case 'penpot':
-        height = 'calc(100% - var(--scale-pos-xxsmall))'
-        break
-      case 'sketch':
-        height = 'calc(100% - var(--scale-pos-xxsmall))'
-        break
-      case 'framer':
-        height = 'calc(100% - var(--scale-pos-xxsmall))'
-        break
-      default:
-        height = 'calc(100% - var(--scale-pos-xxsmall))'
-    }
 
     return (
       <>

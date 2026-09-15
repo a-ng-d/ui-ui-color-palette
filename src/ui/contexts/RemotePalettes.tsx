@@ -16,6 +16,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { getDocumentAttribute } from '../../utils/getDocumentAttribute'
 import {
   BaseProps,
   Context,
@@ -146,7 +147,7 @@ export default class RemotePalettes extends PureComponent<
       orgPalettesSearchQuery: '',
       starredPalettesSearchQuery: '',
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
+    this.theme = getDocumentAttribute('data-theme')
   }
 
   // Lifecycle

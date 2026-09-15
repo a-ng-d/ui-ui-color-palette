@@ -35,6 +35,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { getDocumentAttribute } from '../../utils/getDocumentAttribute'
 import { ExportEvent } from '../../types/events'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackExportEvent } from '../../external/tracking/eventsTracker'
@@ -67,7 +68,6 @@ interface ExportState {
 }
 
 export default class Export extends PureComponent<ExportProps, ExportState> {
-  private theme: string | null
   private mode: string | null
 
   static features = (
@@ -278,8 +278,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
   constructor(props: ExportProps) {
     super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
-    this.mode = document.documentElement.getAttribute('data-mode')
+    this.mode = getDocumentAttribute('data-mode')
     this.state = {
       colorSpace: {
         selected: 'RGB',
@@ -942,12 +941,6 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
   }
 
   handleCodeSyntaxTheme = () => {
-    const figmaMode = document.documentElement.getAttribute('class')
-
-    if (figmaMode !== null)
-      if (this.theme === 'figma')
-        return figmaMode?.includes('dark') ? atomOneDark : docco
-
     return this.mode?.includes('dark') ? atomOneDark : docco
   }
 

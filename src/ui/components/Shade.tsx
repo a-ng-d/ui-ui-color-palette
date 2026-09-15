@@ -68,8 +68,6 @@ interface ShadeState {
 }
 
 export default class Shade extends PureComponent<ShadeProps, ShadeState> {
-  private theme: string | null
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -121,7 +119,6 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       isMouseEnter: false,
       isCopied: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Handlers
