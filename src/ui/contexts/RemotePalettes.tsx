@@ -341,7 +341,7 @@ export default class RemotePalettes extends PureComponent<
     let fragment
     let isFlex = true
     let padding =
-      'var(--bar-padding-top) var(--bar-padding-right) var(--bar-padding-bottom) var(--bar-padding-left)'
+      'var(--bar-padding-default-top) var(--bar-padding-default-right) var(--bar-padding-default-bottom) var(--bar-padding-default-left)'
 
     switch (this.theme) {
       case 'figma':
