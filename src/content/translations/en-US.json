@@ -1189,7 +1189,6 @@
   "success": {
     "activatedLicense": "The license key \"{licenseKey}\" has been activated",
     "addToLocal": "The palette has been added to this page",
-    "copyLink": "Link copied to clipboard",
     "detachment": "The palette has been detached",
     "nonPublication": "The palette has been unpublished",
     "publication": "The palette has been published",

@@ -86,7 +86,7 @@
       "paletteWithProperties": "Palette de couleurs détaillée",
       "sheet": "Feuille de couleurs complète"
     },
-    "giveFeedback": "Soumettre des commentaires",
+    "giveFeedback": "Donnez votre avis",
     "moreActions": "Plus d'actions",
     "publishOrSyncPalette": "Publier ou synchroniser la palette",
     "publishPalette": "Publier la palette",
@@ -284,7 +284,7 @@
     "announcements": "Les annonces ne peuvent pas être chargées",
     "authentication": "L'authentification a échoué",
     "badResponse": "La réponse n'est pas valide",
-    "copyLink": "Impossible de copier le lien automatiquement — copiez-le depuis la barre d'adresse.",
+    "copyLink": "Impossible de copier le lien automatiquement. Copiez-le depuis la barre d'adresse.",
     "copyLinkNoPalette": "Aucune palette ouverte à partager pour le moment.",
     "corruption": "Votre UI Color Palette semble corrompue. Ne modifiez aucun calque à l'intérieur.",
     "document": "Le document ne peut pas être généré",
@@ -1189,7 +1189,6 @@
   "success": {
     "activatedLicense": "La clé de licence \"{licenseKey}\" a été activée",
     "addToLocal": "La palette a été ajoutée à cette page",
-    "copyLink": "Lien copié dans le presse-papiers",
     "detachment": "La palette a été détachée",
     "nonPublication": "La palette a été dépubliée",
     "publication": "La palette a été publiée",

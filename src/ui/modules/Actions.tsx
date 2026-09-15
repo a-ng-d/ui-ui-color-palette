@@ -72,6 +72,7 @@ interface ActionsProps
 interface ActionsState {
   isTooltipVisible: boolean
   canUpdateDocument: boolean
+  isCopied: boolean
 }
 
 export default class Actions extends PureComponent<ActionsProps, ActionsState> {
@@ -250,6 +251,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     this.state = {
       isTooltipVisible: false,
       canUpdateDocument: false,
+      isCopied: false,
     }
   }
 
@@ -993,12 +995,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             <Feature isActive={this.features.SHARE_LINK.isActive()}>
               <Button
                 type="icon"
-                icon="hyperlink"
+                icon={this.state.isCopied ? 'check' : 'hyperlink'}
                 feature="SHARE_LINK"
                 helper={{
                   label: this.props.t('actions.copyPaletteLink'),
                 }}
-                action={() =>
+                action={() => {
+                  this.setState({ isCopied: true })
+                  setTimeout(() => {
+                    this.setState({ isCopied: false })
+                  }, 2000)
+
                   sendPluginMessage(
                     {
                       pluginMessage: {
@@ -1008,7 +1015,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     },
                     '*'
                   )
-                }
+                }}
               />
             </Feature>
             <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
@@ -1082,12 +1089,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             <Feature isActive={this.features.SHARE_LINK.isActive()}>
               <Button
                 type="icon"
-                icon="hyperlink"
+                icon={this.state.isCopied ? 'check' : 'hyperlink'}
                 feature="SHARE_LINK"
                 helper={{
                   label: this.props.t('actions.copyPaletteLink'),
                 }}
-                action={() =>
+                action={() => {
+                  this.setState({ isCopied: true })
+                  setTimeout(() => {
+                    this.setState({ isCopied: false })
+                  }, 2000)
+
                   sendPluginMessage(
                     {
                       pluginMessage: {
@@ -1097,7 +1109,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     },
                     '*'
                   )
-                }
+                }}
               />
             </Feature>
             <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
@@ -1187,12 +1199,17 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             <Feature isActive={this.features.SHARE_LINK.isActive()}>
               <Button
                 type="icon"
-                icon="hyperlink"
+                icon={this.state.isCopied ? 'check' : 'hyperlink'}
                 feature="SHARE_LINK"
                 helper={{
                   label: this.props.t('actions.copyPaletteLink'),
                 }}
-                action={() =>
+                action={() => {
+                  this.setState({ isCopied: true })
+                  setTimeout(() => {
+                    this.setState({ isCopied: false })
+                  }, 2000)
+
                   sendPluginMessage(
                     {
                       pluginMessage: {
@@ -1202,7 +1219,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     },
                     '*'
                   )
-                }
+                }}
               />
             </Feature>
             <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
