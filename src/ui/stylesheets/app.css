@@ -310,10 +310,20 @@ div.export-palette__preview {
   min-width: var(--scale-null);
 }
 
-.palettes-mosaic__text span {
+.palettes-mosaic__text > span {
   display: block;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.palettes-mosaic__text .user {
+  margin-top: var(--scale-pos-xxxsmall);
+  min-width: var(--scale-null);
+}
+
+.palettes-mosaic__text .user__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

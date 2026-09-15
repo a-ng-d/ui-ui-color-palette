@@ -1,8 +1,7 @@
-import { KeyboardEvent, MouseEvent } from 'preact/compat'
 import { ComponentChildren } from 'preact'
 import { PaletteDataColorItem } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames } from '@unoff/utils'
-import { Card, texts } from '@unoff/ui'
+import { Avatar, Card, texts } from '@unoff/ui'
 import PalettePreview from './PalettePreview'
 
 interface PaletteCardProps {
@@ -15,6 +14,10 @@ interface PaletteCardProps {
     label: string
     status: 'ACTIVE' | 'INACTIVE'
   }
+  user?: {
+    avatar: string
+    name: string
+  }
   actionsSlot?: ComponentChildren
   action: () => void
 }
@@ -26,6 +29,7 @@ const PaletteCard = ({
   description,
   subdescription,
   indicator,
+  user,
   actionsSlot,
   action,
 }: PaletteCardProps) => (
@@ -64,6 +68,12 @@ const PaletteCard = ({
           <span className={doClassnames([texts.type, texts['type--tertiary']])}>
             {subdescription}
           </span>
+        )}
+        {user !== undefined && (
+          <Avatar
+            avatar={user.avatar}
+            fullName={user.name}
+          />
         )}
       </div>
     }

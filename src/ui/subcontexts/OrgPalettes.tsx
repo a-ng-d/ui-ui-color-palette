@@ -502,6 +502,10 @@ export default class OrgPalettes extends PureComponent<
               locales: this.props.t,
             })}
             colors={data.themes[enabledThemeIndex].colors}
+            user={{
+              avatar: palette.org_avatar_url ?? '',
+              name: palette.org_name ?? '',
+            }}
             actionsSlot={
               <this.PaletteActions
                 palette={palette}

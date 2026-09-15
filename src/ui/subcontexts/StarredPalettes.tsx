@@ -638,6 +638,10 @@ export default class StarredPalettes extends PureComponent<
               locales: this.props.t,
             })}
             colors={data.themes[enabledThemeIndex].colors}
+            user={{
+              avatar: palette.creator_avatar_url ?? '',
+              name: palette.creator_full_name ?? '',
+            }}
             actionsSlot={
               <this.PaletteActions
                 palette={palette}
