@@ -631,6 +631,7 @@ export default class PagePalettes extends PureComponent<
           leftPartSlot={
             <SectionTitle label={this.props.t('browse.page.title')} />
           }
+          alignment="CENTER"
           isListItem={false}
         />
         {this.features.LOCAL_PALETTES.isReached(

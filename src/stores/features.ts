@@ -178,6 +178,17 @@ export const featuresScheme: Array<Feature<Service>> = [
     proForServices: ['MANAGE'],
     availabilityForEditors: ['web'],
   },
+  {
+    name: 'FEEDBACK_LINK',
+    description: 'Opens the feedback form for the palette',
+    isActive: true,
+    isPro: false,
+    isNew: true,
+    type: 'ACTION',
+    availabilityForServices: ['MANAGE'],
+    proForServices: ['MANAGE'],
+    availabilityForEditors: ['web'],
+  },
   // Modes
   {
     name: 'EDIT',

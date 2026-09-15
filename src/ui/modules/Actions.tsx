@@ -235,6 +235,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
+    FEEDBACK_LINK: new FeatureStatus({
+      features: config.features,
+      featureName: 'FEEDBACK_LINK',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: ActionsProps) {
@@ -1004,6 +1011,29 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 }
               />
             </Feature>
+            <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="smiley"
+                feature="FEEDBACK_LINK"
+                helper={{
+                  label: this.props.t('actions.giveFeedback'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.feedbackUrl,
+                        },
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
           </div>
         }
         clip={['LEFT']}
@@ -1063,6 +1093,29 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       pluginMessage: {
                         type: 'COPY_SHARE_LINK',
                         id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
+            <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="smiley"
+                feature="FEEDBACK_LINK"
+                helper={{
+                  label: this.props.t('actions.giveFeedback'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.feedbackUrl,
+                        },
                       },
                     },
                     '*'
@@ -1145,6 +1198,29 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       pluginMessage: {
                         type: 'COPY_SHARE_LINK',
                         id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
+            <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="smiley"
+                feature="FEEDBACK_LINK"
+                helper={{
+                  label: this.props.t('actions.giveFeedback'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.feedbackUrl,
+                        },
                       },
                     },
                     '*'
