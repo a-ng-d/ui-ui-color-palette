@@ -1218,8 +1218,7 @@ class App extends Component<AppProps, AppState> {
                     })
                   }
                 />,
-                getPortalTarget('modal') ??
-                  document.createElement('app')
+                getPortalTarget('modal') ?? document.createElement('app')
               )}
           </Feature>
           <Feature isActive={this.state.isNotificationDisplayed}>
@@ -1244,8 +1243,7 @@ class App extends Component<AppProps, AppState> {
                     })
                   }
                 />,
-                getPortalTarget('toast') ??
-                  document.createElement('app')
+                getPortalTarget('toast') ?? document.createElement('app')
               )}
           </Feature>
           <Feature
@@ -1302,8 +1300,7 @@ class App extends Component<AppProps, AppState> {
                   closeLabel={this.props.t('user.cookies.close')}
                   onClose={() => this.setState({ mustUserConsent: false })}
                 />,
-                getPortalTarget('modal') ??
-                  document.createElement('app')
+                getPortalTarget('modal') ?? document.createElement('app')
               )}
           </Feature>
         </main>

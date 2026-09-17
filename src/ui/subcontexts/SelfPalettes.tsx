@@ -64,7 +64,10 @@ interface SelfPalettesState {
   isContextActionLoading: Array<boolean>
 }
 
-export default class SelfPalettes extends PureComponent<SelfPalettesProps, SelfPalettesState> {
+export default class SelfPalettes extends PureComponent<
+  SelfPalettesProps,
+  SelfPalettesState
+> {
   private subscribePalettesView: (() => void) | undefined
   static features = (
     planStatus: PlanStatus,

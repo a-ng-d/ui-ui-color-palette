@@ -1,5 +1,9 @@
 .driver-popover {
-  box-shadow: var(--elevation-300-tooltip, 0 var(--scale-pos-xxxsmall) var(--scale-pos-xsmall) rgb(var(--scale-null) 0 0 / 0.16));
+  box-shadow: var(
+    --elevation-300-tooltip,
+    0 var(--scale-pos-xxxsmall) var(--scale-pos-xsmall)
+      rgb(var(--scale-null) 0 0 / 0.16)
+  );
   border-radius: var(--card-radius);
   background-color: var(--card-background-color-default);
   padding: var(--scale-pos-small);

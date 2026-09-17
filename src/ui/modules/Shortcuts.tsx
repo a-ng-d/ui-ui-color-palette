@@ -1,6 +1,6 @@
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Bar, Button, Icon, layouts, Menu } from '@unoff/ui'
+import { Bar, Button, Chip, Icon, layouts, Menu } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -29,6 +29,7 @@ interface ShortcutsProps
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
+  tag: string
   onReOpenAnnouncements: Dispatch<Partial<AppState>>
   onReOpenOnboarding: Dispatch<Partial<AppState>>
   onReOpenStore: Dispatch<Partial<AppState>>
@@ -1206,14 +1207,29 @@ export default class Shortcuts extends PureComponent<
             </>
           }
           leftPartSlot={
-            <Feature
-              isActive={
-                this.features.PRO_PLAN.isActive() &&
-                this.props.config.env.isSupabaseEnabled
-              }
+            <div
+              className={doClassnames([
+                layouts['stackbar--medium'],
+                layouts['stackbar--centered'],
+              ])}
             >
-              <PlanControls {...this.props} />
-            </Feature>
+              <Feature
+                isActive={
+                  this.features.PRO_PLAN.isActive() &&
+                  this.props.config.env.isSupabaseEnabled
+                }
+              >
+                <PlanControls {...this.props} />
+              </Feature>
+              {this.props.tag !== undefined && (
+                <Chip
+                  state="ACTIVE"
+                  isSolo
+                >
+                  {this.props.tag}
+                </Chip>
+              )}
+            </div>
           }
           shouldReflow={!isVertical}
           isVertical={isVertical}

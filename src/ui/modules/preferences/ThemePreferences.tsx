@@ -11,7 +11,13 @@ import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
-import { BaseProps, Editor, PlanStatus, Service, UserTheme } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  Service,
+  UserTheme,
+} from '../../../types/app'
 import { $userTheme } from '../../../stores/preferences'
 import { ConfigContextType } from '../../../config/ConfigContext'
 

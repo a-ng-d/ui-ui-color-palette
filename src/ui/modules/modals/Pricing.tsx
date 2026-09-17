@@ -420,7 +420,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_LIFETIME', origin: this.props.pricingOrigin }
+                {
+                  feature: 'GO_TO_PRO_LIFETIME',
+                  origin: this.props.pricingOrigin,
+                }
               )
             }}
           />
@@ -562,7 +565,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_ULTIMATE_REQUEST', origin: this.props.pricingOrigin }
+                {
+                  feature: 'GO_TO_ULTIMATE_REQUEST',
+                  origin: this.props.pricingOrigin,
+                }
               )
             }}
           />
@@ -585,7 +591,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_ULTIMATE_REQUEST', origin: this.props.pricingOrigin }
+            {
+              feature: 'GO_TO_ULTIMATE_REQUEST',
+              origin: this.props.pricingOrigin,
+            }
           )
         }}
       />
