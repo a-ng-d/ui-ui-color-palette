@@ -385,6 +385,45 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
           )
         }
       />
+      <Feature isActive={this.features.CREATE_PALETTE.isActive() && isCompact}>
+        <Button
+          type="icon"
+          icon="plus"
+          helper={{
+            label: this.features.LOCAL_PALETTES.isReached(
+              this.props.localPalettesCount
+            )
+              ? this.props.t('info.maxNumberOfLocalPalettes', {
+                  count: (this.features.LOCAL_PALETTES.limit ?? 3).toString(),
+                })
+              : this.props.t('explore.actions.addColors'),
+          }}
+          isLoading={this.state.isActionLoading}
+          isBlocked={this.features.LOCAL_PALETTES.isReached(
+            this.props.localPalettesCount
+          )}
+          isNew={this.features.CREATE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'LOCAL_PALETTES' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => {
+            this.onUsePalette(palette)
+          }}
+        />
+      </Feature>
       <Feature isActive={this.features.CREATE_PALETTE.isActive() && !isCompact}>
         <Button
           type="secondary"
