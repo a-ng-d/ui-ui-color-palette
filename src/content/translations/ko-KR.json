@@ -343,8 +343,8 @@
       "violet": "보라",
       "yellow": "노랑"
     },
-    "meta": "{votes}표・{views}회 조회・{comments}개 댓글",
-    "title": "Colour Lovers"
+    "meta": "{likes}개 좋아요・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -626,7 +626,7 @@
         "generateColorSheet": "색상 시트 생성: {fee} cdts",
         "generateDetailedPalette": "상세 팔레트 생성: {fee} cdts",
         "generateSimplePalette": "간단한 팔레트 생성: {fee} cdts",
-        "importColourLovers": "Colour Lovers에서 팔레트 가져오기: {fee} cdts",
+        "importColourLovers": "Color Hunt에서 팔레트 가져오기: {fee} cdts",
         "importCoolors": "Coolors에서 팔레트 가져오기: {fee} cdts",
         "importRealtimeColors": "Realtime Colors에서 팔레트 가져오기: {fee} cdts",
         "syncLocalStyles": "로컬 스타일과 동기화: {fee} cdts",

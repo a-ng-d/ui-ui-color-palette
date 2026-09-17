@@ -3,7 +3,6 @@ import { PureComponent } from 'preact/compat'
 import chroma from 'chroma-js'
 import {
   SourceColorConfiguration,
-  ColourLovers,
   makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
@@ -28,6 +27,7 @@ import PaletteCard from '../components/PaletteCard'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
 import setPreviewPalette from '../../utils/setPreviewPalette'
+import { computeScaleForStops } from '../../utils/scaleStops'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import {
@@ -49,6 +49,23 @@ import {
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { Dispatch } from 'preact/hooks'
 
+interface ColorHuntPalette {
+  code: string
+  colors: Array<string>
+  likes: number
+  date: string
+  url: string
+}
+
+const colorHuntTags: Partial<Record<FilterOptions, string>> = {
+  YELLOW: 'yellow',
+  ORANGE: 'orange',
+  RED: 'red',
+  GREEN: 'green',
+  VIOLET: 'purple',
+  BLUE: 'blue',
+}
+
 interface ExploreProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   creditsCount: number
@@ -59,7 +76,7 @@ interface ExploreProps
 interface ExploreState {
   palettesView: PalettesView
   isActionLoading: boolean
-  colourLoversPaletteList: Array<ColourLovers>
+  colourLoversPaletteList: Array<ColorHuntPalette>
   activeFilters: Array<FilterOptions>
   colourLoversPalettesListStatus: FetchStatus
   currentPage: number
@@ -153,15 +170,21 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     return fetch(
       this.props.config.urls.corsWorkerUrl +
         '?' +
-        encodeURIComponent(
-          `https://www.colourlovers.com/api/palettes?format=json&numResults=${this.props.config.limits.pageSize}&resultOffset=${
-            this.state.currentPage - 1
-          }&hueOption=${this.state.activeFilters
-            .filter((filter) => filter !== 'ANY')
-            .map((filter) => filter.toLowerCase())
-            .join(',')}`
-        ),
+        encodeURIComponent('https://colorhunt.co/php/feed.php'),
       {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          step: (this.state.currentPage - 1).toString(),
+          sort: 'new',
+          tags: this.state.activeFilters
+            .filter((filter) => filter !== 'ANY')
+            .map((filter) => colorHuntTags[filter] ?? '')
+            .filter((tag) => tag !== '')
+            .join(','),
+        }).toString(),
         cache: 'no-cache',
         credentials: 'omit',
       }
@@ -170,16 +193,30 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
         if (response.ok) return response.json()
         else throw new Error(this.props.t('error.badResponse'))
       })
-      .then((data) => {
-        this.setState({
-          colourLoversPalettesListStatus:
-            data.length === this.props.config.limits.pageSize
-              ? 'LOADED'
-              : 'COMPLETE',
-          colourLoversPaletteList:
-            this.state.colourLoversPaletteList.concat(data),
-        })
-      })
+      .then(
+        (
+          data: Array<{ code: string; likes: string; date: string }>
+        ) => {
+          const palettes: Array<ColorHuntPalette> = data.map((item) => ({
+            code: item.code,
+            colors: [
+              item.code.slice(0, 6),
+              item.code.slice(6, 12),
+              item.code.slice(12, 18),
+              item.code.slice(18, 24),
+            ],
+            likes: Number(item.likes),
+            date: item.date,
+            url: `https://colorhunt.co/palette/${item.code}`,
+          }))
+          this.setState({
+            colourLoversPalettesListStatus:
+              palettes.length === 0 ? 'COMPLETE' : 'LOADED',
+            colourLoversPaletteList:
+              this.state.colourLoversPaletteList.concat(palettes),
+          })
+        }
+      )
       .finally(() =>
         this.setState({
           isLoadMoreActionLoading: false,
@@ -209,21 +246,13 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
   }
 
   onAddFilter = (value: FilterOptions) => {
-    if (value === 'ANY' || this.state.activeFilters.length === 0)
+    if (value === 'ANY' || this.state.activeFilters.includes(value))
       this.setState({
-        activeFilters: this.state.activeFilters.filter(
-          (filter) => filter === 'ANY'
-        ),
-      })
-    else if (this.state.activeFilters.includes(value))
-      this.setState({
-        activeFilters: this.state.activeFilters.filter(
-          (filter) => filter !== value
-        ),
+        activeFilters: ['ANY'],
       })
     else
       this.setState({
-        activeFilters: this.state.activeFilters.concat(value),
+        activeFilters: [value],
       })
   }
 
@@ -262,7 +291,9 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     )
   }
 
-  getSourceColors = (palette: ColourLovers): Array<SourceColorConfiguration> =>
+  getSourceColors = (
+    palette: ColorHuntPalette
+  ): Array<SourceColorConfiguration> =>
     palette.colors.map((color) => {
       const gl = chroma(color).gl()
       return {
@@ -286,7 +317,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
       }
     }) as Array<SourceColorConfiguration>
 
-  onUsePalette = (palette: ColourLovers) => {
+  onUsePalette = (palette: ColorHuntPalette) => {
     if (
       !this.features.CREATE_PALETTE.isActive() ||
       this.features.LOCAL_PALETTES.isReached(this.props.localPalettesCount)
@@ -330,7 +361,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     palette,
     isCompact = false,
   }: {
-    palette: ColourLovers
+    palette: ColorHuntPalette
     isCompact?: boolean
   }) => (
     <>
@@ -346,7 +377,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
               pluginMessage: {
                 type: 'OPEN_IN_BROWSER',
                 data: {
-                  url: palette.url?.replace('http', 'https'),
+                  url: palette.url,
                 },
               },
             },
@@ -397,18 +428,37 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
     </>
   )
 
+  getPaletteTitle = (palette: ColorHuntPalette): string =>
+    palette.colors
+      .slice(0, 2)
+      .map((color) => getClosestColorName(`#${color}`))
+      .join(' & ')
+
+  getPreviewExchange = () => {
+    const exchange = this.palette.get()
+    return {
+      ...exchange,
+      scale: computeScaleForStops(
+        exchange.preset.stops,
+        exchange.scale,
+        exchange.preset.easing
+      ),
+    }
+  }
+
   SourceColorsMosaic = () => (
     <PalettesMosaic>
       {this.state.colourLoversPaletteList.map((palette, index: number) => (
         <PaletteCard
           key={`source-colors-${index}`}
-          src={palette.imageUrl?.replace('http', 'https')}
-          name={palette.title ?? ''}
-          description={`#${palette.rank}`}
+          colors={setPreviewPalette(
+            this.getSourceColors(palette),
+            this.getPreviewExchange()
+          )}
+          name={this.getPaletteTitle(palette)}
           subdescription={this.props.t('explore.meta', {
-            votes: palette.numVotes?.toString() ?? '0',
-            views: palette.numViews?.toString() ?? '0',
-            comments: palette.numComments?.toString() ?? '0',
+            likes: palette.likes.toString(),
+            date: palette.date,
           })}
           actionsSlot={
             <this.PaletteActions
@@ -435,20 +485,13 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
           {this.state.palettesView === 'LIST' &&
             this.state.colourLoversPaletteList.map((palette, index: number) => (
               <ActionsItem
-                id={palette.id?.toString() ?? ''}
+                id={palette.code}
                 key={`source-colors-${index}`}
-                src={palette.imageUrl?.replace('http', 'https')}
-                name={palette.title}
-                description={`#${palette.rank}`}
+                name={this.getPaletteTitle(palette)}
                 subdescription={this.props.t('explore.meta', {
-                  votes: palette.numVotes?.toString() ?? '0',
-                  views: palette.numViews?.toString() ?? '0',
-                  comments: palette.numComments?.toString() ?? '0',
+                  likes: palette.likes.toString(),
+                  date: palette.date,
                 })}
-                user={{
-                  avatar: undefined,
-                  name: palette.userName ?? '',
-                }}
                 actionsSlot={
                   <>
                     <this.PaletteActions palette={palette} />
@@ -458,7 +501,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                   <PalettePreview
                     colors={setPreviewPalette(
                       this.getSourceColors(palette),
-                      this.palette.get()
+                      this.getPreviewExchange()
                     )}
                   />
                 }
@@ -474,9 +517,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
                   action={() =>
                     this.setState({
                       isLoadMoreActionLoading: true,
-                      currentPage:
-                        this.state.currentPage +
-                        (this.props.config.limits.pageSize as number),
+                      currentPage: this.state.currentPage + 1,
                     })
                   }
                 />

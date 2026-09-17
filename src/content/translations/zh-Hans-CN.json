@@ -343,8 +343,8 @@
       "violet": "紫色",
       "yellow": "黄色"
     },
-    "meta": "{votes} 票・{views} 次查看・{comments} 条评论",
-    "title": "Colour Lovers"
+    "meta": "{likes} 个赞・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -626,7 +626,7 @@
         "generateColorSheet": "生成色卡：{fee} 积分",
         "generateDetailedPalette": "生成详细调色板：{fee} 积分",
         "generateSimplePalette": "生成简单调色板：{fee} 积分",
-        "importColourLovers": "从 Colour Lovers 导入调色板：{fee} 积分",
+        "importColourLovers": "从 Color Hunt 导入调色板：{fee} 积分",
         "importCoolors": "从 Coolors 导入调色板：{fee} 积分",
         "importRealtimeColors": "从 Realtime Colors 导入调色板：{fee} 积分",
         "syncLocalStyles": "与本地样式同步：{fee} 积分",

@@ -343,8 +343,8 @@
       "violet": "バイオレット",
       "yellow": "イエロー"
     },
-    "meta": "{votes}票・{views}回表示・{comments}コメント",
-    "title": "Colour Lovers"
+    "meta": "{likes}いいね・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -626,7 +626,7 @@
         "generateColorSheet": "カラーシートを生成：{fee} cdts",
         "generateDetailedPalette": "詳細なパレットを生成：{fee} cdts",
         "generateSimplePalette": "シンプルなパレットを生成：{fee} cdts",
-        "importColourLovers": "Colour Loversからパレットをインポート：{fee} cdts",
+        "importColourLovers": "Color Huntからパレットをインポート：{fee} cdts",
         "importCoolors": "Coolorsからパレットをインポート：{fee} cdts",
         "importRealtimeColors": "Realtime Colorsからパレットをインポート：{fee} cdts",
         "syncLocalStyles": "ローカルスタイルと同期：{fee} cdts",

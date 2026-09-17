@@ -343,8 +343,8 @@
       "violet": "Violet",
       "yellow": "Yellow"
     },
-    "meta": "{votes} votes・{views} views・{comments} comments",
-    "title": "Colour Lovers"
+    "meta": "{likes} likes・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -626,7 +626,7 @@
         "generateColorSheet": "Generate a color sheet: {fee} cdts",
         "generateDetailedPalette": "Generate a detailed palette: {fee} cdts",
         "generateSimplePalette": "Generate a simple palette: {fee} cdts",
-        "importColourLovers": "Import a palette from Colour Lovers: {fee} cdts",
+        "importColourLovers": "Import a palette from Color Hunt: {fee} cdts",
         "importCoolors": "Import a palette from Coolors: {fee} cdts",
         "importRealtimeColors": "Import a palette from Realtime Colors: {fee} cdts",
         "syncLocalStyles": "Sync with local styles: {fee} cdts",
