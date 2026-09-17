@@ -34,6 +34,7 @@ import {
   $canVariablesDeepSync,
   $isAPCADisplayed,
   $isAPCAIntervalDisplayed,
+  $isOnboardingRead,
   $isSuggestedLanguageDisplayed,
   $isWCAGDisplayed,
   $isWCAGIntervalDisplayed,
@@ -168,6 +169,13 @@ class App extends Component<AppProps, AppState> {
     HELP_ONBOARDING: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_ONBOARDING',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    HELP_ONBOARDING_AUTO_DISPLAY: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_ONBOARDING_AUTO_DISPLAY',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -504,6 +512,7 @@ class App extends Component<AppProps, AppState> {
         $isSuggestedLanguageDisplayed.set(
           path.data.isSuggestedLanguageDisplayed
         )
+        $isOnboardingRead.set(path.data.isOnboardingRead)
         $userTheme.set(path.data.userTheme ?? 'system')
         $palettesView.set(path.data.palettesView ?? 'LIST')
 
@@ -636,17 +645,15 @@ class App extends Component<AppProps, AppState> {
         })
       }
 
-      /*
       const handleOnboarding = () => {
         this.setState({
           modalContext:
             path.data.status !== 'DISPLAY_ONBOARDING_DIALOG' ||
-            !this.features.HELP_ONBOARDING.isActive()
+            !this.features.HELP_ONBOARDING_AUTO_DISPLAY.isActive()
               ? 'EMPTY'
               : 'ONBOARDING',
         })
       }
-      */
 
       const getTrial = () =>
         this.setState({
@@ -742,7 +749,7 @@ class App extends Component<AppProps, AppState> {
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
         POST_MESSAGE: () => postMessage(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
-        // PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
+        PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),
         GET_PRICING: () => getPricing(),

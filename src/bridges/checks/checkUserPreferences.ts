@@ -21,6 +21,7 @@ const checkUserPreferences = async () => {
   const isSuggestedLanguageDisplayed = window.localStorage.getItem(
     'is_suggested_language_displayed'
   )
+  const isOnboardingRead = window.localStorage.getItem('is_onboarding_read')
   const userLanguage = window.localStorage.getItem('user_language')
   const userTheme = window.localStorage.getItem('user_theme')
   const palettesView = window.localStorage.getItem('palettes_view')
@@ -48,6 +49,9 @@ const checkUserPreferences = async () => {
 
   if (isSuggestedLanguageDisplayed === null)
     window.localStorage.setItem('is_suggested_language_displayed', 'true')
+
+  if (isOnboardingRead === null)
+    window.localStorage.setItem('is_onboarding_read', 'false')
 
   if (userLanguage === null)
     window.localStorage.setItem('user_language', globalConfig.lang)
@@ -87,6 +91,7 @@ const checkUserPreferences = async () => {
           isSuggestedLanguageDisplayed === null
             ? true
             : isSuggestedLanguageDisplayed === 'true',
+        isOnboardingRead: isOnboardingRead === 'true',
         userLanguage: userLanguage ?? globalConfig.lang,
         userTheme: userTheme ?? 'system',
         palettesView: palettesView ?? 'LIST',

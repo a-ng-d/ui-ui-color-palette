@@ -3561,6 +3561,18 @@ export const featuresScheme: Array<Feature<Service>> = [
     availabilityForEditors: 'all',
   },
   {
+    name: 'HELP_ONBOARDING_AUTO_DISPLAY',
+    description:
+      "Automatically displays the onboarding on a user's first visit",
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    availabilityForServices: 'all',
+    proForServices: 'all',
+    availabilityForEditors: 'all',
+  },
+  {
     name: 'HELP_DOCUMENTATION',
     description: 'User documentation',
     isActive: true,

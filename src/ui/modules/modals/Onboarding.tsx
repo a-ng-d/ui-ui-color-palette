@@ -6,6 +6,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { $isOnboardingRead } from '../../../stores/preferences'
 import { trackOnboardingEvent } from '../../../external/tracking/eventsTracker'
 import getOnboarding from '../../../external/cms/getOnboarding'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -109,6 +110,7 @@ export default class Onboarding extends PureComponent<
         },
         '*'
       )
+      $isOnboardingRead.set(true)
       this.setState({ position: 0 })
       this.props.onCloseOnboarding(e as MouseEvent)
     }
@@ -162,6 +164,7 @@ export default class Onboarding extends PureComponent<
                 },
                 '*'
               )
+              $isOnboardingRead.set(true)
               this.props.onCloseOnboarding(e)
             }}
           >
@@ -251,6 +254,7 @@ export default class Onboarding extends PureComponent<
                 },
                 '*'
               )
+              $isOnboardingRead.set(true)
               this.props.onCloseOnboarding(e)
             }}
           >
