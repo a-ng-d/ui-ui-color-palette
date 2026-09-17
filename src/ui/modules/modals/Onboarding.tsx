@@ -80,6 +80,25 @@ export default class Onboarding extends PureComponent<
   }
 
   // Direct Actions
+  markAsReadAndClose = (e: MouseEvent) => {
+    sendPluginMessage(
+      {
+        pluginMessage: {
+          type: 'SET_ITEMS',
+          items: [
+            {
+              key: 'is_onboarding_read',
+              value: 'true',
+            },
+          ],
+        },
+      },
+      '*'
+    )
+    $isOnboardingRead.set(true)
+    this.props.onCloseOnboarding(e)
+  }
+
   goNextSlide = (e: MouseEvent) => {
     if (this.state.position + 1 < this.state.announcements.length) {
       this.setState({ position: this.state.position + 1, isImageLoaded: false })
@@ -96,23 +115,8 @@ export default class Onboarding extends PureComponent<
         }
       )
     } else {
-      sendPluginMessage(
-        {
-          pluginMessage: {
-            type: 'SET_ITEMS',
-            items: [
-              {
-                key: 'is_onboarding_read',
-                value: 'true',
-              },
-            ],
-          },
-        },
-        '*'
-      )
-      $isOnboardingRead.set(true)
       this.setState({ position: 0 })
-      this.props.onCloseOnboarding(e as MouseEvent)
+      this.markAsReadAndClose(e as MouseEvent)
     }
   }
 
@@ -124,7 +128,7 @@ export default class Onboarding extends PureComponent<
           <Dialog
             title={this.props.t('shortcuts.onboarding')}
             isLoading
-            onClose={this.props.onCloseOnboarding}
+            onClose={this.markAsReadAndClose}
           />
         </Feature>
       )
@@ -134,7 +138,7 @@ export default class Onboarding extends PureComponent<
           <Dialog
             title={this.props.t('shortcuts.onboarding')}
             isMessage
-            onClose={this.props.onCloseOnboarding}
+            onClose={this.markAsReadAndClose}
           >
             <SemanticMessage
               type="WARNING"
@@ -149,24 +153,7 @@ export default class Onboarding extends PureComponent<
           <Dialog
             title={this.props.t('shortcuts.onboarding')}
             isMessage
-            onClose={(e: MouseEvent) => {
-              sendPluginMessage(
-                {
-                  pluginMessage: {
-                    type: 'SET_ITEMS',
-                    items: [
-                      {
-                        key: 'is_onboarding_read',
-                        value: 'true',
-                      },
-                    ],
-                  },
-                },
-                '*'
-              )
-              $isOnboardingRead.set(true)
-              this.props.onCloseOnboarding(e)
-            }}
+            onClose={this.markAsReadAndClose}
           >
             <SemanticMessage
               type="INFO"
@@ -239,24 +226,7 @@ export default class Onboarding extends PureComponent<
                 ? `${this.state.position + 1} of ${this.state.announcements.length}`
                 : undefined
             }
-            onClose={(e: MouseEvent) => {
-              sendPluginMessage(
-                {
-                  pluginMessage: {
-                    type: 'SET_ITEMS',
-                    items: [
-                      {
-                        key: 'is_onboarding_read',
-                        value: 'true',
-                      },
-                    ],
-                  },
-                },
-                '*'
-              )
-              $isOnboardingRead.set(true)
-              this.props.onCloseOnboarding(e)
-            }}
+            onClose={this.markAsReadAndClose}
           >
             <div
               className="dialog__cover"
