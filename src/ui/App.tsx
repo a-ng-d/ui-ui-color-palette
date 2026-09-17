@@ -1200,24 +1200,31 @@ class App extends Component<AppProps, AppState> {
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>
             {getPortalTarget('modal') &&
               createPortal(
-                <Modal
-                  {...this.props}
-                  {...this.state}
-                  context={this.state.modalContext}
-                  onChangePublication={(e) => this.setState({ ...e })}
-                  onManageLicense={(e) => this.setState({ ...e })}
-                  onSkipAndResetPalette={(e) => this.setState({ ...e })}
-                  onSubscribe={(e) => this.setState({ ...e })}
-                  onClose={() =>
-                    this.setState({
-                      modalContext: 'EMPTY',
-                      announcements: {
-                        version: this.state.announcements.version,
-                        status: 'NO_ANNOUNCEMENTS',
-                      },
-                    })
+                <div
+                  inert={
+                    this.state.mustUserConsent &&
+                    this.features.USER_CONSENT.isActive()
                   }
-                />,
+                >
+                  <Modal
+                    {...this.props}
+                    {...this.state}
+                    context={this.state.modalContext}
+                    onChangePublication={(e) => this.setState({ ...e })}
+                    onManageLicense={(e) => this.setState({ ...e })}
+                    onSkipAndResetPalette={(e) => this.setState({ ...e })}
+                    onSubscribe={(e) => this.setState({ ...e })}
+                    onClose={() =>
+                      this.setState({
+                        modalContext: 'EMPTY',
+                        announcements: {
+                          version: this.state.announcements.version,
+                          status: 'NO_ANNOUNCEMENTS',
+                        },
+                      })
+                    }
+                  />
+                </div>,
                 getPortalTarget('modal') ?? document.createElement('app')
               )}
           </Feature>
