@@ -193,30 +193,26 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
         if (response.ok) return response.json()
         else throw new Error(this.props.t('error.badResponse'))
       })
-      .then(
-        (
-          data: Array<{ code: string; likes: string; date: string }>
-        ) => {
-          const palettes: Array<ColorHuntPalette> = data.map((item) => ({
-            code: item.code,
-            colors: [
-              item.code.slice(0, 6),
-              item.code.slice(6, 12),
-              item.code.slice(12, 18),
-              item.code.slice(18, 24),
-            ],
-            likes: Number(item.likes),
-            date: item.date,
-            url: `https://colorhunt.co/palette/${item.code}`,
-          }))
-          this.setState({
-            colourLoversPalettesListStatus:
-              palettes.length === 0 ? 'COMPLETE' : 'LOADED',
-            colourLoversPaletteList:
-              this.state.colourLoversPaletteList.concat(palettes),
-          })
-        }
-      )
+      .then((data: Array<{ code: string; likes: string; date: string }>) => {
+        const palettes: Array<ColorHuntPalette> = data.map((item) => ({
+          code: item.code,
+          colors: [
+            item.code.slice(0, 6),
+            item.code.slice(6, 12),
+            item.code.slice(12, 18),
+            item.code.slice(18, 24),
+          ],
+          likes: Number(item.likes),
+          date: item.date,
+          url: `https://colorhunt.co/palette/${item.code}`,
+        }))
+        this.setState({
+          colourLoversPalettesListStatus:
+            palettes.length === 0 ? 'COMPLETE' : 'LOADED',
+          colourLoversPaletteList:
+            this.state.colourLoversPaletteList.concat(palettes),
+        })
+      })
       .finally(() =>
         this.setState({
           isLoadMoreActionLoading: false,
