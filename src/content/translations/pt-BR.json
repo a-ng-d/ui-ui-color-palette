@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "Adicionar ao local",
     "addToSource": "Adicionar à fonte",
+    "copyPaletteLink": "Copiar link da paleta",
     "createPalette": "Nova UI Color Palette",
     "duplicate": "Duplicar",
     "export": "Exportar paleta como {format}",
@@ -85,6 +86,7 @@
       "paletteWithProperties": "Paleta de cores detalhada",
       "sheet": "Planilha de cores completa"
     },
+    "giveFeedback": "Enviar feedback",
     "moreActions": "Mais ações",
     "publishOrSyncPalette": "Publicar ou sincronizar paleta",
     "publishPalette": "Publicar paleta",
@@ -170,6 +172,10 @@
     "signInFirst": {
       "message": "Encontre e use suas próprias paletas e favoritas após autenticação",
       "signIn": "Entrar para buscar suas paletas"
+    },
+    "views": {
+      "list": "Visualização em lista",
+      "mosaic": "Visualização em mosaico"
     }
   },
   "colors": {
@@ -278,6 +284,8 @@
     "announcements": "Os anúncios não podem ser carregados",
     "authentication": "A autenticação falhou",
     "badResponse": "A resposta não é válida",
+    "copyLink": "Não foi possível copiar o link automaticamente. Copie-o pela barra de endereço.",
+    "copyLinkNoPalette": "Nenhuma paleta aberta para compartilhar ainda.",
     "corruption": "Sua UI Color Palette parece corrompida. Não edite nenhuma camada dentro dela.",
     "document": "O documento não pode ser gerado",
     "export": "O código não pode ser gerado porque a paleta não foi encontrada",
@@ -288,6 +296,7 @@
     "onboarding": "A integração não pode ser carregada",
     "openPalette": "A paleta não pode ser aberta",
     "palette": "A paleta não pode ser criada",
+    "paletteAccessDenied": "Você não tem acesso a esta paleta.",
     "paletteSizeExceeded": "O tamanho da paleta excede o limite. Por favor, reduza o número de modos de cor, cores-fonte ou tons/matizes.",
     "palettesPicking": "As paletas não podem ser selecionadas por enquanto",
     "publication": "A paleta não pode ser publicada",
@@ -334,8 +343,8 @@
       "violet": "Violeta",
       "yellow": "Amarelo"
     },
-    "meta": "{votes} votos・{views} visualizações・{comments} comentários",
-    "title": "Colour Lovers"
+    "meta": "{likes} curtidas・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -617,7 +626,7 @@
         "generateColorSheet": "Gerar uma folha de cores: {fee} cdts",
         "generateDetailedPalette": "Gerar uma paleta detalhada: {fee} cdts",
         "generateSimplePalette": "Gerar uma paleta simples: {fee} cdts",
-        "importColourLovers": "Importar uma paleta do Colour Lovers: {fee} cdts",
+        "importColourLovers": "Importar uma paleta do Color Hunt: {fee} cdts",
         "importCoolors": "Importar uma paleta do Coolors: {fee} cdts",
         "importRealtimeColors": "Importar uma paleta do Realtime Colors: {fee} cdts",
         "syncLocalStyles": "Sincronizar com estilos locais: {fee} cdts",
@@ -1366,6 +1375,13 @@
     },
     "signIn": "Entrar",
     "signOut": "Sair",
+    "theme": {
+      "dark": "Escuro",
+      "label": "Alterar tema",
+      "light": "Claro",
+      "system": "Sistema",
+      "title": "Tema"
+    },
     "updateConsent": "Gerenciar cookies",
     "updatePreferences": "Atualizar preferências",
     "useLicense": "Usar chave de licença",

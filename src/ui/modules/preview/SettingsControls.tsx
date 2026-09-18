@@ -467,6 +467,7 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
               isEnabled: true,
               icon: 'theme',
             }}
+            isAlwaysExpanded
           />
         </Feature>
         <Feature isActive={this.props.mode === 'EDIT'}>

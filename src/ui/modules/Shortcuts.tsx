@@ -1,6 +1,6 @@
 import { PureComponent } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Bar, Button, Icon, layouts, Menu } from '@unoff/ui'
+import { Bar, Button, Chip, Icon, layouts, Menu } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -29,6 +29,7 @@ interface ShortcutsProps
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
+  tag: string
   onReOpenAnnouncements: Dispatch<Partial<AppState>>
   onReOpenOnboarding: Dispatch<Partial<AppState>>
   onReOpenStore: Dispatch<Partial<AppState>>
@@ -40,6 +41,9 @@ interface ShortcutsProps
   onReOpenFeedback: Dispatch<Partial<AppState>>
   onUpdateConsent: Dispatch<Partial<AppState>>
   onUpdateLanguage: Dispatch<Partial<AppState>>
+  onSignIn?: () => Promise<unknown>
+  onSignOut?: () => Promise<unknown>
+  orientation?: 'HORIZONTAL' | 'VERTICAL'
 }
 
 interface ShortcutsState {
@@ -253,7 +257,6 @@ export default class Shortcuts extends PureComponent<
 
   constructor(props: ShortcutsProps) {
     super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       isUserMenuLoading: false,
     }
@@ -326,29 +329,25 @@ export default class Shortcuts extends PureComponent<
 
   // Render
   render() {
-    let height, radius
-
-    switch (this.theme) {
-      case 'figma':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
-        break
-      case 'penpot':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
-        break
-      case 'sketch':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
-        break
-      case 'framer':
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-xlarge)'
-        break
-      default:
-        height = 'calc(100% - var(--size-pos-xxsmall))'
-        radius = 'var(--border-radius-full)'
-    }
+    const height = 'calc(100% - var(--scale-pos-xxsmall))'
+    const isVertical = this.props.orientation === 'VERTICAL'
+    const signInAction =
+      this.props.onSignIn ??
+      (() =>
+        signIn({
+          authWorkerUrl: this.props.config.urls.authWorkerUrl,
+          authUrl: this.props.config.urls.authUrl,
+          platformUrl: this.props.config.urls.platformUrl,
+          pluginId: this.props.config.env.pluginId,
+        }))
+    const signOutAction =
+      this.props.onSignOut ??
+      (() =>
+        signOut({
+          authUrl: this.props.config.urls.authUrl,
+          platformUrl: this.props.config.urls.platformUrl,
+          pluginId: this.props.config.env.pluginId,
+        }))
 
     return (
       <>
@@ -358,7 +357,9 @@ export default class Shortcuts extends PureComponent<
               <div
                 className={doClassnames([
                   'shortcuts',
-                  layouts['snackbar--medium'],
+                  isVertical
+                    ? layouts['stackbar--medium']
+                    : layouts['snackbar--medium'],
                 ])}
               >
                 <Feature isActive={this.features.HELP_DOCUMENTATION.isActive()}>
@@ -417,7 +418,7 @@ export default class Shortcuts extends PureComponent<
                           src={this.props.userSession.userAvatar}
                           style={{
                             height: height,
-                            borderRadius: radius,
+                            borderRadius: 'var(--avatar-radius)',
                           }}
                           alt="User Avatar"
                         />
@@ -491,12 +492,7 @@ export default class Shortcuts extends PureComponent<
                               },
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
-                                signOut({
-                                  authUrl: this.props.config.urls.authUrl,
-                                  platformUrl:
-                                    this.props.config.urls.platformUrl,
-                                  pluginId: this.props.config.env.pluginId,
-                                })
+                                signOutAction()
                                   .then(() => {
                                     sendPluginMessage(
                                       {
@@ -577,14 +573,7 @@ export default class Shortcuts extends PureComponent<
                               },
                               action: async () => {
                                 this.setState({ isUserMenuLoading: true })
-                                signIn({
-                                  authWorkerUrl:
-                                    this.props.config.urls.authWorkerUrl,
-                                  authUrl: this.props.config.urls.authUrl,
-                                  platformUrl:
-                                    this.props.config.urls.platformUrl,
-                                  pluginId: this.props.config.env.pluginId,
-                                })
+                                signInAction()
                                   .then(() => {
                                     sendPluginMessage(
                                       {
@@ -1218,16 +1207,32 @@ export default class Shortcuts extends PureComponent<
             </>
           }
           leftPartSlot={
-            <Feature
-              isActive={
-                this.features.PRO_PLAN.isActive() &&
-                this.props.config.env.isSupabaseEnabled
-              }
+            <div
+              className={doClassnames([
+                layouts['stackbar--medium'],
+                layouts['stackbar--centered'],
+              ])}
             >
-              <PlanControls {...this.props} />
-            </Feature>
+              <Feature
+                isActive={
+                  this.features.PRO_PLAN.isActive() &&
+                  this.props.config.env.isSupabaseEnabled
+                }
+              >
+                <PlanControls {...this.props} />
+              </Feature>
+              {this.props.tag !== undefined && (
+                <Chip
+                  state="ACTIVE"
+                  isSolo
+                >
+                  {this.props.tag}
+                </Chip>
+              )}
+            </div>
           }
-          shouldReflow
+          shouldReflow={!isVertical}
+          isVertical={isVertical}
           border={['TOP']}
         />
       </>

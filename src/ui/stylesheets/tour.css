@@ -1,8 +1,12 @@
 .driver-popover {
-  box-shadow: var(--elevation-300-tooltip, 0 4px 16px rgb(0 0 0 / 0.16));
+  box-shadow: var(
+    --elevation-300-tooltip,
+    0 var(--scale-pos-xxxsmall) var(--scale-pos-xsmall)
+      rgb(var(--scale-null) 0 0 / 0.16)
+  );
   border-radius: var(--card-radius);
   background-color: var(--card-background-color-default);
-  padding: var(--size-pos-small);
+  padding: var(--scale-pos-small);
   color: var(--text-color-primary);
   font-family: var(--text-font-family);
 }
@@ -21,8 +25,8 @@
 }
 
 .driver-popover-description {
-  margin-top: var(--size-pos-xxsmall);
-  margin-bottom: 0;
+  margin-top: var(--scale-pos-xxsmall);
+  margin-bottom: var(--scale-null);
   color: var(--text-color-primary);
   font-weight: var(--text-default-font-weight);
   font-size: var(--text-default-font-size);
@@ -35,7 +39,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--size-pos-xsmall);
+  margin-top: var(--scale-pos-xsmall);
 }
 
 .driver-popover-progress-text {
@@ -56,7 +60,7 @@
   cursor: default;
   box-sizing: border-box;
   border-radius: var(--button-base-radius);
-  padding: 0 var(--button-base-padding-right);
+  padding: var(--scale-null) var(--button-base-padding-right);
   height: var(--button-base-height);
   font-weight: var(--button-base-text-font-weight);
   font-size: var(--button-base-text-font-size);
@@ -124,8 +128,8 @@
   all: unset;
   display: flex;
   position: absolute;
-  top: var(--size-pos-xxsmall);
-  right: var(--size-pos-xxsmall);
+  top: var(--scale-pos-xxsmall);
+  right: var(--scale-pos-xxsmall);
   justify-content: center;
   align-items: center;
   transition:
@@ -161,7 +165,7 @@
   color: var(--icon-button-default-icon-color-pressed);
 }
 
-/* Arrow — only override the one visible border per side, leaving the 3 transparent ones untouched */
+/* Arrow */
 .driver-popover-arrow-side-left {
   border-left-color: var(--card-background-color-default);
 }

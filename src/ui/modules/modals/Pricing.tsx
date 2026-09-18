@@ -15,6 +15,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { AppState } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { getDocumentAttribute } from '../../../utils/getDocumentAttribute'
 import {
   BaseProps,
   Editor,
@@ -83,7 +84,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   constructor(props: PricingProps) {
     super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
+    this.theme = getDocumentAttribute('data-theme')
     this.state = {
       selectedPlan: 'WEEK',
       isSigningIn: false,
@@ -419,7 +420,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_LIFETIME', origin: this.props.pricingOrigin }
+                {
+                  feature: 'GO_TO_PRO_LIFETIME',
+                  origin: this.props.pricingOrigin,
+                }
               )
             }}
           />
@@ -561,7 +565,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_ULTIMATE_REQUEST', origin: this.props.pricingOrigin }
+                {
+                  feature: 'GO_TO_ULTIMATE_REQUEST',
+                  origin: this.props.pricingOrigin,
+                }
               )
             }}
           />
@@ -584,7 +591,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_ULTIMATE_REQUEST', origin: this.props.pricingOrigin }
+            {
+              feature: 'GO_TO_ULTIMATE_REQUEST',
+              origin: this.props.pricingOrigin,
+            }
           )
         }}
       />
@@ -593,27 +603,25 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   // Render
   render() {
-    let padding, isFlex
+    let isFlex
 
     switch (this.theme) {
       case 'figma':
-        padding = 'var(--size-pos-xxsmall)'
         isFlex = false
         break
       case 'penpot':
-        padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
         isFlex = true
         break
       case 'sketch':
-        padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
         isFlex = false
         break
       case 'framer':
-        padding = 'var(--size-pos-xmsmall) var(--size-pos-xmsmall)'
         isFlex = true
         break
+      case 'yelbolt':
+        isFlex = false
+        break
       default:
-        padding = 'var(--size-pos-xxsmall)'
         isFlex = false
     }
 
@@ -673,9 +681,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               className={doClassnames([
                 layouts['stackbar'],
                 layouts['stackbar--tight'],
+                'dialog__text',
               ])}
               style={{
-                padding: padding,
                 alignItems: 'stretch',
                 width: '100%',
                 boxSizing: 'border-box',
@@ -782,7 +790,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   display: 'flex',
                   flexDirection:
                     this.props.documentWidth <= 460 ? 'column' : 'row',
-                  gap: 'var(--size-pos-xxxsmall)',
+                  gap: 'var(--scale-pos-xxxsmall)',
                   flex: 1,
                 }}
               >

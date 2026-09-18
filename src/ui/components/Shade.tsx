@@ -68,8 +68,6 @@ interface ShadeState {
 }
 
 export default class Shade extends PureComponent<ShadeProps, ShadeState> {
-  private theme: string | null
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -121,7 +119,6 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       isMouseEnter: false,
       isCopied: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Handlers
@@ -229,8 +226,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <ColorChip
             color={color}
-            width="var(--size-pos-xxsmall)"
-            height="var(--size-pos-xxsmall)"
+            width="var(--scale-pos-xxsmall)"
+            height="var(--scale-pos-xxsmall)"
             isRounded
           />
         }
@@ -273,8 +270,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <ColorChip
             color={color}
-            width="var(--size-pos-xxsmall)"
-            height="var(--size-pos-xxsmall)"
+            width="var(--scale-pos-xxsmall)"
+            height="var(--scale-pos-xxsmall)"
             isRounded
           />
         }
@@ -300,14 +297,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <div
             style={{
-              width: 'var(--size-pos-xxsmall)',
-              height: 'var(--size-pos-xxsmall)',
+              width: 'var(--scale-pos-xxsmall)',
+              height: 'var(--scale-pos-xxsmall)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-pos-xsmall)',
-              '--icon-height': 'var(--size-pos-xsmall)',
+              '--icon-width': 'var(--scale-pos-xsmall)',
+              '--icon-height': 'var(--scale-pos-xsmall)',
             }}
           >
             <Icon
@@ -329,14 +326,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <div
             style={{
-              width: 'var(--size-pos-xxsmall)',
-              height: 'var(--size-pos-xxsmall)',
+              width: 'var(--scale-pos-xxsmall)',
+              height: 'var(--scale-pos-xxsmall)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-pos-xsmall)',
-              '--icon-height': 'var(--size-pos-xsmall)',
+              '--icon-width': 'var(--scale-pos-xsmall)',
+              '--icon-height': 'var(--scale-pos-xsmall)',
             }}
           >
             <Icon

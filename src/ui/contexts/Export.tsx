@@ -35,6 +35,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { getDocumentAttribute } from '../../utils/getDocumentAttribute'
 import { ExportEvent } from '../../types/events'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackExportEvent } from '../../external/tracking/eventsTracker'
@@ -67,7 +68,6 @@ interface ExportState {
 }
 
 export default class Export extends PureComponent<ExportProps, ExportState> {
-  private theme: string | null
   private mode: string | null
 
   static features = (
@@ -278,8 +278,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
   constructor(props: ExportProps) {
     super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
-    this.mode = document.documentElement.getAttribute('data-mode')
+    this.mode = getDocumentAttribute('data-mode')
     this.state = {
       colorSpace: {
         selected: 'RGB',
@@ -942,12 +941,6 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
   }
 
   handleCodeSyntaxTheme = () => {
-    const figmaMode = document.documentElement.getAttribute('class')
-
-    if (figmaMode !== null)
-      if (this.theme === 'figma')
-        return figmaMode?.includes('dark') ? atomOneDark : docco
-
     return this.mode?.includes('dark') ? atomOneDark : docco
   }
 
@@ -988,44 +981,10 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
   // Render
   render() {
-    let border
-    let radius
-    let selectionBackground
-    let textColor
-
-    switch (this.theme) {
-      case 'figma':
-        border =
-          '1px solid var(--figma-color-border-default, var(--figma-color-border))'
-        radius = 'var(--border-radius-medium)'
-        selectionBackground = 'var(--figma-color-bg-selected)'
-        textColor = 'var(--figma-color-text-disabled)'
-        break
-      case 'penpot':
-        border = '1px solid var(--penpot-color-background-quaternary)'
-        radius = 'var(--border-radius-xlarge)'
-        selectionBackground = 'var(--penpot-color-accent-primary-muted)'
-        textColor = 'var(--penpot-color-foreground-disabled)'
-        break
-      case 'sketch':
-        border = '1px solid var(--sketch-color-border-primary)'
-        radius = 'var(--border-radius-large)'
-        selectionBackground = 'var(--sketch-color-accent-disabled)'
-        textColor = 'var(--sketch-color-foreground-disabled)'
-        break
-      case 'framer':
-        border = '1px solid var(--framer-color-divider)'
-        radius = 'var(--border-radius-xlarge)'
-        selectionBackground = 'var(--framer-color-tint-dimmed)'
-        textColor = 'var(--framer-color-text-tertiary)'
-        break
-      default:
-        border =
-          '1px solid var(--figma-color-border-default, var(--figma-color-border))'
-        radius = 'var(--border-radius-medium)'
-        selectionBackground = 'var(--figma-color-bg-selected)'
-        textColor = 'var(--figma-color-text-disabled)'
-    }
+    const border = 'var(--global-border-width) solid var(--global-border-color)'
+    const radius = 'var(--global-radius)'
+    const selectionBackground = 'var(--global-background-background-selected)'
+    const textColor = 'var(--text-color-tertiary)'
 
     return (
       <Layout
@@ -1637,7 +1596,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                   <div
                     style={{
                       padding:
-                        '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                        '0 var(--scale-pos-xsmall) var(--scale-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage
@@ -1650,7 +1609,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                   <div
                     style={{
                       padding:
-                        '0 var(--size-pos-xsmall) var(--size-pos-xxsmall)',
+                        '0 var(--scale-pos-xsmall) var(--scale-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage
@@ -1704,11 +1663,11 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                     style={this.handleCodeSyntaxTheme()}
                     showLineNumbers={true}
                     lineNumberStyle={{
-                      minWidth: 'var(--size-pos-small)',
-                      paddingRight: 'var(--size-pos-xsmall)',
+                      minWidth: 'var(--scale-pos-small)',
+                      paddingRight: 'var(--scale-pos-xsmall)',
                       color: textColor,
                       borderRight: border,
-                      marginRight: 'var(--size-pos-xxsmall)',
+                      marginRight: 'var(--scale-pos-xxsmall)',
                     }}
                     customStyle={{
                       borderRadius: radius,

@@ -12,6 +12,7 @@ import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { getPortalTarget } from '../../../utils/getPortalTarget'
 import { PluginMessageData } from '../../../types/messages'
 import { BaseProps } from '../../../types/app'
 
@@ -100,7 +101,7 @@ export default class DangerZone extends PureComponent<
   Modals = () => {
     return (
       <Feature isActive={this.state.isDeleteDialogOpen}>
-        {document.getElementById('modal') &&
+        {getPortalTarget('modal') &&
           createPortal(
             <Dialog
               title={this.props.t('browse.deletePaletteDialog.title')}
@@ -139,7 +140,7 @@ export default class DangerZone extends PureComponent<
                 </p>
               </div>
             </Dialog>,
-            document.getElementById('modal') ?? document.createElement('app')
+            getPortalTarget('modal') ?? document.createElement('app')
           )}
       </Feature>
     )

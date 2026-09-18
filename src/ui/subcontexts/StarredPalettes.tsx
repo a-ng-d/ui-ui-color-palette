@@ -16,7 +16,10 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettesViewSwitch from '../components/PalettesViewSwitch'
+import PalettesMosaic from '../components/PalettesMosaic'
 import PalettePreview from '../components/PalettePreview'
+import PaletteCard from '../components/PaletteCard'
 import Feature from '../components/Feature'
 import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -26,9 +29,11 @@ import {
   Context,
   Editor,
   FetchStatus,
+  PalettesView,
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $palettesView } from '../../stores/preferences'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import starPalette from '../../external/publication/starPalette'
 import { signIn } from '../../external/auth/authentication'
@@ -52,6 +57,7 @@ interface StarredPalettesProps
 }
 
 interface StarredPalettesState {
+  palettesView: PalettesView
   isLoadMoreActionLoading: boolean
   isSignInActionLoading: boolean
   isAddToLocalActionLoading: Array<boolean>
@@ -62,6 +68,7 @@ export default class StarredPalettes extends PureComponent<
   StarredPalettesProps,
   StarredPalettesState
 > {
+  private subscribePalettesView: (() => void) | undefined
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -117,6 +124,7 @@ export default class StarredPalettes extends PureComponent<
   constructor(props: StarredPalettesProps) {
     super(props)
     this.state = {
+      palettesView: $palettesView.get(),
       isLoadMoreActionLoading: false,
       isSignInActionLoading: false,
       isAddToLocalActionLoading: [],
@@ -130,6 +138,10 @@ export default class StarredPalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    this.subscribePalettesView = $palettesView.subscribe((value) => {
+      this.setState({ palettesView: value })
+    })
 
     const actions: {
       [key: string]: () => void
@@ -172,6 +184,8 @@ export default class StarredPalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    if (this.subscribePalettesView) this.subscribePalettesView()
   }
 
   // Handlers
@@ -337,6 +351,44 @@ export default class StarredPalettes extends PureComponent<
     await this.props.onSelectPalette(id)
   }
 
+  onOpenPalette = (palette: ExternalPalettes, index: number) => {
+    if (
+      !this.features.SEE_PALETTE.isActive() ||
+      this.features.SEE_PALETTE.isBlocked()
+    )
+      return
+
+    this.setState({
+      isAddToLocalActionLoading: this.state.isAddToLocalActionLoading.map(
+        (loading, i) => (i === index ? true : loading)
+      ),
+    })
+
+    this.onSeePalette(palette.palette_id)
+      .finally(() =>
+        this.setState({
+          isAddToLocalActionLoading: Array(this.props.palettesList.length).fill(
+            false
+          ),
+        })
+      )
+      .catch((error) => {
+        console.error(error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.t('error.openPalette'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
   onSeePalette = async (id: string) => {
     await this.props.onSeePalette(id)
   }
@@ -396,6 +448,214 @@ export default class StarredPalettes extends PureComponent<
   }
 
   // Templates
+  PaletteActions = ({
+    palette,
+    index,
+    isCompact = false,
+  }: {
+    palette: ExternalPalettes
+    index: number
+    isCompact?: boolean
+  }) => (
+    <>
+      <Feature isActive={this.features.STAR_PALETTE.isActive()}>
+        <Button
+          type="icon"
+          icon="star-off"
+          helper={{
+            label: this.props.t('browse.actions.unstarPalette'),
+          }}
+          isLoading={this.state.isRemoveFromStarredLoading[index]}
+          isBlocked={this.features.STAR_PALETTE.isBlocked()}
+          isNew={this.features.STAR_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'STAR_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => {
+            this.setState({
+              isRemoveFromStarredLoading:
+                this.state.isRemoveFromStarredLoading.map((loading, i) =>
+                  i === index ? true : loading
+                ),
+            })
+            this.onStarPalette(palette.palette_id)
+          }}
+        />
+      </Feature>
+      <Feature isActive={this.features.SEE_PALETTE.isActive() && !isCompact}>
+        <Button
+          type="secondary"
+          label={this.props.t('browse.actions.openPalette')}
+          isLoading={this.state.isAddToLocalActionLoading[index]}
+          shouldReflow={{
+            isEnabled: true,
+            icon: 'forward',
+          }}
+          isBlocked={this.features.SEE_PALETTE.isBlocked()}
+          isNew={this.features.SEE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'SEE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => this.onOpenPalette(palette, index)}
+        />
+      </Feature>
+      <Feature isActive={this.features.ADD_PALETTE.isActive()}>
+        <Button
+          type={isCompact ? 'icon' : 'secondary'}
+          icon={isCompact ? 'plus' : undefined}
+          label={isCompact ? undefined : this.props.t('actions.addToLocal')}
+          helper={
+            this.features.LOCAL_PALETTES.isReached(
+              this.props.localPalettesList.length
+            )
+              ? {
+                  label: this.props.t('info.maxNumberOfLocalPalettes', {
+                    count: (this.features.LOCAL_PALETTES.limit ?? 3).toString(),
+                  }),
+                  type: 'MULTI_LINE',
+                }
+              : isCompact
+                ? { label: this.props.t('actions.addToLocal') }
+                : undefined
+          }
+          isLoading={this.state.isAddToLocalActionLoading[index]}
+          shouldReflow={{
+            isEnabled: true,
+            icon: 'plus',
+          }}
+          isBlocked={this.features.LOCAL_PALETTES.isReached(
+            this.props.localPalettesList.length
+          )}
+          isNew={this.features.ADD_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'LOCAL_PALETTES' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => {
+            this.setState({
+              isAddToLocalActionLoading: this.state[
+                'isAddToLocalActionLoading'
+              ].map((loading, i) => (i === index ? true : loading)),
+            })
+
+            this.onSelectPalette(palette.palette_id)
+              .finally(() =>
+                this.setState({
+                  isAddToLocalActionLoading: Array(
+                    this.props.palettesList.length
+                  ).fill(false),
+                })
+              )
+              .catch((error) => {
+                console.error(error)
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type: 'POST_MESSAGE',
+                      data: {
+                        type: 'ERROR',
+                        message: this.props.t('error.addToLocal'),
+                      },
+                    },
+                  },
+                  '*'
+                )
+              })
+          }}
+        />
+      </Feature>
+    </>
+  )
+
+  PalettesMosaic = () => (
+    <PalettesMosaic>
+      {this.props.palettesList.map((palette, index: number) => {
+        const enabledThemeIndex = palette.themes.findIndex(
+          (theme) => theme.isEnabled
+        )
+
+        const data = new Data({
+          base: {
+            name: palette.name,
+            description: palette.description,
+            preset: palette.preset,
+            shift: palette.shift,
+            areSourceColorsLocked: palette.are_source_colors_locked,
+            colors: palette.colors,
+            colorSpace: palette.color_space,
+            algorithmVersion: palette.algorithm_version,
+          },
+          themes: palette.themes,
+        }).makePaletteData()
+
+        return (
+          <PaletteCard
+            key={`palette-${index}`}
+            name={palette.name}
+            description={palette.preset?.name}
+            subdescription={setPaletteMeta({
+              colors: palette.colors ?? [],
+              themes: palette.themes ?? [],
+              stars: palette.star_count ?? 0,
+              locales: this.props.t,
+            })}
+            colors={data.themes[enabledThemeIndex].colors}
+            user={{
+              avatar: palette.creator_avatar_url ?? '',
+              name: palette.creator_full_name ?? '',
+            }}
+            actionsSlot={
+              <this.PaletteActions
+                palette={palette}
+                index={index}
+                isCompact
+              />
+            }
+            action={() => this.onOpenPalette(palette, index)}
+          />
+        )
+      })}
+    </PalettesMosaic>
+  )
+
   StarredPalettesList = () => {
     let fragment
 
@@ -420,7 +680,7 @@ export default class StarredPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
     else if (this.props.status === 'COMPLETE')
@@ -433,7 +693,7 @@ export default class StarredPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
 
@@ -467,6 +727,9 @@ export default class StarredPalettes extends PureComponent<
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
+          this.state.palettesView === 'MOSAIC' && <this.PalettesMosaic />}
+        {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
+          this.state.palettesView === 'LIST' &&
           this.props.palettesList.map((palette, index: number) => {
             const enabledThemeIndex = palette.themes.findIndex(
               (theme) => theme.isEnabled
@@ -504,187 +767,10 @@ export default class StarredPalettes extends PureComponent<
                 }}
                 actionsSlot={
                   <>
-                    <Feature isActive={this.features.STAR_PALETTE.isActive()}>
-                      <Button
-                        type="icon"
-                        icon="star-on"
-                        helper={{
-                          label: this.props.t('browse.actions.unstarPalette'),
-                        }}
-                        isLoading={this.state.isRemoveFromStarredLoading[index]}
-                        isBlocked={this.features.STAR_PALETTE.isBlocked()}
-                        isNew={this.features.STAR_PALETTE.isNew()}
-                        onBlock={() => {
-                          const isTrial =
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                          sendPluginMessage(
-                            {
-                              pluginMessage: isTrial
-                                ? { type: 'GET_TRIAL' }
-                                : {
-                                    type: 'GET_PRO',
-                                    data: { origin: 'STAR_PALETTE' },
-                                  },
-                            },
-                            '*'
-                          )
-                        }}
-                        action={() => {
-                          this.setState({
-                            isRemoveFromStarredLoading:
-                              this.state.isRemoveFromStarredLoading.map(
-                                (loading, i) => (i === index ? true : loading)
-                              ),
-                          })
-                          this.onStarPalette(palette.palette_id)
-                        }}
-                      />
-                    </Feature>
-                    <Feature isActive={this.features.SEE_PALETTE.isActive()}>
-                      <Button
-                        type="secondary"
-                        label={this.props.t('browse.actions.openPalette')}
-                        isLoading={this.state.isAddToLocalActionLoading[index]}
-                        shouldReflow={{
-                          isEnabled: true,
-                          icon: 'forward',
-                        }}
-                        isBlocked={this.features.SEE_PALETTE.isBlocked()}
-                        isNew={this.features.SEE_PALETTE.isNew()}
-                        onBlock={() => {
-                          const isTrial =
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                          sendPluginMessage(
-                            {
-                              pluginMessage: isTrial
-                                ? { type: 'GET_TRIAL' }
-                                : {
-                                    type: 'GET_PRO',
-                                    data: { origin: 'SEE_PALETTE' },
-                                  },
-                            },
-                            '*'
-                          )
-                        }}
-                        action={() => {
-                          this.setState({
-                            isAddToLocalActionLoading: this.state[
-                              'isAddToLocalActionLoading'
-                            ].map((loading, i) =>
-                              i === index ? true : loading
-                            ),
-                          })
-
-                          this.onSeePalette(palette.palette_id)
-                            .finally(() =>
-                              this.setState({
-                                isAddToLocalActionLoading: Array(
-                                  this.props.palettesList.length
-                                ).fill(false),
-                              })
-                            )
-                            .catch((error) => {
-                              console.error(error)
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'ERROR',
-                                      message:
-                                        this.props.t('error.openPalette'),
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                            })
-                        }}
-                      />
-                    </Feature>
-                    <Feature isActive={this.features.ADD_PALETTE.isActive()}>
-                      <Button
-                        type="secondary"
-                        label={this.props.t('actions.addToLocal')}
-                        helper={
-                          this.features.LOCAL_PALETTES.isReached(
-                            this.props.localPalettesList.length
-                          )
-                            ? {
-                                label: this.props.t(
-                                  'info.maxNumberOfLocalPalettes',
-                                  {
-                                    count: (
-                                      this.features.LOCAL_PALETTES.limit ?? 3
-                                    ).toString(),
-                                  }
-                                ),
-                                type: 'MULTI_LINE',
-                              }
-                            : undefined
-                        }
-                        isLoading={this.state.isAddToLocalActionLoading[index]}
-                        shouldReflow={{
-                          isEnabled: true,
-                          icon: 'plus',
-                        }}
-                        isBlocked={this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesList.length
-                        )}
-                        isNew={this.features.ADD_PALETTE.isNew()}
-                        onBlock={() => {
-                          const isTrial =
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                          sendPluginMessage(
-                            {
-                              pluginMessage: isTrial
-                                ? { type: 'GET_TRIAL' }
-                                : {
-                                    type: 'GET_PRO',
-                                    data: { origin: 'LOCAL_PALETTES' },
-                                  },
-                            },
-                            '*'
-                          )
-                        }}
-                        action={() => {
-                          this.setState({
-                            isAddToLocalActionLoading: this.state[
-                              'isAddToLocalActionLoading'
-                            ].map((loading, i) =>
-                              i === index ? true : loading
-                            ),
-                          })
-
-                          this.onSelectPalette(palette.palette_id)
-                            .finally(() =>
-                              this.setState({
-                                isAddToLocalActionLoading: Array(
-                                  this.props.palettesList.length
-                                ).fill(false),
-                              })
-                            )
-                            .catch((error) => {
-                              console.error(error)
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'ERROR',
-                                      message: this.props.t('error.addToLocal'),
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                            })
-                        }}
-                      />
-                    </Feature>
+                    <this.PaletteActions
+                      palette={palette}
+                      index={index}
+                    />
                   </>
                 }
                 complementSlot={
@@ -758,7 +844,7 @@ export default class StarredPalettes extends PureComponent<
         {this.props.status !== 'SIGN_IN_FIRST' &&
           this.props.status !== 'EMPTY' && (
             <Bar
-              soloPartSlot={
+              leftPartSlot={
                 <Input
                   type="TEXT"
                   icon={{
@@ -787,6 +873,7 @@ export default class StarredPalettes extends PureComponent<
                   }}
                 />
               }
+              rightPartSlot={<PalettesViewSwitch />}
               border={['BOTTOM']}
             />
           )}

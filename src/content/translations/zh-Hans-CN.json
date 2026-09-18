@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "添加到本地库",
     "addToSource": "添加到源颜色",
+    "copyPaletteLink": "复制调色板链接",
     "createPalette": "新建 UI Color Palette",
     "duplicate": "复制",
     "export": "导出调色板为 {format}",
@@ -85,6 +86,7 @@
       "paletteWithProperties": "详细调色板",
       "sheet": "完整色彩表"
     },
+    "giveFeedback": "提交反馈",
     "moreActions": "更多操作",
     "publishOrSyncPalette": "发布或同步调色板",
     "publishPalette": "发布调色板",
@@ -170,6 +172,10 @@
     "signInFirst": {
       "message": "登录后查找和使用您收藏的调色板",
       "signIn": "登录以获取您的调色板"
+    },
+    "views": {
+      "list": "列表视图",
+      "mosaic": "网格视图"
     }
   },
   "colors": {
@@ -278,6 +284,8 @@
     "announcements": "无法加载公告",
     "authentication": "身份验证失败",
     "badResponse": "响应无效",
+    "copyLink": "无法自动复制链接，请从地址栏手动复制。",
+    "copyLinkNoPalette": "还没有打开可分享的调色板。",
     "corruption": "您的 UI Color Palette 似乎已损坏。请不要编辑其中的任何图层。",
     "document": "无法生成文档",
     "export": "无法生成代码，因为未找到调色板",
@@ -288,6 +296,7 @@
     "onboarding": "无法加载入门指南",
     "openPalette": "无法打开调色板",
     "palette": "无法创建调色板",
+    "paletteAccessDenied": "您没有权限访问此调色板。",
     "paletteSizeExceeded": "调色板大小超出限制。请减少颜色模式、源颜色或色调/色彩的数量。",
     "palettesPicking": "暂时无法选择调色板",
     "publication": "无法发布调色板",
@@ -334,8 +343,8 @@
       "violet": "紫色",
       "yellow": "黄色"
     },
-    "meta": "{votes} 票・{views} 次查看・{comments} 条评论",
-    "title": "Colour Lovers"
+    "meta": "{likes} 个赞・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -617,7 +626,7 @@
         "generateColorSheet": "生成色卡：{fee} 积分",
         "generateDetailedPalette": "生成详细调色板：{fee} 积分",
         "generateSimplePalette": "生成简单调色板：{fee} 积分",
-        "importColourLovers": "从 Colour Lovers 导入调色板：{fee} 积分",
+        "importColourLovers": "从 Color Hunt 导入调色板：{fee} 积分",
         "importCoolors": "从 Coolors 导入调色板：{fee} 积分",
         "importRealtimeColors": "从 Realtime Colors 导入调色板：{fee} 积分",
         "syncLocalStyles": "与本地样式同步：{fee} 积分",
@@ -1366,6 +1375,13 @@
     },
     "signIn": "登录",
     "signOut": "登出",
+    "theme": {
+      "dark": "深色",
+      "label": "更改主题",
+      "light": "浅色",
+      "system": "跟随系统",
+      "title": "主题"
+    },
     "updateConsent": "管理 Cookie",
     "updatePreferences": "更新偏好设置",
     "useLicense": "使用许可证密钥",

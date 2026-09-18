@@ -101,7 +101,6 @@ export default class ManagePalette extends PureComponent<
   ManagePaletteState
 > {
   private palette: typeof $palette
-  private theme: string | null
   private subscribePalette: Array<() => void> = []
   private openPaletteRef = createRef<OpenPalette>()
 
@@ -213,7 +212,6 @@ export default class ManagePalette extends PureComponent<
       },
       canBePublished: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle

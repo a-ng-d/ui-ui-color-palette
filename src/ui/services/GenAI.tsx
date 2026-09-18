@@ -367,8 +367,8 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 'var(--size-pos-xxsmall)',
-          padding: 'var(--size-pos-xxxsmall) var(--size-null)',
+          gap: 'var(--scale-pos-xxsmall)',
+          padding: 'var(--scale-pos-xxxsmall) var(--scale-null)',
         }}
       >
         {allPrompts.map((item) => (
@@ -526,7 +526,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         />
         <div
           style={{
-            padding: 'var(--size-pos-xxsmall) var(--size-pos-xsmall)',
+            padding: 'var(--scale-pos-xxsmall) var(--scale-pos-xsmall)',
           }}
         >
           <PalettePreview
@@ -579,7 +579,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                                 <div
                                   style={{
                                     padding:
-                                      'var(--size-pos-xxxsmall) var(--size-null)',
+                                      'var(--scale-pos-xxxsmall) var(--scale-null)',
                                   }}
                                 >
                                   <SemanticMessage

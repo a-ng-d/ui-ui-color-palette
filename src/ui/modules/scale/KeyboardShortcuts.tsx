@@ -8,6 +8,7 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
+import { getPortalTarget } from '../../../utils/getPortalTarget'
 import { BaseProps } from '../../../types/app'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
 
@@ -38,21 +39,14 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
     )
 
     return (
-      document.getElementById('modal') &&
+      getPortalTarget('modal') &&
       createPortal(
         <Dialog
           title={this.props.t('scale.tips.title')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              maxWidth: '100%',
-            }}
-          >
+          <div className="dialog__blank">
             <Section
               body={[
                 {
@@ -67,7 +61,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       ]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -76,7 +70,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -85,7 +79,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.escape')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -99,7 +93,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       ]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -108,7 +102,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.tab')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -121,7 +115,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       separator={this.props.t('scale.tips.inputs.or')}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -137,7 +131,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       separator={this.props.t('scale.tips.inputs.or')}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -153,7 +147,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       separator={this.props.t('scale.tips.inputs.or')}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
               ]}
               border={['BOTTOM']}
@@ -176,7 +170,7 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       shortcuts={[[this.props.t('scale.tips.inputs.click')]]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
                 {
                   node: (
@@ -187,13 +181,13 @@ export default class KeyboardShortcuts extends PureComponent<KeyboardShortcutsPr
                       ]}
                     />
                   ),
-                  spacingModifier: 'TIGHT',
+                  spacingModifier: 'NONE',
                 },
               ]}
             />
           </div>
         </Dialog>,
-        document.getElementById('modal') ?? document.createElement('app')
+        getPortalTarget('modal') ?? document.createElement('app')
       )
     )
   }

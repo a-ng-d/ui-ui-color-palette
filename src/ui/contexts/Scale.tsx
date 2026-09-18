@@ -197,7 +197,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
     this.state = {
       isTipsOpen: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
     this.scaleMessage = {
       type: 'UPDATE_SCALE',
       id: this.props.id,

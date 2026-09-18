@@ -17,7 +17,10 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettesViewSwitch from '../components/PalettesViewSwitch'
+import PalettesMosaic from '../components/PalettesMosaic'
 import PalettePreview from '../components/PalettePreview'
+import PaletteCard from '../components/PaletteCard'
 import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { PluginMessageData } from '../../types/messages'
@@ -26,9 +29,11 @@ import {
   Context,
   Editor,
   FetchStatus,
+  PalettesView,
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $palettesView } from '../../stores/preferences'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import unpublishPalette from '../../external/publication/unpublishPalette'
 import sharePalette from '../../external/publication/sharePalette'
@@ -52,6 +57,7 @@ interface SelfPalettesProps
 }
 
 interface SelfPalettesState {
+  palettesView: PalettesView
   isLoadMoreActionLoading: boolean
   isSignInActionLoading: boolean
   isAddToLocalActionLoading: Array<boolean>
@@ -62,6 +68,7 @@ export default class SelfPalettes extends PureComponent<
   SelfPalettesProps,
   SelfPalettesState
 > {
+  private subscribePalettesView: (() => void) | undefined
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -96,6 +103,7 @@ export default class SelfPalettes extends PureComponent<
   constructor(props: SelfPalettesProps) {
     super(props)
     this.state = {
+      palettesView: $palettesView.get(),
       isLoadMoreActionLoading: false,
       isSignInActionLoading: false,
       isAddToLocalActionLoading: [],
@@ -109,6 +117,10 @@ export default class SelfPalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    this.subscribePalettesView = $palettesView.subscribe((value) => {
+      this.setState({ palettesView: value })
+    })
 
     const actions: {
       [key: string]: () => void
@@ -151,6 +163,8 @@ export default class SelfPalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    if (this.subscribePalettesView) this.subscribePalettesView()
   }
 
   // Handlers
@@ -244,6 +258,378 @@ export default class SelfPalettes extends PureComponent<
   }
 
   // Templates
+  onAddToLocal = (palette: ExternalPalettes, index: number) => {
+    if (
+      this.features.LOCAL_PALETTES.isReached(
+        this.props.localPalettesList.length
+      )
+    )
+      return
+
+    this.setState({
+      isAddToLocalActionLoading: this.state.isAddToLocalActionLoading.map(
+        (loading, i) => (i === index ? true : loading)
+      ),
+    })
+    this.props
+      .onSelectPalette(palette.palette_id)
+      .finally(() => {
+        this.setState({
+          isAddToLocalActionLoading: Array(this.props.palettesList.length).fill(
+            false
+          ),
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.t('error.addToLocal'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  onUnpublishPalette = (palette: ExternalPalettes, index: number) => {
+    this.setState({
+      isContextActionLoading: this.state.isContextActionLoading.map(
+        (loading, i) => (i === index ? true : loading)
+      ),
+    })
+    unpublishPalette({
+      paletteData: {
+        id: palette.palette_id,
+      },
+      appData: {
+        userSession: this.props.userSession,
+      },
+      palettesDbTableName: this.props.config.dbs.palettesDbTableName,
+      isRemote: true,
+    })
+      .then(() => {
+        const currentPalettesList = this.props.palettesList.filter(
+          (pal) => pal.palette_id !== palette.palette_id
+        )
+
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'SUCCESS',
+                message: this.props.t('success.nonPublication'),
+              },
+            },
+          },
+          '*'
+        )
+        this.props.onLoadPalettesList(currentPalettesList)
+
+        if (currentPalettesList.length === 0) this.props.onChangeStatus('EMPTY')
+        if (currentPalettesList.length < this.props.config.limits.pageSize)
+          this.props.onChangeCurrentPage(1)
+
+        trackPublicationEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'UNPUBLISH_PALETTE',
+          }
+        )
+      })
+      .finally(() => {
+        this.setState({
+          isContextActionLoading: this.state.isContextActionLoading.map(
+            (loading, i) => (i === index ? false : loading)
+          ),
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.t('error.nonPublication'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  onSharePalette = (palette: ExternalPalettes, index: number) => {
+    this.setState({
+      isContextActionLoading: this.state.isContextActionLoading.map(
+        (loading, i) => (i === index ? true : loading)
+      ),
+    })
+    sharePalette({
+      id: palette.palette_id,
+      palettesDbTableName: this.props.config.dbs.palettesDbTableName,
+      isShared: !palette.is_shared,
+    })
+      .then(() => {
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'SUCCESS',
+                message: !palette.is_shared
+                  ? this.props.t('success.share')
+                  : this.props.t('success.unshare'),
+              },
+            },
+          },
+          '*'
+        )
+
+        const currentPalettesList = this.props.palettesList.map((pal) =>
+          pal.palette_id === palette.palette_id
+            ? {
+                ...pal,
+                is_shared: !pal.is_shared,
+              }
+            : pal
+        )
+        this.props.onLoadPalettesList(currentPalettesList)
+
+        trackPublicationEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'SHARE_PALETTE',
+          }
+        )
+      })
+      .finally(() => {
+        this.setState({
+          isContextActionLoading: this.state.isContextActionLoading.map(
+            (loading, i) => (i === index ? false : loading)
+          ),
+        })
+      })
+      .catch((error) => {
+        console.error(error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: !palette.is_shared
+                  ? this.props.t('error.share')
+                  : this.props.t('error.unshare'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  PaletteActions = ({
+    palette,
+    index,
+    isCompact = false,
+  }: {
+    palette: ExternalPalettes
+    index: number
+    isCompact?: boolean
+  }) => (
+    <>
+      {isCompact ? (
+        <>
+          <Button
+            type="icon"
+            icon="close"
+            helper={{ label: this.props.t('publication.unpublish') }}
+            isLoading={this.state.isContextActionLoading[index]}
+            action={() => this.onUnpublishPalette(palette, index)}
+          />
+          <Button
+            type="icon"
+            icon={palette.is_shared ? 'lock-on' : 'share'}
+            helper={{
+              label: palette.is_shared
+                ? this.props.t('publication.unshare')
+                : this.props.t('publication.share'),
+            }}
+            isLoading={this.state.isContextActionLoading[index]}
+            action={() => this.onSharePalette(palette, index)}
+          />
+        </>
+      ) : (
+        <Menu
+          id={`more-actions-${palette.palette_id}`}
+          icon="ellipses"
+          options={[
+            {
+              label: this.props.t('publication.unpublish'),
+              type: 'OPTION',
+              isActive: true,
+              isBlocked: false,
+              isNew: false,
+              action: () => this.onUnpublishPalette(palette, index),
+            },
+            {
+              label: palette.is_shared
+                ? this.props.t('publication.unshare')
+                : this.props.t('publication.share'),
+              type: 'OPTION',
+              isActive: true,
+              isBlocked: false,
+              isNew: false,
+              action: () => this.onSharePalette(palette, index),
+            },
+          ]}
+          state={
+            this.state.isContextActionLoading[index] ? 'LOADING' : 'DEFAULT'
+          }
+          alignment="BOTTOM_RIGHT"
+          helper={{
+            label: this.props.t('browse.actions.managePalette'),
+          }}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'MANAGE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+        />
+      )}
+      <Button
+        type={isCompact ? 'icon' : 'secondary'}
+        icon={isCompact ? 'plus' : undefined}
+        label={isCompact ? undefined : this.props.t('actions.addToLocal')}
+        helper={
+          this.features.LOCAL_PALETTES.isReached(
+            this.props.localPalettesList.length
+          )
+            ? {
+                label: this.props.t('info.maxNumberOfLocalPalettes', {
+                  count: (this.features.LOCAL_PALETTES.limit ?? 3).toString(),
+                }),
+                type: 'MULTI_LINE',
+              }
+            : isCompact
+              ? { label: this.props.t('actions.addToLocal') }
+              : undefined
+        }
+        isLoading={this.state.isAddToLocalActionLoading[index]}
+        shouldReflow={{
+          isEnabled: true,
+          icon: 'plus',
+        }}
+        isBlocked={this.features.LOCAL_PALETTES.isReached(
+          this.props.localPalettesList.length
+        )}
+        isNew={this.features.CREATE_PALETTE.isNew()}
+        onBlock={() => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
+          sendPluginMessage(
+            {
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : {
+                    type: 'GET_PRO',
+                    data: { origin: 'LOCAL_PALETTES' },
+                  },
+            },
+            '*'
+          )
+        }}
+        action={() => this.onAddToLocal(palette, index)}
+      />
+    </>
+  )
+
+  PalettesMosaic = () => (
+    <PalettesMosaic>
+      {this.props.palettesList.map((palette, index: number) => {
+        const enabledThemeIndex = palette.themes.findIndex(
+          (theme) => theme.isEnabled
+        )
+
+        const data = new Data({
+          base: {
+            name: palette.name,
+            description: palette.description,
+            preset: palette.preset,
+            shift: palette.shift,
+            areSourceColorsLocked: palette.are_source_colors_locked,
+            colors: palette.colors,
+            colorSpace: palette.color_space,
+            algorithmVersion: palette.algorithm_version,
+          },
+          themes: palette.themes,
+        }).makePaletteData()
+
+        return (
+          <PaletteCard
+            key={`palette-${index}`}
+            name={palette.name}
+            description={palette.preset?.name}
+            subdescription={setPaletteMeta({
+              colors: palette.colors ?? [],
+              themes: palette.themes ?? [],
+              stars: palette.star_count ?? 0,
+              locales: this.props.t,
+            })}
+            indicator={
+              palette.is_shared
+                ? {
+                    status: 'ACTIVE',
+                    label: this.props.t('publication.statusShared'),
+                  }
+                : undefined
+            }
+            colors={data.themes[enabledThemeIndex].colors}
+            actionsSlot={
+              <this.PaletteActions
+                palette={palette}
+                index={index}
+                isCompact
+              />
+            }
+            action={() => this.onAddToLocal(palette, index)}
+          />
+        )
+      })}
+    </PalettesMosaic>
+  )
+
   ExternalPalettesList = () => {
     let fragment
 
@@ -268,7 +654,7 @@ export default class SelfPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
     else if (this.props.status === 'COMPLETE')
@@ -281,7 +667,7 @@ export default class SelfPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
 
@@ -315,6 +701,9 @@ export default class SelfPalettes extends PureComponent<
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
+          this.state.palettesView === 'MOSAIC' && <this.PalettesMosaic />}
+        {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
+          this.state.palettesView === 'LIST' &&
           this.props.palettesList.map((palette, index: number) => {
             const enabledThemeIndex = palette.themes.findIndex(
               (theme) => theme.isEnabled
@@ -355,303 +744,9 @@ export default class SelfPalettes extends PureComponent<
                 }
                 actionsSlot={
                   <>
-                    <Menu
-                      id={`more-actions-${palette.palette_id}`}
-                      icon="ellipses"
-                      options={[
-                        {
-                          label: this.props.t('publication.unpublish'),
-                          type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
-                          action: async () => {
-                            this.setState({
-                              isContextActionLoading:
-                                this.state.isContextActionLoading.map(
-                                  (loading, i) => (i === index ? true : loading)
-                                ),
-                            })
-                            unpublishPalette({
-                              paletteData: {
-                                id: palette.palette_id,
-                              },
-                              appData: {
-                                userSession: this.props.userSession,
-                              },
-                              palettesDbTableName:
-                                this.props.config.dbs.palettesDbTableName,
-                              isRemote: true,
-                            })
-                              .then(() => {
-                                const currentPalettesList =
-                                  this.props.palettesList.filter(
-                                    (pal) =>
-                                      pal.palette_id !== palette.palette_id
-                                  )
-
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'SUCCESS',
-                                        message: this.props.t(
-                                          'success.nonPublication'
-                                        ),
-                                      },
-                                    },
-                                  },
-                                  '*'
-                                )
-                                this.props.onLoadPalettesList(
-                                  currentPalettesList
-                                )
-
-                                if (currentPalettesList.length === 0)
-                                  this.props.onChangeStatus('EMPTY')
-                                if (
-                                  currentPalettesList.length <
-                                  this.props.config.limits.pageSize
-                                )
-                                  this.props.onChangeCurrentPage(1)
-
-                                trackPublicationEvent(
-                                  this.props.config.env.isMixpanelEnabled,
-                                  this.props.userSession.userId,
-                                  this.props.userIdentity.id,
-                                  this.props.planStatus,
-                                  this.props.userConsent.find(
-                                    (consent) => consent.id === 'mixpanel'
-                                  )?.isConsented ?? false,
-                                  {
-                                    feature: 'UNPUBLISH_PALETTE',
-                                  }
-                                )
-                              })
-                              .finally(() => {
-                                this.setState({
-                                  isContextActionLoading:
-                                    this.state.isContextActionLoading.map(
-                                      (loading, i) =>
-                                        i === index ? false : loading
-                                    ),
-                                })
-                              })
-                              .catch((error) => {
-                                console.error(error)
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'ERROR',
-                                        message: this.props.t(
-                                          'error.nonPublication'
-                                        ),
-                                      },
-                                    },
-                                  },
-                                  '*'
-                                )
-                              })
-                          },
-                        },
-                        {
-                          label: palette.is_shared
-                            ? this.props.t('publication.unshare')
-                            : this.props.t('publication.share'),
-                          type: 'OPTION',
-                          isActive: true,
-                          isBlocked: false,
-                          isNew: false,
-                          action: async () => {
-                            this.setState({
-                              isContextActionLoading:
-                                this.state.isContextActionLoading.map(
-                                  (loading, i) => (i === index ? true : loading)
-                                ),
-                            })
-                            sharePalette({
-                              id: palette.palette_id,
-                              palettesDbTableName:
-                                this.props.config.dbs.palettesDbTableName,
-                              isShared: !palette.is_shared,
-                            })
-                              .then(() => {
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'SUCCESS',
-                                        message: !palette.is_shared
-                                          ? this.props.t('success.share')
-                                          : this.props.t('success.unshare'),
-                                      },
-                                    },
-                                  },
-                                  '*'
-                                )
-
-                                const currentPalettesList =
-                                  this.props.palettesList.map((pal) =>
-                                    pal.palette_id === palette.palette_id
-                                      ? {
-                                          ...pal,
-                                          is_shared: !pal.is_shared,
-                                        }
-                                      : pal
-                                  )
-                                this.props.onLoadPalettesList(
-                                  currentPalettesList
-                                )
-
-                                trackPublicationEvent(
-                                  this.props.config.env.isMixpanelEnabled,
-                                  this.props.userSession.userId,
-                                  this.props.userIdentity.id,
-                                  this.props.planStatus,
-                                  this.props.userConsent.find(
-                                    (consent) => consent.id === 'mixpanel'
-                                  )?.isConsented ?? false,
-                                  {
-                                    feature: 'SHARE_PALETTE',
-                                  }
-                                )
-                              })
-                              .finally(() => {
-                                this.setState({
-                                  isContextActionLoading:
-                                    this.state.isContextActionLoading.map(
-                                      (loading, i) =>
-                                        i === index ? false : loading
-                                    ),
-                                })
-                              })
-                              .catch((error) => {
-                                console.error(error)
-                                sendPluginMessage(
-                                  {
-                                    pluginMessage: {
-                                      type: 'POST_MESSAGE',
-                                      data: {
-                                        type: 'ERROR',
-                                        message: !palette.is_shared
-                                          ? this.props.t('error.share')
-                                          : this.props.t('error.unshare'),
-                                      },
-                                    },
-                                  },
-                                  '*'
-                                )
-                              })
-                          },
-                        },
-                      ]}
-                      state={
-                        this.state.isContextActionLoading[index]
-                          ? 'LOADING'
-                          : 'DEFAULT'
-                      }
-                      alignment="BOTTOM_RIGHT"
-                      helper={{
-                        label: this.props.t('browse.actions.managePalette'),
-                      }}
-                      onBlock={() => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'MANAGE_PALETTE' },
-                                },
-                          },
-                          '*'
-                        )
-                      }}
-                    />
-                    <Button
-                      type="secondary"
-                      label={this.props.t('actions.addToLocal')}
-                      helper={
-                        this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesList.length
-                        )
-                          ? {
-                              label: this.props.t(
-                                'info.maxNumberOfLocalPalettes',
-                                {
-                                  count: (
-                                    this.features.LOCAL_PALETTES.limit ?? 3
-                                  ).toString(),
-                                }
-                              ),
-                              type: 'MULTI_LINE',
-                            }
-                          : undefined
-                      }
-                      isLoading={this.state.isAddToLocalActionLoading[index]}
-                      shouldReflow={{
-                        isEnabled: true,
-                        icon: 'plus',
-                      }}
-                      isBlocked={this.features.LOCAL_PALETTES.isReached(
-                        this.props.localPalettesList.length
-                      )}
-                      isNew={this.features.CREATE_PALETTE.isNew()}
-                      onBlock={() => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'LOCAL_PALETTES' },
-                                },
-                          },
-                          '*'
-                        )
-                      }}
-                      action={() => {
-                        this.setState({
-                          isAddToLocalActionLoading: this.state[
-                            'isAddToLocalActionLoading'
-                          ].map((loading, i) => (i === index ? true : loading)),
-                        })
-                        this.props
-                          .onSelectPalette(palette.palette_id)
-                          .finally(() => {
-                            this.setState({
-                              isAddToLocalActionLoading: Array(
-                                this.props.palettesList.length
-                              ).fill(false),
-                            })
-                          })
-                          .catch((error) => {
-                            console.error(error)
-                            sendPluginMessage(
-                              {
-                                pluginMessage: {
-                                  type: 'POST_MESSAGE',
-                                  data: {
-                                    type: 'ERROR',
-
-                                    message: this.props.t('error.addToLocal'),
-                                  },
-                                },
-                              },
-                              '*'
-                            )
-                          })
-                      }}
+                    <this.PaletteActions
+                      palette={palette}
+                      index={index}
                     />
                   </>
                 }
@@ -726,7 +821,7 @@ export default class SelfPalettes extends PureComponent<
         {this.props.status !== 'SIGN_IN_FIRST' &&
           this.props.status !== 'EMPTY' && (
             <Bar
-              soloPartSlot={
+              leftPartSlot={
                 <Input
                   type="TEXT"
                   icon={{
@@ -755,6 +850,7 @@ export default class SelfPalettes extends PureComponent<
                   }}
                 />
               }
+              rightPartSlot={<PalettesViewSwitch />}
               border={['BOTTOM']}
             />
           )}

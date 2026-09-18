@@ -105,7 +105,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   constructor(props: PreviewProps) {
     super(props)
     this.palette = $palette
-    this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       isWCAGDisplayed: true,
       isAPCADisplayed: true,

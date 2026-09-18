@@ -6,3 +6,5 @@ export const initNotion = (apiKey: string) => {
 
 export const buildHeaders = (): HeadersInit =>
   notionApiKey ? { Authorization: notionApiKey } : {}
+
+export { default as checkAnnouncementsVersion } from './checkAnnouncementsVersion'

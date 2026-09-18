@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "ローカルに追加",
     "addToSource": "ソースに追加",
+    "copyPaletteLink": "パレットのリンクをコピー",
     "createPalette": "新しいUI Color Palette",
     "duplicate": "複製",
     "export": "{format}としてパレットをエクスポート",
@@ -85,6 +86,7 @@
       "paletteWithProperties": "詳細なカラーパレット",
       "sheet": "完全なカラーシート"
     },
+    "giveFeedback": "フィードバックを送る",
     "moreActions": "その他のアクション",
     "publishOrSyncPalette": "パレットを公開または同期",
     "publishPalette": "パレットを公開",
@@ -170,6 +172,10 @@
     "signInFirst": {
       "message": "サインインすると自分のパレットやお気に入りのパレットを見つけて使用できます",
       "signIn": "パレットを読み込むにはサインインしてください"
+    },
+    "views": {
+      "list": "リスト表示",
+      "mosaic": "タイル表示"
     }
   },
   "colors": {
@@ -278,6 +284,8 @@
     "announcements": "お知らせを読み込めません",
     "authentication": "認証に失敗しました",
     "badResponse": "レスポンスが無効です",
+    "copyLink": "リンクを自動的にコピーできませんでした。アドレスバーからコピーしてください。",
+    "copyLinkNoPalette": "共有できるパレットがまだ開かれていません。",
     "corruption": "UI Color Paletteが壊れているようです。内部のレイヤーを編集しないでください。",
     "document": "ドキュメントを生成できません",
     "export": "パレットが見つからないためコードを生成できません",
@@ -288,6 +296,7 @@
     "onboarding": "オンボーディングを読み込めません",
     "openPalette": "パレットを開けません",
     "palette": "パレットを作成できません",
+    "paletteAccessDenied": "このパレットへのアクセス権がありません。",
     "paletteSizeExceeded": "パレットのサイズが上限を超えています。カラーモード、ソースカラー、またはストップの数を減らしてください。",
     "palettesPicking": "現在パレットを選択できません",
     "publication": "パレットを公開できません",
@@ -334,8 +343,8 @@
       "violet": "バイオレット",
       "yellow": "イエロー"
     },
-    "meta": "{votes}票・{views}回表示・{comments}コメント",
-    "title": "Colour Lovers"
+    "meta": "{likes}いいね・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -617,7 +626,7 @@
         "generateColorSheet": "カラーシートを生成：{fee} cdts",
         "generateDetailedPalette": "詳細なパレットを生成：{fee} cdts",
         "generateSimplePalette": "シンプルなパレットを生成：{fee} cdts",
-        "importColourLovers": "Colour Loversからパレットをインポート：{fee} cdts",
+        "importColourLovers": "Color Huntからパレットをインポート：{fee} cdts",
         "importCoolors": "Coolorsからパレットをインポート：{fee} cdts",
         "importRealtimeColors": "Realtime Colorsからパレットをインポート：{fee} cdts",
         "syncLocalStyles": "ローカルスタイルと同期：{fee} cdts",
@@ -1366,6 +1375,13 @@
     },
     "signIn": "サインイン",
     "signOut": "サインアウト",
+    "theme": {
+      "dark": "ダーク",
+      "label": "テーマを変更",
+      "light": "ライト",
+      "system": "システム",
+      "title": "テーマ"
+    },
     "updateConsent": "クッキーを管理",
     "updatePreferences": "設定を更新",
     "useLicense": "ライセンスキーを使用",

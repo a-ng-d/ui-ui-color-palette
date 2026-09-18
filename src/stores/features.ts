@@ -64,6 +64,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -83,6 +84,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -101,6 +103,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -119,6 +122,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   // Subservices
@@ -160,7 +164,30 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
+  },
+  {
+    name: 'SHARE_LINK',
+    description: 'Copies a shareable web link to the palette',
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
+    availabilityForServices: ['MANAGE'],
+    proForServices: ['MANAGE'],
+    availabilityForEditors: ['web'],
+  },
+  {
+    name: 'FEEDBACK_LINK',
+    description: 'Opens the feedback form for the palette',
+    isActive: true,
+    isPro: false,
+    isNew: true,
+    type: 'ACTION',
+    availabilityForServices: ['MANAGE'],
+    proForServices: ['MANAGE'],
+    availabilityForEditors: ['web'],
   },
   // Modes
   {
@@ -179,6 +206,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -208,6 +236,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   // Modules
@@ -227,6 +256,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -323,6 +353,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -374,6 +405,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -403,6 +435,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -432,6 +465,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -450,6 +484,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -490,6 +525,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -509,6 +545,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -527,6 +564,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -545,6 +583,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -563,6 +602,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -581,6 +621,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -599,6 +640,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -617,6 +659,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -635,6 +678,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -653,6 +697,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -671,6 +716,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -689,6 +735,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -707,6 +754,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -725,6 +773,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -743,6 +792,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -761,6 +811,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -779,6 +830,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -797,6 +849,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -815,6 +868,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -833,6 +887,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -851,6 +906,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -869,6 +925,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -887,6 +944,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -905,6 +963,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -923,6 +982,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -941,6 +1001,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -959,6 +1020,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -977,6 +1039,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -995,6 +1058,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1013,6 +1077,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1031,6 +1096,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1049,6 +1115,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1067,8 +1134,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
-      'framer',
-      'buzz',
+      'web',
     ],
   },
   {
@@ -1087,6 +1153,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1105,6 +1172,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1123,6 +1191,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1141,6 +1210,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1159,6 +1229,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1177,6 +1248,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1195,6 +1267,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1213,6 +1286,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1231,6 +1305,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1249,6 +1324,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1267,6 +1343,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1285,6 +1362,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1303,6 +1381,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1321,6 +1400,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1339,6 +1419,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1357,6 +1438,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1375,6 +1457,8 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'buzz',
+      'web',
     ],
   },
   {
@@ -1386,7 +1470,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'CONTEXT',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'THEMES_SWITCH',
@@ -1408,7 +1499,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'THEMES_PARAMS',
@@ -1419,7 +1517,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'THEMES_DESCRIPTION',
@@ -1430,7 +1535,14 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: ['figma', 'penpot', 'sketch', 'framer'],
+    availabilityForEditors: [
+      'figma',
+      'penpot',
+      'sketch',
+      'framer',
+      'buzz',
+      'web',
+    ],
   },
   {
     name: 'EXPORT_COLOR_SPACE',
@@ -1448,6 +1560,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1466,6 +1579,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1484,6 +1598,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1502,6 +1617,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1520,6 +1636,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1538,6 +1655,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1556,6 +1674,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1574,6 +1693,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1592,6 +1712,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1610,6 +1731,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1628,6 +1750,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1646,6 +1769,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1664,6 +1788,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1682,6 +1807,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1700,6 +1826,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1718,6 +1845,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1736,6 +1864,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1754,6 +1883,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1772,6 +1902,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1790,6 +1921,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1808,6 +1940,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1826,6 +1959,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1844,6 +1978,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1862,6 +1997,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1880,6 +2016,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1898,6 +2035,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'penpot',
       'sketch',
       'framer',
+      'web',
     ],
   },
   {
@@ -1916,6 +2054,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1934,6 +2073,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1952,6 +2092,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -1970,6 +2111,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -1989,6 +2131,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2007,6 +2150,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2026,6 +2170,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2044,6 +2189,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2062,6 +2208,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2080,6 +2227,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2098,6 +2246,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2116,6 +2265,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2135,6 +2285,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2154,6 +2305,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2173,6 +2325,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2191,6 +2344,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2209,6 +2363,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2227,6 +2382,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2245,6 +2401,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2263,6 +2420,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2281,6 +2439,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2299,6 +2458,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2317,6 +2477,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2335,6 +2496,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2353,6 +2515,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2371,6 +2534,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2389,6 +2553,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2407,6 +2572,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2425,6 +2591,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2443,6 +2610,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2461,6 +2629,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2479,6 +2648,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2497,6 +2667,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2515,6 +2686,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2533,6 +2705,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2552,6 +2725,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2571,6 +2745,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2590,6 +2765,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2608,6 +2784,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2626,6 +2803,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2677,6 +2855,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2732,6 +2911,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2750,6 +2930,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2769,6 +2950,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2788,6 +2970,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2807,6 +2990,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2826,6 +3010,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -2838,15 +3023,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     type: 'ACTION',
     availabilityForServices: ['MANAGE'],
     proForServices: ['MANAGE'],
-    availabilityForEditors: [
-      'figma',
-      'figjam',
-      'dev',
-      'dev_vscode',
-      'penpot',
-      'sketch',
-      'framer',
-    ],
+    availabilityForEditors: 'all',
   },
   {
     name: 'PREVIEW',
@@ -2952,6 +3129,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2970,6 +3148,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -2999,6 +3178,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -3018,6 +3198,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -3037,6 +3218,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -3055,6 +3237,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -3073,6 +3256,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -3091,6 +3275,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -3109,6 +3294,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -3127,6 +3313,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
   },
   {
@@ -3145,6 +3332,7 @@ export const featuresScheme: Array<Feature<Service>> = [
       'sketch',
       'framer',
       'buzz',
+      'web',
     ],
     limit: 0,
   },
@@ -3246,6 +3434,17 @@ export const featuresScheme: Array<Feature<Service>> = [
     isActive: true,
     isPro: false,
     isNew: false,
+    type: 'DIVISION',
+    availabilityForServices: 'all',
+    proForServices: 'all',
+    availabilityForEditors: 'all',
+  },
+  {
+    name: 'USER_THEME',
+    description: 'User theme settings',
+    isActive: true,
+    isPro: false,
+    isNew: true,
     type: 'DIVISION',
     availabilityForServices: 'all',
     proForServices: 'all',
@@ -3357,6 +3556,18 @@ export const featuresScheme: Array<Feature<Service>> = [
     isPro: false,
     isNew: false,
     type: 'DIVISION',
+    availabilityForServices: 'all',
+    proForServices: 'all',
+    availabilityForEditors: 'all',
+  },
+  {
+    name: 'HELP_ONBOARDING_AUTO_DISPLAY',
+    description:
+      "Automatically displays the onboarding on a user's first visit",
+    isActive: true,
+    isPro: false,
+    isNew: false,
+    type: 'ACTION',
     availabilityForServices: 'all',
     proForServices: 'all',
     availabilityForEditors: 'all',
