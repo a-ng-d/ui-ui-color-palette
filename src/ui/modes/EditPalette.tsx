@@ -1065,10 +1065,7 @@ export default class EditPalette extends PureComponent<
                         </div>
                       </section>
                     ),
-                    typeModifier:
-                      this.props.documentWidth > 460
-                        ? ('DRAWER' as const)
-                        : ('BLANK' as const),
+                    typeModifier: 'DRAWER',
                     drawerOptions: {
                       minSize: {
                         value: 48,
@@ -1082,8 +1079,8 @@ export default class EditPalette extends PureComponent<
                         value: 496,
                         unit: 'PIXEL' as const,
                       },
-                      pin: 'RIGHT' as const,
-                      direction: 'HORIZONTAL' as const,
+                      pin: this.props.documentWidth > 460 ? ('RIGHT' as const) : ('BOTTOM' as const),
+                      direction: this.props.documentWidth > 460 ? ('HORIZONTAL' as const) : ('VERTICAL' as const),
                       onCollapse: () => this.setState({ context: '' }),
                     },
                   },
