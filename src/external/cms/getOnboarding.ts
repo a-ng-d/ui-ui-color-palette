@@ -9,7 +9,7 @@ const PLATFORM_LABELS: Record<Platform, string> = {
   penpot: 'Penpot',
   sketch: 'Sketch',
   framer: 'Framer',
-  web: 'Web',
+  yelbolt: 'Yelbolt',
 }
 
 const EDITOR_LABELS: Record<Editor, string> = {
