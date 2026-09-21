@@ -6,8 +6,10 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import { Language } from '../../../types/translations'
 import { $isOnboardingRead } from '../../../stores/preferences'
 import { trackOnboardingEvent } from '../../../external/tracking/eventsTracker'
+import { getTolgee } from '../../../external/translation'
 import getOnboarding from '../../../external/cms/getOnboarding'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
@@ -68,7 +70,8 @@ export default class Onboarding extends PureComponent<
       this.props.config.urls.announcementsWorkerUrl,
       this.props.config.env.onboardingDbId,
       this.props.config.env.platform,
-      this.props.editor
+      this.props.editor,
+      getTolgee().getLanguage() as Language
     )
       .then((announcements) => {
         this.setState({ announcements, status: 'LOADED' })
