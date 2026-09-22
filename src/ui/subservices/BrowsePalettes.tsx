@@ -19,6 +19,7 @@ import Feature from '../components/Feature'
 import { setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import isValidPaletteConfiguration from '../../utils/isValidPaletteConfiguration'
+import { getDocumentAttribute } from '../../utils/getDocumentAttribute'
 import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
@@ -134,17 +135,17 @@ export default class BrowsePalettes extends PureComponent<
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
+    this.theme = getDocumentAttribute('data-theme')
   }
 
   // Lifecycle
   componentDidMount = () => {
-    sendPluginMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
-
     window.addEventListener(
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    sendPluginMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
   }
 
   componentDidUpdate(previousProps: Readonly<BrowsePalettesProps>): void {

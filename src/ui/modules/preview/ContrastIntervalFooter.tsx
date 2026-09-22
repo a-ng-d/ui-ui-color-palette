@@ -65,8 +65,8 @@ export default class ContrastIntervalFooter extends PureComponent<ContrastInterv
       leftSlot={
         <ColorChip
           color={lightForeground}
-          width="var(--size-pos-xxsmall)"
-          height="var(--size-pos-xxsmall)"
+          width="var(--scale-pos-xxsmall)"
+          height="var(--scale-pos-xxsmall)"
           isRounded
         />
       }

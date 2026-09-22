@@ -14,6 +14,7 @@ import {
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
+import { getPortalTarget } from '../utils/getPortalTarget'
 import { UserSession } from '../types/user'
 import { Language } from '../types/translations'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
@@ -33,9 +34,12 @@ import {
   $canVariablesDeepSync,
   $isAPCADisplayed,
   $isAPCAIntervalDisplayed,
+  $isOnboardingRead,
   $isSuggestedLanguageDisplayed,
   $isWCAGDisplayed,
   $isWCAGIntervalDisplayed,
+  $palettesView,
+  $userTheme,
 } from '../stores/preferences'
 import { $localPalettesCount } from '../stores/localPalettes'
 import { initHistory, redo, teardownHistory, undo } from '../stores/history'
@@ -165,6 +169,13 @@ class App extends Component<AppProps, AppState> {
     HELP_ONBOARDING: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_ONBOARDING',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    HELP_ONBOARDING_AUTO_DISPLAY: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_ONBOARDING_AUTO_DISPLAY',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -501,6 +512,9 @@ class App extends Component<AppProps, AppState> {
         $isSuggestedLanguageDisplayed.set(
           path.data.isSuggestedLanguageDisplayed
         )
+        $isOnboardingRead.set(path.data.isOnboardingRead)
+        $userTheme.set(path.data.userTheme ?? 'system')
+        $palettesView.set(path.data.palettesView ?? 'LIST')
 
         this.onDetectBrowserLanguage(path.data.userLanguage)
 
@@ -631,17 +645,15 @@ class App extends Component<AppProps, AppState> {
         })
       }
 
-      /*
       const handleOnboarding = () => {
         this.setState({
           modalContext:
             path.data.status !== 'DISPLAY_ONBOARDING_DIALOG' ||
-            !this.features.HELP_ONBOARDING.isActive()
+            !this.features.HELP_ONBOARDING_AUTO_DISPLAY.isActive()
               ? 'EMPTY'
               : 'ONBOARDING',
         })
       }
-      */
 
       const getTrial = () =>
         this.setState({
@@ -737,7 +749,7 @@ class App extends Component<AppProps, AppState> {
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
         POST_MESSAGE: () => postMessage(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
-        // PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
+        PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),
         GET_PRICING: () => getPricing(),
@@ -1186,32 +1198,38 @@ class App extends Component<AppProps, AppState> {
             />
           </Feature>
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>
-            {document.getElementById('modal') &&
+            {getPortalTarget('modal') &&
               createPortal(
-                <Modal
-                  {...this.props}
-                  {...this.state}
-                  context={this.state.modalContext}
-                  onChangePublication={(e) => this.setState({ ...e })}
-                  onManageLicense={(e) => this.setState({ ...e })}
-                  onSkipAndResetPalette={(e) => this.setState({ ...e })}
-                  onSubscribe={(e) => this.setState({ ...e })}
-                  onClose={() =>
-                    this.setState({
-                      modalContext: 'EMPTY',
-                      announcements: {
-                        version: this.state.announcements.version,
-                        status: 'NO_ANNOUNCEMENTS',
-                      },
-                    })
+                <div
+                  inert={
+                    this.state.mustUserConsent &&
+                    this.features.USER_CONSENT.isActive()
                   }
-                />,
-                document.getElementById('modal') ??
-                  document.createElement('app')
+                >
+                  <Modal
+                    {...this.props}
+                    {...this.state}
+                    context={this.state.modalContext}
+                    onChangePublication={(e) => this.setState({ ...e })}
+                    onManageLicense={(e) => this.setState({ ...e })}
+                    onSkipAndResetPalette={(e) => this.setState({ ...e })}
+                    onSubscribe={(e) => this.setState({ ...e })}
+                    onClose={() =>
+                      this.setState({
+                        modalContext: 'EMPTY',
+                        announcements: {
+                          version: this.state.announcements.version,
+                          status: 'NO_ANNOUNCEMENTS',
+                        },
+                      })
+                    }
+                  />
+                </div>,
+                getPortalTarget('modal') ?? document.createElement('app')
               )}
           </Feature>
           <Feature isActive={this.state.isNotificationDisplayed}>
-            {document.getElementById('toast') &&
+            {getPortalTarget('toast') &&
               createPortal(
                 <Modal
                   {...this.props}
@@ -1232,8 +1250,7 @@ class App extends Component<AppProps, AppState> {
                     })
                   }
                 />,
-                document.getElementById('toast') ??
-                  document.createElement('app')
+                getPortalTarget('toast') ?? document.createElement('app')
               )}
           </Feature>
           <Feature
@@ -1242,7 +1259,7 @@ class App extends Component<AppProps, AppState> {
               this.features.USER_CONSENT.isActive()
             }
           >
-            {document.getElementById('modal') &&
+            {getPortalTarget('modal') &&
               createPortal(
                 <Consent
                   welcomeMessage={this.props.t('user.cookies.welcome')}
@@ -1290,8 +1307,7 @@ class App extends Component<AppProps, AppState> {
                   closeLabel={this.props.t('user.cookies.close')}
                   onClose={() => this.setState({ mustUserConsent: false })}
                 />,
-                document.getElementById('modal') ??
-                  document.createElement('app')
+                getPortalTarget('modal') ?? document.createElement('app')
               )}
           </Feature>
         </main>

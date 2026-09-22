@@ -1,12 +1,104 @@
 {
   "name": "ui-ui-color-palette",
-  "version": "3.6.8",
+  "version": "3.7.1",
   "private": true,
   "description": "A unified UI component library for color palette functionality across multiple design platforms. This project serves as a common UI foundation that adapts to different platforms (Figma, Penpot, Sketch) while maintaining a consistent experience.",
   "author": "Aurélien Grimaud",
   "license": "MIT",
   "repository": "https://github.com/a-ng-d/ui-ui-color-palette",
   "type": "module",
+  "exports": {
+    "./types": {
+      "types": "./dist/types/types/index.d.ts",
+      "default": "./src/types/index.ts"
+    },
+    "./global-config": {
+      "types": "./dist/types/global.config.d.ts",
+      "default": "./src/global.config.ts"
+    },
+    "./config": {
+      "types": "./dist/types/config/index.d.ts",
+      "default": "./src/config/index.ts"
+    },
+    "./stores": {
+      "types": "./dist/types/stores/index.d.ts",
+      "default": "./src/stores/index.ts"
+    },
+    "./ui/components": {
+      "types": "./dist/types/ui/components/index.d.ts",
+      "default": "./src/ui/components/index.ts"
+    },
+    "./ui/contexts": {
+      "types": "./dist/types/ui/contexts/index.d.ts",
+      "default": "./src/ui/contexts/index.ts"
+    },
+    "./ui/modes": {
+      "types": "./dist/types/ui/modes/index.d.ts",
+      "default": "./src/ui/modes/index.ts"
+    },
+    "./ui/modules": {
+      "types": "./dist/types/ui/modules/index.d.ts",
+      "default": "./src/ui/modules/index.ts"
+    },
+    "./ui/services": {
+      "types": "./dist/types/ui/services/index.d.ts",
+      "default": "./src/ui/services/index.ts"
+    },
+    "./ui/subcontexts": {
+      "types": "./dist/types/ui/subcontexts/index.d.ts",
+      "default": "./src/ui/subcontexts/index.ts"
+    },
+    "./ui/subservices": {
+      "types": "./dist/types/ui/subservices/index.d.ts",
+      "default": "./src/ui/subservices/index.ts"
+    },
+    "./ui/stylesheets/*": "./src/ui/stylesheets/*",
+    "./external/auth": {
+      "types": "./dist/types/external/auth/index.d.ts",
+      "default": "./src/external/auth/index.ts"
+    },
+    "./external/cms": {
+      "types": "./dist/types/external/cms/index.d.ts",
+      "default": "./src/external/cms/index.ts"
+    },
+    "./external/license": {
+      "types": "./dist/types/external/license/index.d.ts",
+      "default": "./src/external/license/index.ts"
+    },
+    "./external/mistral": {
+      "types": "./dist/types/external/mistral/index.d.ts",
+      "default": "./src/external/mistral/index.ts"
+    },
+    "./external/monitoring": {
+      "types": "./dist/types/external/monitoring/index.d.ts",
+      "default": "./src/external/monitoring/index.ts"
+    },
+    "./external/onboarding": {
+      "types": "./dist/types/external/onboarding/index.d.ts",
+      "default": "./src/external/onboarding/index.ts"
+    },
+    "./external/publication": {
+      "types": "./dist/types/external/publication/index.d.ts",
+      "default": "./src/external/publication/index.ts"
+    },
+    "./external/tracking": {
+      "types": "./dist/types/external/tracking/index.d.ts",
+      "default": "./src/external/tracking/index.ts"
+    },
+    "./external/transactional": {
+      "types": "./dist/types/external/transactional/index.d.ts",
+      "default": "./src/external/transactional/index.ts"
+    },
+    "./external/translation": {
+      "types": "./dist/types/external/translation/index.d.ts",
+      "default": "./src/external/translation/index.ts"
+    },
+    "./utils/isValidPaletteConfiguration": {
+      "types": "./dist/types/utils/isValidPaletteConfiguration.d.ts",
+      "default": "./src/utils/isValidPaletteConfiguration.ts"
+    },
+    "./translations/*": "./src/content/translations/*"
+  },
   "workspaces": [
     "packages/announcements-yelbolt-worker",
     "packages/auth-yelbolt-worker",
@@ -46,6 +138,7 @@
     "start:framer:light:framer": "PLATFORM=framer COLOR_MODE=light EDITOR=framer vite --mode development",
     "start:framer:dark:framer": "PLATFORM=framer COLOR_MODE=dark EDITOR=framer vite --mode development",
     "build": "PLATFORM=figma COLOR_MODE=dark EDITOR=figma vite build --mode production",
+    "build:types": "tsc -p tsconfig.declarations.json || true",
     "typecheck": "npx tsc --noEmit",
     "lint": "npx eslint ./src --fix --ext .ts,.tsx",
     "format": "npx prettier './src' --write",
@@ -86,7 +179,7 @@
     "@tolgee/format-icu": "^6.2.7",
     "@tolgee/react": "^6.2.7",
     "@tolgee/web": "^6.2.7",
-    "@unoff/ui": "^1.25.2",
+    "@unoff/ui": "^1.26.2",
     "@unoff/utils": "^0.9.0",
     "@yelbolt/engine-ui-color-palette": "^1.12.1",
     "chroma-js": "^3.1.2",

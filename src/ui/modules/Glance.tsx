@@ -19,6 +19,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { getPortalTarget } from '../../utils/getPortalTarget'
 import {
   BaseProps,
   Editor,
@@ -55,8 +56,6 @@ interface GlanceState {
 }
 
 export default class Glance extends PureComponent<GlanceProps, GlanceState> {
-  private theme: string | null
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -119,7 +118,6 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
         meta: {} as MetaConfiguration,
       },
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -285,24 +283,6 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
   // Render
   render() {
     let modal
-    let padding
-
-    switch (this.theme) {
-      case 'figma':
-        padding = 'var(--size-null) var(--size-null)'
-        break
-      case 'penpot':
-        padding = 'var(--size-null) var(--size-pos-xsmall)'
-        break
-      case 'sketch':
-        padding = 'var(--size-null) var(--size-pos-xsmall)'
-        break
-      case 'framer':
-        padding = 'var(--size-null) var(--size-pos-xxxsmall)'
-        break
-      default:
-        padding = 'var(--size-null) var(--size-null)'
-    }
 
     if (this.state.paletteStatus === 'LOADING')
       modal = (
@@ -342,7 +322,6 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
               flexDirection: 'column',
               flex: 1,
               maxWidth: '100%',
-              padding: padding,
               boxSizing: 'border-box',
             }}
           >
@@ -505,10 +484,10 @@ export default class Glance extends PureComponent<GlanceProps, GlanceState> {
 
     return (
       <Feature isActive={this.features.GLANCE_PALETTE.isActive()}>
-        {document.getElementById('modal') &&
+        {getPortalTarget('modal') &&
           createPortal(
             modal,
-            document.getElementById('modal') ?? document.createElement('app')
+            getPortalTarget('modal') ?? document.createElement('app')
           )}
       </Feature>
     )

@@ -18,9 +18,9 @@ export interface Config {
   env: {
     isDev: boolean
     isEmbed: boolean
-    platform: 'figma' | 'penpot' | 'sketch' | 'framer'
+    platform: 'figma' | 'penpot' | 'sketch' | 'framer' | 'yelbolt'
     editor: Editor
-    ui: 'figma' | 'penpot' | 'sketch' | 'framer'
+    ui: 'figma' | 'penpot' | 'sketch' | 'framer' | 'yelbolt'
     colorMode:
       | 'figma-light'
       | 'figma-dark'
@@ -30,6 +30,8 @@ export interface Config {
       | 'sketch-dark'
       | 'framer-light'
       | 'framer-dark'
+      | 'yelbolt-uicp-light'
+      | 'yelbolt-uicp-dark'
     isSupabaseEnabled: boolean
     isMixpanelEnabled: boolean
     isSentryEnabled: boolean

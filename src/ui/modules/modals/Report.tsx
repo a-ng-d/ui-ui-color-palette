@@ -130,66 +130,60 @@ export default class Report extends PureComponent<ReportProps, ReportState> {
           onClose={this.props.onClose}
         >
           <div className="dialog__form">
-            <div className="dialog__form__item">
-              <FormItem
-                label={this.props.t('report.fullName.label')}
+            <FormItem
+              label={this.props.t('report.fullName.label')}
+              id="type-fullname"
+              shouldFill
+            >
+              <Input
+                type="TEXT"
                 id="type-fullname"
-                shouldFill
-              >
-                <Input
-                  type="TEXT"
-                  id="type-fullname"
-                  value={this.state.userFullName}
-                  isAutoFocus
-                  placeholder={this.props.t('report.fullName.placeholder')}
-                  onChange={(e) =>
-                    this.setState({
-                      userFullName: (e.target as HTMLInputElement).value,
-                    })
-                  }
-                />
-              </FormItem>
-            </div>
-            <div className="dialog__form__item">
-              <FormItem
-                label={this.props.t('report.email.label')}
+                value={this.state.userFullName}
+                isAutoFocus
+                placeholder={this.props.t('report.fullName.placeholder')}
+                onChange={(e) =>
+                  this.setState({
+                    userFullName: (e.target as HTMLInputElement).value,
+                  })
+                }
+              />
+            </FormItem>
+            <FormItem
+              label={this.props.t('report.email.label')}
+              id="type-email"
+              shouldFill
+            >
+              <Input
+                type="TEXT"
                 id="type-email"
-                shouldFill
-              >
-                <Input
-                  type="TEXT"
-                  id="type-email"
-                  value={this.state.userEmail}
-                  placeholder={this.props.t('report.email.placeholder')}
-                  onChange={(e) =>
-                    this.setState({
-                      userEmail: (e.target as HTMLInputElement).value,
-                    })
-                  }
-                />
-              </FormItem>
-            </div>
-            <div className="dialog__form__item">
-              <FormItem
-                label={this.props.t('report.message.label')}
+                value={this.state.userEmail}
+                placeholder={this.props.t('report.email.placeholder')}
+                onChange={(e) =>
+                  this.setState({
+                    userEmail: (e.target as HTMLInputElement).value,
+                  })
+                }
+              />
+            </FormItem>
+            <FormItem
+              label={this.props.t('report.message.label')}
+              id="type-message"
+              shouldFill
+              isMultiLine
+            >
+              <Input
+                type="LONG_TEXT"
                 id="type-message"
-                shouldFill
-                isMultiLine
-              >
-                <Input
-                  type="LONG_TEXT"
-                  id="type-message"
-                  placeholder={this.props.t('report.message.placeholder')}
-                  value={this.state.userMessage}
-                  isGrowing
-                  onChange={(e) =>
-                    this.setState({
-                      userMessage: (e.target as HTMLInputElement).value,
-                    })
-                  }
-                />
-              </FormItem>
-            </div>
+                placeholder={this.props.t('report.message.placeholder')}
+                value={this.state.userMessage}
+                isGrowing
+                onChange={(e) =>
+                  this.setState({
+                    userMessage: (e.target as HTMLInputElement).value,
+                  })
+                }
+              />
+            </FormItem>
           </div>
         </Dialog>
       </Feature>

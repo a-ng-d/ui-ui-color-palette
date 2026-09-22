@@ -86,6 +86,7 @@
       "paletteWithProperties": "Detailed color palette",
       "sheet": "Full color sheet"
     },
+    "giveFeedback": "Submit feedback",
     "moreActions": "More actions",
     "publishOrSyncPalette": "Publish or Synchronize palette",
     "publishPalette": "Publish palette",
@@ -171,6 +172,10 @@
     "signInFirst": {
       "message": "Find and use your own and starred palettes once authenticated",
       "signIn": "Sign in to fetch your palettes"
+    },
+    "views": {
+      "list": "List view",
+      "mosaic": "Mosaic view"
     }
   },
   "colors": {
@@ -338,8 +343,8 @@
       "violet": "Violet",
       "yellow": "Yellow"
     },
-    "meta": "{votes} votes・{views} views・{comments} comments",
-    "title": "Colour Lovers"
+    "meta": "{likes} likes・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -621,7 +626,7 @@
         "generateColorSheet": "Generate a color sheet: {fee} cdts",
         "generateDetailedPalette": "Generate a detailed palette: {fee} cdts",
         "generateSimplePalette": "Generate a simple palette: {fee} cdts",
-        "importColourLovers": "Import a palette from Colour Lovers: {fee} cdts",
+        "importColourLovers": "Import a palette from Color Hunt: {fee} cdts",
         "importCoolors": "Import a palette from Coolors: {fee} cdts",
         "importRealtimeColors": "Import a palette from Realtime Colors: {fee} cdts",
         "syncLocalStyles": "Sync with local styles: {fee} cdts",
@@ -1184,7 +1189,6 @@
   "success": {
     "activatedLicense": "The license key \"{licenseKey}\" has been activated",
     "addToLocal": "The palette has been added to this page",
-    "copyLink": "Link copied to clipboard",
     "detachment": "The palette has been detached",
     "nonPublication": "The palette has been unpublished",
     "publication": "The palette has been published",
@@ -1371,6 +1375,13 @@
     },
     "signIn": "Sign in",
     "signOut": "Sign out",
+    "theme": {
+      "dark": "Dark",
+      "label": "Change theme",
+      "light": "Light",
+      "system": "System",
+      "title": "Theme"
+    },
     "updateConsent": "Manage cookies",
     "updatePreferences": "Update preferences",
     "useLicense": "Use license key",

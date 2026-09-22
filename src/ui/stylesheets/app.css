@@ -1,15 +1,15 @@
 /* Layout */
 html,
 body {
-  margin: 0;
+  margin: var(--scale-null);
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
 ul {
-  margin: 0;
-  padding: 0;
+  margin: var(--scale-null);
+  padding: var(--scale-null);
 }
 
 li {
@@ -17,7 +17,7 @@ li {
 }
 
 ul.list-item {
-  padding-left: var(--size-pos-xsmall);
+  padding-left: var(--scale-pos-xsmall);
   list-style-type: disc;
 }
 
@@ -26,6 +26,7 @@ ul.list-item li {
 }
 
 div#app {
+  background-color: var(--global-background-color-default);
   width: 100%;
   height: 100%;
   user-select: none;
@@ -55,16 +56,16 @@ main {
 html.is-embed,
 html.is-embed body,
 html.is-embed div#app {
-  margin: 0;
+  margin: var(--scale-null);
   box-shadow: none;
-  border: 0;
+  border: var(--scale-null);
 }
 
 main.ui--embed {
-  margin: 0;
+  margin: var(--scale-null);
   box-shadow: none;
-  border: 0;
-  border-radius: 0;
+  border: var(--scale-null);
+  border-radius: var(--scale-null);
   width: 100%;
 }
 
@@ -94,7 +95,7 @@ div.export-palette__preview {
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 0 var(--size-pos-xsmall);
+  padding: var(--scale-null) var(--scale-pos-xsmall);
   overflow: auto;
 }
 
@@ -136,7 +137,7 @@ div.export-palette__preview {
 .preview__header {
   display: inline-flex;
   position: sticky;
-  top: 0;
+  top: var(--scale-null);
   z-index: 5;
   width: fit-content;
   min-width: 100%;
@@ -144,26 +145,15 @@ div.export-palette__preview {
 
 .preview__footer {
   display: inline-flex;
-  padding: 0 0 var(--size-pos-xxsmall) 0;
+  padding: var(--scale-null) var(--scale-null) var(--scale-pos-xxsmall)
+    var(--scale-null);
   width: fit-content;
   min-width: 100%;
 }
 
-:root[data-theme='figma'] .preview__header .preview__cell,
-:root[data-theme='figma'] .preview__footer .preview__cell {
-  background-color: var(--figma-color-bg-default, var(--figma-color-bg));
-}
-:root[data-theme='penpot'] .preview__header .preview__cell,
-:root[data-theme='penpot'] .preview__footer .preview__cell {
-  background-color: var(--penpot-color-background-primary);
-}
-:root[data-theme='sketch'] .preview__header .preview__cell,
-:root[data-theme='sketch'] .preview__footer .preview__cell {
-  background-color: var(--sketch-color-background-primary);
-}
-:root[data-theme='framer'] .preview__header .preview__cell,
-:root[data-theme='framer'] .preview__footer .preview__cell {
-  background-color: var(--framer-color-bg-default, var(--framer-color-bg));
+.preview__header .preview__cell,
+.preview__footer .preview__cell {
+  background-color: var(--global-background-color-default);
 }
 
 .preview__cell {
@@ -172,24 +162,24 @@ div.export-palette__preview {
   flex: 1;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--size-pos-xxxsmall);
+  gap: var(--scale-pos-xxxsmall);
   box-sizing: border-box;
-  padding: var(--size-pos-xxxsmall);
+  padding: var(--scale-pos-xxxsmall);
   min-width: 96px;
   min-height: 64px;
 }
 
 .preview__cell--no-height {
-  min-height: unset;
+  min-height: unset !important;
 }
 
 .preview__cell--compact {
   min-width: unset;
-  min-height: var(--size-pos-small);
+  min-height: var(--scale-pos-small);
 }
 
 .preview__cell--medium {
-  min-height: var(--size-pos-xxxlarge);
+  min-height: var(--scale-pos-xxxlarge);
 }
 
 .preview__cell--large {
@@ -198,14 +188,14 @@ div.export-palette__preview {
 
 .preview__cell--frozen {
   position: sticky;
-  left: 0;
+  left: var(--scale-null);
   z-index: 4;
   width: 96px;
 }
 
 .preview__cell--free {
-  min-width: unset;
-  overflow: hidden;
+  min-width: unset !important;
+  overflow: hidden !important;
 }
 
 .preview__cell--header {
@@ -216,14 +206,14 @@ div.export-palette__preview {
 .preview__cell__stack {
   display: flex;
   justify-content: end;
-  gap: var(--size-pos-xxxsmall);
+  gap: var(--scale-pos-xxxsmall);
   width: 100%;
 }
 
 .preview__cell__actions {
   position: absolute;
   z-index: 3;
-  inset: auto var(--size-pos-xxxsmall) var(--size-pos-xxxsmall) auto;
+  inset: auto var(--scale-pos-xxxsmall) var(--scale-pos-xxxsmall) auto;
 }
 
 /* Properties */
@@ -241,51 +231,99 @@ div.export-palette__preview {
 /* Contrast report */
 .contrast {
   display: grid;
-  grid-template-rows: repeat(4, minmax(0, auto));
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--size-pos-xxsmall) var(--size-pos-xxsmall);
-  padding: var(--size-pos-xxsmall) 0;
+  grid-template-rows: repeat(4, minmax(var(--scale-null), auto));
+  grid-template-columns: repeat(2, minmax(var(--scale-null), 1fr));
+  gap: var(--scale-pos-xxsmall) var(--scale-pos-xxsmall);
+  padding: var(--scale-pos-xxsmall) var(--scale-null);
 }
 
 .contrast__preview {
   justify-content: center;
   align-items: center;
-  width: auto;
-  min-height: var(--size-pos-xxlarge);
+  width: auto !important;
+  min-height: var(--scale-pos-xxlarge);
   max-height: 400px;
   overflow-y: auto;
 }
 
 .contrast__score {
-  outline: var(--thumbnail-border-width) solid var(--thumbnail-border-color);
-  outline-offset: var(--thumbnail-border-offset);
-  width: auto;
+  outline: var(--global-border-width) solid var(--global-border-color) !important;
+  outline-offset: var(--global-border-offset) !important;
+  width: auto !important;
 }
 
 /* Box resizer grip */
 .box-resizer-grip {
   display: flex;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: var(--scale-null);
+  bottom: var(--scale-null);
   justify-content: end;
   align-items: end;
   cursor: nwse-resize;
-  padding: var(--size-pos-xxxsmall);
-  width: var(--size-pos-xxsmall);
-  height: var(--size-pos-xsmall);
+  padding: var(--scale-pos-xxxsmall);
+  width: var(--scale-pos-xxsmall);
+  height: var(--scale-pos-xsmall);
 }
 
-/* Background */
-:root[data-theme='figma'] #app {
-  background-color: var(--figma-color-bg-default, var(--figma-color-bg));
+/* Palettes mosaic */
+.palettes-mosaic {
+  container-type: inline-size;
+  padding: var(--scale-pos-xsmall) var(--scale-pos-xsmall);
 }
-:root[data-theme='penpot'] #app {
-  background-color: var(--penpot-color-background-primary);
+
+.palettes-mosaic__grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(var(--scale-null), 1fr));
+  gap: var(--scale-pos-xsmall);
 }
-:root[data-theme='sketch'] #app {
-  background-color: var(--sketch-color-background-primary);
+
+@container (width >= 460px) {
+  .palettes-mosaic__grid {
+    grid-template-columns: repeat(2, minmax(var(--scale-null), 1fr));
+  }
 }
-:root[data-theme='framer'] #app {
-  background-color: var(--framer-color-bg-default, var(--framer-color-bg));
+
+@container (width >= 800px) {
+  .palettes-mosaic__grid {
+    grid-template-columns: repeat(3, minmax(var(--scale-null), 1fr));
+  }
+}
+
+@container (width >= 1140px) {
+  .palettes-mosaic__grid {
+    grid-template-columns: repeat(4, minmax(var(--scale-null), 1fr));
+  }
+}
+
+.palettes-mosaic .thumbnail__fragment {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+.palettes-mosaic__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-pos-xxxsmall);
+  min-width: var(--scale-null);
+}
+
+.palettes-mosaic__text > span {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.palettes-mosaic__text .user {
+  margin-top: var(--scale-pos-xxxsmall);
+  min-width: var(--scale-null);
+}
+
+.palettes-mosaic__text .user__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -312,7 +312,7 @@ export default class ImagePalette extends PureComponent<
         <Feature isActive={this.features.EXTRACT_UPLOAD.isActive()}>
           <div
             style={{
-              padding: 'var(--size-pos-small)',
+              padding: 'var(--scale-pos-small)',
             }}
           >
             <Card
@@ -349,7 +349,7 @@ export default class ImagePalette extends PureComponent<
       <Feature isActive={this.features.EXTRACT_UPLOAD.isActive()}>
         <div
           style={{
-            padding: 'var(--size-pos-small)',
+            padding: 'var(--scale-pos-small)',
           }}
         >
           <Dropzone
@@ -476,7 +476,7 @@ export default class ImagePalette extends PureComponent<
         {this.state.dominantColors.length > 0 && (
           <div
             style={{
-              padding: 'var(--size-pos-xxsmall) var(--size-pos-small)',
+              padding: 'var(--scale-pos-xxsmall) var(--scale-pos-small)',
             }}
           >
             <PalettePreview

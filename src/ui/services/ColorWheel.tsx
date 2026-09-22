@@ -334,19 +334,6 @@ export default class ColorWheel extends PureComponent<
           {
             node: (
               <>
-                <this.HarmonyPreview />
-                <div
-                  style={{
-                    padding: 'var(--size-pos-xxsmall) var(--size-pos-xsmall)',
-                  }}
-                >
-                  <PalettePreview
-                    colors={setPreviewPalette(
-                      this.getSourceColors(),
-                      this.palette.get()
-                    )}
-                  />
-                </div>
                 <Bar
                   leftPartSlot={
                     <Feature isActive={this.features.WHEEL_BASE.isActive()}>
@@ -536,8 +523,7 @@ export default class ColorWheel extends PureComponent<
                                         : {
                                             type: 'GET_PRO',
                                             data: {
-                                              origin:
-                                                'WHEEL_ALGORITHM_TRIADIC',
+                                              origin: 'WHEEL_ALGORITHM_TRIADIC',
                                             },
                                           },
                                     },
@@ -586,7 +572,7 @@ export default class ColorWheel extends PureComponent<
                             ]}
                             selected={this.state.wheelRule}
                             alignment="RIGHT"
-                            pin="BOTTOM"
+                            pin="TOP"
                           />
                         </FormItem>
                       </Feature>
@@ -615,7 +601,6 @@ export default class ColorWheel extends PureComponent<
                                 })
                               : this.props.t('wheel.actions.addColors'),
                             type: 'MULTI_LINE',
-                            pin: 'TOP',
                           }}
                           isLoading={this.state.isActionLoading}
                           isBlocked={this.features.LOCAL_PALETTES.isReached(
@@ -647,6 +632,19 @@ export default class ColorWheel extends PureComponent<
                   isInverted
                   border={['TOP']}
                 />
+                <div
+                  style={{
+                    padding: 'var(--scale-pos-xxsmall) var(--scale-pos-xsmall)',
+                  }}
+                >
+                  <PalettePreview
+                    colors={setPreviewPalette(
+                      this.getSourceColors(),
+                      this.palette.get()
+                    )}
+                  />
+                </div>
+                <this.HarmonyPreview />
               </>
             ),
             typeModifier: 'BLANK',
