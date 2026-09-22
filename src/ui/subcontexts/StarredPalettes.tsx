@@ -461,7 +461,7 @@ export default class StarredPalettes extends PureComponent<
       <Feature isActive={this.features.STAR_PALETTE.isActive()}>
         <Button
           type="icon"
-          icon="star-off"
+          icon="star-on"
           helper={{
             label: this.props.t('browse.actions.unstarPalette'),
           }}
