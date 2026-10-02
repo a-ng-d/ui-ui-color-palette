@@ -45,7 +45,9 @@ interface BrowsePalettesProps
   document: DocumentConfiguration
   sourceColors: Array<SourceColorConfiguration>
   browseContext?: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
-  onChangeBrowseContext?: (context: 'LOCAL_PALETTES' | 'REMOTE_PALETTES') => void
+  onChangeBrowseContext?: (
+    context: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  ) => void
   onCreatePalette: Dispatch<Partial<ManagePaletteState>>
   onSeePalette: (palette: {
     base: BaseConfiguration

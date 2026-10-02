@@ -1,11 +1,5 @@
 import { Feature, FeatureStatus } from '@unoff/utils'
-import {
-  Context,
-  ContextItem,
-  Editor,
-  PlanStatus,
-  Service,
-} from '../types/app'
+import { Context, ContextItem, Editor, PlanStatus, Service } from '../types/app'
 
 export const setContexts = (
   contextList: Array<Context>,
@@ -320,7 +314,8 @@ export const setContexts = (
 export const isContextAvailable = (
   contexts: Array<ContextItem>,
   requested?: string
-): boolean => requested !== undefined && contexts.some((c) => c.id === requested)
+): boolean =>
+  requested !== undefined && contexts.some((c) => c.id === requested)
 
 export const resolveContext = (
   contexts: Array<ContextItem>,

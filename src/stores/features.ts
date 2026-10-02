@@ -213,7 +213,7 @@ export const featuresScheme: Array<Feature<Service>> = [
     proForServices: 'all',
     availabilityForEditors: 'all',
   },
-    {
+  {
     name: 'SHARE_LINK',
     description: 'Copies a shareable web link to the palette',
     isActive: true,

@@ -69,7 +69,9 @@ interface ManagePaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   appData: AppState
   browseContext?: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
-  onChangeBrowseContext?: (context: 'LOCAL_PALETTES' | 'REMOTE_PALETTES') => void
+  onChangeBrowseContext?: (
+    context: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  ) => void
 }
 
 export interface ManagePaletteState {
