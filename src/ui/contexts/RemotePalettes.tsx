@@ -14,7 +14,7 @@ import OrgPalettes from '../subcontexts/OrgPalettes'
 import CommunityPalettes from '../subcontexts/CommunityPalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
-import { setContexts } from '../../utils/setContexts'
+import { resolveContext, setContexts } from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getDocumentAttribute } from '../../utils/getDocumentAttribute'
 import {
@@ -129,7 +129,7 @@ export default class RemotePalettes extends PureComponent<
       props.t
     )
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      context: resolveContext(this.contexts),
       selfPalettesListStatus: 'UNLOADED',
       communityPalettesListStatus: 'UNLOADED',
       orgPalettesListStatus: 'UNLOADED',

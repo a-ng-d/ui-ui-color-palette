@@ -33,7 +33,7 @@ import Properties from '../contexts/Properties'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { setContexts } from '../../utils/setContexts'
+import { resolveContext, setContexts } from '../../utils/setContexts'
 import { PluginMessageData, ThemesMessage } from '../../types/messages'
 import {
   BaseProps,
@@ -166,7 +166,7 @@ export default class EditPalette extends PureComponent<
     )
     this.palette = $palette
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      context: resolveContext(this.contexts),
       isPrimaryLoading: false,
       isSecondaryLoading: false,
       shadeReport: null,

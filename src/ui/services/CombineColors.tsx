@@ -5,7 +5,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
-import { setContexts } from '../../utils/setContexts'
+import { resolveContext, setContexts } from '../../utils/setContexts'
 import {
   BaseProps,
   Context,
@@ -106,13 +106,19 @@ export default class CombineColors extends PureComponent<
     super(props)
     this.contexts = this.getContexts()
     this.state = {
-      context:
-        props.context ??
-        (this.contexts[0] !== undefined ? this.contexts[0].id : ''),
+      context: resolveContext(this.contexts, props.context),
     }
   }
 
   // Lifecycle
+  componentDidMount(): void {
+    if (
+      this.props.context !== undefined &&
+      this.props.context !== this.state.context
+    )
+      this.props.onChangeContext?.(this.state.context as Context)
+  }
+
   componentDidUpdate(previousProps: Readonly<CombineColorsProps>): void {
     if (previousProps.t !== this.props.t) {
       this.contexts = this.getContexts()
@@ -123,7 +129,9 @@ export default class CombineColors extends PureComponent<
       this.props.context !== undefined &&
       this.props.context !== previousProps.context
     )
-      this.setState({ context: this.props.context })
+      this.setState({
+        context: resolveContext(this.contexts, this.props.context),
+      })
   }
 
   // Handlers

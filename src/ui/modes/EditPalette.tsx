@@ -39,7 +39,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import UndoRedoButtons from '../components/UndoRedoButtons'
 import Feature from '../components/Feature'
-import { setContexts } from '../../utils/setContexts'
+import { resolveContext, setContexts } from '../../utils/setContexts'
 import { computeScaleForStops } from '../../utils/scaleStops'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
@@ -218,7 +218,7 @@ export default class EditPalette extends PureComponent<
       props.t
     )
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      context: resolveContext(this.contexts),
       isPrimaryLoading: false,
       isSecondaryLoading: false,
     }
