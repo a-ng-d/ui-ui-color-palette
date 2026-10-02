@@ -423,6 +423,7 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
       <Feature isActive={this.features.CREATE_PALETTE.isActive() && !isCompact}>
         <Button
           type="secondary"
+          icon="plus"
           label={this.props.t('explore.actions.newPalette')}
           helper={{
             label: this.features.LOCAL_PALETTES.isReached(

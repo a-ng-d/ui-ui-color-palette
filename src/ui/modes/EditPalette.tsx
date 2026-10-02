@@ -1079,8 +1079,14 @@ export default class EditPalette extends PureComponent<
                         value: 496,
                         unit: 'PIXEL' as const,
                       },
-                      pin: this.props.documentWidth > 460 ? ('RIGHT' as const) : ('BOTTOM' as const),
-                      direction: this.props.documentWidth > 460 ? ('HORIZONTAL' as const) : ('VERTICAL' as const),
+                      pin:
+                        this.props.documentWidth > 460
+                          ? ('RIGHT' as const)
+                          : ('BOTTOM' as const),
+                      direction:
+                        this.props.documentWidth > 460
+                          ? ('HORIZONTAL' as const)
+                          : ('VERTICAL' as const),
                       onCollapse: () => this.setState({ context: '' }),
                     },
                   },

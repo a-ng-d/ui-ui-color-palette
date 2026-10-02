@@ -1038,6 +1038,7 @@
   },
   "separator": "・",
   "services": {
+    "combine": "컬러 컴비네이터",
     "explore": "탐색기",
     "extract": "이미지 팔레트",
     "generate": "AI 색상",

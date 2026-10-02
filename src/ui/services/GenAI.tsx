@@ -7,16 +7,15 @@ import {
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
+  Bar,
   Button,
   ColorItem,
   FormItem,
   Input,
   Layout,
   List,
-  Message,
   Section,
   SectionTitle,
-  SimpleItem,
 } from '@unoff/ui'
 import { SemanticMessage } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
@@ -384,95 +383,32 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
   }
 
   ColorPreview = () => {
-    if (!this.state.generatedPalette)
-      return (
-        <>
-          <SimpleItem
-            leftPartSlot={
-              <SectionTitle
-                indicator="0"
-                label={this.props.t('genAi.title')}
-              />
-            }
-            rightPartSlot={
-              <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
-                <Button
-                  type="secondary"
-                  label={this.props.t('genAi.actions.newPalette')}
-                  helper={{
-                    label: this.features.LOCAL_PALETTES.isReached(
-                      this.props.localPalettesCount
-                    )
-                      ? this.props.t('info.maxNumberOfLocalPalettes', {
-                          count: (
-                            this.features.LOCAL_PALETTES.limit ?? 3
-                          ).toString(),
-                        })
-                      : this.props.t('genAi.actions.addColors'),
-                    type: 'MULTI_LINE',
-                  }}
-                  isLoading={this.state.isActionLoading}
-                  isDisabled={true}
-                  isBlocked={this.features.LOCAL_PALETTES.isReached(
-                    this.props.localPalettesCount
-                  )}
-                  onBlock={() => {
-                    const isTrial =
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                    sendPluginMessage(
-                      {
-                        pluginMessage: isTrial
-                          ? { type: 'GET_TRIAL' }
-                          : {
-                              type: 'GET_PRO',
-                              data: { origin: 'LOCAL_PALETTES' },
-                            },
-                      },
-                      '*'
-                    )
-                  }}
-                  isNew={this.features.CREATE_PALETTE.isNew()}
-                  action={this.onUsePalette}
-                />
-              </Feature>
-            }
-            isListItem={false}
-            alignment="CENTER"
-          />
-          <Message
-            icon="info"
-            messages={[this.props.t('genAi.emptyMessage')]}
-          />
-        </>
-      )
-
     const colors = [
       {
-        ...this.state.generatedPalette.primary,
+        ...this.state.generatedPalette?.primary,
         type: this.props.t('genAi.colorTypes.primary'),
       },
       {
-        ...this.state.generatedPalette.text,
+        ...this.state.generatedPalette?.text,
         type: this.props.t('genAi.colorTypes.text'),
       },
       {
-        ...this.state.generatedPalette.success,
+        ...this.state.generatedPalette?.success,
         type: this.props.t('genAi.colorTypes.success'),
       },
       {
-        ...this.state.generatedPalette.warning,
+        ...this.state.generatedPalette?.warning,
         type: this.props.t('genAi.colorTypes.warning'),
       },
       {
-        ...this.state.generatedPalette.alert,
+        ...this.state.generatedPalette?.alert,
         type: this.props.t('genAi.colorTypes.alert'),
       },
     ]
 
     return (
       <>
-        <SimpleItem
+        <Bar
           leftPartSlot={
             <SectionTitle
               indicator="5"
@@ -483,6 +419,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
             <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
               <Button
                 type="secondary"
+                icon="plus"
                 label={this.props.t('genAi.actions.newPalette')}
                 helper={{
                   label: this.features.LOCAL_PALETTES.isReached(
@@ -496,7 +433,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                     : this.props.t('genAi.actions.addColors'),
                   type: 'MULTI_LINE',
                 }}
-                isDisabled={false}
+                isDisabled={!this.state.generatedPalette}
                 isBlocked={this.features.LOCAL_PALETTES.isReached(
                   this.props.localPalettesCount
                 )}
@@ -521,39 +458,56 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
               />
             </Feature>
           }
-          isListItem={false}
-          alignment="CENTER"
+          clip={['LEFT']}
+          border={['BOTTOM']}
         />
-        <div
-          style={{
-            padding: 'var(--scale-pos-xxsmall) var(--scale-pos-xsmall)',
-          }}
-        >
-          <PalettePreview
-            colors={setPreviewPalette(
-              this.convertMistralToSourceColors(this.state.generatedPalette),
-              this.palette.get()
-            )}
-          />
-        </div>
-        <List
-          isTopBorderEnabled
-          isFullHeight
-          isFullWidth
-        >
-          {colors.map((color, index) => {
-            return (
-              <ColorItem
-                key={index}
-                name={`${color.type}${this.props.t('separator')}${color.name}`}
-                hex={chroma(color.rgb.r, color.rgb.g, color.rgb.b)
-                  .hex()
-                  .toUpperCase()}
-                id={`color-${index}`}
+        {!this.state.generatedPalette ? (
+          <List
+            isMessage
+            isFullHeight
+            isFullWidth
+          >
+            <SemanticMessage
+              type="NEUTRAL"
+              message={this.props.t('genAi.emptyMessage')}
+            />
+          </List>
+        ) : (
+          <>
+            <div
+              style={{
+                padding: 'var(--scale-pos-xxsmall) var(--scale-pos-xsmall)',
+              }}
+            >
+              <PalettePreview
+                colors={setPreviewPalette(
+                  this.convertMistralToSourceColors(
+                    this.state.generatedPalette
+                  ),
+                  this.palette.get()
+                )}
               />
-            )
-          })}
-        </List>
+            </div>
+            <List
+              isTopBorderEnabled
+              isFullHeight
+              isFullWidth
+            >
+              {colors.map((color, index) => {
+                return (
+                  <ColorItem
+                    key={index}
+                    name={`${color.type}${this.props.t('separator')}${color.name}`}
+                    hex={chroma(color.rgb.r, color.rgb.g, color.rgb.b)
+                      .hex()
+                      .toUpperCase()}
+                    id={`color-${index}`}
+                  />
+                )
+              })}
+            </List>
+          </>
+        )}
       </>
     )
   }
@@ -673,23 +627,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
           },
           {
             node: <this.ColorPreview />,
-            typeModifier: this.props.documentWidth > 460 ? 'DRAWER' : 'FIXED',
-            drawerOptions: {
-              minSize: {
-                value: 196,
-                unit: 'PIXEL' as const,
-              },
-              defaultSize: {
-                value: 360,
-                unit: 'PIXEL' as const,
-              },
-              maxSize: {
-                value: 496,
-                unit: 'PIXEL' as const,
-              },
-              pin: 'RIGHT' as const,
-              direction: 'HORIZONTAL' as const,
-            },
+            typeModifier: 'BLANK',
           },
         ]}
         isFullHeight

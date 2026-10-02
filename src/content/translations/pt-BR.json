@@ -1038,6 +1038,7 @@
   },
   "separator": "・",
   "services": {
+    "combine": "Combinador de cores",
     "explore": "Explorar",
     "extract": "Paleta de imagem",
     "generate": "Cores com IA",

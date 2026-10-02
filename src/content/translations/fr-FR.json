@@ -1038,6 +1038,7 @@
   },
   "separator": "・",
   "services": {
+    "combine": "Combinateur de couleurs",
     "explore": "Explorateur",
     "extract": "Palette d'image",
     "generate": "Couleurs IA",

@@ -1,4 +1,5 @@
 export { default as ManagePalette } from './ManagePalette'
+export { default as CombineColors } from './CombineColors'
 export { default as GenAI } from './GenAI'
 export { default as ImagePalette } from './ImagePalette'
 export { default as ColorWheel } from './ColorWheel'

@@ -66,10 +66,7 @@ import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { getSupabase } from '../external/auth'
 import { ConfigContextType } from '../config/ConfigContext'
 import ManagePalette from './services/ManagePalette'
-import ImagePalette from './services/ImagePalette'
-import GenAI from './services/GenAI'
-import Explore from './services/Explore'
-import ColorWheel from './services/ColorWheel'
+import CombineColors from './services/CombineColors'
 import Shortcuts from './modules/Shortcuts'
 import Modal from './contexts/Modal'
 import {
@@ -124,30 +121,9 @@ class App extends Component<AppProps, AppState> {
       currentService: service,
       currentEditor: editor,
     }),
-    GEN: new FeatureStatus({
+    COMBINE: new FeatureStatus({
       features: config.features,
-      featureName: 'GEN',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    EXTRACT: new FeatureStatus({
-      features: config.features,
-      featureName: 'EXTRACT',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    WHEEL: new FeatureStatus({
-      features: config.features,
-      featureName: 'WHEEL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    EXPLORE: new FeatureStatus({
-      features: config.features,
-      featureName: 'EXPLORE',
+      featureName: 'COMBINE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -949,46 +925,10 @@ class App extends Component<AppProps, AppState> {
         )
         break
       }
-      case 'GEN': {
+      case 'COMBINE': {
         fragment = (
-          <Feature isActive={this.features.GEN.isActive()}>
-            <GenAI
-              {...this.state}
-              {...this.props}
-              onChangeService={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-        )
-        break
-      }
-      case 'EXTRACT': {
-        fragment = (
-          <Feature isActive={this.features.EXTRACT.isActive()}>
-            <ImagePalette
-              {...this.props}
-              {...this.state}
-              onChangeService={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-        )
-        break
-      }
-      case 'WHEEL': {
-        fragment = (
-          <Feature isActive={this.features.WHEEL.isActive()}>
-            <ColorWheel
-              {...this.props}
-              {...this.state}
-              onChangeService={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-        )
-        break
-      }
-      case 'EXPLORE': {
-        fragment = (
-          <Feature isActive={this.features.EXPLORE.isActive()}>
-            <Explore
+          <Feature isActive={this.features.COMBINE.isActive()}>
+            <CombineColors
               {...this.props}
               {...this.state}
               onChangeService={(e) => this.setState({ ...e })}
@@ -1001,10 +941,7 @@ class App extends Component<AppProps, AppState> {
 
     const numberOfActiveServices =
       (this.features.MANAGE.isActive() ? 1 : 0) +
-      (this.features.GEN.isActive() ? 1 : 0) +
-      (this.features.EXTRACT.isActive() ? 1 : 0) +
-      (this.features.WHEEL.isActive() ? 1 : 0) +
-      (this.features.EXPLORE.isActive() ? 1 : 0)
+      (this.features.COMBINE.isActive() ? 1 : 0)
 
     if (this.state.isLoaded)
       return (
@@ -1051,84 +988,23 @@ class App extends Component<AppProps, AppState> {
                                   }
                                 />
                               </Feature>
-                              <Feature isActive={this.features.GEN.isActive()}>
-                                <Button
-                                  type="icon"
-                                  icon="ai"
-                                  state={
-                                    this.state.service === 'GEN'
-                                      ? 'selected'
-                                      : undefined
-                                  }
-                                  helper={{
-                                    label: this.props.t('services.generate'),
-                                  }}
-                                  action={() =>
-                                    this.setState({
-                                      service: 'GEN',
-                                    })
-                                  }
-                                />
-                              </Feature>
                               <Feature
-                                isActive={this.features.EXTRACT.isActive()}
+                                isActive={this.features.COMBINE.isActive()}
                               >
                                 <Button
                                   type="icon"
-                                  icon="image"
+                                  icon="styles"
                                   state={
-                                    this.state.service === 'EXTRACT'
+                                    this.state.service === 'COMBINE'
                                       ? 'selected'
                                       : undefined
                                   }
                                   helper={{
-                                    label: this.props.t('services.extract'),
+                                    label: this.props.t('services.combine'),
                                   }}
                                   action={() =>
                                     this.setState({
-                                      service: 'EXTRACT',
-                                    })
-                                  }
-                                />
-                              </Feature>
-                              <Feature
-                                isActive={this.features.WHEEL.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="list-tile"
-                                  state={
-                                    this.state.service === 'WHEEL'
-                                      ? 'selected'
-                                      : undefined
-                                  }
-                                  helper={{
-                                    label: this.props.t('services.wheel'),
-                                  }}
-                                  action={() =>
-                                    this.setState({
-                                      service: 'WHEEL',
-                                    })
-                                  }
-                                />
-                              </Feature>
-                              <Feature
-                                isActive={this.features.EXPLORE.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="explore"
-                                  state={
-                                    this.state.service === 'EXPLORE'
-                                      ? 'selected'
-                                      : undefined
-                                  }
-                                  helper={{
-                                    label: this.props.t('services.explore'),
-                                  }}
-                                  action={() =>
-                                    this.setState({
-                                      service: 'EXPLORE',
+                                      service: 'COMBINE',
                                     })
                                   }
                                 />

@@ -1,5 +1,5 @@
-import { Platform, Editor } from '../../types/app'
 import { Language } from '../../types/translations'
+import { Platform, Editor } from '../../types/app'
 import { buildHeaders } from '.'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

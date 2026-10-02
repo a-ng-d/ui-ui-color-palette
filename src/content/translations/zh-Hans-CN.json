@@ -1038,6 +1038,7 @@
   },
   "separator": "・",
   "services": {
+    "combine": "颜色组合器",
     "explore": "探索",
     "extract": "图像调色板",
     "generate": "AI 颜色",

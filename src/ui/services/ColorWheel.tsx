@@ -589,6 +589,7 @@ export default class ColorWheel extends PureComponent<
                         </span>
                         <Button
                           type="secondary"
+                          icon="plus"
                           label={this.props.t('wheel.actions.newPalette')}
                           helper={{
                             label: this.features.LOCAL_PALETTES.isReached(
@@ -630,7 +631,7 @@ export default class ColorWheel extends PureComponent<
                   }
                   shouldReflow
                   isInverted
-                  border={['TOP']}
+                  border={['BOTTOM']}
                 />
                 <div
                   style={{
