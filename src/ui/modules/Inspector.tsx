@@ -345,7 +345,6 @@ export default class Inspector extends PureComponent<
     if (this.features.THEMES_ADD.isReached(this.props.themes.length - 1))
       this.onBlockedFeature('ADD_THEME')
     else {
-      // Themes is only mounted while the accordion is expanded
       this.setState({ isAddingTheme: true })
       setTimeout(() => {
         this.themesRef.current?.onAddTheme()

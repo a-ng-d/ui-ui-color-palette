@@ -373,6 +373,7 @@ export default class StopTools extends PureComponent<StopToolsProps> {
         helper={{
           label: this.props.t('scale.actions.moreTools'),
         }}
+        isAlwaysExpanded
         onBlock={() => {
           const isTrial =
             this.props.config.plan.isTrialEnabled &&

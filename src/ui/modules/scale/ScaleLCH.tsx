@@ -7,9 +7,10 @@ import {
   ShiftConfiguration,
   ShiftCurveConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { FeatureStatus } from '@unoff/utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Button,
+  layouts,
   Section,
   SectionTitle,
   SemanticMessage,
@@ -185,7 +186,9 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                   id="lightness-tools"
                   leftPartSlot={this.props.distributionEasingSlot}
                   rightPartSlot={
-                    <>
+                    <div
+                      className={doClassnames([layouts['snackbar--medium']])}
+                    >
                       <StopTools
                         {...this.props}
                         id={this.props.id}
@@ -196,7 +199,7 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                         onChangeStops={this.props.onChangeStops}
                       />
                       {this.props.extraToolsSlot}
-                    </>
+                    </div>
                   }
                   alignment="CENTER"
                   isListItem={false}
