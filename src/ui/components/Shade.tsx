@@ -674,6 +674,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                   label: this.props.t('preview.actions.copyHex'),
                   pin: 'TOP',
                 }}
+                isBlocked={this.features.PREVIEW_SHADE_HEX.isBlocked()}
+                isNew={this.features.PREVIEW_SHADE_HEX.isNew()}
                 action={this.onCopyHex}
               />
             </Feature>
