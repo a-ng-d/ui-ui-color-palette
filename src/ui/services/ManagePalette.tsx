@@ -68,6 +68,10 @@ import { ConfigContextType } from '../../config/ConfigContext'
 interface ManagePaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   appData: AppState
+  browseContext?: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  onChangeBrowseContext?: (
+    context: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  ) => void
 }
 
 export interface ManagePaletteState {
@@ -101,7 +105,6 @@ export default class ManagePalette extends PureComponent<
   ManagePaletteState
 > {
   private palette: typeof $palette
-  private theme: string | null
   private subscribePalette: Array<() => void> = []
   private openPaletteRef = createRef<OpenPalette>()
 
@@ -213,7 +216,6 @@ export default class ManagePalette extends PureComponent<
       },
       canBePublished: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle

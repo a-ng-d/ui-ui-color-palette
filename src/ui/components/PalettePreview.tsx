@@ -4,9 +4,14 @@ import { doClassnames } from '@unoff/utils'
 interface PalettePreviewProps {
   colors: Array<PaletteDataColorItem>
   isFullHeight?: boolean
+  isFree?: boolean
 }
 
-const PalettePreview = ({ colors, isFullHeight }: PalettePreviewProps) => (
+const PalettePreview = ({
+  colors,
+  isFullHeight,
+  isFree,
+}: PalettePreviewProps) => (
   <div
     style={{
       borderRadius: 'var(--border-radius-medium)',
@@ -27,6 +32,7 @@ const PalettePreview = ({ colors, isFullHeight }: PalettePreviewProps) => (
               'preview__cell',
               'preview__cell--compact',
               shadeIndex === 0 && 'preview__cell--header',
+              isFree && 'preview__cell--free preview__cell--no-height',
             ])}
           >
             <div

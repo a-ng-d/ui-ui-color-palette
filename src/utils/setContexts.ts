@@ -1,5 +1,5 @@
 import { Feature, FeatureStatus } from '@unoff/utils'
-import { Context, Editor, PlanStatus, Service } from '../types/app'
+import { Context, ContextItem, Editor, PlanStatus, Service } from '../types/app'
 
 export const setContexts = (
   contextList: Array<Context>,
@@ -119,6 +119,34 @@ export const setContexts = (
     PROPERTIES: new FeatureStatus({
       features: features,
       featureName: 'PROPERTIES',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    GEN: new FeatureStatus({
+      features: features,
+      featureName: 'GEN',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXTRACT: new FeatureStatus({
+      features: features,
+      featureName: 'EXTRACT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    WHEEL: new FeatureStatus({
+      features: features,
+      featureName: 'WHEEL',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    EXPLORE: new FeatureStatus({
+      features: features,
+      featureName: 'EXPLORE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -244,6 +272,34 @@ export const setContexts = (
       isNew: featuresList.PROPERTIES.isNew(),
       isActive: featuresList.PROPERTIES.isActive(),
     },
+    {
+      label: locales('services.generate'),
+      id: 'GEN',
+      isUpdated: false,
+      isNew: featuresList.GEN.isNew(),
+      isActive: featuresList.GEN.isActive(),
+    },
+    {
+      label: locales('services.extract'),
+      id: 'EXTRACT',
+      isUpdated: false,
+      isNew: featuresList.EXTRACT.isNew(),
+      isActive: featuresList.EXTRACT.isActive(),
+    },
+    {
+      label: locales('services.wheel'),
+      id: 'WHEEL',
+      isUpdated: false,
+      isNew: featuresList.WHEEL.isNew(),
+      isActive: featuresList.WHEEL.isActive(),
+    },
+    {
+      label: locales('services.explore'),
+      id: 'EXPLORE',
+      isUpdated: false,
+      isNew: featuresList.EXPLORE.isNew(),
+      isActive: featuresList.EXPLORE.isActive(),
+    },
   ]
 
   const filteredContexts = contexts.filter((context) => {
@@ -254,3 +310,17 @@ export const setContexts = (
     return contextList.indexOf(a.id) - contextList.indexOf(b.id)
   })
 }
+
+export const isContextAvailable = (
+  contexts: Array<ContextItem>,
+  requested?: string
+): boolean =>
+  requested !== undefined && contexts.some((c) => c.id === requested)
+
+export const resolveContext = (
+  contexts: Array<ContextItem>,
+  requested?: string
+): Context | '' =>
+  (isContextAvailable(contexts, requested)
+    ? (requested as Context)
+    : contexts[0]?.id) ?? ''

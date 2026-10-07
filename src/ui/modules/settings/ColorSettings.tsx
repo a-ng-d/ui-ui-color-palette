@@ -2,6 +2,7 @@ import { PureComponent, ChangeEvent, KeyboardEvent } from 'preact/compat'
 import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
+  LockedSourceColorsConfiguration,
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
@@ -12,6 +13,7 @@ import {
   IconChip,
   Section,
   SectionTitle,
+  Select,
   SemanticMessage,
   SimpleItem,
 } from '@unoff/ui'
@@ -20,6 +22,7 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import lsc from '../../../content/images/lock_source_colors.gif'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface ColorSettingsProps
@@ -28,7 +31,9 @@ interface ColorSettingsProps
   visionSimulationMode: VisionSimulationModeConfiguration
   algorithmVersion?: AlgorithmVersionConfiguration
   themes?: Array<ThemeConfiguration>
+  areSourceColorsLocked?: LockedSourceColorsConfiguration
   isLast?: boolean
+  isEmbedded?: boolean
   onChangeSettings: (
     e:
       | ChangeEvent<HTMLInputElement>
@@ -172,6 +177,13 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
     SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA: new FeatureStatus({
       features: config.features,
       featureName: 'SETTINGS_VISION_SIMULATION_MODE_ACHROMATOPSIA',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PREVIEW_LOCK_SOURCE_COLORS: new FeatureStatus({
+      features: config.features,
+      featureName: 'PREVIEW_LOCK_SOURCE_COLORS',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -502,7 +514,7 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
               display: 'flex',
               alignItems: 'center',
               width: '100%',
-              gap: 'var(--size-pos-xxsmall)',
+              gap: 'var(--scale-pos-xxsmall)',
             }}
           >
             <div
@@ -959,6 +971,52 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
     )
   }
 
+  LockSourceColors = () => {
+    const isLocked = this.props.areSourceColorsLocked === true
+
+    return (
+      <Feature isActive={this.features.PREVIEW_LOCK_SOURCE_COLORS.isActive()}>
+        <FormItem
+          id="lock-source-colors"
+          label={this.props.t('preview.lock.label')}
+          isBlocked={this.features.PREVIEW_LOCK_SOURCE_COLORS.isBlocked()}
+        >
+          <Select
+            id="lock-source-colors"
+            type="SWITCH_BUTTON"
+            feature={`LOCK_SOURCE_COLORS_${!isLocked ? 'ON' : 'OFF'}`}
+            preview={{
+              image: lsc,
+              text: this.props.t('preview.lock.preview'),
+            }}
+            isChecked={isLocked}
+            isBlocked={
+              this.features.PREVIEW_LOCK_SOURCE_COLORS.isBlocked() && !isLocked
+            }
+            isNew={this.features.PREVIEW_LOCK_SOURCE_COLORS.isNew()}
+            onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
+              sendPluginMessage(
+                {
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'PREVIEW_LOCK_SOURCE_COLORS' },
+                      },
+                },
+                '*'
+              )
+            }}
+            action={this.props.onChangeSettings}
+          />
+        </FormItem>
+      </Feature>
+    )
+  }
+
   // Render
   render() {
     return (
@@ -981,6 +1039,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           },
           {
             node: <this.ChromaVelocity />,
+          },
+          {
+            node: <this.LockSourceColors />,
           },
         ]}
         border={!this.props.isLast ? ['BOTTOM'] : undefined}

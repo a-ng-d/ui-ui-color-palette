@@ -14,8 +14,6 @@ interface StoreProps extends BaseProps, WithConfigProps, WithTranslationProps {
 }
 
 export default class Store extends PureComponent<StoreProps> {
-  private theme: string | null
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -40,32 +38,8 @@ export default class Store extends PureComponent<StoreProps> {
     )
   }
 
-  constructor(props: StoreProps) {
-    super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
-  }
-
   // Render
   render() {
-    let padding
-
-    switch (this.theme) {
-      case 'figma':
-        padding = 'var(--size-pos-xxsmall)'
-        break
-      case 'penpot':
-        padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
-        break
-      case 'sketch':
-        padding = 'var(--size-pos-xxsmall) var(--size-pos-small)'
-        break
-      case 'framer':
-        padding = 'var(--size-pos-xmsmall)'
-        break
-      default:
-        padding = 'var(--size-pos-xxsmall)'
-    }
-
     return (
       <Feature isActive={this.features.MORE_STORE.isActive()}>
         <Dialog
@@ -73,56 +47,57 @@ export default class Store extends PureComponent<StoreProps> {
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <List
-            padding={padding}
-            isFullWidth
-            isFullHeight
-          >
-            <Card
-              src={isb}
-              title={this.props.t('store.isb.title')}
-              subtitle={this.props.t('store.isb.subtitle')}
-              richText={
-                <span className={texts.type}>
-                  {this.props.t('store.isb.text')}
-                </span>
-              }
-              actions={
-                <Button
-                  type="primary"
-                  label={this.props.t('store.isb.cta')}
-                  action={(e: MouseEvent<HTMLButtonElement>) => {
-                    e.stopPropagation()
-                    sendPluginMessage(
-                      {
-                        pluginMessage: {
-                          type: 'OPEN_IN_BROWSER',
-                          data: {
-                            url: this.props.config.urls.isbUrl,
+          <div className="dialog__text">
+            <List
+              isFullWidth
+              isFullHeight
+            >
+              <Card
+                src={isb}
+                title={this.props.t('store.isb.title')}
+                subtitle={this.props.t('store.isb.subtitle')}
+                richText={
+                  <span className={texts.type}>
+                    {this.props.t('store.isb.text')}
+                  </span>
+                }
+                actions={
+                  <Button
+                    type="primary"
+                    label={this.props.t('store.isb.cta')}
+                    action={(e: MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation()
+                      sendPluginMessage(
+                        {
+                          pluginMessage: {
+                            type: 'OPEN_IN_BROWSER',
+                            data: {
+                              url: this.props.config.urls.isbUrl,
+                            },
                           },
                         },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-              }
-              shouldFill
-              action={() => {
-                sendPluginMessage(
-                  {
-                    pluginMessage: {
-                      type: 'OPEN_IN_BROWSER',
-                      data: {
-                        url: this.props.config.urls.isbUrl,
+                        '*'
+                      )
+                    }}
+                  />
+                }
+                shouldFill
+                action={() => {
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.isbUrl,
+                        },
                       },
                     },
-                  },
-                  '*'
-                )
-              }}
-            />
-          </List>
+                    '*'
+                  )
+                }}
+              />
+            </List>
+          </div>
         </Dialog>
       </Feature>
     )

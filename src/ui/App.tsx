@@ -14,6 +14,8 @@ import {
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
+import { resolveIsCompact, resolveIsMobile } from '../utils/isCompact'
+import { getPortalTarget } from '../utils/getPortalTarget'
 import { UserSession } from '../types/user'
 import { Language } from '../types/translations'
 import { NotificationMessage, PluginMessageData } from '../types/messages'
@@ -33,9 +35,12 @@ import {
   $canVariablesDeepSync,
   $isAPCADisplayed,
   $isAPCAIntervalDisplayed,
+  $isOnboardingRead,
   $isSuggestedLanguageDisplayed,
   $isWCAGDisplayed,
   $isWCAGIntervalDisplayed,
+  $palettesView,
+  $userTheme,
 } from '../stores/preferences'
 import { $localPalettesCount } from '../stores/localPalettes'
 import { initHistory, redo, teardownHistory, undo } from '../stores/history'
@@ -62,10 +67,7 @@ import checkConnectionStatus from '../external/auth/checkConnectionStatus'
 import { getSupabase } from '../external/auth'
 import { ConfigContextType } from '../config/ConfigContext'
 import ManagePalette from './services/ManagePalette'
-import ImagePalette from './services/ImagePalette'
-import GenAI from './services/GenAI'
-import Explore from './services/Explore'
-import ColorWheel from './services/ColorWheel'
+import CombineColors from './services/CombineColors'
 import Shortcuts from './modules/Shortcuts'
 import Modal from './contexts/Modal'
 import {
@@ -120,30 +122,9 @@ class App extends Component<AppProps, AppState> {
       currentService: service,
       currentEditor: editor,
     }),
-    GEN: new FeatureStatus({
+    COMBINE: new FeatureStatus({
       features: config.features,
-      featureName: 'GEN',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    EXTRACT: new FeatureStatus({
-      features: config.features,
-      featureName: 'EXTRACT',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    WHEEL: new FeatureStatus({
-      features: config.features,
-      featureName: 'WHEEL',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
-    EXPLORE: new FeatureStatus({
-      features: config.features,
-      featureName: 'EXPLORE',
+      featureName: 'COMBINE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -165,6 +146,13 @@ class App extends Component<AppProps, AppState> {
     HELP_ONBOARDING: new FeatureStatus({
       features: config.features,
       featureName: 'HELP_ONBOARDING',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    HELP_ONBOARDING_AUTO_DISPLAY: new FeatureStatus({
+      features: config.features,
+      featureName: 'HELP_ONBOARDING_AUTO_DISPLAY',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -235,6 +223,8 @@ class App extends Component<AppProps, AppState> {
       isLoaded: false,
       isNotificationDisplayed: false,
       documentWidth: document.documentElement.clientWidth,
+      isCompact: resolveIsCompact(document.documentElement.clientWidth),
+      isMobile: resolveIsMobile(document.documentElement.clientWidth),
       onGoingStep: 'app started',
       localPalettesCount: 0,
     }
@@ -442,6 +432,8 @@ class App extends Component<AppProps, AppState> {
   handleResize = () => {
     this.setState({
       documentWidth: document.documentElement.clientWidth,
+      isCompact: resolveIsCompact(document.documentElement.clientWidth),
+      isMobile: resolveIsMobile(document.documentElement.clientWidth),
     })
   }
   handleMessage = (e: CustomEvent<PluginMessageData>) => {
@@ -501,6 +493,9 @@ class App extends Component<AppProps, AppState> {
         $isSuggestedLanguageDisplayed.set(
           path.data.isSuggestedLanguageDisplayed
         )
+        $isOnboardingRead.set(path.data.isOnboardingRead)
+        $userTheme.set(path.data.userTheme ?? 'system')
+        $palettesView.set(path.data.palettesView ?? 'LIST')
 
         this.onDetectBrowserLanguage(path.data.userLanguage)
 
@@ -631,17 +626,15 @@ class App extends Component<AppProps, AppState> {
         })
       }
 
-      /*
       const handleOnboarding = () => {
         this.setState({
           modalContext:
             path.data.status !== 'DISPLAY_ONBOARDING_DIALOG' ||
-            !this.features.HELP_ONBOARDING.isActive()
+            !this.features.HELP_ONBOARDING_AUTO_DISPLAY.isActive()
               ? 'EMPTY'
               : 'ONBOARDING',
         })
       }
-      */
 
       const getTrial = () =>
         this.setState({
@@ -737,7 +730,7 @@ class App extends Component<AppProps, AppState> {
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
         POST_MESSAGE: () => postMessage(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
-        // PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
+        PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
         GET_TRIAL: () => getTrial(),
         ENABLE_TRIAL: () => enableTrial(),
         GET_PRICING: () => getPricing(),
@@ -937,46 +930,10 @@ class App extends Component<AppProps, AppState> {
         )
         break
       }
-      case 'GEN': {
+      case 'COMBINE': {
         fragment = (
-          <Feature isActive={this.features.GEN.isActive()}>
-            <GenAI
-              {...this.state}
-              {...this.props}
-              onChangeService={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-        )
-        break
-      }
-      case 'EXTRACT': {
-        fragment = (
-          <Feature isActive={this.features.EXTRACT.isActive()}>
-            <ImagePalette
-              {...this.props}
-              {...this.state}
-              onChangeService={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-        )
-        break
-      }
-      case 'WHEEL': {
-        fragment = (
-          <Feature isActive={this.features.WHEEL.isActive()}>
-            <ColorWheel
-              {...this.props}
-              {...this.state}
-              onChangeService={(e) => this.setState({ ...e })}
-            />
-          </Feature>
-        )
-        break
-      }
-      case 'EXPLORE': {
-        fragment = (
-          <Feature isActive={this.features.EXPLORE.isActive()}>
-            <Explore
+          <Feature isActive={this.features.COMBINE.isActive()}>
+            <CombineColors
               {...this.props}
               {...this.state}
               onChangeService={(e) => this.setState({ ...e })}
@@ -989,10 +946,7 @@ class App extends Component<AppProps, AppState> {
 
     const numberOfActiveServices =
       (this.features.MANAGE.isActive() ? 1 : 0) +
-      (this.features.GEN.isActive() ? 1 : 0) +
-      (this.features.EXTRACT.isActive() ? 1 : 0) +
-      (this.features.WHEEL.isActive() ? 1 : 0) +
-      (this.features.EXPLORE.isActive() ? 1 : 0)
+      (this.features.COMBINE.isActive() ? 1 : 0)
 
     if (this.state.isLoaded)
       return (
@@ -1039,84 +993,23 @@ class App extends Component<AppProps, AppState> {
                                   }
                                 />
                               </Feature>
-                              <Feature isActive={this.features.GEN.isActive()}>
-                                <Button
-                                  type="icon"
-                                  icon="ai"
-                                  state={
-                                    this.state.service === 'GEN'
-                                      ? 'selected'
-                                      : undefined
-                                  }
-                                  helper={{
-                                    label: this.props.t('services.generate'),
-                                  }}
-                                  action={() =>
-                                    this.setState({
-                                      service: 'GEN',
-                                    })
-                                  }
-                                />
-                              </Feature>
                               <Feature
-                                isActive={this.features.EXTRACT.isActive()}
+                                isActive={this.features.COMBINE.isActive()}
                               >
                                 <Button
                                   type="icon"
-                                  icon="image"
+                                  icon="styles"
                                   state={
-                                    this.state.service === 'EXTRACT'
+                                    this.state.service === 'COMBINE'
                                       ? 'selected'
                                       : undefined
                                   }
                                   helper={{
-                                    label: this.props.t('services.extract'),
+                                    label: this.props.t('services.combine'),
                                   }}
                                   action={() =>
                                     this.setState({
-                                      service: 'EXTRACT',
-                                    })
-                                  }
-                                />
-                              </Feature>
-                              <Feature
-                                isActive={this.features.WHEEL.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="list-tile"
-                                  state={
-                                    this.state.service === 'WHEEL'
-                                      ? 'selected'
-                                      : undefined
-                                  }
-                                  helper={{
-                                    label: this.props.t('services.wheel'),
-                                  }}
-                                  action={() =>
-                                    this.setState({
-                                      service: 'WHEEL',
-                                    })
-                                  }
-                                />
-                              </Feature>
-                              <Feature
-                                isActive={this.features.EXPLORE.isActive()}
-                              >
-                                <Button
-                                  type="icon"
-                                  icon="explore"
-                                  state={
-                                    this.state.service === 'EXPLORE'
-                                      ? 'selected'
-                                      : undefined
-                                  }
-                                  helper={{
-                                    label: this.props.t('services.explore'),
-                                  }}
-                                  action={() =>
-                                    this.setState({
-                                      service: 'EXPLORE',
+                                      service: 'COMBINE',
                                     })
                                   }
                                 />
@@ -1186,32 +1079,38 @@ class App extends Component<AppProps, AppState> {
             />
           </Feature>
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>
-            {document.getElementById('modal') &&
+            {getPortalTarget('modal') &&
               createPortal(
-                <Modal
-                  {...this.props}
-                  {...this.state}
-                  context={this.state.modalContext}
-                  onChangePublication={(e) => this.setState({ ...e })}
-                  onManageLicense={(e) => this.setState({ ...e })}
-                  onSkipAndResetPalette={(e) => this.setState({ ...e })}
-                  onSubscribe={(e) => this.setState({ ...e })}
-                  onClose={() =>
-                    this.setState({
-                      modalContext: 'EMPTY',
-                      announcements: {
-                        version: this.state.announcements.version,
-                        status: 'NO_ANNOUNCEMENTS',
-                      },
-                    })
+                <div
+                  inert={
+                    this.state.mustUserConsent &&
+                    this.features.USER_CONSENT.isActive()
                   }
-                />,
-                document.getElementById('modal') ??
-                  document.createElement('app')
+                >
+                  <Modal
+                    {...this.props}
+                    {...this.state}
+                    context={this.state.modalContext}
+                    onChangePublication={(e) => this.setState({ ...e })}
+                    onManageLicense={(e) => this.setState({ ...e })}
+                    onSkipAndResetPalette={(e) => this.setState({ ...e })}
+                    onSubscribe={(e) => this.setState({ ...e })}
+                    onClose={() =>
+                      this.setState({
+                        modalContext: 'EMPTY',
+                        announcements: {
+                          version: this.state.announcements.version,
+                          status: 'NO_ANNOUNCEMENTS',
+                        },
+                      })
+                    }
+                  />
+                </div>,
+                getPortalTarget('modal') ?? document.createElement('app')
               )}
           </Feature>
           <Feature isActive={this.state.isNotificationDisplayed}>
-            {document.getElementById('toast') &&
+            {getPortalTarget('toast') &&
               createPortal(
                 <Modal
                   {...this.props}
@@ -1232,8 +1131,7 @@ class App extends Component<AppProps, AppState> {
                     })
                   }
                 />,
-                document.getElementById('toast') ??
-                  document.createElement('app')
+                getPortalTarget('toast') ?? document.createElement('app')
               )}
           </Feature>
           <Feature
@@ -1242,7 +1140,7 @@ class App extends Component<AppProps, AppState> {
               this.features.USER_CONSENT.isActive()
             }
           >
-            {document.getElementById('modal') &&
+            {getPortalTarget('modal') &&
               createPortal(
                 <Consent
                   welcomeMessage={this.props.t('user.cookies.welcome')}
@@ -1290,8 +1188,7 @@ class App extends Component<AppProps, AppState> {
                   closeLabel={this.props.t('user.cookies.close')}
                   onClose={() => this.setState({ mustUserConsent: false })}
                 />,
-                document.getElementById('modal') ??
-                  document.createElement('app')
+                getPortalTarget('modal') ?? document.createElement('app')
               )}
           </Feature>
         </main>

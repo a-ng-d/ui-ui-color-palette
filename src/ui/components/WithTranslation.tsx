@@ -1,4 +1,4 @@
-import { ComponentType } from 'preact'
+import { ComponentType, forwardRef } from 'preact/compat'
 import { useTranslate } from '@tolgee/react'
 
 export interface WithTranslationProps {
@@ -8,18 +8,17 @@ export interface WithTranslationProps {
 
 export const WithTranslation = <P extends WithTranslationProps>(
   WrappedComponent: ComponentType<P>
-): ComponentType<Omit<P, keyof WithTranslationProps>> => {
-  const WithTranslationComponent = (
-    props: Omit<P, keyof WithTranslationProps>
-  ) => {
-    const { t } = useTranslate()
-    return (
-      <WrappedComponent
-        {...(props as P)}
-        t={t}
-      />
-    )
-  }
-
-  return WithTranslationComponent
+) => {
+  return forwardRef<unknown, Omit<P, keyof WithTranslationProps>>(
+    (props, ref) => {
+      const { t } = useTranslate()
+      return (
+        <WrappedComponent
+          {...(props as P)}
+          t={t}
+          ref={ref}
+        />
+      )
+    }
+  )
 }

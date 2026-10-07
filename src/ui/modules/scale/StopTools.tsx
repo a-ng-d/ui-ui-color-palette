@@ -27,6 +27,7 @@ interface StopToolsProps
   distributionEasing: EasingConfiguration
   onChangeScale: () => void
   onChangeStops?: (stops: number[]) => void
+  isEmbedded?: boolean
 }
 
 export default class StopTools extends PureComponent<StopToolsProps> {
@@ -235,56 +236,57 @@ export default class StopTools extends PureComponent<StopToolsProps> {
           />
         </Feature>
         <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
-          {this.props.preset.id.includes('CUSTOM') && (
-            <>
-              {this.props.preset.stops.length > 2 && (
-                <Button
-                  type="icon"
-                  icon="minus"
-                  helper={{
-                    label: this.props.t('scale.actions.removeStop'),
-                  }}
-                  feature="REMOVE_STOP"
-                  action={this.customHandler}
-                />
-              )}
-              <Feature isActive={this.features.PRESETS_CUSTOM_ADD.isActive()}>
-                <Button
-                  type="icon"
-                  icon="plus"
-                  isDisabled={this.props.preset.stops.length === 24}
-                  helper={{
-                    label: this.props.t('scale.actions.addStop'),
-                  }}
-                  feature="ADD_STOP"
-                  isBlocked={this.features.PRESETS_CUSTOM_ADD.isReached(
-                    this.props.preset.stops.length
-                  )}
-                  onBlock={() => {
-                    const isTrial =
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                    sendPluginMessage(
-                      {
-                        pluginMessage: isTrial
-                          ? { type: 'GET_TRIAL' }
-                          : {
-                              type: 'GET_PRO',
-                              data: { origin: 'ADD_STOP' },
-                            },
-                      },
-                      '*'
-                    )
-                  }}
-                  action={
-                    this.props.preset.stops.length >= 24
-                      ? () => null
-                      : this.customHandler
-                  }
-                />
-              </Feature>
-            </>
-          )}
+          {this.props.preset.id.includes('CUSTOM') &&
+            !this.props.isEmbedded && (
+              <>
+                {this.props.preset.stops.length > 2 && (
+                  <Button
+                    type="icon"
+                    icon="minus"
+                    helper={{
+                      label: this.props.t('scale.actions.removeStop'),
+                    }}
+                    feature="REMOVE_STOP"
+                    action={this.customHandler}
+                  />
+                )}
+                <Feature isActive={this.features.PRESETS_CUSTOM_ADD.isActive()}>
+                  <Button
+                    type="icon"
+                    icon="plus"
+                    isDisabled={this.props.preset.stops.length === 24}
+                    helper={{
+                      label: this.props.t('scale.actions.addStop'),
+                    }}
+                    feature="ADD_STOP"
+                    isBlocked={this.features.PRESETS_CUSTOM_ADD.isReached(
+                      this.props.preset.stops.length
+                    )}
+                    onBlock={() => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
+                      sendPluginMessage(
+                        {
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'ADD_STOP' },
+                              },
+                        },
+                        '*'
+                      )
+                    }}
+                    action={
+                      this.props.preset.stops.length >= 24
+                        ? () => null
+                        : this.customHandler
+                    }
+                  />
+                </Feature>
+              </>
+            )}
         </Feature>
       </div>
     )
@@ -293,7 +295,7 @@ export default class StopTools extends PureComponent<StopToolsProps> {
   MoreTools = () => {
     const menuOptions: Array<DropdownOption> = []
 
-    if (this.props.preset.id.includes('CUSTOM')) {
+    if (this.props.preset.id.includes('CUSTOM') && !this.props.isEmbedded) {
       if (this.props.preset.stops.length > 2)
         menuOptions.push({
           label: this.props.t('scale.actions.removeStop'),

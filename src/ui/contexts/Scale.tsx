@@ -9,7 +9,6 @@ import {
   ShiftConfiguration,
   ShiftCurveConfiguration,
   ThemeConfiguration,
-  makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, doScale, FeatureStatus } from '@unoff/utils'
 import {
@@ -28,6 +27,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { computeScaleForStops } from '../../utils/scaleStops'
+import { resetScale } from '../../utils/resetScale'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { ScaleMessage } from '../../types/messages'
 import {
@@ -37,7 +37,6 @@ import {
   Service,
   Subservice,
 } from '../../types/app'
-import { defaultPreset } from '../../stores/presets'
 import { $palette, $themes } from '../../stores/palette'
 import { trackScaleManagementEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -54,6 +53,7 @@ interface ScaleProps extends BaseProps, WithConfigProps, WithTranslationProps {
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   actions?: string
+  isEmbedded?: boolean
   onChangeScale: () => void
   onChangeShift: (
     feature?: string,
@@ -68,7 +68,6 @@ interface ScaleState {
 }
 
 export default class Scale extends PureComponent<ScaleProps, ScaleState> {
-  private theme: string | null
   private scaleMessage: ScaleMessage
   private subscribePalette: (() => void) | undefined
 
@@ -197,7 +196,6 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
     this.state = {
       isTipsOpen: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
     this.scaleMessage = {
       type: 'UPDATE_SCALE',
       id: this.props.id,
@@ -381,32 +379,12 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
   }
 
   onResetScale = () => {
-    const preset = this.props.preset ?? defaultPreset
-
-    if (preset.id === 'CUSTOM_1_10') preset.stops = [1, 2, 3, 4, 5, 6]
-    else if (preset.id === 'CUSTOM_10_100')
-      preset.stops = [10, 20, 30, 40, 50, 60]
-    else if (preset.id === 'CUSTOM_100_1000')
-      preset.stops = [100, 200, 300, 400, 500, 600]
-
-    this.scaleMessage.data.scale = doScale(preset.stops, preset.min, preset.max)
-    this.scaleMessage.data.shift.chroma = makeDefaultShift('CHROMA')
-    this.scaleMessage.data.shift.hue = makeDefaultShift('HUE')
-
-    $palette.setKey('preset', preset)
-    $palette.setKey('scale', this.scaleMessage.data.scale)
-    $palette.setKey('shift.chroma', makeDefaultShift('CHROMA'))
-    $palette.setKey('shift.hue', makeDefaultShift('HUE'))
-
-    this.props.onChangeScale()
-    this.props.onChangeShift(
-      'SHIFT_CHROMA',
-      'SHIFTED',
-      makeDefaultShift('CHROMA')
-    )
-    this.props.onChangeShift('SHIFT_HUE', 'SHIFTED', makeDefaultShift('HUE'))
-
-    sendPluginMessage({ pluginMessage: this.scaleMessage }, '*')
+    resetScale({
+      id: this.props.id,
+      preset: this.props.preset,
+      onChangeScale: this.props.onChangeScale,
+      onChangeShift: this.props.onChangeShift,
+    })
 
     trackScaleManagementEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -735,6 +713,41 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
     )
   }
 
+  TipsButton = () => (
+    <Feature isActive={this.features.SCALE_HELPER_TIPS.isActive()}>
+      <Button
+        type="icon"
+        icon="help"
+        helper={{
+          label: this.props.t('scale.keyboardShortcuts'),
+        }}
+        isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
+        isNew={this.features.SCALE_HELPER_TIPS.isNew()}
+        onBlock={() => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
+          sendPluginMessage(
+            {
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : {
+                    type: 'GET_PRO',
+                    data: { origin: 'SCALE_HELPER_TIPS' },
+                  },
+            },
+            '*'
+          )
+        }}
+        action={() => {
+          this.setState({
+            isTipsOpen: true,
+          })
+        }}
+      />
+    </Feature>
+  )
+
   Edit = () => {
     return (
       <Layout
@@ -743,101 +756,108 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
           {
             node: (
               <>
-                <Bar
-                  id="scale-header"
-                  leftPartSlot={
-                    <SectionTitle
-                      label={this.props.t('scale.title')}
-                      indicator={Object.entries(
-                        this.props.scale ?? {}
-                      ).length.toString()}
-                      helper={
-                        this.activeThemeName !== undefined
-                          ? this.props.t('settings.themeBinding.message', {
-                              themeName: this.activeThemeName,
-                            })
-                          : undefined
-                      }
-                    />
-                  }
-                  rightPartSlot={
-                    <div
-                      className={doClassnames([layouts['snackbar--medium']])}
-                    >
-                      <Feature isActive={this.features.SCALE_RESET.isActive()}>
-                        <Button
-                          type="icon"
-                          icon="reset"
-                          helper={{
-                            label: this.props.t('scale.actions.resetScale'),
-                          }}
-                          feature="RESET_SCALE"
-                          isBlocked={this.features.SCALE_RESET.isBlocked()}
-                          isNew={this.features.SCALE_RESET.isNew()}
-                          onBlock={() => {
-                            const isTrial =
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                            sendPluginMessage(
-                              {
-                                pluginMessage: isTrial
-                                  ? { type: 'GET_TRIAL' }
-                                  : {
-                                      type: 'GET_PRO',
-                                      data: { origin: 'RESET_SCALE' },
-                                    },
-                              },
-                              '*'
-                            )
-                          }}
-                          action={this.onResetScale}
-                        />
-                      </Feature>
-                      <Feature
-                        isActive={this.features.SCALE_HELPER_TIPS.isActive()}
+                {!this.props.isEmbedded && (
+                  <Bar
+                    id="scale-header"
+                    leftPartSlot={
+                      <SectionTitle
+                        label={this.props.t('scale.title')}
+                        indicator={Object.entries(
+                          this.props.scale ?? {}
+                        ).length.toString()}
+                        helper={
+                          this.activeThemeName !== undefined
+                            ? this.props.t('settings.themeBinding.message', {
+                                themeName: this.activeThemeName,
+                              })
+                            : undefined
+                        }
+                      />
+                    }
+                    rightPartSlot={
+                      <div
+                        className={doClassnames([layouts['snackbar--medium']])}
                       >
-                        <Button
-                          type="icon"
-                          icon="help"
-                          helper={{
-                            label: this.props.t('scale.keyboardShortcuts'),
-                          }}
-                          isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
-                          isNew={this.features.SCALE_HELPER_TIPS.isNew()}
-                          onBlock={() => {
-                            const isTrial =
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                            sendPluginMessage(
-                              {
-                                pluginMessage: isTrial
-                                  ? { type: 'GET_TRIAL' }
-                                  : {
-                                      type: 'GET_PRO',
-                                      data: { origin: 'SCALE_HELPER_TIPS' },
-                                    },
-                              },
-                              '*'
-                            )
-                          }}
-                          action={() => {
-                            this.setState({
-                              isTipsOpen: true,
-                            })
-                          }}
-                        />
-                      </Feature>
-                    </div>
-                  }
-                  clip={['LEFT']}
-                  border={['BOTTOM']}
-                />
+                        <Feature
+                          isActive={this.features.SCALE_RESET.isActive()}
+                        >
+                          <Button
+                            type="icon"
+                            icon="reset"
+                            helper={{
+                              label: this.props.t('scale.actions.resetScale'),
+                            }}
+                            feature="RESET_SCALE"
+                            isBlocked={this.features.SCALE_RESET.isBlocked()}
+                            isNew={this.features.SCALE_RESET.isNew()}
+                            onBlock={() => {
+                              const isTrial =
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: isTrial
+                                    ? { type: 'GET_TRIAL' }
+                                    : {
+                                        type: 'GET_PRO',
+                                        data: { origin: 'RESET_SCALE' },
+                                      },
+                                },
+                                '*'
+                              )
+                            }}
+                            action={this.onResetScale}
+                          />
+                        </Feature>
+                        <Feature
+                          isActive={this.features.SCALE_HELPER_TIPS.isActive()}
+                        >
+                          <Button
+                            type="icon"
+                            icon="help"
+                            helper={{
+                              label: this.props.t('scale.keyboardShortcuts'),
+                            }}
+                            isBlocked={this.features.SCALE_HELPER_TIPS.isBlocked()}
+                            isNew={this.features.SCALE_HELPER_TIPS.isNew()}
+                            onBlock={() => {
+                              const isTrial =
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
+                              sendPluginMessage(
+                                {
+                                  pluginMessage: isTrial
+                                    ? { type: 'GET_TRIAL' }
+                                    : {
+                                        type: 'GET_PRO',
+                                        data: { origin: 'SCALE_HELPER_TIPS' },
+                                      },
+                                },
+                                '*'
+                              )
+                            }}
+                            action={() => {
+                              this.setState({
+                                isTipsOpen: true,
+                              })
+                            }}
+                          />
+                        </Feature>
+                      </div>
+                    }
+                    clip={['LEFT']}
+                    border={['BOTTOM']}
+                  />
+                )}
                 <List
-                  isFullHeight
+                  isFullHeight={!this.props.isEmbedded}
                   isFullWidth
                 >
                   <ScaleLCH
                     {...this.props}
+                    extraToolsSlot={
+                      this.props.isEmbedded ? <this.TipsButton /> : undefined
+                    }
                     onChangeThemes={this.themesHandler}
                     onChangeStops={this.stopsHandler}
                     distributionEasingSlot={
@@ -863,7 +883,7 @@ export default class Scale extends PureComponent<ScaleProps, ScaleState> {
             typeModifier: 'BLANK',
           },
         ]}
-        isFullHeight
+        isFullHeight={!this.props.isEmbedded}
       />
     )
   }

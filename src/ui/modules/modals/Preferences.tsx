@@ -1,6 +1,7 @@
 import { PureComponent, ChangeEventHandler } from 'preact/compat'
 import { FeatureStatus } from '@unoff/utils'
 import { Dialog, List } from '@unoff/ui'
+import ThemePreferences from '../preferences/ThemePreferences'
 import SyncPreferences from '../preferences/SyncPreferences'
 import LangPreferences from '../preferences/LangPreferences'
 import { WithTranslationProps } from '../../components/WithTranslation'
@@ -15,7 +16,6 @@ interface PreferencesProps
 }
 
 export default class Preferences extends PureComponent<PreferencesProps> {
-  private theme: string | null
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -40,32 +40,8 @@ export default class Preferences extends PureComponent<PreferencesProps> {
     )
   }
 
-  constructor(props: PreferencesProps) {
-    super(props)
-    this.theme = document.documentElement.getAttribute('data-theme')
-  }
-
   // Render
   render() {
-    let padding
-
-    switch (this.theme) {
-      case 'figma':
-        padding = '0'
-        break
-      case 'penpot':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'sketch':
-        padding = '0 var(--size-pos-xxsmall)'
-        break
-      case 'framer':
-        padding = '0'
-        break
-      default:
-        padding = '0'
-    }
-
     return (
       <Feature isActive={this.features.USER_PREFERENCES.isActive()}>
         <Dialog
@@ -73,19 +49,13 @@ export default class Preferences extends PureComponent<PreferencesProps> {
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-            }}
-          >
+          <div className="dialog__blank">
             <List
-              padding={padding}
               isFullWidth
               isFullHeight
             >
               <SyncPreferences {...this.props} />
+              <ThemePreferences {...this.props} />
               <LangPreferences
                 {...this.props}
                 isLast={true}

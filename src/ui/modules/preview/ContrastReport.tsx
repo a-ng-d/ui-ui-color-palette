@@ -53,8 +53,6 @@ export default class ContrastReport extends PureComponent<
   ContrastReportProps,
   ContrastReportState
 > {
-  private theme: string | null
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -86,7 +84,6 @@ export default class ContrastReport extends PureComponent<
       textThemeColor: 'LIGHT_TEXT',
       fontWeight: 400,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Handlers
@@ -255,7 +252,7 @@ export default class ContrastReport extends PureComponent<
             className={doClassnames([texts.type])}
             style={{
               display: 'flex',
-              gap: 'var(--size-pos-xxxsmall)',
+              gap: 'var(--scale-pos-xxxsmall)',
               alignItems: 'center',
             }}
           >
@@ -293,7 +290,7 @@ export default class ContrastReport extends PureComponent<
             className={doClassnames([texts.type])}
             style={{
               display: 'flex',
-              gap: 'var(--size-pos-xxxsmall)',
+              gap: 'var(--scale-pos-xxxsmall)',
               alignItems: 'center',
             }}
           >
@@ -366,24 +363,7 @@ export default class ContrastReport extends PureComponent<
 
   // Render
   render() {
-    let background
-
-    switch (this.theme) {
-      case 'figma':
-        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
-        break
-      case 'penpot':
-        background = 'var(--penpot-color-background-primary)'
-        break
-      case 'sketch':
-        background = 'var(--sketch-color-background-primary)'
-        break
-      case 'framer':
-        background = 'var(--framer-color-bg)'
-        break
-      default:
-        background = 'var(--figma-color-bg-default, var(--figma-color-bg))'
-    }
+    const background = 'var(--global-background-color-default)'
 
     const isBlocked = this.features.REPORT.isBlocked()
 
@@ -582,7 +562,7 @@ export default class ContrastReport extends PureComponent<
                               >
                                 <div
                                   style={{
-                                    padding: '0 var(--size-pos-xsmall)',
+                                    padding: '0 var(--scale-pos-xsmall)',
                                   }}
                                 >
                                   <SimpleSlider

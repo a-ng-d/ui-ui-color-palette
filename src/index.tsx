@@ -2,13 +2,13 @@ import { render } from 'preact'
 import mixpanel from 'mixpanel-browser'
 import {
   commons,
-  figmaColors,
+  figmaModes,
   figmaTypes,
-  framerColors,
+  framerModes,
   framerTypes,
-  penpotColors,
+  penpotModes,
   penpotTypes,
-  sketchColors,
+  sketchModes,
   sketchTypes,
 } from '@unoff/ui'
 import { TolgeeProvider } from '@tolgee/react'
@@ -180,13 +180,13 @@ window.addEventListener('pluginMessage', ((event: MessageEvent) => {
   window as unknown as { __unoffThemeTokens: Record<string, unknown> }
 ).__unoffThemeTokens = {
   commons,
-  figmaColors,
+  figmaModes,
   figmaTypes,
-  penpotColors,
+  penpotModes,
   penpotTypes,
-  sketchColors,
+  sketchModes,
   sketchTypes,
-  framerColors,
+  framerModes,
   framerTypes,
 }
 

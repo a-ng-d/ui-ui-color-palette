@@ -51,6 +51,8 @@ interface ScaleLCHProps
   onChangeThemes?: (scale: ScaleConfiguration) => void
   onChangeStops?: (stops: number[]) => void
   distributionEasingSlot?: ComponentChildren
+  extraToolsSlot?: ComponentChildren
+  isEmbedded?: boolean
 }
 
 export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
@@ -183,15 +185,18 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                   id="lightness-tools"
                   leftPartSlot={this.props.distributionEasingSlot}
                   rightPartSlot={
-                    <StopTools
-                      {...this.props}
-                      id={this.props.id}
-                      preset={this.props.preset}
-                      scale={this.props.scale}
-                      distributionEasing={this.props.distributionEasing}
-                      onChangeScale={this.props.onChangeScale}
-                      onChangeStops={this.props.onChangeStops}
-                    />
+                    <>
+                      <StopTools
+                        {...this.props}
+                        id={this.props.id}
+                        preset={this.props.preset}
+                        scale={this.props.scale}
+                        distributionEasing={this.props.distributionEasing}
+                        onChangeScale={this.props.onChangeScale}
+                        onChangeStops={this.props.onChangeStops}
+                      />
+                      {this.props.extraToolsSlot}
+                    </>
                   }
                   alignment="CENTER"
                   isListItem={false}

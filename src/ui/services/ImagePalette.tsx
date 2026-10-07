@@ -9,13 +9,13 @@ import {
 } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
 import {
+  Bar,
   Button,
   ColorItem,
   Layout,
   List,
-  Message,
   SectionTitle,
-  SimpleItem,
+  SemanticMessage,
 } from '@unoff/ui'
 import { Dropzone } from '@unoff/ui'
 import { Card } from '@unoff/ui'
@@ -312,7 +312,7 @@ export default class ImagePalette extends PureComponent<
         <Feature isActive={this.features.EXTRACT_UPLOAD.isActive()}>
           <div
             style={{
-              padding: 'var(--size-pos-small)',
+              padding: 'var(--scale-pos-small)',
             }}
           >
             <Card
@@ -349,7 +349,7 @@ export default class ImagePalette extends PureComponent<
       <Feature isActive={this.features.EXTRACT_UPLOAD.isActive()}>
         <div
           style={{
-            padding: 'var(--size-pos-small)',
+            padding: 'var(--scale-pos-small)',
           }}
         >
           <Dropzone
@@ -417,10 +417,10 @@ export default class ImagePalette extends PureComponent<
   }
 
   ExtractedColor = () => {
+    console.log(this.getSourceColors(), this.palette.get())
     return (
       <>
-        <SimpleItem
-          id="image-palette-list"
+        <Bar
           leftPartSlot={
             <SectionTitle
               label={this.props.t('imagePalette.title')}
@@ -431,6 +431,7 @@ export default class ImagePalette extends PureComponent<
             <Feature isActive={this.features.CREATE_PALETTE.isActive()}>
               <Button
                 type="secondary"
+                icon="plus"
                 label={this.props.t('imagePalette.actions.newPalette')}
                 helper={{
                   label: this.features.LOCAL_PALETTES.isReached(
@@ -470,51 +471,57 @@ export default class ImagePalette extends PureComponent<
               />
             </Feature>
           }
-          alignment="CENTER"
-          isListItem={false}
+          clip={['LEFT']}
+          border={['BOTTOM']}
         />
-        {this.state.dominantColors.length > 0 && (
-          <div
-            style={{
-              padding: 'var(--size-pos-xxsmall) var(--size-pos-small)',
-            }}
-          >
-            <PalettePreview
-              colors={setPreviewPalette(
-                this.getSourceColors(),
-                this.palette.get()
-              )}
-            />
-          </div>
-        )}
         {this.state.dominantColors.length === 0 ? (
-          <Message
-            icon="info"
-            messages={[this.props.t('imagePalette.message')]}
-          />
-        ) : (
           <List
-            isTopBorderEnabled
+            isMessage
             isFullHeight
             isFullWidth
           >
-            {this.state.dominantColors
-              .sort((a, b) => {
-                if (a.hex.localeCompare(b.hex) > 0) return 1
-                else if (a.hex.localeCompare(b.hex) < 0) return -1
-                else return 0
-              })
-              .map((sourceColor, index) => {
-                return (
-                  <ColorItem
-                    key={sourceColor.hex}
-                    name={getClosestColorName(sourceColor.hex)}
-                    hex={sourceColor.hex}
-                    id={`color-${index}`}
-                  />
-                )
-              })}
+            <SemanticMessage
+              type="NEUTRAL"
+              message={this.props.t('imagePalette.message')}
+            />
           </List>
+        ) : (
+          <>
+            <div
+              style={{
+                padding: 'var(--scale-pos-xxsmall) var(--scale-pos-small)',
+              }}
+            >
+              <PalettePreview
+                colors={setPreviewPalette(
+                  this.getSourceColors(),
+                  this.palette.get()
+                )}
+              />
+            </div>
+            <List
+              isTopBorderEnabled
+              isFullHeight
+              isFullWidth
+            >
+              {this.state.dominantColors
+                .sort((a, b) => {
+                  if (a.hex.localeCompare(b.hex) > 0) return 1
+                  else if (a.hex.localeCompare(b.hex) < 0) return -1
+                  else return 0
+                })
+                .map((sourceColor, index) => {
+                  return (
+                    <ColorItem
+                      key={sourceColor.hex}
+                      name={getClosestColorName(sourceColor.hex)}
+                      hex={sourceColor.hex}
+                      id={`color-${index}`}
+                    />
+                  )
+                })}
+            </List>
+          </>
         )}
       </>
     )
@@ -532,23 +539,7 @@ export default class ImagePalette extends PureComponent<
           },
           {
             node: <this.ExtractedColor />,
-            typeModifier: this.props.documentWidth > 460 ? 'DRAWER' : 'FIXED',
-            drawerOptions: {
-              minSize: {
-                value: 196,
-                unit: 'PIXEL' as const,
-              },
-              defaultSize: {
-                value: 360,
-                unit: 'PIXEL' as const,
-              },
-              maxSize: {
-                value: 496,
-                unit: 'PIXEL' as const,
-              },
-              pin: 'RIGHT' as const,
-              direction: 'HORIZONTAL' as const,
-            },
+            typeModifier: 'BLANK',
           },
         ]}
         isFullWidth

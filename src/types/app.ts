@@ -19,12 +19,19 @@ export interface ContrastReportShadeData {
   onNext?: () => void
 }
 
-export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer'
+export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer' | 'yelbolt'
 
-export type Service = 'MANAGE' | 'GEN' | 'EXTRACT' | 'WHEEL' | 'EXPLORE'
+export type UserTheme = 'dark' | 'light' | 'system'
+
+export type Service = 'MANAGE' | 'COMBINE'
 export type Subservice = 'BROWSE' | 'OPEN'
 export type Mode = 'EDIT' | 'INSPECT' | 'EXPORT'
+export type PalettesView = 'LIST' | 'MOSAIC'
 export type Context =
+  | 'GEN'
+  | 'EXTRACT'
+  | 'WHEEL'
+  | 'EXPLORE'
   | 'LOCAL_PALETTES'
   | 'LOCAL_PALETTES_PAGE'
   | 'LOCAL_PALETTES_FILE'
@@ -62,6 +69,8 @@ export interface BaseProps {
   creditsRenewalDate: number
   editor: Editor
   documentWidth: number
+  isCompact: boolean
+  isMobile: boolean
 }
 
 export type FilterOptions =

@@ -1223,6 +1223,7 @@ export default class Publication extends PureComponent<
                   this.buildPaletteData().themes[this.enabledThemeIndex].colors
                 }
                 isFullHeight
+                isFree
               />
             </div>
             <div className="dialog__text">
@@ -1230,7 +1231,7 @@ export default class Publication extends PureComponent<
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 'var(--size-pos-xxsmall)',
+                  gap: 'var(--scale-pos-xxsmall)',
                 }}
               >
                 <div>

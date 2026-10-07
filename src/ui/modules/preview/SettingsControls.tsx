@@ -154,14 +154,17 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
       <div
         className={doClassnames([
           layouts['snackbar--medium'],
-          layouts['snackbar--right'],
           layouts['snackbar--wrap'],
         ])}
+        style={{
+          justifyContent: 'end',
+        }}
       >
         <Feature
           isActive={
             this.features.SETTINGS_COLOR_SPACE.isActive() &&
-            this.props.mode === 'EDIT'
+            this.props.mode === 'EDIT' &&
+            !this.props.isCompact
           }
         >
           <Menu
@@ -412,12 +415,14 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
         <Feature
           isActive={
             this.features.PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
-            this.props.mode === 'EDIT'
+            this.props.mode === 'EDIT' &&
+            !this.props.isCompact
           }
         >
           <Button
             type="icon"
-            icon={this.props.areSourceColorsLocked ? 'lock-on' : 'lock-off'}
+            icon="lock-on"
+            state={this.props.areSourceColorsLocked ? 'selected' : 'default'}
             preview={{
               image: lsc,
               text: this.props.t('preview.lock.preview'),
@@ -467,6 +472,7 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
               isEnabled: true,
               icon: 'theme',
             }}
+            isAlwaysExpanded
           />
         </Feature>
         <Feature isActive={this.props.mode === 'EDIT'}>

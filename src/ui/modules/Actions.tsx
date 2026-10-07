@@ -27,9 +27,14 @@ import {
   texts,
 } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import {
+  getPublicationIcon,
+  getPublicationLabel,
+} from '../../utils/publication'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -67,11 +72,13 @@ interface ActionsProps
   onExportPalette?: MouseEventHandler<HTMLButtonElement> &
     KeyboardEventHandler<HTMLButtonElement>
   onUnloadPalette?: () => void
+  onPublishPalette?: Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ActionsState {
   isTooltipVisible: boolean
   canUpdateDocument: boolean
+  isCopied: boolean
 }
 
 export default class Actions extends PureComponent<ActionsProps, ActionsState> {
@@ -228,6 +235,27 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
+    SHARE_LINK: new FeatureStatus({
+      features: config.features,
+      featureName: 'SHARE_LINK',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    FEEDBACK_LINK: new FeatureStatus({
+      features: config.features,
+      featureName: 'FEEDBACK_LINK',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PUBLICATION_ACTION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION_ACTION',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   constructor(props: ActionsProps) {
@@ -236,6 +264,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     this.state = {
       isTooltipVisible: false,
       canUpdateDocument: false,
+      isCopied: false,
     }
   }
 
@@ -595,6 +624,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   }
 
   Deploy = () => {
+    const isPublicationPrimary =
+      this.features.PUBLICATION.isActive() &&
+      this.features.PUBLICATION_ACTION.isActive() &&
+      this.props.onPublishPalette !== undefined
+
     return (
       <Bar
         leftPartSlot={
@@ -709,8 +743,21 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 </Feature>
                 <Menu
                   id="main-actions"
-                  type="PRIMARY"
-                  label={this.props.t('actions.sync')}
+                  type={isPublicationPrimary ? 'ICON' : 'PRIMARY'}
+                  icon={isPublicationPrimary ? 'refresh' : undefined}
+                  label={
+                    isPublicationPrimary
+                      ? undefined
+                      : this.props.t('actions.sync')
+                  }
+                  helper={
+                    isPublicationPrimary
+                      ? {
+                          label: this.props.t('actions.sync'),
+                          isSingleLine: true,
+                        }
+                      : undefined
+                  }
                   options={[
                     {
                       label: this.props.t('actions.syncLocalStyles'),
@@ -825,6 +872,34 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     )
                   }}
                 />
+                {isPublicationPrimary && (
+                  <div data-id="tour-publication-action">
+                    <Button
+                      type="primary"
+                      label={getPublicationLabel({
+                        userSession: this.props.userSession,
+                        creatorIdentity: this.props
+                          .creatorIdentity as CreatorConfiguration,
+                        t: this.props.t,
+                      })}
+                      icon={getPublicationIcon({
+                        userSession: this.props.userSession,
+                        creatorIdentity: this.props
+                          .creatorIdentity as CreatorConfiguration,
+                      })}
+                      isNew={
+                        (this.props.publicationStatus?.isPublished ?? false) &&
+                        this.props.dates.publishedAt !==
+                          this.props.dates.updatedAt
+                      }
+                      action={() =>
+                        this.props.onPublishPalette?.({
+                          canBePublished: true,
+                        })
+                      }
+                    />
+                  </div>
+                )}
               </>
             ) : (
               <Menu
@@ -976,6 +1051,55 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               />
             )}
             <this.Modes />
+            <Feature isActive={this.features.SHARE_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon={this.state.isCopied ? 'check' : 'hyperlink'}
+                feature="SHARE_LINK"
+                helper={{
+                  label: this.props.t('actions.copyPaletteLink'),
+                }}
+                action={() => {
+                  this.setState({ isCopied: true })
+                  setTimeout(() => {
+                    this.setState({ isCopied: false })
+                  }, 2000)
+
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'COPY_SHARE_LINK',
+                        id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }}
+              />
+            </Feature>
+            <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="smiley"
+                feature="FEEDBACK_LINK"
+                helper={{
+                  label: this.props.t('actions.giveFeedback'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.feedbackUrl,
+                        },
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
           </div>
         }
         clip={['LEFT']}
@@ -1021,6 +1145,55 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
             ])}
           >
             <this.Modes />
+            <Feature isActive={this.features.SHARE_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon={this.state.isCopied ? 'check' : 'hyperlink'}
+                feature="SHARE_LINK"
+                helper={{
+                  label: this.props.t('actions.copyPaletteLink'),
+                }}
+                action={() => {
+                  this.setState({ isCopied: true })
+                  setTimeout(() => {
+                    this.setState({ isCopied: false })
+                  }, 2000)
+
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'COPY_SHARE_LINK',
+                        id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }}
+              />
+            </Feature>
+            <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="smiley"
+                feature="FEEDBACK_LINK"
+                helper={{
+                  label: this.props.t('actions.giveFeedback'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.feedbackUrl,
+                        },
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
           </div>
         }
         clip={['LEFT']}
@@ -1082,6 +1255,55 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               </Button>
             </Feature>
             <this.Modes />
+            <Feature isActive={this.features.SHARE_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon={this.state.isCopied ? 'check' : 'hyperlink'}
+                feature="SHARE_LINK"
+                helper={{
+                  label: this.props.t('actions.copyPaletteLink'),
+                }}
+                action={() => {
+                  this.setState({ isCopied: true })
+                  setTimeout(() => {
+                    this.setState({ isCopied: false })
+                  }, 2000)
+
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'COPY_SHARE_LINK',
+                        id: this.props.id,
+                      },
+                    },
+                    '*'
+                  )
+                }}
+              />
+            </Feature>
+            <Feature isActive={this.features.FEEDBACK_LINK.isActive()}>
+              <Button
+                type="icon"
+                icon="smiley"
+                feature="FEEDBACK_LINK"
+                helper={{
+                  label: this.props.t('actions.giveFeedback'),
+                }}
+                action={() =>
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'OPEN_IN_BROWSER',
+                        data: {
+                          url: this.props.config.urls.feedbackUrl,
+                        },
+                      },
+                    },
+                    '*'
+                  )
+                }
+              />
+            </Feature>
           </div>
         }
         clip={['LEFT']}

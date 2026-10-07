@@ -16,9 +16,14 @@ import LocalPalettes from '../contexts/LocalPalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { setContexts } from '../../utils/setContexts'
+import {
+  isContextAvailable,
+  resolveContext,
+  setContexts,
+} from '../../utils/setContexts'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import isValidPaletteConfiguration from '../../utils/isValidPaletteConfiguration'
+import { getDocumentAttribute } from '../../utils/getDocumentAttribute'
 import { PluginMessageData } from '../../types/messages'
 import {
   BaseProps,
@@ -39,6 +44,10 @@ interface BrowsePalettesProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   document: DocumentConfiguration
   sourceColors: Array<SourceColorConfiguration>
+  browseContext?: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  onChangeBrowseContext?: (
+    context: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  ) => void
   onCreatePalette: Dispatch<Partial<ManagePaletteState>>
   onSeePalette: (palette: {
     base: BaseConfiguration
@@ -128,26 +137,35 @@ export default class BrowsePalettes extends PureComponent<
     )
     this.palette = $palette
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      context: resolveContext(this.contexts, props.browseContext),
       localPalettesListStatus: 'LOADING',
       localPalettesList: [],
       isPrimaryActionLoading: false,
       isSecondaryActionLoading: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
+    this.theme = getDocumentAttribute('data-theme')
   }
 
   // Lifecycle
   componentDidMount = () => {
-    sendPluginMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
-
     window.addEventListener(
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    sendPluginMessage({ pluginMessage: { type: 'GET_PALETTES' } }, '*')
+
+    this.notifyContext(this.state.context)
   }
 
   componentDidUpdate(previousProps: Readonly<BrowsePalettesProps>): void {
+    if (
+      previousProps.browseContext !== this.props.browseContext &&
+      isContextAvailable(this.contexts, this.props.browseContext) &&
+      this.props.browseContext !== this.state.context
+    )
+      this.setState({ context: this.props.browseContext as Context })
+
     if (previousProps.t !== this.props.t) {
       this.contexts = setContexts(
         ['LOCAL_PALETTES', 'REMOTE_PALETTES'],
@@ -200,10 +218,16 @@ export default class BrowsePalettes extends PureComponent<
     return actions[path.type ?? 'DEFAULT']?.()
   }
 
-  navHandler = (e: Event) =>
-    this.setState({
-      context: (e.currentTarget as HTMLElement).dataset.feature as Context,
-    })
+  notifyContext = (context: Context | '') => {
+    if (context === 'LOCAL_PALETTES' || context === 'REMOTE_PALETTES')
+      this.props.onChangeBrowseContext?.(context)
+  }
+
+  navHandler = (e: Event) => {
+    const context = (e.currentTarget as HTMLElement).dataset.feature as Context
+    this.setState({ context })
+    this.notifyContext(context)
+  }
 
   // Direct Actions
   onCreatePalette = () => {
@@ -273,6 +297,7 @@ export default class BrowsePalettes extends PureComponent<
   }
 
   onExplorePalettes = () => {
+    this.notifyContext('REMOTE_PALETTES')
     this.setState(
       {
         context: 'REMOTE_PALETTES',

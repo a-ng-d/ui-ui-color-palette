@@ -3,6 +3,7 @@ import {
   AlgorithmVersionConfiguration,
   ColorSpaceConfiguration,
   HexModel,
+  LockedSourceColorsConfiguration,
   SourceColorConfiguration,
   TextColorsThemeConfiguration,
   ThemeConfiguration,
@@ -27,7 +28,10 @@ import {
   Service,
 } from '../../types/app'
 import { $palette, $themes } from '../../stores/palette'
-import { trackSettingsManagementEvent } from '../../external/tracking/eventsTracker'
+import {
+  trackPreviewManagementEvent,
+  trackSettingsManagementEvent,
+} from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
 interface SettingsProps
@@ -41,6 +45,8 @@ interface SettingsProps
   visionSimulationMode: VisionSimulationModeConfiguration
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
   algorithmVersion?: AlgorithmVersionConfiguration
+  areSourceColorsLocked?: LockedSourceColorsConfiguration
+  isEmbedded?: boolean
   onDeletePalette?: () => void
 }
 
@@ -380,9 +386,45 @@ export default class Settings extends PureComponent<SettingsProps> {
       )
     }
 
+    const updateSourceColorsLock = () => {
+      const areSourceColorsLocked = feature === 'LOCK_SOURCE_COLORS_ON'
+
+      this.palette.setKey('areSourceColorsLocked', areSourceColorsLocked)
+
+      sendPluginMessage(
+        {
+          pluginMessage: {
+            type: 'UPDATE_PALETTE',
+            id: this.props.id,
+            items: [
+              {
+                key: 'base.areSourceColorsLocked',
+                value: areSourceColorsLocked,
+              },
+            ],
+          },
+        },
+        '*'
+      )
+
+      trackPreviewManagementEvent(
+        this.props.config.env.isMixpanelEnabled,
+        this.props.userSession.userId,
+        this.props.userIdentity.id,
+        this.props.planStatus,
+        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+          ?.isConsented ?? false,
+        {
+          feature: 'LOCK_SOURCE_COLORS',
+        }
+      )
+    }
+
     const actions: {
       [action: string]: () => void
     } = {
+      LOCK_SOURCE_COLORS_ON: () => updateSourceColorsLock(),
+      LOCK_SOURCE_COLORS_OFF: () => updateSourceColorsLock(),
       RENAME_PALETTE: () => renamePalette(),
       UPDATE_DESCRIPTION: () => updateDescription(),
       UPDATE_COLOR_SPACE: () => updateColorSpace(),
@@ -400,7 +442,7 @@ export default class Settings extends PureComponent<SettingsProps> {
   Palette = () => {
     return (
       <List
-        isFullHeight
+        isFullHeight={!this.props.isEmbedded}
         isFullWidth
       >
         <Feature isActive={this.features.SETTINGS_GLOBAL.isActive()}>
@@ -444,21 +486,23 @@ export default class Settings extends PureComponent<SettingsProps> {
             {
               node: (
                 <>
-                  <Bar
-                    id="modes-header"
-                    leftPartSlot={
-                      <SectionTitle label={this.props.t('settings.title')} />
-                    }
-                    clip={['LEFT']}
-                    border={['BOTTOM']}
-                  />
+                  {!this.props.isEmbedded && (
+                    <Bar
+                      id="modes-header"
+                      leftPartSlot={
+                        <SectionTitle label={this.props.t('settings.title')} />
+                      }
+                      clip={['LEFT']}
+                      border={['BOTTOM']}
+                    />
+                  )}
                   <this.Palette />
                 </>
               ),
               typeModifier: 'BLANK',
             },
           ]}
-          isFullHeight
+          isFullHeight={!this.props.isEmbedded}
         />
       </>
     )
