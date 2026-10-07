@@ -1040,13 +1040,9 @@ export default class ColorSettings extends PureComponent<ColorSettingsProps> {
           {
             node: <this.ChromaVelocity />,
           },
-          ...(this.props.isEmbedded
-            ? [
-                {
-                  node: <this.LockSourceColors />,
-                },
-              ]
-            : []),
+          {
+            node: <this.LockSourceColors />,
+          },
         ]}
         border={!this.props.isLast ? ['BOTTOM'] : undefined}
       />
