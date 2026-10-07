@@ -149,14 +149,14 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
-    "@sentry/vite-plugin": "^3.3.1",
+    "@sentry/vite-plugin": "^5.4.1",
     "@types/chroma-js": "^3.1.1",
     "@types/file-saver": "^2.0.5",
     "@types/mixpanel-browser": "^2.66.0",
     "@types/node": "^22.14.0",
     "@types/react-syntax-highlighter": "^15.5.13",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/eslint-plugin": "^8.71.1",
+    "@typescript-eslint/parser": "^8.71.1",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.25.3",
@@ -196,11 +196,19 @@
   "overrides": {
     "prismjs": "^1.30.0",
     "miniflare": {
-      "undici": "^7.24.3"
+      "undici": "^7.24.3",
+      "sharp": "^0.35.5"
     },
     "postcss": ">=8.5.10",
     "next": {
       "postcss": ">=8.5.10"
     }
+  },
+  "allowScripts": {
+    "@sentry/cli@2.58.6": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "workerd@1.20261006.1": true
   }
 }
