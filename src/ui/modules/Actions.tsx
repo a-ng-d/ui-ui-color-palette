@@ -1017,6 +1017,24 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     isNew: this.state.canUpdateDocument,
                     children: this.documentOptionsHandler(),
                   },
+                  ...(isPublicationPrimary
+                    ? [
+                        {
+                          label: getPublicationLabel({
+                            userSession: this.props.userSession,
+                            creatorIdentity: this.props
+                              .creatorIdentity as CreatorConfiguration,
+                            t: this.props.t,
+                          }),
+                          value: 'PUBLICATION',
+                          type: 'OPTION' as const,
+                          action: () =>
+                            this.props.onPublishPalette?.({
+                              canBePublished: true,
+                            }),
+                        },
+                      ]
+                    : []),
                   ...(this.props.document?.id === this.props.id
                     ? [
                         {
