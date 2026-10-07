@@ -680,7 +680,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               layouts['snackbar--wrap'],
             ])}
           >
-            {this.props.documentWidth > 460 ? (
+            {!this.props.isMobile ? (
               <>
                 {this.props.document?.id === this.props.id && (
                   <Feature isActive={this.features.VIEWS.isActive()}>

@@ -376,10 +376,7 @@ export default class EditPalette extends PureComponent<
                       <section className="context">
                         <div
                           style={{
-                            minWidth:
-                              this.props.documentWidth > 460
-                                ? '320px'
-                                : 'unset',
+                            minWidth: !this.props.isMobile ? '320px' : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
                             height: '100%',
@@ -389,10 +386,9 @@ export default class EditPalette extends PureComponent<
                         </div>
                       </section>
                     ),
-                    typeModifier:
-                      this.props.documentWidth > 460
-                        ? ('DRAWER' as const)
-                        : ('BLANK' as const),
+                    typeModifier: !this.props.isMobile
+                      ? ('DRAWER' as const)
+                      : ('BLANK' as const),
                     drawerOptions: {
                       minSize: {
                         value: 48,
@@ -420,7 +416,7 @@ export default class EditPalette extends PureComponent<
                   leftPartSlot={
                     <div
                       className={doClassnames([
-                        this.props.documentWidth > 460
+                        !this.props.isMobile
                           ? layouts['stackbar--medium']
                           : layouts['snackbar--medium'],
                         layouts['stackbar--wrap'],
@@ -488,15 +484,14 @@ export default class EditPalette extends PureComponent<
                       />
                     </div>
                   }
-                  isVertical={this.props.documentWidth > 460}
+                  isVertical={!this.props.isMobile}
                   shouldReflow
                 />
               ),
               typeModifier: ['FIXED', 'BLANK'],
-              fixedWidth:
-                this.props.documentWidth > 460
-                  ? 'var(--bar-min-height)'
-                  : undefined,
+              fixedWidth: !this.props.isMobile
+                ? 'var(--bar-min-height)'
+                : undefined,
             },
           ]}
           isFullHeight

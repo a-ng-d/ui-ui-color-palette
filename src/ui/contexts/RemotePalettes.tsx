@@ -363,8 +363,7 @@ export default class RemotePalettes extends PureComponent<
         isFlex = false
     }
 
-    console.log(this.props.documentWidth)
-    if (this.props.documentWidth > 460) padding = 'var(--scale-null)'
+    if (!this.props.isMobile) padding = 'var(--scale-null)'
 
     switch (this.state.context) {
       case 'REMOTE_PALETTES_SELF': {

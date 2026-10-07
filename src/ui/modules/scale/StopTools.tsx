@@ -396,10 +396,6 @@ export default class StopTools extends PureComponent<StopToolsProps> {
 
   // Render
   render() {
-    return this.props.documentWidth > 460 ? (
-      <this.ToolsButtons />
-    ) : (
-      <this.MoreTools />
-    )
+    return !this.props.isMobile ? <this.ToolsButtons /> : <this.MoreTools />
   }
 }

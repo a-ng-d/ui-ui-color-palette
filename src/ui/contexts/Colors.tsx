@@ -714,7 +714,13 @@ export default class Colors extends PureComponent<ColorsProps> {
                           <Feature
                             isActive={this.features.COLORS_NAME.isActive()}
                           >
-                            <div className="draggable-item__param--compact">
+                            <div
+                              className={
+                                !this.props.isMobile
+                                  ? 'draggable-item__param--compact'
+                                  : 'draggable-item__param'
+                              }
+                            >
                               <Input
                                 type="TEXT"
                                 value={color.name}
@@ -736,7 +742,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                           <Feature
                             isActive={
                               this.features.COLORS_PARAMS.isActive() &&
-                              this.props.documentWidth > 460
+                              !this.props.isMobile
                             }
                           >
                             <div className="draggable-item__param">

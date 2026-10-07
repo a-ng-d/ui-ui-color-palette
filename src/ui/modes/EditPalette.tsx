@@ -1034,7 +1034,27 @@ export default class EditPalette extends PureComponent<
                     ref={this.inspectorRef}
                   />
                 ),
-                typeModifier: 'BLANK',
+                typeModifier: !this.props.isMobile ? 'DRAWER' : 'BLANK',
+                drawerOptions: {
+                  minSize: {
+                    value: 320,
+                    unit: 'PIXEL' as const,
+                  },
+                  defaultSize: {
+                    value: 360,
+                    unit: 'PIXEL' as const,
+                  },
+                  maxSize: {
+                    value: 496,
+                    unit: 'PIXEL' as const,
+                  },
+                  pin: !this.props.isMobile
+                    ? ('RIGHT' as const)
+                    : ('BOTTOM' as const),
+                  direction: !this.props.isMobile
+                    ? ('HORIZONTAL' as const)
+                    : ('VERTICAL' as const),
+                },
               },
             ]}
             isFullHeight
@@ -1083,10 +1103,7 @@ export default class EditPalette extends PureComponent<
                       <section className="context">
                         <div
                           style={{
-                            minWidth:
-                              this.props.documentWidth > 460
-                                ? '320px'
-                                : 'unset',
+                            minWidth: !this.props.isMobile ? '320px' : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
                             height: '100%',
@@ -1110,14 +1127,12 @@ export default class EditPalette extends PureComponent<
                         value: 496,
                         unit: 'PIXEL' as const,
                       },
-                      pin:
-                        this.props.documentWidth > 460
-                          ? ('RIGHT' as const)
-                          : ('BOTTOM' as const),
-                      direction:
-                        this.props.documentWidth > 460
-                          ? ('HORIZONTAL' as const)
-                          : ('VERTICAL' as const),
+                      pin: !this.props.isMobile
+                        ? ('RIGHT' as const)
+                        : ('BOTTOM' as const),
+                      direction: !this.props.isMobile
+                        ? ('HORIZONTAL' as const)
+                        : ('VERTICAL' as const),
                       onCollapse: () => this.setState({ context: '' }),
                     },
                   },
@@ -1130,7 +1145,7 @@ export default class EditPalette extends PureComponent<
                   leftPartSlot={
                     <div
                       className={doClassnames([
-                        this.props.documentWidth > 460
+                        !this.props.isMobile
                           ? layouts['stackbar--medium']
                           : layouts['snackbar--medium'],
                         layouts['stackbar--wrap'],
@@ -1279,15 +1294,14 @@ export default class EditPalette extends PureComponent<
                     </div>
                   }
                   rightPartSlot={<UndoRedoButtons />}
-                  isVertical={this.props.documentWidth > 460}
+                  isVertical={!this.props.isMobile}
                   shouldReflow
                 />
               ),
               typeModifier: ['FIXED', 'BLANK'],
-              fixedWidth:
-                this.props.documentWidth > 460
-                  ? 'var(--bar-min-height)'
-                  : undefined,
+              fixedWidth: !this.props.isMobile
+                ? 'var(--bar-min-height)'
+                : undefined,
             },
           ]}
           isFullHeight
