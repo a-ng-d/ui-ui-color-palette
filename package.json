@@ -203,12 +203,5 @@
     "next": {
       "postcss": ">=8.5.10"
     }
-  },
-  "allowScripts": {
-    "@sentry/cli@2.58.6": true,
-    "esbuild@0.25.12": true,
-    "esbuild@0.28.1": true,
-    "fsevents@2.3.3": true,
-    "workerd@1.20261006.1": true
   }
 }
