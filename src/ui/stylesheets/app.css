@@ -112,7 +112,7 @@ div.export-palette__preview {
 }
 
 .preview__rows {
-  display: inline-flex;
+  display: flex;
   flex: 1;
   flex-direction: column;
   width: fit-content;
@@ -135,7 +135,7 @@ div.export-palette__preview {
 }
 
 .preview__header {
-  display: inline-flex;
+  display: flex;
   position: sticky;
   top: var(--scale-null);
   z-index: 5;
@@ -144,7 +144,7 @@ div.export-palette__preview {
 }
 
 .preview__footer {
-  display: inline-flex;
+  display: flex;
   padding: var(--scale-null) var(--scale-null) var(--scale-pos-xxsmall)
     var(--scale-null);
   width: fit-content;
@@ -214,6 +214,77 @@ div.export-palette__preview {
   position: absolute;
   z-index: 3;
   inset: auto var(--scale-pos-xxxsmall) var(--scale-pos-xxxsmall) auto;
+}
+
+/* Compact mode */
+.compact-inspector {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.preview__palette--compact {
+  overflow: hidden;
+}
+
+.preview__palette--compact .preview__rows {
+  width: 100%;
+}
+
+.preview__palette--compact .preview__header {
+  position: static;
+  width: 100%;
+}
+
+.preview__palette--compact .preview__cell {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.preview__palette--compact .preview__cell--frozen {
+  position: static;
+  flex: 1 1 0;
+  width: auto;
+}
+
+.preview__palette--compact .preview__footer {
+  width: 100%;
+}
+
+.preview__cell__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-pos-xxxsmall);
+  max-width: 100%;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.preview__cell__sign {
+  --icon-picto-color: currentcolor;
+  --icon-width: var(--scale-pos-xsmall);
+  --icon-height: var(--scale-pos-xsmall);
+}
+
+.preview__cell__tooltip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: var(--scale-pos-xxxsmall) var(--scale-pos-xxsmall);
+  white-space: nowrap;
+}
+
+.preview__cell__tooltip__score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--scale-pos-xxxsmall);
 }
 
 /* Properties */

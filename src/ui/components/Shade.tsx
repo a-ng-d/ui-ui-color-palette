@@ -1,4 +1,5 @@
 import { PureComponent } from 'preact/compat'
+import { createRef, RefObject } from 'preact'
 import chroma from 'chroma-js'
 import {
   ColorConfiguration,
@@ -9,7 +10,7 @@ import {
   VisionSimulationModeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
+import { Button, Chip, ColorChip, Icon, layouts, Tooltip } from '@unoff/ui'
 import { resolveShadeContrast } from '../../utils/resolveShadeContrast'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
@@ -68,6 +69,8 @@ interface ShadeState {
 }
 
 export default class Shade extends PureComponent<ShadeProps, ShadeState> {
+  private cellRef: RefObject<HTMLDivElement> = createRef()
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -290,6 +293,52 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
     </Feature>
   )
 
+  compactSign = (passes: Array<boolean>) => {
+    if (passes.every((pass) => pass)) return this.props.t('pass')
+    if (passes.every((pass) => !pass)) return this.props.t('fail')
+    return (
+      <Icon
+        type="PICTO"
+        iconName="warning"
+        customClassName="preview__cell__sign"
+      />
+    )
+  }
+
+  compactScoresChip = ({
+    lightForeground,
+    darkForeground,
+    light,
+    dark,
+  }: {
+    lightForeground: HexModel
+    darkForeground: HexModel
+    light: Array<boolean>
+    dark: Array<boolean>
+  }) => (
+    <>
+      {[
+        { color: lightForeground, passes: light },
+        { color: darkForeground, passes: dark },
+      ].map((foreground, index) => (
+        <Chip
+          key={index}
+          state="ON_BACKGROUND"
+        >
+          <span className="preview__cell__chip">
+            <ColorChip
+              color={foreground.color}
+              width="var(--scale-pos-xxsmall)"
+              height="var(--scale-pos-xxsmall)"
+              isRounded
+            />
+            {this.compactSign(foreground.passes)}
+          </span>
+        </Chip>
+      ))}
+    </>
+  )
+
   lockColorTag = () => {
     return (
       <Chip
@@ -314,7 +363,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </div>
         }
       >
-        {this.props.t('preview.lock.tag')}
+        {!this.props.isCompact && this.props.t('preview.lock.tag')}
       </Chip>
     )
   }
@@ -343,7 +392,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </div>
         }
       >
-        {this.props.t('preview.closest.tag')}
+        {!this.props.isCompact && this.props.t('preview.closest.tag')}
       </Chip>
     )
   }
@@ -366,6 +415,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       filters.lightWCAG !== 'ALL' || filters.darkWCAG !== 'ALL'
     const isAPCAFilterActive =
       filters.lightAPCA !== 'ALL' || filters.darkAPCA !== 'ALL'
+
+    const isCompact = this.props.isCompact
 
     const shouldCalculateWCAG =
       this.props.isWCAGDisplayed ||
@@ -440,17 +491,58 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       isOutOfResults = activeMatches.length > 0 && !activeMatches.some((m) => m)
     }
 
+    const compactStandards: Array<{
+      label: string
+      light: { pass: boolean; value: string }
+      dark: { pass: boolean; value: string }
+    }> = []
+    if (isCompact) {
+      if (
+        this.props.isWCAGDisplayed &&
+        this.features.PREVIEW_SCORES_WCAG_SCORE.isActive()
+      )
+        compactStandards.push({
+          label: this.props.t('preview.score.wcag'),
+          light: {
+            pass: lightWCAGScore > 4.5,
+            value: `${lightWCAGScore.toFixed(2)} : 1`,
+          },
+          dark: {
+            pass: darkWCAGScore > 4.5,
+            value: `${darkWCAGScore.toFixed(2)} : 1`,
+          },
+        })
+      if (
+        this.props.isAPCADisplayed &&
+        this.features.PREVIEW_SCORES_APCA_SCORE.isActive()
+      )
+        compactStandards.push({
+          label: this.props.t('preview.score.apca'),
+          light: {
+            pass: lightAPCAScore > 45,
+            value: `Lc ${lightAPCAScore.toFixed(1)}`,
+          },
+          dark: {
+            pass: darkAPCAScore > 45,
+            value: `Lc ${darkAPCAScore.toFixed(1)}`,
+          },
+        })
+    }
+
     return (
       <div
         className={doClassnames([
           'preview__cell',
-          (this.props.isAPCADisplayed || this.props.isWCAGDisplayed) &&
+          !isCompact &&
+            (this.props.isAPCADisplayed || this.props.isWCAGDisplayed) &&
             'preview__cell--medium',
-          this.props.isAPCADisplayed &&
+          !isCompact &&
+            this.props.isAPCADisplayed &&
             this.props.isWCAGDisplayed &&
             'preview__cell--large',
           this.props.isSelected && 'preview__cell--selected',
         ])}
+        ref={this.cellRef}
         data-shade-key={`${this.props.colorIndex}-${this.props.index}`}
         style={{
           backgroundColor: background,
@@ -472,37 +564,52 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
             zIndex: 2,
           }}
         />
-        {this.props.isWCAGDisplayed && (
-          <this.wcagScoreTag
-            color={lightForeground}
-            score={lightWCAGScore}
-            friendlyScore={lightWCAGFriendlyScore}
-            isMouseEnter={this.state.isMouseEnter}
-          />
-        )}
-        {this.props.isAPCADisplayed && (
-          <this.apcaScoreTag
-            color={lightForeground}
-            score={lightAPCAScore}
-            friendlyScore={this.recommendationHandler(lightRecommendedUsage)}
-            isMouseEnter={this.state.isMouseEnter}
-          />
-        )}
-        {this.props.isWCAGDisplayed && (
-          <this.wcagScoreTag
-            color={darkForeground}
-            score={darkWCAGScore}
-            friendlyScore={darkWCAGFriendlyScore}
-            isMouseEnter={this.state.isMouseEnter}
-          />
-        )}
-        {this.props.isAPCADisplayed && (
-          <this.apcaScoreTag
-            color={darkForeground}
-            score={darkAPCAScore}
-            friendlyScore={this.recommendationHandler(darkRecommendedUsage)}
-            isMouseEnter={this.state.isMouseEnter}
-          />
+        {isCompact ? (
+          compactStandards.length > 0 && (
+            <this.compactScoresChip
+              lightForeground={lightForeground}
+              darkForeground={darkForeground}
+              light={compactStandards.map((standard) => standard.light.pass)}
+              dark={compactStandards.map((standard) => standard.dark.pass)}
+            />
+          )
+        ) : (
+          <>
+            {this.props.isWCAGDisplayed && (
+              <this.wcagScoreTag
+                color={lightForeground}
+                score={lightWCAGScore}
+                friendlyScore={lightWCAGFriendlyScore}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+            {this.props.isAPCADisplayed && (
+              <this.apcaScoreTag
+                color={lightForeground}
+                score={lightAPCAScore}
+                friendlyScore={this.recommendationHandler(
+                  lightRecommendedUsage
+                )}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+            {this.props.isWCAGDisplayed && (
+              <this.wcagScoreTag
+                color={darkForeground}
+                score={darkWCAGScore}
+                friendlyScore={darkWCAGFriendlyScore}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+            {this.props.isAPCADisplayed && (
+              <this.apcaScoreTag
+                color={darkForeground}
+                score={darkAPCAScore}
+                friendlyScore={this.recommendationHandler(darkRecommendedUsage)}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+          </>
         )}
         {this.props.index === minDistanceIndex &&
           this.props.areSourceColorsLocked &&
@@ -513,11 +620,49 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         {distance < 4 && !this.props.areSourceColorsLocked && (
           <this.closestColorTag />
         )}
+        {isCompact &&
+          this.state.isMouseEnter &&
+          compactStandards.length > 0 && (
+            <Tooltip
+              type="SINGLE_LINE"
+              pin="BOTTOM"
+              anchor={this.cellRef}
+            >
+              <div className="preview__cell__tooltip">
+                {compactStandards.flatMap((standard) =>
+                  [
+                    { ...standard.light, color: lightForeground },
+                    { ...standard.dark, color: darkForeground },
+                  ].map((score, index) => (
+                    <span
+                      key={`${standard.label}-${index}`}
+                      className="preview__cell__tooltip__score"
+                    >
+                      <ColorChip
+                        color={score.color}
+                        width="var(--scale-pos-xxsmall)"
+                        height="var(--scale-pos-xxsmall)"
+                        isRounded
+                      />
+                      <span>{score.value}</span>
+                      <span>
+                        {score.pass
+                          ? this.props.t('pass')
+                          : this.props.t('fail')}
+                      </span>
+                    </span>
+                  ))
+                )}
+              </div>
+            </Tooltip>
+          )}
         {(this.state.isMouseEnter || this.props.isSelected) && (
           <div
             className={doClassnames([
               'preview__cell__actions',
-              layouts['snackbar--medium'],
+              this.props.isCompact
+                ? layouts['stackbar--medium']
+                : layouts['snackbar--medium'],
             ])}
           >
             <Feature isActive={this.features.PREVIEW_SHADE_HEX.isActive()}>

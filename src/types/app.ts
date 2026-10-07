@@ -69,6 +69,7 @@ export interface BaseProps {
   creditsRenewalDate: number
   editor: Editor
   documentWidth: number
+  isCompact: boolean
 }
 
 export type FilterOptions =
