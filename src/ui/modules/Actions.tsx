@@ -624,8 +624,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   }
 
   Deploy = () => {
-    // Web: publish/sync palette becomes the primary action, and the local
-    // sync (styles, variables, tokens) moves to an icon menu
     const isPublicationPrimary =
       this.features.PUBLICATION.isActive() &&
       this.features.PUBLICATION_ACTION.isActive() &&
