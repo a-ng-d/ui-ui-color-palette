@@ -70,6 +70,7 @@ export interface BaseProps {
   editor: Editor
   documentWidth: number
   isCompact: boolean
+  isMobile: boolean
 }
 
 export type FilterOptions =

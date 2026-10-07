@@ -14,7 +14,7 @@ import {
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
-import { resolveIsCompact } from '../utils/isCompact'
+import { resolveIsCompact, resolveIsMobile } from '../utils/isCompact'
 import { getPortalTarget } from '../utils/getPortalTarget'
 import { UserSession } from '../types/user'
 import { Language } from '../types/translations'
@@ -224,6 +224,7 @@ class App extends Component<AppProps, AppState> {
       isNotificationDisplayed: false,
       documentWidth: document.documentElement.clientWidth,
       isCompact: resolveIsCompact(document.documentElement.clientWidth),
+      isMobile: resolveIsMobile(document.documentElement.clientWidth),
       onGoingStep: 'app started',
       localPalettesCount: 0,
     }
@@ -432,6 +433,7 @@ class App extends Component<AppProps, AppState> {
     this.setState({
       documentWidth: document.documentElement.clientWidth,
       isCompact: resolveIsCompact(document.documentElement.clientWidth),
+      isMobile: resolveIsMobile(document.documentElement.clientWidth),
     })
   }
   handleMessage = (e: CustomEvent<PluginMessageData>) => {
