@@ -5,4 +5,4 @@ export const resolveIsMobile = (documentWidth: number): boolean =>
   documentWidth < MOBILE_BREAKPOINT
 
 export const resolveIsCompact = (documentWidth: number): boolean =>
-  documentWidth >= MOBILE_BREAKPOINT && documentWidth < COMPACT_BREAKPOINT
+  documentWidth < COMPACT_BREAKPOINT
