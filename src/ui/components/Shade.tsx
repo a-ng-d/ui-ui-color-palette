@@ -676,6 +676,22 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                 }}
                 isBlocked={this.features.PREVIEW_SHADE_HEX.isBlocked()}
                 isNew={this.features.PREVIEW_SHADE_HEX.isNew()}
+                onBlock={() => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
+                  sendPluginMessage(
+                    {
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'PREVIEW_SHADE_HEX' },
+                          },
+                    },
+                    '*'
+                  )
+                }}
                 action={this.onCopyHex}
               />
             </Feature>
