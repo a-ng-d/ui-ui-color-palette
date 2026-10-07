@@ -1041,7 +1041,7 @@ export default class EditPalette extends PureComponent<
                     unit: 'PIXEL' as const,
                   },
                   defaultSize: {
-                    value: 320,
+                    value: 360,
                     unit: 'PIXEL' as const,
                   },
                   maxSize: {

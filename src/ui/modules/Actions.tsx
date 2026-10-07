@@ -27,9 +27,14 @@ import {
   texts,
 } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
+import { ManagePaletteState } from '../services/ManagePalette'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import {
+  getPublicationIcon,
+  getPublicationLabel,
+} from '../../utils/publication'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
@@ -67,6 +72,7 @@ interface ActionsProps
   onExportPalette?: MouseEventHandler<HTMLButtonElement> &
     KeyboardEventHandler<HTMLButtonElement>
   onUnloadPalette?: () => void
+  onPublishPalette?: Dispatch<Partial<ManagePaletteState>>
 }
 
 interface ActionsState {
@@ -239,6 +245,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     FEEDBACK_LINK: new FeatureStatus({
       features: config.features,
       featureName: 'FEEDBACK_LINK',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    PUBLICATION_ACTION: new FeatureStatus({
+      features: config.features,
+      featureName: 'PUBLICATION_ACTION',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -611,6 +624,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   }
 
   Deploy = () => {
+    // Web: publish/sync palette becomes the primary action, and the local
+    // sync (styles, variables, tokens) moves to an icon menu
+    const isPublicationPrimary =
+      this.features.PUBLICATION.isActive() &&
+      this.features.PUBLICATION_ACTION.isActive() &&
+      this.props.onPublishPalette !== undefined
+
     return (
       <Bar
         leftPartSlot={
@@ -725,8 +745,21 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                 </Feature>
                 <Menu
                   id="main-actions"
-                  type="PRIMARY"
-                  label={this.props.t('actions.sync')}
+                  type={isPublicationPrimary ? 'ICON' : 'PRIMARY'}
+                  icon={isPublicationPrimary ? 'refresh' : undefined}
+                  label={
+                    isPublicationPrimary
+                      ? undefined
+                      : this.props.t('actions.sync')
+                  }
+                  helper={
+                    isPublicationPrimary
+                      ? {
+                          label: this.props.t('actions.sync'),
+                          isSingleLine: true,
+                        }
+                      : undefined
+                  }
                   options={[
                     {
                       label: this.props.t('actions.syncLocalStyles'),
@@ -841,6 +874,34 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     )
                   }}
                 />
+                {isPublicationPrimary && (
+                  <div data-id="tour-publication-action">
+                    <Button
+                      type="primary"
+                      label={getPublicationLabel({
+                        userSession: this.props.userSession,
+                        creatorIdentity: this.props
+                          .creatorIdentity as CreatorConfiguration,
+                        t: this.props.t,
+                      })}
+                      icon={getPublicationIcon({
+                        userSession: this.props.userSession,
+                        creatorIdentity: this.props
+                          .creatorIdentity as CreatorConfiguration,
+                      })}
+                      isNew={
+                        (this.props.publicationStatus?.isPublished ?? false) &&
+                        this.props.dates.publishedAt !==
+                          this.props.dates.updatedAt
+                      }
+                      action={() =>
+                        this.props.onPublishPalette?.({
+                          canBePublished: true,
+                        })
+                      }
+                    />
+                  </div>
+                )}
               </>
             ) : (
               <Menu

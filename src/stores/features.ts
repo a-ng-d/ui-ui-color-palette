@@ -235,6 +235,18 @@ export const featuresScheme: Array<Feature<Service>> = [
     proForServices: ['MANAGE'],
     availabilityForEditors: ['web'],
   },
+  {
+    name: 'PUBLICATION_ACTION',
+    description:
+      'Primary action to publish or sync the palette (local sync becomes an icon menu)',
+    isActive: true,
+    isPro: false,
+    isNew: true,
+    type: 'ACTION',
+    availabilityForServices: ['MANAGE'],
+    proForServices: ['MANAGE'],
+    availabilityForEditors: ['web'],
+  },
   // Contexts
   {
     name: 'GEN',
