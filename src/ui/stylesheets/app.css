@@ -228,7 +228,13 @@ div.export-palette__preview {
 }
 
 .preview__palette--compact {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.preview__palette--compact .preview__row {
+  flex: 1 0 auto;
+  min-height: var(--preview-compact-row-min-height, 48px);
 }
 
 .preview__palette--compact .preview__rows {
@@ -236,7 +242,8 @@ div.export-palette__preview {
 }
 
 .preview__palette--compact .preview__header {
-  position: static;
+  position: sticky;
+  top: var(--scale-null);
   width: 100%;
 }
 

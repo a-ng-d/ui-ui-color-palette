@@ -1034,29 +1034,7 @@ export default class EditPalette extends PureComponent<
                     ref={this.inspectorRef}
                   />
                 ),
-                typeModifier: 'DRAWER',
-                drawerOptions: {
-                  minSize: {
-                    value: 320,
-                    unit: 'PIXEL' as const,
-                  },
-                  defaultSize: {
-                    value: 360,
-                    unit: 'PIXEL' as const,
-                  },
-                  maxSize: {
-                    value: 496,
-                    unit: 'PIXEL' as const,
-                  },
-                  pin:
-                    this.props.documentWidth > 460
-                      ? ('RIGHT' as const)
-                      : ('BOTTOM' as const),
-                  direction:
-                    this.props.documentWidth > 460
-                      ? ('HORIZONTAL' as const)
-                      : ('VERTICAL' as const),
-                },
+                typeModifier: 'BLANK',
               },
             ]}
             isFullHeight
