@@ -42,6 +42,7 @@ interface ColorsProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   colors: Array<ColorConfiguration>
   shift: ShiftConfiguration
+  isEmbedded?: boolean
 }
 
 const CURVE_TRACKING_FEATURE: Record<
@@ -588,47 +589,49 @@ export default class Colors extends PureComponent<ColorsProps> {
           {
             node: (
               <>
-                <Bar
-                  id="colors-header"
-                  leftPartSlot={
-                    <SectionTitle
-                      label={this.props.t('colors.title')}
-                      indicator={this.props.colors.length.toString()}
-                    />
-                  }
-                  rightPartSlot={
-                    <Button
-                      type="icon"
-                      icon="plus"
-                      feature="ADD_COLOR"
-                      helper={{
-                        label: this.props.t('colors.actions.new'),
-                      }}
-                      isBlocked={this.features.COLORS_ADD.isReached(
-                        this.props.colors.length
-                      )}
-                      onBlock={() => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'ADD_COLOR' },
-                                },
-                          },
-                          '*'
-                        )
-                      }}
-                      action={(e: Event) => this.colorsHandler(e)}
-                    />
-                  }
-                  clip={['LEFT']}
-                  border={['BOTTOM']}
-                />
+                {!this.props.isEmbedded && (
+                  <Bar
+                    id="colors-header"
+                    leftPartSlot={
+                      <SectionTitle
+                        label={this.props.t('colors.title')}
+                        indicator={this.props.colors.length.toString()}
+                      />
+                    }
+                    rightPartSlot={
+                      <Button
+                        type="icon"
+                        icon="plus"
+                        feature="ADD_COLOR"
+                        helper={{
+                          label: this.props.t('colors.actions.new'),
+                        }}
+                        isBlocked={this.features.COLORS_ADD.isReached(
+                          this.props.colors.length
+                        )}
+                        onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
+                          sendPluginMessage(
+                            {
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'ADD_COLOR' },
+                                  },
+                            },
+                            '*'
+                          )
+                        }}
+                        action={(e: Event) => this.colorsHandler(e)}
+                      />
+                    }
+                    clip={['LEFT']}
+                    border={['BOTTOM']}
+                  />
+                )}
                 {this.features.COLORS_ADD.isReached(
                   this.props.colors.length
                 ) && (
@@ -1063,7 +1066,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       more: this.props.t('colors.actions.moreParameters'),
                     }}
                     canBeEmpty={false}
-                    isScrollable
+                    isScrollable={!this.props.isEmbedded}
                     onChangeSortableList={this.onChangeOrder}
                     onRemoveItem={this.colorsHandler}
                   />
@@ -1073,7 +1076,7 @@ export default class Colors extends PureComponent<ColorsProps> {
             typeModifier: 'BLANK',
           },
         ]}
-        isFullHeight
+        isFullHeight={!this.props.isEmbedded}
       />
     )
   }

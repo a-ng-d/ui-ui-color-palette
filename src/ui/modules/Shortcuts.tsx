@@ -54,8 +54,6 @@ export default class Shortcuts extends PureComponent<
   ShortcutsProps,
   ShortcutsState
 > {
-  private theme: string | null
-
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -1207,12 +1205,7 @@ export default class Shortcuts extends PureComponent<
             </>
           }
           leftPartSlot={
-            <div
-              className={doClassnames([
-                layouts['stackbar--medium'],
-                layouts['stackbar--centered'],
-              ])}
-            >
+            <div className={doClassnames([layouts['stackbar--medium']])}>
               <Feature
                 isActive={
                   this.features.PRO_PLAN.isActive() &&

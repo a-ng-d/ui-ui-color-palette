@@ -37,6 +37,7 @@ interface ThemesProps extends BaseProps, WithConfigProps, WithTranslationProps {
   scale: ScaleConfiguration
   themes: Array<ThemeConfiguration>
   textColorsTheme: TextColorsThemeConfiguration<'HEX'>
+  isEmbedded?: boolean
 }
 
 export default class Themes extends PureComponent<ThemesProps> {
@@ -585,47 +586,49 @@ export default class Themes extends PureComponent<ThemesProps> {
           {
             node: (
               <>
-                <Bar
-                  id="modes-header"
-                  leftPartSlot={
-                    <SectionTitle
-                      label={this.props.t('themes.title')}
-                      indicator={customThemes.length.toString()}
-                    />
-                  }
-                  rightPartSlot={
-                    <Button
-                      type="icon"
-                      icon="plus"
-                      helper={{
-                        label: this.props.t('themes.actions.new'),
-                      }}
-                      isBlocked={this.features.THEMES_ADD.isReached(
-                        this.props.themes.length - 1
-                      )}
-                      feature="ADD_THEME"
-                      onBlock={() => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'ADD_THEME' },
-                                },
-                          },
-                          '*'
-                        )
-                      }}
-                      action={this.themesHandler}
-                    />
-                  }
-                  clip={['LEFT']}
-                  border={['BOTTOM']}
-                />
+                {!this.props.isEmbedded && (
+                  <Bar
+                    id="modes-header"
+                    leftPartSlot={
+                      <SectionTitle
+                        label={this.props.t('themes.title')}
+                        indicator={customThemes.length.toString()}
+                      />
+                    }
+                    rightPartSlot={
+                      <Button
+                        type="icon"
+                        icon="plus"
+                        helper={{
+                          label: this.props.t('themes.actions.new'),
+                        }}
+                        isBlocked={this.features.THEMES_ADD.isReached(
+                          this.props.themes.length - 1
+                        )}
+                        feature="ADD_THEME"
+                        onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
+                          sendPluginMessage(
+                            {
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'ADD_THEME' },
+                                  },
+                            },
+                            '*'
+                          )
+                        }}
+                        action={this.themesHandler}
+                      />
+                    }
+                    clip={['LEFT']}
+                    border={['BOTTOM']}
+                  />
+                )}
                 {customThemes.length === 0 ? (
                   <div
                     style={{
@@ -1317,7 +1320,7 @@ export default class Themes extends PureComponent<ThemesProps> {
                         remove: this.props.t('themes.actions.removeColor'),
                         more: this.props.t('themes.actions.moreParameters'),
                       }}
-                      isScrollable
+                      isScrollable={!this.props.isEmbedded}
                       onChangeSortableList={this.onChangeOrder}
                       onRemoveItem={this.themesHandler}
                       isBlocked={this.features.THEMES.isBlocked()}
@@ -1329,7 +1332,7 @@ export default class Themes extends PureComponent<ThemesProps> {
             typeModifier: 'BLANK',
           },
         ]}
-        isFullHeight
+        isFullHeight={!this.props.isEmbedded}
       />
     )
   }

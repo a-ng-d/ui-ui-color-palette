@@ -11,6 +11,7 @@ interface UndoRedoButtonsState {
 interface UndoRedoButtonsProps {
   t: (key: string, fallback?: string) => string
   documentWidth: number
+  isHorizontal?: boolean
 }
 
 class UndoRedoButtonsInner extends Component<
@@ -47,7 +48,7 @@ class UndoRedoButtonsInner extends Component<
     return (
       <div
         className={
-          this.props.documentWidth > 460
+          this.props.documentWidth > 460 && !this.props.isHorizontal
             ? layouts['stackbar--medium']
             : layouts['snackbar--medium']
         }
@@ -71,12 +72,13 @@ class UndoRedoButtonsInner extends Component<
   }
 }
 
-const UndoRedoButtons = () => {
+const UndoRedoButtons = ({ isHorizontal }: { isHorizontal?: boolean }) => {
   const { t } = useTranslate()
   return (
     <UndoRedoButtonsInner
       t={t}
       documentWidth={window.innerWidth}
+      isHorizontal={isHorizontal}
     />
   )
 }

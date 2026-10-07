@@ -2,6 +2,7 @@
 export { default as Actions } from './Actions'
 export { default as Glance } from './Glance'
 export { default as Icon } from './Icon'
+export { default as Inspector } from './Inspector'
 export { default as PlanControls } from './PlanControls'
 export { default as Preview } from './Preview'
 export { default as Shortcuts } from './Shortcuts'

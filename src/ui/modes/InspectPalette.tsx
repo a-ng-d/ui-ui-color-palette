@@ -28,7 +28,6 @@ import { ManagePaletteState } from '../services/ManagePalette'
 import ContrastReport from '../modules/preview/ContrastReport'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
-import Themes from '../contexts/Themes'
 import Properties from '../contexts/Properties'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -99,9 +98,7 @@ export default class EditPalette extends PureComponent<
 > {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
-  private themesRef: RefObject<Themes>
   private previewRef: RefObject<Preview>
-  private theme: string | null
   private palette: typeof $palette
 
   static features = (
@@ -171,7 +168,6 @@ export default class EditPalette extends PureComponent<
       isSecondaryLoading: false,
       shadeReport: null,
     }
-    this.themesRef = createRef()
     this.previewRef = createRef()
   }
 
@@ -382,7 +378,7 @@ export default class EditPalette extends PureComponent<
                           style={{
                             minWidth:
                               this.props.documentWidth > 460
-                                ? '200px'
+                                ? '320px'
                                 : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
