@@ -219,9 +219,9 @@ export default class OrgPalettes extends PureComponent<
       return
     }
 
-    if (searchQuery === '') {
+    if (searchQuery === '') 
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
@@ -233,9 +233,9 @@ export default class OrgPalettes extends PureComponent<
           this.props.config.limits.pageSize * (currentPage - 1),
           this.props.config.limits.pageSize * currentPage - 1
         ))
-    } else {
+     else 
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+      ({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
@@ -248,7 +248,7 @@ export default class OrgPalettes extends PureComponent<
           this.props.config.limits.pageSize * currentPage - 1
         )
         .ilike('name', `%${searchQuery}%`))
-    }
+    
 
     if (!error) {
       const batch = this.props.palettesList.concat(
