@@ -109,6 +109,7 @@ interface EditPaletteState {
   context: Context | ''
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
+  isTertiaryLoading: boolean
 }
 
 export default class EditPalette extends PureComponent<
@@ -179,9 +180,9 @@ export default class EditPalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    PUBLICATION: new FeatureStatus({
+    PUBLISHING: new FeatureStatus({
       features: config.features,
-      featureName: 'PUBLICATION',
+      featureName: 'PUBLISHING',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -227,6 +228,7 @@ export default class EditPalette extends PureComponent<
       context: resolveContext(this.contexts),
       isPrimaryLoading: false,
       isSecondaryLoading: false,
+      isTertiaryLoading: false,
     }
     this.themesRef = createRef()
     this.previewRef = createRef()
@@ -274,6 +276,7 @@ export default class EditPalette extends PureComponent<
         this.setState({
           isPrimaryLoading: false,
           isSecondaryLoading: false,
+          isTertiaryLoading: false,
         }),
       DEFAULT: () => null,
     }
@@ -675,6 +678,29 @@ export default class EditPalette extends PureComponent<
     )
   }
 
+  onSimulatePalette = () => {
+    this.setState({
+      isTertiaryLoading: true,
+    })
+
+    sendPluginMessage(
+      { pluginMessage: { type: 'SIMULATE_PALETTE', id: this.props.id } },
+      '*'
+    )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'SIMULATE_PALETTE',
+      }
+    )
+  }
+
   onSyncTokens = () => {
     this.setState({
       isPrimaryLoading: true,
@@ -999,6 +1025,7 @@ export default class EditPalette extends PureComponent<
               onSyncLocalStyles={this.onSyncStyles}
               onSyncLocalVariables={this.onSyncVariables}
               onSyncLocalTokens={this.onSyncTokens}
+              onSimulatePalette={this.onSimulatePalette}
               onGenerateDocument={this.documentHandler}
               onChangeView={this.onChangeView}
             />
@@ -1074,6 +1101,7 @@ export default class EditPalette extends PureComponent<
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
             onSyncLocalTokens={this.onSyncTokens}
+            onSimulatePalette={this.onSimulatePalette}
             onGenerateDocument={this.documentHandler}
             onChangeView={this.onChangeView}
           />
@@ -1256,7 +1284,7 @@ export default class EditPalette extends PureComponent<
                           }
                         />
                       </Feature>
-                      <Feature isActive={this.features.PUBLICATION.isActive()}>
+                      <Feature isActive={this.features.PUBLISHING.isActive()}>
                         <Button
                           id="tour-publication"
                           type="icon"

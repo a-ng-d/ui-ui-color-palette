@@ -152,7 +152,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
   }
 
   // Direct Actions
-  onCopyHex = () => {
+  onCopyHex = (shouldNotify = false) => {
     if (!this.props.color) return
 
     try {
@@ -176,6 +176,22 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         this.setState({ isCopied: false })
       }, 2000)
 
+      if (shouldNotify)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'INFO',
+                message: this.props.t('info.copiedHex', {
+                  hex: this.props.color.toUpperCase(),
+                }),
+              },
+            },
+          },
+          '*'
+        )
+
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userSession.userId,
@@ -194,7 +210,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           pluginMessage: {
             type: 'POST_MESSAGE',
             data: {
-              style: 'WARNING',
+              type: 'WARNING',
               message: this.props.t('warning.uncopiedCode'),
             },
           },
@@ -202,6 +218,34 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         '*'
       )
     }
+  }
+
+  requestHexUpgrade = () => {
+    const isTrial =
+      this.props.config.plan.isTrialEnabled &&
+      this.props.trialStatus !== 'EXPIRED'
+
+    sendPluginMessage(
+      {
+        pluginMessage: isTrial
+          ? { type: 'GET_TRIAL' }
+          : { type: 'GET_PRO', data: { origin: 'PREVIEW_SHADE_HEX' } },
+      },
+      '*'
+    )
+  }
+
+  onCompactCopy = (e: Event) => {
+    if ((e.target as HTMLElement).closest('.preview__cell__actions')) return
+    if (this.features.PREVIEW_SHADE_HEX.isBlocked())
+      return this.requestHexUpgrade()
+    this.onCopyHex(true)
+  }
+
+  onCompactKeyDown = (e: KeyboardEvent) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return
+    e.preventDefault()
+    this.onCompactCopy(e)
   }
 
   // Templates
@@ -417,6 +461,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       filters.lightAPCA !== 'ALL' || filters.darkAPCA !== 'ALL'
 
     const isCompact = this.props.isCompact
+    const canCopyOnClick =
+      isCompact && this.features.PREVIEW_SHADE_HEX.isActive()
 
     const shouldCalculateWCAG =
       this.props.isWCAGDisplayed ||
@@ -529,6 +575,20 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         })
     }
 
+    const tags = (
+      <>
+        {this.props.index === minDistanceIndex &&
+          this.props.areSourceColorsLocked &&
+          !(
+            'alpha' in this.props.sourceColor &&
+            this.props.sourceColor.alpha.isEnabled
+          ) && <this.lockColorTag />}
+        {distance < 4 && !this.props.areSourceColorsLocked && (
+          <this.closestColorTag />
+        )}
+      </>
+    )
+
     return (
       <div
         className={doClassnames([
@@ -541,8 +601,16 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
             this.props.isWCAGDisplayed &&
             'preview__cell--large',
           this.props.isSelected && 'preview__cell--selected',
+          canCopyOnClick && 'preview__cell--copyable',
         ])}
         ref={this.cellRef}
+        {...(canCopyOnClick && {
+          role: 'button',
+          tabIndex: 0,
+          'aria-label': this.props.t('preview.actions.copyHex'),
+          onClick: this.onCompactCopy,
+          onKeyDown: this.onCompactKeyDown,
+        })}
         data-shade-key={`${this.props.colorIndex}-${this.props.index}`}
         style={{
           backgroundColor: background,
@@ -611,18 +679,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
             )}
           </>
         )}
-        {this.props.index === minDistanceIndex &&
-          this.props.areSourceColorsLocked &&
-          !(
-            'alpha' in this.props.sourceColor &&
-            this.props.sourceColor.alpha.isEnabled
-          ) && <this.lockColorTag />}
-        {distance < 4 && !this.props.areSourceColorsLocked && (
-          <this.closestColorTag />
+        {isCompact ? (
+          <div className="preview__cell__tags--floating">{tags}</div>
+        ) : (
+          tags
         )}
         {isCompact &&
           this.state.isMouseEnter &&
-          compactStandards.length > 0 && (
+          (compactStandards.length > 0 || canCopyOnClick) && (
             <Tooltip
               type="SINGLE_LINE"
               pin="BOTTOM"
@@ -653,6 +717,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                     </span>
                   ))
                 )}
+                {canCopyOnClick && (
+                  <span className="preview__cell__tooltip__hint">
+                    {this.props.t('preview.actions.copyHexOnClick')}
+                    {this.features.PREVIEW_SHADE_HEX.isBlocked() && (
+                      <Chip>Pro</Chip>
+                    )}
+                  </span>
+                )}
               </div>
             </Tooltip>
           )}
@@ -665,7 +737,11 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                 : layouts['snackbar--medium'],
             ])}
           >
-            <Feature isActive={this.features.PREVIEW_SHADE_HEX.isActive()}>
+            <Feature
+              isActive={
+                this.features.PREVIEW_SHADE_HEX.isActive() && !isCompact
+              }
+            >
               <Button
                 type="icon"
                 icon={this.state.isCopied ? 'check' : 'copy'}
@@ -676,23 +752,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                 }}
                 isBlocked={this.features.PREVIEW_SHADE_HEX.isBlocked()}
                 isNew={this.features.PREVIEW_SHADE_HEX.isNew()}
-                onBlock={() => {
-                  const isTrial =
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                  sendPluginMessage(
-                    {
-                      pluginMessage: isTrial
-                        ? { type: 'GET_TRIAL' }
-                        : {
-                            type: 'GET_PRO',
-                            data: { origin: 'PREVIEW_SHADE_HEX' },
-                          },
-                    },
-                    '*'
-                  )
-                }}
-                action={this.onCopyHex}
+                onBlock={this.requestHexUpgrade}
+                action={() => this.onCopyHex()}
               />
             </Feature>
             <Feature

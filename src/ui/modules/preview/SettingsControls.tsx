@@ -415,8 +415,7 @@ export default class SettingsControls extends PureComponent<SettingsControlsProp
         <Feature
           isActive={
             this.features.PREVIEW_LOCK_SOURCE_COLORS.isActive() &&
-            this.props.mode === 'EDIT' &&
-            !this.props.isCompact
+            this.props.mode === 'EDIT'
           }
         >
           <Button

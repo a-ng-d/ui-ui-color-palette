@@ -53,6 +53,7 @@ interface ActionsProps
   publicationStatus?: PublicationConfiguration
   isPrimaryLoading?: boolean
   isSecondaryLoading?: boolean
+  isTertiaryLoading?: boolean
   onChangeMode: Dispatch<Partial<OpenPaletteState>>
   onSyncLocalStyles?: (
     e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>
@@ -63,6 +64,7 @@ interface ActionsProps
   onSyncLocalTokens?: (
     e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>
   ) => void
+  onSimulatePalette?: () => void
   onGenerateDocument?: (e: MouseEvent<Element> | KeyboardEvent<Element>) => void
   onChangeView?: (
     e:
@@ -140,6 +142,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     SYNC_LOCAL_TOKENS: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_TOKENS',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    SIMULATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SIMULATE_PALETTE',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -249,13 +258,6 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       currentService: service,
       currentEditor: editor,
     }),
-    PUBLICATION_ACTION: new FeatureStatus({
-      features: config.features,
-      featureName: 'PUBLICATION_ACTION',
-      planStatus: planStatus,
-      currentService: service,
-      currentEditor: editor,
-    }),
   })
 
   constructor(props: ActionsProps) {
@@ -344,221 +346,259 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     )
   }
 
-  documentOptionsHandler = () => {
+  // Upgrade
+  requestUpgrade = (origin: string) => {
+    const isTrial =
+      this.props.config.plan.isTrialEnabled &&
+      this.props.trialStatus !== 'EXPIRED'
+
+    sendPluginMessage(
+      {
+        pluginMessage: isTrial
+          ? { type: 'GET_TRIAL' }
+          : { type: 'GET_PRO', data: { origin } },
+      },
+      '*'
+    )
+  }
+
+  // Options
+  gatedOption = ({
+    status,
+    feature,
+    label,
+    value,
+    fee,
+    isNew,
+    action,
+  }: {
+    status: FeatureStatus<Service>
+    feature: string
+    label: string
+    value?: string
+    fee: number
+    isNew?: boolean
+    action?: DropdownOption['action']
+  }): DropdownOption => ({
+    label,
+    value,
+    feature,
+    type: 'OPTION',
+    isActive: status.isActive(),
+    isBlocked:
+      status.isReached((this.props.creditsCount - fee) * -1 - 1) ||
+      status.isBlocked(),
+    isNew: isNew ?? status.isNew(),
+    onBlock: () => this.requestUpgrade(feature),
+    action,
+  })
+
+  documentOptionsHandler = (hasSeparator = true): Array<DropdownOption> => {
+    const { fees } = this.props.config
     const options = [
-      {
-        label: this.props.t('actions.generateDocument.palette'),
+      this.gatedOption({
+        status: this.features.DOCUMENT_PALETTE,
         feature: 'GENERATE_PALETTE',
-        type: 'OPTION',
-        isActive: this.features.DOCUMENT_PALETTE.isActive(),
-        isBlocked:
-          this.features.DOCUMENT_PALETTE.isReached(
-            (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
-              -1 -
-              1
-          ) || this.features.DOCUMENT_PALETTE.isBlocked(),
-        isNew: this.features.DOCUMENT_PALETTE.isNew(),
-        onBlock: () => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : { type: 'GET_PRO', data: { origin: 'GENERATE_PALETTE' } },
-            },
-            '*'
-          )
-        },
+        label: this.props.t('actions.generateDocument.palette'),
+        fee: fees.paletteGenerate,
         action: this.props.onGenerateDocument,
-      },
-      {
-        label: this.props.t('actions.generateDocument.paletteWithProperties'),
+      }),
+      this.gatedOption({
+        status: this.features.DOCUMENT_PALETTE_PROPERTIES,
         feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
-        type: 'OPTION',
-        isActive: this.features.DOCUMENT_PALETTE_PROPERTIES.isActive(),
-        isBlocked:
-          this.features.DOCUMENT_PALETTE_PROPERTIES.isReached(
-            (this.props.creditsCount -
-              this.props.config.fees.paletteWithPropsGenerate) *
-              -1 -
-              1
-          ) || this.features.DOCUMENT_PALETTE_PROPERTIES.isBlocked(),
-        isNew: this.features.DOCUMENT_PALETTE_PROPERTIES.isNew(),
-        onBlock: () => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : {
-                    type: 'GET_PRO',
-                    data: { origin: 'GENERATE_PALETTE_WITH_PROPERTIES' },
-                  },
-            },
-            '*'
-          )
-        },
+        label: this.props.t('actions.generateDocument.paletteWithProperties'),
+        fee: fees.paletteWithPropsGenerate,
         action: this.props.onGenerateDocument,
-      },
-      {
-        label: this.props.t('actions.generateDocument.sheet'),
+      }),
+      this.gatedOption({
+        status: this.features.DOCUMENT_SHEET,
         feature: 'GENERATE_SHEET',
-        type: 'OPTION',
-        isActive: this.features.DOCUMENT_SHEET.isActive(),
-        isBlocked:
-          this.features.DOCUMENT_SHEET.isReached(
-            (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
-              -1 -
-              1
-          ) || this.features.DOCUMENT_SHEET.isBlocked(),
-        isNew: this.features.DOCUMENT_SHEET.isNew(),
-        onBlock: () => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : { type: 'GET_PRO', data: { origin: 'GENERATE_SHEET' } },
-            },
-            '*'
-          )
-        },
+        label: this.props.t('actions.generateDocument.sheet'),
+        fee: fees.sheetGenerate,
         action: this.props.onGenerateDocument,
-      },
-    ] as Array<DropdownOption>
+      }),
+    ]
 
     if (this.state.canUpdateDocument)
       options.push(
-        {
-          type: 'SEPARATOR',
-        },
-        {
-          label: this.props.t('actions.pushUpdates'),
+        ...(hasSeparator ? [{ type: 'SEPARATOR' as const }] : []),
+        this.gatedOption({
+          status: this.features.DOCUMENT_PUSH_UPDATES,
           feature: 'PUSH_UPDATES',
-          type: 'OPTION',
-          isActive: this.features.DOCUMENT_PUSH_UPDATES.isActive(),
-          isBlocked:
-            this.features.DOCUMENT_PUSH_UPDATES.isReached(
-              (this.props.creditsCount -
-                this.props.config.fees.paletteUpdates) *
-                -1 -
-                1
-            ) || this.features.DOCUMENT_PUSH_UPDATES.isBlocked(),
+          label: this.props.t('actions.pushUpdates'),
+          fee: fees.paletteUpdates,
           isNew: true,
-          onBlock: () => {
-            const isTrial =
-              this.props.config.plan.isTrialEnabled &&
-              this.props.trialStatus !== 'EXPIRED'
-            sendPluginMessage(
-              {
-                pluginMessage: isTrial
-                  ? { type: 'GET_TRIAL' }
-                  : { type: 'GET_PRO', data: { origin: 'PUSH_UPDATES' } },
-              },
-              '*'
-            )
-          },
           action: this.props.onGenerateDocument,
-        }
+        })
       )
 
     return options
   }
 
-  viewOptionsHandler = () => {
+  viewOptionsHandler = (): Array<DropdownOption> => {
+    const { fees } = this.props.config
+
     return [
-      {
-        label: this.props.t('settings.global.views.simple'),
+      this.gatedOption({
+        status: this.features.VIEWS_PALETTE,
+        feature: 'VIEWS_PALETTE',
         value: 'PALETTE',
-        type: 'OPTION' as const,
-        isActive: this.features.VIEWS_PALETTE.isActive(),
-        isBlocked:
-          this.features.VIEWS_PALETTE.isReached(
-            (this.props.creditsCount - this.props.config.fees.paletteGenerate) *
-              -1 -
-              1
-          ) || this.features.VIEWS_PALETTE.isBlocked(),
-        isNew: this.features.VIEWS_PALETTE.isNew(),
-        onBlock: () => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : { type: 'GET_PRO', data: { origin: 'VIEWS_PALETTE' } },
-            },
-            '*'
-          )
-        },
+        label: this.props.t('settings.global.views.simple'),
+        fee: fees.paletteGenerate,
         action: this.props.onChangeView,
-      },
-      {
-        label: this.props.t('settings.global.views.detailed'),
+      }),
+      this.gatedOption({
+        status: this.features.VIEWS_PALETTE_WITH_PROPERTIES,
+        feature: 'VIEWS_PALETTE_WITH_PROPERTIES',
         value: 'PALETTE_WITH_PROPERTIES',
-        type: 'OPTION' as const,
-        isActive: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive(),
-        isBlocked:
-          this.features.VIEWS_PALETTE_WITH_PROPERTIES.isReached(
-            (this.props.creditsCount -
-              this.props.config.fees.paletteWithPropsGenerate) *
-              -1 -
-              1
-          ) || this.features.VIEWS_PALETTE_WITH_PROPERTIES.isBlocked(),
-        isNew: this.features.VIEWS_PALETTE_WITH_PROPERTIES.isNew(),
-        onBlock: () => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : {
-                    type: 'GET_PRO',
-                    data: { origin: 'VIEWS_PALETTE_WITH_PROPERTIES' },
-                  },
-            },
-            '*'
-          )
-        },
+        label: this.props.t('settings.global.views.detailed'),
+        fee: fees.paletteWithPropsGenerate,
         action: this.props.onChangeView,
-      },
-      {
-        label: this.props.t('settings.global.views.sheet'),
+      }),
+      this.gatedOption({
+        status: this.features.VIEWS_SHEET,
+        feature: 'VIEWS_SHEET',
         value: 'SHEET',
-        type: 'OPTION' as const,
-        isActive: this.features.VIEWS_SHEET.isActive(),
-        isBlocked:
-          this.features.VIEWS_SHEET.isReached(
-            (this.props.creditsCount - this.props.config.fees.sheetGenerate) *
-              -1 -
-              1
-          ) || this.features.VIEWS_SHEET.isBlocked(),
-        isNew: this.features.VIEWS_SHEET.isNew(),
-        onBlock: () => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : { type: 'GET_PRO', data: { origin: 'VIEWS_SHEET' } },
-            },
-            '*'
-          )
-        },
+        label: this.props.t('settings.global.views.sheet'),
+        fee: fees.sheetGenerate,
         action: this.props.onChangeView,
-      },
+      }),
     ]
+  }
+
+  syncOptionsHandler = (): Array<DropdownOption> => {
+    const { fees } = this.props.config
+
+    return [
+      this.gatedOption({
+        status: this.features.SYNC_LOCAL_STYLES,
+        feature: 'SYNC_LOCAL_STYLES',
+        value: 'LOCAL_STYLES',
+        label: this.props.t('actions.syncLocalStyles'),
+        fee: fees.localStylesSync,
+        action: (e) => this.props.onSyncLocalStyles?.(e),
+      }),
+      this.gatedOption({
+        status: this.features.SYNC_LOCAL_VARIABLES,
+        feature: 'SYNC_LOCAL_VARIABLES',
+        value: 'LOCAL_VARIABLES',
+        label: this.props.t('actions.syncLocalVariables'),
+        fee: fees.localVariablesSync,
+        action: (e) => this.props.onSyncLocalVariables?.(e),
+      }),
+      this.gatedOption({
+        status: this.features.SYNC_LOCAL_TOKENS,
+        feature: 'SYNC_LOCAL_TOKENS',
+        value: 'LOCAL_TOKENS',
+        label: this.props.t('actions.syncLocalTokens'),
+        fee: fees.localTokensSync,
+        action: (e) => this.props.onSyncLocalTokens?.(e),
+      }),
+    ]
+  }
+
+  private get deployActions() {
+    const canSimulate =
+      this.features.SIMULATE_PALETTE.isActive() &&
+      this.props.onSimulatePalette !== undefined
+    const canPublish =
+      this.features.PUBLICATION.isActive() &&
+      this.features.PUBLISH_PALETTE.isActive() &&
+      this.props.onPublishPalette !== undefined
+    const canSync =
+      this.features.SYNC_LOCAL_STYLES.isActive() ||
+      this.features.SYNC_LOCAL_VARIABLES.isActive() ||
+      this.features.SYNC_LOCAL_TOKENS.isActive()
+    const canDocument = this.features.DOCUMENT.isActive()
+    const canChangeView = this.props.document?.id === this.props.id
+
+    const primary: 'SIMULATE' | 'PUBLISH' | 'SYNC' = canSimulate
+      ? 'SIMULATE'
+      : canPublish
+        ? 'PUBLISH'
+        : 'SYNC'
+
+    return {
+      canSimulate,
+      canPublish,
+      canSync,
+      canDocument,
+      canChangeView,
+      primary,
+    }
+  }
+
+  private get publication() {
+    const creatorIdentity = this.props.creatorIdentity as CreatorConfiguration
+
+    return {
+      label: getPublicationLabel({
+        userSession: this.props.userSession,
+        creatorIdentity,
+        t: this.props.t,
+      }),
+      icon: getPublicationIcon({
+        userSession: this.props.userSession,
+        creatorIdentity,
+      }),
+      isNew:
+        (this.props.publicationStatus?.isPublished ?? false) &&
+        this.props.dates.publishedAt !== this.props.dates.updatedAt,
+      action: () => this.props.onPublishPalette?.({ canBePublished: true }),
+    }
+  }
+
+  compactOptionsHandler = (): Array<DropdownOption> => {
+    const actions = this.deployActions
+    const options: Array<DropdownOption> = []
+
+    if (actions.canSimulate)
+      options.push(
+        this.gatedOption({
+          status: this.features.SIMULATE_PALETTE,
+          feature: 'SIMULATE_PALETTE',
+          value: 'SIMULATE_PALETTE',
+          label: this.props.t('actions.simulatePalette'),
+          fee: 0,
+          action: () => this.props.onSimulatePalette?.(),
+        }),
+        { type: 'SEPARATOR' }
+      )
+
+    if (actions.canSync)
+      options.push({
+        label: this.props.t('actions.sync'),
+        value: 'SYNC',
+        type: 'GROUP',
+        children: this.syncOptionsHandler(),
+      })
+
+    if (actions.canDocument)
+      options.push({
+        label: this.props.t('actions.generateDocument.label'),
+        value: 'GENERATE_DOCUMENT',
+        type: 'GROUP',
+        isNew: this.state.canUpdateDocument,
+        children: this.documentOptionsHandler(false),
+      })
+
+    if (actions.canPublish)
+      options.push({
+        label: this.publication.label,
+        value: 'PUBLICATION',
+        type: 'OPTION',
+        action: this.publication.action,
+      })
+
+    if (actions.canChangeView)
+      options.push({
+        label: this.props.t('settings.global.views.helper'),
+        value: 'CHANGE_VIEW',
+        type: 'GROUP',
+        children: this.viewOptionsHandler(),
+      })
+
+    return options
   }
 
   // Templates
@@ -624,10 +664,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   }
 
   Deploy = () => {
-    const isPublicationPrimary =
-      this.features.PUBLICATION.isActive() &&
-      this.features.PUBLICATION_ACTION.isActive() &&
-      this.props.onPublishPalette !== undefined
+    const actions = this.deployActions
+    const isSyncPrimary = actions.primary === 'SYNC'
 
     return (
       <Bar
@@ -680,38 +718,45 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               layouts['snackbar--wrap'],
             ])}
           >
-            {!this.props.isMobile ? (
+            {this.props.isMobile ? (
+              <Menu
+                id="main-actions"
+                type="ICON"
+                icon="ellipses"
+                options={this.compactOptionsHandler()}
+                alignment="BOTTOM_RIGHT"
+                state={
+                  this.props.isPrimaryLoading ||
+                  this.props.isSecondaryLoading ||
+                  this.props.isTertiaryLoading
+                    ? 'LOADING'
+                    : 'DEFAULT'
+                }
+                isNew={this.state.canUpdateDocument}
+                onBlock={() => this.requestUpgrade('SYNC')}
+              />
+            ) : (
               <>
-                {this.props.document?.id === this.props.id && (
-                  <Feature isActive={this.features.VIEWS.isActive()}>
-                    <Dropdown
-                      id="views"
-                      options={this.viewOptionsHandler()}
-                      selected={this.props.document.view}
-                      pin="BOTTOM"
-                      helper={{
-                        label: this.props.t('settings.global.views.helper'),
-                      }}
-                      alignment="RIGHT"
-                      isBlocked={this.features.VIEWS.isBlocked()}
-                      isNew={this.features.VIEWS.isNew()}
-                      onBlock={() => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : { type: 'GET_PRO', data: { origin: 'VIEWS' } },
-                          },
-                          '*'
-                        )
-                      }}
-                    />
-                  </Feature>
-                )}
-                <Feature isActive={this.features.DOCUMENT.isActive()}>
+                <Feature
+                  isActive={
+                    actions.canChangeView && this.features.VIEWS.isActive()
+                  }
+                >
+                  <Dropdown
+                    id="views"
+                    options={this.viewOptionsHandler()}
+                    selected={this.props.document?.view}
+                    pin="BOTTOM"
+                    helper={{
+                      label: this.props.t('settings.global.views.helper'),
+                    }}
+                    alignment="RIGHT"
+                    isBlocked={this.features.VIEWS.isBlocked()}
+                    isNew={this.features.VIEWS.isNew()}
+                    onBlock={() => this.requestUpgrade('VIEWS')}
+                  />
+                </Feature>
+                <Feature isActive={actions.canDocument}>
                   <Menu
                     id="generate-documentation"
                     type="ICON"
@@ -726,347 +771,63 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'
                     }
                     isNew={this.state.canUpdateDocument}
-                    onBlock={() => {
-                      const isTrial =
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                      sendPluginMessage(
-                        {
-                          pluginMessage: isTrial
-                            ? { type: 'GET_TRIAL' }
-                            : { type: 'GET_PRO', data: { origin: 'DOCUMENT' } },
-                        },
-                        '*'
-                      )
-                    }}
+                    onBlock={() => this.requestUpgrade('DOCUMENT')}
                   />
                 </Feature>
-                <Menu
-                  id="main-actions"
-                  type={isPublicationPrimary ? 'ICON' : 'PRIMARY'}
-                  icon={isPublicationPrimary ? 'refresh' : undefined}
-                  label={
-                    isPublicationPrimary
-                      ? undefined
-                      : this.props.t('actions.sync')
-                  }
-                  helper={
-                    isPublicationPrimary
-                      ? {
-                          label: this.props.t('actions.sync'),
-                          isSingleLine: true,
-                        }
-                      : undefined
-                  }
-                  options={[
-                    {
-                      label: this.props.t('actions.syncLocalStyles'),
-                      value: 'LOCAL_STYLES',
-                      feature: 'SYNC_LOCAL_STYLES',
-                      type: 'OPTION',
-                      isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
-                      isBlocked:
-                        this.features.SYNC_LOCAL_STYLES.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.localStylesSync) *
-                            -1 -
-                            1
-                        ) || this.features.SYNC_LOCAL_STYLES.isBlocked(),
-                      isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
-                      onBlock: () => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'SYNC_LOCAL_STYLES' },
-                                },
-                          },
-                          '*'
-                        )
-                      },
-                      action: (e) => this.props.onSyncLocalStyles?.(e),
-                    },
-                    {
-                      label: this.props.t('actions.syncLocalVariables'),
-                      value: 'LOCAL_VARIABLES',
-                      feature: 'SYNC_LOCAL_VARIABLES',
-                      type: 'OPTION',
-                      isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                      isBlocked:
-                        this.features.SYNC_LOCAL_VARIABLES.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.localVariablesSync) *
-                            -1 -
-                            1
-                        ) || this.features.SYNC_LOCAL_VARIABLES.isBlocked(),
-                      isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
-                      onBlock: () => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'SYNC_LOCAL_VARIABLES' },
-                                },
-                          },
-                          '*'
-                        )
-                      },
-                      action: (e) => this.props.onSyncLocalVariables?.(e),
-                    },
-                    {
-                      label: this.props.t('actions.syncLocalTokens'),
-                      value: 'LOCAL_TOKENS',
-                      feature: 'SYNC_LOCAL_TOKENS',
-                      type: 'OPTION',
-                      isActive: this.features.SYNC_LOCAL_TOKENS.isActive(),
-                      isBlocked:
-                        this.features.SYNC_LOCAL_TOKENS.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.localTokensSync) *
-                            -1 -
-                            1
-                        ) || this.features.SYNC_LOCAL_TOKENS.isBlocked(),
-                      isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
-                      onBlock: () => {
-                        const isTrial =
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                        sendPluginMessage(
-                          {
-                            pluginMessage: isTrial
-                              ? { type: 'GET_TRIAL' }
-                              : {
-                                  type: 'GET_PRO',
-                                  data: { origin: 'SYNC_LOCAL_TOKENS' },
-                                },
-                          },
-                          '*'
-                        )
-                      },
-                      action: (e) => this.props.onSyncLocalTokens?.(e),
-                    },
-                  ]}
-                  alignment="BOTTOM_RIGHT"
-                  state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
-                  onBlock={() => {
-                    const isTrial =
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                    sendPluginMessage(
-                      {
-                        pluginMessage: isTrial
-                          ? { type: 'GET_TRIAL' }
-                          : { type: 'GET_PRO', data: { origin: 'SYNC' } },
-                      },
-                      '*'
-                    )
-                  }}
-                />
-                {isPublicationPrimary && (
+                <Feature isActive={actions.canSync}>
+                  <Menu
+                    id="main-actions"
+                    type={isSyncPrimary ? 'PRIMARY' : 'ICON'}
+                    icon={isSyncPrimary ? undefined : 'refresh'}
+                    label={
+                      isSyncPrimary ? this.props.t('actions.sync') : undefined
+                    }
+                    helper={
+                      isSyncPrimary
+                        ? undefined
+                        : {
+                            label: this.props.t('actions.sync'),
+                            isSingleLine: true,
+                          }
+                    }
+                    options={this.syncOptionsHandler()}
+                    alignment="BOTTOM_RIGHT"
+                    state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                    onBlock={() => this.requestUpgrade('SYNC')}
+                  />
+                </Feature>
+                <Feature isActive={actions.canPublish}>
                   <div data-id="tour-publication-action">
                     <Button
-                      type="primary"
-                      label={getPublicationLabel({
-                        userSession: this.props.userSession,
-                        creatorIdentity: this.props
-                          .creatorIdentity as CreatorConfiguration,
-                        t: this.props.t,
-                      })}
-                      icon={getPublicationIcon({
-                        userSession: this.props.userSession,
-                        creatorIdentity: this.props
-                          .creatorIdentity as CreatorConfiguration,
-                      })}
-                      isNew={
-                        (this.props.publicationStatus?.isPublished ?? false) &&
-                        this.props.dates.publishedAt !==
-                          this.props.dates.updatedAt
+                      type={
+                        actions.primary === 'PUBLISH' ? 'primary' : 'secondary'
                       }
-                      action={() =>
-                        this.props.onPublishPalette?.({
-                          canBePublished: true,
-                        })
-                      }
+                      label={this.publication.label}
+                      icon={this.publication.icon}
+                      isBlocked={this.features.PUBLICATION.isBlocked()}
+                      isNew={this.publication.isNew}
+                      onBlock={() => this.requestUpgrade('PUBLICATION')}
+                      action={this.publication.action}
                     />
                   </div>
-                )}
+                </Feature>
+                <Feature isActive={actions.canSimulate}>
+                  <Button
+                    type="primary"
+                    label={this.props.t('actions.simulatePalette')}
+                    feature="SIMULATE_PALETTE"
+                    helper={{
+                      label: this.props.t('actions.simulateSelectionHelper'),
+                      type: 'MULTI_LINE'
+                    }}
+                    isLoading={this.props.isTertiaryLoading}
+                    isBlocked={this.features.SIMULATE_PALETTE.isBlocked()}
+                    isNew={this.features.SIMULATE_PALETTE.isNew()}
+                    onBlock={() => this.requestUpgrade('SIMULATE_PALETTE')}
+                    action={() => this.props.onSimulatePalette?.()}
+                  />
+                </Feature>
               </>
-            ) : (
-              <Menu
-                id="main-actions"
-                type="ICON"
-                icon="play"
-                options={[
-                  {
-                    label: this.props.t('actions.sync'),
-                    value: 'SYNC',
-                    type: 'GROUP',
-                    children: [
-                      {
-                        label: this.props.t('actions.syncLocalStyles'),
-                        value: 'LOCAL_STYLES',
-                        feature: 'SYNC_LOCAL_STYLES',
-                        type: 'OPTION',
-                        isActive: this.features.SYNC_LOCAL_STYLES.isActive(),
-                        isBlocked:
-                          this.features.SYNC_LOCAL_STYLES.isReached(
-                            (this.props.creditsCount -
-                              this.props.config.fees.localStylesSync) *
-                              -1 -
-                              1
-                          ) || this.features.SYNC_LOCAL_STYLES.isBlocked(),
-                        isNew: this.features.SYNC_LOCAL_STYLES.isNew(),
-                        onBlock: () => {
-                          const isTrial =
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                          sendPluginMessage(
-                            {
-                              pluginMessage: isTrial
-                                ? { type: 'GET_TRIAL' }
-                                : {
-                                    type: 'GET_PRO',
-                                    data: { origin: 'SYNC_LOCAL_STYLES' },
-                                  },
-                            },
-                            '*'
-                          )
-                        },
-                        action: (e) => this.props.onSyncLocalStyles?.(e),
-                      },
-                      {
-                        label: this.props.t('actions.syncLocalVariables'),
-                        value: 'LOCAL_VARIABLES',
-                        feature: 'SYNC_LOCAL_VARIABLES',
-                        type: 'OPTION',
-                        isActive: this.features.SYNC_LOCAL_VARIABLES.isActive(),
-                        isBlocked:
-                          this.features.SYNC_LOCAL_VARIABLES.isReached(
-                            (this.props.creditsCount -
-                              this.props.config.fees.localVariablesSync) *
-                              -1 -
-                              1
-                          ) || this.features.SYNC_LOCAL_VARIABLES.isBlocked(),
-                        isNew: this.features.SYNC_LOCAL_VARIABLES.isNew(),
-                        onBlock: () => {
-                          const isTrial =
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                          sendPluginMessage(
-                            {
-                              pluginMessage: isTrial
-                                ? { type: 'GET_TRIAL' }
-                                : {
-                                    type: 'GET_PRO',
-                                    data: { origin: 'SYNC_LOCAL_VARIABLES' },
-                                  },
-                            },
-                            '*'
-                          )
-                        },
-                        action: (e) => this.props.onSyncLocalVariables?.(e),
-                      },
-                      {
-                        label: this.props.t('actions.syncLocalTokens'),
-                        value: 'LOCAL_TOKENS',
-                        feature: 'SYNC_LOCAL_TOKENS',
-                        type: 'OPTION',
-                        isActive: this.features.SYNC_LOCAL_TOKENS.isActive(),
-                        isBlocked:
-                          this.features.SYNC_LOCAL_TOKENS.isReached(
-                            (this.props.creditsCount -
-                              this.props.config.fees.localTokensSync) *
-                              -1 -
-                              1
-                          ) || this.features.SYNC_LOCAL_TOKENS.isBlocked(),
-                        isNew: this.features.SYNC_LOCAL_TOKENS.isNew(),
-                        onBlock: () => {
-                          const isTrial =
-                            this.props.config.plan.isTrialEnabled &&
-                            this.props.trialStatus !== 'EXPIRED'
-                          sendPluginMessage(
-                            {
-                              pluginMessage: isTrial
-                                ? { type: 'GET_TRIAL' }
-                                : {
-                                    type: 'GET_PRO',
-                                    data: { origin: 'SYNC_LOCAL_TOKENS' },
-                                  },
-                            },
-                            '*'
-                          )
-                        },
-                        action: (e) => this.props.onSyncLocalTokens?.(e),
-                      },
-                    ],
-                  },
-                  {
-                    label: this.props.t('actions.generateDocument.label'),
-                    value: 'GENERATE_DOCUMENT',
-                    type: 'GROUP',
-                    isNew: this.state.canUpdateDocument,
-                    children: this.documentOptionsHandler(),
-                  },
-                  ...(isPublicationPrimary
-                    ? [
-                        {
-                          label: getPublicationLabel({
-                            userSession: this.props.userSession,
-                            creatorIdentity: this.props
-                              .creatorIdentity as CreatorConfiguration,
-                            t: this.props.t,
-                          }),
-                          value: 'PUBLICATION',
-                          type: 'OPTION' as const,
-                          action: () =>
-                            this.props.onPublishPalette?.({
-                              canBePublished: true,
-                            }),
-                        },
-                      ]
-                    : []),
-                  ...(this.props.document?.id === this.props.id
-                    ? [
-                        {
-                          label: this.props.t('settings.global.views.helper'),
-                          value: 'CHANGE_VIEW',
-                          type: 'GROUP' as const,
-                          children: this.viewOptionsHandler(),
-                        },
-                      ]
-                    : []),
-                ]}
-                alignment="BOTTOM_RIGHT"
-                state={
-                  this.props.isPrimaryLoading || this.props.isSecondaryLoading
-                    ? 'LOADING'
-                    : 'DEFAULT'
-                }
-                isNew={this.state.canUpdateDocument}
-                onBlock={() => {
-                  const isTrial =
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                  sendPluginMessage(
-                    {
-                      pluginMessage: isTrial
-                        ? { type: 'GET_TRIAL' }
-                        : { type: 'GET_PRO', data: { origin: 'SYNC' } },
-                    },
-                    '*'
-                  )
-                }}
-              />
             )}
             <this.Modes />
             <Feature isActive={this.features.SHARE_LINK.isActive()}>

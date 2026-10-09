@@ -6,7 +6,7 @@ import {
   ScaleConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, DropdownOption, layouts, Menu } from '@unoff/ui'
+import { Button, layouts } from '@unoff/ui'
 import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
@@ -292,110 +292,8 @@ export default class StopTools extends PureComponent<StopToolsProps> {
     )
   }
 
-  MoreTools = () => {
-    const menuOptions: Array<DropdownOption> = []
-
-    if (this.props.preset.id.includes('CUSTOM') && !this.props.isEmbedded) {
-      if (this.props.preset.stops.length > 2)
-        menuOptions.push({
-          label: this.props.t('scale.actions.removeStop'),
-          value: 'REMOVE_STOP',
-          feature: 'REMOVE_STOP',
-          type: 'OPTION',
-          action: this.customHandler,
-        })
-
-      if (
-        this.features.PRESETS_CUSTOM_ADD.isActive() &&
-        this.props.preset.stops.length < 24
-      )
-        menuOptions.push({
-          label: this.props.t('scale.actions.addStop'),
-          value: 'ADD_STOP',
-          feature: 'ADD_STOP',
-          type: 'OPTION',
-          isBlocked: this.features.PRESETS_CUSTOM_ADD.isReached(
-            this.props.preset.stops.length
-          ),
-          onBlock: () => {
-            const isTrial =
-              this.props.config.plan.isTrialEnabled &&
-              this.props.trialStatus !== 'EXPIRED'
-            sendPluginMessage(
-              {
-                pluginMessage: isTrial
-                  ? { type: 'GET_TRIAL' }
-                  : {
-                      type: 'GET_PRO',
-                      data: { origin: 'ADD_STOP' },
-                    },
-              },
-              '*'
-            )
-          },
-          action: this.customHandler,
-        })
-    }
-
-    if (this.features.SCALE_REVERSE.isActive())
-      menuOptions.push({
-        label: this.props.t('scale.actions.reverseStops'),
-        value: 'REVERSE_STOPS',
-        feature: 'REVERSE_SCALE',
-        type: 'OPTION',
-        isBlocked: this.features.SCALE_REVERSE.isBlocked(),
-        isNew: this.features.SCALE_REVERSE.isNew(),
-        onBlock: () => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : {
-                    type: 'GET_PRO',
-                    data: { origin: 'REVERSE_SCALE' },
-                  },
-            },
-            '*'
-          )
-        },
-        action: this.onReverseStops,
-      })
-
-    return (
-      <Menu
-        id="more-tools-scale"
-        icon="ellipses"
-        options={menuOptions}
-        alignment="BOTTOM_RIGHT"
-        helper={{
-          label: this.props.t('scale.actions.moreTools'),
-        }}
-        isAlwaysExpanded
-        onBlock={() => {
-          const isTrial =
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-          sendPluginMessage(
-            {
-              pluginMessage: isTrial
-                ? { type: 'GET_TRIAL' }
-                : {
-                    type: 'GET_PRO',
-                    data: { origin: 'MORE_TOOLS' },
-                  },
-            },
-            '*'
-          )
-        }}
-      />
-    )
-  }
-
   // Render
   render() {
-    return !this.props.isMobile ? <this.ToolsButtons /> : <this.MoreTools />
+    return <this.ToolsButtons />
   }
 }

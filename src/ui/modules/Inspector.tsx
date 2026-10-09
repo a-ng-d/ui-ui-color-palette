@@ -184,9 +184,9 @@ export default class Inspector extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    PUBLICATION: new FeatureStatus({
+    PUBLISHING: new FeatureStatus({
       features: config.features,
-      featureName: 'PUBLICATION',
+      featureName: 'PUBLISHING',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -473,7 +473,7 @@ export default class Inspector extends PureComponent<
           }
           rightPartSlot={
             <div className={layouts['snackbar--medium']}>
-              <Feature isActive={this.features.PUBLICATION.isActive()}>
+              <Feature isActive={this.features.PUBLISHING.isActive()}>
                 <div data-id="tour-publication">
                   <Button
                     type="icon"
@@ -533,11 +533,15 @@ export default class Inspector extends PureComponent<
                       action={this.onResetScale}
                     />
                   </Feature>
-                  <Feature isActive={this.features.SCALE_PRESETS.isActive()}>
+                  <Feature
+                    isActive={
+                      this.features.SCALE_PRESETS.isActive() && isCustomPreset
+                    }
+                  >
                     <Button
                       type="icon"
                       icon="minus"
-                      isDisabled={!isCustomPreset || stopsCount <= 2}
+                      isDisabled={stopsCount <= 2}
                       helper={{
                         label: this.props.t('scale.actions.removeStop'),
                       }}
@@ -549,14 +553,13 @@ export default class Inspector extends PureComponent<
                       <Button
                         type="icon"
                         icon="plus"
-                        isDisabled={!isCustomPreset || stopsCount >= 24}
+                        isDisabled={stopsCount >= 24}
                         helper={{
                           label: this.props.t('scale.actions.addStop'),
                         }}
-                        isBlocked={
-                          isCustomPreset &&
-                          this.features.PRESETS_CUSTOM_ADD.isReached(stopsCount)
-                        }
+                        isBlocked={this.features.PRESETS_CUSTOM_ADD.isReached(
+                          stopsCount
+                        )}
                         onBlock={() => this.onBlockedFeature('ADD_STOP')}
                         action={this.props.onAddStop}
                       />

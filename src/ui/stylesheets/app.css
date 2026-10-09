@@ -287,6 +287,33 @@ div.export-palette__preview {
   white-space: nowrap;
 }
 
+.preview__cell--copyable {
+  cursor: copy;
+}
+
+.preview__cell--copyable:focus-visible {
+  outline: 2px solid var(--color-border-selected-focus);
+  outline-offset: -2px;
+}
+
+.preview__cell__tags--floating {
+  display: flex;
+  position: absolute;
+  gap: var(--scale-pos-xxxsmall);
+  z-index: 1;
+  inset: auto auto var(--scale-pos-xxxsmall) var(--scale-pos-xxxsmall);
+  pointer-events: none;
+}
+
+.preview__cell__tooltip__hint {
+  display: flex;
+  grid-column: 1 / -1;
+  justify-content: center;
+  align-items: center;
+  gap: var(--scale-pos-xxxsmall);
+  opacity: 0.8;
+}
+
 .preview__cell__tooltip__score {
   display: flex;
   justify-content: center;

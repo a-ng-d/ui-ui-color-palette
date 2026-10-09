@@ -150,6 +150,7 @@ export interface ActionEvent {
     | 'SYNC_STYLES'
     | 'SYNC_VARIABLES'
     | 'SYNC_TOKENS'
+    | 'SIMULATE_PALETTE'
     | 'GENERATE_PALETTE'
     | 'GENERATE_PALETTE_WITH_PROPERTIES'
     | 'GENERATE_SHEET'
