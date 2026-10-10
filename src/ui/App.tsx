@@ -1063,7 +1063,6 @@ class App extends Component<AppProps, AppState> {
             <Shortcuts
               {...this.props}
               {...this.state}
-              tag="shortcuts"
               onReOpenAnnouncements={(e) => this.setState({ ...e })}
               onReOpenOnboarding={() => {
                 this.managePaletteRef.current?.onStartTour()

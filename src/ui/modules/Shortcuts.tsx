@@ -29,7 +29,7 @@ interface ShortcutsProps
   trialRemainingTime: number
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
-  tag: string
+  tag?: string
   onReOpenAnnouncements: Dispatch<Partial<AppState>>
   onReOpenOnboarding: Dispatch<Partial<AppState>>
   onReOpenStore: Dispatch<Partial<AppState>>
