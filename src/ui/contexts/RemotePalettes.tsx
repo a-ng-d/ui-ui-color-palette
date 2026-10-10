@@ -354,7 +354,7 @@ export default class RemotePalettes extends PureComponent<
         isFlex = false
         break
       case 'framer':
-        isFlex = true
+        isFlex = false
         break
       case 'yelbolt':
         isFlex = false

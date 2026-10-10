@@ -998,7 +998,7 @@ class App extends Component<AppProps, AppState> {
                               >
                                 <Button
                                   type="icon"
-                                  icon="styles"
+                                  icon="ai"
                                   state={
                                     this.state.service === 'COMBINE'
                                       ? 'selected'

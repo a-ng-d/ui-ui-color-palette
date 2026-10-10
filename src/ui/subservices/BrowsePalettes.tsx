@@ -327,7 +327,7 @@ export default class BrowsePalettes extends PureComponent<
         isFlex = false
         break
       case 'framer':
-        isFlex = true
+        isFlex = false
         break
       default:
         isFlex = false

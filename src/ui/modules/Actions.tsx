@@ -732,6 +732,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     ? 'LOADING'
                     : 'DEFAULT'
                 }
+                isAlwaysExpanded
                 isNew={this.state.canUpdateDocument}
                 onBlock={() => this.requestUpgrade('SYNC')}
               />
@@ -771,6 +772,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       this.props.isSecondaryLoading ? 'LOADING' : 'DEFAULT'
                     }
                     isNew={this.state.canUpdateDocument}
+                    isAlwaysExpanded
                     onBlock={() => this.requestUpgrade('DOCUMENT')}
                   />
                 </Feature>
@@ -793,6 +795,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     options={this.syncOptionsHandler()}
                     alignment="BOTTOM_RIGHT"
                     state={this.props.isPrimaryLoading ? 'LOADING' : 'DEFAULT'}
+                    isAlwaysExpanded
                     onBlock={() => this.requestUpgrade('SYNC')}
                   />
                 </Feature>
@@ -818,7 +821,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     feature="SIMULATE_PALETTE"
                     helper={{
                       label: this.props.t('actions.simulateSelectionHelper'),
-                      type: 'MULTI_LINE'
+                      type: 'MULTI_LINE',
                     }}
                     isLoading={this.props.isTertiaryLoading}
                     isBlocked={this.features.SIMULATE_PALETTE.isBlocked()}

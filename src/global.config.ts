@@ -60,6 +60,7 @@ interface SpecConfig {
 const proFeatures = [
   'CREATE_PALETTE',
   'LOCAL_PALETTES',
+  'SIMULATE_PALETTE',
   'DOCUMENT_CREATE',
   'SYNC_LOCAL_STYLES',
   'SYNC_LOCAL_VARIABLES',
@@ -336,7 +337,7 @@ const globalConfig: Config = {
     sourceColors: 5,
     customStops: 6,
     colorThemes: 2,
-    localPalettes: 3,
+    localPalettes: 2,
   },
   env: {
     ...specTarget.env,

@@ -714,13 +714,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                           <Feature
                             isActive={this.features.COLORS_NAME.isActive()}
                           >
-                            <div
-                              className={
-                                !this.props.isMobile
-                                  ? 'draggable-item__param--compact'
-                                  : 'draggable-item__param'
-                              }
-                            >
+                            <div className="draggable-item__param--compact">
                               <Input
                                 type="TEXT"
                                 value={color.name}
@@ -740,10 +734,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                             </div>
                           </Feature>
                           <Feature
-                            isActive={
-                              this.features.COLORS_PARAMS.isActive() &&
-                              !this.props.isMobile
-                            }
+                            isActive={this.features.COLORS_PARAMS.isActive()}
                           >
                             <div className="draggable-item__param">
                               <Input
@@ -782,33 +773,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                         }),
                         node: (() => (
                           <div data-color-id={color.id}>
-                            <Feature
-                              isActive={
-                                this.features.COLORS_PARAMS.isActive() &&
-                                this.props.documentWidth <= 460
-                              }
-                            >
-                              <FormItem
-                                id={`change-hex-secondary-${color.id}`}
-                                label={this.props.t('colors.actions.hexCode')}
-                                isBlocked={
-                                  this.features.COLORS_ALPHA.isBlocked() &&
-                                  !color.alpha.isEnabled
-                                }
-                              >
-                                <Input
-                                  id={`change-hex-secondary-${color.id}`}
-                                  type="COLOR"
-                                  value={hex}
-                                  feature="UPDATE_HEX"
-                                  isBlocked={this.features.COLORS_PARAMS.isBlocked()}
-                                  isNew={this.features.COLORS_PARAMS.isNew()}
-                                  onPick={this.colorsHandler}
-                                  onBlur={this.colorsHandler}
-                                  onValid={this.colorsHandler}
-                                />
-                              </FormItem>
-                            </Feature>
                             <Feature
                               isActive={this.features.COLORS_ALPHA.isActive()}
                             >

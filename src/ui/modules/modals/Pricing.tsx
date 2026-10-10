@@ -616,7 +616,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
         isFlex = false
         break
       case 'framer':
-        isFlex = true
+        isFlex = false
         break
       case 'yelbolt':
         isFlex = false
@@ -788,8 +788,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
               <div
                 style={{
                   display: 'flex',
-                  flexDirection:
-                    this.props.documentWidth <= 460 ? 'column' : 'row',
+                  flexDirection: this.props.isMobile ? 'column' : 'row',
                   gap: 'var(--scale-pos-xxxsmall)',
                   flex: 1,
                 }}
