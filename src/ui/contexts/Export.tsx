@@ -983,7 +983,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
   render() {
     const border = 'var(--global-border-width) solid var(--global-border-color)'
     const radius = 'var(--global-radius)'
-    const selectionBackground = 'var(--global-background-background-selected)'
+    const selectionBackground = 'var(--global-background-color-selected)'
     const textColor = 'var(--text-color-tertiary)'
 
     return (
