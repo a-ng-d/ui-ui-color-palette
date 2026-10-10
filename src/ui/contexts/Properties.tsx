@@ -57,6 +57,7 @@ export default class Properties extends PureComponent<PropertiesProps> {
         minute: '2-digit',
       })
     } catch (error) {
+      console.error(error)
       return typeof dateInput === 'string' ? dateInput : dateInput.toString()
     }
   }

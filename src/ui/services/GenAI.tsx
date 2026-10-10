@@ -498,7 +498,11 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                   <ColorItem
                     key={index}
                     name={`${color.type}${this.props.t('separator')}${color.name}`}
-                    hex={chroma(color.rgb.r, color.rgb.g, color.rgb.b)
+                    hex={chroma(
+                      color.rgb?.r ?? 0,
+                      color.rgb?.g ?? 0,
+                      color.rgb?.b ?? 0
+                    )
                       .hex()
                       .toUpperCase()}
                     id={`color-${index}`}

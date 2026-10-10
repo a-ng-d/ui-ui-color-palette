@@ -31,7 +31,7 @@ export function getClosestColorName(hexColor: string): string {
           closestName = name
         }
       } catch (error) {
-        continue
+        console.error(error)
       }
 
     return closestName

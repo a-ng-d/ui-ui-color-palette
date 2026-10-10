@@ -288,7 +288,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </span>
         }
       >
-        {`${score.toFixed(2)} : 1`}
+        {!isMouseEnter ? `${score.toFixed(2)} : 1` : friendlyScore}
       </Chip>
     </Feature>
   )
@@ -332,7 +332,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </span>
         }
       >
-        {`Lc ${score.toFixed(1)}`}
+        {!isMouseEnter ? `Lc ${score.toFixed(1)}` : friendlyScore}
       </Chip>
     </Feature>
   )

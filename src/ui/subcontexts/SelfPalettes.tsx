@@ -211,7 +211,6 @@ export default class SelfPalettes extends PureComponent<
     }
 
     if (searchQuery === '')
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
@@ -224,7 +223,6 @@ export default class SelfPalettes extends PureComponent<
           this.props.config.limits.pageSize * currentPage - 1
         ))
     else
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(

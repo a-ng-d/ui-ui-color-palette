@@ -761,11 +761,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                         color.rgb.g * 255,
                         color.rgb.b * 255,
                       ]).lch()
-                      const hex = chroma([
-                        color.rgb.r * 255,
-                        color.rgb.g * 255,
-                        color.rgb.b * 255,
-                      ]).hex()
 
                       return {
                         title: this.props.t('colors.moreParameters', {
