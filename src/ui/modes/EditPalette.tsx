@@ -859,6 +859,9 @@ export default class EditPalette extends PureComponent<
     return themes.concat(actions)
   }
 
+  focusInspectorSection = (context: Context | '') =>
+    this.inspectorRef.current?.focusSection(context)
+
   workingThemes = () => getWorkingThemes(this.props.themes)
 
   onJumpToSourceColor = () => {

@@ -35,7 +35,8 @@ export const showNoPaletteNotice = (t: TFunction) => {
 const startTour = async (
   t: TFunction,
   editor: Editor,
-  callbacks: TourCallbacks
+  callbacks: TourCallbacks,
+  isCompact = false
 ) => {
   const baseConfig = {
     showProgress: true,
@@ -111,6 +112,9 @@ const startTour = async (
     return
   }
 
+  const target = (id: string) =>
+    isCompact ? `[data-id="tour-${id}"]` : 'section.context'
+
   callbacks.setMode('EDIT')
   await wait(200)
   callbacks.setEditContext('SCALE')
@@ -120,35 +124,35 @@ const startTour = async (
     ...baseConfig,
     steps: [
       {
-        element: 'section.context',
+        element: target('scale'),
         popover: {
           title: t('tour.scale.title'),
           description: t('tour.scale.description'),
         },
       },
       {
-        element: 'section.context',
+        element: target('colors'),
         popover: {
           title: t('tour.colors.title'),
           description: t('tour.colors.description'),
         },
       },
       {
-        element: '[data-id="tour-themes"]',
+        element: target('themes'),
         popover: {
           title: t('tour.themes.title'),
           description: t('tour.themes.description'),
         },
       },
       {
-        element: 'section.context',
+        element: target('imports'),
         popover: {
           title: t('tour.imports.title'),
           description: t('tour.imports.description'),
         },
       },
       {
-        element: 'section.context',
+        element: target('settings'),
         popover: {
           title: t('tour.settings.title'),
           description: t('tour.settings.description'),
@@ -194,7 +198,7 @@ const startTour = async (
           callbacks.setEditContext('COLORS')
           break
         case 3:
-          callbacks.setEditContext('')
+          callbacks.setEditContext('THEMES')
           break
         case 4:
           callbacks.setEditContext('IMPORTS')
@@ -228,7 +232,7 @@ const startTour = async (
           callbacks.setEditContext('COLORS')
           break
         case 1:
-          callbacks.setEditContext('')
+          callbacks.setEditContext('THEMES')
           break
         case 2:
           callbacks.setEditContext('IMPORTS')

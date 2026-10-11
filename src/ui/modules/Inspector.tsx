@@ -252,6 +252,14 @@ export default class Inspector extends PureComponent<
     return actions[path.type ?? 'DEFAULT']?.()
   }
 
+  focusSection = (section: Context | '') =>
+    this.setState({
+      expandedSections:
+        section === 'SCALE' || section === 'THEMES' || section === 'SETTINGS'
+          ? { [section]: true }
+          : {},
+    })
+
   addTheme = () => {
     this.setState({ isAddingTheme: true })
     setTimeout(() => this.themesRef.current?.onAddTheme(), 1)
@@ -503,134 +511,140 @@ export default class Inspector extends PureComponent<
           isFullHeight
         >
           <Feature isActive={this.features.SCALE.isActive()}>
-            <Accordion
-              label={this.props.t('scale.title')}
-              indicator={stopsCount}
-              icon="chevron-down"
-              collapseIcon="chevron-up"
-              helper={
-                binding !== undefined
-                  ? this.props.t('settings.themeBinding.message', {
-                      themeName: binding,
-                    })
-                  : undefined
-              }
-              isExpanded={isExpanded('SCALE')}
-              onAdd={() => this.onToggleSection('SCALE')}
-              onEmpty={() => this.onToggleSection('SCALE')}
-              actions={
-                <>
-                  <Feature isActive={this.features.SCALE_RESET.isActive()}>
-                    <Button
-                      type="icon"
-                      icon="reset"
-                      helper={{
-                        label: this.props.t('scale.actions.resetScale'),
-                      }}
-                      isBlocked={this.features.SCALE_RESET.isBlocked()}
-                      isNew={this.features.SCALE_RESET.isNew()}
-                      onBlock={() => this.onBlockedFeature('RESET_SCALE')}
-                      action={this.onResetScale}
-                    />
-                  </Feature>
-                  <Feature
-                    isActive={
-                      this.features.SCALE_PRESETS.isActive() && isCustomPreset
-                    }
-                  >
-                    <Button
-                      type="icon"
-                      icon="minus"
-                      isDisabled={stopsCount <= 2}
-                      helper={{
-                        label: this.props.t('scale.actions.removeStop'),
-                      }}
-                      action={this.onRemoveStop}
-                    />
+            <div data-id="tour-scale">
+              <Accordion
+                label={this.props.t('scale.title')}
+                indicator={stopsCount}
+                icon="chevron-down"
+                collapseIcon="chevron-up"
+                helper={
+                  binding !== undefined
+                    ? this.props.t('settings.themeBinding.message', {
+                        themeName: binding,
+                      })
+                    : undefined
+                }
+                isExpanded={isExpanded('SCALE')}
+                onAdd={() => this.onToggleSection('SCALE')}
+                onEmpty={() => this.onToggleSection('SCALE')}
+                actions={
+                  <>
+                    <Feature isActive={this.features.SCALE_RESET.isActive()}>
+                      <Button
+                        type="icon"
+                        icon="reset"
+                        helper={{
+                          label: this.props.t('scale.actions.resetScale'),
+                        }}
+                        isBlocked={this.features.SCALE_RESET.isBlocked()}
+                        isNew={this.features.SCALE_RESET.isNew()}
+                        onBlock={() => this.onBlockedFeature('RESET_SCALE')}
+                        action={this.onResetScale}
+                      />
+                    </Feature>
                     <Feature
-                      isActive={this.features.PRESETS_CUSTOM_ADD.isActive()}
+                      isActive={
+                        this.features.SCALE_PRESETS.isActive() && isCustomPreset
+                      }
                     >
                       <Button
                         type="icon"
-                        icon="plus"
-                        isDisabled={stopsCount >= 24}
+                        icon="minus"
+                        isDisabled={stopsCount <= 2}
                         helper={{
-                          label: this.props.t('scale.actions.addStop'),
+                          label: this.props.t('scale.actions.removeStop'),
                         }}
-                        isBlocked={this.features.PRESETS_CUSTOM_ADD.isReached(
-                          stopsCount
-                        )}
-                        onBlock={() => this.onBlockedFeature('ADD_STOP')}
-                        action={this.props.onAddStop}
+                        action={this.onRemoveStop}
                       />
+                      <Feature
+                        isActive={this.features.PRESETS_CUSTOM_ADD.isActive()}
+                      >
+                        <Button
+                          type="icon"
+                          icon="plus"
+                          isDisabled={stopsCount >= 24}
+                          helper={{
+                            label: this.props.t('scale.actions.addStop'),
+                          }}
+                          isBlocked={this.features.PRESETS_CUSTOM_ADD.isReached(
+                            stopsCount
+                          )}
+                          onBlock={() => this.onBlockedFeature('ADD_STOP')}
+                          action={this.props.onAddStop}
+                        />
+                      </Feature>
                     </Feature>
-                  </Feature>
-                </>
-              }
-            >
-              <Scale
-                {...this.props}
-                isEmbedded
-                onChangeScale={this.props.onChangeScale}
-                onChangeShift={this.props.onChangeShift}
-              />
-            </Accordion>
+                  </>
+                }
+              >
+                <Scale
+                  {...this.props}
+                  isEmbedded
+                  onChangeScale={this.props.onChangeScale}
+                  onChangeShift={this.props.onChangeShift}
+                />
+              </Accordion>
+            </div>
           </Feature>
           <Feature isActive={this.features.COLORS.isActive()}>
-            <Accordion
-              label={this.props.t('colors.title')}
-              indicator={this.props.colors.length}
-              helper={this.props.t('colors.callout.message')}
-              icon="plus"
-              collapseIcon="plus"
-              helpers={{
-                add: this.props.t('colors.actions.new'),
-                empty: this.props.t('colors.actions.new'),
-              }}
-              isExpanded={this.props.colors.length > 0}
-              onAdd={this.onAddColorGuarded}
-              onEmpty={this.onAddColorGuarded}
-              actions={
-                <Feature isActive={this.features.IMPORTS_CANVAS.isActive()}>
-                  <Button
-                    type="icon"
-                    icon="import"
-                    state={
-                      this.state.isImportingCanvasColors
-                        ? 'selected'
-                        : undefined
-                    }
-                    helper={{
-                      label: this.state.isImportingCanvasColors
-                        ? this.props.t('imports.canvas.tip', {
-                            element: this.props.t(
-                              `imports.nodes.${this.props.config.env.platform}`
-                            ),
-                            canvas: this.props.t(
-                              `platform.${this.props.config.env.platform}`
-                            ),
-                          })
-                        : this.props.t('imports.canvas.add'),
-                      type: this.state.isImportingCanvasColors
-                        ? 'MULTI_LINE'
-                        : 'SINGLE_LINE',
-                    }}
-                    isBlocked={
-                      this.features.IMPORTS_CANVAS.isBlocked() &&
-                      !this.state.isImportingCanvasColors
-                    }
-                    isNew={this.features.IMPORTS_CANVAS.isNew()}
-                    onBlock={() => this.onBlockedFeature('IMPORTS_CANVAS')}
-                    action={this.onToggleCanvasColorsImport}
-                  />
-                </Feature>
-              }
-            >
-              <Colors
-                {...this.props}
-                isEmbedded
-              />
-            </Accordion>
+            <div data-id="tour-colors">
+              <Accordion
+                label={this.props.t('colors.title')}
+                indicator={this.props.colors.length}
+                helper={this.props.t('colors.callout.message')}
+                icon="plus"
+                collapseIcon="plus"
+                helpers={{
+                  add: this.props.t('colors.actions.new'),
+                  empty: this.props.t('colors.actions.new'),
+                }}
+                isExpanded={this.props.colors.length > 0}
+                onAdd={this.onAddColorGuarded}
+                onEmpty={this.onAddColorGuarded}
+                actions={
+                  <Feature isActive={this.features.IMPORTS_CANVAS.isActive()}>
+                    <div data-id="tour-imports">
+                      <Button
+                        type="icon"
+                        icon="import"
+                        state={
+                          this.state.isImportingCanvasColors
+                            ? 'selected'
+                            : undefined
+                        }
+                        helper={{
+                          label: this.state.isImportingCanvasColors
+                            ? this.props.t('imports.canvas.tip', {
+                                element: this.props.t(
+                                  `imports.nodes.${this.props.config.env.platform}`
+                                ),
+                                canvas: this.props.t(
+                                  `platform.${this.props.config.env.platform}`
+                                ),
+                              })
+                            : this.props.t('imports.canvas.add'),
+                          type: this.state.isImportingCanvasColors
+                            ? 'MULTI_LINE'
+                            : 'SINGLE_LINE',
+                        }}
+                        isBlocked={
+                          this.features.IMPORTS_CANVAS.isBlocked() &&
+                          !this.state.isImportingCanvasColors
+                        }
+                        isNew={this.features.IMPORTS_CANVAS.isNew()}
+                        onBlock={() => this.onBlockedFeature('IMPORTS_CANVAS')}
+                        action={this.onToggleCanvasColorsImport}
+                      />
+                    </div>
+                  </Feature>
+                }
+              >
+                <Colors
+                  {...this.props}
+                  isEmbedded
+                />
+              </Accordion>
+            </div>
           </Feature>
           <Feature isActive={this.features.THEMES.isActive()}>
             <div data-id="tour-themes">
@@ -644,7 +658,11 @@ export default class Inspector extends PureComponent<
                   add: this.props.t('themes.actions.new'),
                   empty: this.props.t('themes.actions.new'),
                 }}
-                isExpanded={hasCustomThemes || this.state.isAddingTheme}
+                isExpanded={
+                  hasCustomThemes ||
+                  this.state.isAddingTheme ||
+                  isExpanded('THEMES')
+                }
                 isNew={this.features.THEMES.isNew()}
                 onAdd={this.onAddThemeGuarded}
                 onEmpty={this.onAddThemeGuarded}
@@ -658,19 +676,21 @@ export default class Inspector extends PureComponent<
             </div>
           </Feature>
           <Feature isActive={this.features.SETTINGS.isActive()}>
-            <Accordion
-              label={this.props.t('settings.title')}
-              icon="chevron-down"
-              collapseIcon="chevron-up"
-              isExpanded={isExpanded('SETTINGS')}
-              onAdd={() => this.onToggleSection('SETTINGS')}
-              onEmpty={() => this.onToggleSection('SETTINGS')}
-            >
-              <Settings
-                {...this.props}
-                isEmbedded
-              />
-            </Accordion>
+            <div data-id="tour-settings">
+              <Accordion
+                label={this.props.t('settings.title')}
+                icon="chevron-down"
+                collapseIcon="chevron-up"
+                isExpanded={isExpanded('SETTINGS')}
+                onAdd={() => this.onToggleSection('SETTINGS')}
+                onEmpty={() => this.onToggleSection('SETTINGS')}
+              >
+                <Settings
+                  {...this.props}
+                  isEmbedded
+                />
+              </Accordion>
+            </div>
           </Feature>
         </List>
       </section>

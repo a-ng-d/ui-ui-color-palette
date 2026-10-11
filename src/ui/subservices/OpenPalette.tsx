@@ -83,8 +83,11 @@ export default class OpenPalette extends PureComponent<
 
   setMode = (mode: Mode) => this.setState({ mode })
 
-  setEditContext = (context: Context | '') =>
-    this.editPaletteRef.current?.setState({ context })
+  setEditContext = (context: Context | '') => {
+    if (this.props.isCompact)
+      this.editPaletteRef.current?.focusInspectorSection(context)
+    else this.editPaletteRef.current?.setState({ context })
+  }
 
   setInspectContext = (context: Context | '') =>
     this.inspectPaletteRef.current?.setState({ context })
