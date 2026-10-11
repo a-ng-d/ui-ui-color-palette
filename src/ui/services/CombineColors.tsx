@@ -6,6 +6,7 @@ import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { AppState } from '../App'
 import { resolveContext, setContexts } from '../../utils/setContexts'
+import { getDocumentAttribute } from '../../utils/getDocumentAttribute'
 import {
   BaseProps,
   Context,
@@ -46,6 +47,7 @@ export default class CombineColors extends PureComponent<
   CombineColorsState
 > {
   private contexts: Array<ContextItem>
+  private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
@@ -108,6 +110,7 @@ export default class CombineColors extends PureComponent<
     this.state = {
       context: resolveContext(this.contexts, props.context),
     }
+    this.theme = getDocumentAttribute('data-theme')
   }
 
   // Lifecycle
@@ -145,6 +148,27 @@ export default class CombineColors extends PureComponent<
   // Render
   render() {
     const features = this.features
+    let isFlex = true
+
+    switch (this.theme) {
+      case 'figma':
+        isFlex = false
+        break
+      case 'penpot':
+        isFlex = true
+        break
+      case 'sketch':
+        isFlex = false
+        break
+      case 'framer':
+        isFlex = false
+        break
+      case 'yelbolt':
+        isFlex = false
+        break
+      default:
+        isFlex = false
+    }
 
     return (
       <>
@@ -154,6 +178,7 @@ export default class CombineColors extends PureComponent<
               <Tabs
                 tabs={this.contexts}
                 active={this.state.context ?? ''}
+                isFlex={isFlex}
                 action={this.navHandler}
               />
             ) : undefined
