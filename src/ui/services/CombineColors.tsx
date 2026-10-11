@@ -173,7 +173,7 @@ export default class CombineColors extends PureComponent<
     return (
       <>
         <Bar
-          leftPartSlot={
+          soloPartSlot={
             this.contexts.length > 1 ? (
               <Tabs
                 tabs={this.contexts}
