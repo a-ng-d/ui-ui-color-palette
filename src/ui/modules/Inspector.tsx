@@ -659,7 +659,7 @@ export default class Inspector extends PureComponent<
           </Feature>
           <Feature isActive={this.features.SETTINGS.isActive()}>
             <Accordion
-              label={this.props.t('contexts.settings')}
+              label={this.props.t('settings.title')}
               icon="chevron-down"
               collapseIcon="chevron-up"
               isExpanded={isExpanded('SETTINGS')}
