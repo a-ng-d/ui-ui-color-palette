@@ -115,7 +115,7 @@ export default class Settings extends PureComponent<SettingsProps> {
       data: {
         name: '',
         description: '',
-        colorSpace: 'LCH',
+        colorSpace: 'OKLCH',
         visionSimulationMode: 'NONE',
         algorithmVersion: this.props.config.versions.algorithmVersion,
         textColorsTheme: {

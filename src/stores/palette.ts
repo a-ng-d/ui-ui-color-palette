@@ -29,7 +29,7 @@ export const $palette = deepMap<ExchangeConfiguration>({
     hue: makeDefaultShift('HUE'),
   },
   areSourceColorsLocked: false,
-  colorSpace: 'LCH',
+  colorSpace: 'OKLCH',
   visionSimulationMode: 'NONE',
   algorithmVersion: 'v3',
   textColorsTheme: {

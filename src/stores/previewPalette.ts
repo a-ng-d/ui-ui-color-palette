@@ -51,7 +51,7 @@ export const makePreviewData = (
           alpha: { isEnabled: false, backgroundColor: '#FFFFFF' },
         })
       ),
-      colorSpace: 'LCH',
+      colorSpace: 'OKLCH',
       algorithmVersion: 'v3',
     },
     themes: [
