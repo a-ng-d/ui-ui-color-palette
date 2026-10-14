@@ -351,6 +351,59 @@ export default class StarredPalettes extends PureComponent<
     await this.props.onSelectPalette(id)
   }
 
+  onAddToLocal = (palette: ExternalPalettes, index: number) => {
+    if (!this.features.ADD_PALETTE.isActive()) return
+
+    if (
+      this.features.LOCAL_PALETTES.isReached(
+        this.props.localPalettesList.length
+      )
+    ) {
+      const isTrial =
+        this.props.config.plan.isTrialEnabled &&
+        this.props.trialStatus !== 'EXPIRED'
+      sendPluginMessage(
+        {
+          pluginMessage: isTrial
+            ? { type: 'GET_TRIAL' }
+            : { type: 'GET_PRO', data: { origin: 'LOCAL_PALETTES' } },
+        },
+        '*'
+      )
+      return
+    }
+
+    this.setState({
+      isAddToLocalActionLoading: this.state.isAddToLocalActionLoading.map(
+        (loading, i) => (i === index ? true : loading)
+      ),
+    })
+
+    this.onSelectPalette(palette.palette_id)
+      .finally(() =>
+        this.setState({
+          isAddToLocalActionLoading: Array(this.props.palettesList.length).fill(
+            false
+          ),
+        })
+      )
+      .catch((error) => {
+        console.error(error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.t('error.addToLocal'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
   onOpenPalette = (palette: ExternalPalettes, index: number) => {
     if (
       !this.features.SEE_PALETTE.isActive() ||
@@ -649,7 +702,7 @@ export default class StarredPalettes extends PureComponent<
                 isCompact
               />
             }
-            action={() => this.onOpenPalette(palette, index)}
+            action={() => this.onAddToLocal(palette, index)}
           />
         )
       })}
