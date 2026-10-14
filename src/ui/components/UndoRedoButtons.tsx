@@ -56,14 +56,26 @@ class UndoRedoButtonsInner extends Component<
         <Button
           type="icon"
           icon="undo"
-          helper={{ label: t('actions.undo'), pin: 'TOP' }}
+          helper={{
+            label: t('actions.undo'),
+            pin:
+              this.props.documentWidth > 460 && !this.props.isHorizontal
+                ? 'TOP'
+                : 'BOTTOM',
+          }}
           isDisabled={!this.state.canUndo}
           action={() => undo()}
         />
         <Button
           type="icon"
           icon="redo"
-          helper={{ label: t('actions.redo'), pin: 'TOP' }}
+          helper={{
+            label: t('actions.redo'),
+            pin:
+              this.props.documentWidth > 460 && !this.props.isHorizontal
+                ? 'TOP'
+                : 'BOTTOM',
+          }}
           isDisabled={!this.state.canRedo}
           action={() => redo()}
         />
