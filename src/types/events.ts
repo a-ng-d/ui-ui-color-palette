@@ -163,7 +163,7 @@ export interface ActionEvent {
 }
 
 export interface TourEvent {
-  feature: 'NEXT_STEP' | 'LEARN_MORE' | 'END_TOUR'
+  feature: 'START_TOUR' | 'NEXT_STEP' | 'LEARN_MORE' | 'END_TOUR'
 }
 
 export interface PricingEvent {

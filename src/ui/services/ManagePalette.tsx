@@ -60,6 +60,7 @@ import {
   initializePaletteStore,
 } from '../../stores/palette'
 import { clearHistory, flush, suppressHistory } from '../../stores/history'
+import { trackOnboardingEvent } from '../../external/tracking'
 import startTour, {
   showNoPaletteNotice,
 } from '../../external/onboarding/startTour'
@@ -460,6 +461,18 @@ export default class ManagePalette extends PureComponent<
         setInspectContext: (context) => ref.setInspectContext(context),
       },
       this.props.isCompact
+    )
+
+    trackOnboardingEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'START_TOUR',
+      }
     )
   }
 
