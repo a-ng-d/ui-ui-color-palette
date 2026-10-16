@@ -124,7 +124,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
       dev: {
         env: {
@@ -133,7 +137,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
       figjam: {
         env: {
@@ -142,7 +150,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
       buzz: {
         env: {
@@ -151,7 +163,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
     },
     dark: {
@@ -162,7 +178,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
       dev: {
         env: {
@@ -171,7 +191,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
       figjam: {
         env: {
@@ -180,7 +204,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
       buzz: {
         env: {
@@ -189,7 +217,11 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_FILE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
     },
   },
@@ -211,6 +243,7 @@ const specConfig: SpecConfig = {
             'PUBLISH_PALETTE',
             'REMOTE_PALETTES',
             'LOCAL_PALETTES_FILE',
+            'HELP_ONBOARDING_AUTO_DISPLAY',
           ],
           proFeatures,
           []
@@ -234,6 +267,7 @@ const specConfig: SpecConfig = {
             'PUBLISH_PALETTE',
             'REMOTE_PALETTES',
             'LOCAL_PALETTES_FILE',
+            'HELP_ONBOARDING_AUTO_DISPLAY',
           ],
           proFeatures,
           []
@@ -250,7 +284,11 @@ const specConfig: SpecConfig = {
           ui: 'sketch',
           colorMode: 'sketch-light',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_PAGE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
     },
     dark: {
@@ -261,7 +299,11 @@ const specConfig: SpecConfig = {
           ui: 'sketch',
           colorMode: 'sketch-dark',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_PAGE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
     },
   },
@@ -274,7 +316,11 @@ const specConfig: SpecConfig = {
           ui: 'framer',
           colorMode: 'framer-light',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_PAGE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
     },
     dark: {
@@ -285,7 +331,11 @@ const specConfig: SpecConfig = {
           ui: 'framer',
           colorMode: 'framer-dark',
         },
-        features: doSpecificMode(['LOCAL_PALETTES_PAGE'], proFeatures, []),
+        features: doSpecificMode(
+          ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
+          proFeatures,
+          []
+        ),
       },
     },
   },
