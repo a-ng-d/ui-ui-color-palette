@@ -4,6 +4,7 @@ import {
   DatesConfiguration,
   ExchangeConfiguration,
   PublicationConfiguration,
+  SystemConfiguration,
   ThemeConfiguration,
   makeDefaultShift,
 } from '@yelbolt/engine-ui-color-palette'
@@ -54,6 +55,10 @@ export const $creatorIdentity = map<CreatorConfiguration>({
   creatorId: '',
   creatorFullName: '',
   creatorAvatar: '',
+})
+export const $system = map<SystemConfiguration>({
+  schema: { groups: [] },
+  bindings: [],
 })
 
 export const initializePaletteStore = () => {

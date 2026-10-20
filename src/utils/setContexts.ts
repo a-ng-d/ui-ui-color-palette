@@ -151,6 +151,27 @@ export const setContexts = (
       currentService: service,
       currentEditor: editor,
     }),
+    TAXONOMY: new FeatureStatus({
+      features: features,
+      featureName: 'TAXONOMY',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    BINDING: new FeatureStatus({
+      features: features,
+      featureName: 'BINDING',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    VISUALIZE: new FeatureStatus({
+      features: features,
+      featureName: 'VISUALIZE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   }
 
   const contexts: Array<{
@@ -299,6 +320,27 @@ export const setContexts = (
       isUpdated: false,
       isNew: featuresList.EXPLORE.isNew(),
       isActive: featuresList.EXPLORE.isActive(),
+    },
+    {
+      label: locales('contexts.taxonomy'),
+      id: 'TAXONOMY',
+      isUpdated: false,
+      isNew: featuresList.TAXONOMY.isNew(),
+      isActive: featuresList.TAXONOMY.isActive(),
+    },
+    {
+      label: locales('contexts.binding'),
+      id: 'BINDING',
+      isUpdated: false,
+      isNew: featuresList.BINDING.isNew(),
+      isActive: featuresList.BINDING.isActive(),
+    },
+    {
+      label: locales('contexts.visualize'),
+      id: 'VISUALIZE',
+      isUpdated: false,
+      isNew: featuresList.VISUALIZE.isNew(),
+      isActive: featuresList.VISUALIZE.isActive(),
     },
   ]
 

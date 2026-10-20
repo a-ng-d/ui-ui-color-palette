@@ -25,7 +25,7 @@ export type UserTheme = 'dark' | 'light' | 'system'
 
 export type Service = 'MANAGE' | 'COMBINE'
 export type Subservice = 'BROWSE' | 'OPEN'
-export type Mode = 'EDIT' | 'INSPECT' | 'EXPORT'
+export type Mode = 'EDIT' | 'INSPECT' | 'STRUCTURE' | 'EXPORT'
 export type PalettesView = 'LIST' | 'MOSAIC'
 export type Context =
   | 'GEN'
@@ -48,6 +48,9 @@ export type Context =
   | 'SETTINGS'
   | 'REPORT'
   | 'PROPERTIES'
+  | 'TAXONOMY'
+  | 'BINDING'
+  | 'VISUALIZE'
 
 export interface ContextItem {
   label: string
