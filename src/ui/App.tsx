@@ -365,11 +365,22 @@ class App extends Component<AppProps, AppState> {
                     },
                   ],
                 },
+                pluginId: this.props.config.env.pluginId,
               },
               this.props.config.urls.platformUrl
             )
           },
           SIGNED_OUT: () => {
+            sendPluginMessage(
+              {
+                pluginMessage: {
+                  type: 'DELETE_ITEMS',
+                  items: ['supabase_access_token', 'supabase_refresh_token'],
+                },
+                pluginId: this.props.config.env.pluginId,
+              },
+              this.props.config.urls.platformUrl
+            )
             this.setState({
               userSession: {
                 connectionStatus: 'UNCONNECTED',
