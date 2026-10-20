@@ -11,3 +11,7 @@ export const initSupabase = (url: string, key: string) => {
 export const getSupabase = () => {
   return supabaseInstance
 }
+
+export { default as fetchUserEntitlements } from './fetchUserEntitlements'
+export { default as checkConnectionStatus } from './checkConnectionStatus'
+export { signIn, signOut } from './authentication'

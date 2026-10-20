@@ -133,15 +133,17 @@ export default class SyncPreferences extends PureComponent<
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'UPDATE_STYLES_DEEP_SYNC' },
+                    },
               },
               '*'
             )
@@ -192,15 +194,17 @@ export default class SyncPreferences extends PureComponent<
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'UPDATE_VARIABLES_DEEP_SYNC' },
+                    },
               },
               '*'
             )
@@ -251,15 +255,17 @@ export default class SyncPreferences extends PureComponent<
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isNew()}
           feature="UPDATE_TOKENS_DEEP_SYNC"
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'UPDATE_TOKENS_DEEP_SYNC' },
+                    },
               },
               '*'
             )

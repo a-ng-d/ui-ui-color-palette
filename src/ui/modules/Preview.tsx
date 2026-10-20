@@ -18,7 +18,7 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { Bar, Chip, DropdownOption, Layout, layouts } from '@unoff/ui'
+import { Bar, Chip, DropdownOption, Layout } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Source from '../components/Source'
@@ -94,7 +94,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   private subscribeAPCAInterval: (() => void) | undefined
   private palette: typeof $palette
   private paletteContainerRef: RefObject<HTMLDivElement>
-  private theme: string | null
   private colorCache: Map<string, HexModel>
 
   static defaultProps = {
@@ -105,7 +104,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   constructor(props: PreviewProps) {
     super(props)
     this.palette = $palette
-    this.theme = document.documentElement.getAttribute('data-theme')
     this.state = {
       isWCAGDisplayed: true,
       isAPCADisplayed: true,
@@ -143,6 +141,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
     const prev = prevProps.selectedShade
     const next = this.props.selectedShade
     if (
+      !this.props.isCompact &&
       next &&
       (prev?.colorIndex !== next.colorIndex ||
         prev?.shadeIndex !== next.shadeIndex)
@@ -166,7 +165,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
   // Handlers
   scrollToSelectedShade = (colorIndex: number, shadeIndex: number) => {
     const container = this.paletteContainerRef.current
-    if (!container) return
+    if (!container || this.props.isCompact) return
 
     const cell = container.querySelector(
       `[data-shade-key="${colorIndex}-${shadeIndex}"]`
@@ -193,7 +192,7 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
 
   handleHorizontalScroll = (e: WheelEvent) => {
     const container = this.paletteContainerRef.current
-    if (!container) return
+    if (!container || this.props.isCompact) return
 
     if (e.deltaX !== 0) return
 
@@ -782,7 +781,11 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
             node: (
               <>
                 <div
-                  className="preview__palette"
+                  className={
+                    this.props.isCompact
+                      ? 'preview__palette preview__palette--compact'
+                      : 'preview__palette'
+                  }
                   ref={this.paletteContainerRef}
                 >
                   <div className="preview__header">
@@ -975,21 +978,19 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                 </div>
                 <Bar
                   leftPartSlot={
-                    <div className={layouts['snackbar--medium']}>
-                      <ScoresControls
-                        {...this.props}
-                        isWCAGDisplayed={this.state.isWCAGDisplayed}
-                        isAPCADisplayed={this.state.isAPCADisplayed}
-                        isWCAGIntervalDisplayed={
-                          this.state.isWCAGIntervalDisplayed
-                        }
-                        isAPCAIntervalDisplayed={
-                          this.state.isAPCAIntervalDisplayed
-                        }
-                        scoreFilters={this.state.scoreFilters}
-                        onUpdateScoreFilters={this.updateScoreFilters}
-                      />
-                    </div>
+                    <ScoresControls
+                      {...this.props}
+                      isWCAGDisplayed={this.state.isWCAGDisplayed}
+                      isAPCADisplayed={this.state.isAPCADisplayed}
+                      isWCAGIntervalDisplayed={
+                        this.state.isWCAGIntervalDisplayed
+                      }
+                      isAPCAIntervalDisplayed={
+                        this.state.isAPCAIntervalDisplayed
+                      }
+                      scoreFilters={this.state.scoreFilters}
+                      onUpdateScoreFilters={this.updateScoreFilters}
+                    />
                   }
                   rightPartSlot={
                     <SettingsControls
@@ -998,7 +999,6 @@ export default class Preview extends PureComponent<PreviewProps, PreviewState> {
                     />
                   }
                   isInverted
-                  shouldReflow
                   border={['TOP']}
                 />
               </>

@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "Add to local",
     "addToSource": "Add to source",
+    "copyPaletteLink": "Copy palette link",
     "createPalette": "New UI Color Palette",
     "duplicate": "Duplicate",
     "export": "Export palette as {format}",
@@ -85,14 +86,17 @@
       "paletteWithProperties": "Detailed color palette",
       "sheet": "Full color sheet"
     },
+    "giveFeedback": "Submit feedback",
     "moreActions": "More actions",
     "publishOrSyncPalette": "Publish or Synchronize palette",
     "publishPalette": "Publish palette",
     "pushUpdates": "Push updates to the document",
     "redo": "Redo",
     "savePalette": "Save UI Color Palette",
+    "simulatePalette": "Simulate on selection",
+    "simulateSelectionHelper": "Apply the nearest palette colors to the selected layers",
     "sourceColorsNumber": "{count, plural, one {1 source color} other {# source colors} =0 {No source color}}",
-    "sync": "Synchronize…",
+    "sync": "Synchronize palette",
     "syncLocalStyles": "Sync with local styles",
     "syncLocalTokens": "Sync with local tokens",
     "syncLocalVariables": "Sync with local variables",
@@ -170,6 +174,10 @@
     "signInFirst": {
       "message": "Find and use your own and starred palettes once authenticated",
       "signIn": "Sign in to fetch your palettes"
+    },
+    "views": {
+      "list": "List view",
+      "mosaic": "Mosaic view"
     }
   },
   "colors": {
@@ -281,6 +289,8 @@
     "announcements": "The announcements cannot be loaded",
     "authentication": "The authentication has failed",
     "badResponse": "The response is not valid",
+    "copyLink": "Couldn't copy the link automatically. Copy it from the address bar instead.",
+    "copyLinkNoPalette": "No palette open to share yet.",
     "corruption": "Your UI Color Palette seems corrupted. Do not edit any layer within it.",
     "document": "The document cannot be generated",
     "export": "The code cannot be generated because the palette has not been found",
@@ -291,6 +301,7 @@
     "onboarding": "The onboarding cannot be loaded",
     "openPalette": "The palette cannot be opened",
     "palette": "The palette cannot be created",
+    "paletteAccessDenied": "You don't have access to this palette.",
     "paletteSizeExceeded": "The palette size exceeds the limit. Please reduce the number of color modes, source colors or shades/tints.",
     "palettesPicking": "The palettes cannot be picked for now",
     "publication": "The palette cannot be published",
@@ -337,8 +348,8 @@
       "violet": "Violet",
       "yellow": "Yellow"
     },
-    "meta": "{votes} votes・{views} views・{comments} comments",
-    "title": "Colour Lovers"
+    "meta": "{likes} likes・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -524,6 +535,7 @@
     "askDesigner": "or ask designers to create a palette",
     "contrastRatioOnFree": "Upgrade to /pro to adjust the scale using the contrast ratio of the shades/tints with their foreground colors",
     "copiedCode": "The code has been copied to the clipboard",
+    "copiedHex": "{hex} copied to the clipboard",
     "createdLocalModes": "{count, plural, one {1 mode created} other {# modes created} =0 {No mode created}}",
     "createdLocalStyles": "{count, plural, one {1 style created} other {# styles created} =0 {No style created}}",
     "createdLocalThemes": "{count, plural, one {1 theme created} other {# themes created} =0 {No theme created}}",
@@ -621,7 +633,7 @@
         "generateColorSheet": "Generate a color sheet: {fee} cdts",
         "generateDetailedPalette": "Generate a detailed palette: {fee} cdts",
         "generateSimplePalette": "Generate a simple palette: {fee} cdts",
-        "importColourLovers": "Import a palette from Colour Lovers: {fee} cdts",
+        "importColourLovers": "Import a palette from Color Hunt: {fee} cdts",
         "importCoolors": "Import a palette from Coolors: {fee} cdts",
         "importRealtimeColors": "Import a palette from Realtime Colors: {fee} cdts",
         "syncLocalStyles": "Sync with local styles: {fee} cdts",
@@ -653,6 +665,7 @@
       "collapsePreview": "Collapse preview",
       "colorSpace": "Color space",
       "copyHex": "Copy hex code to clipboard",
+      "copyHexOnClick": "Click the color to copy its hex code",
       "displayScores": "Show scores",
       "expandPreview": "Expand preview",
       "filterScores": "Filter scores",
@@ -940,18 +953,20 @@
     },
     "shift": {
       "chroma": {
-        "helper": "Chroma is how colorful or saturated a color looks. This shift applies to every color in the palette at once, except a color whose chroma has been adjusted individually — that color keeps its own value until it's reset.",
+        "helper": "Chroma is how colorful or saturated a color looks. This shift applies to every color in the palette at once, except a color whose chroma has been adjusted individually: that color keeps its own value until it's reset.",
         "label": "Chroma",
         "warning": "Upgrade to /pro to create a palette with a modified chroma shift. Reset it to 100% or upgrade."
       },
       "curve": {
         "free": "Free",
         "hyperbola": "Hyperbola",
+        "hyperbolaLabel": "L/R",
         "label": "Distribution",
-        "linear": "Linear"
+        "linear": "Linear",
+        "linearLabel": "Global"
       },
       "hue": {
-        "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually — that color keeps its own value until it's reset.",
+        "helper": "Hue is a color's position on the color wheel. This shift applies to every color in the palette at once, except a color whose hue has been adjusted individually: that color keeps its own value until it's reset.",
         "label": "Hue"
       },
       "threshold": {
@@ -1031,6 +1046,7 @@
   },
   "separator": "・",
   "services": {
+    "combine": "Colors combinator",
     "explore": "Explorer",
     "extract": "Image palette",
     "generate": "AI Colors",
@@ -1312,7 +1328,7 @@
       "title": "Pick the colors that drive your palette"
     },
     "export": {
-      "description": "Generate production-ready code — copy, paste, ship.",
+      "description": "Generate production-ready code: copy, paste, ship.",
       "title": "Export to Tailwind, CSS variables & W3C tokens"
     },
     "imports": {
@@ -1333,7 +1349,7 @@
       "title": "Check contrast for every shade pair"
     },
     "scale": {
-      "description": "Set your lightness stops and easing curve — every shade is calculated from here.",
+      "description": "Set your lightness stops and easing curve: every shade is calculated from here.",
       "title": "Sculpt the distribution of your shades"
     },
     "scoresControls": {
@@ -1345,7 +1361,7 @@
       "title": "Fine-tune your palette generation settings"
     },
     "themes": {
-      "description": "Switch between dark mode, brand variants, and more — all from the same source.",
+      "description": "Switch between dark mode, brand variants, and more, all from the same source.",
       "title": "Build multiple themes from one palette"
     }
   },
@@ -1447,6 +1463,13 @@
     },
     "signIn": "Sign in",
     "signOut": "Sign out",
+    "theme": {
+      "dark": "Dark",
+      "label": "Change theme",
+      "light": "Light",
+      "system": "System",
+      "title": "Theme"
+    },
     "updateConsent": "Manage cookies",
     "updatePreferences": "Update preferences",
     "useLicense": "Use license key",
@@ -1463,6 +1486,7 @@
     }
   },
   "warning": {
+    "emptySelection": "Select at least one layer to simulate the palette on",
     "emptySourceColors": "There are no source colors. Add them manually in the Colors section.",
     "hslColorSpace": "The HSL color space may include the source colors in the palette, but this approach will not ensure consistency in lightness and contrast.",
     "noCommunityPaletteOnRemote": "This is quite empty around here! Be the first to share your palette with other users!",

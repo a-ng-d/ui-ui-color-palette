@@ -28,13 +28,11 @@ import { ManagePaletteState } from '../services/ManagePalette'
 import ContrastReport from '../modules/preview/ContrastReport'
 import Preview from '../modules/Preview'
 import Actions from '../modules/Actions'
-import Themes from '../contexts/Themes'
 import Properties from '../contexts/Properties'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
-import { setContexts } from '../../utils/setContexts'
-import { sendPluginMessage } from '../../utils/pluginMessage'
+import { resolveContext, setContexts } from '../../utils/setContexts'
 import { PluginMessageData, ThemesMessage } from '../../types/messages'
 import {
   BaseProps,
@@ -100,9 +98,7 @@ export default class EditPalette extends PureComponent<
 > {
   private themesMessage: ThemesMessage
   private contexts: Array<ContextItem>
-  private themesRef: RefObject<Themes>
   private previewRef: RefObject<Preview>
-  private theme: string | null
   private palette: typeof $palette
 
   static features = (
@@ -167,14 +163,12 @@ export default class EditPalette extends PureComponent<
     )
     this.palette = $palette
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      context: resolveContext(this.contexts),
       isPrimaryLoading: false,
       isSecondaryLoading: false,
       shadeReport: null,
     }
-    this.themesRef = createRef()
     this.previewRef = createRef()
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -252,8 +246,6 @@ export default class EditPalette extends PureComponent<
     this.palette.setKey('visionSimulationMode', newVisionSimulationMode)
     this.palette.setKey('textColorsTheme', newTextColorsTheme)
     $themes.set(this.themesMessage.data)
-
-    sendPluginMessage({ pluginMessage: this.themesMessage }, '*')
   }
 
   setThemes = (): Array<DropdownOption> => {
@@ -384,10 +376,7 @@ export default class EditPalette extends PureComponent<
                       <section className="context">
                         <div
                           style={{
-                            minWidth:
-                              this.props.documentWidth > 460
-                                ? '200px'
-                                : 'unset',
+                            minWidth: !this.props.isMobile ? '320px' : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
                             height: '100%',
@@ -397,10 +386,9 @@ export default class EditPalette extends PureComponent<
                         </div>
                       </section>
                     ),
-                    typeModifier:
-                      this.props.documentWidth > 460
-                        ? ('DRAWER' as const)
-                        : ('BLANK' as const),
+                    typeModifier: !this.props.isMobile
+                      ? ('DRAWER' as const)
+                      : ('BLANK' as const),
                     drawerOptions: {
                       minSize: {
                         value: 48,
@@ -428,7 +416,7 @@ export default class EditPalette extends PureComponent<
                   leftPartSlot={
                     <div
                       className={doClassnames([
-                        this.props.documentWidth > 460
+                        !this.props.isMobile
                           ? layouts['stackbar--medium']
                           : layouts['snackbar--medium'],
                         layouts['stackbar--wrap'],
@@ -496,15 +484,14 @@ export default class EditPalette extends PureComponent<
                       />
                     </div>
                   }
-                  isVertical={this.props.documentWidth > 460}
+                  isVertical={!this.props.isMobile}
                   shouldReflow
                 />
               ),
               typeModifier: ['FIXED', 'BLANK'],
-              fixedWidth:
-                this.props.documentWidth > 460
-                  ? 'var(--bar-min-height)'
-                  : undefined,
+              fixedWidth: !this.props.isMobile
+                ? 'var(--bar-min-height)'
+                : undefined,
             },
           ]}
           isFullHeight

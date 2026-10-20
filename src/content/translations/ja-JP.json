@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "ローカルに追加",
     "addToSource": "ソースに追加",
+    "copyPaletteLink": "パレットのリンクをコピー",
     "createPalette": "新しいUI Color Palette",
     "duplicate": "複製",
     "export": "{format}としてパレットをエクスポート",
@@ -85,14 +86,17 @@
       "paletteWithProperties": "詳細なカラーパレット",
       "sheet": "完全なカラーシート"
     },
+    "giveFeedback": "フィードバックを送る",
     "moreActions": "その他のアクション",
     "publishOrSyncPalette": "パレットを公開または同期",
     "publishPalette": "パレットを公開",
     "pushUpdates": "ドキュメントに更新を送信",
     "redo": "やり直す",
     "savePalette": "UI Color Paletteを保存",
+    "simulatePalette": "選択範囲でシミュレート",
+    "simulateSelectionHelper": "選択したレイヤーにパレットの最も近いカラーを適用します",
     "sourceColorsNumber": "{count, plural, one {ソースカラー1色} other {ソースカラー#色} =0 {ソースカラーなし}}",
-    "sync": "同期…",
+    "sync": "パレットを同期",
     "syncLocalStyles": "ローカルスタイルと同期",
     "syncLocalTokens": "ローカルトークンと同期",
     "syncLocalVariables": "ローカル変数と同期",
@@ -170,6 +174,10 @@
     "signInFirst": {
       "message": "サインインすると自分のパレットやお気に入りのパレットを見つけて使用できます",
       "signIn": "パレットを読み込むにはサインインしてください"
+    },
+    "views": {
+      "list": "リスト表示",
+      "mosaic": "タイル表示"
     }
   },
   "colors": {
@@ -281,6 +289,8 @@
     "announcements": "お知らせを読み込めません",
     "authentication": "認証に失敗しました",
     "badResponse": "レスポンスが無効です",
+    "copyLink": "リンクを自動的にコピーできませんでした。アドレスバーからコピーしてください。",
+    "copyLinkNoPalette": "共有できるパレットがまだ開かれていません。",
     "corruption": "UI Color Paletteが壊れているようです。内部のレイヤーを編集しないでください。",
     "document": "ドキュメントを生成できません",
     "export": "パレットが見つからないためコードを生成できません",
@@ -291,6 +301,7 @@
     "onboarding": "オンボーディングを読み込めません",
     "openPalette": "パレットを開けません",
     "palette": "パレットを作成できません",
+    "paletteAccessDenied": "このパレットへのアクセス権がありません。",
     "paletteSizeExceeded": "パレットのサイズが上限を超えています。カラーモード、ソースカラー、またはストップの数を減らしてください。",
     "palettesPicking": "現在パレットを選択できません",
     "publication": "パレットを公開できません",
@@ -337,8 +348,8 @@
       "violet": "バイオレット",
       "yellow": "イエロー"
     },
-    "meta": "{votes}票・{views}回表示・{comments}コメント",
-    "title": "Colour Lovers"
+    "meta": "{likes}いいね・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -524,6 +535,7 @@
     "askDesigner": "またはデザイナーにパレットの作成を依頼",
     "contrastRatioOnFree": "/proにアップグレードして、シェード・ティントと前景色のコントラスト比を使ってスケールを調整",
     "copiedCode": "コードをクリップボードにコピーしました",
+    "copiedHex": "{hex} をクリップボードにコピーしました",
     "createdLocalModes": "{count, plural, one {1つのモードを作成しました} other {#つのモードを作成しました} =0 {モードは作成されませんでした}}",
     "createdLocalStyles": "{count, plural, one {1つのスタイルを作成しました} other {#つのスタイルを作成しました} =0 {スタイルは作成されませんでした}}",
     "createdLocalThemes": "{count, plural, one {1つのテーマを作成しました} other {#つのテーマを作成しました} =0 {テーマは作成されませんでした}}",
@@ -621,7 +633,7 @@
         "generateColorSheet": "カラーシートを生成：{fee} cdts",
         "generateDetailedPalette": "詳細なパレットを生成：{fee} cdts",
         "generateSimplePalette": "シンプルなパレットを生成：{fee} cdts",
-        "importColourLovers": "Colour Loversからパレットをインポート：{fee} cdts",
+        "importColourLovers": "Color Huntからパレットをインポート：{fee} cdts",
         "importCoolors": "Coolorsからパレットをインポート：{fee} cdts",
         "importRealtimeColors": "Realtime Colorsからパレットをインポート：{fee} cdts",
         "syncLocalStyles": "ローカルスタイルと同期：{fee} cdts",
@@ -653,6 +665,7 @@
       "collapsePreview": "プレビューを折りたたむ",
       "colorSpace": "カラースペース",
       "copyHex": "16進数コードをクリップボードにコピー",
+      "copyHexOnClick": "カラーをクリックして16進コードをコピー",
       "displayScores": "スコアを表示",
       "expandPreview": "プレビューを展開",
       "filterScores": "スコアをフィルター",
@@ -947,8 +960,10 @@
       "curve": {
         "free": "自由",
         "hyperbola": "双曲線",
+        "hyperbolaLabel": "左/右",
         "label": "分布",
-        "linear": "リニア"
+        "linear": "リニア",
+        "linearLabel": "全体"
       },
       "hue": {
         "helper": "色相は色相環上での色の位置を表します。このシフトはパレット内のすべての色に一括で適用されますが、色相を個別に調整した色には適用されず、その色はリセットするまで独自の値を保持します。",
@@ -1031,6 +1046,7 @@
   },
   "separator": "・",
   "services": {
+    "combine": "カラーコンビネーター",
     "explore": "エクスプローラー",
     "extract": "画像パレット",
     "generate": "AIカラー",
@@ -1312,7 +1328,7 @@
       "title": "パレットを動かす色を選ぼう"
     },
     "export": {
-      "description": "本番対応コードを生成しよう — コピー、ペースト、出荷。",
+      "description": "本番対応コードを生成しよう：コピー、ペースト、出荷。",
       "title": "Tailwind、CSS変数、W3Cトークンにエクスポートしよう"
     },
     "imports": {
@@ -1333,7 +1349,7 @@
       "title": "すべてのシェードペアのコントラストを確認しよう"
     },
     "scale": {
-      "description": "明るさのストップとイージングカーブを設定しよう — すべてのシェードはここから計算される。",
+      "description": "明るさのストップとイージングカーブを設定しよう：すべてのシェードはここから計算される。",
       "title": "シェードの分布を整える"
     },
     "scoresControls": {
@@ -1345,7 +1361,7 @@
       "title": "パレット生成の設定を微調整しよう"
     },
     "themes": {
-      "description": "ダークモード、ブランドバリアントなどを切り替えよう — すべて同じソースから。",
+      "description": "ダークモード、ブランドバリアントなどを同じソースから切り替えよう。",
       "title": "1つのパレットから複数のテーマを作ろう"
     }
   },
@@ -1447,6 +1463,13 @@
     },
     "signIn": "サインイン",
     "signOut": "サインアウト",
+    "theme": {
+      "dark": "ダーク",
+      "label": "テーマを変更",
+      "light": "ライト",
+      "system": "システム",
+      "title": "テーマ"
+    },
     "updateConsent": "クッキーを管理",
     "updatePreferences": "設定を更新",
     "useLicense": "ライセンスキーを使用",
@@ -1463,6 +1486,7 @@
     }
   },
   "warning": {
+    "emptySelection": "パレットをシミュレートするレイヤーを1つ以上選択してください",
     "emptySourceColors": "ソースカラーがありません。カラーセクションで手動で追加してください。",
     "hslColorSpace": "HSLカラースペースはパレットにソースカラーを含めることができますが、このアプローチは明度とコントラストの一貫性を保証しません。",
     "noCommunityPaletteOnRemote": "まだ何もありません！最初にパレットを他のユーザーと共有しましょう。",

@@ -9,7 +9,7 @@ import PagePalettes from '../modules/palettes/PagePalettes'
 import FilePalettes from '../modules/palettes/FilePalettes'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
-import { setContexts } from '../../utils/setContexts'
+import { resolveContext, setContexts } from '../../utils/setContexts'
 import {
   BaseProps,
   Context,
@@ -81,7 +81,7 @@ export default class LocalPalettes extends PureComponent<
       props.t
     )
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      context: resolveContext(this.contexts),
     }
   }
 

@@ -21,7 +21,10 @@ interface PlanControlsProps
   creditsRenewalDate: number
 }
 
-export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
+export default class PlanControls extends PureComponent<
+  PlanControlsProps,
+  PlanControlsState
+> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (
@@ -427,15 +430,14 @@ export default class PlanControls extends PureComponent<PlanControlsProps, PlanC
           isBlocked={this.features.INVOLVE_FEEDBACK.isBlocked()}
           isNew={this.features.INVOLVE_FEEDBACK.isNew()}
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : { type: 'GET_PRO', data: { origin: 'INVOLVE_FEEDBACK' } },
               },
               '*'
             )
@@ -474,20 +476,19 @@ export default class PlanControls extends PureComponent<PlanControlsProps, PlanC
               size="small"
               icon="lock-off"
               label={this.props.t('plan.getPro')}
-              action={() =>
+              action={() => {
+                const isTrial =
+                  this.props.config.plan.isTrialEnabled &&
+                  this.props.trialStatus !== 'EXPIRED'
                 sendPluginMessage(
                   {
-                    pluginMessage: {
-                      type:
-                        this.props.config.plan.isTrialEnabled &&
-                        this.props.trialStatus !== 'EXPIRED'
-                          ? 'GET_TRIAL'
-                          : 'GET_PRO',
-                    },
+                    pluginMessage: isTrial
+                      ? { type: 'GET_TRIAL' }
+                      : { type: 'GET_PRO', data: { origin: 'PRICING' } },
                   },
                   '*'
                 )
-              }
+              }}
             />
           ),
           isActive: this.features.PRICING.isActive(),
@@ -523,7 +524,12 @@ export default class PlanControls extends PureComponent<PlanControlsProps, PlanC
                       '*'
                     )
                   : sendPluginMessage(
-                      { pluginMessage: { type: 'GET_PRO' } },
+                      {
+                        pluginMessage: {
+                          type: 'GET_PRO',
+                          data: { origin: 'PRICING' },
+                        },
+                      },
                       '*'
                     )
               }}
@@ -577,6 +583,7 @@ export default class PlanControls extends PureComponent<PlanControlsProps, PlanC
                   {
                     pluginMessage: {
                       type: 'GET_PRO',
+                      data: { origin: 'PRICING' },
                     },
                   },
                   '*'

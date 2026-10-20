@@ -150,6 +150,7 @@ export interface ActionEvent {
     | 'SYNC_STYLES'
     | 'SYNC_VARIABLES'
     | 'SYNC_TOKENS'
+    | 'SIMULATE_PALETTE'
     | 'GENERATE_PALETTE'
     | 'GENERATE_PALETTE_WITH_PROPERTIES'
     | 'GENERATE_SHEET'
@@ -162,7 +163,7 @@ export interface ActionEvent {
 }
 
 export interface TourEvent {
-  feature: 'NEXT_STEP' | 'LEARN_MORE' | 'END_TOUR'
+  feature: 'START_TOUR' | 'NEXT_STEP' | 'LEARN_MORE' | 'END_TOUR'
 }
 
 export interface PricingEvent {
@@ -174,6 +175,7 @@ export interface PricingEvent {
     | 'GO_TO_PRO_LIFETIME'
     | 'GO_TO_ULTIMATE_REQUEST'
     | 'RESET_AND_CONTINUE'
+  origin?: string
 }
 
 export interface LanguageEvent {

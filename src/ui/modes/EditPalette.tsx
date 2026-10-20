@@ -29,6 +29,7 @@ import { Bar, Button, Layout, layouts } from '@unoff/ui'
 import { OpenPaletteState } from '../subservices/OpenPalette'
 import { ManagePaletteState } from '../services/ManagePalette'
 import Preview from '../modules/Preview'
+import Inspector from '../modules/Inspector'
 import Actions from '../modules/Actions'
 import Themes from '../contexts/Themes'
 import Settings from '../contexts/Settings'
@@ -39,8 +40,13 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import UndoRedoButtons from '../components/UndoRedoButtons'
 import Feature from '../components/Feature'
-import { setContexts } from '../../utils/setContexts'
+import { getWorkingThemes } from '../../utils/workingThemes'
+import { resolveContext, setContexts } from '../../utils/setContexts'
 import { computeScaleForStops } from '../../utils/scaleStops'
+import {
+  getPublicationIcon,
+  getPublicationLabel,
+} from '../../utils/publication'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
   ColorsMessage,
@@ -103,6 +109,7 @@ interface EditPaletteState {
   context: Context | ''
   isPrimaryLoading: boolean
   isSecondaryLoading: boolean
+  isTertiaryLoading: boolean
 }
 
 export default class EditPalette extends PureComponent<
@@ -115,8 +122,8 @@ export default class EditPalette extends PureComponent<
   private contexts: Array<ContextItem>
   private themesRef: RefObject<Themes>
   private previewRef: RefObject<Preview>
+  private inspectorRef: RefObject<Inspector>
   private palette: typeof $palette
-  private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
@@ -173,9 +180,9 @@ export default class EditPalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
-    PUBLICATION: new FeatureStatus({
+    PUBLISHING: new FeatureStatus({
       features: config.features,
-      featureName: 'PUBLICATION',
+      featureName: 'PUBLISHING',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -218,13 +225,14 @@ export default class EditPalette extends PureComponent<
       props.t
     )
     this.state = {
-      context: this.contexts[0] !== undefined ? this.contexts[0].id : '',
+      context: resolveContext(this.contexts),
       isPrimaryLoading: false,
       isSecondaryLoading: false,
+      isTertiaryLoading: false,
     }
     this.themesRef = createRef()
     this.previewRef = createRef()
-    this.theme = document.documentElement.getAttribute('data-theme')
+    this.inspectorRef = createRef()
   }
 
   // Lifecycle
@@ -268,6 +276,7 @@ export default class EditPalette extends PureComponent<
         this.setState({
           isPrimaryLoading: false,
           isSecondaryLoading: false,
+          isTertiaryLoading: false,
         }),
       DEFAULT: () => null,
     }
@@ -602,37 +611,9 @@ export default class EditPalette extends PureComponent<
       }
   }
 
-  publicationLabel = (): string => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return this.props.t('actions.publishOrSyncPalette')
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return this.props.t('actions.publishPalette')
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return this.props.t('actions.syncPalette')
-    else return this.props.t('actions.publishPalette')
-  }
+  publicationLabel = (): string => getPublicationLabel(this.props)
 
-  publicationIcon = (): IconList => {
-    if (this.props.userSession?.connectionStatus === 'UNCONNECTED')
-      return 'library'
-    else if (
-      this.props.userSession?.userId === this.props.creatorIdentity?.creatorId
-    )
-      return 'library'
-    else if (
-      this.props.userSession?.userId !==
-        this.props.creatorIdentity?.creatorId &&
-      this.props.creatorIdentity?.creatorId !== ''
-    )
-      return 'swap'
-    else return 'library'
-  }
+  publicationIcon = (): IconList => getPublicationIcon(this.props)
 
   // Direct Actions
   onSyncStyles = () => {
@@ -693,6 +674,29 @@ export default class EditPalette extends PureComponent<
         ?.isConsented ?? false,
       {
         feature: 'SYNC_VARIABLES',
+      }
+    )
+  }
+
+  onSimulatePalette = () => {
+    this.setState({
+      isTertiaryLoading: true,
+    })
+
+    sendPluginMessage(
+      { pluginMessage: { type: 'SIMULATE_PALETTE', id: this.props.id } },
+      '*'
+    )
+
+    trackActionEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'SIMULATE_PALETTE',
       }
     )
   }
@@ -832,22 +836,22 @@ export default class EditPalette extends PureComponent<
         isBlocked: this.features.THEMES.isBlocked(),
         isNew: this.features.THEMES.isNew(),
         onBlock: () => {
+          const isTrial =
+            this.props.config.plan.isTrialEnabled &&
+            this.props.trialStatus !== 'EXPIRED'
           sendPluginMessage(
             {
-              pluginMessage: {
-                type:
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                    ? 'GET_TRIAL'
-                    : 'GET_PRO',
-              },
+              pluginMessage: isTrial
+                ? { type: 'GET_TRIAL' }
+                : { type: 'GET_PRO', data: { origin: 'ADD_THEME' } },
             },
             '*'
           )
         },
         action: () => {
           this.setState({ context: 'THEMES' })
-          setTimeout(() => this.themesRef.current?.onAddTheme(), 1)
+          if (this.props.isCompact) this.inspectorRef.current?.addTheme()
+          else setTimeout(() => this.themesRef.current?.onAddTheme(), 1)
         },
       },
     ]
@@ -855,12 +859,10 @@ export default class EditPalette extends PureComponent<
     return themes.concat(actions)
   }
 
-  workingThemes = () => {
-    if (this.props.themes.length > 1)
-      return this.props.themes.filter((theme) => theme.type === 'custom theme')
-    else
-      return this.props.themes.filter((theme) => theme.type === 'default theme')
-  }
+  focusInspectorSection = (context: Context | '') =>
+    this.inspectorRef.current?.focusSection(context)
+
+  workingThemes = () => getWorkingThemes(this.props.themes)
 
   onJumpToSourceColor = () => {
     this.setState({
@@ -1015,6 +1017,83 @@ export default class EditPalette extends PureComponent<
       }
     }
 
+    if (this.props.isCompact)
+      return (
+        <>
+          <Feature isActive={this.features.ACTIONS.isActive()}>
+            <Actions
+              {...this.props}
+              {...this.state}
+              mode="EDIT"
+              onSyncLocalStyles={this.onSyncStyles}
+              onSyncLocalVariables={this.onSyncVariables}
+              onSyncLocalTokens={this.onSyncTokens}
+              onSimulatePalette={this.onSimulatePalette}
+              onGenerateDocument={this.documentHandler}
+              onChangeView={this.onChangeView}
+            />
+          </Feature>
+          <Layout
+            id="edit-palette"
+            column={[
+              {
+                node: (
+                  <Feature isActive={this.features.PREVIEW.isActive()}>
+                    <Preview
+                      {...this.props}
+                      themeOptions={this.setThemes()}
+                      onAddColor={this.onAddColor}
+                      onAddStop={this.onAddStop}
+                      onInteractWithSourceColor={() =>
+                        this.onJumpToSourceColor()
+                      }
+                      ref={this.previewRef}
+                    />
+                  </Feature>
+                ),
+                typeModifier: 'BLANK',
+              },
+              {
+                node: (
+                  <Inspector
+                    {...this.props}
+                    onAddColor={this.onAddColor}
+                    onAddStop={this.onAddStop}
+                    onChangeScale={this.slideHandler}
+                    onChangeShift={this.shiftHandler}
+                    ref={this.inspectorRef}
+                  />
+                ),
+                typeModifier: !this.props.isMobile ? 'DRAWER' : 'BLANK',
+                drawerOptions: {
+                  minSize: {
+                    value: 320,
+                    unit: 'PIXEL' as const,
+                  },
+                  defaultSize: {
+                    value: 360,
+                    unit: 'PIXEL' as const,
+                  },
+                  maxSize: {
+                    value: 496,
+                    unit: 'PIXEL' as const,
+                  },
+                  pin: !this.props.isMobile
+                    ? ('RIGHT' as const)
+                    : ('BOTTOM' as const),
+                  direction: !this.props.isMobile
+                    ? ('HORIZONTAL' as const)
+                    : ('VERTICAL' as const),
+                },
+              },
+            ]}
+            isFullHeight
+            isFullWidth
+            shouldReflow
+          />
+        </>
+      )
+
     return (
       <>
         <Feature isActive={this.features.ACTIONS.isActive()}>
@@ -1025,6 +1104,7 @@ export default class EditPalette extends PureComponent<
             onSyncLocalStyles={this.onSyncStyles}
             onSyncLocalVariables={this.onSyncVariables}
             onSyncLocalTokens={this.onSyncTokens}
+            onSimulatePalette={this.onSimulatePalette}
             onGenerateDocument={this.documentHandler}
             onChangeView={this.onChangeView}
           />
@@ -1054,10 +1134,7 @@ export default class EditPalette extends PureComponent<
                       <section className="context">
                         <div
                           style={{
-                            minWidth:
-                              this.props.documentWidth > 460
-                                ? '200px'
-                                : 'unset',
+                            minWidth: !this.props.isMobile ? '320px' : 'unset',
                             overflow: 'hidden',
                             position: 'relative',
                             height: '100%',
@@ -1067,10 +1144,7 @@ export default class EditPalette extends PureComponent<
                         </div>
                       </section>
                     ),
-                    typeModifier:
-                      this.props.documentWidth > 460
-                        ? ('DRAWER' as const)
-                        : ('BLANK' as const),
+                    typeModifier: 'DRAWER' as const,
                     drawerOptions: {
                       minSize: {
                         value: 48,
@@ -1084,8 +1158,12 @@ export default class EditPalette extends PureComponent<
                         value: 496,
                         unit: 'PIXEL' as const,
                       },
-                      pin: 'RIGHT' as const,
-                      direction: 'HORIZONTAL' as const,
+                      pin: !this.props.isMobile
+                        ? ('RIGHT' as const)
+                        : ('BOTTOM' as const),
+                      direction: !this.props.isMobile
+                        ? ('HORIZONTAL' as const)
+                        : ('VERTICAL' as const),
                       onCollapse: () => this.setState({ context: '' }),
                     },
                   },
@@ -1098,7 +1176,7 @@ export default class EditPalette extends PureComponent<
                   leftPartSlot={
                     <div
                       className={doClassnames([
-                        this.props.documentWidth > 460
+                        !this.props.isMobile
                           ? layouts['stackbar--medium']
                           : layouts['snackbar--medium'],
                         layouts['stackbar--wrap'],
@@ -1209,7 +1287,7 @@ export default class EditPalette extends PureComponent<
                           }
                         />
                       </Feature>
-                      <Feature isActive={this.features.PUBLICATION.isActive()}>
+                      <Feature isActive={this.features.PUBLISHING.isActive()}>
                         <Button
                           id="tour-publication"
                           type="icon"
@@ -1247,15 +1325,14 @@ export default class EditPalette extends PureComponent<
                     </div>
                   }
                   rightPartSlot={<UndoRedoButtons />}
-                  isVertical={this.props.documentWidth > 460}
+                  isVertical={!this.props.isMobile}
                   shouldReflow
                 />
               ),
               typeModifier: ['FIXED', 'BLANK'],
-              fixedWidth:
-                this.props.documentWidth > 460
-                  ? 'var(--bar-min-height)'
-                  : undefined,
+              fixedWidth: !this.props.isMobile
+                ? 'var(--bar-min-height)'
+                : undefined,
             },
           ]}
           isFullHeight

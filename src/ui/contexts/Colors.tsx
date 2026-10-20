@@ -42,6 +42,7 @@ interface ColorsProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   colors: Array<ColorConfiguration>
   shift: ShiftConfiguration
+  isEmbedded?: boolean
 }
 
 const CURVE_TRACKING_FEATURE: Record<
@@ -564,15 +565,14 @@ export default class Colors extends PureComponent<ColorsProps> {
   }
 
   onShiftBlockHandler = () => {
+    const isTrial =
+      this.props.config.plan.isTrialEnabled &&
+      this.props.trialStatus !== 'EXPIRED'
     sendPluginMessage(
       {
-        pluginMessage: {
-          type:
-            this.props.config.plan.isTrialEnabled &&
-            this.props.trialStatus !== 'EXPIRED'
-              ? 'GET_TRIAL'
-              : 'GET_PRO',
-        },
+        pluginMessage: isTrial
+          ? { type: 'GET_TRIAL' }
+          : { type: 'GET_PRO', data: { origin: 'COLOR_SHIFTING' } },
       },
       '*'
     )
@@ -589,51 +589,55 @@ export default class Colors extends PureComponent<ColorsProps> {
           {
             node: (
               <>
-                <Bar
-                  id="colors-header"
-                  leftPartSlot={
-                    <SectionTitle
-                      label={this.props.t('colors.title')}
-                      indicator={this.props.colors.length.toString()}
-                    />
-                  }
-                  rightPartSlot={
-                    <Button
-                      type="icon"
-                      icon="plus"
-                      feature="ADD_COLOR"
-                      helper={{
-                        label: this.props.t('colors.actions.new'),
-                      }}
-                      isBlocked={this.features.COLORS_ADD.isReached(
-                        this.props.colors.length
-                      )}
-                      onBlock={() => {
-                        sendPluginMessage(
-                          {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
+                {!this.props.isEmbedded && (
+                  <Bar
+                    id="colors-header"
+                    leftPartSlot={
+                      <SectionTitle
+                        label={this.props.t('colors.title')}
+                        indicator={this.props.colors.length.toString()}
+                      />
+                    }
+                    rightPartSlot={
+                      <Button
+                        type="icon"
+                        icon="plus"
+                        feature="ADD_COLOR"
+                        helper={{
+                          label: this.props.t('colors.actions.new'),
+                        }}
+                        isBlocked={this.features.COLORS_ADD.isReached(
+                          this.props.colors.length
+                        )}
+                        onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
+                          sendPluginMessage(
+                            {
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'ADD_COLOR' },
+                                  },
                             },
-                          },
-                          '*'
-                        )
-                      }}
-                      action={(e: Event) => this.colorsHandler(e)}
-                    />
-                  }
-                  clip={['LEFT']}
-                  border={['BOTTOM']}
-                />
+                            '*'
+                          )
+                        }}
+                        action={(e: Event) => this.colorsHandler(e)}
+                      />
+                    }
+                    clip={['LEFT']}
+                    border={['BOTTOM']}
+                  />
+                )}
                 {this.features.COLORS_ADD.isReached(
                   this.props.colors.length
                 ) && (
                   <div
                     style={{
-                      padding: 'var(--size-pos-xxsmall)',
+                      padding: 'var(--scale-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage
@@ -661,13 +665,14 @@ export default class Colors extends PureComponent<ColorsProps> {
                             action={() =>
                               sendPluginMessage(
                                 {
-                                  pluginMessage: {
-                                    type:
-                                      this.props.config.plan.isTrialEnabled &&
-                                      this.props.trialStatus !== 'EXPIRED'
-                                        ? 'GET_TRIAL'
-                                        : 'GET_PRO',
-                                  },
+                                  pluginMessage:
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
+                                      ? { type: 'GET_TRIAL' }
+                                      : {
+                                          type: 'GET_PRO',
+                                          data: { origin: 'COLORS_ADD' },
+                                        },
                                 },
                                 '*'
                               )
@@ -729,10 +734,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                             </div>
                           </Feature>
                           <Feature
-                            isActive={
-                              this.features.COLORS_PARAMS.isActive() &&
-                              this.props.documentWidth > 460
-                            }
+                            isActive={this.features.COLORS_PARAMS.isActive()}
                           >
                             <div className="draggable-item__param">
                               <Input
@@ -759,11 +761,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                         color.rgb.g * 255,
                         color.rgb.b * 255,
                       ]).lch()
-                      const hex = chroma([
-                        color.rgb.r * 255,
-                        color.rgb.g * 255,
-                        color.rgb.b * 255,
-                      ]).hex()
 
                       return {
                         title: this.props.t('colors.moreParameters', {
@@ -771,33 +768,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                         }),
                         node: (() => (
                           <div data-color-id={color.id}>
-                            <Feature
-                              isActive={
-                                this.features.COLORS_PARAMS.isActive() &&
-                                this.props.documentWidth <= 460
-                              }
-                            >
-                              <FormItem
-                                id={`change-hex-secondary-${color.id}`}
-                                label={this.props.t('colors.actions.hexCode')}
-                                isBlocked={
-                                  this.features.COLORS_ALPHA.isBlocked() &&
-                                  !color.alpha.isEnabled
-                                }
-                              >
-                                <Input
-                                  id={`change-hex-secondary-${color.id}`}
-                                  type="COLOR"
-                                  value={hex}
-                                  feature="UPDATE_HEX"
-                                  isBlocked={this.features.COLORS_PARAMS.isBlocked()}
-                                  isNew={this.features.COLORS_PARAMS.isNew()}
-                                  onPick={this.colorsHandler}
-                                  onBlur={this.colorsHandler}
-                                  onValid={this.colorsHandler}
-                                />
-                              </FormItem>
-                            </Feature>
                             <Feature
                               isActive={this.features.COLORS_ALPHA.isActive()}
                             >
@@ -825,16 +795,19 @@ export default class Colors extends PureComponent<ColorsProps> {
                                   }
                                   isNew={this.features.COLORS_ALPHA.isNew()}
                                   onBlock={() => {
+                                    const isTrial =
+                                      this.props.config.plan.isTrialEnabled &&
+                                      this.props.trialStatus !== 'EXPIRED'
                                     sendPluginMessage(
                                       {
-                                        pluginMessage: {
-                                          type:
-                                            this.props.config.plan
-                                              .isTrialEnabled &&
-                                            this.props.trialStatus !== 'EXPIRED'
-                                              ? 'GET_TRIAL'
-                                              : 'GET_PRO',
-                                        },
+                                        pluginMessage: isTrial
+                                          ? { type: 'GET_TRIAL' }
+                                          : {
+                                              type: 'GET_PRO',
+                                              data: {
+                                                origin: 'SWITCH_ALPHA_MODE',
+                                              },
+                                            },
                                       },
                                       '*'
                                     )
@@ -883,9 +856,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 <ShiftCurveControl
                                   id={`shift-chroma-${color.id}`}
                                   channel="CHROMA"
-                                  label={this.props.t(
-                                    'colors.chromaShifting.label'
-                                  )}
                                   shift={color.chroma.shift}
                                   colors={{
                                     min: 'hsl(187, 0%, 75%)',
@@ -939,9 +909,6 @@ export default class Colors extends PureComponent<ColorsProps> {
                                 <ShiftCurveControl
                                   id={`shift-hue-${color.id}`}
                                   channel="HUE"
-                                  label={this.props.t(
-                                    'colors.hueShifting.label'
-                                  )}
                                   shift={color.hue.shift}
                                   colors={{
                                     min: 'hsl(0, 100%, 75%)',
@@ -1064,7 +1031,7 @@ export default class Colors extends PureComponent<ColorsProps> {
                       more: this.props.t('colors.actions.moreParameters'),
                     }}
                     canBeEmpty={false}
-                    isScrollable
+                    isScrollable={!this.props.isEmbedded}
                     onChangeSortableList={this.onChangeOrder}
                     onRemoveItem={this.colorsHandler}
                   />
@@ -1074,7 +1041,7 @@ export default class Colors extends PureComponent<ColorsProps> {
             typeModifier: 'BLANK',
           },
         ]}
-        isFullHeight
+        isFullHeight={!this.props.isEmbedded}
       />
     )
   }

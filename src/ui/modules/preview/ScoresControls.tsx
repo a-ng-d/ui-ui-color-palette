@@ -150,15 +150,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                   !this.displayHandler().includes('ENABLE_WCAG_SCORE'),
                 isNew: this.features.PREVIEW_SCORES_WCAG_SCORE.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'PREVIEW_SCORES_WCAG_SCORE' },
+                          },
                     },
                     '*'
                   )
@@ -204,15 +206,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                   !this.displayHandler().includes('ENABLE_APCA_SCORE'),
                 isNew: this.features.PREVIEW_SCORES_APCA_SCORE.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'PREVIEW_SCORES_APCA_SCORE' },
+                          },
                     },
                     '*'
                   )
@@ -264,15 +268,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                   !this.displayHandler().includes('ENABLE_WCAG_INTERVAL'),
                 isNew: this.features.PREVIEW_SCORES_WCAG_INTERVAL.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'PREVIEW_SCORES_WCAG_INTERVAL' },
+                          },
                     },
                     '*'
                   )
@@ -320,15 +326,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                   !this.displayHandler().includes('ENABLE_APCA_INTERVAL'),
                 isNew: this.features.PREVIEW_SCORES_APCA_INTERVAL.isNew(),
                 onBlock: () => {
+                  const isTrial =
+                    this.props.config.plan.isTrialEnabled &&
+                    this.props.trialStatus !== 'EXPIRED'
                   sendPluginMessage(
                     {
-                      pluginMessage: {
-                        type:
-                          this.props.config.plan.isTrialEnabled &&
-                          this.props.trialStatus !== 'EXPIRED'
-                            ? 'GET_TRIAL'
-                            : 'GET_PRO',
-                      },
+                      pluginMessage: isTrial
+                        ? { type: 'GET_TRIAL' }
+                        : {
+                            type: 'GET_PRO',
+                            data: { origin: 'PREVIEW_SCORES_APCA_INTERVAL' },
+                          },
                     },
                     '*'
                   )
@@ -376,15 +384,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
             isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
             isNew={this.features.PREVIEW_SCORES.isNew()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'PREVIEW_SCORES' },
+                      },
                 },
                 '*'
               )
@@ -422,15 +432,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_PASS' },
+                              },
                         },
                         '*'
                       )
@@ -447,15 +459,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_FAIL' },
+                              },
                         },
                         '*'
                       )
@@ -487,15 +501,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_PASS' },
+                              },
                         },
                         '*'
                       )
@@ -512,15 +528,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_FAIL' },
+                              },
                         },
                         '*'
                       )
@@ -559,15 +577,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_PASS' },
+                              },
                         },
                         '*'
                       )
@@ -584,15 +604,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_FAIL' },
+                              },
                         },
                         '*'
                       )
@@ -624,15 +646,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_PASS.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_PASS.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_PASS' },
+                              },
                         },
                         '*'
                       )
@@ -649,15 +673,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
                     isBlocked: this.features.PREVIEW_FILTER_FAIL.isBlocked(),
                     isNew: this.features.PREVIEW_FILTER_FAIL.isNew(),
                     onBlock: () => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'PREVIEW_FILTER_FAIL' },
+                              },
                         },
                         '*'
                       )
@@ -696,15 +722,17 @@ export default class ScoresControls extends PureComponent<ScoresControlsProps> {
             isBlocked={this.features.PREVIEW_SCORES.isBlocked()}
             isNew={this.isFiltersEnabled()}
             onBlock={() => {
+              const isTrial =
+                this.props.config.plan.isTrialEnabled &&
+                this.props.trialStatus !== 'EXPIRED'
               sendPluginMessage(
                 {
-                  pluginMessage: {
-                    type:
-                      this.props.config.plan.isTrialEnabled &&
-                      this.props.trialStatus !== 'EXPIRED'
-                        ? 'GET_TRIAL'
-                        : 'GET_PRO',
-                  },
+                  pluginMessage: isTrial
+                    ? { type: 'GET_TRIAL' }
+                    : {
+                        type: 'GET_PRO',
+                        data: { origin: 'PREVIEW_SCORES' },
+                      },
                 },
                 '*'
               )

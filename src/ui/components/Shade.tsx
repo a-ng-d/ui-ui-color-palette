@@ -1,4 +1,5 @@
 import { PureComponent } from 'preact/compat'
+import { createRef, RefObject } from 'preact'
 import chroma from 'chroma-js'
 import {
   ColorConfiguration,
@@ -9,7 +10,7 @@ import {
   VisionSimulationModeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, Chip, ColorChip, Icon, layouts } from '@unoff/ui'
+import { Button, Chip, ColorChip, Icon, layouts, Tooltip } from '@unoff/ui'
 import { resolveShadeContrast } from '../../utils/resolveShadeContrast'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
@@ -68,7 +69,7 @@ interface ShadeState {
 }
 
 export default class Shade extends PureComponent<ShadeProps, ShadeState> {
-  private theme: string | null
+  private cellRef: RefObject<HTMLDivElement> = createRef()
 
   static features = (
     planStatus: PlanStatus,
@@ -121,7 +122,6 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       isMouseEnter: false,
       isCopied: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Handlers
@@ -152,7 +152,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
   }
 
   // Direct Actions
-  onCopyHex = () => {
+  onCopyHex = (shouldNotify = false) => {
     if (!this.props.color) return
 
     try {
@@ -176,6 +176,22 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         this.setState({ isCopied: false })
       }, 2000)
 
+      if (shouldNotify)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'INFO',
+                message: this.props.t('info.copiedHex', {
+                  hex: this.props.color.toUpperCase(),
+                }),
+              },
+            },
+          },
+          '*'
+        )
+
       trackPreviewManagementEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userSession.userId,
@@ -194,7 +210,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           pluginMessage: {
             type: 'POST_MESSAGE',
             data: {
-              style: 'WARNING',
+              type: 'WARNING',
               message: this.props.t('warning.uncopiedCode'),
             },
           },
@@ -202,6 +218,34 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         '*'
       )
     }
+  }
+
+  requestHexUpgrade = () => {
+    const isTrial =
+      this.props.config.plan.isTrialEnabled &&
+      this.props.trialStatus !== 'EXPIRED'
+
+    sendPluginMessage(
+      {
+        pluginMessage: isTrial
+          ? { type: 'GET_TRIAL' }
+          : { type: 'GET_PRO', data: { origin: 'PREVIEW_SHADE_HEX' } },
+      },
+      '*'
+    )
+  }
+
+  onCompactCopy = (e: Event) => {
+    if ((e.target as HTMLElement).closest('.preview__cell__actions')) return
+    if (this.features.PREVIEW_SHADE_HEX.isBlocked())
+      return this.requestHexUpgrade()
+    this.onCopyHex(true)
+  }
+
+  onCompactKeyDown = (e: KeyboardEvent) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return
+    e.preventDefault()
+    this.onCompactCopy(e)
   }
 
   // Templates
@@ -229,8 +273,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <ColorChip
             color={color}
-            width="var(--size-pos-xxsmall)"
-            height="var(--size-pos-xxsmall)"
+            width="var(--scale-pos-xxsmall)"
+            height="var(--scale-pos-xxsmall)"
             isRounded
           />
         }
@@ -244,7 +288,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </span>
         }
       >
-        {`${score.toFixed(2)} : 1`}
+        {!isMouseEnter ? `${score.toFixed(2)} : 1` : friendlyScore}
       </Chip>
     </Feature>
   )
@@ -273,8 +317,8 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <ColorChip
             color={color}
-            width="var(--size-pos-xxsmall)"
-            height="var(--size-pos-xxsmall)"
+            width="var(--scale-pos-xxsmall)"
+            height="var(--scale-pos-xxsmall)"
             isRounded
           />
         }
@@ -288,9 +332,55 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </span>
         }
       >
-        {`Lc ${score.toFixed(1)}`}
+        {!isMouseEnter ? `Lc ${score.toFixed(1)}` : friendlyScore}
       </Chip>
     </Feature>
+  )
+
+  compactSign = (passes: Array<boolean>) => {
+    if (passes.every((pass) => pass)) return this.props.t('pass')
+    if (passes.every((pass) => !pass)) return this.props.t('fail')
+    return (
+      <Icon
+        type="PICTO"
+        iconName="warning"
+        customClassName="preview__cell__sign"
+      />
+    )
+  }
+
+  compactScoresChip = ({
+    lightForeground,
+    darkForeground,
+    light,
+    dark,
+  }: {
+    lightForeground: HexModel
+    darkForeground: HexModel
+    light: Array<boolean>
+    dark: Array<boolean>
+  }) => (
+    <>
+      {[
+        { color: lightForeground, passes: light },
+        { color: darkForeground, passes: dark },
+      ].map((foreground, index) => (
+        <Chip
+          key={index}
+          state="ON_BACKGROUND"
+        >
+          <span className="preview__cell__chip">
+            <ColorChip
+              color={foreground.color}
+              width="var(--scale-pos-xxsmall)"
+              height="var(--scale-pos-xxsmall)"
+              isRounded
+            />
+            {this.compactSign(foreground.passes)}
+          </span>
+        </Chip>
+      ))}
+    </>
   )
 
   lockColorTag = () => {
@@ -300,14 +390,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <div
             style={{
-              width: 'var(--size-pos-xxsmall)',
-              height: 'var(--size-pos-xxsmall)',
+              width: 'var(--scale-pos-xxsmall)',
+              height: 'var(--scale-pos-xxsmall)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-pos-xsmall)',
-              '--icon-height': 'var(--size-pos-xsmall)',
+              '--icon-width': 'var(--scale-pos-xsmall)',
+              '--icon-height': 'var(--scale-pos-xsmall)',
             }}
           >
             <Icon
@@ -317,7 +407,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </div>
         }
       >
-        {this.props.t('preview.lock.tag')}
+        {!this.props.isCompact && this.props.t('preview.lock.tag')}
       </Chip>
     )
   }
@@ -329,14 +419,14 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         leftSlot={
           <div
             style={{
-              width: 'var(--size-pos-xxsmall)',
-              height: 'var(--size-pos-xxsmall)',
+              width: 'var(--scale-pos-xxsmall)',
+              height: 'var(--scale-pos-xxsmall)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               '--icon-picto-color': 'black',
-              '--icon-width': 'var(--size-pos-xsmall)',
-              '--icon-height': 'var(--size-pos-xsmall)',
+              '--icon-width': 'var(--scale-pos-xsmall)',
+              '--icon-height': 'var(--scale-pos-xsmall)',
             }}
           >
             <Icon
@@ -346,7 +436,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </div>
         }
       >
-        {this.props.t('preview.closest.tag')}
+        {!this.props.isCompact && this.props.t('preview.closest.tag')}
       </Chip>
     )
   }
@@ -369,6 +459,10 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       filters.lightWCAG !== 'ALL' || filters.darkWCAG !== 'ALL'
     const isAPCAFilterActive =
       filters.lightAPCA !== 'ALL' || filters.darkAPCA !== 'ALL'
+
+    const isCompact = this.props.isCompact
+    const canCopyOnClick =
+      isCompact && this.features.PREVIEW_SHADE_HEX.isActive()
 
     const shouldCalculateWCAG =
       this.props.isWCAGDisplayed ||
@@ -443,17 +537,80 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
       isOutOfResults = activeMatches.length > 0 && !activeMatches.some((m) => m)
     }
 
+    const compactStandards: Array<{
+      label: string
+      light: { pass: boolean; value: string }
+      dark: { pass: boolean; value: string }
+    }> = []
+    if (isCompact) {
+      if (
+        this.props.isWCAGDisplayed &&
+        this.features.PREVIEW_SCORES_WCAG_SCORE.isActive()
+      )
+        compactStandards.push({
+          label: this.props.t('preview.score.wcag'),
+          light: {
+            pass: lightWCAGScore > 4.5,
+            value: `${lightWCAGScore.toFixed(2)} : 1`,
+          },
+          dark: {
+            pass: darkWCAGScore > 4.5,
+            value: `${darkWCAGScore.toFixed(2)} : 1`,
+          },
+        })
+      if (
+        this.props.isAPCADisplayed &&
+        this.features.PREVIEW_SCORES_APCA_SCORE.isActive()
+      )
+        compactStandards.push({
+          label: this.props.t('preview.score.apca'),
+          light: {
+            pass: lightAPCAScore > 45,
+            value: `Lc ${lightAPCAScore.toFixed(1)}`,
+          },
+          dark: {
+            pass: darkAPCAScore > 45,
+            value: `Lc ${darkAPCAScore.toFixed(1)}`,
+          },
+        })
+    }
+
+    const tags = (
+      <>
+        {this.props.index === minDistanceIndex &&
+          this.props.areSourceColorsLocked &&
+          !(
+            'alpha' in this.props.sourceColor &&
+            this.props.sourceColor.alpha.isEnabled
+          ) && <this.lockColorTag />}
+        {distance < 4 && !this.props.areSourceColorsLocked && (
+          <this.closestColorTag />
+        )}
+      </>
+    )
+
     return (
       <div
         className={doClassnames([
           'preview__cell',
-          (this.props.isAPCADisplayed || this.props.isWCAGDisplayed) &&
+          !isCompact &&
+            (this.props.isAPCADisplayed || this.props.isWCAGDisplayed) &&
             'preview__cell--medium',
-          this.props.isAPCADisplayed &&
+          !isCompact &&
+            this.props.isAPCADisplayed &&
             this.props.isWCAGDisplayed &&
             'preview__cell--large',
           this.props.isSelected && 'preview__cell--selected',
+          canCopyOnClick && 'preview__cell--copyable',
         ])}
+        ref={this.cellRef}
+        {...(canCopyOnClick && {
+          role: 'button',
+          tabIndex: 0,
+          'aria-label': this.props.t('preview.actions.copyHex'),
+          onClick: this.onCompactCopy,
+          onKeyDown: this.onCompactKeyDown,
+        })}
         data-shade-key={`${this.props.colorIndex}-${this.props.index}`}
         style={{
           backgroundColor: background,
@@ -475,55 +632,116 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
             zIndex: 2,
           }}
         />
-        {this.props.isWCAGDisplayed && (
-          <this.wcagScoreTag
-            color={lightForeground}
-            score={lightWCAGScore}
-            friendlyScore={lightWCAGFriendlyScore}
-            isMouseEnter={this.state.isMouseEnter}
-          />
+        {isCompact ? (
+          compactStandards.length > 0 && (
+            <this.compactScoresChip
+              lightForeground={lightForeground}
+              darkForeground={darkForeground}
+              light={compactStandards.map((standard) => standard.light.pass)}
+              dark={compactStandards.map((standard) => standard.dark.pass)}
+            />
+          )
+        ) : (
+          <>
+            {this.props.isWCAGDisplayed && (
+              <this.wcagScoreTag
+                color={lightForeground}
+                score={lightWCAGScore}
+                friendlyScore={lightWCAGFriendlyScore}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+            {this.props.isAPCADisplayed && (
+              <this.apcaScoreTag
+                color={lightForeground}
+                score={lightAPCAScore}
+                friendlyScore={this.recommendationHandler(
+                  lightRecommendedUsage
+                )}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+            {this.props.isWCAGDisplayed && (
+              <this.wcagScoreTag
+                color={darkForeground}
+                score={darkWCAGScore}
+                friendlyScore={darkWCAGFriendlyScore}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+            {this.props.isAPCADisplayed && (
+              <this.apcaScoreTag
+                color={darkForeground}
+                score={darkAPCAScore}
+                friendlyScore={this.recommendationHandler(darkRecommendedUsage)}
+                isMouseEnter={this.state.isMouseEnter}
+              />
+            )}
+          </>
         )}
-        {this.props.isAPCADisplayed && (
-          <this.apcaScoreTag
-            color={lightForeground}
-            score={lightAPCAScore}
-            friendlyScore={this.recommendationHandler(lightRecommendedUsage)}
-            isMouseEnter={this.state.isMouseEnter}
-          />
+        {isCompact ? (
+          <div className="preview__cell__tags--floating">{tags}</div>
+        ) : (
+          tags
         )}
-        {this.props.isWCAGDisplayed && (
-          <this.wcagScoreTag
-            color={darkForeground}
-            score={darkWCAGScore}
-            friendlyScore={darkWCAGFriendlyScore}
-            isMouseEnter={this.state.isMouseEnter}
-          />
-        )}
-        {this.props.isAPCADisplayed && (
-          <this.apcaScoreTag
-            color={darkForeground}
-            score={darkAPCAScore}
-            friendlyScore={this.recommendationHandler(darkRecommendedUsage)}
-            isMouseEnter={this.state.isMouseEnter}
-          />
-        )}
-        {this.props.index === minDistanceIndex &&
-          this.props.areSourceColorsLocked &&
-          !(
-            'alpha' in this.props.sourceColor &&
-            this.props.sourceColor.alpha.isEnabled
-          ) && <this.lockColorTag />}
-        {distance < 4 && !this.props.areSourceColorsLocked && (
-          <this.closestColorTag />
-        )}
+        {isCompact &&
+          this.state.isMouseEnter &&
+          (compactStandards.length > 0 || canCopyOnClick) && (
+            <Tooltip
+              type="SINGLE_LINE"
+              pin="BOTTOM"
+              anchor={this.cellRef}
+            >
+              <div className="preview__cell__tooltip">
+                {compactStandards.flatMap((standard) =>
+                  [
+                    { ...standard.light, color: lightForeground },
+                    { ...standard.dark, color: darkForeground },
+                  ].map((score, index) => (
+                    <span
+                      key={`${standard.label}-${index}`}
+                      className="preview__cell__tooltip__score"
+                    >
+                      <ColorChip
+                        color={score.color}
+                        width="var(--scale-pos-xxsmall)"
+                        height="var(--scale-pos-xxsmall)"
+                        isRounded
+                      />
+                      <span>{score.value}</span>
+                      <span>
+                        {score.pass
+                          ? this.props.t('pass')
+                          : this.props.t('fail')}
+                      </span>
+                    </span>
+                  ))
+                )}
+                {canCopyOnClick && (
+                  <span className="preview__cell__tooltip__hint">
+                    {this.props.t('preview.actions.copyHexOnClick')}
+                    {this.features.PREVIEW_SHADE_HEX.isBlocked() && (
+                      <Chip>Pro</Chip>
+                    )}
+                  </span>
+                )}
+              </div>
+            </Tooltip>
+          )}
         {(this.state.isMouseEnter || this.props.isSelected) && (
           <div
             className={doClassnames([
               'preview__cell__actions',
-              layouts['snackbar--medium'],
+              this.props.isCompact
+                ? layouts['stackbar--medium']
+                : layouts['snackbar--medium'],
             ])}
           >
-            <Feature isActive={this.features.PREVIEW_SHADE_HEX.isActive()}>
+            <Feature
+              isActive={
+                this.features.PREVIEW_SHADE_HEX.isActive() && !isCompact
+              }
+            >
               <Button
                 type="icon"
                 icon={this.state.isCopied ? 'check' : 'copy'}
@@ -532,7 +750,10 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
                   label: this.props.t('preview.actions.copyHex'),
                   pin: 'TOP',
                 }}
-                action={this.onCopyHex}
+                isBlocked={this.features.PREVIEW_SHADE_HEX.isBlocked()}
+                isNew={this.features.PREVIEW_SHADE_HEX.isNew()}
+                onBlock={this.requestHexUpgrade}
+                action={() => this.onCopyHex()}
               />
             </Feature>
             <Feature

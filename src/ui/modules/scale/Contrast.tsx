@@ -427,7 +427,12 @@ export default class Contrast extends PureComponent<
                               label={this.props.t('plan.getPro')}
                               action={() =>
                                 sendPluginMessage(
-                                  { pluginMessage: { type: 'GET_PRO' } },
+                                  {
+                                    pluginMessage: {
+                                      type: 'GET_PRO',
+                                      data: { origin: 'SCALE_CONTRAST_RATIO' },
+                                    },
+                                  },
                                   '*'
                                 )
                               }
@@ -467,15 +472,17 @@ export default class Contrast extends PureComponent<
                     isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={features.SCALE_CONTRAST_RATIO.isNew()}
                     onBlock={() => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'SCALE_CONTRAST_RATIO' },
+                              },
                         },
                         '*'
                       )
@@ -507,15 +514,17 @@ export default class Contrast extends PureComponent<
                     isBlocked={features.SCALE_CONTRAST_RATIO.isBlocked()}
                     isNew={features.SCALE_CONTRAST_RATIO.isNew()}
                     onBlock={() => {
+                      const isTrial =
+                        this.props.config.plan.isTrialEnabled &&
+                        this.props.trialStatus !== 'EXPIRED'
                       sendPluginMessage(
                         {
-                          pluginMessage: {
-                            type:
-                              this.props.config.plan.isTrialEnabled &&
-                              this.props.trialStatus !== 'EXPIRED'
-                                ? 'GET_TRIAL'
-                                : 'GET_PRO',
-                          },
+                          pluginMessage: isTrial
+                            ? { type: 'GET_TRIAL' }
+                            : {
+                                type: 'GET_PRO',
+                                data: { origin: 'SCALE_CONTRAST_RATIO' },
+                              },
                         },
                         '*'
                       )

@@ -34,6 +34,7 @@ interface ModalProps extends BaseProps, WithConfigProps, WithTranslationProps {
   notification: NotificationMessage
   announcements: AnnouncementsDigest
   licenseTrigger: LicenseTrigger
+  pricingOrigin: string
   onChangePublication: Dispatch<Partial<AppState>>
   onManageLicense: Dispatch<Partial<AppState>>
   onSkipAndResetPalette: Dispatch<Partial<AppState>>

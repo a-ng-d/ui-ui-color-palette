@@ -5,6 +5,7 @@ import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
+import { Language } from '../../../types/translations'
 import {
   BaseProps,
   AnnouncementsDigest,
@@ -12,6 +13,7 @@ import {
   Service,
   Editor,
 } from '../../../types/app'
+import { getTolgee } from '../../../external/translation'
 import { trackAnnouncementsEvent } from '../../../external/tracking/eventsTracker'
 import getAnnouncements from '../../../external/cms/getAnnouncements'
 import { ConfigContextType } from '../../../config/ConfigContext'
@@ -73,7 +75,8 @@ export default class Announcements extends PureComponent<
     getAnnouncements(
       this.props.config.urls.announcementsWorkerUrl,
       this.props.config.env.announcementsDbId,
-      this.props.config.env.platform
+      this.props.config.env.platform,
+      getTolgee().getLanguage() as Language
     )
       .then((announcements) => {
         this.setState({ announcements, status: 'LOADED' })

@@ -12,7 +12,7 @@ const checkAnnouncementsStatus = (remoteVersion: string) => {
         status: 'NO_ANNOUNCEMENTS',
       },
     }
-  else if (localVersion === null && isOnboardingRead === null)
+  else if (localVersion === null && isOnboardingRead !== 'true')
     return iframe?.contentWindow?.postMessage({
       type: 'PUSH_ONBOARDING_STATUS',
       data: {

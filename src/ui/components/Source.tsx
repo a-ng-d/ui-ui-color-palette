@@ -1,8 +1,9 @@
 import { PureComponent, MouseEventHandler } from 'preact/compat'
+import { createRef, RefObject } from 'preact'
 import chroma from 'chroma-js'
 import { RgbModel } from '@yelbolt/engine-ui-color-palette'
 import { FeatureStatus } from '@unoff/utils'
-import { Button, Chip } from '@unoff/ui'
+import { Button, Chip, Tooltip } from '@unoff/ui'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
 import { ConfigContextType } from '../../config/ConfigContext'
 import { WithTranslationProps } from './WithTranslation'
@@ -23,6 +24,8 @@ interface SourceState {
 }
 
 export default class Source extends PureComponent<SourceProps, SourceState> {
+  private cellRef: RefObject<HTMLDivElement> = createRef()
+
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -70,18 +73,30 @@ export default class Source extends PureComponent<SourceProps, SourceState> {
             this.props.color.b * 255,
           ]).hex(),
         }}
+        ref={this.cellRef}
         data-color-id={this.props.id}
         onMouseEnter={() => this.setState({ isMouseEnter: true })}
         onMouseLeave={() => this.setState({ isMouseEnter: false })}
         onMouseDown={this.props.onJumpToColor}
       >
-        <Chip state="ON_BACKGROUND">{this.props.name}</Chip>
-        {this.props.isTransparent && (
+        {!this.props.isCompact && (
+          <Chip state="ON_BACKGROUND">{this.props.name}</Chip>
+        )}
+        {this.props.isCompact && this.state.isMouseEnter && (
+          <Tooltip
+            type="SINGLE_LINE"
+            pin="BOTTOM"
+            anchor={this.cellRef}
+          >
+            {this.props.name}
+          </Tooltip>
+        )}
+        {!this.props.isCompact && this.props.isTransparent && (
           <Chip state="ON_BACKGROUND">
             {this.props.t('paletteProperties.transparent')}
           </Chip>
         )}
-        {this.state.isMouseEnter && (
+        {!this.props.isCompact && this.state.isMouseEnter && (
           <div className="preview__cell__actions">
             <Feature
               isActive={

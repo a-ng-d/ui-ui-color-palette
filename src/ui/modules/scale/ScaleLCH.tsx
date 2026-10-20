@@ -7,9 +7,10 @@ import {
   ShiftConfiguration,
   ShiftCurveConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { FeatureStatus } from '@unoff/utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Button,
+  layouts,
   Section,
   SectionTitle,
   SemanticMessage,
@@ -51,6 +52,8 @@ interface ScaleLCHProps
   onChangeThemes?: (scale: ScaleConfiguration) => void
   onChangeStops?: (stops: number[]) => void
   distributionEasingSlot?: ComponentChildren
+  extraToolsSlot?: ComponentChildren
+  isEmbedded?: boolean
 }
 
 export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
@@ -115,7 +118,15 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
               type="secondary"
               label={this.props.t('plan.getPro')}
               action={() =>
-                sendPluginMessage({ pluginMessage: { type: 'GET_PRO' } }, '*')
+                sendPluginMessage(
+                  {
+                    pluginMessage: {
+                      type: 'GET_PRO',
+                      data: { origin: 'PRESETS_CUSTOM_ADD' },
+                    },
+                  },
+                  '*'
+                )
               }
             />
           )
@@ -175,15 +186,20 @@ export default class ScaleLCH extends PureComponent<ScaleLCHProps> {
                   id="lightness-tools"
                   leftPartSlot={this.props.distributionEasingSlot}
                   rightPartSlot={
-                    <StopTools
-                      {...this.props}
-                      id={this.props.id}
-                      preset={this.props.preset}
-                      scale={this.props.scale}
-                      distributionEasing={this.props.distributionEasing}
-                      onChangeScale={this.props.onChangeScale}
-                      onChangeStops={this.props.onChangeStops}
-                    />
+                    <div
+                      className={doClassnames([layouts['snackbar--medium']])}
+                    >
+                      <StopTools
+                        {...this.props}
+                        id={this.props.id}
+                        preset={this.props.preset}
+                        scale={this.props.scale}
+                        distributionEasing={this.props.distributionEasing}
+                        onChangeScale={this.props.onChangeScale}
+                        onChangeStops={this.props.onChangeStops}
+                      />
+                      {this.props.extraToolsSlot}
+                    </div>
                   }
                   alignment="CENTER"
                   isListItem={false}

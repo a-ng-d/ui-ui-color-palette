@@ -17,7 +17,10 @@ import {
 import Glance from '../modules/Glance'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import PalettesViewSwitch from '../components/PalettesViewSwitch'
+import PalettesMosaic from '../components/PalettesMosaic'
 import PalettePreview from '../components/PalettePreview'
+import PaletteCard from '../components/PaletteCard'
 import Feature from '../components/Feature'
 import setPaletteMeta from '../../utils/setPaletteMeta'
 import { sendPluginMessage } from '../../utils/pluginMessage'
@@ -27,9 +30,17 @@ import {
   Context,
   Editor,
   FetchStatus,
+  PalettesView,
   PlanStatus,
   Service,
 } from '../../types/app'
+import { $palettesView } from '../../stores/preferences'
+import {
+  trackPublicationEvent,
+  trackSignInEvent,
+} from '../../external/tracking/eventsTracker'
+import starPalette from '../../external/publication/starPalette'
+import { signIn } from '../../external/auth/authentication'
 import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
 
@@ -50,9 +61,12 @@ interface OrgPalettesProps
 }
 
 interface OrgPalettesState {
+  palettesView: PalettesView
   isLoadMoreActionLoading: boolean
   isSignInLoading: boolean
   isSecondaryActionLoading: Array<boolean>
+  isStarActionLoading: Array<boolean>
+  starredIds: Array<string>
   isPaletteGlancing: boolean
   seenPaletteId: string
 }
@@ -61,6 +75,7 @@ export default class OrgPalettes extends PureComponent<
   OrgPalettesProps,
   OrgPalettesState
 > {
+  private subscribePalettesView: (() => void) | undefined
   static features = (
     planStatus: PlanStatus,
     config: ConfigContextType,
@@ -95,6 +110,13 @@ export default class OrgPalettes extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    STAR_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'STAR_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     CREATE_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'CREATE_PALETTE',
@@ -116,9 +138,12 @@ export default class OrgPalettes extends PureComponent<
   constructor(props: OrgPalettesProps) {
     super(props)
     this.state = {
+      palettesView: $palettesView.get(),
       isLoadMoreActionLoading: false,
       isSignInLoading: false,
       isSecondaryActionLoading: [],
+      isStarActionLoading: [],
+      starredIds: [],
       isPaletteGlancing: false,
       seenPaletteId: '',
     }
@@ -130,6 +155,10 @@ export default class OrgPalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    this.subscribePalettesView = $palettesView.subscribe((value) => {
+      this.setState({ palettesView: value })
+    })
 
     const actions: {
       [key: string]: () => void
@@ -143,15 +172,24 @@ export default class OrgPalettes extends PureComponent<
       LOADED: () => null,
     }
 
+    this.fetchStarredIds()
+
     return actions[this.props.status]?.()
   }
 
   componentDidUpdate = (prevProps: Readonly<OrgPalettesProps>): void => {
+    if (
+      prevProps.userSession.connectionStatus !==
+      this.props.userSession.connectionStatus
+    )
+      this.fetchStarredIds()
+
     if (prevProps.palettesList.length !== this.props.palettesList.length)
       this.setState({
         isSecondaryActionLoading: Array(this.props.palettesList.length).fill(
           false
         ),
+        isStarActionLoading: Array(this.props.palettesList.length).fill(false),
       })
   }
 
@@ -160,6 +198,8 @@ export default class OrgPalettes extends PureComponent<
       'platformMessage',
       this.handleMessage as EventListener
     )
+
+    if (this.subscribePalettesView) this.subscribePalettesView()
   }
 
   // Handlers
@@ -205,9 +245,8 @@ export default class OrgPalettes extends PureComponent<
       return
     }
 
-    if (searchQuery === '') {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+    if (searchQuery === '')
+      ({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
@@ -219,9 +258,8 @@ export default class OrgPalettes extends PureComponent<
           this.props.config.limits.pageSize * (currentPage - 1),
           this.props.config.limits.pageSize * currentPage - 1
         ))
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;({ data, error } = await supabase
+    else
+      ({ data, error } = await supabase
         .from(this.props.config.dbs.palettesDbViewName)
         .select(
           'palette_id, name, description, preset, shift, are_source_colors_locked, colors, themes, color_space, algorithm_version, org_name, org_avatar_url, is_shared, star_count'
@@ -234,7 +272,6 @@ export default class OrgPalettes extends PureComponent<
           this.props.config.limits.pageSize * currentPage - 1
         )
         .ilike('name', `%${searchQuery}%`))
-    }
 
     if (!error) {
       const batch = this.props.palettesList.concat(
@@ -259,11 +296,445 @@ export default class OrgPalettes extends PureComponent<
     this.setState({ isPaletteGlancing: false, seenPaletteId: '' })
   }
 
+  fetchStarredIds = async () => {
+    const supabase = getSupabase()
+
+    if (
+      !supabase ||
+      this.props.userSession.connectionStatus !== 'CONNECTED' ||
+      !this.features.STAR_PALETTE.isActive()
+    ) {
+      this.setState({ starredIds: [] })
+      return
+    }
+
+    const { data, error } = await supabase
+      .from(this.props.config.dbs.starredPalettesDbTableName)
+      .select('palette_id')
+      .eq('user_id', this.props.userSession.userId)
+
+    if (!error && data)
+      this.setState({
+        starredIds: data.map((item: { palette_id: string }) => item.palette_id),
+      })
+  }
+
+  onAddToLocal = (palette: ExternalPalettes, index: number) => {
+    if (!this.features.ADD_PALETTE.isActive()) return
+
+    if (
+      this.features.LOCAL_PALETTES.isReached(
+        this.props.localPalettesList.length
+      )
+    ) {
+      const isTrial =
+        this.props.config.plan.isTrialEnabled &&
+        this.props.trialStatus !== 'EXPIRED'
+      sendPluginMessage(
+        {
+          pluginMessage: isTrial
+            ? { type: 'GET_TRIAL' }
+            : { type: 'GET_PRO', data: { origin: 'LOCAL_PALETTES' } },
+        },
+        '*'
+      )
+      return
+    }
+
+    this.setState({
+      isSecondaryActionLoading: this.state.isSecondaryActionLoading.map(
+        (loading, i) => (i === index ? true : loading)
+      ),
+    })
+
+    this.onSelectPalette(palette.palette_id)
+      .finally(() =>
+        this.setState({
+          isSecondaryActionLoading: Array(this.props.palettesList.length).fill(
+            false
+          ),
+        })
+      )
+      .catch((error) => {
+        console.error(error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.t('error.addToLocal'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  onToggleStar = (palette: ExternalPalettes, index: number) => {
+    const isStarred = this.state.starredIds.includes(palette.palette_id)
+    const setLoading = (value: boolean) =>
+      this.setState({
+        isStarActionLoading: this.props.palettesList.map((_, i) =>
+          i === index ? value : (this.state.isStarActionLoading[i] ?? false)
+        ),
+      })
+
+    setLoading(true)
+
+    starPalette({
+      id: palette.palette_id,
+      starredPalettesDbTableName:
+        this.props.config.dbs.starredPalettesDbTableName,
+      userId: this.props.userSession.userId,
+      mustBeStarred: !isStarred,
+    })
+      .then(() => {
+        this.setState({
+          starredIds: isStarred
+            ? this.state.starredIds.filter((id) => id !== palette.palette_id)
+            : [...this.state.starredIds, palette.palette_id],
+        })
+
+        trackPublicationEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'STAR_PALETTE',
+          }
+        )
+      })
+      .finally(() => setLoading(false))
+      .catch((error) => {
+        console.error('Error starring/un-starring palette:', error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.t('error.starPalette'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  onAuthenticate = (index: number) => {
+    this.setState({
+      isStarActionLoading: this.props.palettesList.map((_, i) => i === index),
+    })
+
+    signIn({
+      authWorkerUrl: this.props.config.urls.authWorkerUrl,
+      authUrl: this.props.config.urls.authUrl,
+      platformUrl: this.props.config.urls.platformUrl,
+      pluginId: this.props.config.env.pluginId,
+    })
+      .then(() => {
+        trackSignInEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false
+        )
+      })
+      .finally(() => {
+        this.setState({
+          isStarActionLoading: Array(this.props.palettesList.length).fill(
+            false
+          ),
+        })
+        this.fetchStarredIds()
+      })
+      .catch((error) => {
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message:
+                  error.message === 'Authentication timeout'
+                    ? this.props.t('error.timeout')
+                    : this.props.t('error.authentication'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
+  onOpenPalette = (palette: ExternalPalettes, index: number) => {
+    if (
+      !this.features.SEE_PALETTE.isActive() ||
+      this.features.SEE_PALETTE.isBlocked()
+    )
+      return
+
+    this.setState({
+      isSecondaryActionLoading: this.state.isSecondaryActionLoading.map(
+        (loading, i) => (i === index ? true : loading)
+      ),
+    })
+
+    this.onSeePalette(palette.palette_id)
+      .finally(() =>
+        this.setState({
+          isSecondaryActionLoading: Array(this.props.palettesList.length).fill(
+            false
+          ),
+        })
+      )
+      .catch((error) => {
+        console.error(error)
+        sendPluginMessage(
+          {
+            pluginMessage: {
+              type: 'POST_MESSAGE',
+              data: {
+                type: 'ERROR',
+                message: this.props.t('error.openPalette'),
+              },
+            },
+          },
+          '*'
+        )
+      })
+  }
+
   onSeePalette = async (id: string) => {
     await this.props.onSeePalette(id)
   }
 
   // Templates
+  PaletteActions = ({
+    palette,
+    index,
+    isCompact = false,
+  }: {
+    palette: ExternalPalettes
+    index: number
+    isCompact?: boolean
+  }) => (
+    <>
+      <Feature isActive={this.features.GLANCE_PALETTE.isActive()}>
+        <Button
+          type="icon"
+          icon="visible"
+          helper={{
+            label: this.props.t('browse.actions.glancePalette'),
+          }}
+          isBlocked={this.features.GLANCE_PALETTE.isBlocked()}
+          isNew={this.features.GLANCE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'GLANCE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => {
+            this.setState({
+              isPaletteGlancing: true,
+              seenPaletteId: palette.palette_id,
+            })
+          }}
+        />
+      </Feature>
+      <Feature isActive={this.features.STAR_PALETTE.isActive()}>
+        <Button
+          type="icon"
+          icon={
+            this.props.userSession.connectionStatus === 'CONNECTED' &&
+            this.state.starredIds.includes(palette.palette_id)
+              ? 'star-on'
+              : 'star-off'
+          }
+          helper={{
+            label:
+              this.props.userSession.connectionStatus !== 'CONNECTED'
+                ? this.props.t('browse.actions.signInToStar')
+                : this.state.starredIds.includes(palette.palette_id)
+                  ? this.props.t('browse.actions.unstarPalette')
+                  : this.props.t('browse.actions.starPalette'),
+          }}
+          isLoading={this.state.isStarActionLoading[index]}
+          isBlocked={this.features.STAR_PALETTE.isBlocked()}
+          isNew={this.features.STAR_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'STAR_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() =>
+            this.props.userSession.connectionStatus === 'CONNECTED'
+              ? this.onToggleStar(palette, index)
+              : this.onAuthenticate(index)
+          }
+        />
+      </Feature>
+      <Feature isActive={this.features.SEE_PALETTE.isActive() && !isCompact}>
+        <Button
+          type="secondary"
+          label={this.props.t('browse.actions.openPalette')}
+          isLoading={this.state.isSecondaryActionLoading[index]}
+          shouldReflow={{
+            isEnabled: true,
+            icon: 'forward',
+          }}
+          isBlocked={this.features.SEE_PALETTE.isBlocked()}
+          isNew={this.features.SEE_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'SEE_PALETTE' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => this.onOpenPalette(palette, index)}
+        />
+      </Feature>
+      <Feature isActive={this.features.ADD_PALETTE.isActive()}>
+        <Button
+          type={isCompact ? 'icon' : 'secondary'}
+          icon={isCompact ? 'plus' : undefined}
+          label={isCompact ? undefined : this.props.t('actions.addToLocal')}
+          helper={
+            this.features.LOCAL_PALETTES.isReached(
+              this.props.localPalettesList.length
+            )
+              ? {
+                  label: this.props.t('info.maxNumberOfLocalPalettes', {
+                    count: (this.features.LOCAL_PALETTES.limit ?? 3).toString(),
+                  }),
+                  type: 'MULTI_LINE',
+                }
+              : isCompact
+                ? { label: this.props.t('actions.addToLocal') }
+                : undefined
+          }
+          isLoading={this.state.isSecondaryActionLoading[index]}
+          shouldReflow={{
+            isEnabled: true,
+            icon: 'plus',
+          }}
+          isBlocked={this.features.LOCAL_PALETTES.isReached(
+            this.props.localPalettesList.length
+          )}
+          isNew={this.features.ADD_PALETTE.isNew()}
+          onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
+            sendPluginMessage(
+              {
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'LOCAL_PALETTES' },
+                    },
+              },
+              '*'
+            )
+          }}
+          action={() => this.onAddToLocal(palette, index)}
+        />
+      </Feature>
+    </>
+  )
+
+  PalettesMosaic = () => (
+    <PalettesMosaic>
+      {this.props.palettesList.map((palette, index: number) => {
+        const enabledThemeIndex = palette.themes.findIndex(
+          (theme) => theme.isEnabled
+        )
+
+        const data = new Data({
+          base: {
+            name: palette.name,
+            description: palette.description,
+            preset: palette.preset,
+            shift: palette.shift,
+            areSourceColorsLocked: palette.are_source_colors_locked,
+            colors: palette.colors,
+            colorSpace: palette.color_space,
+            algorithmVersion: palette.algorithm_version,
+          },
+          themes: palette.themes,
+        }).makePaletteData()
+
+        return (
+          <PaletteCard
+            key={`palette-${index}`}
+            name={palette.name}
+            description={palette.preset?.name}
+            subdescription={setPaletteMeta({
+              colors: palette.colors ?? [],
+              themes: palette.themes ?? [],
+              stars: palette.star_count ?? 0,
+              locales: this.props.t,
+            })}
+            colors={data.themes[enabledThemeIndex].colors}
+            user={{
+              avatar: palette.org_avatar_url ?? '',
+              name: palette.org_name ?? '',
+            }}
+            actionsSlot={
+              <this.PaletteActions
+                palette={palette}
+                index={index}
+                isCompact
+              />
+            }
+            action={() => this.onAddToLocal(palette, index)}
+          />
+        )
+      })}
+    </PalettesMosaic>
+  )
+
   ExternalPalettesList = () => {
     let fragment
 
@@ -288,7 +759,7 @@ export default class OrgPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
     else if (this.props.status === 'COMPLETE')
@@ -301,7 +772,7 @@ export default class OrgPalettes extends PureComponent<
             />
           }
           isCentered
-          padding="var(--size-pos-xxsmall) var(--size-pos-xsmall)"
+          padding="var(--scale-pos-xxsmall) var(--scale-pos-xsmall)"
         />
       )
 
@@ -335,6 +806,9 @@ export default class OrgPalettes extends PureComponent<
           />
         )}
         {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
+          this.state.palettesView === 'MOSAIC' && <this.PalettesMosaic />}
+        {(this.props.status === 'LOADED' || this.props.status === 'COMPLETE') &&
+          this.state.palettesView === 'LIST' &&
           this.props.palettesList.map((palette, index: number) => {
             const enabledThemeIndex = palette.themes.findIndex(
               (theme) => theme.isEnabled
@@ -372,177 +846,10 @@ export default class OrgPalettes extends PureComponent<
                 }}
                 actionsSlot={
                   <>
-                    <Feature isActive={this.features.GLANCE_PALETTE.isActive()}>
-                      <Button
-                        type="icon"
-                        icon="visible"
-                        helper={{
-                          label: this.props.t('browse.actions.glancePalette'),
-                        }}
-                        isBlocked={this.features.GLANCE_PALETTE.isBlocked()}
-                        isNew={this.features.GLANCE_PALETTE.isNew()}
-                        onBlock={() => {
-                          sendPluginMessage(
-                            {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
-                            },
-                            '*'
-                          )
-                        }}
-                        action={() => {
-                          this.setState({
-                            isPaletteGlancing: true,
-                            seenPaletteId: palette.palette_id,
-                          })
-                        }}
-                      />
-                    </Feature>
-                    <Feature isActive={this.features.SEE_PALETTE.isActive()}>
-                      <Button
-                        type="secondary"
-                        label={this.props.t('browse.actions.openPalette')}
-                        isLoading={this.state.isSecondaryActionLoading[index]}
-                        shouldReflow={{
-                          isEnabled: true,
-                          icon: 'forward',
-                        }}
-                        isBlocked={this.features.SEE_PALETTE.isBlocked()}
-                        isNew={this.features.SEE_PALETTE.isNew()}
-                        onBlock={() => {
-                          sendPluginMessage(
-                            {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
-                            },
-                            '*'
-                          )
-                        }}
-                        action={() => {
-                          this.setState({
-                            isSecondaryActionLoading: this.state[
-                              'isSecondaryActionLoading'
-                            ].map((loading, i) =>
-                              i === index ? true : loading
-                            ),
-                          })
-
-                          this.onSeePalette(palette.palette_id)
-                            .finally(() =>
-                              this.setState({
-                                isSecondaryActionLoading: Array(
-                                  this.props.palettesList.length
-                                ).fill(false),
-                              })
-                            )
-                            .catch((error) => {
-                              console.error(error)
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'ERROR',
-                                      message:
-                                        this.props.t('error.openPalette'),
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                            })
-                        }}
-                      />
-                    </Feature>
-                    <Feature isActive={this.features.ADD_PALETTE.isActive()}>
-                      <Button
-                        type="secondary"
-                        label={this.props.t('actions.addToLocal')}
-                        helper={
-                          this.features.LOCAL_PALETTES.isReached(
-                            this.props.localPalettesList.length
-                          )
-                            ? {
-                                label: this.props.t(
-                                  'info.maxNumberOfLocalPalettes',
-                                  {
-                                    count: (
-                                      this.features.LOCAL_PALETTES.limit ?? 3
-                                    ).toString(),
-                                  }
-                                ),
-                                type: 'MULTI_LINE',
-                              }
-                            : undefined
-                        }
-                        isLoading={this.state.isSecondaryActionLoading[index]}
-                        shouldReflow={{
-                          isEnabled: true,
-                          icon: 'plus',
-                        }}
-                        isBlocked={this.features.LOCAL_PALETTES.isReached(
-                          this.props.localPalettesList.length
-                        )}
-                        isNew={this.features.ADD_PALETTE.isNew()}
-                        onBlock={() => {
-                          sendPluginMessage(
-                            {
-                              pluginMessage: {
-                                type:
-                                  this.props.config.plan.isTrialEnabled &&
-                                  this.props.trialStatus !== 'EXPIRED'
-                                    ? 'GET_TRIAL'
-                                    : 'GET_PRO',
-                              },
-                            },
-                            '*'
-                          )
-                        }}
-                        action={() => {
-                          this.setState({
-                            isSecondaryActionLoading: this.state[
-                              'isSecondaryActionLoading'
-                            ].map((loading, i) =>
-                              i === index ? true : loading
-                            ),
-                          })
-
-                          this.onSelectPalette(palette.palette_id)
-                            .finally(() =>
-                              this.setState({
-                                isSecondaryActionLoading: Array(
-                                  this.props.palettesList.length
-                                ).fill(false),
-                              })
-                            )
-                            .catch((error) => {
-                              console.error(error)
-                              sendPluginMessage(
-                                {
-                                  pluginMessage: {
-                                    type: 'POST_MESSAGE',
-                                    data: {
-                                      type: 'ERROR',
-                                      message: this.props.t('error.addToLocal'),
-                                    },
-                                  },
-                                },
-                                '*'
-                              )
-                            })
-                        }}
-                      />
-                    </Feature>
+                    <this.PaletteActions
+                      palette={palette}
+                      index={index}
+                    />
                   </>
                 }
                 complementSlot={
@@ -565,7 +872,7 @@ export default class OrgPalettes extends PureComponent<
         {this.props.status !== 'SIGN_IN_FIRST' &&
           this.props.status !== 'EMPTY' && (
             <Bar
-              soloPartSlot={
+              leftPartSlot={
                 <Input
                   type="TEXT"
                   icon={{
@@ -594,6 +901,7 @@ export default class OrgPalettes extends PureComponent<
                   }}
                 />
               }
+              rightPartSlot={<PalettesViewSwitch />}
               border={['BOTTOM']}
             />
           )}

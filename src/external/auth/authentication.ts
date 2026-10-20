@@ -107,6 +107,8 @@ export const signIn = async ({
   })
 }
 
+const SIGN_OUT_TIMEOUT = 8000
+
 export const signOut = async ({
   authUrl,
   platformUrl,
@@ -117,44 +119,65 @@ export const signOut = async ({
   pluginId: string
 }) => {
   const supabase = getSupabase()
-  if (!supabase) throw new Error('Supabase client is not initialized')
 
-  const { error } = await supabase.auth.signOut({
-    scope: 'local',
-  })
+  sendPluginMessage(
+    {
+      pluginMessage: {
+        type: 'DELETE_ITEMS',
+        items: ['supabase_access_token', 'supabase_refresh_token'],
+      },
+      pluginId: pluginId,
+    },
+    platformUrl
+  )
 
-  if (!error) {
-    sendPluginMessage(
-      {
-        pluginMessage: {
-          type: 'OPEN_IN_BROWSER',
-          data: {
-            url: `${authUrl}/?action=sign_out`,
-          },
+  if (supabase) {
+    let revokeError: unknown = null
+    try {
+      const { error } = await Promise.race([
+        supabase.auth.signOut({ scope: 'local' }),
+        new Promise<{ error: Error }>((resolve) =>
+          setTimeout(
+            () => resolve({ error: new Error('Sign out timeout') }),
+            SIGN_OUT_TIMEOUT
+          )
+        ),
+      ])
+      revokeError = error
+    } catch (error) {
+      revokeError = error
+    }
+
+    if (revokeError) {
+      console.warn(
+        'Remote sign out failed, clearing local session',
+        revokeError
+      )
+      await supabase.auth['_removeSession']?.()
+    }
+  }
+
+  isAuthenticated = false
+
+  sendPluginMessage(
+    {
+      pluginMessage: {
+        type: 'OPEN_IN_BROWSER',
+        data: {
+          url: `${authUrl}/?action=sign_out`,
         },
       },
-      '*'
-    )
-    sendPluginMessage(
-      {
-        pluginMessage: {
-          type: 'DELETE_ITEMS',
-          items: ['supabase_access_token', 'supabase_refresh_token'],
-        },
-        pluginId: pluginId,
+    },
+    '*'
+  )
+  sendPluginMessage(
+    {
+      pluginMessage: {
+        type: 'SIGN_OUT',
       },
-      platformUrl
-    )
-    sendPluginMessage(
-      {
-        pluginMessage: {
-          type: 'SIGN_OUT',
-        },
-      },
-      '*'
-    )
-    isAuthenticated = false
+    },
+    '*'
+  )
 
-    return true
-  } else throw new Error()
+  return true
 }

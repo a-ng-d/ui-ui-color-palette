@@ -2,7 +2,6 @@ import { PureComponent, ChangeEventHandler } from 'preact/compat'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Dialog,
-  Layout,
   layouts,
   Section,
   SectionTitle,
@@ -27,9 +26,9 @@ export default class About extends PureComponent<AboutProps> {
     service: Service,
     editor: Editor
   ) => ({
-    PRO_PLAN: new FeatureStatus({
+    MORE_ABOUT: new FeatureStatus({
       features: config.features,
-      featureName: 'PRO_PLAN',
+      featureName: 'MORE_ABOUT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -72,7 +71,7 @@ export default class About extends PureComponent<AboutProps> {
                       </span>
                       <Feature
                         isActive={
-                          this.features.PRO_PLAN.isActive() &&
+                          this.features.MORE_ABOUT.isActive() &&
                           this.props.config.plan.isProEnabled
                         }
                       >
@@ -260,26 +259,16 @@ export default class About extends PureComponent<AboutProps> {
   // Render
   render() {
     return (
-      <Feature isActive={this.features.PRO_PLAN.isActive()}>
+      <Feature isActive={this.features.MORE_ABOUT.isActive()}>
         <Dialog
           title={this.props.t('about.title')}
           pin="RIGHT"
           onClose={this.props.onClose}
         >
-          <Layout
-            id="about"
-            column={[
-              {
-                node: (
-                  <>
-                    <this.QuickInfo />
-                    <this.Attributions />
-                  </>
-                ),
-              },
-            ]}
-            isFullWidth
-          />
+          <div className="dialog__blank">
+            <this.QuickInfo />
+            <this.Attributions />
+          </div>
         </Dialog>
       </Feature>
     )

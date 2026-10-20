@@ -76,6 +76,7 @@
   "actions": {
     "addToLocal": "Adicionar ao local",
     "addToSource": "Adicionar à fonte",
+    "copyPaletteLink": "Copiar link da paleta",
     "createPalette": "Nova UI Color Palette",
     "duplicate": "Duplicar",
     "export": "Exportar paleta como {format}",
@@ -85,14 +86,17 @@
       "paletteWithProperties": "Paleta de cores detalhada",
       "sheet": "Planilha de cores completa"
     },
+    "giveFeedback": "Enviar feedback",
     "moreActions": "Mais ações",
     "publishOrSyncPalette": "Publicar ou sincronizar paleta",
     "publishPalette": "Publicar paleta",
     "pushUpdates": "Enviar atualizações para o documento",
     "redo": "Refazer",
     "savePalette": "Salvar UI Color Palette",
+    "simulatePalette": "Simular na seleção",
+    "simulateSelectionHelper": "Aplica as cores mais próximas da paleta às camadas selecionadas",
     "sourceColorsNumber": "{count, plural, one {1 cor-fonte} other {# cores-fonte} =0 {Nenhuma cor-fonte}}",
-    "sync": "Sincronizar…",
+    "sync": "Sincronizar paleta",
     "syncLocalStyles": "Sincronizar com estilos locais",
     "syncLocalTokens": "Sincronizar com tokens locais",
     "syncLocalVariables": "Sincronizar com variáveis locais",
@@ -170,6 +174,10 @@
     "signInFirst": {
       "message": "Encontre e use suas próprias paletas e favoritas após autenticação",
       "signIn": "Entrar para buscar suas paletas"
+    },
+    "views": {
+      "list": "Visualização em lista",
+      "mosaic": "Visualização em mosaico"
     }
   },
   "colors": {
@@ -281,6 +289,8 @@
     "announcements": "Os anúncios não podem ser carregados",
     "authentication": "A autenticação falhou",
     "badResponse": "A resposta não é válida",
+    "copyLink": "Não foi possível copiar o link automaticamente. Copie-o pela barra de endereço.",
+    "copyLinkNoPalette": "Nenhuma paleta aberta para compartilhar ainda.",
     "corruption": "Sua UI Color Palette parece corrompida. Não edite nenhuma camada dentro dela.",
     "document": "O documento não pode ser gerado",
     "export": "O código não pode ser gerado porque a paleta não foi encontrada",
@@ -291,6 +301,7 @@
     "onboarding": "A integração não pode ser carregada",
     "openPalette": "A paleta não pode ser aberta",
     "palette": "A paleta não pode ser criada",
+    "paletteAccessDenied": "Você não tem acesso a esta paleta.",
     "paletteSizeExceeded": "O tamanho da paleta excede o limite. Por favor, reduza o número de modos de cor, cores-fonte ou tons/matizes.",
     "palettesPicking": "As paletas não podem ser selecionadas por enquanto",
     "publication": "A paleta não pode ser publicada",
@@ -337,8 +348,8 @@
       "violet": "Violeta",
       "yellow": "Amarelo"
     },
-    "meta": "{votes} votos・{views} visualizações・{comments} comentários",
-    "title": "Colour Lovers"
+    "meta": "{likes} curtidas・{date}",
+    "title": "Color Hunt"
   },
   "export": {
     "actions": {
@@ -524,6 +535,7 @@
     "askDesigner": "ou peça aos designers para criar uma paleta",
     "contrastRatioOnFree": "Atualize para /pro para ajustar a escala usando a proporção de contraste das tones/matizes com suas cores de primeiro plano",
     "copiedCode": "O código foi copiado para a área de transferência",
+    "copiedHex": "{hex} copiado para a área de transferência",
     "createdLocalModes": "{count, plural, one {1 modo criado} other {# modos criados} =0 {Nenhum modo criado}}",
     "createdLocalStyles": "{count, plural, one {1 estilo criado} other {# estilos criados} =0 {Nenhum estilo criado}}",
     "createdLocalThemes": "{count, plural, one {1 tema criado} other {# temas criados} =0 {Nenhum tema criado}}",
@@ -621,7 +633,7 @@
         "generateColorSheet": "Gerar uma folha de cores: {fee} cdts",
         "generateDetailedPalette": "Gerar uma paleta detalhada: {fee} cdts",
         "generateSimplePalette": "Gerar uma paleta simples: {fee} cdts",
-        "importColourLovers": "Importar uma paleta do Colour Lovers: {fee} cdts",
+        "importColourLovers": "Importar uma paleta do Color Hunt: {fee} cdts",
         "importCoolors": "Importar uma paleta do Coolors: {fee} cdts",
         "importRealtimeColors": "Importar uma paleta do Realtime Colors: {fee} cdts",
         "syncLocalStyles": "Sincronizar com estilos locais: {fee} cdts",
@@ -653,6 +665,7 @@
       "collapsePreview": "Recolher visualização",
       "colorSpace": "Espaço de cor",
       "copyHex": "Copiar código hexadecimal para a área de transferência",
+      "copyHexOnClick": "Clique na cor para copiar o código hexadecimal",
       "displayScores": "Mostrar pontuações",
       "expandPreview": "Expandir visualização",
       "filterScores": "Filtrar pontuações",
@@ -940,18 +953,20 @@
     },
     "shift": {
       "chroma": {
-        "helper": "O croma indica o quão viva ou saturada uma cor parece. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo croma foi ajustado individualmente — essa cor mantém seu próprio valor até ser redefinida.",
+        "helper": "O croma indica o quão viva ou saturada uma cor parece. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo croma foi ajustado individualmente: essa cor mantém seu próprio valor até ser redefinida.",
         "label": "Croma",
         "warning": "Atualize para /pro para criar uma paleta com deslocamento de croma modificado. Redefina para 100% ou atualize."
       },
       "curve": {
         "free": "Livre",
         "hyperbola": "Hipérbole",
+        "hyperbolaLabel": "L/R",
         "label": "Distribuição",
-        "linear": "Linear"
+        "linear": "Linear",
+        "linearLabel": "Global"
       },
       "hue": {
-        "helper": "O matiz indica a posição de uma cor na roda de cores. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo matiz foi ajustado individualmente — essa cor mantém seu próprio valor até ser redefinida.",
+        "helper": "O matiz indica a posição de uma cor na roda de cores. Esse deslocamento se aplica a todas as cores da paleta de uma vez, exceto a uma cor cujo matiz foi ajustado individualmente: essa cor mantém seu próprio valor até ser redefinida.",
         "label": "Matiz"
       },
       "threshold": {
@@ -1031,6 +1046,7 @@
   },
   "separator": "・",
   "services": {
+    "combine": "Combinador de cores",
     "explore": "Explorar",
     "extract": "Paleta de imagem",
     "generate": "Cores com IA",
@@ -1312,7 +1328,7 @@
       "title": "Escolha as cores que impulsionam sua paleta"
     },
     "export": {
-      "description": "Gere código pronto para produção — copie, cole, entregue.",
+      "description": "Gere código pronto para produção: copie, cole, entregue.",
       "title": "Exporte para Tailwind, variáveis CSS e tokens W3C"
     },
     "imports": {
@@ -1333,7 +1349,7 @@
       "title": "Verifique o contraste de cada par de tons"
     },
     "scale": {
-      "description": "Defina os stops de luminosidade e a curva de easing — cada tom é calculado a partir daqui.",
+      "description": "Defina os stops de luminosidade e a curva de easing: cada tom é calculado a partir daqui.",
       "title": "Esculpa a distribuição dos seus tons"
     },
     "scoresControls": {
@@ -1345,7 +1361,7 @@
       "title": "Ajuste as configurações de geração da sua paleta"
     },
     "themes": {
-      "description": "Alterne entre modo escuro, variantes de marca e mais — tudo da mesma fonte.",
+      "description": "Alterne entre modo escuro, variantes de marca e mais, tudo da mesma fonte.",
       "title": "Crie múltiplos temas a partir de uma paleta"
     }
   },
@@ -1447,6 +1463,13 @@
     },
     "signIn": "Entrar",
     "signOut": "Sair",
+    "theme": {
+      "dark": "Escuro",
+      "label": "Alterar tema",
+      "light": "Claro",
+      "system": "Sistema",
+      "title": "Tema"
+    },
     "updateConsent": "Gerenciar cookies",
     "updatePreferences": "Atualizar preferências",
     "useLicense": "Usar chave de licença",
@@ -1463,6 +1486,7 @@
     }
   },
   "warning": {
+    "emptySelection": "Selecione pelo menos uma camada para simular a paleta",
     "emptySourceColors": "Não há cor-fonte. Adicione-as manualmente na seção Cores.",
     "hslColorSpace": "O espaço de cor HSL pode incluir as cores-fonte na paleta, mas esta abordagem não garantirá consistência em luminosidade e contraste.",
     "noCommunityPaletteOnRemote": "Está bem vazio por aqui! Seja o primeiro a compartilhar sua paleta com outros usuários!",

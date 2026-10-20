@@ -497,15 +497,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           isBlocked={this.features.IMPORTS_CANVAS.isBlocked()}
           isNew={this.features.IMPORTS_CANVAS.isNew()}
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : { type: 'GET_PRO', data: { origin: 'IMPORTS_CANVAS' } },
               },
               '*'
             )
@@ -591,15 +590,14 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           isBlocked={this.features.IMPORTS_COOLORS.isBlocked()}
           isNew={this.features.IMPORTS_COOLORS.isNew()}
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : { type: 'GET_PRO', data: { origin: 'IMPORTS_COOLORS' } },
               },
               '*'
             )
@@ -625,7 +623,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           {this.state.sourceColors.filter(
             (sourceColor) => sourceColor.source === 'COOLORS'
           ).length === 0 ? (
-            <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+            <div style={{ padding: '0 var(--scale-pos-xsmall)' }}>
               <FormItem
                 id="update-coolors-url"
                 helper={this.state.coolorsUrl.helper}
@@ -707,15 +705,17 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           isBlocked={this.features.IMPORTS_REALTIME_COLORS.isBlocked()}
           isNew={this.features.IMPORTS_REALTIME_COLORS.isNew()}
           onBlock={() => {
+            const isTrial =
+              this.props.config.plan.isTrialEnabled &&
+              this.props.trialStatus !== 'EXPIRED'
             sendPluginMessage(
               {
-                pluginMessage: {
-                  type:
-                    this.props.config.plan.isTrialEnabled &&
-                    this.props.trialStatus !== 'EXPIRED'
-                      ? 'GET_TRIAL'
-                      : 'GET_PRO',
-                },
+                pluginMessage: isTrial
+                  ? { type: 'GET_TRIAL' }
+                  : {
+                      type: 'GET_PRO',
+                      data: { origin: 'IMPORTS_REALTIME_COLORS' },
+                    },
               },
               '*'
             )
@@ -741,7 +741,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           {this.state.sourceColors.filter(
             (sourceColor) => sourceColor.source === 'REALTIME_COLORS'
           ).length === 0 ? (
-            <div style={{ padding: '0 var(--size-pos-xsmall)' }}>
+            <div style={{ padding: '0 var(--scale-pos-xsmall)' }}>
               <FormItem
                 id="update-realtime-colors-url"
                 helper={this.state.realtimeColorsUrl.helper}
@@ -840,15 +840,17 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                           1
                       )}
                       onBlock={() => {
+                        const isTrial =
+                          this.props.config.plan.isTrialEnabled &&
+                          this.props.trialStatus !== 'EXPIRED'
                         sendPluginMessage(
                           {
-                            pluginMessage: {
-                              type:
-                                this.props.config.plan.isTrialEnabled &&
-                                this.props.trialStatus !== 'EXPIRED'
-                                  ? 'GET_TRIAL'
-                                  : 'GET_PRO',
-                            },
+                            pluginMessage: isTrial
+                              ? { type: 'GET_TRIAL' }
+                              : {
+                                  type: 'GET_PRO',
+                                  data: { origin: 'ADD_COLOR' },
+                                },
                           },
                           '*'
                         )
@@ -863,7 +865,7 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                 ) && (
                   <div
                     style={{
-                      padding: 'var(--size-pos-xxsmall)',
+                      padding: 'var(--scale-pos-xxsmall)',
                     }}
                   >
                     <SemanticMessage
@@ -888,20 +890,22 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                           <Button
                             type="secondary"
                             label={this.props.t('plan.getPro')}
-                            action={() =>
+                            action={() => {
+                              const isTrial =
+                                this.props.config.plan.isTrialEnabled &&
+                                this.props.trialStatus !== 'EXPIRED'
                               sendPluginMessage(
                                 {
-                                  pluginMessage: {
-                                    type:
-                                      this.props.config.plan.isTrialEnabled &&
-                                      this.props.trialStatus !== 'EXPIRED'
-                                        ? 'GET_TRIAL'
-                                        : 'GET_PRO',
-                                  },
+                                  pluginMessage: isTrial
+                                    ? { type: 'GET_TRIAL' }
+                                    : {
+                                        type: 'GET_PRO',
+                                        data: { origin: 'ADD_COLOR' },
+                                      },
                                 },
                                 '*'
                               )
-                            }
+                            }}
                           />
                         )
                       }

@@ -78,7 +78,7 @@ if ((window as any).__loadUIListenerAttached)
   console.warn('loadUI listener already attached, skipping')
 else {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-extra-semi
-  ;(window as any).__loadUIListenerAttached = true
+  (window as any).__loadUIListenerAttached = true
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePluginMessage = async (msg: any) => {
@@ -302,6 +302,7 @@ else {
               text: tolgee.t('pricing.figma.text'),
               cta: tolgee.t('pricing.figma.cta'),
             },
+            origin: path.data?.origin ?? 'UNKNOWN',
           },
         }),
       GET_LICENSE: async () =>

@@ -62,6 +62,7 @@ import {
   initializePaletteStore,
 } from '../../stores/palette'
 import { clearHistory, flush, suppressHistory } from '../../stores/history'
+import { trackOnboardingEvent } from '../../external/tracking'
 import startTour, {
   showNoPaletteNotice,
 } from '../../external/onboarding/startTour'
@@ -70,6 +71,10 @@ import { ConfigContextType } from '../../config/ConfigContext'
 interface ManagePaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   appData: AppState
+  browseContext?: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  onChangeBrowseContext?: (
+    context: 'LOCAL_PALETTES' | 'REMOTE_PALETTES'
+  ) => void
 }
 
 export interface ManagePaletteState {
@@ -104,7 +109,6 @@ export default class ManagePalette extends PureComponent<
   ManagePaletteState
 > {
   private palette: typeof $palette
-  private theme: string | null
   private subscribePalette: Array<() => void> = []
   private openPaletteRef = createRef<OpenPalette>()
 
@@ -188,7 +192,7 @@ export default class ManagePalette extends PureComponent<
       },
       areSourceColorsLocked: false,
       colors: [],
-      colorSpace: 'LCH',
+      colorSpace: 'OKLCH',
       visionSimulationMode: 'NONE',
       themes: [],
       view: 'PALETTE_WITH_PROPERTIES',
@@ -220,7 +224,6 @@ export default class ManagePalette extends PureComponent<
       },
       canBePublished: false,
     }
-    this.theme = document.documentElement.getAttribute('data-theme')
   }
 
   // Lifecycle
@@ -423,7 +426,7 @@ export default class ManagePalette extends PureComponent<
         },
         areSourceColorsLocked: false,
         colors: [],
-        colorSpace: 'LCH',
+        colorSpace: 'OKLCH',
         visionSimulationMode: 'NONE',
         view: 'PALETTE_WITH_PROPERTIES',
         algorithmVersion: this.props.config.versions.algorithmVersion,
@@ -458,11 +461,28 @@ export default class ManagePalette extends PureComponent<
     const ref = this.openPaletteRef.current
     if (!ref) return
 
-    startTour(this.props.t, this.props.editor, {
-      setMode: (mode) => ref.setMode(mode),
-      setEditContext: (context) => ref.setEditContext(context),
-      setInspectContext: (context) => ref.setInspectContext(context),
-    })
+    startTour(
+      this.props.t,
+      this.props.editor,
+      {
+        setMode: (mode) => ref.setMode(mode),
+        setEditContext: (context) => ref.setEditContext(context),
+        setInspectContext: (context) => ref.setInspectContext(context),
+      },
+      this.props.isCompact
+    )
+
+    trackOnboardingEvent(
+      this.props.config.env.isMixpanelEnabled,
+      this.props.userSession.userId,
+      this.props.userIdentity.id,
+      this.props.planStatus,
+      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+        ?.isConsented ?? false,
+      {
+        feature: 'START_TOUR',
+      }
+    )
   }
 
   onLoadPalette = (palette: {

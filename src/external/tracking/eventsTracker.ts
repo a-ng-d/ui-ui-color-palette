@@ -447,6 +447,7 @@ export const trackPricingEvent = (
       Editor: getEditor(),
       Plan: planStatus,
       Feature: options.feature,
+      Origin: options.origin ?? 'UNKNOWN',
     })
 
   if (id === '') return

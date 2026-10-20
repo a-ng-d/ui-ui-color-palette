@@ -11,7 +11,7 @@ import {
   Channel,
 } from '@yelbolt/engine-ui-color-palette'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Bar, Dropdown, FormItem, Layout } from '@unoff/ui'
+import { Bar, Dropdown, FormItem, Layout, texts } from '@unoff/ui'
 import { Input } from '@unoff/ui'
 import { layouts } from '@unoff/ui'
 import { Chip } from '@unoff/ui'
@@ -334,19 +334,6 @@ export default class ColorWheel extends PureComponent<
           {
             node: (
               <>
-                <this.HarmonyPreview />
-                <div
-                  style={{
-                    padding: 'var(--size-pos-xsmall)',
-                  }}
-                >
-                  <PalettePreview
-                    colors={setPreviewPalette(
-                      this.getSourceColors(),
-                      this.palette.get()
-                    )}
-                  />
-                </div>
                 <Bar
                   leftPartSlot={
                     <Feature isActive={this.features.WHEEL_BASE.isActive()}>
@@ -419,16 +406,20 @@ export default class ColorWheel extends PureComponent<
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_ANALOGOUS.isNew(),
                                 onBlock: () => {
+                                  const isTrial =
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: {
-                                        type:
-                                          this.props.config.plan
-                                            .isTrialEnabled &&
-                                          this.props.trialStatus !== 'EXPIRED'
-                                            ? 'GET_TRIAL'
-                                            : 'GET_PRO',
-                                      },
+                                      pluginMessage: isTrial
+                                        ? { type: 'GET_TRIAL' }
+                                        : {
+                                            type: 'GET_PRO',
+                                            data: {
+                                              origin:
+                                                'WHEEL_ALGORITHM_ANALOGOUS',
+                                            },
+                                          },
                                     },
                                     '*'
                                   )
@@ -452,16 +443,20 @@ export default class ColorWheel extends PureComponent<
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_COMPLEMENTARY.isNew(),
                                 onBlock: () => {
+                                  const isTrial =
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: {
-                                        type:
-                                          this.props.config.plan
-                                            .isTrialEnabled &&
-                                          this.props.trialStatus !== 'EXPIRED'
-                                            ? 'GET_TRIAL'
-                                            : 'GET_PRO',
-                                      },
+                                      pluginMessage: isTrial
+                                        ? { type: 'GET_TRIAL' }
+                                        : {
+                                            type: 'GET_PRO',
+                                            data: {
+                                              origin:
+                                                'WHEEL_ALGORITHM_COMPLEMENTARY',
+                                            },
+                                          },
                                     },
                                     '*'
                                   )
@@ -483,16 +478,20 @@ export default class ColorWheel extends PureComponent<
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_COMPOUND.isNew(),
                                 onBlock: () => {
+                                  const isTrial =
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: {
-                                        type:
-                                          this.props.config.plan
-                                            .isTrialEnabled &&
-                                          this.props.trialStatus !== 'EXPIRED'
-                                            ? 'GET_TRIAL'
-                                            : 'GET_PRO',
-                                      },
+                                      pluginMessage: isTrial
+                                        ? { type: 'GET_TRIAL' }
+                                        : {
+                                            type: 'GET_PRO',
+                                            data: {
+                                              origin:
+                                                'WHEEL_ALGORITHM_COMPOUND',
+                                            },
+                                          },
                                     },
                                     '*'
                                   )
@@ -514,16 +513,19 @@ export default class ColorWheel extends PureComponent<
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_TRIADIC.isNew(),
                                 onBlock: () => {
+                                  const isTrial =
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: {
-                                        type:
-                                          this.props.config.plan
-                                            .isTrialEnabled &&
-                                          this.props.trialStatus !== 'EXPIRED'
-                                            ? 'GET_TRIAL'
-                                            : 'GET_PRO',
-                                      },
+                                      pluginMessage: isTrial
+                                        ? { type: 'GET_TRIAL' }
+                                        : {
+                                            type: 'GET_PRO',
+                                            data: {
+                                              origin: 'WHEEL_ALGORITHM_TRIADIC',
+                                            },
+                                          },
                                     },
                                     '*'
                                   )
@@ -543,16 +545,20 @@ export default class ColorWheel extends PureComponent<
                                 isNew:
                                   this.features.WHEEL_ALGORITHM_TETRADIC.isNew(),
                                 onBlock: () => {
+                                  const isTrial =
+                                    this.props.config.plan.isTrialEnabled &&
+                                    this.props.trialStatus !== 'EXPIRED'
                                   sendPluginMessage(
                                     {
-                                      pluginMessage: {
-                                        type:
-                                          this.props.config.plan
-                                            .isTrialEnabled &&
-                                          this.props.trialStatus !== 'EXPIRED'
-                                            ? 'GET_TRIAL'
-                                            : 'GET_PRO',
-                                      },
+                                      pluginMessage: isTrial
+                                        ? { type: 'GET_TRIAL' }
+                                        : {
+                                            type: 'GET_PRO',
+                                            data: {
+                                              origin:
+                                                'WHEEL_ALGORITHM_TETRADIC',
+                                            },
+                                          },
                                     },
                                     '*'
                                   )
@@ -566,15 +572,24 @@ export default class ColorWheel extends PureComponent<
                             ]}
                             selected={this.state.wheelRule}
                             alignment="RIGHT"
-                            pin="BOTTOM"
+                            pin="TOP"
                           />
                         </FormItem>
                       </Feature>
                       <Feature
                         isActive={this.features.CREATE_PALETTE.isActive()}
                       >
+                        <span
+                          className={doClassnames([
+                            texts.type,
+                            texts['type--secondary'],
+                          ])}
+                        >
+                          {this.props.t('separator')}
+                        </span>
                         <Button
                           type="secondary"
+                          icon="plus"
                           label={this.props.t('wheel.actions.newPalette')}
                           helper={{
                             label: this.features.LOCAL_PALETTES.isReached(
@@ -587,7 +602,6 @@ export default class ColorWheel extends PureComponent<
                                 })
                               : this.props.t('wheel.actions.addColors'),
                             type: 'MULTI_LINE',
-                            pin: 'TOP',
                           }}
                           isLoading={this.state.isActionLoading}
                           isBlocked={this.features.LOCAL_PALETTES.isReached(
@@ -595,15 +609,17 @@ export default class ColorWheel extends PureComponent<
                           )}
                           isNew={this.features.CREATE_PALETTE.isNew()}
                           onBlock={() => {
+                            const isTrial =
+                              this.props.config.plan.isTrialEnabled &&
+                              this.props.trialStatus !== 'EXPIRED'
                             sendPluginMessage(
                               {
-                                pluginMessage: {
-                                  type:
-                                    this.props.config.plan.isTrialEnabled &&
-                                    this.props.trialStatus !== 'EXPIRED'
-                                      ? 'GET_TRIAL'
-                                      : 'GET_PRO',
-                                },
+                                pluginMessage: isTrial
+                                  ? { type: 'GET_TRIAL' }
+                                  : {
+                                      type: 'GET_PRO',
+                                      data: { origin: 'LOCAL_PALETTES' },
+                                    },
                               },
                               '*'
                             )
@@ -615,8 +631,21 @@ export default class ColorWheel extends PureComponent<
                   }
                   shouldReflow
                   isInverted
-                  border={['TOP']}
+                  border={['BOTTOM']}
                 />
+                <div
+                  style={{
+                    padding: 'var(--scale-pos-xxsmall) var(--scale-pos-xsmall)',
+                  }}
+                >
+                  <PalettePreview
+                    colors={setPreviewPalette(
+                      this.getSourceColors(),
+                      this.palette.get()
+                    )}
+                  />
+                </div>
+                <this.HarmonyPreview />
               </>
             ),
             typeModifier: 'BLANK',
