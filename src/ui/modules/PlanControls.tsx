@@ -5,6 +5,7 @@ import { Button, IconChip, layouts, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
+import CreditsCounter from '../components/CreditsCounter'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import { MeterKey } from '../../types/config'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
@@ -328,11 +329,13 @@ export default class PlanControls extends PureComponent<
             layouts['snackbar--tight'],
           ])}
         >
-          <span>
-            {this.props.t('plan.credits.amount', {
-              count: Math.ceil(this.state.creditsCount).toString(),
-            })}
-          </span>
+          <CreditsCounter
+            value={Math.ceil(this.state.creditsCount)}
+            formatAmount={(count) =>
+              this.props.t('plan.credits.amount', { count })
+            }
+            formatCharged={(cost) => this.props.t('credits.charged', { cost })}
+          />
           <IconChip
             iconType="PICTO"
             iconName={this.state.creditsCount === 0 ? 'warning' : 'info'}

@@ -440,3 +440,60 @@ div.export-palette__preview {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Credits counter */
+.credits-counter {
+  display: inline-flex;
+  position: relative;
+}
+
+.credits-counter__amount {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.credits-counter__badge {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  z-index: 1;
+  animation: credits-counter-badge 1.2s ease-out forwards;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.credits-counter__badge--static {
+  animation-name: credits-counter-badge-static;
+}
+
+.credits-counter__live {
+  position: absolute;
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+@keyframes credits-counter-badge {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+}
+
+@keyframes credits-counter-badge-static {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

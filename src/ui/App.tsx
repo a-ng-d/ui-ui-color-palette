@@ -655,23 +655,8 @@ class App extends Component<AppProps, AppState> {
           this.state.planStatus
         )
 
-        if (isCreditsEnabled) {
+        if (isCreditsEnabled)
           $creditsCount.set(Math.max(0, $creditsCount.get() - cost))
-
-          const charged = this.props.t('credits.charged', { cost })
-          this.setState({
-            isNotificationDisplayed: true,
-            notification: {
-              type: this.state.isNotificationDisplayed
-                ? this.state.notification.type
-                : 'INFO',
-              message: this.state.isNotificationDisplayed
-                ? `${this.state.notification.message}${this.props.t('separator')}${charged}`
-                : charged,
-              timer: 5000,
-            },
-          })
-        }
 
         if (pendingRun)
           trackActionEvent(
