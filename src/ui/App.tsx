@@ -13,7 +13,7 @@ import {
 } from '@unoff/ui'
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
-import { ACTION_METER, areCreditsEnabled } from '../utils/meteredActions'
+import { ACTION_METER, areCreditsAppliedTo } from '../utils/meteredActions'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
 import { resolveIsCompact, resolveIsMobile } from '../utils/isCompact'
 import { getPortalTarget } from '../utils/getPortalTarget'
@@ -648,9 +648,10 @@ class App extends Component<AppProps, AppState> {
           (sum, count) => sum + (Number.isFinite(count) ? (count ?? 0) : 0),
           0
         )
-        const isCreditsEnabled =
-          areCreditsEnabled(this.props.config) &&
-          this.state.planStatus !== 'PAID'
+        const isCreditsEnabled = areCreditsAppliedTo(
+          this.props.config,
+          this.state.planStatus
+        )
 
         if (isCreditsEnabled) {
           $creditsCount.set(Math.max(0, $creditsCount.get() - cost))

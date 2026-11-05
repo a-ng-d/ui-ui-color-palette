@@ -758,7 +758,7 @@
         "discount": "Figma, Penpot, Sketch, Framer에서 $47 /lifetime",
         "regular": "Figma, Penpot, Sketch, Framer에서 $59 /lifetime"
       },
-      "text": "◻ 무제한 팔레트</br>◻ 무제한 소스 색상</br>◻ 무제한 스톱</br>◻ 무제한 색상 모드",
+      "text": "◻ 무제한 팔레트</br>◻ 무제한 소스 색상</br>◻ 무제한 스톱</br>◻ 무제한 색상 모드</br>◻ 무제한 크레딧",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +767,7 @@
         "discount": "Figma, Penpot, Sketch, Framer에서 $47 /lifetime",
         "regular": "Figma, Penpot, Sketch, Framer에서 $59 /lifetime"
       },
-      "text": "◻ /figma의 모든 기능</br>◻ 소규모 및 대규모 팀 지원</br>◻ 멀티플랫폼</br>◻ 다양한 결제 옵션</br>◻ 평생 플랜",
+      "text": "◻ /figma의 모든 기능</br>◻ 소규모 및 대규모 팀 지원</br>◻ 멀티플랫폼</br>◻ 다양한 결제 옵션</br>◻ 평생 플랜</br>◻ 무제한 크레딧",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "새로운 플랜",
@@ -785,10 +785,10 @@
         "year": "사용자/년 {price}"
       },
       "texts": {
-        "lifetime": "◻ 평생 액세스</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "month": "◻ 유연함</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "week": "◻ 종량제</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "year": "◻ 절약</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드"
+        "lifetime": "◻ 평생 액세스</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧",
+        "month": "◻ 유연함</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧",
+        "week": "◻ 종량제</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧",
+        "year": "◻ 절약</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

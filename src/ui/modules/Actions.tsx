@@ -37,7 +37,7 @@ import {
 } from '../../utils/publication'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
-  areCreditsEnabled,
+  areCreditsAppliedTo,
   countModes,
   countSourceColors,
   countShades,
@@ -425,7 +425,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       feature,
       type: 'OPTION',
       isActive: status.isActive(),
-      shortcut: areCreditsEnabled(this.props.config)
+      shortcut: areCreditsAppliedTo(this.props.config, this.props.planStatus)
         ? this.props.t('credits.estimate', { cost: estimate })
         : undefined,
       isBlocked: isCreditGatedBlocked(
@@ -875,7 +875,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     feature="SIMULATE_PALETTE"
                     helper={{
                       label: `${this.props.t('actions.simulateSelectionHelper')}${
-                        areCreditsEnabled(this.props.config)
+                        areCreditsAppliedTo(
+                          this.props.config,
+                          this.props.planStatus
+                        )
                           ? ` (${this.props.t('credits.estimate', {
                               cost: this.estimate('SIMULATE_PALETTE'),
                             })})`

@@ -758,7 +758,7 @@
         "discount": "Figma、Penpot、Sketch、Framerで$47 /lifetime",
         "regular": "Figma、Penpot、Sketch、Framerで$59 /lifetime"
       },
-      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード",
+      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード</br>◻ 無制限のクレジット",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +767,7 @@
         "discount": "Figma、Penpot、Sketch、Framerで$47 /lifetime",
         "regular": "Figma、Penpot、Sketch、Framerで$59 /lifetime"
       },
-      "text": "◻ /figmaのすべての機能</br>◻ 小〜大規模チーム向け</br>◻ マルチプラットフォーム</br>◻ 複数の支払いオプション</br>◻ ライフタイムプラン",
+      "text": "◻ /figmaのすべての機能</br>◻ 小〜大規模チーム向け</br>◻ マルチプラットフォーム</br>◻ 複数の支払いオプション</br>◻ ライフタイムプラン</br>◻ 無制限のクレジット",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "新しいプラン",
@@ -785,10 +785,10 @@
         "year": "{price} ユーザー/年"
       },
       "texts": {
-        "lifetime": "◻ 永久アクセス</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "month": "◻ 柔軟</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "week": "◻ 従量課金</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "year": "◻ お得</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード"
+        "lifetime": "◻ 永久アクセス</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット",
+        "month": "◻ 柔軟</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット",
+        "week": "◻ 従量課金</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット",
+        "year": "◻ お得</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

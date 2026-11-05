@@ -11,6 +11,13 @@ export const ACTION_METER: Record<MeteredAction, MeterKey> = {
   SIMULATE_PALETTE: 'paletteSimulate',
 }
 
+// Credits are the free tier's allowance: Pro is unlimited, so estimates, charges
+// and credit blocks only apply to non-paying users.
+export const areCreditsAppliedTo = (
+  config: Pick<Config, 'plan'>,
+  planStatus: string
+): boolean => areCreditsEnabled(config) && planStatus !== 'PAID'
+
 export const areCreditsEnabled = (config: Pick<Config, 'plan'>): boolean =>
   config.plan.isProEnabled && config.plan.isCreditsEnabled
 
@@ -84,8 +91,7 @@ export const isCreditsExhausted = (
   balance: number,
   estimate: number
 ): boolean =>
-  areCreditsEnabled(config) &&
-  planStatus !== 'PAID' &&
+  areCreditsAppliedTo(config, planStatus) &&
   isOutOfCredits(config, balance, estimate)
 
 const CHARS_PER_TOKEN = 4

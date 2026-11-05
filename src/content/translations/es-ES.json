@@ -758,7 +758,7 @@
         "discount": "$47 /lifetime en Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime en Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Paletas ilimitadas</br>◻ Colores fuente ilimitados</br>◻ Paradas ilimitadas</br>◻ Modos de color ilimitados",
+      "text": "◻ Paletas ilimitadas</br>◻ Colores fuente ilimitados</br>◻ Paradas ilimitadas</br>◻ Modos de color ilimitados</br>◻ Créditos ilimitados",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +767,7 @@
         "discount": "$47 /lifetime en Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime en Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Todas las funciones /figma</br>◻ Para equipos pequeños y grandes</br>◻ Multiplataforma</br>◻ Múltiples opciones de pago</br>◻ Plan de por vida",
+      "text": "◻ Todas las funciones /figma</br>◻ Para equipos pequeños y grandes</br>◻ Multiplataforma</br>◻ Múltiples opciones de pago</br>◻ Plan de por vida</br>◻ Créditos ilimitados",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "Nuevos planes",
@@ -785,10 +785,10 @@
         "year": "{price} por usuario/año"
       },
       "texts": {
-        "lifetime": "◻ Acceso de por vida</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
-        "month": "◻ Flexible</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
-        "week": "◻ Paga según uses</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados",
-        "year": "◻ Ahorra dinero</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados"
+        "lifetime": "◻ Acceso de por vida</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados",
+        "month": "◻ Flexible</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados",
+        "week": "◻ Paga según uses</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados",
+        "year": "◻ Ahorra dinero</br>◻ Colores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

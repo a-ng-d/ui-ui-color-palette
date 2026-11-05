@@ -755,7 +755,7 @@
         "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes",
+      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -764,7 +764,7 @@
         "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ All /figma features</br>◻ For small and large teams</br>◻ Multi platforms</br>◻ Multi payment options</br>◻ Lifetime plan",
+      "text": "◻ All /figma features</br>◻ For small and large teams</br>◻ Multi platforms</br>◻ Multi payment options</br>◻ Lifetime plan</br>◻ Unlimited credits",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "New plans",
@@ -782,10 +782,10 @@
         "year": "{price} per user/year"
       },
       "texts": {
-        "lifetime": "◻ Lifetime access</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "month": "◻ Flexible</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "week": "◻ Pay-as-you-go</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "year": "◻ Save money</br>◻ Unlimited colors/stops</br>◻ Unlimited modes"
+        "lifetime": "◻ Lifetime access</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits",
+        "month": "◻ Flexible</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits",
+        "week": "◻ Pay-as-you-go</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits",
+        "year": "◻ Save money</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

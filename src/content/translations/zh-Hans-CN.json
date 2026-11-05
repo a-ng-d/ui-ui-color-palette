@@ -758,7 +758,7 @@
         "discount": "Figma、Penpot、Sketch、Framer 上终身 $47",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $59"
       },
-      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式",
+      "text": "◻ 无限调色板</br>◻ 无限源颜色</br>◻ 无限色阶</br>◻ 无限颜色模式</br>◻ 无限积分",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +767,7 @@
         "discount": "Figma、Penpot、Sketch、Framer 上终身 $47",
         "regular": "Figma、Penpot、Sketch、Framer 上终身 $59"
       },
-      "text": "◻ 所有 /figma 功能</br>◻ 适用于小型和大型团队</br>◻ 多平台</br>◻ 多种付款选项</br>◻ 终身计划",
+      "text": "◻ 所有 /figma 功能</br>◻ 适用于小型和大型团队</br>◻ 多平台</br>◻ 多种付款选项</br>◻ 终身计划</br>◻ 无限积分",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "新计划",
@@ -785,10 +785,10 @@
         "year": "每个用户/年 {price}"
       },
       "texts": {
-        "lifetime": "◻ 终身访问</br>◻ 无限色彩/色阶</br>◻ 无限模式",
-        "month": "◻ 灵活</br>◻ 无限色彩/色阶</br>◻ 无限模式",
-        "week": "◻ 按需付费</br>◻ 无限色彩/色阶</br>◻ 无限模式",
-        "year": "◻ 节省资金</br>◻ 无限色彩/色阶</br>◻ 无限模式"
+        "lifetime": "◻ 终身访问</br>◻ 无限色彩/色阶</br>◻ 无限模式</br>◻ 无限积分",
+        "month": "◻ 灵活</br>◻ 无限色彩/色阶</br>◻ 无限模式</br>◻ 无限积分",
+        "week": "◻ 按需付费</br>◻ 无限色彩/色阶</br>◻ 无限模式</br>◻ 无限积分",
+        "year": "◻ 节省资金</br>◻ 无限色彩/色阶</br>◻ 无限模式</br>◻ 无限积分"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

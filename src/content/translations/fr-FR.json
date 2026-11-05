@@ -758,7 +758,7 @@
         "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
         "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités",
+      "text": "◻ Palettes illimitées</br>◻ Couleurs sources illimitées</br>◻ Étapes illimitées</br>◻ Modes de couleur illimités</br>◻ Crédits illimités",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +767,7 @@
         "discount": "$47 /à vie sur Figma, Penpot, Sketch, Framer",
         "regular": "$59 /à vie sur Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Toutes les fonctionnalités /figma</br>◻ Pour petites et grandes équipes</br>◻ Multi plateformes</br>◻ Options de paiement multiples</br>◻ Forfait à vie",
+      "text": "◻ Toutes les fonctionnalités /figma</br>◻ Pour petites et grandes équipes</br>◻ Multi plateformes</br>◻ Options de paiement multiples</br>◻ Forfait à vie</br>◻ Crédits illimités",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "Nouveaux plans",
@@ -785,10 +785,10 @@
         "year": "{price} par util./an"
       },
       "texts": {
-        "lifetime": "◻ Accès à vie</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
-        "month": "◻ Flexible</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
-        "week": "◻ À la carte</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités",
-        "year": "◻ Économisez</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités"
+        "lifetime": "◻ Accès à vie</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités</br>◻ Crédits illimités",
+        "month": "◻ Flexible</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités</br>◻ Crédits illimités",
+        "week": "◻ À la carte</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités</br>◻ Crédits illimités",
+        "year": "◻ Économisez</br>◻ Couleurs/étapes illimités</br>◻ Modes illimités</br>◻ Crédits illimités"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

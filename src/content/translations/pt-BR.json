@@ -758,7 +758,7 @@
         "discount": "$47 /vitalício no Figma, Penpot, Sketch, Framer",
         "regular": "$59 /vitalício no Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados",
+      "text": "◻ Paletas ilimitadas</br>◻ Cores-fonte ilimitadas</br>◻ Paradas ilimitadas</br>◻ Modos de cor ilimitados</br>◻ Créditos ilimitados",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +767,7 @@
         "discount": "$47 /vitalício no Figma, Penpot, Sketch, Framer",
         "regular": "$59 /vitalício no Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Todos os recursos /figma</br>◻ Para equipes pequenas e grandes</br>◻ Multiplataforma</br>◻ Múltiplas opções de pagamento</br>◻ Plano vitalício",
+      "text": "◻ Todos os recursos /figma</br>◻ Para equipes pequenas e grandes</br>◻ Multiplataforma</br>◻ Múltiplas opções de pagamento</br>◻ Plano vitalício</br>◻ Créditos ilimitados",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "Novos planos",
@@ -785,10 +785,10 @@
         "year": "{price} por usuário/ano"
       },
       "texts": {
-        "lifetime": "◻ Acesso vitalício</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados",
-        "month": "◻ Flexível</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados",
-        "week": "◻ Pague conforme use</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados",
-        "year": "◻ Economize dinheiro</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados"
+        "lifetime": "◻ Acesso vitalício</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados",
+        "month": "◻ Flexível</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados",
+        "week": "◻ Pague conforme use</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados",
+        "year": "◻ Economize dinheiro</br>◻ Cores/paradas ilimitados</br>◻ Modos ilimitados</br>◻ Créditos ilimitados"
       },
       "titles": {
         "lifetime": "/pro /lifetime",

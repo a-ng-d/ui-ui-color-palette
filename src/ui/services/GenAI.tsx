@@ -26,7 +26,7 @@ import { AppState } from '../App'
 import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
 import {
-  areCreditsEnabled,
+  areCreditsAppliedTo,
   estimateAiUsage,
   isCreditsExhausted,
 } from '../../utils/meteredActions'
@@ -233,8 +233,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
         this.props.config.plan.meters.aiColorsGenerate,
         usage
       )
-      const shouldCharge =
-        areCreditsEnabled(this.props.config) && this.props.planStatus !== 'PAID'
+      const shouldCharge = areCreditsAppliedTo(
+        this.props.config,
+        this.props.planStatus
+      )
 
       if (shouldCharge)
         $creditsCount.set(Math.max(0, $creditsCount.get() - cost))
@@ -604,7 +606,10 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                             type="primary"
                             label={this.props.t('genAi.actions.generate')}
                             helper={
-                              areCreditsEnabled(this.props.config)
+                              areCreditsAppliedTo(
+                                this.props.config,
+                                this.props.planStatus
+                              )
                                 ? {
                                     label: this.props.t('credits.estimate', {
                                       cost: this.estimate(),
