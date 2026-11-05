@@ -71,12 +71,14 @@ export const tolgee = Tolgee()
   })
 
 // UI > Canvas
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-if ((window as any).__loadUIListenerAttached)
+const loadUIWindow = window as unknown as {
+  __loadUIListenerAttached?: boolean
+}
+
+if (loadUIWindow.__loadUIListenerAttached)
   console.warn('loadUI listener already attached, skipping')
 else {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-extra-semi
-  (window as any).__loadUIListenerAttached = true
+  loadUIWindow.__loadUIListenerAttached = true
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePluginMessage = async (msg: any) => {
