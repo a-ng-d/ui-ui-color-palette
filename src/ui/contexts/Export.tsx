@@ -41,6 +41,8 @@ import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { trackExportEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 
+const COLOR_SPACES_ORDER = ['oklch', 'lch', 'p3', 'rgb', 'hex', 'hsl'] as const
+
 interface ExportProps extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   name: string
@@ -113,7 +115,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
     }),
     EXPORT_COLOR_SPACE_OKLCH: new FeatureStatus({
       features: config.features,
-      featureName: 'EXPORT_COLOR_SPACE_LCH',
+      featureName: 'EXPORT_COLOR_SPACE_OKLCH',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -281,7 +283,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
     this.mode = getDocumentAttribute('data-mode')
     this.state = {
       colorSpace: {
-        selected: 'RGB',
+        selected: 'OKLCH',
         options: [],
       },
     }
@@ -291,7 +293,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
   componentDidMount() {
     this.setState({
       colorSpace: {
-        selected: 'RGB',
+        selected: 'OKLCH',
         options: this.colorSpaceHandler('STYLESHEET_CSS', [
           'rgb',
           'hex',
@@ -308,7 +310,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         format: 'CSS',
         context: 'STYLESHEET_CSS',
         mimeType: 'text/css',
-        data: this.getCodeFromProps().makeCssCustomProps('RGB')[0].content,
+        data: this.getCodeFromProps().makeCssCustomProps('OKLCH')[0].content,
       },
     })
   }
@@ -331,7 +333,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
       TOKENS_DTCG: () => {
         this.setState({
           colorSpace: {
-            selected: 'RGB',
+            selected: 'OKLCH',
             options: this.colorSpaceHandler('TOKENS_DTCG', ['rgb', 'oklch']),
           },
         })
@@ -341,7 +343,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'JSON',
             context: 'TOKENS_DTCG',
             mimeType: 'application/json',
-            data: this.getCodeFromProps().makeDtcgTokens('RGB'),
+            data: this.getCodeFromProps().makeDtcgTokens('OKLCH'),
           },
         })
       },
@@ -402,7 +404,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
       STYLESHEET_CSS: () => {
         this.setState({
           colorSpace: {
-            selected: 'RGB',
+            selected: 'OKLCH',
             options: this.colorSpaceHandler('STYLESHEET_CSS', [
               'rgb',
               'hex',
@@ -419,7 +421,8 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'CSS',
             context: 'STYLESHEET_CSS',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeCssCustomProps('RGB')[0].content,
+            data: this.getCodeFromProps().makeCssCustomProps('OKLCH')[0]
+              .content,
           },
         })
       },
@@ -529,7 +532,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
       STYLESHEET_SCSS: () => {
         this.setState({
           colorSpace: {
-            selected: 'RGB',
+            selected: 'OKLCH',
             options: this.colorSpaceHandler('STYLESHEET_SCSS', [
               'rgb',
               'hex',
@@ -545,7 +548,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'SCSS',
             context: 'STYLESHEET_SCSS',
             mimeType: 'text/x-scss',
-            data: this.getCodeFromProps().makeScssVariables('RGB')[0].content,
+            data: this.getCodeFromProps().makeScssVariables('OKLCH')[0].content,
           },
         })
       },
@@ -637,7 +640,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
       STYLESHEET_LESS: () => {
         this.setState({
           colorSpace: {
-            selected: 'RGB',
+            selected: 'OKLCH',
             options: this.colorSpaceHandler('STYLESHEET_LESS', [
               'rgb',
               'hex',
@@ -652,7 +655,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
             format: 'LESS',
             context: 'STYLESHEET_LESS',
             mimeType: 'text/x-less',
-            data: this.getCodeFromProps().makeLessVariables('RGB')[0].content,
+            data: this.getCodeFromProps().makeLessVariables('OKLCH')[0].content,
           },
         })
       },
@@ -752,12 +755,56 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         })
       },
       TAILWIND_V4: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'OKLCH',
+            options: this.colorSpaceHandler('TAILWIND_V4', ['hex', 'oklch']),
+          },
+        })
+
         this.props.onChangeExport({
           export: {
             format: 'CSS',
             context: 'TAILWIND_V4',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeTailwindV4Config()[0].content,
+            data: this.getCodeFromProps().makeTailwindV4Config('OKLCH')[0]
+              .content,
+          },
+        })
+      },
+      TAILWIND_V4_HEX: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'HEX',
+            options: this.state.colorSpace.options,
+          },
+        })
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'TAILWIND_V4',
+            mimeType: 'text/css',
+            data: this.getCodeFromProps().makeTailwindV4Config('HEX')[0]
+              .content,
+          },
+        })
+      },
+      TAILWIND_V4_OKLCH: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'OKLCH',
+            options: this.state.colorSpace.options,
+          },
+        })
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'TAILWIND_V4',
+            mimeType: 'text/css',
+            data: this.getCodeFromProps().makeTailwindV4Config('OKLCH')[0]
+              .content,
           },
         })
       },
@@ -832,7 +879,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
 
   colorSpaceHandler = (
     exportType: string,
-    spaces: Array<'rgb' | 'hex' | 'hsl' | 'lch' | 'oklch' | 'p3'>
+    spaces: Array<(typeof COLOR_SPACES_ORDER)[number]>
   ): Array<DropdownOption> => {
     const features = Export.features(
       this.props.planStatus,
@@ -883,60 +930,14 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         label: this.props.t('export.colorSpace.label'),
         type: 'TITLE',
       },
-      ...(spaces.includes('rgb')
-        ? [
-            model(
-              this.props.t('export.colorSpace.rgb'),
-              `${exportType}_RGB`,
-              'EXPORT_COLOR_SPACE_RGB'
-            ),
-          ]
-        : []),
-      ...(spaces.includes('hex')
-        ? [
-            model(
-              this.props.t('export.colorSpace.hex'),
-              `${exportType}_HEX`,
-              'EXPORT_COLOR_SPACE_HEX'
-            ),
-          ]
-        : []),
-      ...(spaces.includes('hsl')
-        ? [
-            model(
-              this.props.t('export.colorSpace.hsl'),
-              `${exportType}_HSL`,
-              'EXPORT_COLOR_SPACE_HSL'
-            ),
-          ]
-        : []),
-      ...(spaces.includes('lch')
-        ? [
-            model(
-              this.props.t('export.colorSpace.lch'),
-              `${exportType}_LCH`,
-              'EXPORT_COLOR_SPACE_LCH'
-            ),
-          ]
-        : []),
-      ...(spaces.includes('oklch')
-        ? [
-            model(
-              this.props.t('export.colorSpace.oklch'),
-              `${exportType}_OKLCH`,
-              'EXPORT_COLOR_SPACE_OKLCH'
-            ),
-          ]
-        : []),
-      ...(spaces.includes('p3')
-        ? [
-            model(
-              this.props.t('export.colorSpace.p3'),
-              `${exportType}_P3`,
-              'EXPORT_COLOR_SPACE_P3'
-            ),
-          ]
-        : []),
+      ...COLOR_SPACES_ORDER.filter((space) => spaces.includes(space)).map(
+        (space) =>
+          model(
+            this.props.t(`export.colorSpace.${space}`),
+            `${exportType}_${space.toUpperCase()}`,
+            `EXPORT_COLOR_SPACE_${space.toUpperCase()}`
+          )
+      ),
     ]
   }
 
@@ -1541,7 +1542,8 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                           {(this.props.context === 'STYLESHEET_CSS' ||
                             this.props.context === 'STYLESHEET_SCSS' ||
                             this.props.context === 'STYLESHEET_LESS' ||
-                            this.props.context === 'TOKENS_DTCG') && (
+                            this.props.context === 'TOKENS_DTCG' ||
+                            this.props.context === 'TAILWIND_V4') && (
                             <Menu
                               icon="adjust"
                               id="color-space"
@@ -1592,19 +1594,6 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                   alignment="CENTER"
                   isListItem={false}
                 />
-                {this.props.context === 'TOKENS_DTCG' && (
-                  <div
-                    style={{
-                      padding:
-                        '0 var(--scale-pos-xsmall) var(--scale-pos-xxsmall)',
-                    }}
-                  >
-                    <SemanticMessage
-                      type="INFO"
-                      message={this.props.t('export.tokens.dtcg.message')}
-                    />
-                  </div>
-                )}
                 {this.props.context === 'TOKENS_NATIVE' && (
                   <div
                     style={{

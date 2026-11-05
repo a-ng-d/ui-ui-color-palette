@@ -139,7 +139,7 @@ export default class ExportPalette extends PureComponent<
             } as BaseConfiguration,
             themes: this.props.themes,
           }).makePaletteData(),
-        }).makeCssCustomProps('RGB')[0].content,
+        }).makeCssCustomProps('OKLCH')[0].content,
       },
       isPrimaryLoading: false,
       isSecondaryLoading: false,
