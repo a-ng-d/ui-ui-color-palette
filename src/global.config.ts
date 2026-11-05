@@ -419,7 +419,7 @@ const globalConfig: Config = {
       paletteSimulate: { units: { layer: 2 } },
       aiColorsGenerate: {
         units: {},
-        tokens: { tokensPerCredit: 400, outputTokenWeight: 4 },
+        tokens: { tokensPerCredit: 40, outputTokenWeight: 4 },
       },
     },
     storeProWeekId: '20d1df96-8052-47de-bf62-36b412c35885',

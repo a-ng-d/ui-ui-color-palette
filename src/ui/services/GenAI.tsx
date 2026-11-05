@@ -614,7 +614,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                                     label: this.props.t('credits.estimate', {
                                       cost: this.estimate(),
                                     }),
-                                    type: 'MULTI_LINE',
                                   }
                                 : undefined
                             }
