@@ -621,22 +621,6 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {1 crédito restante} other {# créditos restantes} =0 {Sin créditos restantes}}",
-      "fees": {
-        "createColorHarmony": "Crear una armonía de colores: {fee} cdts",
-        "createPalette": "Crear una UI Color Palette: {fee} cdts",
-        "extractImageColors": "Extraer colores dominantes de imagen: {fee} cdts",
-        "generateAiColors": "Generar colores con IA: {fee} cdts",
-        "generateColorSheet": "Generar una hoja de colores: {fee} cdts",
-        "generateDetailedPalette": "Generar una paleta detallada: {fee} cdts",
-        "generateSimplePalette": "Generar una paleta simple: {fee} cdts",
-        "importColourLovers": "Importar una paleta de Color Hunt: {fee} cdts",
-        "importCoolors": "Importar una paleta de Coolors: {fee} cdts",
-        "importRealtimeColors": "Importar una paleta de Realtime Colors: {fee} cdts",
-        "syncLocalStyles": "Sincronizar con estilos locales: {fee} cdts",
-        "syncLocalTokens": "Sincronizar con tokens locales: {fee} cdts",
-        "syncLocalVariables": "Sincronizar con variables locales: {fee} cdts",
-        "updatePalette": "Actualizar una paleta: {fee} cdts"
-      },
       "renew": "Los créditos se renovarán el {date}. Actualiza a /pro para créditos ilimitados."
     },
     "dev": "Plan /dev",

@@ -6,6 +6,7 @@ import {
   MouseEventHandler,
   KeyboardEventHandler,
 } from 'preact/compat'
+import { ViewConfiguration } from '@yelbolt/engine-ui-color-palette'
 import {
   CreatorConfiguration,
   DatesConfiguration,
@@ -406,6 +407,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     label,
     value,
     metered,
+    view,
     isNew,
     action,
   }: {
@@ -414,10 +416,11 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     label: string
     value?: string
     metered: MeteredAction
+    view?: ViewConfiguration
     isNew?: boolean
     action?: DropdownOption['action']
   }): DropdownOption => {
-    const estimate = this.estimate(metered)
+    const estimate = this.estimate(metered, view)
 
     return {
       label,
@@ -440,7 +443,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     }
   }
 
-  estimate = (action: MeteredAction): number =>
+  estimate = (action: MeteredAction, view?: ViewConfiguration): number =>
     estimateAction(
       this.props.config,
       action,
@@ -449,7 +452,8 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         shades: this.state.shades,
         modes: this.state.modes,
         selectionLayers: this.state.selectionLayers,
-      })
+      }),
+      view
     )
 
   documentOptionsHandler = (hasSeparator = true): Array<DropdownOption> => {
@@ -459,6 +463,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_PALETTE',
         label: this.props.t('actions.generateDocument.palette'),
         metered: 'CREATE_DOCUMENT',
+        view: 'PALETTE',
         action: this.props.onGenerateDocument,
       }),
       this.gatedOption({
@@ -466,6 +471,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
         label: this.props.t('actions.generateDocument.paletteWithProperties'),
         metered: 'CREATE_DOCUMENT',
+        view: 'PALETTE_WITH_PROPERTIES',
         action: this.props.onGenerateDocument,
       }),
       this.gatedOption({
@@ -473,6 +479,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_SHEET',
         label: this.props.t('actions.generateDocument.sheet'),
         metered: 'CREATE_DOCUMENT',
+        view: 'SHEET',
         action: this.props.onGenerateDocument,
       }),
     ]
@@ -485,6 +492,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           feature: 'PUSH_UPDATES',
           label: this.props.t('actions.pushUpdates'),
           metered: 'UPDATE_DOCUMENT',
+          view: this.props.document?.view ?? 'PALETTE',
           isNew: true,
           action: this.props.onGenerateDocument,
         })
@@ -501,6 +509,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'PALETTE',
         label: this.props.t('settings.global.views.simple'),
         metered: 'UPDATE_DOCUMENT',
+        view: 'PALETTE',
         action: this.props.onChangeView,
       }),
       this.gatedOption({
@@ -509,6 +518,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'PALETTE_WITH_PROPERTIES',
         label: this.props.t('settings.global.views.detailed'),
         metered: 'UPDATE_DOCUMENT',
+        view: 'PALETTE_WITH_PROPERTIES',
         action: this.props.onChangeView,
       }),
       this.gatedOption({
@@ -517,6 +527,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'SHEET',
         label: this.props.t('settings.global.views.sheet'),
         metered: 'UPDATE_DOCUMENT',
+        view: 'SHEET',
         action: this.props.onChangeView,
       }),
     ]

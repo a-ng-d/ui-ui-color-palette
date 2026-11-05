@@ -411,8 +411,12 @@ export default class EditPalette extends PureComponent<
     return actions[state ?? 'DEFAULT']?.()
   }
 
-  beginRun = (action: MeteredAction, feature: ActionEvent['feature']) => {
-    setPendingRun(action, { feature })
+  beginRun = (
+    action: MeteredAction,
+    feature: ActionEvent['feature'],
+    view?: ViewConfiguration
+  ) => {
+    setPendingRun(action, { feature, view })
   }
 
   documentHandler = (e: Event) => {
@@ -440,7 +444,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun('CREATE_DOCUMENT', 'GENERATE_PALETTE')
+      this.beginRun('CREATE_DOCUMENT', 'GENERATE_PALETTE', 'PALETTE')
     }
 
     const generatePaletteWithProperties = () => {
@@ -462,7 +466,11 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun('CREATE_DOCUMENT', 'GENERATE_PALETTE_WITH_PROPERTIES')
+      this.beginRun(
+        'CREATE_DOCUMENT',
+        'GENERATE_PALETTE_WITH_PROPERTIES',
+        'PALETTE_WITH_PROPERTIES'
+      )
     }
 
     const generateSheet = () => {
@@ -484,7 +492,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun('CREATE_DOCUMENT', 'GENERATE_SHEET')
+      this.beginRun('CREATE_DOCUMENT', 'GENERATE_SHEET', 'SHEET')
     }
 
     const pushUpdates = () => {
@@ -505,7 +513,11 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun('UPDATE_DOCUMENT', 'UPDATE_DOCUMENT')
+      this.beginRun(
+        'UPDATE_DOCUMENT',
+        'UPDATE_DOCUMENT',
+        this.props.document?.view ?? 'PALETTE'
+      )
     }
 
     const actions: { [action: string]: () => void } = {
@@ -636,7 +648,11 @@ export default class EditPalette extends PureComponent<
     )
 
     const view = currentElement.dataset.value as ViewConfiguration
-    this.beginRun('UPDATE_DOCUMENT', `SWITCH_${view}` as ActionEvent['feature'])
+    this.beginRun(
+      'UPDATE_DOCUMENT',
+      `SWITCH_${view}` as ActionEvent['feature'],
+      view
+    )
   }
 
   onChangeDocument = (view?: ViewConfiguration) => {

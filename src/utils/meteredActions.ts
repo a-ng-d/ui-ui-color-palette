@@ -1,18 +1,33 @@
+import { ViewConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { MeteredAction } from '../types/messages'
 import { Config, MeterKey } from '../types/config'
 import { MeteredUsage, estimateMeteredCost } from './computeMeteredCost'
 
-export const ACTION_METER: Record<MeteredAction, MeterKey> = {
+export const DOCUMENT_METER: Record<ViewConfiguration, MeterKey> = {
+  PALETTE: 'documentPalette',
+  PALETTE_WITH_PROPERTIES: 'documentPaletteWithProperties',
+  SHEET: 'documentSheet',
+}
+
+const ACTION_METER: Record<
+  Exclude<MeteredAction, 'CREATE_DOCUMENT' | 'UPDATE_DOCUMENT'>,
+  MeterKey
+> = {
   SYNC_LOCAL_STYLES: 'localStylesSync',
   SYNC_LOCAL_VARIABLES: 'localVariablesSync',
   SYNC_LOCAL_TOKENS: 'localTokensSync',
-  CREATE_DOCUMENT: 'documentGenerate',
-  UPDATE_DOCUMENT: 'documentUpdate',
   SIMULATE_PALETTE: 'paletteSimulate',
 }
 
-// Credits are the free tier's allowance: Pro is unlimited, so estimates, charges
-// and credit blocks only apply to non-paying users.
+export const meterFor = (
+  action: MeteredAction,
+  view?: ViewConfiguration
+): MeterKey => {
+  if (action === 'CREATE_DOCUMENT' || action === 'UPDATE_DOCUMENT')
+    return DOCUMENT_METER[view ?? 'PALETTE']
+  return ACTION_METER[action]
+}
+
 export const areCreditsAppliedTo = (
   config: Pick<Config, 'plan'>,
   planStatus: string
@@ -24,9 +39,13 @@ export const areCreditsEnabled = (config: Pick<Config, 'plan'>): boolean =>
 export const estimateAction = (
   config: Pick<Config, 'plan'>,
   action: MeteredAction,
-  estimatedUsage: MeteredUsage
+  estimatedUsage: MeteredUsage,
+  view?: ViewConfiguration
 ): number =>
-  estimateMeteredCost(config.plan.meters[ACTION_METER[action]], estimatedUsage)
+  estimateMeteredCost(
+    config.plan.meters[meterFor(action, view)],
+    estimatedUsage
+  )
 
 export const countSourceColors = (colors: unknown): number =>
   Array.isArray(colors) ? colors.length : 0

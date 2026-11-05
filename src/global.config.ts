@@ -413,8 +413,9 @@ const globalConfig: Config = {
       localStylesSync: { units: { style: 1 } },
       localVariablesSync: { units: { variable: 1 } },
       localTokensSync: { units: { token: 1 } },
-      documentGenerate: { units: { color: 4 } },
-      documentUpdate: { units: { color: 4 } },
+      documentPalette: { units: { color: 4 } },
+      documentPaletteWithProperties: { units: { color: 6 } },
+      documentSheet: { units: { color: 8 } },
       paletteSimulate: { units: { layer: 2 } },
       aiColorsGenerate: {
         units: {},

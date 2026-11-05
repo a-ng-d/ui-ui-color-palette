@@ -13,7 +13,7 @@ import {
 } from '@unoff/ui'
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
-import { ACTION_METER, areCreditsAppliedTo } from '../utils/meteredActions'
+import { meterFor, areCreditsAppliedTo } from '../utils/meteredActions'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
 import { resolveIsCompact, resolveIsMobile } from '../utils/isCompact'
 import { getPortalTarget } from '../utils/getPortalTarget'
@@ -635,10 +635,12 @@ class App extends Component<AppProps, AppState> {
 
       const reportUsage = () => {
         const action = path.data?.action as MeteredAction | undefined
-        const meter = action
-          ? this.props.config.plan.meters[ACTION_METER[action]]
-          : undefined
-        if (!action || !meter) return
+        if (!action) return
+
+        const pendingRun = takePendingRun(action)
+        const meter =
+          this.props.config.plan.meters[meterFor(action, pendingRun?.view)]
+        if (!meter) return
 
         const usage = (path.data.usage ?? {}) as Partial<
           Record<UsageUnit, number>
@@ -671,7 +673,6 @@ class App extends Component<AppProps, AppState> {
           })
         }
 
-        const pendingRun = takePendingRun(action)
         if (pendingRun)
           trackActionEvent(
             this.props.config.env.isMixpanelEnabled,

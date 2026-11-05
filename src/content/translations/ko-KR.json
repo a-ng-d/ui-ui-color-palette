@@ -621,22 +621,6 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {잔여 크레딧 1개} other {잔여 크레딧 #개} =0 {잔여 크레딧 없음}}",
-      "fees": {
-        "createColorHarmony": "색상 조화 만들기: {fee} cdts",
-        "createPalette": "UI Color Palette 만들기: {fee} cdts",
-        "extractImageColors": "이미지에서 주요 색상 추출: {fee} cdts",
-        "generateAiColors": "AI로 색상 생성: {fee} cdts",
-        "generateColorSheet": "색상 시트 생성: {fee} cdts",
-        "generateDetailedPalette": "상세 팔레트 생성: {fee} cdts",
-        "generateSimplePalette": "간단한 팔레트 생성: {fee} cdts",
-        "importColourLovers": "Color Hunt에서 팔레트 가져오기: {fee} cdts",
-        "importCoolors": "Coolors에서 팔레트 가져오기: {fee} cdts",
-        "importRealtimeColors": "Realtime Colors에서 팔레트 가져오기: {fee} cdts",
-        "syncLocalStyles": "로컬 스타일과 동기화: {fee} cdts",
-        "syncLocalTokens": "로컬 토큰과 동기화: {fee} cdts",
-        "syncLocalVariables": "로컬 변수와 동기화: {fee} cdts",
-        "updatePalette": "팔레트 업데이트: {fee} cdts"
-      },
       "renew": "크레딧은 {date}에 갱신됩니다. 무제한 크레딧은 /pro로 업그레이드하세요."
     },
     "dev": "/dev 플랜",

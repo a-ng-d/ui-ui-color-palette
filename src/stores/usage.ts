@@ -1,8 +1,10 @@
+import { ViewConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { MeteredAction } from '../types/messages'
 import { ActionEvent } from '../types/events'
 
 export interface PendingRun {
   feature: ActionEvent['feature']
+  view?: ViewConfiguration
 }
 
 const pendingRuns = new Map<MeteredAction, PendingRun>()

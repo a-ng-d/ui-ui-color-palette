@@ -625,14 +625,16 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, =0 {No cdts left} one {# cdt left} other {# cdts left}}",
-      "fees": {
-        "generateAiColors": "Generate colors from AI: {fee} cdts",
-        "generateDocument": "Generate a document: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
-        "simulatePalette": "Apply to selection: {rate, plural, one {# cdt} other {# cdts}} per changed layer",
-        "syncLocalStyles": "Sync with local styles: {rate, plural, one {# cdt} other {# cdts}} per style",
-        "syncLocalTokens": "Sync with local tokens: {rate, plural, one {# cdt} other {# cdts}} per token",
-        "syncLocalVariables": "Sync with local variables: {rate, plural, one {# cdt} other {# cdts}} per variable and mode",
-        "updatePalette": "Update a document: {rate, plural, one {# cdt} other {# cdts}} per color and mode"
+      "meters": {
+        "aiColorsGenerate": "Generate colors from AI: 1 cdt per {tokens} tokens, output ×{weight}",
+        "documentPalette": "Generate a simple palette: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
+        "documentPaletteWithProperties": "Generate a detailed palette: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
+        "documentSheet": "Generate a color sheet: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
+        "documentUpdate": "Update a document: same rate as its type",
+        "localStylesSync": "Sync with local styles: {rate, plural, one {# cdt} other {# cdts}} per style",
+        "localTokensSync": "Sync with local tokens: {rate, plural, one {# cdt} other {# cdts}} per token",
+        "localVariablesSync": "Sync with local variables: {rate, plural, one {# cdt} other {# cdts}} per variable and mode",
+        "paletteSimulate": "Apply to selection: {rate, plural, one {# cdt} other {# cdts}} per changed layer"
       },
       "renew": "Credits renew every month, next on {date}. Upgrade to /pro for unlimited credits."
     },

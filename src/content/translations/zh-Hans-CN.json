@@ -621,22 +621,6 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, other {剩余 # 积分} =0 {没有剩余积分}}",
-      "fees": {
-        "createColorHarmony": "创建色彩和谐：{fee} 积分",
-        "createPalette": "创建一个 UI Color Palette：{fee} cdts",
-        "extractImageColors": "从图像提取主色调：{fee} 积分",
-        "generateAiColors": "使用 AI 生成颜色：{fee} 积分",
-        "generateColorSheet": "生成色卡：{fee} 积分",
-        "generateDetailedPalette": "生成详细调色板：{fee} 积分",
-        "generateSimplePalette": "生成简单调色板：{fee} 积分",
-        "importColourLovers": "从 Color Hunt 导入调色板：{fee} 积分",
-        "importCoolors": "从 Coolors 导入调色板：{fee} 积分",
-        "importRealtimeColors": "从 Realtime Colors 导入调色板：{fee} 积分",
-        "syncLocalStyles": "与本地样式同步：{fee} 积分",
-        "syncLocalTokens": "与本地token同步：{fee} 积分",
-        "syncLocalVariables": "与本地变量同步：{fee} 积分",
-        "updatePalette": "更新调色板：{fee} 积分"
-      },
       "renew": "积分将在 {date} 更新。升级到 /pro 获得无限积分。"
     },
     "dev": "/dev 计划",

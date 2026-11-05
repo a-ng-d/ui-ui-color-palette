@@ -6,8 +6,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { ACTION_METER } from '../../utils/meteredActions'
-import { MeteredAction } from '../../types/messages'
+import { MeterKey } from '../../types/config'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $creditsCount } from '../../stores/credits'
 import { getTolgee } from '../../external/translation'
@@ -224,12 +223,10 @@ export default class PlanControls extends PureComponent<
     ))
   }
 
-  private meterRule = (action: MeteredAction, key: string): string => {
-    const meter = this.props.config.plan.meters[ACTION_METER[action]]
-    return this.props.t(`plan.credits.fees.${key}`, {
-      rate: Object.values(meter.units)[0] ?? 0,
+  private meterRule = (key: MeterKey): string =>
+    this.props.t(`plan.credits.meters.${key}`, {
+      rate: Object.values(this.props.config.plan.meters[key].units)[0] ?? 0,
     })
-  }
 
   // Templates
   Fees = (): ComponentChildren => {
@@ -237,7 +234,7 @@ export default class PlanControls extends PureComponent<
       <ul className="list-item">
         {this.features.GEN.isActive() && (
           <li>
-            {this.props.t('plan.credits.fees.generateAiColors', {
+            {this.props.t('plan.credits.meters.aiColorsGenerate', {
               tokens:
                 this.props.config.plan.meters.aiColorsGenerate.tokens
                   ?.tokensPerCredit ?? 0,
@@ -248,24 +245,28 @@ export default class PlanControls extends PureComponent<
           </li>
         )}
         {this.features.DOCUMENT_PALETTE.isActive() && (
-          <li>{this.meterRule('CREATE_DOCUMENT', 'generateDocument')}</li>
+          <li>{this.meterRule('documentPalette')}</li>
+        )}
+        {this.features.DOCUMENT_PALETTE_PROPERTIES.isActive() && (
+          <li>{this.meterRule('documentPaletteWithProperties')}</li>
+        )}
+        {this.features.DOCUMENT_SHEET.isActive() && (
+          <li>{this.meterRule('documentSheet')}</li>
         )}
         {this.features.DOCUMENT_PUSH_UPDATES.isActive() && (
-          <li>{this.meterRule('UPDATE_DOCUMENT', 'updatePalette')}</li>
+          <li>{this.props.t('plan.credits.meters.documentUpdate')}</li>
         )}
         {this.features.SYNC_LOCAL_STYLES.isActive() && (
-          <li>{this.meterRule('SYNC_LOCAL_STYLES', 'syncLocalStyles')}</li>
+          <li>{this.meterRule('localStylesSync')}</li>
         )}
         {this.features.SYNC_LOCAL_VARIABLES.isActive() && (
-          <li>
-            {this.meterRule('SYNC_LOCAL_VARIABLES', 'syncLocalVariables')}
-          </li>
+          <li>{this.meterRule('localVariablesSync')}</li>
         )}
         {this.features.SYNC_LOCAL_TOKENS.isActive() && (
-          <li>{this.meterRule('SYNC_LOCAL_TOKENS', 'syncLocalTokens')}</li>
+          <li>{this.meterRule('localTokensSync')}</li>
         )}
         {this.features.SIMULATE_PALETTE.isActive() && (
-          <li>{this.meterRule('SIMULATE_PALETTE', 'simulatePalette')}</li>
+          <li>{this.meterRule('paletteSimulate')}</li>
         )}
       </ul>
     )

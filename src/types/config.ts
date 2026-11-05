@@ -16,8 +16,9 @@ export type MeterKey =
   | 'localStylesSync'
   | 'localVariablesSync'
   | 'localTokensSync'
-  | 'documentGenerate'
-  | 'documentUpdate'
+  | 'documentPalette'
+  | 'documentPaletteWithProperties'
+  | 'documentSheet'
   | 'paletteSimulate'
   | 'aiColorsGenerate'
 

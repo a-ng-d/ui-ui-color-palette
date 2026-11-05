@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { Config } from '../types/config'
-import { estimateUsage, isCreditGatedBlocked } from './meteredActions'
+import { Config as C } from '../types/config'
+import {
+  estimateAction,
+  estimateUsage,
+  isCreditGatedBlocked,
+  meterFor,
+} from './meteredActions'
 
 const makeConfig = (isCreditsEnabled: boolean) =>
   ({ plan: { isProEnabled: true, isCreditsEnabled } }) as Pick<Config, 'plan'>
@@ -40,5 +46,46 @@ describe('estimateUsage', () => {
     expect(estimateUsage('CREATE_DOCUMENT', context)).toEqual({ color: 6 })
     expect(estimateUsage('UPDATE_DOCUMENT', context)).toEqual({ color: 3 })
     expect(estimateUsage('SIMULATE_PALETTE', context)).toEqual({ layer: 5 })
+  })
+})
+
+describe('document pricing by view', () => {
+  const config = {
+    plan: {
+      isProEnabled: true,
+      isCreditsEnabled: true,
+      meters: {
+        documentPalette: { units: { color: 4 } },
+        documentPaletteWithProperties: { units: { color: 6 } },
+        documentSheet: { units: { color: 8 } },
+      },
+    },
+  } as unknown as Pick<C, 'plan'>
+  const usage = { color: 3 }
+
+  it('resolves one meter per view for generation', () => {
+    expect(meterFor('CREATE_DOCUMENT', 'PALETTE')).toBe('documentPalette')
+    expect(meterFor('CREATE_DOCUMENT', 'PALETTE_WITH_PROPERTIES')).toBe(
+      'documentPaletteWithProperties'
+    )
+    expect(meterFor('CREATE_DOCUMENT', 'SHEET')).toBe('documentSheet')
+  })
+  it('prices an update like generating the same view', () => {
+    expect(meterFor('UPDATE_DOCUMENT', 'SHEET')).toBe('documentSheet')
+    expect(estimateAction(config, 'CREATE_DOCUMENT', usage, 'PALETTE')).toBe(12)
+    expect(
+      estimateAction(
+        config,
+        'CREATE_DOCUMENT',
+        usage,
+        'PALETTE_WITH_PROPERTIES'
+      )
+    ).toBe(18)
+    expect(estimateAction(config, 'CREATE_DOCUMENT', usage, 'SHEET')).toBe(24)
+    expect(estimateAction(config, 'UPDATE_DOCUMENT', usage, 'SHEET')).toBe(24)
+  })
+  it('falls back to the palette meter when the view is missing', () => {
+    expect(meterFor('UPDATE_DOCUMENT')).toBe('documentPalette')
+    expect(meterFor('SIMULATE_PALETTE')).toBe('paletteSimulate')
   })
 })

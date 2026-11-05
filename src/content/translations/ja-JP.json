@@ -621,22 +621,6 @@
   "plan": {
     "credits": {
       "amount": "{count, plural, one {残り1クレジット} other {残り#クレジット} =0 {クレジットなし}}",
-      "fees": {
-        "createColorHarmony": "カラーハーモニーを作成：{fee} cdts",
-        "createPalette": "UI Color Paletteを作成：{fee} cdts",
-        "extractImageColors": "画像からドミナントカラーを抽出：{fee} cdts",
-        "generateAiColors": "AIでカラーを生成：{fee} cdts",
-        "generateColorSheet": "カラーシートを生成：{fee} cdts",
-        "generateDetailedPalette": "詳細なパレットを生成：{fee} cdts",
-        "generateSimplePalette": "シンプルなパレットを生成：{fee} cdts",
-        "importColourLovers": "Color Huntからパレットをインポート：{fee} cdts",
-        "importCoolors": "Coolorsからパレットをインポート：{fee} cdts",
-        "importRealtimeColors": "Realtime Colorsからパレットをインポート：{fee} cdts",
-        "syncLocalStyles": "ローカルスタイルと同期：{fee} cdts",
-        "syncLocalTokens": "ローカルトークンと同期：{fee} cdts",
-        "syncLocalVariables": "ローカル変数と同期：{fee} cdts",
-        "updatePalette": "パレットを更新：{fee} cdts"
-      },
       "renew": "クレジットは{date}に更新されます。無制限のクレジットには/proにアップグレードしてください。"
     },
     "dev": "/devプラン",
