@@ -38,7 +38,6 @@ import {
 } from '../../../types/app'
 import { makePreviewData } from '../../../stores/previewPalette'
 import { $palettesView } from '../../../stores/preferences'
-import { $creditsCount } from '../../../stores/credits'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface PagePalettesProps
@@ -265,14 +264,6 @@ export default class PagePalettes extends PureComponent<
       },
       '*'
     )
-
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteCreate
-      )
   }
 
   onDeletePalette = () => {

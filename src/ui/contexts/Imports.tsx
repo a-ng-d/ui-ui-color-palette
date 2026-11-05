@@ -35,7 +35,6 @@ import {
   Service,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
-import { $creditsCount } from '../../stores/credits'
 import {
   trackImportEvent,
   trackSourceColorsManagementEvent,
@@ -46,7 +45,6 @@ interface ImportsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   id: string
   colors: Array<ColorConfiguration>
-  creditsCount: number
 }
 
 interface ImportsState {
@@ -368,14 +366,6 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
         ),
       })
 
-      if (
-        this.props.config.plan.isProEnabled &&
-        this.props.config.plan.isCreditsEnabled
-      )
-        $creditsCount.set(
-          $creditsCount.get() - this.props.config.fees.coolorsImport
-        )
-
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,
         this.props.userSession.userId,
@@ -438,14 +428,6 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
           })
         ),
       })
-
-      if (
-        this.props.config.plan.isProEnabled &&
-        this.props.config.plan.isCreditsEnabled
-      )
-        $creditsCount.set(
-          $creditsCount.get() - this.props.config.fees.realtimeColorsImport
-        )
 
       trackImportEvent(
         this.props.config.env.isMixpanelEnabled,
@@ -638,12 +620,6 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                     label: this.props.t('imports.coolors.addColors'),
                   }}
                   isAutoFocus
-                  isBlocked={this.features.IMPORTS_COOLORS_ADD.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.coolorsImport) *
-                      -1 -
-                      1
-                  )}
                   onChange={this.isTypingCoolorsUrlHandler}
                   onBlur={() => {
                     if (this.state.coolorsUrl.canBeSubmitted)
@@ -758,12 +734,6 @@ export default class Imports extends PureComponent<ImportsProps, ImportsState> {
                     label: this.props.t('imports.realtimeColors.addColors'),
                   }}
                   isAutoFocus
-                  isBlocked={this.features.IMPORTS_REALTIME_COLORS_ADD.isReached(
-                    (this.props.creditsCount -
-                      this.props.config.fees.realtimeColorsImport) *
-                      -1 -
-                      1
-                  )}
                   onChange={this.isTypingRealtimeColorsUrlHandler}
                   onBlur={() => {
                     if (this.state.realtimeColorsUrl.canBeSubmitted)

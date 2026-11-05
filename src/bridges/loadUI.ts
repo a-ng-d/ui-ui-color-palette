@@ -9,6 +9,7 @@ import fr_FR from '../content/translations/fr-FR.json'
 import es_ES from '../content/translations/es-ES.json'
 import en_US from '../content/translations/en-US.json'
 import uicpf from '../content/images/uicp_figma.webp'
+import { reportMockUsage } from './utils/mockUsage'
 import updateThemes from './updates/updateThemes'
 import updateSettings from './updates/updateSettings'
 import updateScale from './updates/updateScale'
@@ -108,6 +109,12 @@ else {
           },
         })
 
+        // No canvas selection in the web harness
+        iframe?.contentWindow?.postMessage({
+          type: 'SELECTION_MEASURED',
+          data: { layers: 0 },
+        })
+
         // Checks
         checkUserConsent(path.data.userConsent)
           .then(() => checkTrialStatus())
@@ -145,6 +152,7 @@ else {
         }),
       UPDATE_DOCUMENT: () => {
         iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+        reportMockUsage(iframe, 'UPDATE_DOCUMENT')
         console.log('Update document', path)
       },
       UPDATE_LANGUAGE: () => {
@@ -183,6 +191,7 @@ else {
             message: 'The local styles have been synced',
           },
         })
+        reportMockUsage(iframe, 'SYNC_LOCAL_STYLES', path.id)
         console.log('Sync local styles', path)
       },
       SYNC_LOCAL_VARIABLES: () => {
@@ -194,6 +203,7 @@ else {
             message: 'The local variables have been synced',
           },
         })
+        reportMockUsage(iframe, 'SYNC_LOCAL_VARIABLES', path.id)
         console.log('Sync local variables', path)
       },
       SYNC_LOCAL_TOKENS: () => {
@@ -205,11 +215,25 @@ else {
             message: 'The local tokens have been synced',
           },
         })
+        reportMockUsage(iframe, 'SYNC_LOCAL_TOKENS', path.id)
         console.log('Sync local tokens', path)
       },
       CREATE_DOCUMENT: () => {
         iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+        reportMockUsage(iframe, 'CREATE_DOCUMENT', path.id)
         console.log('Create document', path)
+      },
+      SIMULATE_PALETTE: () => {
+        // Same as an empty selection on a host: nothing ran, nothing reported
+        iframe?.contentWindow?.postMessage({ type: 'STOP_LOADER' })
+        iframe?.contentWindow?.postMessage({
+          type: 'POST_MESSAGE',
+          data: {
+            type: 'WARNING',
+            message: 'Apply to selection needs a canvas selection',
+          },
+        })
+        console.log('Simulate palette', path)
       },
       //
       POST_MESSAGE: () => {

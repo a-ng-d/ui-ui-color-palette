@@ -34,7 +34,6 @@ import {
   Editor,
 } from '../../types/app'
 import { $palette } from '../../stores/palette'
-import { $creditsCount } from '../../stores/credits'
 import { trackActionEvent } from '../../external/tracking/eventsTracker'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { Dispatch } from 'preact/hooks'
@@ -247,14 +246,6 @@ export default class BrowsePalettes extends PureComponent<
       },
       '*'
     )
-
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteCreate
-      )
 
     this.props.onCreatePalette({})
 

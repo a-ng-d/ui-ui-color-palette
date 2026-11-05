@@ -276,6 +276,10 @@
       "title": "変更中の内容"
     }
   },
+  "credits": {
+    "charged": "{cost, plural, other {# cdts を使用しました}}",
+    "estimate": "≈ {cost, plural, other {# cdts}}"
+  },
   "dev": {
     "readyForDev": "開発準備完了"
   },
@@ -620,24 +624,19 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {残り1クレジット} other {残り#クレジット} =0 {クレジットなし}}",
-      "fees": {
-        "createColorHarmony": "カラーハーモニーを作成：{fee} cdts",
-        "createPalette": "UI Color Paletteを作成：{fee} cdts",
-        "extractImageColors": "画像からドミナントカラーを抽出：{fee} cdts",
-        "generateAiColors": "AIでカラーを生成：{fee} cdts",
-        "generateColorSheet": "カラーシートを生成：{fee} cdts",
-        "generateDetailedPalette": "詳細なパレットを生成：{fee} cdts",
-        "generateSimplePalette": "シンプルなパレットを生成：{fee} cdts",
-        "importColourLovers": "Color Huntからパレットをインポート：{fee} cdts",
-        "importCoolors": "Coolorsからパレットをインポート：{fee} cdts",
-        "importRealtimeColors": "Realtime Colorsからパレットをインポート：{fee} cdts",
-        "syncLocalStyles": "ローカルスタイルと同期：{fee} cdts",
-        "syncLocalTokens": "ローカルトークンと同期：{fee} cdts",
-        "syncLocalVariables": "ローカル変数と同期：{fee} cdts",
-        "updatePalette": "パレットを更新：{fee} cdts"
+      "amount": "{count, plural, =0 {cdts がありません} other {残り # cdts}}",
+      "meters": {
+        "aiColorsGenerate": "AIでカラーを生成：{tokens}トークンごとに1 cdt、出力×{weight}",
+        "documentPalette": "シンプルなパレットを生成：カラー・モードごとに{rate, plural, other {# cdts}}",
+        "documentPaletteWithProperties": "詳細なパレットを生成：カラー・モードごとに{rate, plural, other {# cdts}}",
+        "documentSheet": "カラーシートを生成：カラー・モードごとに{rate, plural, other {# cdts}}",
+        "documentUpdate": "ドキュメントを更新：種類と同じ料金",
+        "localStylesSync": "ローカルスタイルと同期：スタイルごとに{rate, plural, other {# cdts}}",
+        "localTokensSync": "ローカルトークンと同期：トークンごとに{rate, plural, other {# cdts}}",
+        "localVariablesSync": "ローカル変数と同期：変数・モードごとに{rate, plural, other {# cdts}}",
+        "paletteSimulate": "選択範囲でシミュレート：変更されたレイヤーごとに{rate, plural, other {# cdts}}"
       },
-      "renew": "クレジットは{date}に更新されます。無制限のクレジットには/proにアップグレードしてください。"
+      "renew": "クレジットは毎月更新されます（次回：{date}）。無制限のクレジットには/proにアップグレードしてください。"
     },
     "dev": "/devプラン",
     "free": "/basicプラン",
@@ -758,7 +757,7 @@
         "discount": "Figma、Penpot、Sketch、Framerで$47 /lifetime",
         "regular": "Figma、Penpot、Sketch、Framerで$59 /lifetime"
       },
-      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード",
+      "text": "◻ 無制限のパレット</br>◻ 無制限のソースカラー</br>◻ 無制限のストップ</br>◻ 無制限のカラーモード</br>◻ 無制限のクレジット",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +766,7 @@
         "discount": "Figma、Penpot、Sketch、Framerで$47 /lifetime",
         "regular": "Figma、Penpot、Sketch、Framerで$59 /lifetime"
       },
-      "text": "◻ /figmaのすべての機能</br>◻ 小〜大規模チーム向け</br>◻ マルチプラットフォーム</br>◻ 複数の支払いオプション</br>◻ ライフタイムプラン",
+      "text": "◻ /figmaのすべての機能</br>◻ 小〜大規模チーム向け</br>◻ マルチプラットフォーム</br>◻ 複数の支払いオプション</br>◻ ライフタイムプラン</br>◻ 無制限のクレジット",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "新しいプラン",
@@ -785,10 +784,10 @@
         "year": "{price} ユーザー/年"
       },
       "texts": {
-        "lifetime": "◻ 永久アクセス</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "month": "◻ 柔軟</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "week": "◻ 従量課金</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード",
-        "year": "◻ お得</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード"
+        "lifetime": "◻ 永久アクセス</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット",
+        "month": "◻ 柔軟</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット",
+        "week": "◻ 従量課金</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット",
+        "year": "◻ お得</br>◻ 無制限のカラー/ストップ</br>◻ 無制限のモード</br>◻ 無制限のクレジット"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -944,9 +943,9 @@
       "polaris": "Polaris, 1-16 (Shopify)",
       "radix": "Radix, 1-12",
       "spectrum": "Spectrum 1, 100-1300",
-      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "spectrum2": "Spectrum 2, 100-1600",
       "spectrum2Neutral": "Spectrum 2, Neutral 25-1000",
+      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "tailwind": "Tailwind, 50-950",
       "untitledUI": "Untitled UI, 25-950"
     },

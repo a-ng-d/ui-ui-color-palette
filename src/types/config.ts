@@ -3,6 +3,25 @@ import { Feature } from '@unoff/utils'
 import { Language } from './translations'
 import { Editor, Service } from './app'
 
+export type MeterUnit = 'color' | 'layer' | 'style' | 'variable' | 'token'
+
+export interface Meter {
+  units: Partial<Record<MeterUnit, number>>
+  tokens?: { tokensPerCredit: number; outputTokenWeight: number }
+  min?: number
+  max?: number
+}
+
+export type MeterKey =
+  | 'localStylesSync'
+  | 'localVariablesSync'
+  | 'localTokensSync'
+  | 'documentPalette'
+  | 'documentPaletteWithProperties'
+  | 'documentSheet'
+  | 'paletteSimulate'
+  | 'aiColorsGenerate'
+
 export interface Config {
   limits: {
     pageSize: number
@@ -50,6 +69,8 @@ export interface Config {
     creditsLimit: number
     creditsRenewalPeriodDays: number
     creditsRenewalPeriodHours?: number
+    creditsRenewalPeriodMonths?: number
+    meters: Record<MeterKey, Meter>
     storeProWeekId: string
     storeProMonthId: string
     storeProYearId: string
@@ -98,20 +119,4 @@ export interface Config {
   }
   features: Array<Feature<Service>>
   lang: Language
-  fees: {
-    colourLoversImport: number
-    coolorsImport: number
-    realtimeColorsImport: number
-    imageColorsExtract: number
-    harmonyCreate: number
-    aiColorsGenerate: number
-    paletteCreate: number
-    paletteGenerate: number
-    paletteWithPropsGenerate: number
-    sheetGenerate: number
-    paletteUpdates: number
-    localStylesSync: number
-    localVariablesSync: number
-    localTokensSync: number
-  }
 }

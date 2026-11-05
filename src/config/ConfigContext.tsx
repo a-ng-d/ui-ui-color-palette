@@ -21,7 +21,6 @@ export const ConfigProvider = ({
   versions,
   features,
   lang,
-  fees,
 }: ConfigProviderProps) => {
   return (
     <ConfigContext.Provider
@@ -34,7 +33,6 @@ export const ConfigProvider = ({
         versions,
         features,
         lang,
-        fees,
       }}
     >
       {children}

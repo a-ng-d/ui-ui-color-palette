@@ -6,6 +6,11 @@ export interface MistralColorPalette {
   alert: MistralColor
 }
 
+export interface MistralUsage {
+  promptTokens: number
+  completionTokens: number
+}
+
 export interface MistralColor {
   name: string
   hex: string

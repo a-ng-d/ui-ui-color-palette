@@ -162,6 +162,8 @@ export interface ActionEvent {
     | 'UPDATE_DOCUMENT'
   colors?: number
   stops?: number
+  units?: number
+  creditsCharged?: number
 }
 
 export interface TourEvent {

@@ -26,7 +26,6 @@ import { sendPluginMessage } from '../../utils/pluginMessage'
 import { getClosestColorName } from '../../utils/colorNameHelper'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
-import { $creditsCount } from '../../stores/credits'
 import {
   trackActionEvent,
   trackImportEvent,
@@ -36,7 +35,6 @@ import type { Dispatch } from 'preact/hooks'
 
 interface ColorWheelProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  creditsCount: number
   localPalettesCount: number
   onChangeService: Dispatch<Partial<AppState>>
 }
@@ -200,14 +198,6 @@ export default class ColorWheel extends PureComponent<
       '*'
     )
 
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteCreate
-      )
-
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -255,14 +245,6 @@ export default class ColorWheel extends PureComponent<
     })
     this.onCreatePalette(sourceColors)
 
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.harmonyCreate
-      )
-
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,
       this.props.userSession.userId,
@@ -285,24 +267,6 @@ export default class ColorWheel extends PureComponent<
           position: 'relative',
         }}
       >
-        {this.features.WHEEL_BASE.isReached(
-          (this.props.creditsCount - this.props.config.fees.harmonyCreate) *
-            -1 -
-            1
-        ) && (
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: '#CCC',
-              opacity: 0.7,
-              zIndex: 2,
-            }}
-          />
-        )}
         <div className="preview__rows preview__rows--free">
           <div className="preview__row preview__row--free">
             {this.state.colorHarmony.hexColors.map((color, index) => (
@@ -341,12 +305,6 @@ export default class ColorWheel extends PureComponent<
                         id="color-harmony-base-color"
                         label={this.props.t('wheel.base')}
                         shouldFill={false}
-                        isBlocked={this.features.WHEEL_BASE.isReached(
-                          (this.props.creditsCount -
-                            this.props.config.fees.harmonyCreate) *
-                            -1 -
-                            1
-                        )}
                       >
                         <Input
                           id="color-harmony-base-color"
@@ -356,12 +314,6 @@ export default class ColorWheel extends PureComponent<
                             0.921 * 255,
                             0.976 * 255,
                           ]).hex()}
-                          isBlocked={this.features.WHEEL_BASE.isReached(
-                            (this.props.creditsCount -
-                              this.props.config.fees.harmonyCreate) *
-                              -1 -
-                              1
-                          )}
                           isNew={this.features.WHEEL_BASE.isNew()}
                           onPick={(e) => {
                             const value = (e.target as HTMLInputElement).value

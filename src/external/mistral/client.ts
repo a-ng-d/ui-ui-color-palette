@@ -1,5 +1,5 @@
 import { Mistral } from '@mistralai/mistralai'
-import { MistralColorPalette } from './types'
+import { MistralColorPalette, MistralUsage } from './types'
 
 class MistralClient {
   private mistral: Mistral
@@ -12,7 +12,9 @@ class MistralClient {
     this.agentId = 'ag_019a9254590972e1af106aecc7a13cfe'
   }
 
-  private async callAgent(message: string): Promise<string> {
+  private async callAgent(
+    message: string
+  ): Promise<{ content: string; usage: MistralUsage }> {
     try {
       const result = await this.mistral.agents.complete({
         messages: [
@@ -28,14 +30,20 @@ class MistralClient {
       if (!content)
         throw new Error('No response received from Mistral AI agent')
 
-      // Handle both string and ContentChunk[] types
-      if (typeof content === 'string') return content
+      const usage: MistralUsage = {
+        promptTokens: result.usage?.promptTokens ?? 0,
+        completionTokens: result.usage?.completionTokens ?? 0,
+      }
+
+      if (typeof content === 'string') return { content, usage }
 
       if (Array.isArray(content))
-        // If content is an array of chunks, concatenate text content
-        return content
-          .map((chunk) => ('text' in chunk ? chunk.text : ''))
-          .join('')
+        return {
+          content: content
+            .map((chunk) => ('text' in chunk ? chunk.text : ''))
+            .join(''),
+          usage,
+        }
 
       throw new Error('Unexpected content type from Mistral AI agent')
     } catch (error) {
@@ -53,27 +61,30 @@ class MistralClient {
     return `You are an expert in design and color theory. Generate a 5-color palette for "${userPrompt}".`
   }
 
+  // Characters of the instruction wrapped around the user prompt, for estimates
+  getPromptOverhead(): number {
+    return this.createColorPalettePrompt('').length
+  }
+
   private extractJsonFromMarkdown(content: string): string {
-    // Extract JSON from markdown code blocks
     const jsonMatch = content.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
     if (jsonMatch && jsonMatch[1]) return jsonMatch[1].trim()
-    // If no markdown blocks found, return content as is
     return content.trim()
   }
 
-  async generateColorPalette(userPrompt: string): Promise<MistralColorPalette> {
+  async generateColorPalette(
+    userPrompt: string
+  ): Promise<{ palette: MistralColorPalette; usage: MistralUsage }> {
     try {
       const prompt = this.createColorPalettePrompt(userPrompt)
-      const content = await this.callAgent(prompt)
+      const { content, usage } = await this.callAgent(prompt)
 
       if (!content)
         throw new Error('No response received from Mistral AI agent')
 
-      // Extract JSON from potential markdown wrapper
       const cleanedContent = this.extractJsonFromMarkdown(content)
       const palette: MistralColorPalette = JSON.parse(cleanedContent)
 
-      // Basic structure validation
       if (
         !palette.primary ||
         !palette.text ||
@@ -85,7 +96,7 @@ class MistralClient {
           'Incomplete response from Mistral AI agent - missing colors'
         )
 
-      return palette
+      return { palette, usage }
     } catch (error) {
       if (error instanceof SyntaxError)
         throw new Error(

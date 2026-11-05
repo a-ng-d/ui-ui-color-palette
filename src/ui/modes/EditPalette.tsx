@@ -53,8 +53,9 @@ import {
   PluginMessageData,
   ScaleMessage,
   ThemesMessage,
+  MeteredAction,
 } from '../../types/messages'
-import { SourceColorEvent } from '../../types/events'
+import { ActionEvent, SourceColorEvent } from '../../types/events'
 import {
   BaseProps,
   Context,
@@ -64,11 +65,10 @@ import {
   Editor,
   Mode,
 } from '../../types/app'
+import { setPendingRun } from '../../stores/usage'
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette, $themes } from '../../stores/palette'
-import { $creditsCount } from '../../stores/credits'
 import {
-  trackActionEvent,
   trackPreviewManagementEvent,
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
@@ -411,6 +411,14 @@ export default class EditPalette extends PureComponent<
     return actions[state ?? 'DEFAULT']?.()
   }
 
+  beginRun = (
+    action: MeteredAction,
+    feature: ActionEvent['feature'],
+    view?: ViewConfiguration
+  ) => {
+    setPendingRun(action, { feature, view })
+  }
+
   documentHandler = (e: Event) => {
     this.setState({
       isSecondaryLoading: true,
@@ -425,14 +433,6 @@ export default class EditPalette extends PureComponent<
         },
       })
 
-      if (
-        this.props.config.plan.isProEnabled &&
-        this.props.config.plan.isCreditsEnabled
-      )
-        $creditsCount.set(
-          $creditsCount.get() - this.props.config.fees.paletteGenerate
-        )
-
       sendPluginMessage(
         {
           pluginMessage: {
@@ -444,17 +444,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'GENERATE_PALETTE',
-        }
-      )
+      this.beginRun('CREATE_DOCUMENT', 'GENERATE_PALETTE', 'PALETTE')
     }
 
     const generatePaletteWithProperties = () => {
@@ -464,14 +454,6 @@ export default class EditPalette extends PureComponent<
           view: 'PALETTE_WITH_PROPERTIES',
         },
       })
-
-      if (
-        this.props.config.plan.isProEnabled &&
-        this.props.config.plan.isCreditsEnabled
-      )
-        $creditsCount.set(
-          $creditsCount.get() - this.props.config.fees.paletteWithPropsGenerate
-        )
 
       sendPluginMessage(
         {
@@ -484,16 +466,10 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
-        }
+      this.beginRun(
+        'CREATE_DOCUMENT',
+        'GENERATE_PALETTE_WITH_PROPERTIES',
+        'PALETTE_WITH_PROPERTIES'
       )
     }
 
@@ -504,14 +480,6 @@ export default class EditPalette extends PureComponent<
           view: 'SHEET',
         },
       })
-
-      if (
-        this.props.config.plan.isProEnabled &&
-        this.props.config.plan.isCreditsEnabled
-      )
-        $creditsCount.set(
-          $creditsCount.get() - this.props.config.fees.sheetGenerate
-        )
 
       sendPluginMessage(
         {
@@ -524,17 +492,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'GENERATE_SHEET',
-        }
-      )
+      this.beginRun('CREATE_DOCUMENT', 'GENERATE_SHEET', 'SHEET')
     }
 
     const pushUpdates = () => {
@@ -555,16 +513,10 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      trackActionEvent(
-        this.props.config.env.isMixpanelEnabled,
-        this.props.userSession.userId,
-        this.props.userIdentity.id,
-        this.props.planStatus,
-        this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-          ?.isConsented ?? false,
-        {
-          feature: 'UPDATE_DOCUMENT',
-        }
+      this.beginRun(
+        'UPDATE_DOCUMENT',
+        'UPDATE_DOCUMENT',
+        this.props.document?.view ?? 'PALETTE'
       )
     }
 
@@ -626,25 +578,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.localStylesSync
-      )
-
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'SYNC_STYLES',
-      }
-    )
+    this.beginRun('SYNC_LOCAL_STYLES', 'SYNC_STYLES')
   }
 
   onSyncVariables = () => {
@@ -657,25 +591,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.localVariablesSync
-      )
-
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'SYNC_VARIABLES',
-      }
-    )
+    this.beginRun('SYNC_LOCAL_VARIABLES', 'SYNC_VARIABLES')
   }
 
   onSimulatePalette = () => {
@@ -688,17 +604,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'SIMULATE_PALETTE',
-      }
-    )
+    this.beginRun('SIMULATE_PALETTE', 'SIMULATE_PALETTE')
   }
 
   onSyncTokens = () => {
@@ -711,25 +617,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.localTokensSync
-      )
-
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: 'SYNC_TOKENS',
-      }
-    )
+    this.beginRun('SYNC_LOCAL_TOKENS', 'SYNC_TOKENS')
   }
 
   onChangeView = (
@@ -749,28 +637,6 @@ export default class EditPalette extends PureComponent<
       },
     })
 
-    if (
-      this.props.config.plan.isProEnabled &&
-      currentElement.dataset.value === 'PALETTE'
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteGenerate
-      )
-    else if (
-      this.props.config.plan.isProEnabled &&
-      currentElement.dataset.value === 'PALETTE_WITH_PROPERTIES'
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteWithPropsGenerate
-      )
-    else if (
-      this.props.config.plan.isProEnabled &&
-      currentElement.dataset.value === 'SHEET'
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.sheetGenerate
-      )
-
     sendPluginMessage(
       {
         pluginMessage: {
@@ -781,16 +647,11 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      {
-        feature: `SWITCH_${currentElement.dataset.value as ViewConfiguration}`,
-      }
+    const view = currentElement.dataset.value as ViewConfiguration
+    this.beginRun(
+      'UPDATE_DOCUMENT',
+      `SWITCH_${view}` as ActionEvent['feature'],
+      view
     )
   }
 

@@ -6,6 +6,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { MeterKey } from '../../types/config'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $creditsCount } from '../../stores/credits'
 import { getTolgee } from '../../external/translation'
@@ -131,6 +132,13 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SIMULATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SIMULATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     VIEWS_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_PALETTE',
@@ -215,112 +223,68 @@ export default class PlanControls extends PureComponent<
     ))
   }
 
+  private meterRule = (key: MeterKey): string =>
+    this.props.t(`plan.credits.meters.${key}`, {
+      rate: Object.values(this.props.config.plan.meters[key].units)[0] ?? 0,
+    })
+
   // Templates
   Fees = (): ComponentChildren => {
     return (
-      <ul className="list-item">
-        {this.features.IMPORTS_COOLORS.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.importCoolors', {
-              fee: this.props.config.fees.coolorsImport,
-            })}
-          </li>
-        )}
-        {this.features.IMPORTS_REALTIME_COLORS.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.importRealtimeColors', {
-              fee: this.props.config.fees.realtimeColorsImport,
-            })}
-          </li>
-        )}
-        {this.features.EXPLORE.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.importColourLovers', {
-              fee: this.props.config.fees.colourLoversImport,
-            })}
-          </li>
-        )}
-        {this.features.GEN.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.generateAiColors', {
-              fee: this.props.config.fees.aiColorsGenerate,
-            })}
-          </li>
-        )}
-        {this.features.EXTRACT.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.extractImageColors', {
-              fee: this.props.config.fees.imageColorsExtract,
-            })}
-          </li>
-        )}
-        {this.features.WHEEL.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.createColorHarmony', {
-              fee: this.props.config.fees.harmonyCreate,
-            })}
-          </li>
-        )}
-        {this.features.CREATE_PALETTE.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.createPalette', {
-              fee: this.props.config.fees.paletteCreate,
-            })}
-          </li>
-        )}
-        {this.features.DOCUMENT_PALETTE.isActive() &&
-          this.features.VIEWS_PALETTE.isActive() && (
+      <>
+        <ul className="list-item">
+          {this.features.GEN.isActive() && (
             <li>
-              {this.props.t('plan.credits.fees.generateSimplePalette', {
-                fee: this.props.config.fees.paletteGenerate,
+              {this.props.t('plan.credits.meters.aiColorsGenerate', {
+                tokens:
+                  this.props.config.plan.meters.aiColorsGenerate.tokens
+                    ?.tokensPerCredit ?? 0,
+                weight:
+                  this.props.config.plan.meters.aiColorsGenerate.tokens
+                    ?.outputTokenWeight ?? 1,
               })}
             </li>
           )}
-        {this.features.DOCUMENT_PALETTE_PROPERTIES.isActive() &&
-          this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive() && (
-            <li>
-              {this.props.t('plan.credits.fees.generateDetailedPalette', {
-                fee: this.props.config.fees.paletteWithPropsGenerate,
-              })}
-            </li>
+          {this.features.DOCUMENT_PALETTE.isActive() && (
+            <li>{this.meterRule('documentPalette')}</li>
           )}
-        {this.features.DOCUMENT_SHEET.isActive() &&
-          this.features.VIEWS_SHEET.isActive() && (
-            <li>
-              {this.props.t('plan.credits.fees.generateColorSheet', {
-                fee: this.props.config.fees.sheetGenerate,
-              })}
-            </li>
+          {this.features.DOCUMENT_PALETTE_PROPERTIES.isActive() && (
+            <li>{this.meterRule('documentPaletteWithProperties')}</li>
           )}
-        {this.features.DOCUMENT_PUSH_UPDATES.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.updatePalette', {
-              fee: this.props.config.fees.paletteUpdates,
-            })}
-          </li>
-        )}
-        {this.features.SYNC_LOCAL_STYLES.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.syncLocalStyles', {
-              fee: this.props.config.fees.localStylesSync,
-            })}
-          </li>
-        )}
-        {this.features.SYNC_LOCAL_VARIABLES.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.syncLocalVariables', {
-              fee: this.props.config.fees.localVariablesSync,
-            })}
-          </li>
-        )}
-        {this.features.SYNC_LOCAL_TOKENS.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.syncLocalTokens', {
-              fee: this.props.config.fees.localTokensSync,
-            })}
-          </li>
-        )}
-      </ul>
+          {this.features.DOCUMENT_SHEET.isActive() && (
+            <li>{this.meterRule('documentSheet')}</li>
+          )}
+          {this.features.DOCUMENT_PUSH_UPDATES.isActive() && (
+            <li>{this.props.t('plan.credits.meters.documentUpdate')}</li>
+          )}
+          {this.features.SYNC_LOCAL_STYLES.isActive() && (
+            <li>{this.meterRule('localStylesSync')}</li>
+          )}
+          {this.features.SYNC_LOCAL_VARIABLES.isActive() && (
+            <li>{this.meterRule('localVariablesSync')}</li>
+          )}
+          {this.features.SYNC_LOCAL_TOKENS.isActive() && (
+            <li>{this.meterRule('localTokensSync')}</li>
+          )}
+          {this.features.SIMULATE_PALETTE.isActive() && (
+            <li>{this.meterRule('paletteSimulate')}</li>
+          )}
+        </ul>
+        <p>
+          {this.props.t('plan.credits.renew', {
+            date: new Date(this.props.creditsRenewalDate).toLocaleString(
+              getTolgee().getLanguage(),
+              {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              }
+            ),
+          })}
+        </p>
+      </>
     )
   }
 
@@ -371,31 +335,11 @@ export default class PlanControls extends PureComponent<
           </span>
           <IconChip
             iconType="PICTO"
-            iconName="info"
+            iconName={this.state.creditsCount === 0 ? 'warning' : 'info'}
             text={this.Fees()}
             pin="TOP"
             type="MULTI_LINE"
           />
-          {this.state.creditsCount === 0 && (
-            <IconChip
-              iconType="PICTO"
-              iconName="warning"
-              text={this.props.t('plan.credits.renew', {
-                date: new Date(this.props.creditsRenewalDate).toLocaleString(
-                  getTolgee().getLanguage(),
-                  {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  }
-                ),
-              })}
-              pin="TOP"
-              type="MULTI_LINE"
-            />
-          )}
         </div>
       </Feature>
     )

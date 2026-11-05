@@ -276,6 +276,10 @@
       "title": "진행 중인 변경사항"
     }
   },
+  "credits": {
+    "charged": "{cost, plural, other {# cdts 사용됨}}",
+    "estimate": "≈ {cost, plural, other {# cdts}}"
+  },
   "dev": {
     "readyForDev": "개발 준비 완료"
   },
@@ -620,24 +624,19 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {잔여 크레딧 1개} other {잔여 크레딧 #개} =0 {잔여 크레딧 없음}}",
-      "fees": {
-        "createColorHarmony": "색상 조화 만들기: {fee} cdts",
-        "createPalette": "UI Color Palette 만들기: {fee} cdts",
-        "extractImageColors": "이미지에서 주요 색상 추출: {fee} cdts",
-        "generateAiColors": "AI로 색상 생성: {fee} cdts",
-        "generateColorSheet": "색상 시트 생성: {fee} cdts",
-        "generateDetailedPalette": "상세 팔레트 생성: {fee} cdts",
-        "generateSimplePalette": "간단한 팔레트 생성: {fee} cdts",
-        "importColourLovers": "Color Hunt에서 팔레트 가져오기: {fee} cdts",
-        "importCoolors": "Coolors에서 팔레트 가져오기: {fee} cdts",
-        "importRealtimeColors": "Realtime Colors에서 팔레트 가져오기: {fee} cdts",
-        "syncLocalStyles": "로컬 스타일과 동기화: {fee} cdts",
-        "syncLocalTokens": "로컬 토큰과 동기화: {fee} cdts",
-        "syncLocalVariables": "로컬 변수와 동기화: {fee} cdts",
-        "updatePalette": "팔레트 업데이트: {fee} cdts"
+      "amount": "{count, plural, =0 {남은 cdts 없음} other {# cdts 남음}}",
+      "meters": {
+        "aiColorsGenerate": "AI로 색상 생성: {tokens}토큰당 1 cdt, 출력 ×{weight}",
+        "documentPalette": "간단한 팔레트 생성: 색상 및 모드당 {rate, plural, other {# cdts}}",
+        "documentPaletteWithProperties": "상세 팔레트 생성: 색상 및 모드당 {rate, plural, other {# cdts}}",
+        "documentSheet": "색상 시트 생성: 색상 및 모드당 {rate, plural, other {# cdts}}",
+        "documentUpdate": "문서 업데이트: 문서 유형과 동일한 요금",
+        "localStylesSync": "로컬 스타일과 동기화: 스타일당 {rate, plural, other {# cdts}}",
+        "localTokensSync": "로컬 토큰과 동기화: 토큰당 {rate, plural, other {# cdts}}",
+        "localVariablesSync": "로컬 변수와 동기화: 변수 및 모드당 {rate, plural, other {# cdts}}",
+        "paletteSimulate": "선택 항목에 시뮬레이션: 변경된 레이어당 {rate, plural, other {# cdts}}"
       },
-      "renew": "크레딧은 {date}에 갱신됩니다. 무제한 크레딧은 /pro로 업그레이드하세요."
+      "renew": "크레딧은 매월 갱신되며, 다음 갱신일은 {date}입니다. 무제한 크레딧은 /pro로 업그레이드하세요."
     },
     "dev": "/dev 플랜",
     "free": "/basic 플랜",
@@ -758,7 +757,7 @@
         "discount": "Figma, Penpot, Sketch, Framer에서 $47 /lifetime",
         "regular": "Figma, Penpot, Sketch, Framer에서 $59 /lifetime"
       },
-      "text": "◻ 무제한 팔레트</br>◻ 무제한 소스 색상</br>◻ 무제한 스톱</br>◻ 무제한 색상 모드",
+      "text": "◻ 무제한 팔레트</br>◻ 무제한 소스 색상</br>◻ 무제한 스톱</br>◻ 무제한 색상 모드</br>◻ 무제한 크레딧",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +766,7 @@
         "discount": "Figma, Penpot, Sketch, Framer에서 $47 /lifetime",
         "regular": "Figma, Penpot, Sketch, Framer에서 $59 /lifetime"
       },
-      "text": "◻ /figma의 모든 기능</br>◻ 소규모 및 대규모 팀 지원</br>◻ 멀티플랫폼</br>◻ 다양한 결제 옵션</br>◻ 평생 플랜",
+      "text": "◻ /figma의 모든 기능</br>◻ 소규모 및 대규모 팀 지원</br>◻ 멀티플랫폼</br>◻ 다양한 결제 옵션</br>◻ 평생 플랜</br>◻ 무제한 크레딧",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "새로운 플랜",
@@ -785,10 +784,10 @@
         "year": "사용자/년 {price}"
       },
       "texts": {
-        "lifetime": "◻ 평생 액세스</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "month": "◻ 유연함</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "week": "◻ 종량제</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드",
-        "year": "◻ 절약</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드"
+        "lifetime": "◻ 평생 액세스</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧",
+        "month": "◻ 유연함</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧",
+        "week": "◻ 종량제</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧",
+        "year": "◻ 절약</br>◻ 무제한 색상/스톱</br>◻ 무제한 모드</br>◻ 무제한 크레딧"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -944,9 +943,9 @@
       "polaris": "Polaris, 1-16 (Shopify)",
       "radix": "Radix, 1-12",
       "spectrum": "Spectrum 1, 100-1300",
-      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "spectrum2": "Spectrum 2, 100-1600",
       "spectrum2Neutral": "Spectrum 2, Neutral 25-1000",
+      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "tailwind": "Tailwind, 50-950",
       "untitledUI": "Untitled UI, 25-950"
     },

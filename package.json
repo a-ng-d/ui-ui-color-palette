@@ -1,6 +1,6 @@
 {
   "name": "ui-ui-color-palette",
-  "version": "3.8.4",
+  "version": "3.9.1",
   "private": true,
   "description": "A unified UI component library for color palette functionality across multiple design platforms. This project serves as a common UI foundation that adapts to different platforms (Figma, Penpot, Sketch) while maintaining a consistent experience.",
   "author": "Aurélien Grimaud",
@@ -140,6 +140,7 @@
     "build": "PLATFORM=figma COLOR_MODE=dark EDITOR=figma vite build --mode production",
     "build:types": "tsc -p tsconfig.declarations.json || true",
     "typecheck": "npx tsc --noEmit",
+    "test": "vitest run",
     "lint": "npx eslint ./src --fix --ext .ts,.tsx",
     "format": "npx prettier './src' --write",
     "clean:port:8888": "lsof -ti:8888 | xargs kill -9 2>/dev/null || true",
@@ -165,7 +166,8 @@
     "typescript": "^5.4.3",
     "undici": "^7.24.3",
     "vite": "^6.2.5",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^5.1.0"
   },
   "dependencies": {
     "@mistralai/mistralai": "^1.10.0",

@@ -276,6 +276,10 @@
       "title": "Ongoing changes"
     }
   },
+  "credits": {
+    "charged": "{cost, plural, one {# cdt used} other {# cdts used}}",
+    "estimate": "≈ {cost, plural, one {# cdt} other {# cdts}}"
+  },
   "dev": {
     "readyForDev": "Ready for development"
   },
@@ -620,24 +624,19 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {1 credit left} other {# credits left} =0 {No credit left}}",
-      "fees": {
-        "createColorHarmony": "Create a color harmony: {fee} cdts",
-        "createPalette": "Create a UI Color Palette: {fee} cdts",
-        "extractImageColors": "Extract dominant colors from image: {fee} cdts",
-        "generateAiColors": "Generate colors from AI: {fee} cdts",
-        "generateColorSheet": "Generate a color sheet: {fee} cdts",
-        "generateDetailedPalette": "Generate a detailed palette: {fee} cdts",
-        "generateSimplePalette": "Generate a simple palette: {fee} cdts",
-        "importColourLovers": "Import a palette from Color Hunt: {fee} cdts",
-        "importCoolors": "Import a palette from Coolors: {fee} cdts",
-        "importRealtimeColors": "Import a palette from Realtime Colors: {fee} cdts",
-        "syncLocalStyles": "Sync with local styles: {fee} cdts",
-        "syncLocalTokens": "Sync with local tokens: {fee} cdts",
-        "syncLocalVariables": "Sync with local variables: {fee} cdts",
-        "updatePalette": "Update a palette: {fee} cdts"
+      "amount": "{count, plural, =0 {No cdts left} one {# cdt left} other {# cdts left}}",
+      "meters": {
+        "aiColorsGenerate": "Generate colors from AI: 1 cdt per {tokens} tokens, output ×{weight}",
+        "documentPalette": "Generate a simple palette: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
+        "documentPaletteWithProperties": "Generate a detailed palette: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
+        "documentSheet": "Generate a color sheet: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
+        "documentUpdate": "Update a document: same rate as its type",
+        "localStylesSync": "Sync with local styles: {rate, plural, one {# cdt} other {# cdts}} per style",
+        "localTokensSync": "Sync with local tokens: {rate, plural, one {# cdt} other {# cdts}} per token",
+        "localVariablesSync": "Sync with local variables: {rate, plural, one {# cdt} other {# cdts}} per variable and mode",
+        "paletteSimulate": "Apply to selection: {rate, plural, one {# cdt} other {# cdts}} per changed layer"
       },
-      "renew": "Credits will renew at {date}. Upgrade to /pro for unlimited credits."
+      "renew": "Credits renew every month, next on {date}. Upgrade to /pro for unlimited credits."
     },
     "dev": "/dev plan",
     "free": "/basic plan",
@@ -758,7 +757,7 @@
         "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes",
+      "text": "◻ Unlimited palettes</br>◻ Unlimited source colors</br>◻ Unlimited stops</br>◻ Unlimited color modes</br>◻ Unlimited credits",
       "title": "UI Color Palette /pro /one"
     },
     "oneFigma": {
@@ -767,7 +766,7 @@
         "discount": "$47 /lifetime on Figma, Penpot, Sketch, Framer",
         "regular": "$59 /lifetime on Figma, Penpot, Sketch, Framer"
       },
-      "text": "◻ All /figma features</br>◻ For small and large teams</br>◻ Multi platforms</br>◻ Multi payment options</br>◻ Lifetime plan",
+      "text": "◻ All /figma features</br>◻ For small and large teams</br>◻ Multi platforms</br>◻ Multi payment options</br>◻ Lifetime plan</br>◻ Unlimited credits",
       "title": "UI Color Palette /pro /one"
     },
     "operation": "New plans",
@@ -785,10 +784,10 @@
         "year": "{price} per user/year"
       },
       "texts": {
-        "lifetime": "◻ Lifetime access</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "month": "◻ Flexible</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "week": "◻ Pay-as-you-go</br>◻ Unlimited colors/stops</br>◻ Unlimited modes",
-        "year": "◻ Save money</br>◻ Unlimited colors/stops</br>◻ Unlimited modes"
+        "lifetime": "◻ Lifetime access</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits",
+        "month": "◻ Flexible</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits",
+        "week": "◻ Pay-as-you-go</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits",
+        "year": "◻ Save money</br>◻ Unlimited colors/stops</br>◻ Unlimited modes</br>◻ Unlimited credits"
       },
       "titles": {
         "lifetime": "/pro /lifetime",
@@ -944,9 +943,9 @@
       "polaris": "Polaris, 1-16 (Shopify)",
       "radix": "Radix, 1-12",
       "spectrum": "Spectrum 1, 100-1300",
-      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "spectrum2": "Spectrum 2, 100-1600",
       "spectrum2Neutral": "Spectrum 2, Neutral 25-1000",
+      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "tailwind": "Tailwind, 50-950",
       "untitledUI": "Untitled UI, 25-950"
     },
