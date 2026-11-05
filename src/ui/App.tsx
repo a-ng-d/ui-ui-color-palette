@@ -13,12 +13,19 @@ import {
 } from '@unoff/ui'
 import './stylesheets/app.css'
 import { sendPluginMessage } from '../utils/pluginMessage'
+import { ACTION_METER, areCreditsEnabled } from '../utils/meteredActions'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
 import { resolveIsCompact, resolveIsMobile } from '../utils/isCompact'
 import { getPortalTarget } from '../utils/getPortalTarget'
+import computeMeteredCost from '../utils/computeMeteredCost'
 import { UserSession } from '../types/user'
 import { Language } from '../types/translations'
-import { NotificationMessage, PluginMessageData } from '../types/messages'
+import {
+  MeteredAction,
+  NotificationMessage,
+  PluginMessageData,
+  UsageUnit,
+} from '../types/messages'
 import {
   BaseProps,
   Editor,
@@ -28,6 +35,8 @@ import {
   Service,
   LicenseTrigger,
 } from '../types/app'
+import { takePendingRun } from '../stores/usage'
+import { $selectionLayers } from '../stores/selection'
 import { updatePresets } from '../stores/presets'
 import {
   $canStylesDeepSync,
@@ -53,6 +62,7 @@ import {
 } from '../stores/consent'
 import { getTolgee } from '../external/translation'
 import {
+  trackActionEvent,
   trackEditorEvent,
   trackLanguageEvent,
   trackPurchaseEvent,
@@ -623,6 +633,63 @@ class App extends Component<AppProps, AppState> {
           },
         })
 
+      const reportUsage = () => {
+        const action = path.data?.action as MeteredAction | undefined
+        const meter = action
+          ? this.props.config.plan.meters[ACTION_METER[action]]
+          : undefined
+        if (!action || !meter) return
+
+        const usage = (path.data.usage ?? {}) as Partial<
+          Record<UsageUnit, number>
+        >
+        const cost = computeMeteredCost(meter, usage)
+        const units = Object.values(usage).reduce(
+          (sum, count) => sum + (Number.isFinite(count) ? (count ?? 0) : 0),
+          0
+        )
+        const isCreditsEnabled = areCreditsEnabled(this.props.config)
+
+        if (isCreditsEnabled) {
+          $creditsCount.set(Math.max(0, $creditsCount.get() - cost))
+
+          const charged = this.props.t('credits.charged', { cost })
+          this.setState({
+            isNotificationDisplayed: true,
+            notification: {
+              type: this.state.isNotificationDisplayed
+                ? this.state.notification.type
+                : 'INFO',
+              message: this.state.isNotificationDisplayed
+                ? `${this.state.notification.message}${this.props.t('separator')}${charged}`
+                : charged,
+              timer: 5000,
+            },
+          })
+        }
+
+        const pendingRun = takePendingRun(action)
+        if (pendingRun)
+          trackActionEvent(
+            this.props.config.env.isMixpanelEnabled,
+            this.state.userSession.userId,
+            this.state.userIdentity.id,
+            this.state.planStatus,
+            this.state.userConsent.find((consent) => consent.id === 'mixpanel')
+              ?.isConsented ?? false,
+            {
+              feature: pendingRun.feature,
+              units,
+              creditsCharged: isCreditsEnabled ? cost : 0,
+            }
+          )
+      }
+
+      const measureSelection = () =>
+        $selectionLayers.set(
+          Math.max(0, Math.floor(Number(path.data?.layers) || 0))
+        )
+
       const handleAnnouncements = () => {
         this.setState({
           modalContext:
@@ -740,6 +807,8 @@ class App extends Component<AppProps, AppState> {
         EXPOSE_PALETTES: () => exposePalettes(),
         CHECK_ANNOUNCEMENTS_VERSION: () => checkAnnouncements(),
         POST_MESSAGE: () => postMessage(),
+        REPORT_USAGE: () => reportUsage(),
+        SELECTION_MEASURED: () => measureSelection(),
         PUSH_ANNOUNCEMENTS_STATUS: () => handleAnnouncements(),
         PUSH_ONBOARDING_STATUS: () => handleOnboarding(),
         GET_TRIAL: () => getTrial(),

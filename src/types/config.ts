@@ -1,7 +1,25 @@
 import { AlgorithmVersionConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { Feature } from '@unoff/utils'
 import { Language } from './translations'
+import { MeteredAction } from './messages'
 import { Editor, Service } from './app'
+
+export type MeterUnit = 'color' | 'layer'
+
+export interface Meter {
+  units: Partial<Record<MeterUnit, number>>
+  tokens?: { tokensPerCredit: number; outputTokenWeight: number }
+  min?: number
+  max?: number
+}
+
+export type MeterKey =
+  | 'localStylesSync'
+  | 'localVariablesSync'
+  | 'localTokensSync'
+  | 'documentGenerate'
+  | 'documentUpdate'
+  | 'paletteSimulate'
 
 export interface Config {
   limits: {
@@ -50,6 +68,8 @@ export interface Config {
     creditsLimit: number
     creditsRenewalPeriodDays: number
     creditsRenewalPeriodHours?: number
+    creditsRenewalPeriodMonths?: number
+    meters: Record<MeterKey, Meter>
     storeProWeekId: string
     storeProMonthId: string
     storeProYearId: string
@@ -97,6 +117,7 @@ export interface Config {
     readonly creditsVersion: string
   }
   features: Array<Feature<Service>>
+  meteredActions: Array<MeteredAction>
   lang: Language
   fees: {
     colourLoversImport: number

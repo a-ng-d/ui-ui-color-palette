@@ -36,8 +36,19 @@ import {
   getPublicationLabel,
 } from '../../utils/publication'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import {
+  areCreditsEnabled,
+  countModes,
+  countSourceColors,
+  creditsGateValue,
+  estimateAction,
+  estimateUsage,
+  isMeteredAction,
+} from '../../utils/meteredActions'
+import { MeteredAction } from '../../types/messages'
 import { BaseProps, Editor, Mode, PlanStatus, Service } from '../../types/app'
-import { $palette } from '../../stores/palette'
+import { $selectionLayers } from '../../stores/selection'
+import { $palette, $themes } from '../../stores/palette'
 import { ConfigContextType } from '../../config/ConfigContext'
 import type { Dispatch } from 'preact/hooks'
 
@@ -81,6 +92,9 @@ interface ActionsState {
   isTooltipVisible: boolean
   canUpdateDocument: boolean
   isCopied: boolean
+  sourceColors: number
+  modes: number
+  selectionLayers: number
 }
 
 export default class Actions extends PureComponent<ActionsProps, ActionsState> {
@@ -267,8 +281,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       isTooltipVisible: false,
       canUpdateDocument: false,
       isCopied: false,
+      sourceColors: countSourceColors($palette.get().colors),
+      modes: countModes($themes.get()),
+      selectionLayers: $selectionLayers.get(),
     }
   }
+
+  private unsubscribes: Array<() => void> = []
 
   private get features() {
     return Actions.features(
@@ -290,6 +309,15 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
 
   // Lifecycle
   componentDidMount = () => {
+    this.unsubscribes = [
+      $palette.subscribe((value) =>
+        this.setState({ sourceColors: countSourceColors(value.colors) })
+      ),
+      $themes.subscribe((value) => this.setState({ modes: countModes(value) })),
+      $selectionLayers.subscribe((value) =>
+        this.setState({ selectionLayers: value })
+      ),
+    ]
     if (
       this.props.document &&
       Object.entries(this.props.document).length > 0 &&
@@ -303,6 +331,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       this.setState({
         canUpdateDocument: false,
       })
+  }
+
+  componentWillUnmount = () => {
+    this.unsubscribes.forEach((unsubscribe) => unsubscribe())
   }
 
   componentDidUpdate = () => {
@@ -369,6 +401,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     label,
     value,
     fee,
+    metered,
     isNew,
     action,
   }: {
@@ -377,21 +410,44 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     label: string
     value?: string
     fee: number
+    metered?: MeteredAction
     isNew?: boolean
     action?: DropdownOption['action']
-  }): DropdownOption => ({
-    label,
-    value,
-    feature,
-    type: 'OPTION',
-    isActive: status.isActive(),
-    isBlocked:
-      status.isReached((this.props.creditsCount - fee) * -1 - 1) ||
-      status.isBlocked(),
-    isNew: isNew ?? status.isNew(),
-    onBlock: () => this.requestUpgrade(feature),
-    action,
-  })
+  }): DropdownOption => {
+    const isMetered =
+      metered !== undefined && isMeteredAction(this.props.config, metered)
+    const estimate = isMetered ? this.estimate(metered) : fee
+
+    return {
+      label,
+      value,
+      feature,
+      type: 'OPTION',
+      isActive: status.isActive(),
+      shortcut:
+        isMetered && areCreditsEnabled(this.props.config)
+          ? this.props.t('credits.estimate', { cost: estimate })
+          : undefined,
+      isBlocked:
+        status.isReached(
+          creditsGateValue(this.props.config, this.props.creditsCount, estimate)
+        ) || status.isBlocked(),
+      isNew: isNew ?? status.isNew(),
+      onBlock: () => this.requestUpgrade(feature),
+      action,
+    }
+  }
+
+  estimate = (action: MeteredAction): number =>
+    estimateAction(
+      this.props.config,
+      action,
+      estimateUsage(action, {
+        sourceColors: this.state.sourceColors,
+        modes: this.state.modes,
+        selectionLayers: this.state.selectionLayers,
+      })
+    )
 
   documentOptionsHandler = (hasSeparator = true): Array<DropdownOption> => {
     const { fees } = this.props.config
@@ -401,6 +457,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_PALETTE',
         label: this.props.t('actions.generateDocument.palette'),
         fee: fees.paletteGenerate,
+        metered: 'CREATE_DOCUMENT',
         action: this.props.onGenerateDocument,
       }),
       this.gatedOption({
@@ -408,6 +465,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_PALETTE_WITH_PROPERTIES',
         label: this.props.t('actions.generateDocument.paletteWithProperties'),
         fee: fees.paletteWithPropsGenerate,
+        metered: 'CREATE_DOCUMENT',
         action: this.props.onGenerateDocument,
       }),
       this.gatedOption({
@@ -415,6 +473,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         feature: 'GENERATE_SHEET',
         label: this.props.t('actions.generateDocument.sheet'),
         fee: fees.sheetGenerate,
+        metered: 'CREATE_DOCUMENT',
         action: this.props.onGenerateDocument,
       }),
     ]
@@ -427,6 +486,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           feature: 'PUSH_UPDATES',
           label: this.props.t('actions.pushUpdates'),
           fee: fees.paletteUpdates,
+          metered: 'UPDATE_DOCUMENT',
           isNew: true,
           action: this.props.onGenerateDocument,
         })
@@ -445,6 +505,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'PALETTE',
         label: this.props.t('settings.global.views.simple'),
         fee: fees.paletteGenerate,
+        metered: 'UPDATE_DOCUMENT',
         action: this.props.onChangeView,
       }),
       this.gatedOption({
@@ -453,6 +514,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'PALETTE_WITH_PROPERTIES',
         label: this.props.t('settings.global.views.detailed'),
         fee: fees.paletteWithPropsGenerate,
+        metered: 'UPDATE_DOCUMENT',
         action: this.props.onChangeView,
       }),
       this.gatedOption({
@@ -461,6 +523,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'SHEET',
         label: this.props.t('settings.global.views.sheet'),
         fee: fees.sheetGenerate,
+        metered: 'UPDATE_DOCUMENT',
         action: this.props.onChangeView,
       }),
     ]
@@ -476,6 +539,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'LOCAL_STYLES',
         label: this.props.t('actions.syncLocalStyles'),
         fee: fees.localStylesSync,
+        metered: 'SYNC_LOCAL_STYLES',
         action: (e) => this.props.onSyncLocalStyles?.(e),
       }),
       this.gatedOption({
@@ -484,6 +548,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'LOCAL_VARIABLES',
         label: this.props.t('actions.syncLocalVariables'),
         fee: fees.localVariablesSync,
+        metered: 'SYNC_LOCAL_VARIABLES',
         action: (e) => this.props.onSyncLocalVariables?.(e),
       }),
       this.gatedOption({
@@ -492,6 +557,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         value: 'LOCAL_TOKENS',
         label: this.props.t('actions.syncLocalTokens'),
         fee: fees.localTokensSync,
+        metered: 'SYNC_LOCAL_TOKENS',
         action: (e) => this.props.onSyncLocalTokens?.(e),
       }),
     ]
@@ -560,6 +626,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
           value: 'SIMULATE_PALETTE',
           label: this.props.t('actions.simulatePalette'),
           fee: 0,
+          metered: 'SIMULATE_PALETTE',
           action: () => this.props.onSimulatePalette?.(),
         }),
         { type: 'SEPARATOR' }
@@ -820,11 +887,30 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                     label={this.props.t('actions.simulatePalette')}
                     feature="SIMULATE_PALETTE"
                     helper={{
-                      label: this.props.t('actions.simulateSelectionHelper'),
+                      label: `${this.props.t('actions.simulateSelectionHelper')}${
+                        isMeteredAction(
+                          this.props.config,
+                          'SIMULATE_PALETTE'
+                        ) && areCreditsEnabled(this.props.config)
+                          ? ` (${this.props.t('credits.estimate', {
+                              cost: this.estimate('SIMULATE_PALETTE'),
+                            })})`
+                          : ''
+                      }`,
                       type: 'MULTI_LINE',
                     }}
                     isLoading={this.props.isTertiaryLoading}
-                    isBlocked={this.features.SIMULATE_PALETTE.isBlocked()}
+                    isBlocked={
+                      this.features.SIMULATE_PALETTE.isReached(
+                        creditsGateValue(
+                          this.props.config,
+                          this.props.creditsCount,
+                          isMeteredAction(this.props.config, 'SIMULATE_PALETTE')
+                            ? this.estimate('SIMULATE_PALETTE')
+                            : 0
+                        )
+                      ) || this.features.SIMULATE_PALETTE.isBlocked()
+                    }
                     isNew={this.features.SIMULATE_PALETTE.isNew()}
                     onBlock={() => this.requestUpgrade('SIMULATE_PALETTE')}
                     action={() => this.props.onSimulatePalette?.()}

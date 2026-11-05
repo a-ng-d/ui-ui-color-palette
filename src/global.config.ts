@@ -1,4 +1,5 @@
 import { Feature } from '@unoff/utils'
+import { MeteredAction } from './types/messages'
 import { Config } from './types/config'
 import { Service } from './types/app'
 import { doSpecificMode } from './stores/features'
@@ -52,6 +53,7 @@ interface SpecConfig {
             | 'framer-dark'
         }
         features: Array<Feature<Service>>
+        meteredActions: Array<MeteredAction>
       }
     }
   }
@@ -116,6 +118,35 @@ const proFeatures = [
   'HELP_EMAIL',
 ]
 
+
+const figmaMeteredActions: Array<MeteredAction> = [
+  'SYNC_LOCAL_STYLES',
+  'SYNC_LOCAL_VARIABLES',
+  'CREATE_DOCUMENT',
+  'UPDATE_DOCUMENT',
+  'SIMULATE_PALETTE',
+]
+const penpotMeteredActions: Array<MeteredAction> = [
+  'SYNC_LOCAL_STYLES',
+  'SYNC_LOCAL_TOKENS',
+  'CREATE_DOCUMENT',
+  'UPDATE_DOCUMENT',
+  'SIMULATE_PALETTE',
+]
+const sketchMeteredActions: Array<MeteredAction> = [
+  'SYNC_LOCAL_STYLES',
+  'SYNC_LOCAL_VARIABLES',
+  'CREATE_DOCUMENT',
+  'UPDATE_DOCUMENT',
+  'SIMULATE_PALETTE',
+]
+const framerMeteredActions: Array<MeteredAction> = [
+  'SYNC_LOCAL_STYLES',
+  'CREATE_DOCUMENT',
+  'UPDATE_DOCUMENT',
+  'SIMULATE_PALETTE',
+]
+
 const specConfig: SpecConfig = {
   figma: {
     light: {
@@ -126,6 +157,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -139,6 +171,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -152,6 +185,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -165,6 +199,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -180,6 +215,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -193,6 +229,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -206,6 +243,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -219,6 +257,7 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
+        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -236,6 +275,7 @@ const specConfig: SpecConfig = {
           ui: 'penpot',
           colorMode: 'penpot-light',
         },
+        meteredActions: penpotMeteredActions,
         features: doSpecificMode(
           [
             'SYNC_LOCAL_VARIABLES',
@@ -260,6 +300,7 @@ const specConfig: SpecConfig = {
           ui: 'penpot',
           colorMode: 'penpot-dark',
         },
+        meteredActions: penpotMeteredActions,
         features: doSpecificMode(
           [
             'SYNC_LOCAL_VARIABLES',
@@ -286,6 +327,7 @@ const specConfig: SpecConfig = {
           ui: 'sketch',
           colorMode: 'sketch-light',
         },
+        meteredActions: sketchMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -301,6 +343,7 @@ const specConfig: SpecConfig = {
           ui: 'sketch',
           colorMode: 'sketch-dark',
         },
+        meteredActions: sketchMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -318,6 +361,7 @@ const specConfig: SpecConfig = {
           ui: 'framer',
           colorMode: 'framer-light',
         },
+        meteredActions: framerMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -333,6 +377,7 @@ const specConfig: SpecConfig = {
           ui: 'framer',
           colorMode: 'framer-dark',
         },
+        meteredActions: framerMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -407,8 +452,17 @@ const globalConfig: Config = {
     isCreditsEnabled: import.meta.env.VITE_CREDITS_ENABLED === 'true',
     trialTime: 72,
     creditsLimit: 500,
-    creditsRenewalPeriodDays: 7,
-    creditsRenewalPeriodHours: 168,
+    creditsRenewalPeriodDays: 30,
+    creditsRenewalPeriodHours: 720,
+    creditsRenewalPeriodMonths: 1,
+    meters: {
+      localStylesSync: { units: { color: 2 } },
+      localVariablesSync: { units: { color: 2 } },
+      localTokensSync: { units: { color: 2 } },
+      documentGenerate: { units: { color: 2 } },
+      documentUpdate: { units: { color: 2 } },
+      paletteSimulate: { units: { layer: 1 } },
+    },
     storeProWeekId: '20d1df96-8052-47de-bf62-36b412c35885',
     storeProMonthId: '5f0502a5-9708-459d-b002-495e2860c23a',
     storeProYearId: '66a55061-29ff-4c52-8ce0-0661ab12890e',
@@ -457,9 +511,10 @@ const globalConfig: Config = {
     algorithmVersion: 'v3',
     paletteVersion: '2026.08',
     pluginVersion: __APP_VERSION__,
-    creditsVersion: '2026.05',
+    creditsVersion: '2026.11',
   },
   features: specTarget.features,
+  meteredActions: specTarget.meteredActions,
   lang: 'en-US',
   fees: {
     colourLoversImport: 25,

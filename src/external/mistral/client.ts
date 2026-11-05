@@ -28,11 +28,9 @@ class MistralClient {
       if (!content)
         throw new Error('No response received from Mistral AI agent')
 
-      // Handle both string and ContentChunk[] types
       if (typeof content === 'string') return content
 
       if (Array.isArray(content))
-        // If content is an array of chunks, concatenate text content
         return content
           .map((chunk) => ('text' in chunk ? chunk.text : ''))
           .join('')
@@ -54,10 +52,8 @@ class MistralClient {
   }
 
   private extractJsonFromMarkdown(content: string): string {
-    // Extract JSON from markdown code blocks
     const jsonMatch = content.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/)
     if (jsonMatch && jsonMatch[1]) return jsonMatch[1].trim()
-    // If no markdown blocks found, return content as is
     return content.trim()
   }
 
@@ -69,11 +65,9 @@ class MistralClient {
       if (!content)
         throw new Error('No response received from Mistral AI agent')
 
-      // Extract JSON from potential markdown wrapper
       const cleanedContent = this.extractJsonFromMarkdown(content)
       const palette: MistralColorPalette = JSON.parse(cleanedContent)
 
-      // Basic structure validation
       if (
         !palette.primary ||
         !palette.text ||

@@ -6,6 +6,8 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import { ACTION_METER, isMeteredAction } from '../../utils/meteredActions'
+import { MeteredAction } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $creditsCount } from '../../stores/credits'
 import { getTolgee } from '../../external/translation'
@@ -131,6 +133,13 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    SIMULATE_PALETTE: new FeatureStatus({
+      features: config.features,
+      featureName: 'SIMULATE_PALETTE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     VIEWS_PALETTE: new FeatureStatus({
       features: config.features,
       featureName: 'VIEWS_PALETTE',
@@ -215,6 +224,40 @@ export default class PlanControls extends PureComponent<
     ))
   }
 
+  private meterRule = (action: MeteredAction, key: string): string => {
+    const { config } = this.props
+    if (!isMeteredAction(config, action)) {
+      const fixed: Record<MeteredAction, [string, number]> = {
+        SYNC_LOCAL_STYLES: [
+          'actions.syncLocalStyles',
+          config.fees.localStylesSync,
+        ],
+        SYNC_LOCAL_VARIABLES: [
+          'actions.syncLocalVariables',
+          config.fees.localVariablesSync,
+        ],
+        SYNC_LOCAL_TOKENS: [
+          'actions.syncLocalTokens',
+          config.fees.localTokensSync,
+        ],
+        CREATE_DOCUMENT: [
+          'actions.generateDocument.label',
+          config.fees.paletteGenerate,
+        ],
+        UPDATE_DOCUMENT: ['actions.pushUpdates', config.fees.paletteUpdates],
+        SIMULATE_PALETTE: ['actions.simulatePalette', 0],
+      }
+      return this.props.t('plan.credits.fees.fixed', {
+        label: this.props.t(fixed[action][0]),
+        fee: fixed[action][1],
+      })
+    }
+    const meter = config.plan.meters[ACTION_METER[action]]
+    return this.props.t(`plan.credits.fees.${key}`, {
+      rate: meter.units.color ?? meter.units.layer ?? 0,
+    })
+  }
+
   // Templates
   Fees = (): ComponentChildren => {
     return (
@@ -268,57 +311,25 @@ export default class PlanControls extends PureComponent<
             })}
           </li>
         )}
-        {this.features.DOCUMENT_PALETTE.isActive() &&
-          this.features.VIEWS_PALETTE.isActive() && (
-            <li>
-              {this.props.t('plan.credits.fees.generateSimplePalette', {
-                fee: this.props.config.fees.paletteGenerate,
-              })}
-            </li>
-          )}
-        {this.features.DOCUMENT_PALETTE_PROPERTIES.isActive() &&
-          this.features.VIEWS_PALETTE_WITH_PROPERTIES.isActive() && (
-            <li>
-              {this.props.t('plan.credits.fees.generateDetailedPalette', {
-                fee: this.props.config.fees.paletteWithPropsGenerate,
-              })}
-            </li>
-          )}
-        {this.features.DOCUMENT_SHEET.isActive() &&
-          this.features.VIEWS_SHEET.isActive() && (
-            <li>
-              {this.props.t('plan.credits.fees.generateColorSheet', {
-                fee: this.props.config.fees.sheetGenerate,
-              })}
-            </li>
-          )}
+        {this.features.DOCUMENT_PALETTE.isActive() && (
+          <li>{this.meterRule('CREATE_DOCUMENT', 'generateDocument')}</li>
+        )}
         {this.features.DOCUMENT_PUSH_UPDATES.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.updatePalette', {
-              fee: this.props.config.fees.paletteUpdates,
-            })}
-          </li>
+          <li>{this.meterRule('UPDATE_DOCUMENT', 'updatePalette')}</li>
         )}
         {this.features.SYNC_LOCAL_STYLES.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.syncLocalStyles', {
-              fee: this.props.config.fees.localStylesSync,
-            })}
-          </li>
+          <li>{this.meterRule('SYNC_LOCAL_STYLES', 'syncLocalStyles')}</li>
         )}
         {this.features.SYNC_LOCAL_VARIABLES.isActive() && (
           <li>
-            {this.props.t('plan.credits.fees.syncLocalVariables', {
-              fee: this.props.config.fees.localVariablesSync,
-            })}
+            {this.meterRule('SYNC_LOCAL_VARIABLES', 'syncLocalVariables')}
           </li>
         )}
         {this.features.SYNC_LOCAL_TOKENS.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.syncLocalTokens', {
-              fee: this.props.config.fees.localTokensSync,
-            })}
-          </li>
+          <li>{this.meterRule('SYNC_LOCAL_TOKENS', 'syncLocalTokens')}</li>
+        )}
+        {this.features.SIMULATE_PALETTE.isActive() && (
+          <li>{this.meterRule('SIMULATE_PALETTE', 'simulatePalette')}</li>
         )}
       </ul>
     )

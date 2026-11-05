@@ -12,12 +12,22 @@ import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
+import {
+  countModes,
+  countSourceColors,
+  creditsGateValue,
+  estimateAction,
+  estimateUsage,
+  isMeteredAction,
+} from '../../../utils/meteredActions'
+import { MeteredAction } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
 import {
   $canStylesDeepSync,
   $canTokensDeepSync,
   $canVariablesDeepSync,
 } from '../../../stores/preferences'
+import { $palette, $themes } from '../../../stores/palette'
 import { ConfigContextType } from '../../../config/ConfigContext'
 
 interface SyncPreferencesProps
@@ -108,6 +118,19 @@ export default class SyncPreferences extends PureComponent<
     if (this.subscribeTokens) this.subscribeTokens()
   }
 
+  syncCost = (action: MeteredAction, fee: number): number =>
+    isMeteredAction(this.props.config, action)
+      ? estimateAction(
+          this.props.config,
+          action,
+          estimateUsage(action, {
+            sourceColors: countSourceColors($palette.get().colors),
+            modes: countModes($themes.get()),
+            selectionLayers: 0,
+          })
+        )
+      : fee
+
   // Templates
   StylesDeepSync = () => {
     return (
@@ -123,10 +146,14 @@ export default class SyncPreferences extends PureComponent<
           isBlocked={
             !this.state.canStylesDeepSync &&
             (this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isReached(
-              (this.props.creditsCount -
-                this.props.config.fees.localStylesSync) *
-                -1 -
-                1
+              creditsGateValue(
+                this.props.config,
+                this.props.creditsCount,
+                this.syncCost(
+                  'SYNC_LOCAL_STYLES',
+                  this.props.config.fees.localStylesSync
+                )
+              )
             ) ||
               this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isBlocked())
           }
@@ -184,10 +211,14 @@ export default class SyncPreferences extends PureComponent<
           isBlocked={
             !this.state.canVariablesDeepSync &&
             (this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isReached(
-              (this.props.creditsCount -
-                this.props.config.fees.localVariablesSync) *
-                -1 -
-                1
+              creditsGateValue(
+                this.props.config,
+                this.props.creditsCount,
+                this.syncCost(
+                  'SYNC_LOCAL_VARIABLES',
+                  this.props.config.fees.localVariablesSync
+                )
+              )
             ) ||
               this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isBlocked())
           }
@@ -245,10 +276,14 @@ export default class SyncPreferences extends PureComponent<
           isBlocked={
             !this.state.canTokensDeepSync &&
             (this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isReached(
-              (this.props.creditsCount -
-                this.props.config.fees.localTokensSync) *
-                -1 -
-                1
+              creditsGateValue(
+                this.props.config,
+                this.props.creditsCount,
+                this.syncCost(
+                  'SYNC_LOCAL_TOKENS',
+                  this.props.config.fees.localTokensSync
+                )
+              )
             ) ||
               this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isBlocked())
           }

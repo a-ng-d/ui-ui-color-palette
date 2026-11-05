@@ -20,6 +20,7 @@ export const ConfigProvider = ({
   urls,
   versions,
   features,
+  meteredActions,
   lang,
   fees,
 }: ConfigProviderProps) => {
@@ -33,6 +34,7 @@ export const ConfigProvider = ({
         urls,
         versions,
         features,
+        meteredActions,
         lang,
         fees,
       }}

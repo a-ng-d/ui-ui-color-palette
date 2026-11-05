@@ -375,6 +375,10 @@ export const trackActionEvent = (
       Feature: options.feature,
       Colors: options.colors === undefined ? 0 : options.colors,
       Stops: options.stops === undefined ? 0 : options.stops,
+      ...(options.units !== undefined && { Units: options.units }),
+      ...(options.creditsCharged !== undefined && {
+        CreditsCharged: options.creditsCharged,
+      }),
     })
 
   if (id === '') return

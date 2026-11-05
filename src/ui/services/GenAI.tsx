@@ -105,7 +105,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     }
   }
 
-  // Get predefined prompts
   getPrompts = () => {
     return {
       vibes: [
@@ -497,7 +496,7 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                 return (
                   <ColorItem
                     key={index}
-                    name={`${color.type}${this.props.t('separator')}${color.name}`}
+                    name={color.name ?? 'Color'}
                     hex={chroma(
                       color.rgb?.r ?? 0,
                       color.rgb?.g ?? 0,

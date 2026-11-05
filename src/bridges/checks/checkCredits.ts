@@ -4,6 +4,20 @@ const addHours = (date: Date, hours: number) => {
   return new Date(date.getTime() + hours * 60 * 60 * 1000)
 }
 
+export const addMonths = (date: Date, months: number) => {
+  const result = new Date(date.getTime())
+  const day = result.getDate()
+  result.setDate(1)
+  result.setMonth(result.getMonth() + months)
+  const lastDay = new Date(
+    result.getFullYear(),
+    result.getMonth() + 1,
+    0
+  ).getDate()
+  result.setDate(Math.min(day, lastDay))
+  return result
+}
+
 const checkCredits = async () => {
   const iframe = document.querySelector(
     '#ui-container'
@@ -26,8 +40,13 @@ const checkCredits = async () => {
     globalConfig.plan.creditsRenewalPeriodHours ??
     globalConfig.plan.creditsRenewalPeriodDays * 24
 
+  const getNextRenewal = (from: Date) =>
+    globalConfig.plan.creditsRenewalPeriodMonths
+      ? addMonths(from, globalConfig.plan.creditsRenewalPeriodMonths)
+      : addHours(from, periodHours)
+
   if (renewDate === null) {
-    const next = addHours(now, periodHours)
+    const next = getNextRenewal(now)
     window.localStorage.setItem('credits_renew_date', next.getTime().toString())
     renewDate = next
   }
@@ -37,7 +56,7 @@ const checkCredits = async () => {
       'credits_count',
       globalConfig.plan.creditsLimit.toString()
     )
-    const next = addHours(now, periodHours)
+    const next = getNextRenewal(now)
     window.localStorage.setItem('credits_renew_date', next.getTime().toString())
     creditsCount = globalConfig.plan.creditsLimit
   }
@@ -59,7 +78,7 @@ const checkCredits = async () => {
       'credits_count',
       globalConfig.plan.creditsLimit.toString()
     )
-    const next = addHours(now, periodHours)
+    const next = getNextRenewal(now)
     window.localStorage.setItem('credits_renew_date', next.getTime().toString())
     creditsCount = globalConfig.plan.creditsLimit
     renewDate = next
