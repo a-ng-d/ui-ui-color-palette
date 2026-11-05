@@ -231,44 +231,60 @@ export default class PlanControls extends PureComponent<
   // Templates
   Fees = (): ComponentChildren => {
     return (
-      <ul className="list-item">
-        {this.features.GEN.isActive() && (
-          <li>
-            {this.props.t('plan.credits.meters.aiColorsGenerate', {
-              tokens:
-                this.props.config.plan.meters.aiColorsGenerate.tokens
-                  ?.tokensPerCredit ?? 0,
-              weight:
-                this.props.config.plan.meters.aiColorsGenerate.tokens
-                  ?.outputTokenWeight ?? 1,
-            })}
-          </li>
-        )}
-        {this.features.DOCUMENT_PALETTE.isActive() && (
-          <li>{this.meterRule('documentPalette')}</li>
-        )}
-        {this.features.DOCUMENT_PALETTE_PROPERTIES.isActive() && (
-          <li>{this.meterRule('documentPaletteWithProperties')}</li>
-        )}
-        {this.features.DOCUMENT_SHEET.isActive() && (
-          <li>{this.meterRule('documentSheet')}</li>
-        )}
-        {this.features.DOCUMENT_PUSH_UPDATES.isActive() && (
-          <li>{this.props.t('plan.credits.meters.documentUpdate')}</li>
-        )}
-        {this.features.SYNC_LOCAL_STYLES.isActive() && (
-          <li>{this.meterRule('localStylesSync')}</li>
-        )}
-        {this.features.SYNC_LOCAL_VARIABLES.isActive() && (
-          <li>{this.meterRule('localVariablesSync')}</li>
-        )}
-        {this.features.SYNC_LOCAL_TOKENS.isActive() && (
-          <li>{this.meterRule('localTokensSync')}</li>
-        )}
-        {this.features.SIMULATE_PALETTE.isActive() && (
-          <li>{this.meterRule('paletteSimulate')}</li>
-        )}
-      </ul>
+      <>
+        <ul className="list-item">
+          {this.features.GEN.isActive() && (
+            <li>
+              {this.props.t('plan.credits.meters.aiColorsGenerate', {
+                tokens:
+                  this.props.config.plan.meters.aiColorsGenerate.tokens
+                    ?.tokensPerCredit ?? 0,
+                weight:
+                  this.props.config.plan.meters.aiColorsGenerate.tokens
+                    ?.outputTokenWeight ?? 1,
+              })}
+            </li>
+          )}
+          {this.features.DOCUMENT_PALETTE.isActive() && (
+            <li>{this.meterRule('documentPalette')}</li>
+          )}
+          {this.features.DOCUMENT_PALETTE_PROPERTIES.isActive() && (
+            <li>{this.meterRule('documentPaletteWithProperties')}</li>
+          )}
+          {this.features.DOCUMENT_SHEET.isActive() && (
+            <li>{this.meterRule('documentSheet')}</li>
+          )}
+          {this.features.DOCUMENT_PUSH_UPDATES.isActive() && (
+            <li>{this.props.t('plan.credits.meters.documentUpdate')}</li>
+          )}
+          {this.features.SYNC_LOCAL_STYLES.isActive() && (
+            <li>{this.meterRule('localStylesSync')}</li>
+          )}
+          {this.features.SYNC_LOCAL_VARIABLES.isActive() && (
+            <li>{this.meterRule('localVariablesSync')}</li>
+          )}
+          {this.features.SYNC_LOCAL_TOKENS.isActive() && (
+            <li>{this.meterRule('localTokensSync')}</li>
+          )}
+          {this.features.SIMULATE_PALETTE.isActive() && (
+            <li>{this.meterRule('paletteSimulate')}</li>
+          )}
+        </ul>
+        <p>
+          {this.props.t('plan.credits.renew', {
+            date: new Date(this.props.creditsRenewalDate).toLocaleString(
+              getTolgee().getLanguage(),
+              {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              }
+            ),
+          })}
+        </p>
+      </>
     )
   }
 
@@ -319,31 +335,11 @@ export default class PlanControls extends PureComponent<
           </span>
           <IconChip
             iconType="PICTO"
-            iconName="info"
+            iconName={this.state.creditsCount === 0 ? 'warning' : 'info'}
             text={this.Fees()}
             pin="TOP"
             type="MULTI_LINE"
           />
-          {this.state.creditsCount === 0 && (
-            <IconChip
-              iconType="PICTO"
-              iconName="warning"
-              text={this.props.t('plan.credits.renew', {
-                date: new Date(this.props.creditsRenewalDate).toLocaleString(
-                  getTolgee().getLanguage(),
-                  {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  }
-                ),
-              })}
-              pin="TOP"
-              type="MULTI_LINE"
-            />
-          )}
         </div>
       </Feature>
     )
