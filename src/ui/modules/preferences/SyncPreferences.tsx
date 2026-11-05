@@ -15,7 +15,8 @@ import { sendPluginMessage } from '../../../utils/pluginMessage'
 import {
   countModes,
   countSourceColors,
-  creditsGateValue,
+  countShades,
+  isCreditGatedBlocked,
   estimateAction,
   estimateUsage,
   isMeteredAction,
@@ -125,6 +126,7 @@ export default class SyncPreferences extends PureComponent<
           action,
           estimateUsage(action, {
             sourceColors: countSourceColors($palette.get().colors),
+            shades: countShades($palette.get()),
             modes: countModes($themes.get()),
             selectionLayers: 0,
           })
@@ -145,17 +147,15 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canStylesDeepSync}
           isBlocked={
             !this.state.canStylesDeepSync &&
-            (this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isReached(
-              creditsGateValue(
-                this.props.config,
-                this.props.creditsCount,
-                this.syncCost(
-                  'SYNC_LOCAL_STYLES',
-                  this.props.config.fees.localStylesSync
-                )
+            isCreditGatedBlocked(
+              this.features.USER_PREFERENCES_SYNC_DEEP_STYLES,
+              this.props.config,
+              this.props.creditsCount,
+              this.syncCost(
+                'SYNC_LOCAL_STYLES',
+                this.props.config.fees.localStylesSync
               )
-            ) ||
-              this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isBlocked())
+            )
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
           feature="UPDATE_STYLES_DEEP_SYNC"
@@ -210,17 +210,15 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canVariablesDeepSync}
           isBlocked={
             !this.state.canVariablesDeepSync &&
-            (this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isReached(
-              creditsGateValue(
-                this.props.config,
-                this.props.creditsCount,
-                this.syncCost(
-                  'SYNC_LOCAL_VARIABLES',
-                  this.props.config.fees.localVariablesSync
-                )
+            isCreditGatedBlocked(
+              this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES,
+              this.props.config,
+              this.props.creditsCount,
+              this.syncCost(
+                'SYNC_LOCAL_VARIABLES',
+                this.props.config.fees.localVariablesSync
               )
-            ) ||
-              this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isBlocked())
+            )
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
           feature="UPDATE_VARIABLES_DEEP_SYNC"
@@ -275,17 +273,15 @@ export default class SyncPreferences extends PureComponent<
           isChecked={this.state.canTokensDeepSync}
           isBlocked={
             !this.state.canTokensDeepSync &&
-            (this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isReached(
-              creditsGateValue(
-                this.props.config,
-                this.props.creditsCount,
-                this.syncCost(
-                  'SYNC_LOCAL_TOKENS',
-                  this.props.config.fees.localTokensSync
-                )
+            isCreditGatedBlocked(
+              this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS,
+              this.props.config,
+              this.props.creditsCount,
+              this.syncCost(
+                'SYNC_LOCAL_TOKENS',
+                this.props.config.fees.localTokensSync
               )
-            ) ||
-              this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isBlocked())
+            )
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isNew()}
           feature="UPDATE_TOKENS_DEEP_SYNC"

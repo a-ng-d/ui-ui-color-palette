@@ -69,7 +69,7 @@ export type MeteredAction =
   | 'UPDATE_DOCUMENT'
   | 'SIMULATE_PALETTE'
 
-export type UsageUnit = 'color' | 'layer'
+export type UsageUnit = 'color' | 'layer' | 'style' | 'variable' | 'token'
 
 export interface UsageReportMessage {
   type: 'REPORT_USAGE'

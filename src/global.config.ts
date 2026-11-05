@@ -118,7 +118,6 @@ const proFeatures = [
   'HELP_EMAIL',
 ]
 
-
 const figmaMeteredActions: Array<MeteredAction> = [
   'SYNC_LOCAL_STYLES',
   'SYNC_LOCAL_VARIABLES',
@@ -456,12 +455,12 @@ const globalConfig: Config = {
     creditsRenewalPeriodHours: 720,
     creditsRenewalPeriodMonths: 1,
     meters: {
-      localStylesSync: { units: { color: 2 } },
-      localVariablesSync: { units: { color: 2 } },
-      localTokensSync: { units: { color: 2 } },
-      documentGenerate: { units: { color: 2 } },
-      documentUpdate: { units: { color: 2 } },
-      paletteSimulate: { units: { layer: 1 } },
+      localStylesSync: { units: { style: 1 } },
+      localVariablesSync: { units: { variable: 1 } },
+      localTokensSync: { units: { token: 1 } },
+      documentGenerate: { units: { color: 4 } },
+      documentUpdate: { units: { color: 4 } },
+      paletteSimulate: { units: { layer: 2 } },
     },
     storeProWeekId: '20d1df96-8052-47de-bf62-36b412c35885',
     storeProMonthId: '5f0502a5-9708-459d-b002-495e2860c23a',

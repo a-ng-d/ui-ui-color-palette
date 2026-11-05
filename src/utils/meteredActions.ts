@@ -41,12 +41,29 @@ export const countModes = (
   return Math.max(1, working.length)
 }
 
+export const countShades = (palette: {
+  scale?: Record<string, unknown>
+  preset?: { stops?: ReadonlyArray<unknown> }
+}): number => {
+  const fromScale = Object.keys(palette.scale ?? {}).length
+  return fromScale > 0 ? fromScale : (palette.preset?.stops?.length ?? 0)
+}
+
 export const estimateUsage = (
   action: MeteredAction,
-  context: { sourceColors: number; modes: number; selectionLayers: number }
+  context: {
+    sourceColors: number
+    modes: number
+    shades: number
+    selectionLayers: number
+  }
 ): MeteredUsage => {
+  const items = context.shades * context.sourceColors * context.modes
   if (action === 'SIMULATE_PALETTE') return { layer: context.selectionLayers }
   if (action === 'UPDATE_DOCUMENT') return { color: context.sourceColors }
+  if (action === 'SYNC_LOCAL_STYLES') return { style: items }
+  if (action === 'SYNC_LOCAL_VARIABLES') return { variable: items }
+  if (action === 'SYNC_LOCAL_TOKENS') return { token: items }
   return { color: context.sourceColors * context.modes }
 }
 
@@ -56,8 +73,12 @@ export const isOutOfCredits = (
   estimate: number
 ): boolean => areCreditsEnabled(config) && (balance <= 0 || estimate > balance)
 
-export const creditsGateValue = (
+export const isCreditGatedBlocked = (
+  status: { isBlocked: () => boolean },
   config: Pick<Config, 'plan'>,
   balance: number,
   estimate: number
-): number => (isOutOfCredits(config, balance, estimate) ? 0 : -1)
+): boolean =>
+  areCreditsEnabled(config)
+    ? status.isBlocked() && isOutOfCredits(config, balance, estimate)
+    : status.isBlocked()

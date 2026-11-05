@@ -636,9 +636,9 @@
         "importCoolors": "Import a palette from Coolors: {fee} cdts",
         "importRealtimeColors": "Import a palette from Realtime Colors: {fee} cdts",
         "simulatePalette": "Apply to selection: {rate, plural, one {# credit} other {# credits}} per changed layer",
-        "syncLocalStyles": "Sync with local styles: {rate, plural, one {# credit} other {# credits}} per color and mode",
-        "syncLocalTokens": "Sync with local tokens: {rate, plural, one {# credit} other {# credits}} per color and mode",
-        "syncLocalVariables": "Sync with local variables: {rate, plural, one {# credit} other {# credits}} per color and mode",
+        "syncLocalStyles": "Sync with local styles: {rate, plural, one {# credit} other {# credits}} per style",
+        "syncLocalTokens": "Sync with local tokens: {rate, plural, one {# credit} other {# credits}} per token",
+        "syncLocalVariables": "Sync with local variables: {rate, plural, one {# credit} other {# credits}} per variable and mode",
         "updatePalette": "Update a document: {rate, plural, one {# credit} other {# credits}} per color and mode"
       },
       "renew": "Credits renew every month, next on {date}. Upgrade to /pro for unlimited credits."

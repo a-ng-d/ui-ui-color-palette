@@ -254,7 +254,7 @@ export default class PlanControls extends PureComponent<
     }
     const meter = config.plan.meters[ACTION_METER[action]]
     return this.props.t(`plan.credits.fees.${key}`, {
-      rate: meter.units.color ?? meter.units.layer ?? 0,
+      rate: Object.values(meter.units)[0] ?? 0,
     })
   }
 

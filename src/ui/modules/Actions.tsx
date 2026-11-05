@@ -40,7 +40,8 @@ import {
   areCreditsEnabled,
   countModes,
   countSourceColors,
-  creditsGateValue,
+  countShades,
+  isCreditGatedBlocked,
   estimateAction,
   estimateUsage,
   isMeteredAction,
@@ -93,6 +94,7 @@ interface ActionsState {
   canUpdateDocument: boolean
   isCopied: boolean
   sourceColors: number
+  shades: number
   modes: number
   selectionLayers: number
 }
@@ -282,6 +284,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       canUpdateDocument: false,
       isCopied: false,
       sourceColors: countSourceColors($palette.get().colors),
+      shades: countShades($palette.get()),
       modes: countModes($themes.get()),
       selectionLayers: $selectionLayers.get(),
     }
@@ -311,7 +314,10 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
   componentDidMount = () => {
     this.unsubscribes = [
       $palette.subscribe((value) =>
-        this.setState({ sourceColors: countSourceColors(value.colors) })
+        this.setState({
+          sourceColors: countSourceColors(value.colors),
+          shades: countShades(value),
+        })
       ),
       $themes.subscribe((value) => this.setState({ modes: countModes(value) })),
       $selectionLayers.subscribe((value) =>
@@ -428,10 +434,12 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
         isMetered && areCreditsEnabled(this.props.config)
           ? this.props.t('credits.estimate', { cost: estimate })
           : undefined,
-      isBlocked:
-        status.isReached(
-          creditsGateValue(this.props.config, this.props.creditsCount, estimate)
-        ) || status.isBlocked(),
+      isBlocked: isCreditGatedBlocked(
+        status,
+        this.props.config,
+        this.props.creditsCount,
+        estimate
+      ),
       isNew: isNew ?? status.isNew(),
       onBlock: () => this.requestUpgrade(feature),
       action,
@@ -444,6 +452,7 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
       action,
       estimateUsage(action, {
         sourceColors: this.state.sourceColors,
+        shades: this.state.shades,
         modes: this.state.modes,
         selectionLayers: this.state.selectionLayers,
       })
@@ -900,17 +909,14 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
                       type: 'MULTI_LINE',
                     }}
                     isLoading={this.props.isTertiaryLoading}
-                    isBlocked={
-                      this.features.SIMULATE_PALETTE.isReached(
-                        creditsGateValue(
-                          this.props.config,
-                          this.props.creditsCount,
-                          isMeteredAction(this.props.config, 'SIMULATE_PALETTE')
-                            ? this.estimate('SIMULATE_PALETTE')
-                            : 0
-                        )
-                      ) || this.features.SIMULATE_PALETTE.isBlocked()
-                    }
+                    isBlocked={isCreditGatedBlocked(
+                      this.features.SIMULATE_PALETTE,
+                      this.props.config,
+                      this.props.creditsCount,
+                      isMeteredAction(this.props.config, 'SIMULATE_PALETTE')
+                        ? this.estimate('SIMULATE_PALETTE')
+                        : 0
+                    )}
                     isNew={this.features.SIMULATE_PALETTE.isNew()}
                     onBlock={() => this.requestUpgrade('SIMULATE_PALETTE')}
                     action={() => this.props.onSimulatePalette?.()}

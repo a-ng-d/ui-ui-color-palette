@@ -4,7 +4,7 @@ import { Language } from './translations'
 import { MeteredAction } from './messages'
 import { Editor, Service } from './app'
 
-export type MeterUnit = 'color' | 'layer'
+export type MeterUnit = 'color' | 'layer' | 'style' | 'variable' | 'token'
 
 export interface Meter {
   units: Partial<Record<MeterUnit, number>>
