@@ -82,6 +82,20 @@ export default class PlanControls extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    BINDING_AI: new FeatureStatus({
+      features: config.features,
+      featureName: 'BINDING_AI',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    STRUCTURE_ASSISTANT: new FeatureStatus({
+      features: config.features,
+      featureName: 'STRUCTURE_ASSISTANT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
     SYNC_LOCAL_STYLES: new FeatureStatus({
       features: config.features,
       featureName: 'SYNC_LOCAL_STYLES',
@@ -244,6 +258,26 @@ export default class PlanControls extends PureComponent<
           <li>
             {this.props.t('plan.credits.fees.generateAiColors', {
               fee: this.props.config.fees.aiColorsGenerate,
+            })}
+          </li>
+        )}
+        {this.features.BINDING_AI.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.generateAiBindings', {
+              tokens: this.props.config.plan.aiCredits.tokensPerCredit,
+              weight: this.props.config.plan.aiCredits.outputTokenWeight,
+              min: this.props.config.plan.aiCredits.bindings.min,
+              max: this.props.config.plan.aiCredits.bindings.max,
+            })}
+          </li>
+        )}
+        {this.features.STRUCTURE_ASSISTANT.isActive() && (
+          <li>
+            {this.props.t('plan.credits.fees.chatAiStructure', {
+              tokens: this.props.config.plan.aiCredits.tokensPerCredit,
+              weight: this.props.config.plan.aiCredits.outputTokenWeight,
+              min: this.props.config.plan.aiCredits.structureChat.min,
+              max: this.props.config.plan.aiCredits.structureChat.max,
             })}
           </li>
         )}

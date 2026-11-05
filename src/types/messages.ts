@@ -9,6 +9,7 @@ import {
   ThemeConfiguration,
   VisionSimulationModeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
+import { StructureChatHistory } from './structureChat'
 
 export interface ScaleMessage {
   type: 'UPDATE_SCALE'
@@ -52,6 +53,25 @@ export interface SystemBindingsMessage {
   type: 'UPDATE_SYSTEM_BINDINGS'
   id: string
   data: Array<TaxonomyBinding>
+}
+
+export interface StructureChatUpdateMessage {
+  type: 'UPDATE_STRUCTURE_CHAT'
+  id: string
+  data: StructureChatHistory
+}
+
+export interface StructureChatGetMessage {
+  type: 'GET_STRUCTURE_CHAT'
+  id: string
+}
+
+export interface StructureChatResponseMessage {
+  type: 'GET_STRUCTURE_CHAT'
+  data: {
+    id: string
+    history: StructureChatHistory
+  }
 }
 
 export interface PaletteMessage {

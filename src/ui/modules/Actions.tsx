@@ -67,6 +67,8 @@ interface ActionsProps
   onSyncLocalSemantics?: MouseEventHandler<HTMLButtonElement> &
     KeyboardEventHandler<HTMLButtonElement>
   onSimulatePalette?: () => void
+  onToggleAssistant?: () => void
+  isAssistantOpen?: boolean
   onGenerateDocument?: (e: MouseEvent<Element> | KeyboardEvent<Element>) => void
   onChangeView?: (
     e:
@@ -116,6 +118,13 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
     STRUCTURE: new FeatureStatus({
       features: config.features,
       featureName: 'STRUCTURE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+    STRUCTURE_ASSISTANT: new FeatureStatus({
+      features: config.features,
+      featureName: 'STRUCTURE_ASSISTANT',
       planStatus: planStatus,
       currentService: service,
       currentEditor: editor,
@@ -1044,6 +1053,23 @@ export default class Actions extends PureComponent<ActionsProps, ActionsState> {
               layouts['snackbar--wrap'],
             ])}
           >
+            <Feature
+              isActive={
+                this.features.STRUCTURE_ASSISTANT.isActive() &&
+                !!this.props.config.env.mistralAgents?.structure
+              }
+            >
+              <Button
+                type="icon"
+                icon="ai"
+                state={this.props.isAssistantOpen ? 'selected' : 'default'}
+                helper={{
+                  label: this.props.t('contexts.assistant'),
+                }}
+                isNew={this.features.STRUCTURE_ASSISTANT.isNew()}
+                action={this.props.onToggleAssistant}
+              />
+            </Feature>
             <Button
               type="primary"
               label={this.props.t('actions.syncLocalVariables')}

@@ -132,7 +132,8 @@ if (globalConfig.env.isSupabaseEnabled)
   initSupabase(globalConfig.urls.databaseUrl, supabaseAnonKey)
 
 // Mistral AI
-if (globalConfig.env.isMistralAiEnabled) initMistral(mistralApiKey)
+if (globalConfig.env.isMistralAiEnabled)
+  initMistral(mistralApiKey, globalConfig.env.mistralAgents)
 
 // Notion
 if (globalConfig.env.isNotionEnabled && notionApiKey !== undefined)

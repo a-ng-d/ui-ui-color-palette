@@ -24,6 +24,7 @@ import { ManagePaletteState } from '../services/ManagePalette'
 import Actions from '../modules/Actions'
 import Visualize from '../contexts/Visualize'
 import Taxonomy from '../contexts/Taxonomy'
+import StructureAssistant from '../contexts/StructureAssistant'
 import Binding from '../contexts/Binding'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
@@ -73,6 +74,7 @@ interface StructurePaletteProps
 
 interface StructurePaletteState {
   context: Context
+  isAssistantOpen: boolean
 }
 
 export default class StructurePalette extends PureComponent<
@@ -116,6 +118,13 @@ export default class StructurePalette extends PureComponent<
       currentService: service,
       currentEditor: editor,
     }),
+    STRUCTURE_ASSISTANT: new FeatureStatus({
+      features: config.features,
+      featureName: 'STRUCTURE_ASSISTANT',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
 
   private get features() {
@@ -140,6 +149,7 @@ export default class StructurePalette extends PureComponent<
     this.state = {
       context:
         this.contexts[0] !== undefined ? this.contexts[0].id : 'TAXONOMY',
+      isAssistantOpen: false,
     }
     this.theme = document.documentElement.getAttribute('data-theme')
   }
@@ -162,6 +172,9 @@ export default class StructurePalette extends PureComponent<
 
   // Handlers
   onSyncLocalSemantics = () => undefined
+
+  onToggleAssistant = () =>
+    this.setState((state) => ({ isAssistantOpen: !state.isAssistantOpen }))
 
   navHandler = (e: Event) =>
     this.setState({
@@ -241,7 +254,9 @@ export default class StructurePalette extends PureComponent<
             {...this.props}
             {...this.state}
             mode="STRUCTURE"
+            isAssistantOpen={this.state.isAssistantOpen}
             onSyncLocalSemantics={this.onSyncLocalSemantics}
+            onToggleAssistant={this.onToggleAssistant}
           />
         </Feature>
         <Layout
@@ -282,6 +297,53 @@ export default class StructurePalette extends PureComponent<
               ),
               typeModifier: 'BLANK',
             },
+            ...(this.state.isAssistantOpen &&
+            this.features.STRUCTURE_ASSISTANT.isActive()
+              ? [
+                  {
+                    node: (
+                      <section className="context">
+                        <div
+                          style={{
+                            minWidth: !this.props.isMobile ? '320px' : 'unset',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            height: '100%',
+                          }}
+                        >
+                          <StructureAssistant
+                            {...this.props}
+                            system={this.props.system}
+                          />
+                        </div>
+                      </section>
+                    ),
+                    typeModifier: 'DRAWER' as const,
+                    drawerOptions: {
+                      minSize: {
+                        value: 48,
+                        unit: 'PIXEL' as const,
+                      },
+                      defaultSize: {
+                        value: 360,
+                        unit: 'PIXEL' as const,
+                      },
+                      maxSize: {
+                        value: 496,
+                        unit: 'PIXEL' as const,
+                      },
+                      pin: !this.props.isMobile
+                        ? ('RIGHT' as const)
+                        : ('BOTTOM' as const),
+                      direction: !this.props.isMobile
+                        ? ('HORIZONTAL' as const)
+                        : ('VERTICAL' as const),
+                      onCollapse: () =>
+                        this.setState({ isAssistantOpen: false }),
+                    },
+                  },
+                ]
+              : []),
           ]}
           isFullHeight
           isFullWidth

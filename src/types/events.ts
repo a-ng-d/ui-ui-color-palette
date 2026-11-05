@@ -158,6 +158,8 @@ export interface ActionEvent {
     | 'SWITCH_PALETTE_WITH_PROPERTIES'
     | 'SWITCH_SHEET'
     | 'UPDATE_DOCUMENT'
+    | 'AI_BINDINGS'
+    | 'AI_STRUCTURE_CHAT'
   colors?: number
   stops?: number
 }

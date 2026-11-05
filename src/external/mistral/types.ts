@@ -1,3 +1,10 @@
+import { TaxonomySchema } from '@yelbolt/engine-ui-color-palette'
+import {
+  StructureIssue,
+  StructurePatch,
+  StructureQuestion,
+} from '../../types/structureChat'
+
 export interface MistralColorPalette {
   primary: MistralColor
   text: MistralColor
@@ -56,4 +63,52 @@ export interface MistralError {
     type: string
     code?: string
   }
+}
+
+export interface StructureAgentContext {
+  palette: {
+    name: string
+    description: string
+    stops: Array<string>
+    themes: Array<{ id: string; name: string }>
+    colors: Array<{
+      id: string
+      name: string
+      description?: string
+      shades: Record<string, Record<string, string>>
+    }>
+  }
+  schema: TaxonomySchema
+  tokens: Array<{
+    path: Array<string>
+    pathNames: Array<string>
+    ref?: string
+    isExcluded: boolean
+    description?: string
+  }>
+}
+
+export interface MistralUsage {
+  promptTokens: number
+  completionTokens: number
+}
+
+export interface MistralBindingSuggestion {
+  bindings: Array<{
+    path: Array<string>
+    ref: string
+    description?: string
+  }>
+}
+
+export interface MistralBindingResult extends MistralBindingSuggestion {
+  usage: MistralUsage
+}
+
+export interface MistralStructureReply {
+  reply: string
+  patch: StructurePatch | null
+  questions: Array<StructureQuestion>
+  issues: Array<StructureIssue>
+  usage: MistralUsage
 }

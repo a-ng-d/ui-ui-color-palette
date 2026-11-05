@@ -38,6 +38,11 @@ export interface Config {
     isMistralAiEnabled: boolean
     isNotionEnabled: boolean
     isPolarEnabled: boolean
+    mistralAgents: {
+      colors: string
+      bindings: string
+      structure: string
+    }
     announcementsDbId: string
     onboardingDbId: string
     readonly pluginId: string
@@ -50,6 +55,12 @@ export interface Config {
     creditsLimit: number
     creditsRenewalPeriodDays: number
     creditsRenewalPeriodHours?: number
+    aiCredits: {
+      tokensPerCredit: number
+      outputTokenWeight: number
+      bindings: { min: number; max: number }
+      structureChat: { min: number; max: number }
+    }
     storeProWeekId: string
     storeProMonthId: string
     storeProYearId: string

@@ -211,6 +211,7 @@
     "title": "Source colors"
   },
   "contexts": {
+    "assistant": "Structure assistant",
     "back": "Back to palettes",
     "binding": "Binding",
     "colors": "Colors",
@@ -626,9 +627,11 @@
     "credits": {
       "amount": "{count, plural, one {1 credit left} other {# credits left} =0 {No credit left}}",
       "fees": {
+        "chatAiStructure": "Structure assistant: 1 credit per {tokens} tokens (output tokens count ×{weight}), {min}–{max} credits per message",
         "createColorHarmony": "Create a color harmony: {fee} cdts",
         "createPalette": "Create a UI Color Palette: {fee} cdts",
         "extractImageColors": "Extract dominant colors from image: {fee} cdts",
+        "generateAiBindings": "AI bindings: 1 credit per {tokens} tokens (output tokens count ×{weight}), {min}–{max} credits per run",
         "generateAiColors": "Generate colors from AI: {fee} cdts",
         "generateColorSheet": "Generate a color sheet: {fee} cdts",
         "generateDetailedPalette": "Generate a detailed palette: {fee} cdts",
@@ -1196,15 +1199,61 @@
     "title": "More products from Yelbolt"
   },
   "structure": {
+    "assistant": {
+      "title": "Structure assistant",
+      "placeholder": "Ask for a change to the taxonomy or the bindings…",
+      "send": "Send",
+      "clear": "Clear conversation",
+      "apply": "Apply",
+      "discard": "Discard",
+      "applied": "Applied",
+      "discarded": "Discarded",
+      "patchSummary": "+{groups} groups, -{removedGroups} groups, +{members} members, ~{changed} edited, {upserts} bindings, {removes} removed, {pruned} dropped by schema change",
+      "stale": "This proposal may be outdated: the structure has changed since. Invalid entries will be skipped.",
+      "empty": "Describe the structure you need, or ask for a review of your bindings.",
+      "loading": "Thinking…",
+      "applyResult": "{applied} changes applied, {skipped} skipped, {pruned} bindings dropped",
+      "presets": {
+        "labels": {
+          "review": "Review my structure",
+          "addState": "Add a State group",
+          "bindDanger": "Bind Danger",
+          "checkContrast": "Check contrast"
+        },
+        "prompts": {
+          "review": "Review my current structure: flag what looks wrong and ask me your questions before proposing any change.",
+          "addState": "Add a State group with Default, Hover, Pressed and Disabled members.",
+          "bindDanger": "Bind all the Danger tokens to the red color.",
+          "checkContrast": "Check the contrast between Text and Background tokens and fix what fails."
+        }
+      },
+      "cost": "−{cost} credits",
+      "sendWithCost": "Send (≈ {cost} credits)",
+      "questions": {
+        "answer": "Answer",
+        "answerPrefix": "Here are my answers:",
+        "placeholder": "Answer or add details…",
+        "noAnswer": "No answer",
+        "freeHint": "Answer in the input below.",
+        "freeReply": "Answered in the chat."
+      }
+    },
     "binding": {
+      "ai": {
+        "suggest": "Suggest bindings with AI",
+        "success": "{count} tokens bound, {skipped} skipped",
+        "noTarget": "No unbound token to fill",
+        "suggestWithCost": "Suggest bindings (≈ {cost} credits)",
+        "successWithCost": "{count} tokens bound, {skipped} skipped · {cost} credits used"
+      },
       "allTokensShown": "All tokens are shown",
       "brokenRef": "This reference no longer resolves — pick a color to fix it",
       "copyFromAbove": "Use value from row above",
       "deselectAll": "Deselect all",
       "details": "Details",
       "detailsTitle": "{token} · {option}",
-      "excluded": "Excluded",
       "excludeSelected": "Exclude selected",
+      "excluded": "Excluded",
       "includeSelected": "Include selected",
       "loadMore": "Load more",
       "noResults": "No matching primitives",

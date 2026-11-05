@@ -23,9 +23,10 @@ import {
   layouts,
   texts,
 } from '@unoff/ui'
+import { EMPTY_REF_VALUE } from '../../utils/emptyRef'
 import { WithTranslationProps } from './WithTranslation'
 
-export const EMPTY_REF_VALUE = '__EMPTY__'
+export { EMPTY_REF_VALUE }
 
 const isRefEmpty = (ref: string | undefined): boolean =>
   ref === undefined || ref === EMPTY_REF_VALUE

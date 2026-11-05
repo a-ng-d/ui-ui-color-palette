@@ -12,12 +12,14 @@ import uicpf from '../content/images/uicp_figma.webp'
 import updateThemes from './updates/updateThemes'
 import updateSystemSchema from './updates/updateSystemSchema'
 import updateSystemBindings from './updates/updateSystemBindings'
+import updateStructureChat from './updates/updateStructureChat'
 import updateSettings from './updates/updateSettings'
 import updateScale from './updates/updateScale'
 import updatePalette from './updates/updatePalette'
 import updateColors from './updates/updateColors'
 import enableTrial from './plans/enableTrial'
 import jumpToPalette from './gets/jumpToPalette'
+import getStructureChat from './gets/getStructureChat'
 import getPalettesOnCurrentPage from './gets/getPalettesOnCurrentPage'
 import deletePalette from './deletions/deletePalette'
 import createPaletteFromRemote from './creations/createPaletteFromRemote'
@@ -139,6 +141,7 @@ else {
       UPDATE_SETTINGS: () => updateSettings(path),
       UPDATE_SYSTEM_SCHEMA: () => updateSystemSchema(path),
       UPDATE_SYSTEM_BINDINGS: () => updateSystemBindings(path),
+      UPDATE_STRUCTURE_CHAT: () => updateStructureChat(path),
       UPDATE_PALETTE: () =>
         updatePalette({
           msg: path,
@@ -251,6 +254,7 @@ else {
       //
       OPEN_IN_BROWSER: () => window.open(path.data.url, '_blank'),
       GET_PALETTES: async () => getPalettesOnCurrentPage(),
+      GET_STRUCTURE_CHAT: async () => getStructureChat(path),
       JUMP_TO_PALETTE: async () =>
         jumpToPalette(path.id).catch((error) =>
           iframe?.contentWindow?.postMessage({

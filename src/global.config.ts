@@ -395,6 +395,15 @@ const globalConfig: Config = {
     isMistralAiEnabled: import.meta.env.VITE_MISTRAL_AI_ENABLED === 'true',
     isNotionEnabled: import.meta.env.VITE_NOTION_ENABLED === 'true',
     isPolarEnabled: import.meta.env.VITE_POLAR_ENABLED === 'true',
+    mistralAgents: {
+      colors:
+        (import.meta.env.VITE_MISTRAL_AI_COLORS_AGENT_ID as string) ||
+        'ag_019a9254590972e1af106aecc7a13cfe',
+      bindings:
+        (import.meta.env.VITE_MISTRAL_AI_BINDINGS_AGENT_ID as string) || '',
+      structure:
+        (import.meta.env.VITE_MISTRAL_AI_STRUCTURE_AGENT_ID as string) || '',
+    },
     announcementsDbId: import.meta.env.VITE_NOTION_ANNOUNCEMENTS_ID as string,
     onboardingDbId: import.meta.env.VITE_NOTION_ONBOARDING_ID as string,
     pluginId: '123456789',
@@ -407,6 +416,12 @@ const globalConfig: Config = {
     creditsLimit: 500,
     creditsRenewalPeriodDays: 7,
     creditsRenewalPeriodHours: 168,
+    aiCredits: {
+      tokensPerCredit: 400,
+      outputTokenWeight: 4,
+      bindings: { min: 10, max: 250 },
+      structureChat: { min: 5, max: 100 },
+    },
     storeProWeekId: '20d1df96-8052-47de-bf62-36b412c35885',
     storeProMonthId: '5f0502a5-9708-459d-b002-495e2860c23a',
     storeProYearId: '66a55061-29ff-4c52-8ce0-0661ab12890e',

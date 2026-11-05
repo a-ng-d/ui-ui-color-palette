@@ -211,6 +211,7 @@
     "title": "Couleurs sources"
   },
   "contexts": {
+    "assistant": "Assistant Structure",
     "back": "Retour aux palettes",
     "binding": "Binding",
     "colors": "Couleurs",
@@ -626,9 +627,11 @@
     "credits": {
       "amount": "{count, plural, one {1 crédit restant} other {# crédits restant} =0 {Aucun crédit restant}}",
       "fees": {
+        "chatAiStructure": "Assistant Structure : 1 crédit pour {tokens} tokens (les tokens de sortie comptent ×{weight}), {min}–{max} crédits par message",
         "createColorHarmony": "Créer une harmonie de couleur : {fee} cdts",
         "createPalette": "Créer une UI Color Palette : {fee} cdts",
         "extractImageColors": "Extraire les couleurs dominantes d'une image : {fee} cdts",
+        "generateAiBindings": "Bindings IA : 1 crédit pour {tokens} tokens (les tokens de sortie comptent ×{weight}), {min}–{max} crédits par exécution",
         "generateAiColors": "Générer des couleurs depuis l'IA : {fee} cdts",
         "generateColorSheet": "Générer une feuille de couleur : {fee} cdts",
         "generateDetailedPalette": "Générer une palette détaillée : {fee} cdts",
@@ -1196,15 +1199,61 @@
     "title": "Plus de produits de Yelbolt"
   },
   "structure": {
+    "assistant": {
+      "title": "Assistant Structure",
+      "placeholder": "Demandez une modification de la taxonomie ou des bindings…",
+      "send": "Envoyer",
+      "clear": "Effacer la conversation",
+      "apply": "Appliquer",
+      "discard": "Ignorer",
+      "applied": "Appliqué",
+      "discarded": "Ignoré",
+      "patchSummary": "+{groups} groupes, -{removedGroups} groupes, +{members} membres, ~{changed} modifiés, {upserts} bindings, {removes} retirés, {pruned} supprimés par le changement de schéma",
+      "stale": "Cette proposition est peut-être périmée : la structure a changé depuis. Les entrées invalides seront ignorées.",
+      "empty": "Décrivez la structure souhaitée, ou demandez une revue de vos bindings.",
+      "loading": "Réflexion en cours…",
+      "applyResult": "{applied} changements appliqués, {skipped} ignorés, {pruned} bindings supprimés",
+      "presets": {
+        "labels": {
+          "review": "Auditer ma structure",
+          "addState": "Ajouter un groupe State",
+          "bindDanger": "Lier Danger",
+          "checkContrast": "Vérifier le contraste"
+        },
+        "prompts": {
+          "review": "Passe en revue ma structure actuelle : signale ce qui te semble incorrect et pose-moi tes questions avant de proposer un changement.",
+          "addState": "Ajoute un groupe State avec les membres Default, Hover, Pressed et Disabled.",
+          "bindDanger": "Lie tous les tokens Danger à la couleur rouge.",
+          "checkContrast": "Vérifie le contraste entre les tokens Text et Background et corrige ceux qui échouent."
+        }
+      },
+      "cost": "−{cost} crédits",
+      "sendWithCost": "Envoyer (≈ {cost} crédits)",
+      "questions": {
+        "answer": "Répondre",
+        "answerPrefix": "Voici mes réponses :",
+        "placeholder": "Répondre ou ajouter des précisions…",
+        "noAnswer": "Sans réponse",
+        "freeHint": "Répondez dans le champ ci-dessous.",
+        "freeReply": "Répondu dans la conversation."
+      }
+    },
     "binding": {
+      "ai": {
+        "suggest": "Suggérer les bindings avec l’IA",
+        "success": "{count} tokens liés, {skipped} ignorés",
+        "noTarget": "Aucun token non lié à remplir",
+        "suggestWithCost": "Suggérer des bindings (≈ {cost} crédits)",
+        "successWithCost": "{count} tokens liés, {skipped} ignorés · {cost} crédits utilisés"
+      },
       "allTokensShown": "All tokens are shown",
       "brokenRef": "This reference no longer resolves — pick a color to fix it",
       "copyFromAbove": "Use value from row above",
       "deselectAll": "Deselect all",
       "details": "Details",
       "detailsTitle": "{token} · {option}",
-      "excluded": "Excluded",
       "excludeSelected": "Exclude selected",
+      "excluded": "Excluded",
       "includeSelected": "Include selected",
       "loadMore": "Load more",
       "noResults": "No matching primitives",

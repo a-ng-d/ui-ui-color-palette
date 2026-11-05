@@ -74,6 +74,7 @@ interface ExportState {
 
 export default class Export extends PureComponent<ExportProps, ExportState> {
   private mode: string | null
+  private theme: string | null
 
   static features = (
     planStatus: PlanStatus,
@@ -291,6 +292,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
       },
       selectedFileIndex: 0,
     }
+    this.theme = getDocumentAttribute('data-theme')
   }
 
   // Lifecycle
@@ -761,12 +763,53 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
         })
       },
       TAILWIND_V4: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'HEX',
+            options: this.colorSpaceHandler('TAILWIND_V4', ['hex', 'oklch']),
+          },
+        })
+
         this.props.onChangeExport({
           export: {
             format: 'CSS',
             context: 'TAILWIND_V4',
             mimeType: 'text/css',
-            data: this.getCodeFromProps().makeTailwindV4Config(),
+            data: this.getCodeFromProps().makeTailwindV4Config('HEX'),
+          },
+        })
+      },
+      TAILWIND_V4_HEX: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'HEX',
+            options: this.state.colorSpace.options,
+          },
+        })
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'TAILWIND_V4',
+            mimeType: 'text/css',
+            data: this.getCodeFromProps().makeTailwindV4Config('HEX'),
+          },
+        })
+      },
+      TAILWIND_V4_OKLCH: () => {
+        this.setState({
+          colorSpace: {
+            selected: 'OKLCH',
+            options: this.state.colorSpace.options,
+          },
+        })
+
+        this.props.onChangeExport({
+          export: {
+            format: 'CSS',
+            context: 'TAILWIND_V4',
+            mimeType: 'text/css',
+            data: this.getCodeFromProps().makeTailwindV4Config('OKLCH'),
           },
         })
       },
@@ -1621,6 +1664,7 @@ export default class Export extends PureComponent<ExportProps, ExportState> {
                           {(this.props.context === 'STYLESHEET_CSS' ||
                             this.props.context === 'STYLESHEET_SCSS' ||
                             this.props.context === 'STYLESHEET_LESS' ||
+                            this.props.context === 'TAILWIND_V4' ||
                             this.props.context === 'TOKENS_DTCG') && (
                             <Menu
                               icon="adjust"

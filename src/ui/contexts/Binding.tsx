@@ -17,7 +17,7 @@ import {
   TaxonomyBinding,
   ThemeConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
-import { doClassnames } from '@unoff/utils'
+import { doClassnames, FeatureStatus } from '@unoff/utils'
 import {
   Bar,
   Button,
@@ -31,13 +31,34 @@ import {
 } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
+import Feature from '../components/Feature'
 import BindingRow, { EMPTY_REF_VALUE } from '../components/BindingRow'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import mergeBindings, {
+  arePathsEqual,
+  BindingPatch,
+  isRefValid,
+  makePathKey,
+} from '../../utils/mergeBindings'
+import makeStructureContext from '../../utils/makeStructureContext'
+import {
+  computeAiCost,
+  estimateAiCost,
+  EXPECTED_TOKENS_PER_BINDING,
+  sumUsage,
+} from '../../utils/computeAiCost'
 import { SystemBindingsMessage } from '../../types/messages'
-import { BaseProps } from '../../types/app'
+import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $system } from '../../stores/palette'
+import { $creditsCount } from '../../stores/credits'
+import { trackActionEvent } from '../../external/tracking/eventsTracker'
+import { MistralUsage } from '../../external/mistral/types'
+import { getMistral } from '../../external/mistral'
+import { ConfigContextType } from '../../config/ConfigContext'
 
 const RENDER_PAGE_SIZE = 100
+const AI_CHUNK_SIZE = 150
+const AI_FEEDBACK_DURATION = 8000
 
 interface BindingProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
@@ -59,12 +80,19 @@ interface BindingState {
   renderLimit: number
   selectedPaths: Set<string>
   lastSelectedPath: string | null
+  isAiLoading: boolean
+  aiFeedback: {
+    type: 'SUCCESS' | 'ERROR' | 'NEUTRAL'
+    message: string
+  } | null
 }
 
 interface ComputedSystem {
   paletteData: PaletteData
   systemData: SystemData
 }
+
+const isString = (value: unknown): value is string => typeof value === 'string'
 
 export default class Binding extends PureComponent<BindingProps, BindingState> {
   private bindingsMessage: SystemBindingsMessage
@@ -79,6 +107,37 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     preset: PresetConfiguration
   } | null = null
   private memoComputed: ComputedSystem | null = null
+  private memoEstimate: {
+    computed: ComputedSystem
+    system: SystemConfiguration
+    selectedPaths: Set<string>
+    cost: number
+  } | null = null
+  private feedbackTimer: ReturnType<typeof setTimeout> | null = null
+
+  static features = (
+    planStatus: PlanStatus,
+    config: ConfigContextType,
+    service: Service,
+    editor: Editor
+  ) => ({
+    BINDING_AI: new FeatureStatus({
+      features: config.features,
+      featureName: 'BINDING_AI',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
+  })
+
+  private get features() {
+    return Binding.features(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   constructor(props: BindingProps) {
     super(props)
@@ -93,6 +152,8 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
       renderLimit: RENDER_PAGE_SIZE,
       selectedPaths: new Set(),
       lastSelectedPath: null,
+      isAiLoading: false,
+      aiFeedback: null,
     }
   }
 
@@ -112,6 +173,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
 
   componentWillUnmount = () => {
     this.observer?.disconnect()
+    if (this.feedbackTimer !== null) clearTimeout(this.feedbackTimer)
     window.removeEventListener('keydown', this.onKeyDown)
     window.removeEventListener('keyup', this.onKeyUp)
   }
@@ -173,8 +235,59 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     return this.memoComputed
   }
 
-  private pathsEqual = (a: Array<string>, b: Array<string>): boolean =>
-    a.length === b.length && a.every((segment, i) => segment === b[i])
+  private getAiEstimate = (): number => {
+    const computed = this.getComputed()
+    const { selectedPaths } = this.state
+
+    if (
+      this.memoEstimate !== null &&
+      this.memoEstimate.computed === computed &&
+      this.memoEstimate.system === this.props.system &&
+      this.memoEstimate.selectedPaths === selectedPaths
+    )
+      return this.memoEstimate.cost
+
+    const targets = this.getAiTargets()
+    let cost = 0
+
+    if (targets.length > 0) {
+      const stops = this.props.preset.stops.map((stop) => stop.toString())
+      let inputChars = 0
+      let chunkCount = 0
+
+      for (let i = 0; i < targets.length; i += AI_CHUNK_SIZE) {
+        inputChars += JSON.stringify(
+          makeStructureContext({
+            paletteData: computed.paletteData,
+            systemData: computed.systemData,
+            system: this.props.system,
+            stops,
+            tokens: targets.slice(i, i + AI_CHUNK_SIZE),
+          })
+        ).length
+        chunkCount++
+      }
+
+      cost = estimateAiCost(
+        inputChars,
+        targets.length * EXPECTED_TOKENS_PER_BINDING,
+        this.props.config.plan.aiCredits,
+        'bindings',
+        chunkCount
+      )
+    }
+
+    this.memoEstimate = {
+      computed,
+      system: this.props.system,
+      selectedPaths,
+      cost,
+    }
+
+    return cost
+  }
+
+  private pathsEqual = arePathsEqual
 
   private findBinding = (path: Array<string>): TaxonomyBinding | undefined =>
     (this.props.system.bindings ?? []).find((binding) =>
@@ -199,24 +312,202 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     path: Array<string>,
     patch: Partial<Pick<TaxonomyBinding, 'ref' | 'description' | 'isExcluded'>>
   ) => {
-    const bindings = this.props.system.bindings ?? []
-    const index = bindings.findIndex((binding) =>
-      this.pathsEqual(binding.path, path)
-    )
-
-    const nextBindings =
-      index === -1
-        ? [
-            ...bindings,
-            { path, ref: EMPTY_REF_VALUE, ...patch } as TaxonomyBinding,
-          ]
-        : bindings.map((binding, i) =>
-            i === index ? { ...binding, ...patch } : binding
-          )
+    const nextBindings = mergeBindings(this.props.system.bindings ?? [], [
+      { path, ...patch },
+    ])
 
     this.bindingsMessage.data = nextBindings
     this.system.setKey('bindings', nextBindings)
     sendPluginMessage({ pluginMessage: this.bindingsMessage }, '*')
+  }
+
+  private setAiFeedback = (aiFeedback: BindingState['aiFeedback']) => {
+    if (this.feedbackTimer !== null) clearTimeout(this.feedbackTimer)
+    this.setState({ aiFeedback })
+    if (aiFeedback !== null && aiFeedback.type !== 'ERROR')
+      this.feedbackTimer = setTimeout(
+        () => this.setState({ aiFeedback: null }),
+        AI_FEEDBACK_DURATION
+      )
+  }
+
+  private getAiTargets = (): Array<SystemDataToken> => {
+    const { systemData } = this.getComputed()
+    const { selectedPaths } = this.state
+
+    return systemData.tokens.filter((token) => {
+      if (token.isExcluded) return false
+      if (selectedPaths.size > 0 && !selectedPaths.has(makePathKey(token.path)))
+        return false
+
+      const binding = this.findBinding(token.path)
+
+      return (
+        binding === undefined ||
+        binding.ref === undefined ||
+        binding.ref === EMPTY_REF_VALUE
+      )
+    })
+  }
+
+  private onSuggestBindings = async () => {
+    const mistralClient = getMistral()
+
+    if (!mistralClient || !mistralClient.hasAgent('bindings')) {
+      this.setAiFeedback({
+        type: 'ERROR',
+        message: this.props.t('error.unavailableAi'),
+      })
+      return
+    }
+
+    const targets = this.getAiTargets()
+
+    if (targets.length === 0) {
+      this.setAiFeedback({
+        type: 'NEUTRAL',
+        message: this.props.t('structure.binding.ai.noTarget'),
+      })
+      return
+    }
+
+    this.setAiFeedback(null)
+    this.setState({ isAiLoading: true })
+
+    try {
+      const { paletteData } = this.getComputed()
+      const stops = this.props.preset.stops.map((stop) => stop.toString())
+      const colorIds = new Set(this.props.colors.map((color) => color.id))
+      const stopsSet = new Set(stops)
+      const patches: Array<BindingPatch> = []
+      let skipped = 0
+
+      let succeededChunks = 0
+      const usages: Array<MistralUsage> = []
+      let hasChunkFailed = false
+
+      for (let i = 0; i < targets.length; i += AI_CHUNK_SIZE) {
+        const chunk = targets.slice(i, i + AI_CHUNK_SIZE)
+        let suggestion
+        try {
+          suggestion = await mistralClient.suggestBindings(
+            makeStructureContext({
+              paletteData,
+              systemData: this.getComputed().systemData,
+              system: this.props.system,
+              stops,
+              tokens: chunk,
+            })
+          )
+        } catch (error) {
+          console.error(error)
+          hasChunkFailed = true
+          break
+        }
+        succeededChunks++
+        usages.push(suggestion.usage)
+
+        const chunkKeys = new Set(chunk.map((token) => makePathKey(token.path)))
+        suggestion.bindings.forEach((entry) => {
+          if (!Array.isArray(entry.path) || !entry.path.every(isString)) {
+            skipped++
+            return
+          }
+          const key = makePathKey(entry.path)
+          if (
+            !chunkKeys.has(key) ||
+            typeof entry.ref !== 'string' ||
+            !isRefValid(entry.ref, colorIds, stopsSet)
+          ) {
+            skipped++
+            return
+          }
+          chunkKeys.delete(key)
+          patches.push({
+            path: entry.path,
+            ref: entry.ref,
+            description: entry.description,
+          })
+        })
+        skipped += chunkKeys.size
+      }
+
+      const currentBindings = this.system.get().bindings ?? []
+      const safePatches = patches.filter((patch) => {
+        const current = currentBindings.find((binding) =>
+          arePathsEqual(binding.path, patch.path)
+        )
+        const isTaken =
+          current !== undefined &&
+          (current.isExcluded === true ||
+            (current.ref !== undefined && current.ref !== EMPTY_REF_VALUE))
+        if (isTaken) skipped++
+        return !isTaken
+      })
+
+      if (safePatches.length > 0) {
+        const nextBindings = mergeBindings(currentBindings, safePatches, {
+          descriptionMode: 'FILL_EMPTY',
+        })
+
+        this.bindingsMessage.data = nextBindings
+        this.system.setKey('bindings', nextBindings)
+        sendPluginMessage({ pluginMessage: this.bindingsMessage }, '*')
+      }
+
+      const isCharged =
+        this.props.config.plan.isProEnabled &&
+        this.props.config.plan.isCreditsEnabled
+      const cost =
+        succeededChunks > 0
+          ? computeAiCost(
+              sumUsage(usages),
+              this.props.config.plan.aiCredits,
+              'bindings'
+            )
+          : 0
+
+      if (isCharged && succeededChunks > 0)
+        $creditsCount.set($creditsCount.get() - cost)
+
+      if (succeededChunks > 0 && safePatches.length > 0)
+        trackActionEvent(
+          this.props.config.env.isMixpanelEnabled,
+          this.props.userSession.userId,
+          this.props.userIdentity.id,
+          this.props.planStatus,
+          this.props.userConsent.find((consent) => consent.id === 'mixpanel')
+            ?.isConsented ?? false,
+          {
+            feature: 'AI_BINDINGS',
+            colors: this.props.colors.length,
+            stops: stops.length,
+          }
+        )
+
+      this.setState({ isAiLoading: false })
+      const resultMessage = this.props.t(
+        isCharged && succeededChunks > 0
+          ? 'structure.binding.ai.successWithCost'
+          : 'structure.binding.ai.success',
+        { count: safePatches.length, skipped, cost }
+      )
+      this.setAiFeedback(
+        hasChunkFailed
+          ? {
+              type: 'ERROR',
+              message: `${this.props.t('error.unavailableAi')} ${resultMessage}`,
+            }
+          : { type: 'SUCCESS', message: resultMessage }
+      )
+    } catch (error) {
+      console.error(error)
+      this.setState({ isAiLoading: false })
+      this.setAiFeedback({
+        type: 'ERROR',
+        message: this.props.t('error.unavailableAi'),
+      })
+    }
   }
 
   private onChangeRef = (path: Array<string>, ref: string) =>
@@ -354,6 +645,7 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
     })
 
     const stops = this.props.preset.stops.map((stop) => stop.toString())
+    const mistralClient = getMistral()
 
     return (
       <Layout
@@ -378,9 +670,73 @@ export default class Binding extends PureComponent<BindingProps, BindingState> {
                       onClear={() => this.onSearch('')}
                     />
                   }
+                  rightPartSlot={
+                    <Feature
+                      isActive={
+                        this.features.BINDING_AI.isActive() &&
+                        !!this.props.config.env.mistralAgents?.bindings
+                      }
+                    >
+                      <Button
+                        type="icon"
+                        icon="ai"
+                        helper={{
+                          label: !mistralClient?.hasAgent('bindings')
+                            ? this.props.t('error.unavailableAi')
+                            : this.props.config.plan.isProEnabled &&
+                                this.props.config.plan.isCreditsEnabled &&
+                                this.getAiEstimate() > 0
+                              ? this.props.t(
+                                  'structure.binding.ai.suggestWithCost',
+                                  { cost: this.getAiEstimate() }
+                                )
+                              : this.props.t('structure.binding.ai.suggest'),
+                          type: 'MULTI_LINE',
+                        }}
+                        isLoading={this.state.isAiLoading}
+                        isDisabled={!mistralClient?.hasAgent('bindings')}
+                        isNew={this.features.BINDING_AI.isNew()}
+                        isBlocked={this.features.BINDING_AI.isReached(
+                          (this.props.creditsCount - this.getAiEstimate()) *
+                            -1 -
+                            1
+                        )}
+                        onBlock={() => {
+                          const isTrial =
+                            this.props.config.plan.isTrialEnabled &&
+                            this.props.trialStatus !== 'EXPIRED'
+                          sendPluginMessage(
+                            {
+                              pluginMessage: isTrial
+                                ? { type: 'GET_TRIAL' }
+                                : {
+                                    type: 'GET_PRO',
+                                    data: { origin: 'BINDING_AI' },
+                                  },
+                            },
+                            '*'
+                          )
+                        }}
+                        action={this.onSuggestBindings}
+                      />
+                    </Feature>
+                  }
                   clip={['LEFT']}
                   border={['BOTTOM']}
                 />
+                {this.state.aiFeedback !== null && (
+                  <Bar
+                    id="binding-ai-feedback"
+                    soloPartSlot={
+                      <SemanticMessage
+                        type={this.state.aiFeedback.type}
+                        message={this.state.aiFeedback.message}
+                      />
+                    }
+                    clip={['LEFT']}
+                    border={['BOTTOM']}
+                  />
+                )}
                 {this.state.selectedPaths.size > 0 && (
                   <Bar
                     id="binding-bulk-actions"
