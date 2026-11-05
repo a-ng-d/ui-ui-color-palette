@@ -382,9 +382,9 @@ const globalConfig: Config = {
     minWidth: 240,
     minHeight: 420,
     sourceColors: 5,
-    customStops: 6,
+    customStops: 8,
     colorThemes: 2,
-    localPalettes: 2,
+    localPalettes: 3,
   },
   env: {
     ...specTarget.env,
