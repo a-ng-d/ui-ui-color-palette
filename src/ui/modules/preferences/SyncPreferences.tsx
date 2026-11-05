@@ -19,7 +19,6 @@ import {
   isCreditGatedBlocked,
   estimateAction,
   estimateUsage,
-  isMeteredAction,
 } from '../../../utils/meteredActions'
 import { MeteredAction } from '../../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
@@ -119,19 +118,17 @@ export default class SyncPreferences extends PureComponent<
     if (this.subscribeTokens) this.subscribeTokens()
   }
 
-  syncCost = (action: MeteredAction, fee: number): number =>
-    isMeteredAction(this.props.config, action)
-      ? estimateAction(
-          this.props.config,
-          action,
-          estimateUsage(action, {
-            sourceColors: countSourceColors($palette.get().colors),
-            shades: countShades($palette.get()),
-            modes: countModes($themes.get()),
-            selectionLayers: 0,
-          })
-        )
-      : fee
+  syncCost = (action: MeteredAction): number =>
+    estimateAction(
+      this.props.config,
+      action,
+      estimateUsage(action, {
+        sourceColors: countSourceColors($palette.get().colors),
+        shades: countShades($palette.get()),
+        modes: countModes($themes.get()),
+        selectionLayers: 0,
+      })
+    )
 
   // Templates
   StylesDeepSync = () => {
@@ -151,10 +148,7 @@ export default class SyncPreferences extends PureComponent<
               this.features.USER_PREFERENCES_SYNC_DEEP_STYLES,
               this.props.config,
               this.props.creditsCount,
-              this.syncCost(
-                'SYNC_LOCAL_STYLES',
-                this.props.config.fees.localStylesSync
-              )
+              this.syncCost('SYNC_LOCAL_STYLES')
             )
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_STYLES.isNew()}
@@ -214,10 +208,7 @@ export default class SyncPreferences extends PureComponent<
               this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES,
               this.props.config,
               this.props.creditsCount,
-              this.syncCost(
-                'SYNC_LOCAL_VARIABLES',
-                this.props.config.fees.localVariablesSync
-              )
+              this.syncCost('SYNC_LOCAL_VARIABLES')
             )
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_VARIABLES.isNew()}
@@ -277,10 +268,7 @@ export default class SyncPreferences extends PureComponent<
               this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS,
               this.props.config,
               this.props.creditsCount,
-              this.syncCost(
-                'SYNC_LOCAL_TOKENS',
-                this.props.config.fees.localTokensSync
-              )
+              this.syncCost('SYNC_LOCAL_TOKENS')
             )
           }
           isNew={this.features.USER_PREFERENCES_SYNC_DEEP_TOKENS.isNew()}

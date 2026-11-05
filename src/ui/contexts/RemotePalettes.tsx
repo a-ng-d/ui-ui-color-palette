@@ -26,7 +26,6 @@ import {
   PlanStatus,
   Service,
 } from '../../types/app'
-import { $creditsCount } from '../../stores/credits'
 import { trackPublicationEvent } from '../../external/tracking/eventsTracker'
 import { getSupabase } from '../../external/auth'
 import { ConfigContextType } from '../../config/ConfigContext'
@@ -241,14 +240,6 @@ export default class RemotePalettes extends PureComponent<
           } catch (error) {
             console.error('Failed to sync view count:', error)
           }
-
-        if (
-          this.props.config.plan.isProEnabled &&
-          this.props.config.plan.isCreditsEnabled
-        )
-          $creditsCount.set(
-            $creditsCount.get() - this.props.config.fees.paletteCreate
-          )
 
         trackPublicationEvent(
           this.props.config.env.isMixpanelEnabled,

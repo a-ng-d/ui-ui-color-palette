@@ -41,7 +41,6 @@ import {
 } from '../../types/app'
 import { $palettesView } from '../../stores/preferences'
 import { $palette } from '../../stores/palette'
-import { $creditsCount } from '../../stores/credits'
 import {
   trackActionEvent,
   trackImportEvent,
@@ -68,7 +67,6 @@ const colorHuntTags: Partial<Record<FilterOptions, string>> = {
 
 interface ExploreProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  creditsCount: number
   localPalettesCount: number
   onChangeService: Dispatch<Partial<AppState>>
 }
@@ -326,18 +324,6 @@ export default class Explore extends PureComponent<ExploreProps, ExploreState> {
       service: 'MANAGE',
     })
     this.onCreatePalette(sourceColors)
-
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    ) {
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.colourLoversImport
-      )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteCreate
-      )
-    }
 
     trackImportEvent(
       this.props.config.env.isMixpanelEnabled,

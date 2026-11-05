@@ -277,8 +277,8 @@
     }
   },
   "credits": {
-    "charged": "{cost, plural, one {# credit used} other {# credits used}}",
-    "estimate": "≈ {cost, plural, one {# credit} other {# credits}}"
+    "charged": "{cost, plural, one {# cdt used} other {# cdts used}}",
+    "estimate": "≈ {cost, plural, one {# cdt} other {# cdts}}"
   },
   "dev": {
     "readyForDev": "Ready for development"
@@ -624,22 +624,15 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {1 credit left} other {# credits left} =0 {No credit left}}",
+      "amount": "{count, plural, =0 {No cdts left} one {# cdt left} other {# cdts left}}",
       "fees": {
-        "createColorHarmony": "Create a color harmony: {fee} cdts",
-        "createPalette": "Create a UI Color Palette: {fee} cdts",
-        "extractImageColors": "Extract dominant colors from image: {fee} cdts",
-        "fixed": "{label}: {fee} cdts",
         "generateAiColors": "Generate colors from AI: {fee} cdts",
-        "generateDocument": "Generate a document: {rate, plural, one {# credit} other {# credits}} per color and mode",
-        "importColourLovers": "Import a palette from Color Hunt: {fee} cdts",
-        "importCoolors": "Import a palette from Coolors: {fee} cdts",
-        "importRealtimeColors": "Import a palette from Realtime Colors: {fee} cdts",
-        "simulatePalette": "Apply to selection: {rate, plural, one {# credit} other {# credits}} per changed layer",
-        "syncLocalStyles": "Sync with local styles: {rate, plural, one {# credit} other {# credits}} per style",
-        "syncLocalTokens": "Sync with local tokens: {rate, plural, one {# credit} other {# credits}} per token",
-        "syncLocalVariables": "Sync with local variables: {rate, plural, one {# credit} other {# credits}} per variable and mode",
-        "updatePalette": "Update a document: {rate, plural, one {# credit} other {# credits}} per color and mode"
+        "generateDocument": "Generate a document: {rate, plural, one {# cdt} other {# cdts}} per color and mode",
+        "simulatePalette": "Apply to selection: {rate, plural, one {# cdt} other {# cdts}} per changed layer",
+        "syncLocalStyles": "Sync with local styles: {rate, plural, one {# cdt} other {# cdts}} per style",
+        "syncLocalTokens": "Sync with local tokens: {rate, plural, one {# cdt} other {# cdts}} per token",
+        "syncLocalVariables": "Sync with local variables: {rate, plural, one {# cdt} other {# cdts}} per variable and mode",
+        "updatePalette": "Update a document: {rate, plural, one {# cdt} other {# cdts}} per color and mode"
       },
       "renew": "Credits renew every month, next on {date}. Upgrade to /pro for unlimited credits."
     },

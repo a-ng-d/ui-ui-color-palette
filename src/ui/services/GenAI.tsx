@@ -25,6 +25,15 @@ import Feature from '../components/Feature'
 import { AppState } from '../App'
 import setPreviewPalette from '../../utils/setPreviewPalette'
 import { sendPluginMessage } from '../../utils/pluginMessage'
+import {
+  areCreditsEnabled,
+  estimateAiUsage,
+  isCreditsExhausted,
+} from '../../utils/meteredActions'
+import {
+  computeMeteredCost,
+  estimateMeteredCost,
+} from '../../utils/computeMeteredCost'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
 import { $creditsCount } from '../../stores/credits'
@@ -174,6 +183,15 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     }
   }
 
+  estimate = (): number =>
+    estimateMeteredCost(
+      this.props.config.plan.meters.aiColorsGenerate,
+      estimateAiUsage(
+        this.state.prompt.length,
+        getMistral()?.getPromptOverhead() ?? 0
+      )
+    )
+
   // Handlers
   handlePromptChange = (e: Event) => {
     const target = e.target as HTMLInputElement
@@ -205,19 +223,21 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
     this.setState({ isRequestProcessing: true, error: null })
 
     try {
-      const palette = await mistralClient.generateColorPalette(
+      const { palette, usage } = await mistralClient.generateColorPalette(
         this.state.prompt
       )
 
       this.setState({ generatedPalette: palette, isRequestProcessing: false })
 
-      if (
-        this.props.config.plan.isProEnabled &&
-        this.props.config.plan.isCreditsEnabled
+      const cost = computeMeteredCost(
+        this.props.config.plan.meters.aiColorsGenerate,
+        usage
       )
-        $creditsCount.set(
-          $creditsCount.get() - this.props.config.fees.aiColorsGenerate
-        )
+      const shouldCharge =
+        areCreditsEnabled(this.props.config) && this.props.planStatus !== 'PAID'
+
+      if (shouldCharge)
+        $creditsCount.set(Math.max(0, $creditsCount.get() - cost))
     } catch (error) {
       console.error(error)
       this.setState({
@@ -306,14 +326,6 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
       },
       '*'
     )
-
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteCreate
-      )
 
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -591,16 +603,29 @@ export default class GenAi extends PureComponent<GenAiProps, GenAiState> {
                           <Button
                             type="primary"
                             label={this.props.t('genAi.actions.generate')}
+                            helper={
+                              areCreditsEnabled(this.props.config)
+                                ? {
+                                    label: this.props.t('credits.estimate', {
+                                      cost: this.estimate(),
+                                    }),
+                                    type: 'MULTI_LINE',
+                                  }
+                                : undefined
+                            }
                             isLoading={this.state.isRequestProcessing}
                             isDisabled={
                               !this.state.prompt.trim() || !mistralClient
                             }
-                            isBlocked={this.features.GEN_REQUEST.isReached(
-                              (this.props.creditsCount -
-                                this.props.config.fees.aiColorsGenerate) *
-                                -1 -
-                                1
-                            )}
+                            isBlocked={
+                              this.features.GEN_REQUEST.isBlocked() ||
+                              isCreditsExhausted(
+                                this.props.config,
+                                this.props.planStatus,
+                                this.props.creditsCount,
+                                this.estimate()
+                              )
+                            }
                             onBlock={() => {
                               const isTrial =
                                 this.props.config.plan.isTrialEnabled &&

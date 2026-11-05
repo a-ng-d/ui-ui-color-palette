@@ -48,7 +48,6 @@ import {
   getPublicationLabel,
 } from '../../utils/publication'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { areCreditsEnabled, isMeteredAction } from '../../utils/meteredActions'
 import {
   ColorsMessage,
   PluginMessageData,
@@ -69,9 +68,7 @@ import {
 import { setPendingRun } from '../../stores/usage'
 import { getDefaultPreset } from '../../stores/presets'
 import { $palette, $themes } from '../../stores/palette'
-import { $creditsCount } from '../../stores/credits'
 import {
-  trackActionEvent,
   trackPreviewManagementEvent,
   trackSourceColorsManagementEvent,
 } from '../../external/tracking/eventsTracker'
@@ -414,28 +411,8 @@ export default class EditPalette extends PureComponent<
     return actions[state ?? 'DEFAULT']?.()
   }
 
-  beginRun = (
-    action: MeteredAction,
-    feature: ActionEvent['feature'],
-    fixedFee: number
-  ) => {
-    if (isMeteredAction(this.props.config, action)) {
-      setPendingRun(action, { feature })
-      return
-    }
-
-    if (areCreditsEnabled(this.props.config) && fixedFee > 0)
-      $creditsCount.set(Math.max(0, $creditsCount.get() - fixedFee))
-
-    trackActionEvent(
-      this.props.config.env.isMixpanelEnabled,
-      this.props.userSession.userId,
-      this.props.userIdentity.id,
-      this.props.planStatus,
-      this.props.userConsent.find((consent) => consent.id === 'mixpanel')
-        ?.isConsented ?? false,
-      { feature }
-    )
+  beginRun = (action: MeteredAction, feature: ActionEvent['feature']) => {
+    setPendingRun(action, { feature })
   }
 
   documentHandler = (e: Event) => {
@@ -463,11 +440,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun(
-        'CREATE_DOCUMENT',
-        'GENERATE_PALETTE',
-        this.props.config.fees.paletteGenerate
-      )
+      this.beginRun('CREATE_DOCUMENT', 'GENERATE_PALETTE')
     }
 
     const generatePaletteWithProperties = () => {
@@ -489,11 +462,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun(
-        'CREATE_DOCUMENT',
-        'GENERATE_PALETTE_WITH_PROPERTIES',
-        this.props.config.fees.paletteWithPropsGenerate
-      )
+      this.beginRun('CREATE_DOCUMENT', 'GENERATE_PALETTE_WITH_PROPERTIES')
     }
 
     const generateSheet = () => {
@@ -515,11 +484,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun(
-        'CREATE_DOCUMENT',
-        'GENERATE_SHEET',
-        this.props.config.fees.sheetGenerate
-      )
+      this.beginRun('CREATE_DOCUMENT', 'GENERATE_SHEET')
     }
 
     const pushUpdates = () => {
@@ -540,7 +505,7 @@ export default class EditPalette extends PureComponent<
         '*'
       )
 
-      this.beginRun('UPDATE_DOCUMENT', 'UPDATE_DOCUMENT', 0)
+      this.beginRun('UPDATE_DOCUMENT', 'UPDATE_DOCUMENT')
     }
 
     const actions: { [action: string]: () => void } = {
@@ -601,11 +566,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    this.beginRun(
-      'SYNC_LOCAL_STYLES',
-      'SYNC_STYLES',
-      this.props.config.fees.localStylesSync
-    )
+    this.beginRun('SYNC_LOCAL_STYLES', 'SYNC_STYLES')
   }
 
   onSyncVariables = () => {
@@ -618,11 +579,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    this.beginRun(
-      'SYNC_LOCAL_VARIABLES',
-      'SYNC_VARIABLES',
-      this.props.config.fees.localVariablesSync
-    )
+    this.beginRun('SYNC_LOCAL_VARIABLES', 'SYNC_VARIABLES')
   }
 
   onSimulatePalette = () => {
@@ -635,7 +592,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    this.beginRun('SIMULATE_PALETTE', 'SIMULATE_PALETTE', 0)
+    this.beginRun('SIMULATE_PALETTE', 'SIMULATE_PALETTE')
   }
 
   onSyncTokens = () => {
@@ -648,11 +605,7 @@ export default class EditPalette extends PureComponent<
       '*'
     )
 
-    this.beginRun(
-      'SYNC_LOCAL_TOKENS',
-      'SYNC_TOKENS',
-      this.props.config.fees.localTokensSync
-    )
+    this.beginRun('SYNC_LOCAL_TOKENS', 'SYNC_TOKENS')
   }
 
   onChangeView = (
@@ -683,17 +636,7 @@ export default class EditPalette extends PureComponent<
     )
 
     const view = currentElement.dataset.value as ViewConfiguration
-    const viewFee =
-      view === 'PALETTE'
-        ? this.props.config.fees.paletteGenerate
-        : view === 'PALETTE_WITH_PROPERTIES'
-          ? this.props.config.fees.paletteWithPropsGenerate
-          : this.props.config.fees.sheetGenerate
-    this.beginRun(
-      'UPDATE_DOCUMENT',
-      `SWITCH_${view}` as ActionEvent['feature'],
-      viewFee
-    )
+    this.beginRun('UPDATE_DOCUMENT', `SWITCH_${view}` as ActionEvent['feature'])
   }
 
   onChangeDocument = (view?: ViewConfiguration) => {

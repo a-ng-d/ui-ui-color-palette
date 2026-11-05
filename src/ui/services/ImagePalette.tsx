@@ -31,7 +31,6 @@ import { getClosestColorName } from '../../utils/colorNameHelper'
 import { PluginMessageData } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $palette } from '../../stores/palette'
-import { $creditsCount } from '../../stores/credits'
 import {
   trackActionEvent,
   trackImportEvent,
@@ -41,7 +40,6 @@ import type { Dispatch } from 'preact/hooks'
 
 interface ImagePaletteProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
-  creditsCount: number
   localPalettesCount: number
   onChangeService: Dispatch<Partial<AppState>>
 }
@@ -132,41 +130,25 @@ export default class ImagePalette extends PureComponent<
     const items = Array.from(e.clipboardData.items)
     const imageItem = items.find((item) => item.type.startsWith('image/'))
 
-    if (imageItem && imageItem.type === 'image/png')
-      if (
-        !this.features.EXTRACT_UPLOAD.isReached(
-          (this.props.creditsCount -
-            this.props.config.fees.imageColorsExtract) *
-            -1 -
-            1
-        )
-      ) {
-        e.preventDefault()
+    if (imageItem && imageItem.type === 'image/png') {
+      e.preventDefault()
 
-        const file = imageItem.getAsFile()
-        if (file) {
-          const arrayBuffer = await file.arrayBuffer()
-          const blob = new Blob([arrayBuffer], { type: 'image/png' })
-          const imageUrl = URL.createObjectURL(blob)
-          const imageTitle = `Pasted image ${new Date().toLocaleTimeString()}`
+      const file = imageItem.getAsFile()
+      if (file) {
+        const arrayBuffer = await file.arrayBuffer()
+        const blob = new Blob([arrayBuffer], { type: 'image/png' })
+        const imageUrl = URL.createObjectURL(blob)
+        const imageTitle = `Pasted image ${new Date().toLocaleTimeString()}`
 
-          const dominantColors = await DominantColors.extract(arrayBuffer, 5)
+        const dominantColors = await DominantColors.extract(arrayBuffer, 5)
 
-          if (
-            this.props.config.plan.isProEnabled &&
-            this.props.config.plan.isCreditsEnabled
-          )
-            $creditsCount.set(
-              $creditsCount.get() - this.props.config.fees.imageColorsExtract
-            )
-
-          this.setState({
-            dominantColors: dominantColors,
-            imageUrl: imageUrl,
-            imageTitle: imageTitle,
-          })
-        }
+        this.setState({
+          dominantColors: dominantColors,
+          imageUrl: imageUrl,
+          imageTitle: imageTitle,
+        })
       }
+    }
   }
 
   handleMessage = (e: CustomEvent<PluginMessageData>) => {
@@ -176,38 +158,21 @@ export default class ImagePalette extends PureComponent<
       [action: string]: () => void
     } = {
       GET_IMAGE_HASH: async () => {
-        if (
-          !this.features.EXTRACT_UPLOAD.isReached(
-            (this.props.creditsCount -
-              this.props.config.fees.imageColorsExtract) *
-              -1 -
-              1
-          )
-        ) {
-          const arrayBuffer = path.data.arrayBuffer
-          const blob = new Blob([arrayBuffer as ArrayBuffer], {
-            type: 'image/png',
-          })
-          const imageUrl = URL.createObjectURL(blob)
-          const imageTitle = path.data.imageTitle
+        const arrayBuffer = path.data.arrayBuffer
+        const blob = new Blob([arrayBuffer as ArrayBuffer], {
+          type: 'image/png',
+        })
+        const imageUrl = URL.createObjectURL(blob)
+        const imageTitle = path.data.imageTitle
 
-          const dominantColors: Array<DominantColorResult> =
-            await DominantColors.extract(arrayBuffer as ArrayBuffer, 5)
+        const dominantColors: Array<DominantColorResult> =
+          await DominantColors.extract(arrayBuffer as ArrayBuffer, 5)
 
-          if (
-            this.props.config.plan.isProEnabled &&
-            this.props.config.plan.isCreditsEnabled
-          )
-            $creditsCount.set(
-              $creditsCount.get() - this.props.config.fees.imageColorsExtract
-            )
-
-          this.setState({
-            imageUrl: imageUrl,
-            imageTitle: imageTitle,
-            dominantColors: dominantColors,
-          })
-        }
+        this.setState({
+          imageUrl: imageUrl,
+          imageTitle: imageTitle,
+          dominantColors: dominantColors,
+        })
       },
 
       DEFAULT: () => null,
@@ -236,14 +201,6 @@ export default class ImagePalette extends PureComponent<
       },
       '*'
     )
-
-    if (
-      this.props.config.plan.isProEnabled &&
-      this.props.config.plan.isCreditsEnabled
-    )
-      $creditsCount.set(
-        $creditsCount.get() - this.props.config.fees.paletteCreate
-      )
 
     trackActionEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -359,12 +316,6 @@ export default class ImagePalette extends PureComponent<
             cta={this.props.t('imagePalette.dropzone.cta')}
             acceptedMimeTypes={['image/png']}
             isMultiple={false}
-            isBlocked={this.features.EXTRACT_UPLOAD.isReached(
-              (this.props.creditsCount -
-                this.props.config.fees.imageColorsExtract) *
-                -1 -
-                1
-            )}
             isNew={this.features.EXTRACT_UPLOAD.isNew()}
             onBlock={() => {
               const isTrial =
@@ -394,15 +345,6 @@ export default class ImagePalette extends PureComponent<
                 arrayBuffer as ArrayBuffer,
                 5
               )
-
-              if (
-                this.props.config.plan.isProEnabled &&
-                this.props.config.plan.isCreditsEnabled
-              )
-                $creditsCount.set(
-                  $creditsCount.get() -
-                    this.props.config.fees.imageColorsExtract
-                )
 
               this.setState({
                 dominantColors: dominantColors,

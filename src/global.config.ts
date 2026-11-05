@@ -1,5 +1,4 @@
 import { Feature } from '@unoff/utils'
-import { MeteredAction } from './types/messages'
 import { Config } from './types/config'
 import { Service } from './types/app'
 import { doSpecificMode } from './stores/features'
@@ -53,7 +52,6 @@ interface SpecConfig {
             | 'framer-dark'
         }
         features: Array<Feature<Service>>
-        meteredActions: Array<MeteredAction>
       }
     }
   }
@@ -118,34 +116,6 @@ const proFeatures = [
   'HELP_EMAIL',
 ]
 
-const figmaMeteredActions: Array<MeteredAction> = [
-  'SYNC_LOCAL_STYLES',
-  'SYNC_LOCAL_VARIABLES',
-  'CREATE_DOCUMENT',
-  'UPDATE_DOCUMENT',
-  'SIMULATE_PALETTE',
-]
-const penpotMeteredActions: Array<MeteredAction> = [
-  'SYNC_LOCAL_STYLES',
-  'SYNC_LOCAL_TOKENS',
-  'CREATE_DOCUMENT',
-  'UPDATE_DOCUMENT',
-  'SIMULATE_PALETTE',
-]
-const sketchMeteredActions: Array<MeteredAction> = [
-  'SYNC_LOCAL_STYLES',
-  'SYNC_LOCAL_VARIABLES',
-  'CREATE_DOCUMENT',
-  'UPDATE_DOCUMENT',
-  'SIMULATE_PALETTE',
-]
-const framerMeteredActions: Array<MeteredAction> = [
-  'SYNC_LOCAL_STYLES',
-  'CREATE_DOCUMENT',
-  'UPDATE_DOCUMENT',
-  'SIMULATE_PALETTE',
-]
-
 const specConfig: SpecConfig = {
   figma: {
     light: {
@@ -156,7 +126,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -170,7 +139,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -184,7 +152,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -198,7 +165,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-light',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -214,7 +180,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -228,7 +193,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -242,7 +206,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -256,7 +219,6 @@ const specConfig: SpecConfig = {
           ui: 'figma',
           colorMode: 'figma-dark',
         },
-        meteredActions: figmaMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_FILE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -274,7 +236,6 @@ const specConfig: SpecConfig = {
           ui: 'penpot',
           colorMode: 'penpot-light',
         },
-        meteredActions: penpotMeteredActions,
         features: doSpecificMode(
           [
             'SYNC_LOCAL_VARIABLES',
@@ -299,7 +260,6 @@ const specConfig: SpecConfig = {
           ui: 'penpot',
           colorMode: 'penpot-dark',
         },
-        meteredActions: penpotMeteredActions,
         features: doSpecificMode(
           [
             'SYNC_LOCAL_VARIABLES',
@@ -326,7 +286,6 @@ const specConfig: SpecConfig = {
           ui: 'sketch',
           colorMode: 'sketch-light',
         },
-        meteredActions: sketchMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -342,7 +301,6 @@ const specConfig: SpecConfig = {
           ui: 'sketch',
           colorMode: 'sketch-dark',
         },
-        meteredActions: sketchMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -360,7 +318,6 @@ const specConfig: SpecConfig = {
           ui: 'framer',
           colorMode: 'framer-light',
         },
-        meteredActions: framerMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -376,7 +333,6 @@ const specConfig: SpecConfig = {
           ui: 'framer',
           colorMode: 'framer-dark',
         },
-        meteredActions: framerMeteredActions,
         features: doSpecificMode(
           ['LOCAL_PALETTES_PAGE', 'HELP_ONBOARDING_AUTO_DISPLAY'],
           proFeatures,
@@ -461,6 +417,10 @@ const globalConfig: Config = {
       documentGenerate: { units: { color: 4 } },
       documentUpdate: { units: { color: 4 } },
       paletteSimulate: { units: { layer: 2 } },
+      aiColorsGenerate: {
+        units: {},
+        tokens: { tokensPerCredit: 400, outputTokenWeight: 4 },
+      },
     },
     storeProWeekId: '20d1df96-8052-47de-bf62-36b412c35885',
     storeProMonthId: '5f0502a5-9708-459d-b002-495e2860c23a',
@@ -513,24 +473,7 @@ const globalConfig: Config = {
     creditsVersion: '2026.11',
   },
   features: specTarget.features,
-  meteredActions: specTarget.meteredActions,
   lang: 'en-US',
-  fees: {
-    colourLoversImport: 25,
-    coolorsImport: 25,
-    realtimeColorsImport: 25,
-    imageColorsExtract: 50,
-    harmonyCreate: 50,
-    aiColorsGenerate: 50,
-    paletteCreate: 100,
-    paletteGenerate: 200,
-    paletteWithPropsGenerate: 200,
-    sheetGenerate: 200,
-    paletteUpdates: 100,
-    localStylesSync: 300,
-    localVariablesSync: 300,
-    localTokensSync: 300,
-  },
 }
 
 const limitsMapping: { [key: string]: keyof typeof globalConfig.limits } = {

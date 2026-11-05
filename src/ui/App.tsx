@@ -648,7 +648,9 @@ class App extends Component<AppProps, AppState> {
           (sum, count) => sum + (Number.isFinite(count) ? (count ?? 0) : 0),
           0
         )
-        const isCreditsEnabled = areCreditsEnabled(this.props.config)
+        const isCreditsEnabled =
+          areCreditsEnabled(this.props.config) &&
+          this.state.planStatus !== 'PAID'
 
         if (isCreditsEnabled) {
           $creditsCount.set(Math.max(0, $creditsCount.get() - cost))

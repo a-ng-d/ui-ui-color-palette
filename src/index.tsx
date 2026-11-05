@@ -205,9 +205,7 @@ tolgee?.run().then(() => {
         urls={globalConfig.urls}
         versions={globalConfig.versions}
         features={globalConfig.features}
-        meteredActions={globalConfig.meteredActions}
         lang={globalConfig.lang}
-        fees={globalConfig.fees}
       >
         <ThemeProvider
           theme={globalConfig.env.ui}

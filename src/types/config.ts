@@ -1,7 +1,6 @@
 import { AlgorithmVersionConfiguration } from '@yelbolt/engine-ui-color-palette'
 import { Feature } from '@unoff/utils'
 import { Language } from './translations'
-import { MeteredAction } from './messages'
 import { Editor, Service } from './app'
 
 export type MeterUnit = 'color' | 'layer' | 'style' | 'variable' | 'token'
@@ -20,6 +19,7 @@ export type MeterKey =
   | 'documentGenerate'
   | 'documentUpdate'
   | 'paletteSimulate'
+  | 'aiColorsGenerate'
 
 export interface Config {
   limits: {
@@ -117,22 +117,5 @@ export interface Config {
     readonly creditsVersion: string
   }
   features: Array<Feature<Service>>
-  meteredActions: Array<MeteredAction>
   lang: Language
-  fees: {
-    colourLoversImport: number
-    coolorsImport: number
-    realtimeColorsImport: number
-    imageColorsExtract: number
-    harmonyCreate: number
-    aiColorsGenerate: number
-    paletteCreate: number
-    paletteGenerate: number
-    paletteWithPropsGenerate: number
-    sheetGenerate: number
-    paletteUpdates: number
-    localStylesSync: number
-    localVariablesSync: number
-    localTokensSync: number
-  }
 }

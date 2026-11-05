@@ -11,11 +11,6 @@ export const ACTION_METER: Record<MeteredAction, MeterKey> = {
   SIMULATE_PALETTE: 'paletteSimulate',
 }
 
-export const isMeteredAction = (
-  config: Pick<Config, 'meteredActions'>,
-  action: MeteredAction
-): boolean => config.meteredActions?.includes(action) ?? false
-
 export const areCreditsEnabled = (config: Pick<Config, 'plan'>): boolean =>
   config.plan.isProEnabled && config.plan.isCreditsEnabled
 
@@ -82,3 +77,24 @@ export const isCreditGatedBlocked = (
   areCreditsEnabled(config)
     ? status.isBlocked() && isOutOfCredits(config, balance, estimate)
     : status.isBlocked()
+
+export const isCreditsExhausted = (
+  config: Pick<Config, 'plan'>,
+  planStatus: string,
+  balance: number,
+  estimate: number
+): boolean =>
+  areCreditsEnabled(config) &&
+  planStatus !== 'PAID' &&
+  isOutOfCredits(config, balance, estimate)
+
+const CHARS_PER_TOKEN = 4
+export const EXPECTED_AI_PALETTE_TOKENS = 350
+
+export const estimateAiUsage = (
+  promptChars: number,
+  instructionChars: number
+): MeteredUsage => ({
+  promptTokens: Math.ceil((promptChars + instructionChars) / CHARS_PER_TOKEN),
+  completionTokens: EXPECTED_AI_PALETTE_TOKENS,
+})

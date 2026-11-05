@@ -51,3 +51,54 @@ describe('style, variable and token meters', () => {
     expect(computeMeteredCost({ units: { token: 1 } }, { token: 7 })).toBe(7)
   })
 })
+
+describe('token metering', () => {
+  const aiMeter: Meter = {
+    units: {},
+    tokens: { tokensPerCredit: 400, outputTokenWeight: 4 },
+  }
+  it('weights output tokens x4 and rounds up per 400 tokens', () => {
+    // 200 + 4 * 100 = 600 -> 1.5 -> 2
+    expect(
+      computeMeteredCost(aiMeter, { promptTokens: 200, completionTokens: 100 })
+    ).toBe(2)
+    // 400 + 4 * 100 = 800 -> 2
+    expect(
+      computeMeteredCost(aiMeter, { promptTokens: 400, completionTokens: 100 })
+    ).toBe(2)
+    expect(
+      computeMeteredCost(aiMeter, { promptTokens: 1, completionTokens: 0 })
+    ).toBe(1)
+  })
+  it('charges 0 when nothing was consumed', () => {
+    expect(computeMeteredCost(aiMeter, {})).toBe(0)
+    expect(
+      computeMeteredCost(
+        { ...aiMeter, min: 5 },
+        { promptTokens: 0, completionTokens: 0 }
+      )
+    ).toBe(0)
+  })
+  it('applies min and max to tokens', () => {
+    expect(
+      computeMeteredCost(
+        { ...aiMeter, max: 3 },
+        { promptTokens: 4000, completionTokens: 1000 }
+      )
+    ).toBe(3)
+    expect(
+      estimateMeteredCost(
+        { ...aiMeter, min: 5 },
+        { promptTokens: 10, completionTokens: 10 }
+      )
+    ).toBe(5)
+  })
+  it('adds unit rates when both are present', () => {
+    expect(
+      computeMeteredCost(
+        { units: { color: 1 }, tokens: aiMeter.tokens },
+        { color: 2, promptTokens: 400 }
+      )
+    ).toBe(3)
+  })
+})

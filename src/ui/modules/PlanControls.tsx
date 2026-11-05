@@ -6,7 +6,7 @@ import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
 import { sendPluginMessage } from '../../utils/pluginMessage'
-import { ACTION_METER, isMeteredAction } from '../../utils/meteredActions'
+import { ACTION_METER } from '../../utils/meteredActions'
 import { MeteredAction } from '../../types/messages'
 import { BaseProps, Editor, PlanStatus, Service } from '../../types/app'
 import { $creditsCount } from '../../stores/credits'
@@ -225,34 +225,7 @@ export default class PlanControls extends PureComponent<
   }
 
   private meterRule = (action: MeteredAction, key: string): string => {
-    const { config } = this.props
-    if (!isMeteredAction(config, action)) {
-      const fixed: Record<MeteredAction, [string, number]> = {
-        SYNC_LOCAL_STYLES: [
-          'actions.syncLocalStyles',
-          config.fees.localStylesSync,
-        ],
-        SYNC_LOCAL_VARIABLES: [
-          'actions.syncLocalVariables',
-          config.fees.localVariablesSync,
-        ],
-        SYNC_LOCAL_TOKENS: [
-          'actions.syncLocalTokens',
-          config.fees.localTokensSync,
-        ],
-        CREATE_DOCUMENT: [
-          'actions.generateDocument.label',
-          config.fees.paletteGenerate,
-        ],
-        UPDATE_DOCUMENT: ['actions.pushUpdates', config.fees.paletteUpdates],
-        SIMULATE_PALETTE: ['actions.simulatePalette', 0],
-      }
-      return this.props.t('plan.credits.fees.fixed', {
-        label: this.props.t(fixed[action][0]),
-        fee: fixed[action][1],
-      })
-    }
-    const meter = config.plan.meters[ACTION_METER[action]]
+    const meter = this.props.config.plan.meters[ACTION_METER[action]]
     return this.props.t(`plan.credits.fees.${key}`, {
       rate: Object.values(meter.units)[0] ?? 0,
     })
@@ -262,52 +235,15 @@ export default class PlanControls extends PureComponent<
   Fees = (): ComponentChildren => {
     return (
       <ul className="list-item">
-        {this.features.IMPORTS_COOLORS.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.importCoolors', {
-              fee: this.props.config.fees.coolorsImport,
-            })}
-          </li>
-        )}
-        {this.features.IMPORTS_REALTIME_COLORS.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.importRealtimeColors', {
-              fee: this.props.config.fees.realtimeColorsImport,
-            })}
-          </li>
-        )}
-        {this.features.EXPLORE.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.importColourLovers', {
-              fee: this.props.config.fees.colourLoversImport,
-            })}
-          </li>
-        )}
         {this.features.GEN.isActive() && (
           <li>
             {this.props.t('plan.credits.fees.generateAiColors', {
-              fee: this.props.config.fees.aiColorsGenerate,
-            })}
-          </li>
-        )}
-        {this.features.EXTRACT.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.extractImageColors', {
-              fee: this.props.config.fees.imageColorsExtract,
-            })}
-          </li>
-        )}
-        {this.features.WHEEL.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.createColorHarmony', {
-              fee: this.props.config.fees.harmonyCreate,
-            })}
-          </li>
-        )}
-        {this.features.CREATE_PALETTE.isActive() && (
-          <li>
-            {this.props.t('plan.credits.fees.createPalette', {
-              fee: this.props.config.fees.paletteCreate,
+              tokens:
+                this.props.config.plan.meters.aiColorsGenerate.tokens
+                  ?.tokensPerCredit ?? 0,
+              weight:
+                this.props.config.plan.meters.aiColorsGenerate.tokens
+                  ?.outputTokenWeight ?? 1,
             })}
           </li>
         )}

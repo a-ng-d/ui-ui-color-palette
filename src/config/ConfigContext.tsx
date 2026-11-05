@@ -20,9 +20,7 @@ export const ConfigProvider = ({
   urls,
   versions,
   features,
-  meteredActions,
   lang,
-  fees,
 }: ConfigProviderProps) => {
   return (
     <ConfigContext.Provider
@@ -34,9 +32,7 @@ export const ConfigProvider = ({
         urls,
         versions,
         features,
-        meteredActions,
         lang,
-        fees,
       }}
     >
       {children}
