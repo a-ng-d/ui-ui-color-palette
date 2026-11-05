@@ -276,6 +276,10 @@
       "title": "変更中の内容"
     }
   },
+  "credits": {
+    "charged": "{cost, plural, other {# cdts を使用しました}}",
+    "estimate": "≈ {cost, plural, other {# cdts}}"
+  },
   "dev": {
     "readyForDev": "開発準備完了"
   },
@@ -620,8 +624,19 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {残り1クレジット} other {残り#クレジット} =0 {クレジットなし}}",
-      "renew": "クレジットは{date}に更新されます。無制限のクレジットには/proにアップグレードしてください。"
+      "amount": "{count, plural, =0 {cdts がありません} other {残り # cdts}}",
+      "meters": {
+        "aiColorsGenerate": "AIでカラーを生成：{tokens}トークンごとに1 cdt、出力×{weight}",
+        "documentPalette": "シンプルなパレットを生成：カラー・モードごとに{rate, plural, other {# cdts}}",
+        "documentPaletteWithProperties": "詳細なパレットを生成：カラー・モードごとに{rate, plural, other {# cdts}}",
+        "documentSheet": "カラーシートを生成：カラー・モードごとに{rate, plural, other {# cdts}}",
+        "documentUpdate": "ドキュメントを更新：種類と同じ料金",
+        "localStylesSync": "ローカルスタイルと同期：スタイルごとに{rate, plural, other {# cdts}}",
+        "localTokensSync": "ローカルトークンと同期：トークンごとに{rate, plural, other {# cdts}}",
+        "localVariablesSync": "ローカル変数と同期：変数・モードごとに{rate, plural, other {# cdts}}",
+        "paletteSimulate": "選択範囲でシミュレート：変更されたレイヤーごとに{rate, plural, other {# cdts}}"
+      },
+      "renew": "クレジットは毎月更新されます（次回：{date}）。無制限のクレジットには/proにアップグレードしてください。"
     },
     "dev": "/devプラン",
     "free": "/basicプラン",
@@ -928,9 +943,9 @@
       "polaris": "Polaris, 1-16 (Shopify)",
       "radix": "Radix, 1-12",
       "spectrum": "Spectrum 1, 100-1300",
-      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "spectrum2": "Spectrum 2, 100-1600",
       "spectrum2Neutral": "Spectrum 2, Neutral 25-1000",
+      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "tailwind": "Tailwind, 50-950",
       "untitledUI": "Untitled UI, 25-950"
     },

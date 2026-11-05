@@ -276,6 +276,10 @@
       "title": "Alterações em andamento"
     }
   },
+  "credits": {
+    "charged": "{cost, plural, one {# cdt usado} other {# cdts usados}}",
+    "estimate": "≈ {cost, plural, one {# cdt} other {# cdts}}"
+  },
   "dev": {
     "readyForDev": "Pronto para desenvolvimento"
   },
@@ -620,8 +624,19 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {1 crédito restante} other {# créditos restantes} =0 {Nenhum crédito restante}}",
-      "renew": "Os créditos serão renovados em {date}. Atualize para /pro para créditos ilimitados."
+      "amount": "{count, plural, =0 {Nenhum cdt restante} one {# cdt restante} other {# cdts restantes}}",
+      "meters": {
+        "aiColorsGenerate": "Gerar cores com IA: 1 cdt a cada {tokens} tokens, saída ×{weight}",
+        "documentPalette": "Gerar uma paleta simples: {rate, plural, one {# cdt} other {# cdts}} por cor e modo",
+        "documentPaletteWithProperties": "Gerar uma paleta detalhada: {rate, plural, one {# cdt} other {# cdts}} por cor e modo",
+        "documentSheet": "Gerar uma folha de cores: {rate, plural, one {# cdt} other {# cdts}} por cor e modo",
+        "documentUpdate": "Atualizar um documento: mesma tarifa do seu tipo",
+        "localStylesSync": "Sincronizar com estilos locais: {rate, plural, one {# cdt} other {# cdts}} por estilo",
+        "localTokensSync": "Sincronizar com tokens locais: {rate, plural, one {# cdt} other {# cdts}} por token",
+        "localVariablesSync": "Sincronizar com variáveis locais: {rate, plural, one {# cdt} other {# cdts}} por variável e modo",
+        "paletteSimulate": "Simular na seleção: {rate, plural, one {# cdt} other {# cdts}} por camada alterada"
+      },
+      "renew": "Os créditos são renovados todo mês, o próximo em {date}. Atualize para /pro para créditos ilimitados."
     },
     "dev": "Plano /dev",
     "free": "Plano /básico",
@@ -928,9 +943,9 @@
       "polaris": "Polaris, 1-16 (Shopify)",
       "radix": "Radix, 1-12",
       "spectrum": "Spectrum 1, 100-1300",
-      "spectrumNeutral": "Spectrum 1, Neutro 50-900",
       "spectrum2": "Spectrum 2, 100-1600",
       "spectrum2Neutral": "Spectrum 2, Neutro 25-1000",
+      "spectrumNeutral": "Spectrum 1, Neutro 50-900",
       "tailwind": "Tailwind, 50-950",
       "untitledUI": "Untitled UI, 25-950"
     },

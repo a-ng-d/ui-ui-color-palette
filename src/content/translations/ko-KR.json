@@ -276,6 +276,10 @@
       "title": "진행 중인 변경사항"
     }
   },
+  "credits": {
+    "charged": "{cost, plural, other {# cdts 사용됨}}",
+    "estimate": "≈ {cost, plural, other {# cdts}}"
+  },
   "dev": {
     "readyForDev": "개발 준비 완료"
   },
@@ -620,8 +624,19 @@
   },
   "plan": {
     "credits": {
-      "amount": "{count, plural, one {잔여 크레딧 1개} other {잔여 크레딧 #개} =0 {잔여 크레딧 없음}}",
-      "renew": "크레딧은 {date}에 갱신됩니다. 무제한 크레딧은 /pro로 업그레이드하세요."
+      "amount": "{count, plural, =0 {남은 cdts 없음} other {# cdts 남음}}",
+      "meters": {
+        "aiColorsGenerate": "AI로 색상 생성: {tokens}토큰당 1 cdt, 출력 ×{weight}",
+        "documentPalette": "간단한 팔레트 생성: 색상 및 모드당 {rate, plural, other {# cdts}}",
+        "documentPaletteWithProperties": "상세 팔레트 생성: 색상 및 모드당 {rate, plural, other {# cdts}}",
+        "documentSheet": "색상 시트 생성: 색상 및 모드당 {rate, plural, other {# cdts}}",
+        "documentUpdate": "문서 업데이트: 문서 유형과 동일한 요금",
+        "localStylesSync": "로컬 스타일과 동기화: 스타일당 {rate, plural, other {# cdts}}",
+        "localTokensSync": "로컬 토큰과 동기화: 토큰당 {rate, plural, other {# cdts}}",
+        "localVariablesSync": "로컬 변수와 동기화: 변수 및 모드당 {rate, plural, other {# cdts}}",
+        "paletteSimulate": "선택 항목에 시뮬레이션: 변경된 레이어당 {rate, plural, other {# cdts}}"
+      },
+      "renew": "크레딧은 매월 갱신되며, 다음 갱신일은 {date}입니다. 무제한 크레딧은 /pro로 업그레이드하세요."
     },
     "dev": "/dev 플랜",
     "free": "/basic 플랜",
@@ -928,9 +943,9 @@
       "polaris": "Polaris, 1-16 (Shopify)",
       "radix": "Radix, 1-12",
       "spectrum": "Spectrum 1, 100-1300",
-      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "spectrum2": "Spectrum 2, 100-1600",
       "spectrum2Neutral": "Spectrum 2, Neutral 25-1000",
+      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "tailwind": "Tailwind, 50-950",
       "untitledUI": "Untitled UI, 25-950"
     },

@@ -410,9 +410,9 @@ const globalConfig: Config = {
     creditsRenewalPeriodHours: 720,
     creditsRenewalPeriodMonths: 1,
     meters: {
-      localStylesSync: { units: { style: 1 } },
-      localVariablesSync: { units: { variable: 1 } },
-      localTokensSync: { units: { token: 1 } },
+      localStylesSync: { units: { style: 2 } },
+      localVariablesSync: { units: { variable: 4 } },
+      localTokensSync: { units: { token: 4 } },
       documentPalette: { units: { color: 4 } },
       documentPaletteWithProperties: { units: { color: 6 } },
       documentSheet: { units: { color: 8 } },

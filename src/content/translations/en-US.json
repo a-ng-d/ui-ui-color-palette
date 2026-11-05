@@ -943,9 +943,9 @@
       "polaris": "Polaris, 1-16 (Shopify)",
       "radix": "Radix, 1-12",
       "spectrum": "Spectrum 1, 100-1300",
-      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "spectrum2": "Spectrum 2, 100-1600",
       "spectrum2Neutral": "Spectrum 2, Neutral 25-1000",
+      "spectrumNeutral": "Spectrum 1, Neutral 50-900",
       "tailwind": "Tailwind, 50-950",
       "untitledUI": "Untitled UI, 25-950"
     },
