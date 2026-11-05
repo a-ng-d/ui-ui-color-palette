@@ -1,6 +1,7 @@
 import {
   ColorConfiguration,
   HexModel,
+  PresetConfiguration,
   SourceColorConfiguration,
   UserConfiguration,
 } from '@yelbolt/engine-ui-color-palette'
@@ -20,6 +21,10 @@ export interface ContrastReportShadeData {
 }
 
 export type Platform = 'figma' | 'penpot' | 'sketch' | 'framer' | 'yelbolt'
+
+export interface PresetDefinition extends PresetConfiguration {
+  isDeprecated?: boolean
+}
 
 export type UserTheme = 'dark' | 'light' | 'system'
 

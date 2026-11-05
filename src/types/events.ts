@@ -55,6 +55,8 @@ export interface ScaleEvent {
     | 'SWITCH_ADS_NEUTRAL'
     | 'SWITCH_SPECTRUM'
     | 'SWITCH_SPECTRUM_NEUTRAL'
+    | 'SWITCH_SPECTRUM_2'
+    | 'SWITCH_SPECTRUM_2_NEUTRAL'
     | 'SWITCH_CARBON'
     | 'SWITCH_BASE'
     | 'SWITCH_POLARIS'

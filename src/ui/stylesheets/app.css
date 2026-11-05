@@ -273,6 +273,14 @@ div.export-palette__preview {
   white-space: nowrap;
 }
 
+.preview__cell > .chip {
+  max-width: var(--preview-cell-chip-max-width, 100%);
+}
+
+.preview__cell > .chip .chip__text {
+  min-width: 0;
+}
+
 .preview__cell__sign {
   --icon-picto-color: currentcolor;
   --icon-width: var(--scale-pos-xsmall);

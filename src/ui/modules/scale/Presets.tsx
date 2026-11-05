@@ -11,7 +11,13 @@ import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { ScaleMessage } from '../../../types/messages'
-import { BaseProps, Editor, PlanStatus, Service } from '../../../types/app'
+import {
+  BaseProps,
+  Editor,
+  PlanStatus,
+  PresetDefinition,
+  Service,
+} from '../../../types/app'
 import { defaultPreset, presets } from '../../../stores/presets'
 import { $palette } from '../../../stores/palette'
 import { trackScaleManagementEvent } from '../../../external/tracking/eventsTracker'
@@ -138,6 +144,14 @@ export default class Presets extends PureComponent<PresetsProps> {
         trackingFeature: 'SWITCH_SPECTRUM_NEUTRAL' as const,
         updateName: true,
       },
+      SPECTRUM_2: {
+        trackingFeature: 'SWITCH_SPECTRUM_2' as const,
+        updateName: true,
+      },
+      SPECTRUM_2_NEUTRAL: {
+        trackingFeature: 'SWITCH_SPECTRUM_2_NEUTRAL' as const,
+        updateName: true,
+      },
       CARBON: { trackingFeature: 'SWITCH_CARBON' as const, updateName: false },
       BASE: { trackingFeature: 'SWITCH_BASE' as const, updateName: false },
       POLARIS: {
@@ -227,6 +241,8 @@ export default class Presets extends PureComponent<PresetsProps> {
       ADS_NEUTRAL: () => setPreset('ADS_NEUTRAL'),
       SPECTRUM: () => setPreset('SPECTRUM'),
       SPECTRUM_NEUTRAL: () => setPreset('SPECTRUM_NEUTRAL'),
+      SPECTRUM_2: () => setPreset('SPECTRUM_2'),
+      SPECTRUM_2_NEUTRAL: () => setPreset('SPECTRUM_2_NEUTRAL'),
       CARBON: () => setPreset('CARBON'),
       BASE: () => setPreset('BASE'),
       POLARIS: () => setPreset('POLARIS'),
@@ -237,9 +253,59 @@ export default class Presets extends PureComponent<PresetsProps> {
     return actions[(e.target as HTMLElement).dataset.value ?? 'DEFAULT']?.()
   }
 
+  presetOption = (preset: PresetDefinition): DropdownOption => {
+    const status = this.features.PRESETS[`PRESETS_${preset.id}`]
+
+    return {
+      label: preset.name,
+      value: preset.id,
+      feature: `PRESETS_${preset.id}`,
+      type: 'OPTION',
+      isActive: status.isActive(),
+      isBlocked: status.isBlocked(),
+      isNew: status.isNew(),
+      onBlock: () => {
+        const isTrial =
+          this.props.config.plan.isTrialEnabled &&
+          this.props.trialStatus !== 'EXPIRED'
+        sendPluginMessage(
+          {
+            pluginMessage: isTrial
+              ? { type: 'GET_TRIAL' }
+              : {
+                  type: 'GET_PRO',
+                  data: { origin: `PRESETS_${preset.id}` },
+                },
+          },
+          '*'
+        )
+      },
+      action: this.presetsHandler,
+    }
+  }
+
+  familyOptions = (family: Array<PresetDefinition>): Array<DropdownOption> => {
+    const current = family
+      .filter((preset) => !preset.isDeprecated)
+      .map(this.presetOption)
+    const deprecated = family
+      .filter((preset) => preset.isDeprecated)
+      .map(this.presetOption)
+      .filter((option) => option.isActive)
+
+    if (deprecated.length === 0) return current
+
+    return [
+      ...current,
+      { type: 'SEPARATOR' },
+      { type: 'TITLE', label: this.props.t('scale.presets.deprecated') },
+      ...deprecated,
+    ]
+  }
+
   presetsOptions = () => {
     const orderedPresets = presets.reduce(
-      (acc: { [key: string]: PresetConfiguration[] }, preset) => {
+      (acc: { [key: string]: PresetDefinition[] }, preset) => {
         const { family, name } = preset
         if (family !== undefined) {
           if (!acc[family]) acc[family] = []
@@ -250,7 +316,7 @@ export default class Presets extends PureComponent<PresetsProps> {
         }
         return acc
       },
-      {} as { [key: string]: PresetConfiguration[] }
+      {} as { [key: string]: PresetDefinition[] }
     )
 
     const options: Array<DropdownOption> = Object.entries(orderedPresets).map(
@@ -260,64 +326,9 @@ export default class Presets extends PureComponent<PresetsProps> {
             label: preset[0],
             value: preset[0].toUpperCase().split(' ').join('_'),
             type: 'GROUP',
-            children: preset[1].map((preset: PresetConfiguration) => ({
-              label: preset.name,
-              value: preset.id,
-              feature: `PRESETS_${preset.id}`,
-              type: 'OPTION',
-              isActive:
-                this.features.PRESETS[`PRESETS_${preset.id}`].isActive(),
-              isBlocked:
-                this.features.PRESETS[`PRESETS_${preset.id}`].isBlocked(),
-              isNew: this.features.PRESETS[`PRESETS_${preset.id}`].isNew(),
-              onBlock: () => {
-                const isTrial =
-                  this.props.config.plan.isTrialEnabled &&
-                  this.props.trialStatus !== 'EXPIRED'
-                sendPluginMessage(
-                  {
-                    pluginMessage: isTrial
-                      ? { type: 'GET_TRIAL' }
-                      : {
-                          type: 'GET_PRO',
-                          data: { origin: `PRESETS_${preset.id}` },
-                        },
-                  },
-                  '*'
-                )
-              },
-              action: this.presetsHandler,
-            })),
+            children: this.familyOptions(preset[1]),
           }
-        else
-          return {
-            label: preset[1][0].name,
-            value: preset[1][0].id,
-            feature: `PRESETS_${preset[1][0].id}`,
-            type: 'OPTION',
-            isActive:
-              this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isActive(),
-            isBlocked:
-              this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isBlocked(),
-            isNew: this.features.PRESETS[`PRESETS_${preset[1][0].id}`].isNew(),
-            onBlock: () => {
-              const isTrial =
-                this.props.config.plan.isTrialEnabled &&
-                this.props.trialStatus !== 'EXPIRED'
-              sendPluginMessage(
-                {
-                  pluginMessage: isTrial
-                    ? { type: 'GET_TRIAL' }
-                    : {
-                        type: 'GET_PRO',
-                        data: { origin: `PRESETS_${preset[1][0].id}` },
-                      },
-                },
-                '*'
-              )
-            },
-            action: this.presetsHandler,
-          }
+        else return this.presetOption(preset[1][0])
       }
     )
 

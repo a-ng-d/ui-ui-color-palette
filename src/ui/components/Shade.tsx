@@ -66,6 +66,7 @@ interface ShadeProps extends BaseProps, WithConfigProps, WithTranslationProps {
 interface ShadeState {
   isMouseEnter: boolean
   isCopied: boolean
+  chipMaxWidth: number | null
 }
 
 export default class Shade extends PureComponent<ShadeProps, ShadeState> {
@@ -121,10 +122,29 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
     this.state = {
       isMouseEnter: false,
       isCopied: false,
+      chipMaxWidth: null,
     }
   }
 
   // Handlers
+  onCellMouseEnter = () => {
+    const cell = this.cellRef.current
+    const canEnrich =
+      !this.props.isCompact && !this.features.REPORT.isBlocked() && cell
+    if (!canEnrich) return this.setState({ isMouseEnter: true })
+
+    const style = window.getComputedStyle(cell)
+    const chipMaxWidth =
+      cell.clientWidth -
+      parseFloat(style.paddingLeft) -
+      parseFloat(style.paddingRight)
+
+    this.setState({ isMouseEnter: true, chipMaxWidth })
+  }
+
+  onCellMouseLeave = () =>
+    this.setState({ isMouseEnter: false, chipMaxWidth: null })
+
   recommendationHandler = (
     recommendation:
       | 'UNKNOWN'
@@ -249,6 +269,9 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
   }
 
   // Templates
+  hoverLabel = (raw: string, friendly: string, isMouseEnter: boolean) =>
+    isMouseEnter && !this.features.REPORT.isBlocked() ? friendly : raw
+
   wcagScoreTag = ({
     color,
     score,
@@ -288,7 +311,11 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </span>
         }
       >
-        {!isMouseEnter ? `${score.toFixed(2)} : 1` : friendlyScore}
+        {this.hoverLabel(
+          `${score.toFixed(2)} : 1`,
+          friendlyScore,
+          isMouseEnter
+        )}
       </Chip>
     </Feature>
   )
@@ -332,7 +359,7 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
           </span>
         }
       >
-        {!isMouseEnter ? `Lc ${score.toFixed(1)}` : friendlyScore}
+        {this.hoverLabel(`Lc ${score.toFixed(1)}`, friendlyScore, isMouseEnter)}
       </Chip>
     </Feature>
   )
@@ -614,9 +641,12 @@ export default class Shade extends PureComponent<ShadeProps, ShadeState> {
         data-shade-key={`${this.props.colorIndex}-${this.props.index}`}
         style={{
           backgroundColor: background,
+          ...(this.state.chipMaxWidth !== null && {
+            '--preview-cell-chip-max-width': `${this.state.chipMaxWidth}px`,
+          }),
         }}
-        onMouseEnter={() => this.setState({ isMouseEnter: true })}
-        onMouseLeave={() => this.setState({ isMouseEnter: false })}
+        onMouseEnter={this.onCellMouseEnter}
+        onMouseLeave={this.onCellMouseLeave}
       >
         <div
           style={{

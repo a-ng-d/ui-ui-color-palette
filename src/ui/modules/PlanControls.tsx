@@ -518,20 +518,21 @@ export default class PlanControls extends PureComponent<
               icon="lock-off"
               label={this.props.t('plan.tryPro')}
               action={() => {
-                this.props.config.plan.isTrialEnabled
-                  ? sendPluginMessage(
-                      { pluginMessage: { type: 'GET_TRIAL' } },
-                      '*'
-                    )
-                  : sendPluginMessage(
-                      {
-                        pluginMessage: {
-                          type: 'GET_PRO',
-                          data: { origin: 'PRICING' },
-                        },
+                if (this.props.config.plan.isTrialEnabled)
+                  sendPluginMessage(
+                    { pluginMessage: { type: 'GET_TRIAL' } },
+                    '*'
+                  )
+                else
+                  sendPluginMessage(
+                    {
+                      pluginMessage: {
+                        type: 'GET_PRO',
+                        data: { origin: 'PRICING' },
                       },
-                      '*'
-                    )
+                    },
+                    '*'
+                  )
               }}
             />
           ),

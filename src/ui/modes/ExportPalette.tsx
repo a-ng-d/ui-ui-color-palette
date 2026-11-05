@@ -181,20 +181,56 @@ export default class ExportPalette extends PureComponent<
   }
 
   // Direct Actions
+  getExportFileName = (): string => {
+    const palette = new Case(
+      this.props.name === '' ? this.props.t('name') : this.props.name
+    ).doSnakeCase()
+    const { context, format, mimeType } = this.state.export
+
+    if (mimeType === 'text/csv' || context === 'CSV') return `${palette}.zip`
+
+    const suffixes: { [key: string]: string } = {
+      TOKENS_NATIVE: 'tokens.json',
+      TOKENS_DTCG: 'primitives.tokens.json',
+      TOKENS_STYLE_DICTIONARY_V3: 'primitives.json',
+      TOKENS_UNIVERSAL: 'primitives.json',
+      TAILWIND_V3: 'tailwind.config.js',
+      TAILWIND_V4: 'tailwind.css',
+      STYLESHEET_CSS: 'primitives.css',
+      STYLESHEET_SCSS: 'primitives.scss',
+      STYLESHEET_LESS: 'primitives.less',
+      APPLE_SWIFTUI: 'Primitives.swift',
+      APPLE_UIKIT: 'Primitives.swift',
+      ANDROID_COMPOSE: 'Primitives.kt',
+      ANDROID_XML: 'primitives.xml',
+    }
+    const formatSuffixes: { [key: string]: string } = {
+      CSS: 'primitives.css',
+      SCSS: 'primitives.scss',
+      LESS: 'primitives.less',
+      SWIFT: 'Primitives.swift',
+      KT: 'Primitives.kt',
+      XML: 'primitives.xml',
+      JSON: 'primitives.json',
+    }
+
+    const suffix =
+      suffixes[context ?? ''] ?? formatSuffixes[format ?? ''] ?? 'primitives'
+    return `${palette}.${suffix}`
+  }
+
   onExport = () => {
+    const fileName = this.getExportFileName()
+
     if (Array.isArray(this.state.export.data)) {
       const files = this.state.export.data
-      const paletteName =
-        this.props.name === ''
-          ? new Case(this.props.t('name')).doSnakeCase()
-          : new Case(this.props.name).doSnakeCase()
 
       if (files.length === 1) {
         const file = files[0]
         const blob = new Blob([file.content], {
           type: file.mimeType,
         })
-        FileSaver.saveAs(blob, file.filename)
+        FileSaver.saveAs(blob, fileName)
         return
       }
 
@@ -210,7 +246,10 @@ export default class ExportPalette extends PureComponent<
         type: 'application/zip',
       })
 
-      FileSaver.saveAs(zipBlob, `${paletteName}.zip`)
+      FileSaver.saveAs(
+        zipBlob,
+        `${new Case(this.props.name === '' ? this.props.t('name') : this.props.name).doSnakeCase()}.zip`
+      )
       return
     }
 
@@ -229,13 +268,13 @@ export default class ExportPalette extends PureComponent<
         }) => {
           if (theme.type !== 'default theme')
             theme.colors.forEach((color) => {
-              const fileName = `${theme.name}/${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
+              const entryName = `${theme.name}/${new Case(color.name).doSnakeCase()}.csv`
+              zipEntries[entryName] = encoder.encode(color.csv)
             })
           else
             theme.colors.forEach((color) => {
-              const fileName = `${new Case(color.name).doSnakeCase()}.csv`
-              zipEntries[fileName] = encoder.encode(color.csv)
+              const entryName = `${new Case(color.name).doSnakeCase()}.csv`
+              zipEntries[entryName] = encoder.encode(color.csv)
             })
         }
       )
@@ -245,61 +284,8 @@ export default class ExportPalette extends PureComponent<
         type: 'application/zip',
       })
 
-      FileSaver.saveAs(
-        zipBlob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.zip`
-      )
-    } else if (this.state.export.context === 'TAILWIND_V3')
-      FileSaver.saveAs(blob, 'tailwind.config.js')
-    else if (this.state.export.context === 'TAILWIND_V4')
-      FileSaver.saveAs(blob, 'tailwind.theme.css')
-    else if (this.state.export.format === 'SWIFT')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.swift`
-      )
-    else if (this.state.export.mimeType === 'text/x-kotlin')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.kt`
-      )
-    else if (this.state.export.mimeType === 'text/x-scss')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.scss`
-      )
-    else if (this.state.export.mimeType === 'text/x-less')
-      FileSaver.saveAs(
-        blob,
-        `${
-          this.props.name === ''
-            ? new Case(this.props.t('name')).doSnakeCase()
-            : new Case(this.props.name).doSnakeCase()
-        }.less`
-      )
-    else
-      FileSaver.saveAs(
-        blob,
-        this.props.name === ''
-          ? new Case(this.props.t('name')).doSnakeCase()
-          : new Case(this.props.name).doSnakeCase()
-      )
+      FileSaver.saveAs(zipBlob, fileName)
+    } else FileSaver.saveAs(blob, fileName)
   }
 
   onCopyCode = () => {

@@ -1,9 +1,9 @@
-import { PresetConfiguration } from '@yelbolt/engine-ui-color-palette'
+import { PresetDefinition } from '../types/app'
 
 export const getPresets = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locales: (key: string, params?: Record<string, any> | undefined) => string
-): Array<PresetConfiguration> => [
+): Array<PresetDefinition> => [
   {
     name: locales('scale.presets.customOnes'),
     stops: [1, 2, 3, 4, 5, 6],
@@ -39,6 +39,7 @@ export const getPresets = (
     easing: 'LINEAR',
     family: locales('scale.presets.google'),
     id: 'MATERIAL',
+    isDeprecated: true,
   },
   {
     name: locales('scale.presets.material3'),
@@ -131,6 +132,7 @@ export const getPresets = (
     easing: 'LINEAR',
     family: locales('scale.presets.adobe'),
     id: 'SPECTRUM',
+    isDeprecated: true,
   },
   {
     name: locales('scale.presets.spectrumNeutral'),
@@ -140,6 +142,28 @@ export const getPresets = (
     easing: 'LINEAR',
     family: locales('scale.presets.adobe'),
     id: 'SPECTRUM_NEUTRAL',
+    isDeprecated: true,
+  },
+  {
+    name: locales('scale.presets.spectrum2'),
+    stops: [
+      100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400,
+      1500, 1600,
+    ],
+    min: 16,
+    max: 96,
+    easing: 'LINEAR',
+    family: locales('scale.presets.adobe'),
+    id: 'SPECTRUM_2',
+  },
+  {
+    name: locales('scale.presets.spectrum2Neutral'),
+    stops: [25, 50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+    min: 0,
+    max: 100,
+    easing: 'LINEAR',
+    family: locales('scale.presets.adobe'),
+    id: 'SPECTRUM_2_NEUTRAL',
   },
   {
     name: locales('scale.presets.carbon'),
@@ -184,7 +208,7 @@ export const getPresets = (
 export const getDefaultPreset = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   locales: (key: string, params?: Record<string, any> | undefined) => string
-): PresetConfiguration => getPresets(locales)[1]
+): PresetDefinition => getPresets(locales)[1]
 
 export const updatePresets = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -194,5 +218,5 @@ export const updatePresets = (
   defaultPreset = getDefaultPreset(locales)
 }
 
-export let presets: Array<PresetConfiguration> = []
-export let defaultPreset: PresetConfiguration | null = null
+export let presets: Array<PresetDefinition> = []
+export let defaultPreset: PresetDefinition | null = null
