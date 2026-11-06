@@ -12,6 +12,7 @@ import {
   SemanticMessage,
 } from '@unoff/ui'
 import './stylesheets/app.css'
+import { getPricingPlans } from '../utils/pricingPlans'
 import { sendPluginMessage } from '../utils/pluginMessage'
 import { meterFor, areCreditsAppliedTo } from '../utils/meteredActions'
 import isValidPaletteConfiguration from '../utils/isValidPaletteConfiguration'
@@ -1003,13 +1004,15 @@ class App extends Component<AppProps, AppState> {
 
   getSpecialOfferTag = () => {
     if (this.state.planStatus !== 'UNPAID') return undefined
-    const { plan } = this.props.config
-    const offer = getFeaturedOffer(this.state.specialOffers, [
-      plan.storeProWeekId,
-      plan.storeProMonthId,
-      plan.storeProYearId,
-      plan.storeProLifetimeId,
-    ])
+    const offer = getFeaturedOffer(
+      this.state.specialOffers,
+      getPricingPlans(
+        this.state.planStatus,
+        this.props.config,
+        this.state.service,
+        this.state.editor
+      ).map((plan) => plan.productId)
+    )
     return offer ? (offer.discountCode ?? offer.eventName) : undefined
   }
 

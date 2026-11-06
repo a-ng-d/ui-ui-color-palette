@@ -14,6 +14,7 @@ import { WithTranslationProps } from '../../components/WithTranslation'
 import { WithConfigProps } from '../../components/WithConfig'
 import Feature from '../../components/Feature'
 import { AppState } from '../../App'
+import { getPricingPlans, PricingPlanId } from '../../../utils/pricingPlans'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { getDocumentAttribute } from '../../../utils/getDocumentAttribute'
 import { Offer } from '../../../types/offers'
@@ -48,7 +49,7 @@ interface PricingProps
 }
 
 interface PricingState {
-  selectedPlan: 'WEEK' | 'MONTH' | 'YEAR' | 'LIFETIME'
+  selectedPlan: PricingPlanId
   isSigningIn: boolean
   checkoutUrl: string | null
   checkoutOpenedInBrowser: string | null
@@ -76,7 +77,23 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       currentService: service,
       currentEditor: editor,
     }),
+    PRICING_ULTIMATE: new FeatureStatus({
+      features: config.features,
+      featureName: 'PRICING_ULTIMATE',
+      planStatus: planStatus,
+      currentService: service,
+      currentEditor: editor,
+    }),
   })
+
+  private get plans() {
+    return getPricingPlans(
+      this.props.planStatus,
+      this.props.config,
+      this.props.service,
+      this.props.editor
+    )
+  }
 
   private get features() {
     return Pricing.features(
@@ -91,7 +108,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     super(props)
     this.theme = getDocumentAttribute('data-theme')
     this.state = {
-      selectedPlan: 'WEEK',
+      selectedPlan: this.plans[0]?.id ?? 'WEEK',
       isSigningIn: false,
       checkoutUrl: null,
       checkoutOpenedInBrowser: null,
@@ -153,8 +170,6 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     const offer = this.getOffer(productId)
     if (!offer) return price.formatted
 
-    // From the Polar price to the discounted one (the subtitle is plain text:
-    // no strikethrough)
     const discounted = formatPrice(
       Math.round(price.amount * (1 - offer.percentOff / 100)),
       price.currency,
@@ -165,7 +180,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   getOfferTag = (productId: string) => {
     const offer = this.getOffer(productId)
-    return offer ? `−${offer.percentOff}%` : undefined
+    return offer ? `${offer.discountCode} → −${offer.percentOff}%` : undefined
   }
 
   polarMessageHandler = (event: MessageEvent) => {
@@ -327,10 +342,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
-        tag={
-          this.getOfferTag(this.props.config.plan.storeProMonthId) ??
-          this.props.t('pricing.bestDeal')
-        }
+        tag={this.getOfferTag(this.props.config.plan.storeProMonthId)}
         actions={
           <Button
             type="primary"
@@ -679,6 +691,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   // Render
   render() {
+    const plans = this.plans
+    const selectedPlan = plans.some(
+      (plan) => plan.id === this.state.selectedPlan
+    )
+      ? this.state.selectedPlan
+      : plans[0]?.id
     let isFlex
 
     switch (this.theme) {
@@ -765,52 +783,28 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 boxSizing: 'border-box',
               }}
             >
-              <div
-                style={{
-                  display: isFlex ? 'block' : 'flex',
-                  justifyContent: isFlex ? 'unset' : 'center',
-                }}
-              >
-                <Tabs
-                  tabs={[
-                    {
-                      label: this.props.t('pricing.subscriptions.week'),
-                      id: 'WEEK',
-                      isUpdated: false,
-                      isNew: !!this.getOffer(
-                        this.props.config.plan.storeProWeekId
+              {plans.length > 1 && (
+                <div
+                  style={{
+                    display: isFlex ? 'block' : 'flex',
+                    justifyContent: isFlex ? 'unset' : 'center',
+                  }}
+                >
+                  <Tabs
+                    tabs={plans.map((plan) => ({
+                      label: this.props.t(
+                        `pricing.subscriptions.${plan.id.toLowerCase()}`
                       ),
-                    },
-                    {
-                      label: this.props.t('pricing.subscriptions.month'),
-                      id: 'MONTH',
+                      id: plan.id,
                       isUpdated: false,
-                      isNew: !!this.getOffer(
-                        this.props.config.plan.storeProMonthId
-                      ),
-                    },
-                    {
-                      label: this.props.t('pricing.subscriptions.year'),
-                      id: 'YEAR',
-                      isUpdated: false,
-                      isNew: !!this.getOffer(
-                        this.props.config.plan.storeProYearId
-                      ),
-                    },
-                    {
-                      label: this.props.t('pricing.subscriptions.lifetime'),
-                      id: 'LIFETIME',
-                      isUpdated: false,
-                      isNew: !!this.getOffer(
-                        this.props.config.plan.storeProLifetimeId
-                      ),
-                    },
-                  ]}
-                  active={this.state.selectedPlan}
-                  isFlex={isFlex}
-                  action={this.planHandler}
-                />
-              </div>
+                      isNew: !!this.getOffer(plan.productId),
+                    }))}
+                    active={selectedPlan}
+                    isFlex={isFlex}
+                    action={this.planHandler}
+                  />
+                </div>
+              )}
               {this.state.checkoutOpenedInBrowser && (
                 <SemanticMessage
                   type="INFO"
@@ -880,11 +874,11 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                   flex: 1,
                 }}
               >
-                {this.state.selectedPlan === 'WEEK' && <this.Week />}
-                {this.state.selectedPlan === 'MONTH' && <this.Month />}
-                {this.state.selectedPlan === 'YEAR' && <this.Year />}
-                {this.state.selectedPlan === 'LIFETIME' && <this.Lifetime />}
-                <this.Ultimate />
+                {selectedPlan === 'WEEK' && <this.Week />}
+                {selectedPlan === 'MONTH' && <this.Month />}
+                {selectedPlan === 'YEAR' && <this.Year />}
+                {selectedPlan === 'LIFETIME' && <this.Lifetime />}
+                {this.features.PRICING_ULTIMATE.isActive() && <this.Ultimate />}
                 {this.props.licenseTrigger.type === 'ACTIVATE' && (
                   <this.Activate />
                 )}
