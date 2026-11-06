@@ -1,7 +1,7 @@
 import { PureComponent } from 'preact/compat'
 import { Fragment, ComponentChildren } from 'preact'
 import { doClassnames, FeatureStatus } from '@unoff/utils'
-import { Button, IconChip, layouts, texts } from '@unoff/ui'
+import { Button, Chip, IconChip, layouts, texts } from '@unoff/ui'
 import { WithTranslationProps } from '../components/WithTranslation'
 import { WithConfigProps } from '../components/WithConfig'
 import Feature from '../components/Feature'
@@ -21,12 +21,10 @@ interface PlanControlsProps
   extends BaseProps, WithConfigProps, WithTranslationProps {
   trialRemainingTime: number
   creditsRenewalDate: number
+  offerTag?: string
 }
 
-export default class PlanControls extends PureComponent<
-  PlanControlsProps,
-  PlanControlsState
-> {
+export default class PlanControls extends PureComponent<PlanControlsProps, PlanControlsState> {
   private subscribeCredits: (() => void) | null = null
 
   static features = (
@@ -224,6 +222,21 @@ export default class PlanControls extends PureComponent<
     ))
   }
 
+  private withOfferTag = (button: ComponentChildren): ComponentChildren =>
+    this.props.offerTag ? (
+      <div className={doClassnames([layouts['snackbar--tight']])}>
+        {button}
+        <Chip
+          state="ACTIVE"
+          isSolo
+        >
+          {this.props.offerTag}
+        </Chip>
+      </div>
+    ) : (
+      button
+    )
+
   private meterRule = (key: MeterKey): string =>
     this.props.t(`plan.credits.meters.${key}`, {
       rate: Object.values(this.props.config.plan.meters[key].units)[0] ?? 0,
@@ -417,7 +430,7 @@ export default class PlanControls extends PureComponent<
     >
       {this.withSeparators([
         {
-          node: (
+          node: this.withOfferTag(
             <Button
               type="alternative"
               size="small"
@@ -458,7 +471,7 @@ export default class PlanControls extends PureComponent<
     >
       {this.withSeparators([
         {
-          node: (
+          node: this.withOfferTag(
             <Button
               type="alternative"
               size="small"
@@ -520,7 +533,7 @@ export default class PlanControls extends PureComponent<
     >
       {this.withSeparators([
         {
-          node: (
+          node: this.withOfferTag(
             <Button
               type="alternative"
               size="small"

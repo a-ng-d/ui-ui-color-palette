@@ -16,6 +16,7 @@ import Feature from '../../components/Feature'
 import { AppState } from '../../App'
 import { sendPluginMessage } from '../../../utils/pluginMessage'
 import { getDocumentAttribute } from '../../../utils/getDocumentAttribute'
+import { Offer } from '../../../types/offers'
 import {
   BaseProps,
   Editor,
@@ -23,8 +24,10 @@ import {
   PlanStatus,
   Service,
 } from '../../../types/app'
+import { $offers, getActiveOffer } from '../../../stores/offers'
 import buildCheckoutUrl from '../../../external/transactional/openCheckout'
 import getPrices, {
+  formatPrice,
   ProductPrice,
 } from '../../../external/transactional/getPrices'
 import checkSubscription from '../../../external/transactional/checkSubscription'
@@ -53,10 +56,12 @@ interface PricingState {
   isCheckingSubscription: boolean
   subscriptionCheckFailed: boolean
   productPrices: Record<string, ProductPrice>
+  offers: Offer[]
 }
 
 export default class Pricing extends PureComponent<PricingProps, PricingState> {
   private theme: string | null
+  private unsubscribeOffers?: () => void
 
   static features = (
     planStatus: PlanStatus,
@@ -94,12 +99,16 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
       isCheckingSubscription: false,
       subscriptionCheckFailed: false,
       productPrices: {},
+      offers: [...$offers.get()],
     }
   }
 
   // Lifecycle
   componentDidMount() {
     window.addEventListener('message', this.polarMessageHandler)
+    this.unsubscribeOffers = $offers.subscribe((offers) =>
+      this.setState({ offers: [...offers] })
+    )
     this.loadProductPrices()
     trackPricingEvent(
       this.props.config.env.isMixpanelEnabled,
@@ -114,6 +123,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
 
   componentWillUnmount() {
     window.removeEventListener('message', this.polarMessageHandler)
+    if (this.unsubscribeOffers) this.unsubscribeOffers()
   }
 
   // Handlers
@@ -134,8 +144,29 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     })
   }
 
-  getLocalizedPrice = (productId: string, fallback: string) =>
-    this.state.productPrices[productId]?.formatted ?? fallback
+  getOffer = (productId: string) => getActiveOffer(this.state.offers, productId)
+
+  getLocalizedPrice = (productId: string, fallback: string) => {
+    const price = this.state.productPrices[productId]
+    if (!price) return fallback
+
+    const offer = this.getOffer(productId)
+    if (!offer) return price.formatted
+
+    // From the Polar price to the discounted one (the subtitle is plain text:
+    // no strikethrough)
+    const discounted = formatPrice(
+      Math.round(price.amount * (1 - offer.percentOff / 100)),
+      price.currency,
+      this.getPricingLocale()
+    )
+    return `${price.formatted} → ${discounted}`
+  }
+
+  getOfferTag = (productId: string) => {
+    const offer = this.getOffer(productId)
+    return offer ? `−${offer.percentOff}%` : undefined
+  }
 
   polarMessageHandler = (event: MessageEvent) => {
     const POLAR_ORIGINS = ['https://polar.sh', 'https://sandbox.polar.sh']
@@ -173,7 +204,8 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
     const url = await buildCheckoutUrl(
       productId,
       this.getPricingLocale(),
-      this.props.config.env.isDev
+      this.props.config.env.isDev,
+      this.getOffer(productId)
     )
 
     const shouldOpenInBrowser = [
@@ -225,6 +257,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.getOfferTag(this.props.config.plan.storeProWeekId)}
         actions={
           <Button
             type="primary"
@@ -242,7 +275,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_WEEK', origin: this.props.pricingOrigin }
+                {
+                  feature: 'GO_TO_PRO_WEEK',
+                  origin: this.props.pricingOrigin,
+                  offer: this.getOffer(this.props.config.plan.storeProWeekId)
+                    ?.eventName,
+                }
               )
             }}
           />
@@ -258,7 +296,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_WEEK', origin: this.props.pricingOrigin }
+            {
+              feature: 'GO_TO_PRO_WEEK',
+              origin: this.props.pricingOrigin,
+              offer: this.getOffer(this.props.config.plan.storeProWeekId)
+                ?.eventName,
+            }
           )
         }}
       />
@@ -284,7 +327,10 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
-        tag={this.props.t('pricing.bestDeal')}
+        tag={
+          this.getOfferTag(this.props.config.plan.storeProMonthId) ??
+          this.props.t('pricing.bestDeal')
+        }
         actions={
           <Button
             type="primary"
@@ -302,7 +348,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_MONTH', origin: this.props.pricingOrigin }
+                {
+                  feature: 'GO_TO_PRO_MONTH',
+                  origin: this.props.pricingOrigin,
+                  offer: this.getOffer(this.props.config.plan.storeProMonthId)
+                    ?.eventName,
+                }
               )
             }}
           />
@@ -318,7 +369,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_MONTH', origin: this.props.pricingOrigin }
+            {
+              feature: 'GO_TO_PRO_MONTH',
+              origin: this.props.pricingOrigin,
+              offer: this.getOffer(this.props.config.plan.storeProMonthId)
+                ?.eventName,
+            }
           )
         }}
       />
@@ -344,6 +400,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.getOfferTag(this.props.config.plan.storeProYearId)}
         actions={
           <Button
             type="primary"
@@ -361,7 +418,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 this.props.userConsent.find(
                   (consent) => consent.id === 'mixpanel'
                 )?.isConsented ?? false,
-                { feature: 'GO_TO_PRO_YEAR', origin: this.props.pricingOrigin }
+                {
+                  feature: 'GO_TO_PRO_YEAR',
+                  origin: this.props.pricingOrigin,
+                  offer: this.getOffer(this.props.config.plan.storeProYearId)
+                    ?.eventName,
+                }
               )
             }}
           />
@@ -377,7 +439,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_YEAR', origin: this.props.pricingOrigin }
+            {
+              feature: 'GO_TO_PRO_YEAR',
+              origin: this.props.pricingOrigin,
+              offer: this.getOffer(this.props.config.plan.storeProYearId)
+                ?.eventName,
+            }
           )
         }}
       />
@@ -403,6 +470,7 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             }}
           />
         }
+        tag={this.getOfferTag(this.props.config.plan.storeProLifetimeId)}
         actions={
           <Button
             type="primary"
@@ -423,6 +491,9 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                 {
                   feature: 'GO_TO_PRO_LIFETIME',
                   origin: this.props.pricingOrigin,
+                  offer: this.getOffer(
+                    this.props.config.plan.storeProLifetimeId
+                  )?.eventName,
                 }
               )
             }}
@@ -439,7 +510,12 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
             this.props.planStatus,
             this.props.userConsent.find((consent) => consent.id === 'mixpanel')
               ?.isConsented ?? false,
-            { feature: 'GO_TO_PRO_LIFETIME', origin: this.props.pricingOrigin }
+            {
+              feature: 'GO_TO_PRO_LIFETIME',
+              origin: this.props.pricingOrigin,
+              offer: this.getOffer(this.props.config.plan.storeProLifetimeId)
+                ?.eventName,
+            }
           )
         }}
       />
@@ -701,22 +777,33 @@ export default class Pricing extends PureComponent<PricingProps, PricingState> {
                       label: this.props.t('pricing.subscriptions.week'),
                       id: 'WEEK',
                       isUpdated: false,
-                      isNew: true,
+                      isNew: !!this.getOffer(
+                        this.props.config.plan.storeProWeekId
+                      ),
                     },
                     {
                       label: this.props.t('pricing.subscriptions.month'),
                       id: 'MONTH',
                       isUpdated: false,
+                      isNew: !!this.getOffer(
+                        this.props.config.plan.storeProMonthId
+                      ),
                     },
                     {
                       label: this.props.t('pricing.subscriptions.year'),
                       id: 'YEAR',
                       isUpdated: false,
+                      isNew: !!this.getOffer(
+                        this.props.config.plan.storeProYearId
+                      ),
                     },
                     {
                       label: this.props.t('pricing.subscriptions.lifetime'),
                       id: 'LIFETIME',
                       isUpdated: false,
+                      isNew: !!this.getOffer(
+                        this.props.config.plan.storeProLifetimeId
+                      ),
                     },
                   ]}
                   active={this.state.selectedPlan}

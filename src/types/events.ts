@@ -180,6 +180,7 @@ export interface PricingEvent {
     | 'GO_TO_ULTIMATE_REQUEST'
     | 'RESET_AND_CONTINUE'
   origin?: string
+  offer?: string
 }
 
 export interface LanguageEvent {

@@ -20,6 +20,7 @@ import { getPortalTarget } from '../utils/getPortalTarget'
 import computeMeteredCost from '../utils/computeMeteredCost'
 import { UserSession } from '../types/user'
 import { Language } from '../types/translations'
+import { Offer } from '../types/offers'
 import {
   MeteredAction,
   NotificationMessage,
@@ -51,6 +52,7 @@ import {
   $palettesView,
   $userTheme,
 } from '../stores/preferences'
+import { $offers, getFeaturedOffer } from '../stores/offers'
 import { $localPalettesCount } from '../stores/localPalettes'
 import { initHistory, redo, teardownHistory, undo } from '../stores/history'
 import { $creditsCount } from '../stores/credits'
@@ -61,6 +63,7 @@ import {
   updateUserConsentWithData,
 } from '../stores/consent'
 import { getTolgee } from '../external/translation'
+import getOffers from '../external/transactional/getOffers'
 import {
   trackActionEvent,
   trackEditorEvent,
@@ -103,10 +106,12 @@ export interface AppState extends BaseProps {
   isNotificationDisplayed: boolean
   onGoingStep: string
   localPalettesCount: number
+  specialOffers: Offer[]
 }
 
 class App extends Component<AppProps, AppState> {
   private subsscribeSuggestedLanguage: (() => void) | undefined
+  private subscribeSpecialOffers: (() => void) | undefined
   private subscribeUserConsent: (() => void) | undefined
   private subscribeCreditCount: (() => void) | undefined
   private isFirstCreditCountSubscription = true
@@ -237,6 +242,7 @@ class App extends Component<AppProps, AppState> {
       isMobile: resolveIsMobile(document.documentElement.clientWidth),
       onGoingStep: 'app started',
       localPalettesCount: 0,
+      specialOffers: [],
     }
   }
 
@@ -265,6 +271,19 @@ class App extends Component<AppProps, AppState> {
     )
 
     initHistory()
+
+    if (this.props.config.env.isPolarEnabled)
+      getOffers([
+        this.props.config.plan.storeProWeekId,
+        this.props.config.plan.storeProMonthId,
+        this.props.config.plan.storeProYearId,
+        this.props.config.plan.storeProLifetimeId,
+      ])
+        .then((offers) => $offers.set(offers))
+        .catch(() => undefined)
+    this.subscribeSpecialOffers = $offers.subscribe((offers) =>
+      this.setState({ specialOffers: [...offers] })
+    )
 
     this.subsscribeSuggestedLanguage = $isSuggestedLanguageDisplayed.subscribe(
       (value) => {
@@ -419,6 +438,7 @@ class App extends Component<AppProps, AppState> {
 
   componentWillUnmount = () => {
     if (this.subsscribeSuggestedLanguage) this.subsscribeSuggestedLanguage()
+    if (this.subscribeSpecialOffers) this.subscribeSpecialOffers()
     if (this.subscribeUserConsent) this.subscribeUserConsent()
     if (this.subscribeCreditCount) this.subscribeCreditCount()
 
@@ -981,6 +1001,18 @@ class App extends Component<AppProps, AppState> {
     )
   }
 
+  getSpecialOfferTag = () => {
+    if (this.state.planStatus !== 'UNPAID') return undefined
+    const { plan } = this.props.config
+    const offer = getFeaturedOffer(this.state.specialOffers, [
+      plan.storeProWeekId,
+      plan.storeProMonthId,
+      plan.storeProYearId,
+      plan.storeProLifetimeId,
+    ])
+    return offer ? (offer.discountCode ?? offer.eventName) : undefined
+  }
+
   // Render
   render() {
     let fragment
@@ -1145,6 +1177,7 @@ class App extends Component<AppProps, AppState> {
               onReOpenFeedback={(e) => this.setState({ ...e })}
               onUpdateConsent={(e) => this.setState({ ...e })}
               onUpdateLanguage={(e) => this.setState({ ...e })}
+              offerTag={this.getSpecialOfferTag()}
             />
           </Feature>
           <Feature isActive={this.state.modalContext !== 'EMPTY'}>

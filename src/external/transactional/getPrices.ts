@@ -46,6 +46,17 @@ const inferCurrency = (locale: string): string => {
   }
 }
 
+export const formatPrice = (
+  amountInCents: number,
+  currency: string,
+  locale: string
+): string =>
+  new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 0,
+  }).format(amountInCents / 100)
+
 export interface ProductPrice {
   productId: string
   amount: number
@@ -86,11 +97,11 @@ const getPrices = async (
             productId: productIds[i],
             amount: price.priceAmount,
             currency: price.priceCurrency,
-            formatted: new Intl.NumberFormat(locale, {
-              style: 'currency',
-              currency: price.priceCurrency,
-              minimumFractionDigits: 0,
-            }).format(price.priceAmount / 100),
+            formatted: formatPrice(
+              price.priceAmount,
+              price.priceCurrency,
+              locale
+            ),
           },
         ],
       ]

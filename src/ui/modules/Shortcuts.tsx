@@ -30,6 +30,7 @@ interface ShortcutsProps
   creditsRenewalDate: number
   announcements: AnnouncementsDigest
   tag?: string
+  offerTag?: string
   onReOpenAnnouncements: Dispatch<Partial<AppState>>
   onReOpenOnboarding: Dispatch<Partial<AppState>>
   onReOpenStore: Dispatch<Partial<AppState>>
