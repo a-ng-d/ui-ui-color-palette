@@ -4,6 +4,26 @@ import { getSupabase } from '.'
 
 let isAuthenticated = false
 
+const reserveWindow = (): Window | null => {
+  try {
+    void window.parent.document
+    return window.open('', '_blank')
+  } catch {
+    return null
+  }
+}
+
+const openUrl = (url: string, reserved: Window | null) => {
+  if (reserved && !reserved.closed) {
+    reserved.opener = null
+    reserved.location.href = url
+  } else
+    sendPluginMessage(
+      { pluginMessage: { type: 'OPEN_IN_BROWSER', data: { url } } },
+      '*'
+    )
+}
+
 export const signIn = async ({
   authWorkerUrl,
   authUrl,
@@ -16,27 +36,20 @@ export const signIn = async ({
   pluginId: string
 }) => {
   return new Promise((resolve, reject) => {
+    const authWindow = reserveWindow()
+
     fetch(`${authWorkerUrl}/passkey`, {
       method: 'GET',
       cache: 'no-cache',
       credentials: 'omit',
+      signal: AbortSignal.timeout(10000),
     })
       .then((response) => {
         if (response.ok) return response.json()
         else return reject(new Error('Failed to fetch passkey'))
       })
       .then((result) => {
-        sendPluginMessage(
-          {
-            pluginMessage: {
-              type: 'OPEN_IN_BROWSER',
-              data: {
-                url: `${authUrl}/?passkey=${result.passkey}`,
-              },
-            },
-          },
-          '*'
-        )
+        openUrl(`${authUrl}/?passkey=${result.passkey}`, authWindow)
         const poll = setInterval(async () => {
           fetch(`${authWorkerUrl}/tokens?passkey=${result.passkey}`, {
             method: 'GET',
@@ -101,6 +114,7 @@ export const signIn = async ({
         )
       })
       .catch((error) => {
+        if (!isAuthenticated) authWindow?.close()
         console.error(error)
         return reject(error)
       })
@@ -118,6 +132,7 @@ export const signOut = async ({
   platformUrl: string
   pluginId: string
 }) => {
+  const signOutWindow = reserveWindow()
   const supabase = getSupabase()
 
   sendPluginMessage(
@@ -159,17 +174,7 @@ export const signOut = async ({
 
   isAuthenticated = false
 
-  sendPluginMessage(
-    {
-      pluginMessage: {
-        type: 'OPEN_IN_BROWSER',
-        data: {
-          url: `${authUrl}/?action=sign_out`,
-        },
-      },
-    },
-    '*'
-  )
+  openUrl(`${authUrl}/?action=sign_out`, signOutWindow)
   sendPluginMessage(
     {
       pluginMessage: {

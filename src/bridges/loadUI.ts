@@ -271,7 +271,24 @@ else {
           window.localStorage.removeItem(item)
         ),
       //
-      OPEN_IN_BROWSER: () => window.open(path.data.url, '_blank'),
+      OPEN_IN_BROWSER: () => {
+        if (window.open(path.data.url, '_blank')) return
+
+        iframe?.contentWindow?.postMessage({
+          type: 'POST_MESSAGE',
+          data: {
+            type: 'WARNING',
+            message:
+              'The browser blocked the window. Click anywhere to open it.',
+          },
+        })
+
+        iframe?.contentDocument?.addEventListener(
+          'click',
+          () => window.open(path.data.url, '_blank'),
+          { once: true }
+        )
+      },
       GET_PALETTES: async () => getPalettesOnCurrentPage(),
       JUMP_TO_PALETTE: async () =>
         jumpToPalette(path.id).catch((error) =>
